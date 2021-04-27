@@ -1,0 +1,10 @@
+@import "semantic.css";
+
+.wp-block-dg-components-filter {
+    height: 80px;
+    margin: 10px;
+}
+
+.wp-block-dg-components-filter iframe {
+
+}
