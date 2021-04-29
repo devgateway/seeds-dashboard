@@ -27,12 +27,38 @@ services:
     ports:
       - 9090:80
 
+  postgres:
+    build:
+      context: ./postgres
+    volumes:
+      - ./data/postgresql:/var/lib/postgresql/data
+    networks:
+      - backend
+    env_file:
+      - env
+    restart: unless-stopped
+    logging:
+      driver: journald
+
+  tasai:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    networks:
+      - backend
+    depends_on:
+      - postgres
+    volumes:
+      - ./files/prevalence:/opt/tcdi/files
+    logging:
+      driver: journald
+
   nginx:
     image: nginx:alpine
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./nginx/wordpress_dev.conf:/etc/nginx/conf.d/wordpress.conf:ro
-      - ./nginx/toolkit_dev.conf:/etc/nginx/conf.d/toolkit.conf:ro
+      - ./nginx/tasai_dev.conf:/etc/nginx/conf.d/tasai.conf:ro
       - ./data/wordpress:/var/www/html:ro
       - ./wp-content:/var/www/html/wp-content:ro
       - ui:/var/www/ui:ro

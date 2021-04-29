@@ -34,7 +34,7 @@ const messages = {
 
 
 const InjectTitle = injectIntl(({intl}) => {
-    document.title = intl.formatMessage({id: 'app.title', defaultMessage: "Tobacco"})
+    document.title = intl.formatMessage({id: 'app.title', defaultMessage: "Tasai"})
     return null
 })
 

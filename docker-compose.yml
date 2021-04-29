@@ -6,6 +6,7 @@ services:
     volumes:
       - ui:/var/www/ui
     restart: "no"
+
   wordpress:
     image: library/wordpress:5.7-fpm-alpine
     depends_on:
