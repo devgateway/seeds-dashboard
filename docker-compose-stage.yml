@@ -68,7 +68,8 @@ services:
     networks:
       - backend
     depends_on:
-      - postgres mongo
+      - postgres
+      - mongo
     #volumes:
       #- ./files/prevalence:/opt/tcdi/files
     logging:
