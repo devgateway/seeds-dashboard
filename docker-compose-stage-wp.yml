@@ -21,11 +21,9 @@ services:
       - ./data/wordpress:/var/www/html
       - ./wp-content:/var/www/html/wp-content
     networks:
-      - frontend  #for dev purpose we use a bridged network
+      - backend  #for dev purpose we use a bridged network
     logging:
       driver: journald
-    ports:
-      - 9090:80
 
   nginx:
     image: nginx:alpine
@@ -39,6 +37,7 @@ services:
       - wordpress
     networks:
       - frontend
+      - backend
     ports:
       - 8070:80
     logging:
@@ -57,7 +56,7 @@ services:
       MYSQL_USER: wordpress
       MYSQL_PASSWORD: wordpress
     networks:
-      - frontend #for dev purpose we use a bridged network
+      - backend #for dev purpose we use a bridged network
     logging:
       driver: journald
 
