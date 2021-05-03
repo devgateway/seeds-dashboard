@@ -29,7 +29,7 @@ services:
 
   postgres:
     build:
-      context: ./postgres
+      context: ./api/postgres
     volumes:
       - ./data/postgresql:/var/lib/postgresql/data
     networks:
