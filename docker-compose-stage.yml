@@ -49,7 +49,7 @@ services:
     depends_on:
       - postgres
     volumes:
-      - ./files/prevalence:/opt/tcdi/files
+      #- ./files/prevalence:/opt/tcdi/files
     logging:
       driver: journald
 
@@ -67,7 +67,7 @@ services:
     networks:
       - frontend
     ports:
-      - 8070:8082
+      - 8070:80
     logging:
       driver: journald
 
@@ -91,6 +91,7 @@ services:
 networks:
   frontend:
     driver: bridge
+  backend:
 
 volumes:
   ui:
