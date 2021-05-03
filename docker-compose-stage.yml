@@ -27,13 +27,34 @@ services:
     ports:
       - 9090:80
 
+  mongo:
+    image: mongo:4.2
+    hostname: mongo
+    environment:
+      - MONGO_DATA=/data/db
+    env_file:
+      - env
+    volumes:
+      - ./data/mongo:/data/db
+      - ./mongo:/docker-scripts
+      - ./log/mongo:/srv/logs
+    restart: always
+    command: "bash /docker-scripts/entrypoint.sh"
+    stop_grace_period: 5m
+    networks:
+      - frontend
+    ports:
+      - 27018:27017
+
   postgres:
     build:
-      context: ./api/postgres
+      context: ./postgres
     volumes:
       - ./data/postgresql:/var/lib/postgresql/data
     networks:
-      - backend
+      - frontend
+    ports:
+      - 5433:5432
     env_file:
       - env
     restart: unless-stopped
@@ -47,7 +68,7 @@ services:
     networks:
       - backend
     depends_on:
-      - postgres
+      - postgres mongo
     #volumes:
       #- ./files/prevalence:/opt/tcdi/files
     logging:
