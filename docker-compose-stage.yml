@@ -43,6 +43,7 @@ services:
     stop_grace_period: 5m
     networks:
       - frontend
+      - backend
     ports:
       - 27018:27017
 
@@ -53,6 +54,7 @@ services:
       - ./data/postgresql:/var/lib/postgresql/data
     networks:
       - frontend
+      - backend
     ports:
       - 5433:5432
     env_file:
