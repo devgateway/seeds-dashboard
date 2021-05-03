@@ -12,4 +12,5 @@ FROM alpine:latest
 COPY --from=compiler /tmp/ui.tgz /usr/src/ui.tgz
 COPY update.sh /usr/local/bin
 VOLUME /var/www/ui
+RUN chmod +x /usr/local/bin/update.sh
 CMD ["/usr/local/bin/update.sh"]
