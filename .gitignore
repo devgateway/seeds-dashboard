@@ -6,3 +6,4 @@
 /data/
 ui/package-lock.json
 ui/pnpm-lock.yaml
+/api/
