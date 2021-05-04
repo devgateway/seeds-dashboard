@@ -32,8 +32,13 @@ services:
     hostname: mongo
     environment:
       - MONGO_DATA=/data/db
-    env_file:
-      - env
+      - MONGO_PORT=27017
+      - MONGO_HOST=mongo
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=admin123
+      - MONGO_INITDB_DATABASE=tasai
+      - TASAI_MONGO_USERNAME=tasai
+      - TASAI_MONGO_PASSWORD=12345678
     volumes:
       - ./data/mongo:/data/db
       - ./mongo/init:/docker-entrypoint-initdb.d

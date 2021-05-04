@@ -5,7 +5,7 @@ db.createUser(
   {
     user: '$TASAI_MONGO_USERNAME',
     pwd: '$TASAI_MONGO_PASSWORD',
-    roles: [{ role: 'readWrite', db: 'a$MONGO_INITDB_DATABASE' }],
+    roles: [{ role: 'readWrite', db: '$MONGO_INITDB_DATABASE' }],
     mechanisms : [ "SCRAM-SHA-1", "SCRAM-SHA-256" ]
   },
 );
