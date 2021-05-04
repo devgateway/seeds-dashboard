@@ -21,11 +21,9 @@ services:
       - ./data/wordpress:/var/www/html
       - ./wp-content:/var/www/html/wp-content
     networks:
-      - frontend  #for dev purpose we use a bridged network
+      - backend  #for dev purpose we use a bridged network
     logging:
       driver: journald
-    ports:
-      - 9090:80
 
   mongo:
     image: mongo:4.2
@@ -72,8 +70,6 @@ services:
     depends_on:
       - postgres
       - mongo
-    #volumes:
-      #- ./files/prevalence:/opt/tcdi/files
     logging:
       driver: journald
 
@@ -82,7 +78,8 @@ services:
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./nginx/wordpress_dev.conf:/etc/nginx/conf.d/wordpress.conf:ro
-      - ./nginx/tasai_dev.conf:/etc/nginx/conf.d/tasai.conf:ro
+        - ./nginx/tasai_dev.conf:/etc/nginx/conf.d/tasai.conf:ro
+      - ./nginx/ui.conf:/etc/nginx/conf.d/ui.conf:ro
       - ./data/wordpress:/var/www/html:ro
       - ./wp-content:/var/www/html/wp-content:ro
       - ui:/var/www/ui:ro
@@ -90,6 +87,7 @@ services:
       - wordpress
     networks:
       - frontend
+      - backend
     ports:
       - 8070:80
     logging:
@@ -108,7 +106,7 @@ services:
       MYSQL_USER: wordpress
       MYSQL_PASSWORD: wordpress
     networks:
-      - frontend #for dev purpose we use a bridged network
+      - backend #for dev purpose we use a bridged network
     logging:
       driver: journald
 
