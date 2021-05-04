@@ -36,15 +36,14 @@ services:
       - env
     volumes:
       - ./data/mongo:/data/db
-      - ./mongo:/docker-scripts
+      - ./mongo/init/:/docker-entrypoint-initdb.d
       - ./log/mongo:/srv/logs
-    command: "bash /docker-scripts/entrypoint.sh"
     stop_grace_period: 5m
     networks:
       - frontend
       - backend
     ports:
-      - 27018:27017
+      - 28017:27017
 
   postgres:
     build:
