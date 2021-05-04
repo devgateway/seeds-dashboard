@@ -78,7 +78,7 @@ services:
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./nginx/wordpress_dev.conf:/etc/nginx/conf.d/wordpress.conf:ro
-        - ./nginx/tasai_dev.conf:/etc/nginx/conf.d/tasai.conf:ro
+      - ./nginx/tasai_dev.conf:/etc/nginx/conf.d/tasai.conf:ro
       - ./nginx/ui.conf:/etc/nginx/conf.d/ui.conf:ro
       - ./data/wordpress:/var/www/html:ro
       - ./wp-content:/var/www/html/wp-content:ro
