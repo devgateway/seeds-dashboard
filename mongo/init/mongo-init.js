@@ -1,11 +1,11 @@
 print('Start #################################################################');
 
-db = db.getSiblingDB('$MONGO_INITDB_DATABASE');
+db = db.getSiblingDB('tasai');
 db.createUser(
   {
-    user: '$TASAI_MONGO_USERNAME',
-    pwd: '$TASAI_MONGO_PASSWORD',
-    roles: [{ role: 'readWrite', db: '$MONGO_INITDB_DATABASE' }],
+    user: 'tasai',
+    pwd: '$12345678',
+    roles: [{ role: 'readWrite', db: 'tasai' }],
     mechanisms : [ "SCRAM-SHA-1", "SCRAM-SHA-256" ]
   },
 );
