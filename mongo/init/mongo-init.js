@@ -1,4 +1,4 @@
-print('Start #########Creating user for ' + ${MONGO_INITDB_DATABASE} + '...##########');
+print('Start #################################################################');
 
 db = db.getSiblingDB('$MONGO_INITDB_DATABASE');
 db.createUser(
