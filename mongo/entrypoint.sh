@@ -11,5 +11,5 @@ bash $DOCKER_SCRIPTS_DIR/upsert_users.sh
 echo "Launching official entrypoint..."
 
 
-exec mongod --fork --logpath /srv/logs/mongo.log --bind_ip 0.0.0.0
-exec tail -f /srv/logs/mongo.log
+exec bash /docker-entrypoint.sh mongod --fork --logpath /srv/logs/mongo.log --bind_ip 0.0.0.0
+
