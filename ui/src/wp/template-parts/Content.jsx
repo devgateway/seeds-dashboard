@@ -12,7 +12,7 @@ const replaceLinks = (html) => {
         var re = new RegExp("^(http|https)://localhost", "i");
     } else {
         //replace wp.someurl
-        var re = new RegExp("^(http|https)://" + "wp." + document.location.hostname, "i");
+        var re = new RegExp("^(http|https)://" + "wp." + document.location.hostname.replace('ui.', ''), "i");
     }
     let newHtml = html
     while ((link = regex.exec(html)) !== null) {
