@@ -1,5 +1,32 @@
-$font-family: 'Roboto', sans-serif;
+// fonts
+$font-family: 'Lato', sans-serif;
 
+// colors
+$body-bg: #ffffff;
+$footer-bg: #d1d2d4;
+$footer-title-color: #717171;
+$darkest: #000000;
+$theme-green: #4d843f;
+
+// spacing units
+$base-unit-rel: 1rem;
+$base-unit: 10px;
+$base-unit-md: 20px;
+$base-unit-lg: 35px;
+$base-unit-xlg: 100px;
+$extend: 100%;
+
+
+// typography
+$light-weight: 300;
+$regular-weight: 400;
+$medium-weight: 600;
+
+$body-font-size: 18px;
+$footer-title-size: 3rem;
+
+
+// remains from tcdi to be cleaned up
 $blue: #3e53a6;
 $light-blue: #5089a6;
 $dark-gray: #5c5d63;
@@ -23,5 +50,3 @@ $charts-options-font-size: 1.02rem;
   font-weight: 500;
   font-family: "Raleway";
 }
-
-$base-unit: 10px;
