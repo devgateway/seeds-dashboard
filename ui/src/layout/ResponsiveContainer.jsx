@@ -5,6 +5,8 @@ import {Container, Icon, Menu, Sidebar,} from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 import './layout.scss'
 import MainMenu from '../wp/Menu.jsx'
+import SecondaryMenu from '../wp/MenuSecondary.jsx'
+
 import {Media} from "../AppMedia"
 import Footer from "./Footer";
 import {Route} from "react-router";
@@ -23,8 +25,9 @@ class DesktopContainer extends Component {
     render() {
         const {children, fixed} = this.props
         return (
-            <Container fluid className="desktop">
+            <Container fluid>
                 <MainMenu slug="main" fixed={fixed}/>
+                <SecondaryMenu/>
                 {children}
             </Container>
 

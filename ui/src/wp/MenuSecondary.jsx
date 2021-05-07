@@ -32,7 +32,7 @@ const getLabel = (e, locale) => {
 
 
 function ItemsWalker({items, locale}) {
-    return (<Menu.Menu position="right">{items && items.sort((a, b) => a.menu_order - b.menu_order).map(e =>
+    return (<Menu.Menu>{items && items.sort((a, b) => a.menu_order - b.menu_order).map(e =>
 
         <Menu.Item key={e.ID}
                    name='features'
@@ -70,21 +70,12 @@ const MenuWrapper = (props) => {
 
 
     return (
-      <div className="tasai-header">
-      <Menu className="main" text stackable fixed={fixed ? 'top' : null}>
-
-        <div className="branding">
-            <img className="logo" size="large" src='/tasai-logo.svg'/>
-            <span className="title">Seeds Dashboard</span>
-        </div>
-
+      <div className="secondary-menu">
+      <Menu className="secondary" text stackable fixed={fixed ? 'top' : null}>
         <Menu.Menu>
             <ItemsWalker items={items ? items.items : null} locale={intl.locale}/>
         </Menu.Menu>
     </Menu>
-    <div className="lang">
-      <span>French</span>
-    </div>
     </div>
   )
 }
