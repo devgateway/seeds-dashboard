@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Container, Grid, Header, Image} from "semantic-ui-react";
+import {Container, Grid, Header} from "semantic-ui-react";
 import './footer.scss'
 
 class Footer extends Component {
@@ -13,8 +13,14 @@ class Footer extends Component {
             <Container fluid>
                 <Grid columns={3}>
                     <Grid.Column>
-                      <img className="footer-logo" src={"/tasai-logo.svg"} alt="TASAI logo"></img>
-                      <Header as={"h3"}>Seeds Dashboard</Header>
+                        <Header as={"h4"}>Development Gateway</Header>
+
+                        <p>
+                            Development Gateway, Inc.<br/>
+                            1100 13th Street, NW, Suite 800<br/>
+                            Washington, DC 20005, USA<br/>
+                            Tel: +1.202.572.9200
+                        </p>
                     </Grid.Column>
                     <Grid.Column>
                         <a className="contact" href="mailto:info@tasai.org">info@tasai.org</a>
