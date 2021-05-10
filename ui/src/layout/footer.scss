@@ -10,6 +10,7 @@
   }
   .secondary-logo{
     float: right;
+    margin-top: 20px;
     opacity: 1;
     width: $base-unit-xlg * 2.5;
     &:hover{
@@ -27,7 +28,7 @@
   .contact{
     color: $theme-green;
     display: block;
-    padding-top: $base-unit-rel;
+    padding-top: $base-unit-rel * 2;
     text-align: center;
     &:hover{
       color: $darkest;
