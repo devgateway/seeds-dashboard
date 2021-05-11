@@ -1,5 +1,38 @@
-$font-family: 'Roboto', sans-serif;
+// fonts
+$font-family: 'Lato', sans-serif;
 
+// colors
+$body-bg: #ffffff;
+$footer-bg: #d1d2d4;
+$footer-title-color: #717171;
+$darkest: #000000;
+$theme-green: #4d843f;
+$menu-border: #75ae66;
+$theme-yellow: #ffd686;
+
+// spacing units
+$base-unit-rel: 1rem;
+$base-unit: 10px;
+$base-unit-sm: 5px;
+$base-unit-md: 20px;
+$base-unit-lg: 35px;
+$base-unit-xlg: 100px;
+$extend: 100%;
+
+$content-width: 1366px;
+
+
+// typography
+$light-weight: 300;
+$regular-weight: 400;
+$medium-weight: 600;
+
+$body-font-size: 18px;
+$header-title-size: 1.3rem;
+$footer-title-size: 3rem;
+
+
+// Editor colors
 $blue: #3e53a6;
 $light-blue: #5089a6;
 $dark-gray: #5c5d63;
@@ -7,9 +40,8 @@ $gray: #66676d;
 $light-gray: #dadada;
 $separator-grey: #ececec;
 $red: #ba5555;
-
 $blue: #3e53a6;
-$green: #5baf95;
+$green: #4d843f;
 
 $health-color: #5baf95;
 $light-green: #31ba1a;
@@ -23,5 +55,3 @@ $charts-options-font-size: 1.02rem;
   font-weight: 500;
   font-family: "Raleway";
 }
-
-$base-unit: 10px;

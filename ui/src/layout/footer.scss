@@ -1,34 +1,39 @@
-.container.tcdi.footer {
-  margin-top: 100px;
-  background-color: #5089a6;
-  line-height: 16px !important;
+@import "../../src/_vars.scss";
 
-  .column {
-    padding-bottom: 1.5rem;
-    padding-top: 1.5rem;
+.container.footer {
+  margin-bottom: -10px;
+  margin-top: $base-unit-xlg;
+  background-color: $footer-bg;
+  overflow: hidden;
+  padding: $base-unit $base-unit-lg;
+  .footer-logo{
+    float: left;
+    width: $base-unit-xlg * 1.5;
   }
-  .header {
-    font-weight: 400;
-    color: white;
-    text-transform: uppercase;
-    margin: 0px;
-  }
-
-  p {
-    font-weight: 400;
-    font-size: 15px;
-    color: white;
-    padding: 1rem 0;
-    a{
-      color: #ffffff;
-      &:hover {
-        color: #f0f0f0;
-      }
+  .secondary-logo{
+    float: right;
+    margin-top: $base-unit / 2;
+    opacity: 1;
+    width: $base-unit-xlg * 2;
+    &:hover{
+      opacity: 0.8;
     }
   }
-
-  .tcdi.secondary-menu.container {
-    background-color: #175372;
+  .footer-title {
+    color: $footer-title-color;
+    float: left;
+    font-weight: $regular-weight;
+    margin: 0 0 0 $base-unit-rel;
+    padding: $base-unit-rel 0;
+    text-transform: uppercase;
+  }
+  .contact{
+    color: $theme-green;
+    display: block;
+    padding-top: $base-unit + 10;
     text-align: center;
+    &:hover{
+      color: $darkest;
+    }
   }
 }

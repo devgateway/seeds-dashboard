@@ -9,53 +9,22 @@ class Footer extends Component {
 
     render() {
         const {children, fixed, location} = this.props
-        return (<Container fluid className={"tcdi footer"}>
-            <Container>
-                <Grid columns={4}>
-                    <Grid.Column><img src={"/home/footer_logo.png"}></img></Grid.Column>
+        return (<Container fluid className={"footer"}>
+            <Container fluid>
+                <Grid columns={3}>
                     <Grid.Column>
-                        <Header as={"h4"}>Development Gateway</Header>
-
-                        <p>
-                            Development Gateway, Inc.<br/>
-                            1100 13th Street, NW, Suite 800<br/>
-                            Washington, DC 20005, USA<br/>
-                            Tel: +1.202.572.9200
-                        </p>
+                    <img className="footer-logo" src={"/tasai-logo.svg"} alt="TASAI logo"/>
+                    <span className="footer-title">Seeds Dashboard</span>
                     </Grid.Column>
                     <Grid.Column>
-                        <Header as={"h4"}>University of Cape Town</Header>
-                        <p>
-                            University of Cape Town<br/>
-                            Research Unit on the Economic Excisable Products (REEP)<br/>
-                            School of Economics<br/>
-                            Bremner Building, Lovers Walk, University of Cape Town, Rondebosch, 7701 South Africa<br/>
-                            Tel: +27 (0)21 650 3608
-                        </p>
-
+                        <a className="contact" href="mailto:info@tasai.org">info@tasai.org</a>
                     </Grid.Column>
                     <Grid.Column>
-                        <Header>Contact Us</Header>
-                        <p>
-                        <a href="mailto:info@tobaccocontroldata.org">info@tobaccocontroldata.org</a>
-                        </p>
+                      <a href="https://www.gatesfoundation.org/" target="_blank">
+                        <img className="secondary-logo" src={"/gates-logo.svg"} alt="Bill and Melinda Gates Foundation logo"/>
+                      </a>
                     </Grid.Column>
-
                 </Grid>
-            </Container>
-            <Container fluid className={"tcdi secondary-menu"}>
-                <Container>
-
-                    <Grid >
-
-                        <Grid.Column width={16}>
-                            <p>
-                                © Tobacco Control Initiative, 2021. All Rights Reserved.
-                            </p>
-                        </Grid.Column>
-
-                    </Grid>
-                </Container>
             </Container>
         </Container>)
     }

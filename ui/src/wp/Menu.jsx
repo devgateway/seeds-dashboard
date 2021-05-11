@@ -54,9 +54,6 @@ function ItemsWalker({items, locale}) {
         </Menu.Item>
     )}
 
-        <Menu.Item>
-            <Input icon='search' placeholder='Search...'/>
-        </Menu.Item>
     </Menu.Menu>)
 }
 
@@ -72,24 +69,24 @@ const MenuWrapper = (props) => {
     }, [onLoad, slug]);
 
 
-    return (<Menu className="main" text stackable fixed={fixed ? 'top' : null}>
-        <Menu.Item>
+    return (
+      <div className="tasai-header">
+      <Menu className="main" text stackable fixed={fixed ? 'top' : null}>
 
-            <img className="brand logo" size="large" src='/logo_full.png'/>
-        </Menu.Item>
+        <div className="branding">
+            <img className="logo" size="large" src='/tasai-logo.svg'/>
+            <span className="title">Seeds Dashboard</span>
+        </div>
 
-        <Menu.Menu size="mini">
-            <Menu.Item className="divided" fitted>
-                <Flag name="za"/> <b>South Africa</b>
-            </Menu.Item>
-
-        </Menu.Menu>
-        <Menu.Menu position="right">
+        <Menu.Menu>
             <ItemsWalker items={items ? items.items : null} locale={intl.locale}/>
-
         </Menu.Menu>
-
-    </Menu>)
+    </Menu>
+    <div className="lang">
+      <span>French</span>
+    </div>
+    </div>
+  )
 }
 
 const mapStateToProps = (state, ownProps) => {

@@ -50,17 +50,9 @@ const Header = ({intl, match}) => {
             <Container fluid={true} className={"background"}>
                 <MenuProvider slug={"main"}>
                     <Menu className={"branding"} text>
-                        <Menu.Item>
-                            <a href="/"><img className="brand logo" size="large" src='/logo_full.png'/></a>
-                        </Menu.Item>
 
-                        <Menu.Item className={"divider"}>
-                            <div></div>
-                        </Menu.Item>
-
-                        <Menu.Item fitted>
-                            <Flag name="za"/> <b>South Africa</b>
-                        </Menu.Item>
+                        <a href="/"><img className="logo" src='/tasai-logo.svg'/></a>
+                        <span className="title">Seeds Dashboard</span>
 
                         <Menu.Menu className={"pages"}>
                             <MenuConsumer>
@@ -69,8 +61,8 @@ const Header = ({intl, match}) => {
                             </MenuConsumer>
                         </Menu.Menu>
 
-                        <Menu.Item fitted>
-                            <Search/>
+                        <Menu.Item fitted className="lang">
+                            <a href="">French</a>
                         </Menu.Item>
                     </Menu>
                 </MenuProvider>
