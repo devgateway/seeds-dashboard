@@ -3,3 +3,8 @@
 .ui.container.fluid.header{
   background-color: $theme-green;
 }
+.content-wrapper{
+  .ui.container.desktop{
+    margin-top: $base-unit-lg;
+  }
+}

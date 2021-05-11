@@ -20,7 +20,7 @@ class DesktopContainer extends Component {
     render() {
         const {children, fixed} = this.props
         return (
-            <Container fluid>
+            <Container fluid className="content-wrapper">
                 <Header></Header>
                 <Container className="desktop">
                     {children}

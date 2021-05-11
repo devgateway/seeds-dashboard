@@ -13,21 +13,15 @@ class Footer extends Component {
             <Container fluid>
                 <Grid columns={3}>
                     <Grid.Column>
-                        <Header as={"h4"}>Development Gateway</Header>
-
-                        <p>
-                            Development Gateway, Inc.<br/>
-                            1100 13th Street, NW, Suite 800<br/>
-                            Washington, DC 20005, USA<br/>
-                            Tel: +1.202.572.9200
-                        </p>
+                    <img className="footer-logo" src={"/tasai-logo.svg"} alt="TASAI logo"/>
+                    <span className="footer-title">Seeds Dashboard</span>
                     </Grid.Column>
                     <Grid.Column>
                         <a className="contact" href="mailto:info@tasai.org">info@tasai.org</a>
                     </Grid.Column>
                     <Grid.Column>
                       <a href="https://www.gatesfoundation.org/" target="_blank">
-                        <img className="secondary-logo" src={"/gates-logo.svg"} alt="Bill and Melinda Gates Foundation logo"></img>
+                        <img className="secondary-logo" src={"/gates-logo.svg"} alt="Bill and Melinda Gates Foundation logo"/>
                       </a>
                     </Grid.Column>
                 </Grid>

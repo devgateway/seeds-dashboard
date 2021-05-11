@@ -1,34 +1,36 @@
 @import "../../src/_vars.scss";
 
 .container.footer {
+  margin-bottom: -10px;
   margin-top: $base-unit-xlg;
   background-color: $footer-bg;
-  padding: $base-unit-lg;
+  overflow: hidden;
+  padding: $base-unit $base-unit-lg;
   .footer-logo{
     float: left;
     width: $base-unit-xlg * 1.5;
   }
   .secondary-logo{
     float: right;
-    margin-top: 20px;
+    margin-top: $base-unit / 2;
     opacity: 1;
-    width: $base-unit-xlg * 2.5;
+    width: $base-unit-xlg * 2;
     &:hover{
       opacity: 0.8;
     }
   }
-  .header {
+  .footer-title {
     color: $footer-title-color;
     float: left;
     font-weight: $regular-weight;
     margin: 0 0 0 $base-unit-rel;
-    padding: $base-unit-rel;
+    padding: $base-unit-rel 0;
     text-transform: uppercase;
   }
   .contact{
     color: $theme-green;
     display: block;
-    padding-top: $base-unit-rel * 2;
+    padding-top: $base-unit + 10;
     text-align: center;
     &:hover{
       color: $darkest;
