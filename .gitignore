@@ -10,13 +10,8 @@ ui/pnpm-lock.yaml
 /ui/build/
 /wp-content/plugins/dg-react-components/page-gallery/node_modules/
 /wp-content/plugins/dg-react-components/block-styles/node_modules/
-/wp-content/plugins/dg-react-components/charts/build/
 /wp-content/plugins/dg-react-components/charts/node_modules/
 /wp-content/plugins/dg-react-components/filter/node_modules/
 /wp-content/plugins/dg-react-components/page-modules/node_modules/
 /wp-content/plugins/dg-react-components/post-carousel/node_modules/
 /wp-content/plugins/dg-react-components/tabbed-posts/node_modules/
-/wp-content/plugins/dg-react-components/tabbed-posts/build/
-/wp-content/plugins/dg-react-components/post-carousel/build/
-/wp-content/plugins/dg-react-components/page-modules/build/
-/wp-content/plugins/dg-react-components/filter/build/
