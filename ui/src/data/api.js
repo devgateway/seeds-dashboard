@@ -1,7 +1,7 @@
 import {get} from '../api/commons'
-const API_ROOT = document.location.href.indexOf('localhost') > -1 ? 'http://localhost:8082' : "https://prevalence.tobacco.dgstg.org"
+const API_ROOT = document.location.href.indexOf('localhost') > -1 ? 'http://localhost:8070' : "https://prevalence.tobacco.dgstg.org"
 const URL_TAXONOMY = API_ROOT + '/categories'
-const URL_STATS = API_ROOT + '/stats'
+const URL_STATS = API_ROOT + '/api'
 
 function queryParams(params) {
     return Object.keys(params)
@@ -15,6 +15,6 @@ export const getCategories = (params) => {
 
 
 export const getData = (path, params) => {
-
+    //return get(URL_STATS )
     return get(URL_STATS + "/" + path+(params?'?'+queryParams(params):''))
 }

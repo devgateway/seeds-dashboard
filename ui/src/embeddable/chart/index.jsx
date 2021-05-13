@@ -4,7 +4,7 @@ import DataProvider from "../../data/DataProvider";
 import {connect} from "react-redux";
 import Bar from "../../charts/Bar";
 import DataConsumer from "../../data/DataConsumer";
-import {buildBarOptions, buildDivergingOptions, buildPieOptions} from './chartOptionsBuilder'
+import {buildBarOptions, buildDivergingOptions, buildPieOptions, buildSeedInspectorOptions, buildVarietySoldOptions} from './chartOptionsBuilder'
 import './charts.scss'
 import HalfPie from "../../charts/HalfPie";
 import TheContent from "../../wp/template-parts/TheContent";
@@ -13,6 +13,24 @@ const BarChar = (props) => {
     const {data, legends, colors, height, groupMode} = props
     const options = buildBarOptions(data, true)
     return <Bar groupMode={groupMode} height={height} legends={legends} colors={colors} options={options}
+                format={{style: "percent", currency: "EUR"}}></Bar>
+}
+
+const SeedInspectors = (props) => {
+    const {data, legends, colors, height, groupMode} = props
+    const options = buildSeedInspectorOptions(data)
+    const colorsSI = {colors:{'public':'#4D843F', 'private':'#F39C00'}, colorBy : 'keys'}
+
+    return <Bar groupMode={groupMode} height={height} legends={legends} colors={colorsSI} options={options}
+                format={{style: "percent", currency: "EUR"}}></Bar>
+}
+
+const VarietySold = (props) => {
+    const {data, legends, colors, height, groupMode} = props
+    const options = buildVarietySoldOptions(data)
+    const colorsSI = {colors:{'crop1Value':'#05ABFE', 'crop2Value':'#886CE6', 'crop3Value':'#FAB103', 'crop4Value':'#E97373'}, colorBy : 'keys'}
+
+    return <Bar groupMode={groupMode} height={height} legends={legends} colors={colorsSI} options={options}
                 format={{style: "percent", currency: "EUR"}}></Bar>
 }
 
@@ -38,12 +56,12 @@ const Chart = (props) => {
         editing = false,
         childContent,
         "data-height": height = 500,
-        "data-chart-type": type = 'bar',
-        'data-source': source = 'gender/smoke',
+        "data-chart-type": type = 'seedInspector',
+        'data-source': source = 'seedInspector',
         'data-legends-left': left = 'Left Legend',
         'data-legends-bottom': bottom = 'Bottom Legend',
         'data-color-scheme': scheme = 'nivo',
-        'data-color-by': colorBy = 'index',
+        'data-color-by': colorBy = 'keys',
         'data-group-mode': groupMode = 'stacked',
         'data-dualmode': dualMode,
         'data-chart-source-label': dataSourceLabel="Source",
@@ -51,6 +69,7 @@ const Chart = (props) => {
         'data-toggle-info-label': toggleInfoLabel ="Info Graphic",
         'data-toggle-chart-label': toggleChartLabel ="Chart",
     } = props
+
     const [mode, setMode] = useState(editing ? "chart" : 'info')
 
     const legends = {
@@ -68,8 +87,11 @@ const Chart = (props) => {
     if (type == 'halfPie') {
         child = <PieChart height={`${height}px`} legends={legends} colors={colors} groupMode={groupMode}></PieChart>
     }
-    if (type == 'diverging1') {
-        child = <h1>Soon</h1>
+    if (type == 'seedInspector') {
+        child = <SeedInspectors height={`${height}px`} legends={legends} colors={colors} groupMode={groupMode}></SeedInspectors>
+    }
+    if (type == 'varietySold') {
+        child = <VarietySold height={`${height}px`} legends={legends} colors={colors} groupMode={groupMode}></VarietySold>
     }
     const dual= (dualMode === 'true')
 

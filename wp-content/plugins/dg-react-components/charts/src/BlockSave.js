@@ -25,6 +25,7 @@ const SaveComponent = (props) => {
     const divStyles = {}
     const levels = [level1, level2, level3];
     const source = levels.filter(l => l != 'none' && l != null).join('/')
+    const sourceFixed = type + "/" + source
 
 
     return (
@@ -32,7 +33,7 @@ const SaveComponent = (props) => {
                  data-component={"chart"}
                  data-height={height}
                  data-chart-type={type}
-                 data-source={source}
+                 data-source={sourceFixed}
                  data-color-by={colorBy}
                  data-color-scheme={scheme}
                  data-scheme={scheme}

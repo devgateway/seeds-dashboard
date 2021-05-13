@@ -1,3 +1,35 @@
+export const buildSeedInspectorOptions = (data) => {
+    const sortedData = data.sort((a, b) => a.country > b.country && -1 || 1)
+    return {
+        maxValue: 180,
+        indexBy: 'country',
+        keys: ['public', 'private'],
+        legends : ['Public Seed Inspectors', 'Private Seed Inspectors'],
+        data: sortedData,
+        layout: 'horizontal',
+        padding:[0.7],
+        apiKey: 'seedInspector'
+    }
+
+}
+
+export const buildVarietySoldOptions = (data) => {
+    const sortedData = data.sort((a, b) => a.year > b.counyeartry && -1 || 1)
+    const legends = [data[0].crop1, data[0].crop2, data[0].crop3, data[0].crop4]
+    debugger
+    return {
+        maxValue: 60,
+        indexBy: 'year',
+        keys: ['crop1Value', 'crop2Value', 'crop3Value', 'crop4Value'],
+        legends : legends,
+        data: sortedData,
+        layout: 'vertical',
+        padding:[0.7],
+        apiKey: 'varietySold'
+    }
+
+}
+
 export const buildBarOptions = (data, includeTotal) => {
     const usePercents = true
     if (data && data.children) {
@@ -26,10 +58,10 @@ export const buildBarOptions = (data, includeTotal) => {
                             d1.children.forEach(d2 => {
                                 if (d2.value != 'No Data') {
 
-                                    if (d2.value == true) {
+                                    /*if (d2.value == true) {
                                         row[d1.value] = (d2.sum / d1.sum) * 100;
                                         vals.push((d2.sum / d1.sum) * 100)
-                                    }
+                                    }*/
                                     row[d1.value + '_' + d2.value] = (d2.sum / d1.sum) * 100
 
                                     //row[d1.value + '_' + d2.value + '_count'] = d2.count
@@ -64,7 +96,6 @@ export const buildBarOptions = (data, includeTotal) => {
                 series.push(tot)
             }
         }
-
 
         return {
             maxValue: Math.max(...vals) + 5,

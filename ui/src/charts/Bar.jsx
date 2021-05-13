@@ -47,8 +47,20 @@ const Chart = ({legends, options, intl, format, colors, groupMode, height}) => {
             const index = options.keys.findIndex(k => k == id)
             return getColorByPosition(index)
         } else {
+            return colors.colors[options.keys.find(k => k == id)]
+        }
+    }
 
-            return colors.colors[options.keys.findIndex(k => k == id)]
+    const getLegendByKey = (id) => {
+        return options.legends[options.keys.findIndex(k => k == id)]
+    }
+
+    const getTooltip = (options, d, value, id) => {
+        if (options.apiKey == 'seedInspector') {
+            return d.data.country + ": " + value + " " + getLegendByKey(id).toLowerCase()
+        } 
+        if (options.apiKey == 'varietySold') {
+            return "Number of varieties sold for " + getLegendByKey(id).toLowerCase() + ": " + value
         }
     }
 
@@ -123,8 +135,8 @@ const Chart = ({legends, options, intl, format, colors, groupMode, height}) => {
                 keys={applyFilter(options.keys)}
                 data={applyFilter(options.data)}
                 groupMode={groupMode ? groupMode : "grouped"}
-                margin={{top: 30, right: 200, bottom: 50, left: 50}}
-                padding={0.3}
+                margin={{top: 30, right: 200, bottom: 50, left: 200}}
+                padding={0.2}
                 colors={d => getColor(d.id, d.data)}
                 borderColor="#000"
                 axisTop={null}
@@ -140,8 +152,9 @@ const Chart = ({legends, options, intl, format, colors, groupMode, height}) => {
                 }}
                 labelSkipWidth={12}
                 labelSkipHeight={12}
-                labelTextColor={{from: 'color', modifiers: [['darker', 1.6]]}}
-                label={(l) => intl.formatNumber(l.value / 100, format)}
+                labelTextColor="#ffffff"
+                //label={(l) => intl.formatNumber(l.value / 100, format)}
+                //labelTextColor={{ from: 'color', modifiers: [ [ 'darker', 1.6 ] ] }}
                 layers={["grid", "axes", "bars", "markers", BarLegend, 'annotations']}
                 legends={[
                     {
@@ -167,7 +180,7 @@ const Chart = ({legends, options, intl, format, colors, groupMode, height}) => {
                             return {
                                 color: theColor,
                                 id: k,
-                                label: k
+                                label: getLegendByKey(k)
                             }
                         }),
                         anchor: 'bottom-right',
@@ -207,7 +220,11 @@ const Chart = ({legends, options, intl, format, colors, groupMode, height}) => {
                     const {color, id, value} = d
                     return (
                         <strong style={{color}}>
-                            {colors.colorBy == 'index' ? d.data[options.indexBy] : id}: {intl.formatNumber(value / 100, format)}
+                            { 
+                                getTooltip(options, d, value, id)
+                                //d.data.country + ": " + value + " " + getLegendByKey(id)
+                            //colors.colorBy == 'index' ? d.data[options.indexBy] : id}: {intl.formatNumber(value / 100, format)
+                            }
                         </strong>
                     )
                 }}

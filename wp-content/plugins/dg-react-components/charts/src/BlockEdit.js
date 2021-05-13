@@ -26,14 +26,7 @@ class BlockEdit extends Component {
             {value: "set3", label: 'set3'}]
         this.dimensions = [
             {value: 'none', label: 'None'},
-            {value: "gender", label: 'Gender'},
-            {value: "age", label: 'Age'},
-            {value: "area", label: 'Area'},
-            {value: "gender", label: 'Poverty'},
-            {value: "race", label: 'Race'},
-            {value: "education", label: 'Education'},
-            {value: "poverty", label: 'Poverty'},
-            {value: "smoke", label: 'Smoke'}
+            {value: "Ghana", label: 'Ghana'}
         ]
 
     }
@@ -89,11 +82,11 @@ class BlockEdit extends Component {
 
         const levels = [level1, level2, level3];
         const source = levels.filter(l => l != 'none' && l != null).join('/')
-
+        const sourceFixed = type + "/" + source
         // 'data-legends-left': left = 'Left Legend',
         //         'data-legends-bottom': bottom = 'Bottom Legend',
         //
-        const queryString = `data-height=${height}&data-chart-type=${type}&data-source=${source}&data-color-by=${colorBy}&data-color-scheme=${scheme}&data-scheme=${scheme}&data-group-mode=${groupMode}&data-legends-left=${leftLegend}&data-legends-bottom=${bottomLegend}&data-dualmode=${dualMode}&editing=true`
+        const queryString = `data-height=${height}&data-chart-type=${type}&data-source=${sourceFixed}&data-color-by=${colorBy}&data-color-scheme=${scheme}&data-scheme=${scheme}&data-group-mode=${groupMode}&data-legends-left=${leftLegend}&data-legends-bottom=${bottomLegend}&data-dualmode=${dualMode}&editing=true`
         const divStyles = {height: height + 'px', width: '100%'}
 
         return ([isSelected && (<InspectorControls>
@@ -115,74 +108,22 @@ class BlockEdit extends Component {
                                 onChange={(value) => {
                                     setAttributes({type: value})
                                 }}
-                                options={[{label: 'Bar', value: 'bar'}, {
-                                    label: 'Half Pie',
-                                    value: 'halfPie'
-                                }, {label: 'Diverging', value: 'diverging'}]}
+                                options={[
+                                    { label: 'Seed Inspectors', value: 'seedInspector'},
+                                    { label: 'Variety Sold', value: 'varietySold'}
+                                ]}
                             />
 
                         </PanelRow>
+
                         <PanelRow>
                             <SelectControl
-                                label={__('Group Mode')}
-                                value={[groupMode]} // e.g: value = [ 'a', 'c' ]
-                                onChange={(value) => {
-                                    setAttributes({groupMode: value})
-                                }}
-                                options={[{label: 'Stacked', value: 'stacked'}, {
-                                    label: 'Grouped', value: 'grouped'
-                                }]}
-                            />
-                        </PanelRow>
-                        <PanelRow>
-                            <SelectControl
-                                label={__('First Dimension')}
+                                label={__('Country')}
                                 value={[this.props.attributes.level1]} // e.g: value = [ 'a', 'c' ]
                                 onChange={(value) => {
                                     setAttributes({level1: value})
                                 }}
                                 options={this.dimensions}
-                            />
-                        </PanelRow>
-
-                        <PanelRow>
-                            <SelectControl
-                                label={__('Second Dimension')}
-                                value={[this.props.attributes.level2]} // e.g: value = [ 'a', 'c' ]
-                                onChange={(value) => {
-                                    setAttributes({level2: value})
-                                }}
-                                options={this.dimensions}
-                            />
-                        </PanelRow>
-                        <PanelRow>
-                            <SelectControl
-                                label={__('Third dimension')}
-                                value={[this.props.attributes.level3]} // e.g: value = [ 'a', 'c' ]
-                                onChange={(value) => {
-                                    setAttributes({level3: value})
-                                }}
-                                options={this.dimensions}
-                            />
-                        </PanelRow>
-                        <PanelRow>
-                            <SelectControl
-                                label={__('Color By')}
-                                value={[colorBy]} // e.g: value = [ 'a', 'c' ]
-                                onChange={(value) => {
-                                    setAttributes({colorBy: value})
-                                }}
-                                options={[{label: 'Index', value: 'index'}, {label: 'Keys', value: 'keys'}]}
-                            />
-                        </PanelRow>
-                        <PanelRow>
-                            <SelectControl
-                                label={__('Color Scheme')}
-                                value={[scheme]} // e.g: value = [ 'a', 'c' ]
-                                onChange={(value) => {
-                                    setAttributes({scheme: value})
-                                }}
-                                options={this.colors}
                             />
                         </PanelRow>
 

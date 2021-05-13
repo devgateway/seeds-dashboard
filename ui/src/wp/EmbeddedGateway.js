@@ -52,7 +52,6 @@ class EmbeddedGateway extends React.Component {
         const elements = node.getElementsByClassName("tcdi-component")
         if (elements != null) {
 
-
             Array.from(elements).forEach((element,index) => {
 
                 const component = element.getAttribute('data-component')

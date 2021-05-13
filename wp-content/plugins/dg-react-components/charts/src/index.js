@@ -20,11 +20,11 @@ registerBlockType('dg-components/chart',
             },
             type: {
                 type: 'string',
-                default: "bar",
+                default: "seedInspector",
             },
             source: {
                 type: 'string',
-                default: 'gender/smoke',
+                default: '',
             },
             bottomLegend: {
                 type: 'string',
@@ -46,17 +46,17 @@ registerBlockType('dg-components/chart',
             },
             level1: {
                 type: 'String',
-                default: 'gender'
+                default: 'none'
             },
 
             level2: {
                 type: 'String',
-                default: 'race'
+                default: 'none'
             },
 
             level3: {
                 type: 'String',
-                default: 'smoke'
+                default: 'none'
             },
             groupMode:{
                 type:'String',

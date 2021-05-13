@@ -11,7 +11,6 @@ import Search from '../wp/Search'
 
 const BreadCrumbs = ({pages}) => {
 
-    debugger;
     return <React.Fragment>
         {pages && pages.map(p => <p>{p.slug != 'home' ?
             <span><a href={"/#"}> Home</a> / <TheTitle as={"span"} post={p}></TheTitle></span> : ''}</p>)}
@@ -22,7 +21,6 @@ const BreadCrumbs = ({pages}) => {
 
 const MyMenuItems = ({withIcons, active, menu, onSetSelected, selected, locale}) => {
 
-    debugger;
     useEffect((e) => {
     }, [menu])
 
@@ -43,7 +41,6 @@ const Header = ({intl, match}) => {
 
     const [selected, setSelected] = useState()
     const {slug} = match.params
-    debugger;
 
     return <React.Fragment>
         <Container fluid={true} className="header">
