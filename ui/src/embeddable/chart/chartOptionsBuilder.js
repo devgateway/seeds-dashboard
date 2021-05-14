@@ -13,10 +13,21 @@ export const buildSeedInspectorOptions = (data) => {
 
 }
 
+export const buildHHIndexOptions = (data) => {
+    data.forEach(d => {
+        d.id = d.iso
+        d.value = d.hhindex
+    })
+    return {
+
+        data: data
+    }
+
+}
+
 export const buildVarietySoldOptions = (data) => {
     const sortedData = data.sort((a, b) => a.year > b.counyeartry && -1 || 1)
     const legends = [data[0].crop1, data[0].crop2, data[0].crop3, data[0].crop4]
-    debugger
     return {
         maxValue: 60,
         indexBy: 'year',

@@ -3,8 +3,9 @@ import {Button, Container, Grid} from "semantic-ui-react";
 import DataProvider from "../../data/DataProvider";
 import {connect} from "react-redux";
 import Bar from "../../charts/Bar";
+import MapChart from "../../charts/MapChart";
 import DataConsumer from "../../data/DataConsumer";
-import {buildBarOptions, buildDivergingOptions, buildPieOptions, buildSeedInspectorOptions, buildVarietySoldOptions} from './chartOptionsBuilder'
+import {buildBarOptions, buildDivergingOptions, buildPieOptions, buildSeedInspectorOptions, buildVarietySoldOptions, buildHHIndexOptions} from './chartOptionsBuilder'
 import './charts.scss'
 import HalfPie from "../../charts/HalfPie";
 import TheContent from "../../wp/template-parts/TheContent";
@@ -23,6 +24,13 @@ const SeedInspectors = (props) => {
 
     return <Bar groupMode={groupMode} height={height} legends={legends} colors={colorsSI} options={options}
                 format={{style: "percent", currency: "EUR"}}></Bar>
+}
+
+const HHIndex = (props) => {
+    const {data, legends, colors, height, groupMode} = props
+    const options = buildHHIndexOptions(data)
+
+    return <MapChart height={height}  options={options}></MapChart>
 }
 
 const VarietySold = (props) => {
@@ -93,13 +101,15 @@ const Chart = (props) => {
     if (type == 'varietySold') {
         child = <VarietySold height={`${height}px`} legends={legends} colors={colors} groupMode={groupMode}></VarietySold>
     }
+    if (type == 'hhIndex') {
+        child = <HHIndex height={`${height}px`} legends={legends} colors={colors} groupMode={groupMode}></HHIndex>
+    }
     const dual= (dualMode === 'true')
-
     return <Container className={"chart container"} fluid={true}>
 
         <DataProvider  store={source.split("/")} source={source}>
 
-                {(!dual|| mode == 'chart') &&  <Container className={"body"} fluid={true}><DataConsumer>
+                {(!dual|| mode == 'chart') && <Container className={"body"} fluid={true}><DataConsumer>
                     {child}
                 </DataConsumer></Container>}
 

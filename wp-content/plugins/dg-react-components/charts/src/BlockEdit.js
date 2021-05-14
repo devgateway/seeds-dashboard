@@ -24,9 +24,24 @@ class BlockEdit extends Component {
             {value: "set1", label: 'set1'},
             {value: "set2", label: 'set2'},
             {value: "set3", label: 'set3'}]
-        this.dimensions = [
+        this.countries = [
             {value: 'none', label: 'None'},
             {value: "Ghana", label: 'Ghana'}
+        ]
+        this.crops = [
+            {value: 'none', label: 'None'},
+            {value: 'bean', label: 'Bean'},
+            {value: 'cowpea', label: 'Cowpea'},
+            {value: 'groundnut', label: 'Groundnut'},
+            {value: 'maize', label: 'Maize'},
+            {value: 'millet', label: 'Millet'},
+            {value: 'pigeon', label: 'Pigeon Pea'},
+            {value: 'rice', label: 'Rice'},
+            {value: 'sorghum', label: 'Sorghum'},
+            {value: 'soya', label: 'Soya Bean'},
+            {value: 'sunflower', label: 'Sunflower'},
+            {value: 'teff', label: 'Teff'},
+            {value: 'wheat', label: 'Wheat'},
         ]
 
     }
@@ -110,7 +125,8 @@ class BlockEdit extends Component {
                                 }}
                                 options={[
                                     { label: 'Seed Inspectors', value: 'seedInspector'},
-                                    { label: 'Variety Sold', value: 'varietySold'}
+                                    { label: 'Variety Sold', value: 'varietySold'},
+                                    { label: 'HHIndex', value: 'hhIndex'}
                                 ]}
                             />
 
@@ -123,7 +139,18 @@ class BlockEdit extends Component {
                                 onChange={(value) => {
                                     setAttributes({level1: value})
                                 }}
-                                options={this.dimensions}
+                                options={this.countries}
+                            />
+                        </PanelRow>
+
+                        <PanelRow>
+                            <SelectControl
+                                label={__('Crop')}
+                                value={[this.props.attributes.level2]} // e.g: value = [ 'a', 'c' ]
+                                onChange={(value) => {
+                                    setAttributes({level2: value})
+                                }}
+                                options={this.crops}
                             />
                         </PanelRow>
 
