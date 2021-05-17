@@ -18,9 +18,9 @@ const Chart = ({height, options, intl}) => {
         label="properties.name"
         width="600"
         heigth="1300"
-        domain={[ 1 , 6000 ]}
+        domain={[ 0 , 5000 ]}
         unknownColor="#D1D2D4"
-        valueFormat=".2s"
+        //valueFormat=".2s"
         projectionScale={400}
         projectionTranslation={[ 0.35, 0.5 ]}
         projectionRotation={[ 0, 0, 0 ]}
