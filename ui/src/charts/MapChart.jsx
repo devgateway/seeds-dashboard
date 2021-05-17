@@ -7,9 +7,7 @@ import countries from "./world_countries.json";
 import './chart.scss'
 
 const Chart = ({height, options, intl}) => {
-
-
-
+    debugger
     return (
         <div style={{height:height}}>
             {options && options.data && <ResponsiveChoropleth
@@ -17,10 +15,10 @@ const Chart = ({height, options, intl}) => {
         features={countries.features}
         margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
         colors={['#C4E765', '#96C11F', '#F9D133', '#FB9755', '#FB5555']}
-
+        label="properties.name"
         width="600"
         heigth="1300"
-        domain={[ 1 , 5000 ]}
+        domain={[ 1 , 6000 ]}
         unknownColor="#D1D2D4"
         valueFormat=".2s"
         projectionScale={400}
