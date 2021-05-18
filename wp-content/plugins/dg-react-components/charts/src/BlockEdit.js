@@ -30,15 +30,15 @@ class BlockEdit extends Component {
         ]
         this.crops = [
             {value: 'none', label: 'None'},
-            {value: 'bean', label: 'Bean'},
+            {value: 'bean', label: 'Beans'},
             {value: 'cowpea', label: 'Cowpea'},
             {value: 'groundnut', label: 'Groundnut'},
             {value: 'maize', label: 'Maize'},
             {value: 'millet', label: 'Millet'},
-            {value: 'pigeon', label: 'Pigeon Pea'},
+            {value: 'pigeon', label: 'Pigeon pea'},
             {value: 'rice', label: 'Rice'},
             {value: 'sorghum', label: 'Sorghum'},
-            {value: 'soya', label: 'Soya Bean'},
+            {value: 'soya', label: 'Soya bean'},
             {value: 'sunflower', label: 'Sunflower'},
             {value: 'teff', label: 'Teff'},
             {value: 'wheat', label: 'Wheat'},
