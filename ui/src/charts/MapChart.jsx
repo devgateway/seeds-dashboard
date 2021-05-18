@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import {ResponsiveChoropleth} from '@nivo/geo'
 import {injectIntl} from 'react-intl';
-import countries from "./world_countries.json";
+import countries from "./africa_countries.json";
 
 
 import './chart.scss'
@@ -18,7 +18,7 @@ const Chart = ({height, options, intl}) => {
         label="properties.name"
         width="600"
         heigth="1300"
-        domain={[ 0 , 5000 ]}
+        domain={[0 , 5000]}
         unknownColor="#D1D2D4"
         //valueFormat=".2s"
         projectionScale={400}
@@ -28,6 +28,7 @@ const Chart = ({height, options, intl}) => {
         borderWidth={0.5}
         borderColor="#fff"
         isInteractive={true}
+        theme={{background: "#F3F9FF"}}
         legends={[
             {
                 anchor: 'bottom-left',
