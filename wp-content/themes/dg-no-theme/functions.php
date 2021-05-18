@@ -84,7 +84,7 @@ array(
             array(
                         'name'  => __('Green', 'tcdi'),
                         'slug'  => 'green',
-                        'color' => '#5baf95',
+                        'color' => '#4d843f',
                     ),
             array(
                 'name'  => __('Dark Gray', 'tcdi'),
@@ -105,6 +105,12 @@ array(
                         'name'  => __('White', 'tcdi'),
                         'slug'  => 'red',
                         'color' => '#ba5555',
+                        ),
+
+            array(
+                        'name'  => __('Orange', 'tcdi'),
+                        'slug'  => 'orange',
+                        'color' => '#f39c00',
                         ),
         ));
     }

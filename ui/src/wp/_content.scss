@@ -1,3 +1,12 @@
+p{
+  a{
+    color: $theme-light-green;
+    &:hover{
+      color: $theme-orange;
+    }
+  }
+}
+
 .entry-content {
   margin: 0;
   display: block;
@@ -182,11 +191,72 @@ p:empty {
   }
 }
 
-
-
 .ui.default.dropdown:not(.button)>.text,
 .ui.dropdown:not(.button)>.default.text{
   font-family: $font-family;
   font-size: 0.9em;
   top: -3px;
+}
+
+.wp-block-column{
+  &.bordered{
+    border: 1px solid #eeeeee;
+    border-radius: 4px;
+    margin: 5px;
+    padding: 20px;
+    &.nospace{
+      padding: 0;
+    }
+  }
+}
+
+// Reports and tools list
+
+// Reports lists
+ul.reports{
+  @include list-unstyled;
+  margin-bottom: $base-unit-rel;
+  overflow: hidden;
+  li{
+    border-right: 1px solid $submenu-border;
+    float: left;
+    margin-right: $base-unit * 3;
+    padding-right: $base-unit * 3;
+    &:last-child{
+      border-right: none;
+    }
+    a{
+      color: $default-text-color;
+      &:before{
+        @include list-icon;
+        background-image: url('/report.svg');
+      }
+      &:hover{
+        color: $theme-orange;
+        &:before{
+          @include list-icon;
+          background-image: url('/report-hover.svg');
+        }
+      }
+    }
+  }
+}
+
+ul.instruments{
+  @extend .reports;
+  li{
+    border-right: none;
+    float: none;
+    margin-bottom: $base-unit;
+    a{
+      &:before{
+        background-image: url('/instrument.svg');
+      }
+      &:hover{
+        &:before{
+          background-image: url('/instrument-hover.svg');
+        }
+      }
+    }
+  }
 }

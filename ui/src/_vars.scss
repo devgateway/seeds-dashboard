@@ -7,6 +7,7 @@ $footer-bg: #d1d2d4;
 $footer-title-color: #717171;
 $darkest: #000000;
 $theme-green: #4d843f;
+$theme-light-green: #55b63c;
 $menu-border: #75ae66;
 $theme-yellow: #ffd686;
 
@@ -42,6 +43,7 @@ $separator-grey: #ececec;
 $red: #ba5555;
 $blue: #3e53a6;
 $green: #4d843f;
+$orange: #f39c00;
 
 $health-color: #5baf95;
 $light-green: #31ba1a;
@@ -54,4 +56,20 @@ $charts-options-font-size: 1.02rem;
   color: $gray;
   font-weight: 500;
   font-family: "Raleway";
+}
+
+@mixin list-unstyled() {
+ list-style:  none;
+ margin: 0;
+ padding: 0;
+}
+
+@mixin list-icon() {
+  background-position: 0 1px;
+  background-repeat: no-repeat;
+  content: '';
+  display: inline-block;
+  height: $base-unit + 5;
+  margin-right: $base-unit / 2;
+  width: $base-unit + 5;
 }
