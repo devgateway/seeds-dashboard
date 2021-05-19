@@ -200,10 +200,10 @@ p:empty {
 
 .wp-block-column{
   &.bordered{
-    border: 1px solid #eeeeee;
-    border-radius: 4px;
-    margin: 5px;
-    padding: 20px;
+    @include border-radius(4px);
+    border: 1px solid $submenu-border;
+    margin: $base-unit / 2;
+    padding: $base-unit * 2;
     &.nospace{
       padding: 0;
     }
@@ -256,6 +256,65 @@ ul.instruments{
         &:before{
           background-image: url('/instrument-hover.svg');
         }
+      }
+    }
+  }
+}
+// Chart reusable block with header and source
+.chart-wrapper{
+  @include border-radius(4px);
+  border: 1px solid $submenu-border;
+  .chart{
+    &.container{
+      padding-bottom: $base-unit-md;
+    }
+  }
+  .chart-header{
+    background-color: $theme-orange;
+    color: $body-bg;
+    height: $base-unit * 5;
+    padding-left: $base-unit-md;
+    padding-right: $base-unit-md;
+    .wp-block-column{
+      display: flex;
+      align-items: center;
+      &:last-child{
+        justify-content: flex-end;
+      }
+    }
+      p{
+        color: $body-bg;
+        cursor: pointer;
+        border-right: 1px solid $body-bg;
+        margin-right: $base-unit-md;
+        padding-right: $base-unit-md;
+        &:hover{
+          color: $darkest;
+        }
+      }
+      img{
+        display: block;
+        margin-left: $base-unit / 2;
+        margin-right: $base-unit / 2;
+        height: $base-unit * 2.8;
+        width: $base-unit * 2.8;
+        &:hover{
+          filter: invert(100%);
+        }
+      }
+      h3{
+        color: $body-bg;
+        font-size: $body-font-size !important;
+      }
+  }
+  .source{
+    border-top: 1px solid $submenu-border;
+    padding: 10px;
+    p{
+      font-size: 12px;
+      > span{
+        color: $theme-green;
+        font-weight: bold;
       }
     }
   }

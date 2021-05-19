@@ -112,6 +112,16 @@ array(
                         'slug'  => 'orange',
                         'color' => '#f39c00',
                         ),
+            array(
+                        'name'  => __('Yellow', 'tcdi'),
+                        'slug'  => 'yellow',
+                        'color' => '#ffd686',
+                        ),
+            array(
+                        'name'  => __('Lime', 'tcdi'),
+                        'slug'  => 'lime',
+                        'color' => '#55b63c',
+                      ),
         ));
     }
 endif;
