@@ -58,7 +58,7 @@ const Chart = ({legends, options, intl, format, colors, groupMode, height}) => {
     const getTooltip = (options, d, value, id) => {
         if (options.apiKey == 'seedInspector') {
             return d.data.country + ": " + value + " " + getLegendByKey(id).toLowerCase()
-        } 
+        }
         if (options.apiKey == 'varietySold') {
             return "Number of varieties sold for " + getLegendByKey(id).toLowerCase() + ": " + value
         }
@@ -135,7 +135,7 @@ const Chart = ({legends, options, intl, format, colors, groupMode, height}) => {
                 keys={applyFilter(options.keys)}
                 data={applyFilter(options.data)}
                 groupMode={groupMode ? groupMode : "grouped"}
-                margin={{top: 30, right: 200, bottom: 50, left: 200}}
+                margin={{top: 30, right: 150, bottom: 50, left: 100}}
                 padding={0.2}
                 colors={d => getColor(d.id, d.data)}
                 borderColor="#000"
@@ -220,7 +220,7 @@ const Chart = ({legends, options, intl, format, colors, groupMode, height}) => {
                     const {color, id, value} = d
                     return (
                         <strong style={{color}}>
-                            { 
+                            {
                                 getTooltip(options, d, value, id)
                                 //d.data.country + ": " + value + " " + getLegendByKey(id)
                             //colors.colorBy == 'index' ? d.data[options.indexBy] : id}: {intl.formatNumber(value / 100, format)

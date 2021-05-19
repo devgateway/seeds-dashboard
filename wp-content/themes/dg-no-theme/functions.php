@@ -92,6 +92,11 @@ array(
                 'color' => '#5c5d63',
             ),
             array(
+                'name'  => __('Light Gray', 'tcdi'),
+                'slug'  => 'light-gray',
+                'color' => '#ececec',
+            ),
+            array(
                 'name'  => __('White', 'tcdi'),
                 'slug'  => 'white',
                 'color' => '#fff',
