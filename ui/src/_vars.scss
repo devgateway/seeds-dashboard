@@ -5,15 +5,15 @@ $font-family: 'Lato', sans-serif;
 $body-bg: #ffffff;
 $footer-bg: #d1d2d4;
 $footer-title-color: #717171;
+$submenu-border: #eeeeee;
+$chart-info-bg: #ececec;
+$default-text-color: #575757;
 $darkest: #000000;
 $theme-green: #4d843f;
 $theme-light-green: #55b63c;
 $menu-border: #75ae66;
-$theme-yellow: #ffd686;
 $theme-orange: #f39c00;
-
-$submenu-border: transparent;
-$default-text-color: #000000;
+$theme-yellow: #ffd686;
 
 // spacing units
 $base-unit-rel: 1rem;
@@ -33,6 +33,7 @@ $regular-weight: 400;
 $medium-weight: 600;
 
 $body-font-size: 18px;
+$tooltip-font-size: 14px;
 $header-title-size: 1.3rem;
 $footer-title-size: 3rem;
 
@@ -68,6 +69,12 @@ $charts-options-font-size: 1.02rem;
  padding: 0;
 }
 
+@mixin border-radius($radius) {
+  -webkit-border-radius: $radius;
+  border-radius: $radius;
+  background-clip: padding-box;  /* stops bg color from leaking outside the border: */
+}
+
 @mixin list-icon() {
   background-position: 0 1px;
   background-repeat: no-repeat;
@@ -76,4 +83,9 @@ $charts-options-font-size: 1.02rem;
   height: $base-unit + 5;
   margin-right: $base-unit / 2;
   width: $base-unit + 5;
+}
+
+@mixin tooltip-shadow() {
+  -webkit-box-shadow: -4px 8px 12px -4px rgba(0,0,0,0.24);
+  box-shadow: -4px 8px 12px -4px rgba(0,0,0,0.24);
 }

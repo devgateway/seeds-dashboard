@@ -92,6 +92,11 @@ array(
                 'color' => '#5c5d63',
             ),
             array(
+                'name'  => __('Light Gray', 'tcdi'),
+                'slug'  => 'light-gray',
+                'color' => '#ececec',
+            ),
+            array(
                 'name'  => __('White', 'tcdi'),
                 'slug'  => 'white',
                 'color' => '#fff',
@@ -112,6 +117,16 @@ array(
                         'slug'  => 'orange',
                         'color' => '#f39c00',
                         ),
+            array(
+                        'name'  => __('Yellow', 'tcdi'),
+                        'slug'  => 'yellow',
+                        'color' => '#ffd686',
+                        ),
+            array(
+                        'name'  => __('Lime', 'tcdi'),
+                        'slug'  => 'lime',
+                        'color' => '#55b63c',
+                      ),
         ));
     }
 endif;
