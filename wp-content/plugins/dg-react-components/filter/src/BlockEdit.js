@@ -10,6 +10,10 @@ class BlockEdit extends Component {
     constructor(props) {
         super(props);
 
+        this.crops = [
+            {value: 'none', label: 'None'},
+            {value: 'cropId', label: 'Filter by crop'}
+        ]
 
     }
 
@@ -45,12 +49,7 @@ class BlockEdit extends Component {
                                     setAttributes({type: value})
                                 }}
                                 options={[
-                                    {label: 'Area', value: 'Area'},
-                                    {label: 'PovertyLevel', value: 'PovertyLevel'},
-                                    {label: 'Race', value: 'Race'},
-                                    {label: 'Gender', value: 'Gender'},
-                                    {label: 'Education Level', value: 'EducationLevel'},
-                                    {label: 'AgeGroup', value: 'AgeGroup'}]}
+                                    {label: 'Crop', value: 'crop'}]}
                             />
 
                         </PanelRow>
@@ -62,14 +61,7 @@ class BlockEdit extends Component {
                                 onChange={(value) => {
                                     setAttributes({param: value})
                                 }}
-                                options={[
-                                    {label: 'Smoke', value: 'Area'},
-                                    {label: 'Age Group', value: 'age'},
-                                    {label: 'HouseHold Size', value: 'hs'},
-                                    {label: 'Household Expenditure', value: 'he'},
-                                    {label: 'Expenditure Per Capita', value: 'ep'},
-                                    {label: 'Race', value: 'race'},
-                                    {label: 'Gender', value: 'gender'}]}
+                                options={this.crops}
                             />
                         </PanelRow>
                         <PanelRow>

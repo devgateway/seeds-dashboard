@@ -27,7 +27,6 @@ const SaveComponent = (props) => {
     const source = levels.filter(l => l != 'none' && l != null).join('/')
     const sourceFixed = type + "/" + source
 
-
     return (
             <div className={"tcdi-component"}
                  data-component={"chart"}

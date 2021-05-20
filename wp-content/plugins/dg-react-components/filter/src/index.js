@@ -12,15 +12,15 @@ registerBlockType('dg-components/filter',
         attributes: {
             placeHolder:{
                 type:'String',
-                default:"Age Group"
+                default:"Filter by ..."
             },
             type:{
                 type:'String',
-                default:"AgeGroup"
+                default:"Crop"
             },
             param:{
                 type:'String',
-                default:"age"
+                default:"cropId"
             }
 
 

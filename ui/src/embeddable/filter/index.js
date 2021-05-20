@@ -6,13 +6,13 @@ import {DropDownFilter} from './Components'
 import './filter.scss'
 
 const Filter = ({
-                    onApply, "data-type": type = 'AgeGroup', "data-param": param,
+                    onApply, "data-type": type = 'Crop', "data-param": param,
                     "data-placeholder": placeholder, categories, onLoadCategories
                 }) => {
     useEffect(() => {
         onLoadCategories()
     }, [])
-
+    debugger
     if (categories) {
 
 

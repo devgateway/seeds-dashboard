@@ -7,7 +7,6 @@ import countries from "./africa_countries.json";
 import './chart.scss'
 
 const Chart = ({height, options, intl}) => {
-    debugger
     return (
         <div style={{height:height}}>
             {options && options.data && <ResponsiveChoropleth
