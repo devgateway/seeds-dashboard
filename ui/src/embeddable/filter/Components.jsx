@@ -42,28 +42,45 @@ const connected = (fn) => {
 export const DropDownFilter = ({
                                    categories,
                                    type,
+                                   multi,
                                    options,
                                    placeholder,
                                    selected,
                                    icon = 'filter',
                                    onChange
                                }) => {
-
-    return <Dropdown
+    if (multi == "multiple"){
+        return <Dropdown
+            fluid
+            placeholder={placeholder}
+            icon={icon}
+            onChange={onChange}
+            header={<Dropdown.Header content={<div>All / None</div>}/>}
+            floating
+            labeled
+            button
+            multiple
+            className='icon'
+            options={toOptions(getItems(categories, type))}
+        >
+        </Dropdown>
+    } else {
+        return <Dropdown
         fluid
         placeholder={placeholder}
         icon={icon}
         onChange={onChange}
-        header={<Dropdown.Header content={<div>All / None</div>}/>}
+        header={<Dropdown.Header/>}
         floating
         labeled
         button
-        multiple
         className='icon'
         options={toOptions(getItems(categories, type))}
     >
-
     </Dropdown>
+    }
+
+    
 }
 
 

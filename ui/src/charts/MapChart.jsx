@@ -15,19 +15,19 @@ const Chart = ({height, options, intl}) => {
         margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
         colors={['#C4E765', '#96C11F', '#F9D133', '#FB9755', '#FB5555']}
         label="properties.name"
-        width="600"
+        width="580"
         domain={[0 , 5000]}
         unknownColor="#D1D2D4"
         //valueFormat=".2s"
         projectionScale={400}
-        projectionTranslation={[ 0.35, 0.5 ]}
+        projectionTranslation={[ 0.3, 0.5 ]}
         projectionRotation={[ 0, 0, 0 ]}
         enableGraticule={false}
         borderWidth={0.5}
         borderColor="#fff"
         isInteractive={true}
         theme={{background: "#F3F9FF"}}
-        legends={[
+        /*legends={[
             {
                 anchor: 'bottom-left',
                 direction: 'column',
@@ -51,7 +51,7 @@ const Chart = ({height, options, intl}) => {
                     }
                 ]
             }
-        ]}
+        ]}*/
     />}
         </div>
     )

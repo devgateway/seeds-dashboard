@@ -6,19 +6,23 @@ import {DropDownFilter} from './Components'
 import './filter.scss'
 
 const Filter = ({
-                    onApply, "data-type": type = 'Crop', "data-param": param,
-                    "data-placeholder": placeholder, categories, onLoadCategories
+                    onApply, 
+                    "data-type": type = 'Crop', 
+                    "data-param": param,
+                    "data-placeholder": placeholder, 
+                    "data-multi": multi, 
+                    categories, 
+                    onLoadCategories
                 }) => {
     useEffect(() => {
         onLoadCategories()
     }, [])
-    debugger
     if (categories) {
 
 
     }
     return <Container fluid={true} className={"filter"}>
-        <DropDownFilter placeholder={placeholder} categories={categories} type={type} onChange={(e, {value}) => {
+        <DropDownFilter placeholder={placeholder} categories={categories} type={type} multi={multi} onChange={(e, {value}) => {
             onApply(param, value)
         }}></DropDownFilter>
 

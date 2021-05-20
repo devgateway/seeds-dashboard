@@ -9,10 +9,17 @@ class BlockEdit extends Component {
 
     constructor(props) {
         super(props);
-
+        this.types = [
+            {label: 'Crop', value: 'crop'},
+            {label: 'Country', value: 'country'}
+        ]
         this.crops = [
             {value: 'none', label: 'None'},
             {value: 'cropId', label: 'Filter by crop'}
+        ]
+        this.multiSelect = [
+            {value: 'single', label: 'Single'},
+            {value: 'multiple', label: 'Multiple'}
         ]
 
     }
@@ -29,12 +36,13 @@ class BlockEdit extends Component {
             toggleSelection, setAttributes, attributes: {
                 placeHolder,
                 type,
-                param
+                param,
+                multi
             }
         } = this.props;
 
 
-        const queryString = `data-type=${type}&data-param=${param}&data-placeholder=${placeHolder}&editing=true`
+        const queryString = `data-type=${type}&data-param=${param}&data-placeholder=${placeHolder}&data-multi=${multi}&editing=true`
         const divStyles = {}
 
         return ([isSelected && (<InspectorControls>
@@ -48,8 +56,7 @@ class BlockEdit extends Component {
                                 onChange={(value) => {
                                     setAttributes({type: value})
                                 }}
-                                options={[
-                                    {label: 'Crop', value: 'crop'}]}
+                                options={this.types}
                             />
 
                         </PanelRow>
@@ -62,6 +69,17 @@ class BlockEdit extends Component {
                                     setAttributes({param: value})
                                 }}
                                 options={this.crops}
+                            />
+                        </PanelRow>
+
+                        <PanelRow>
+                            <SelectControl
+                                label={__('Single/multiple selection')}
+                                value={[multi]} // e.g: value = [ 'a', 'c' ]
+                                onChange={(value) => {
+                                    setAttributes({multi: value})
+                                }}
+                                options={this.multiSelect}
                             />
                         </PanelRow>
                         <PanelRow>

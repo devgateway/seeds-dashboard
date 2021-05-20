@@ -21,6 +21,10 @@ registerBlockType('dg-components/filter',
             param:{
                 type:'String',
                 default:"cropId"
+            },
+            multi:{
+                type:'String',
+                default:"single"
             }
 
 

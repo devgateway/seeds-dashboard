@@ -16,6 +16,5 @@ export const getCategories = (params) => {
 
 export const getData = (path, params) => {
     //return get(URL_STATS )
-    debugger
     return get(URL_STATS + "/" + path+(params?'?'+queryParams(params):''))
 }
