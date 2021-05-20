@@ -9,7 +9,7 @@ import './chart.scss'
 const Chart = ({height, options, intl}) => {
     debugger
     return (
-        <div style={{height:height}}>
+        <div className="map-wrapper" style={{height:height}}>
             {options && options.data && <ResponsiveChoropleth
         data={options.data}
         features={countries.features}
@@ -17,7 +17,6 @@ const Chart = ({height, options, intl}) => {
         colors={['#C4E765', '#96C11F', '#F9D133', '#FB9755', '#FB5555']}
         label="properties.name"
         width="600"
-        heigth="1300"
         domain={[0 , 5000]}
         unknownColor="#D1D2D4"
         //valueFormat=".2s"
