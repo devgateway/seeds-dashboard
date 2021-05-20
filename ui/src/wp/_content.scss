@@ -270,6 +270,15 @@ ul.instruments{
         padding: 0 $base-unit * 5 $base-unit-md $base-unit * 5;
       }
     }
+    &.map{
+      .container{
+        padding: 0;
+        background-color: $map-bg;
+        .map-wrapper{
+          margin-left: 20%;
+        }
+      }
+    }
   }
   .chart{
     &.container{
