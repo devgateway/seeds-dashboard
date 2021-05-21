@@ -376,3 +376,97 @@ ul.instruments{
     }
   }
 }
+
+// Country overview land statistics section
+.land-data{
+  padding-left: $base-unit;
+  padding-right: $base-unit;
+  .section{
+    border-bottom: 1px solid $submenu-border;
+    margin-bottom: $base-unit;
+    padding-bottom: $base-unit;
+    padding-top: $base-unit / 2;
+    overflow: hidden;
+    &.no-border{
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+    &:last-child{
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+  }
+  .ui.grid+.grid{
+    margin-top: 0;
+  }
+  .ui.grid>.column{
+    margin-top: $base-unit / 2;
+    padding-bottom: 0;
+    padding-top: 0;
+  }
+  .label{
+    font-size: 14px;
+    margin-right: $base-unit / 2;
+  }
+  .section-title{
+    font-size: 14px;
+    margin-bottom: $base-unit + 5;
+    overflow: hidden;
+  }
+  .data{
+    color: $theme-green;
+    font-size: 18px;
+    font-weight: 700;
+    margin-right: $base-unit - 4;
+  }
+  .household-data{
+    margin-top: $base-unit / 2;
+    .label{
+      color: $label-color;
+      margin-bottom: $base-unit / 2;
+      margin-top: $base-unit / 3;
+    }
+    .data{
+      color: $theme-green;
+      font-size: 25px;
+    }
+  }
+  .household-icon{
+    @include border-radius($extend / 2);
+    background-color: $theme-green;
+    background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDI0LjIuMSwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IgoJIHZpZXdCb3g9IjAgMCAxMDAgMTAwIiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCAxMDAgMTAwOyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+CjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+Cgkuc3Qwe2ZpbGw6bm9uZTtzdHJva2U6I0ZGRkZGRjtzdHJva2Utd2lkdGg6MjtzdHJva2UtbGluZWNhcDpyb3VuZDtzdHJva2UtbWl0ZXJsaW1pdDoxMDt9Cgkuc3Qxe2ZpbGw6bm9uZTtzdHJva2U6I0ZGRkZGRjtzdHJva2Utd2lkdGg6MjtzdHJva2UtbWl0ZXJsaW1pdDoxMDt9Cjwvc3R5bGU+CjxnPgoJPGc+CgkJPHBhdGggY2xhc3M9InN0MCIgZD0iTTQwLjcsNTguN2wzLjMtMS43YzAsMCwwLDAsMCwwbDEuNi0wLjhjMC43LTAuNCwxLjEtMSwxLjEtMS43di0yYzAsMC0wLjYtMC43LTEuMi0xLjhsMCwwbDAsMAoJCQljLTAuMS0wLjEtMC4xLTAuMy0wLjItMC40YzAsMCwwLDAsMCwwYy0wLjEtMC4yLTAuMS0wLjMtMC4yLTAuNXYwYzAtMC4xLTAuMS0wLjMtMC4yLTAuNWMwLDAsMC0wLjEsMC0wLjFjMC0wLjItMC4xLTAuNC0wLjEtMC41CgkJCWMtMC40LTAuMy0wLjgtMC44LTAuOC0xLjNWNDVjMC0wLjUsMC4yLTAuOSwwLjUtMS4ydi0zYy0wLjgtMC42LTItMS4yLTMuOS0xLjJjLTUuMywwLTUuNSw0LjMtNS41LDQuM3YyLjcKCQkJYy0wLjMsMC4zLTAuNSwwLjYtMC41LDF2MS44YzAsMC41LDAuMywwLjksMC43LDEuMmMwLjUsMiwyLjEsMy40LDIuMSwzLjR2MS43YzAsMC42LTAuNCwxLjItMC45LDEuNWwtMy43LDIuMgoJCQljLTEuMywwLjctMi4xLDEuOS0yLjEsMy4zdjEuNWg3Ljh2LTEuN0MzOC40LDYwLjgsMzkuMyw1OS40LDQwLjcsNTguN3oiLz4KCQk8cGF0aCBjbGFzcz0ic3QxIiBkPSJNNjcuMyw1OS4zbC01LjItMi4zYy0wLjMtMC4xLTAuNS0wLjQtMC43LTAuOGMtMC4xLTAuMywwLjEtMC43LDAuNC0wLjdoMy43YzAsMCwxLjMsMC4xLDIuNC0wLjMKCQkJYzAuNi0wLjMsMC44LTEsMC40LTEuNmMtMS4xLTEuNi0zLjQtNS4zLTMuNS05LjJjMCwwLTAuMS01LjktNi02Yy0xLjIsMC0yLjEsMC4zLTIuOSwwLjZjMC4yLDAuOCwwLjEsMS40LDAuMSwxLjR2My4xCgkJCWMwLjMsMC4zLDAuNSwwLjcsMC41LDEuMnYyLjFjMCwwLjctMC41LDEuMy0xLjEsMS41Yy0wLjQsMS4xLTAuOSwyLjItMS42LDMuMmMtMC4yLDAuMy0wLjQsMC40LTAuNSwwLjZ2MmMwLDAuNCwwLjIsMC45LDAuNCwxLjIKCQkJaDEuNWMwLjQsMCwwLjUsMC40LDAuMiwwLjdjLTAuMSwwLjEtMC4yLDAuMS0wLjMsMC4ybDQuMywyLjFjMS41LDAuNywyLjQsMi4yLDIuNCwzLjh2MS42aDcuNHYtMS40QzY5LjQsNjEuMyw2OC42LDYwLDY3LjMsNTkuM3oKCQkJIi8+CgkJPHBhdGggY2xhc3M9InN0MCIgZD0iTTU5LjUsNTguN2wtNS4xLTIuNWMtMC43LTAuMy0xLjEtMS0xLjEtMS43di0yYzAuMS0wLjIsMC4zLTAuNCwwLjUtMC42YzAuNy0xLDEuMi0yLDEuNi0zLjIKCQkJYzAuNy0wLjIsMS4xLTAuOCwxLjEtMS41di0yLjFjMC0wLjUtMC4yLTAuOS0wLjUtMS4ydi0zLjFjMCwwLDAuNi00LjgtNS45LTQuOHMtNS45LDQuOC01LjksNC44djMuMWMtMC4zLDAuMy0wLjUsMC43LTAuNSwxLjIKCQkJdjIuMWMwLDAuNiwwLjMsMS4xLDAuOCwxLjNjMC41LDIuMywxLjksNCwxLjksNHYyYzAsMC43LTAuNCwxLjQtMSwxLjdsLTQuOCwyLjZjLTEuNCwwLjgtMi4yLDIuMi0yLjIsMy43djEuN2gyMy41di0xLjYKCQkJQzYxLjksNjAuOSw2MSw1OS40LDU5LjUsNTguN3oiLz4KCTwvZz4KCTxjaXJjbGUgY2xhc3M9InN0MSIgY3g9IjUwIiBjeT0iNTAiIHI9IjQwLjUiLz4KPC9nPgo8L3N2Zz4K");
+    background-size: $extend $extend;
+    float: left;
+    height:$base-unit-xlg - 20;
+    margin-bottom: $base-unit * 2;
+    margin-right: $base-unit;
+    width: $base-unit-xlg - 20;
+    &.orange{
+      background-color: $theme-orange;
+    }
+  }
+}
+
+// Temporary legend styles (remove when react component is created)
+.crop{
+  background-position: left $base-unit / 3.5;
+  background-repeat: no-repeat;
+  background-size: $base-unit $base-unit;
+  margin-bottom: $base-unit + 5;
+  padding-left: $base-unit * 2;
+  &.maize{
+    background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDI0LjIuMSwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IgoJIHZpZXdCb3g9IjAgMCAxMDAgMTAwIiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCAxMDAgMTAwOyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+CjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+Cgkuc3Qwe2ZpbGw6IzE1QjBGRTt9Cjwvc3R5bGU+CjxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik00OSw4LjVDMjYuNiw4LjUsOC41LDI2LjYsOC41LDQ5UzI2LjYsODkuNSw0OSw4OS41Uzg5LjUsNzEuNCw4OS41LDQ5UzcxLjQsOC41LDQ5LDguNXogTTQ5LDc0LjcKCWMtMTQuMiwwLTI1LjctMTEuNS0yNS43LTI1LjdTMzQuOCwyMy4zLDQ5LDIzLjNTNzQuNywzNC44LDc0LjcsNDlTNjMuMiw3NC43LDQ5LDc0Ljd6Ii8+Cjwvc3ZnPgo=");
+  }
+  &.rice{
+    background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDI0LjIuMSwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IgoJIHZpZXdCb3g9IjAgMCAxMDAgMTAwIiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCAxMDAgMTAwOyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+CjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+Cgkuc3Qwe2ZpbGw6Izg4NkNFNjt9Cjwvc3R5bGU+CjxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik00OSw4LjVDMjYuNiw4LjUsOC41LDI2LjYsOC41LDQ5UzI2LjYsODkuNSw0OSw4OS41Uzg5LjUsNzEuNCw4OS41LDQ5UzcxLjQsOC41LDQ5LDguNXogTTQ5LDc0LjcKCWMtMTQuMiwwLTI1LjctMTEuNS0yNS43LTI1LjdTMzQuOCwyMy4zLDQ5LDIzLjNTNzQuNywzNC44LDc0LjcsNDlTNjMuMiw3NC43LDQ5LDc0Ljd6Ii8+Cjwvc3ZnPgo=");
+  }
+  &.soy{
+    background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDI0LjIuMSwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IgoJIHZpZXdCb3g9IjAgMCAxMDAgMTAwIiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCAxMDAgMTAwOyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+CjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+Cgkuc3Qwe2ZpbGw6I0U5NzM3Mzt9Cjwvc3R5bGU+CjxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik00OSw4LjVDMjYuNiw4LjUsOC41LDI2LjYsOC41LDQ5UzI2LjYsODkuNSw0OSw4OS41Uzg5LjUsNzEuNCw4OS41LDQ5UzcxLjQsOC41LDQ5LDguNXogTTQ5LDc0LjcKCWMtMTQuMiwwLTI1LjctMTEuNS0yNS43LTI1LjdTMzQuOCwyMy4zLDQ5LDIzLjNTNzQuNywzNC44LDc0LjcsNDlTNjMuMiw3NC43LDQ5LDc0Ljd6Ii8+Cjwvc3ZnPgo=");
+  }
+  &.pea{
+    background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDI0LjIuMSwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IgoJIHZpZXdCb3g9IjAgMCAxMDAgMTAwIiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCAxMDAgMTAwOyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+CjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+Cgkuc3Qwe2ZpbGw6I0ZDQ0E1NDt9Cjwvc3R5bGU+CjxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik00OSw4LjVDMjYuNiw4LjUsOC41LDI2LjYsOC41LDQ5UzI2LjYsODkuNSw0OSw4OS41Uzg5LjUsNzEuNCw4OS41LDQ5UzcxLjQsOC41LDQ5LDguNXogTTQ5LDc0LjcKCWMtMTQuMiwwLTI1LjctMTEuNS0yNS43LTI1LjdTMzQuOCwyMy4zLDQ5LDIzLjNTNzQuNywzNC44LDc0LjcsNDlTNjMuMiw3NC43LDQ5LDc0Ljd6Ii8+Cjwvc3ZnPgo=");
+  }
+}

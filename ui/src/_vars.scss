@@ -9,6 +9,8 @@ $submenu-border: #eeeeee;
 $chart-info-bg: #ececec;
 $map-bg: #F3F9FF;
 $default-text-color: #575757;
+$label-color: #626262;
+$darker: #282728;
 $darkest: #000000;
 $theme-green: #4d843f;
 $theme-light-green: #55b63c;
@@ -89,4 +91,9 @@ $charts-options-font-size: 1.02rem;
 @mixin tooltip-shadow() {
   -webkit-box-shadow: -4px 8px 12px -4px rgba(0,0,0,0.24);
   box-shadow: -4px 8px 12px -4px rgba(0,0,0,0.24);
+}
+
+@mixin col-grid($width, $float){
+  float: $float;
+  width: $width;
 }
