@@ -91,10 +91,10 @@ const Chart = ({legends, options, intl, format, colors, groupMode, height}) => {
         const width = getTextWidth(tick.value, 10) + 10
         return (<g transform={`translate(${tick.x},${tick.y + 22})`}>
             <rect x={(-1 * (width) / 2 + 3)} y={-6} rx={3} ry={3} width={(width) + 2} height={24}
-                  fill="rgba(0, 0, 0, .05)"/>
+                  fill="rgba(0, 0, 0, 0)"/>
             <rect x={-1 * (width) / 2} y={-12} rx={2} ry={2} width={width} height={24}
                   fill={colors.colorBy == 'keys' ? '#FFF' : getColorByIndex(tick.value)}/>
-            <line stroke="rgb(232, 193, 160)" strokeWidth={1.5} y1={-22} y2={-12}/>
+            
             <text
                 textAnchor="middle"
                 dominantBaseline="middle"
@@ -102,12 +102,14 @@ const Chart = ({legends, options, intl, format, colors, groupMode, height}) => {
                     ...theme.axis.ticks.text,
                     fill: '#000',
                     fontSize: 10,
+                    fontWeight: 'bold'
                 }}
             >
                 {tick.value}
             </text>
         </g>)
     }
+
 
     const toggle = (id) => {
 
@@ -135,8 +137,10 @@ const Chart = ({legends, options, intl, format, colors, groupMode, height}) => {
                 keys={applyFilter(options.keys)}
                 data={applyFilter(options.data)}
                 groupMode={groupMode ? groupMode : "grouped"}
-                margin={{top: 30, right: 150, bottom: 50, left: 100}}
-                padding={0.2}
+                enableGridX={options.enableGridX}
+                enableGridY={options.enableGridY}
+                margin={{top: 50, right: 10, bottom: 50, left: 150}}
+                padding={0.35}
                 colors={d => getColor(d.id, d.data)}
                 borderColor="#000"
                 axisTop={null}
@@ -154,7 +158,6 @@ const Chart = ({legends, options, intl, format, colors, groupMode, height}) => {
                 labelSkipHeight={12}
                 labelTextColor="#ffffff"
                 //label={(l) => intl.formatNumber(l.value / 100, format)}
-                //labelTextColor={{ from: 'color', modifiers: [ [ 'darker', 1.6 ] ] }}
                 layers={["grid", "axes", "bars", "markers", BarLegend, 'annotations']}
                 legends={[
                     {
@@ -183,14 +186,14 @@ const Chart = ({legends, options, intl, format, colors, groupMode, height}) => {
                                 label: getLegendByKey(k)
                             }
                         }),
-                        anchor: 'bottom-right',
-                        direction: 'column',
+                        anchor: 'top-right',
+                        direction: 'row',
                         justify: false,
-                        translateX: 120,
-                        translateY: 0,
+                        translateX: 0,
+                        translateY: -30,
                         itemsSpacing: 2,
-                        itemWidth: 100,
-                        itemHeight: 20,
+                        itemWidth: options.itemWidth,
+                        itemHeight: 30,
                         itemDirection: 'left-to-right',
                         itemOpacity: 0.85,
                         symbolSize: 20,
@@ -231,7 +234,7 @@ const Chart = ({legends, options, intl, format, colors, groupMode, height}) => {
                 theme={{
                     tooltip: {
                         container: {
-                            background: '#333',
+                            background: '#fff',
                         },
                     },
                 }}

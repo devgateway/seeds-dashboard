@@ -1,14 +1,16 @@
 export const buildSeedInspectorOptions = (data) => {
     const sortedData = data.sort((a, b) => a.country > b.country && -1 || 1)
     return {
-        maxValue: 180,
+        maxValue: 200,
         indexBy: 'country',
         keys: ['public', 'private'],
         legends : ['Public Seed Inspectors', 'Private Seed Inspectors'],
         data: sortedData,
         layout: 'horizontal',
-        padding:[0.7],
-        apiKey: 'seedInspector'
+        itemWidth: 150,
+        apiKey: 'seedInspector',
+        enableGridX: false,
+        enableGridY: true
     }
 
 }
@@ -34,9 +36,11 @@ export const buildVarietySoldOptions = (data) => {
         keys: ['crop1Value', 'crop2Value', 'crop3Value', 'crop4Value'],
         legends : legends,
         data: sortedData,
+        itemWidth: 90,
         layout: 'vertical',
-        padding:[0.7],
-        apiKey: 'varietySold'
+        apiKey: 'varietySold',
+        enableGridX: false,
+        enableGridY: true
     }
 
 }
