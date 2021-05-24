@@ -30,7 +30,7 @@ const Chart = ({height, options, intl}) => {
         borderColor="#fff"
         isInteractive={true}
         theme={{background: "#F3F9FF"}}
-        legends={[
+        /*legends={[
             {
                 anchor: 'bottom-left',
                 direction: 'column',
@@ -54,7 +54,7 @@ const Chart = ({height, options, intl}) => {
                     }
                 ]
             }
-        ]}
+        ]}*/
     />}
         </div>
         <PngExport name="export" id="exportable.chart" icon="print" filters={[]} includes={[]}/>
