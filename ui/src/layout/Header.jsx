@@ -43,7 +43,7 @@ const Header = ({intl, match}) => {
     const {slug} = match.params
 
     return <React.Fragment>
-        <Container fluid={true} className="header">
+        <Container fluid={true} className="header tasai-header">
             <Container fluid={true} className={"background"}>
                 <MenuProvider slug={"main"}>
                     <Menu className={"branding"} text>
