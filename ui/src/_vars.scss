@@ -8,6 +8,7 @@ $footer-title-color: #717171;
 $submenu-border: #eeeeee;
 $chart-info-bg: #ececec;
 $map-bg: #F3F9FF;
+$child-menu-bg: #ececec;
 $default-text-color: #575757;
 $label-color: #626262;
 $darker: #282728;
@@ -34,10 +35,11 @@ $content-width: 1366px;
 $light-weight: 300;
 $regular-weight: 400;
 $medium-weight: 600;
+$bold-weight: 800;
 
 $body-font-size: 18px;
 $tooltip-font-size: 14px;
-$header-title-size: 1.3rem;
+$header-title-size: 1.2rem;
 $footer-title-size: 3rem;
 
 
@@ -96,4 +98,10 @@ $charts-options-font-size: 1.02rem;
 @mixin col-grid($width, $float){
   float: $float;
   width: $width;
+}
+@mixin transition($transition-property, $duration){
+  -webkit-transition: $transition-property $duration ease-out;
+  -moz-transition: $transition-property $duration ease-out;
+  -o-transition: $transition-property $duration ease-out;
+  transition: $transition-property $duration ease-out;
 }
