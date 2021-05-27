@@ -9,6 +9,7 @@ import {injectIntl, IntlProvider} from "react-intl";
 import messages_en from "../translations/en.json";
 import Chart from "../embeddable/chart/index";
 import Filter from "../embeddable/filter";
+import Print from "../embeddable/print/index";
 
 
 const TabbedPosts = asyncComponent(() => import("../embeddable/tabbedposts/"));
@@ -28,6 +29,7 @@ const components = {
     postsCarousel: PostsCarousel,
     chart: Chart,
     filter: Filter,
+    print: Print,
     tabbedPosts: TabbedPosts,
     pageModules: PageModules,
     featuredTabs: FeaturedTabs,
@@ -48,7 +50,6 @@ class EmbeddedGateway extends React.Component {
         const {intl: {locale}} = this.props
 
         const node = ReactDOM.findDOMNode(this)
-
         const elements = node.getElementsByClassName("tcdi-component")
         if (elements != null) {
 
@@ -56,7 +57,6 @@ class EmbeddedGateway extends React.Component {
 
                 const component = element.getAttribute('data-component')
                 element.removeAttribute("data-component")
-
                 if (component) {
                     const props = {...this.props}
                     const attrs = element.attributes

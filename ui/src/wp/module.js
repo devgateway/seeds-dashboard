@@ -97,6 +97,7 @@ export const getPages = (params) => (dispatch, getState) => {
     wp.getPages({...params, lang: locale}).then(data => {
         dispatch({type: LOAD_PAGES_DONE, data, ...params})
     }).catch(error => {
+        debugger
         dispatch({type: LOAD_PAGES_ERROR, error, ...params})
     })
 }

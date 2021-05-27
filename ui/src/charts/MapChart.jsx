@@ -2,15 +2,13 @@ import React, {useState} from 'react'
 import {ResponsiveChoropleth} from '@nivo/geo'
 import {injectIntl} from 'react-intl';
 import countries from "./africa_countries.json";
-import {PngExport} from "../embeddable/filter/Components"
 
 
 import './chart.scss'
 
 const Chart = ({height, options, intl}) => {
     return (
-        <div id="exportable.chart">
-        <div className="map-wrapper png exportable" style={{height:height}}>
+        <div className="map-wrapper" style={{height:height}}>
             
             {options && options.data && <ResponsiveChoropleth
         data={options.data}
@@ -56,8 +54,7 @@ const Chart = ({height, options, intl}) => {
             }
         ]}*/
     />}
-        </div>
-        <PngExport name="export" id="exportable.chart" icon="print" filters={[]} includes={[]}/>
+        
         </div>
     )
 }

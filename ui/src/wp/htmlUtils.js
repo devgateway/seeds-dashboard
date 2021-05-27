@@ -1,5 +1,5 @@
 export const replaceLink = (url, locale) => {
-    let localhost = new RegExp("^(http|https)://localhost", "ig");
+    let localhost = new RegExp("^(http|https)://localhost:8075", "ig");
     let prod = new RegExp("^(http|https)://" + "wp.tasai.dgstg.org", "ig");
     return url.replaceAll(localhost, "#" + locale).replaceAll(prod, "#" + locale)
 }

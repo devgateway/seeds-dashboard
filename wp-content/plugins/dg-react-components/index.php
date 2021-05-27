@@ -29,5 +29,6 @@ include 'page-gallery/index.php';
 include 'charts/index.php';
 include 'filter/index.php';
 include 'tabbed-posts/index.php';
+include 'print-icon/index.php';
 
 #include 'block-styles/index.php';

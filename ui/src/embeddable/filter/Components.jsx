@@ -105,8 +105,8 @@ export const SingleDropDown = (({options, placeholder, selected, icon = 'filter'
 export const PngExport = ({id, icon, name, filters = [], includes = [], size}) => {
 
     return (<Icon name={icon} size={size} onClick={e => {
-        var node = document.getElementById(id);
-        var exportable = id ? node.getElementsByClassName("png exportable")[0] : node
+        var exportable = document.getElementById(id);
+        //var exportable = id ? node.getElementsByClassName("png exportable")[0] : node
         const doFilter = (node) => {
             node.srcset = ''
             if (node.classList && ([...node.classList].map(l => filters.indexOf(l) > -1).filter(n => n).length > 0) && !([...node.classList].map(l => includes.indexOf(l) > -1).filter(n => n).length > 0)) {
