@@ -1,9 +1,62 @@
-.filter{
-  padding: 20px;
+@import '../../vars';
+.chart-filters{
+  border-bottom: 1px solid $submenu-border;
+  border-top: 1px solid $submenu-border;
+  height: $base-unit * 5;
+  padding-left: $base-unit-md;
+  padding-top: $filter-section-padding;
+  padding: $filter-section-padding $base-unit-md;
+}
+// filter label before dropdown added as paragraph in wp
+.filter-label{
+  color: $default-text-color;
+  display:block;
+  float: left;
+  font-size: $tooltip-font-size - 1;
+  line-height: $base-unit * 3;
+  margin: auto $base-unit auto auto;
+  &.left-border{
+    border-left: 1px solid $filter-border-color;
+    padding-left: $base-unit * 2;
+  }
+}
+.chart-filter{
+  @include border-radius(4px);
+  font-family: $font-family;
+  border:1px solid $filter-border-color;
+  flex: none;
+  display: block;
+  width: $base-unit-xlg * 2;
+
+  .ui.button{
+    @include border-radius(4px);
+    background-color: $filter-bg;
+    padding: $base-unit-sm - 2 $base-unit-sm $base-unit - 1 $base-unit;
+  }
+  .ui.floating.dropdown>.menu{
+    -webkit-border-radius: 0 !important;
+    border-radius: 0 !important;
+    margin-top: 0 !important;
+  }
+  .ui.dropdown .menu>.item{
+    font-size: $tooltip-font-size - 2;
+    padding: $base-unit-sm $base-unit-sm - 2 !important;
+  }
   .dropdown {
-
-    min-width: 200px;
-    min-height: 50px;
-
+    >.dropdown.icon{
+      background-image: url("/arrow-down.svg");
+      background-size: $extend $extend;
+      margin-right: $base-unit / 2;
+      margin-top: $base-unit-sm / 1.2;
+      width: $base-unit - 3;
+      &:before{
+        content: none;
+      }
+    }
+    >.text{
+      font-size: $tooltip-font-size - 2;
+      color: $label-color;
+      line-height: $extend;
+    }
   }
 }
