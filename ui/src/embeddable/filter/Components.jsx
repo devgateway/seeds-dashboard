@@ -68,19 +68,17 @@ export const DropDownFilter = ({
         return <Dropdown
         fluid
         placeholder={placeholder}
-        icon={icon}
         onChange={onChange}
         header={<Dropdown.Header/>}
         floating
-        labeled
         button
-        className='icon'
+        className='filter-list'
         options={toOptions(getItems(categories, type))}
     >
     </Dropdown>
     }
 
-    
+
 }
 
 

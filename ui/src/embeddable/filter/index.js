@@ -6,12 +6,12 @@ import {DropDownFilter} from './Components'
 import './filter.scss'
 
 const Filter = ({
-                    onApply, 
-                    "data-type": type = 'Crop', 
+                    onApply,
+                    "data-type": type = 'Crop',
                     "data-param": param,
-                    "data-placeholder": placeholder, 
-                    "data-multi": multi, 
-                    categories, 
+                    "data-placeholder": placeholder,
+                    "data-multi": multi,
+                    categories,
                     onLoadCategories
                 }) => {
     useEffect(() => {
@@ -21,12 +21,11 @@ const Filter = ({
 
 
     }
-    return <Container fluid={true} className={"filter"}>
+    return <div className={"chart-filter"}>
         <DropDownFilter placeholder={placeholder} categories={categories} type={type} multi={multi} onChange={(e, {value}) => {
             onApply(param, value)
         }}></DropDownFilter>
-
-    </Container>
+    </div>
 }
 
 const mapStateToProps = (state, ownProps) => {

@@ -272,6 +272,9 @@ ul.instruments{
     }
     &.map{
       .container{
+        &.chart-filter{
+          background-color: $filter-bg;
+        }
         padding: 0;
         background-color: $map-bg;
         .map-wrapper{
