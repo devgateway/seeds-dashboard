@@ -20,6 +20,7 @@ services:
     volumes:
       - ./data/wordpress:/var/www/html
       - ./wp-content:/var/www/html/wp-content
+      - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
     networks:
       - backend  #for dev purpose we use a bridged network
     logging:
