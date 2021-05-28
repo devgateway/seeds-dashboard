@@ -190,7 +190,10 @@ p:empty {
     }
   }
 }
-
+.ui.fluid.container.print {
+  padding: 0;
+  margin: 0;
+}
 .ui.default.dropdown:not(.button)>.text,
 .ui.dropdown:not(.button)>.default.text{
   font-family: $font-family;
@@ -277,7 +280,6 @@ ul.instruments{
           background-color: $filter-bg;
         }
         padding: 0;
-        background-color: $map-bg;
         .map-wrapper{
           margin-left: 20%;
         }
@@ -287,6 +289,10 @@ ul.instruments{
   .chart{
     &.container{
       padding-bottom: $base-unit-md;
+      .body{
+        background-color: $map-bg;
+
+      }
     }
   }
   .chart-info{

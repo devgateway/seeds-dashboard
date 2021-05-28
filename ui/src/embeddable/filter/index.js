@@ -1,5 +1,4 @@
 import React, {useEffect} from "react";
-import {Container} from "semantic-ui-react";
 import {connect} from "react-redux";
 import {getCategories, setFilter} from "../../data/module";
 import {DropDownFilter} from './Components'

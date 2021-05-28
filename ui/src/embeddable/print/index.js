@@ -1,7 +1,6 @@
 import React from "react";
 import {Container} from "semantic-ui-react";
-import {connect} from "react-redux";
-import {Icon} from 'semantic-ui-react'
+import {Icon, Image} from 'semantic-ui-react'
 import {toPng} from 'html-to-image';
 import download from 'downloadjs'
 import './print.scss'
@@ -25,7 +24,7 @@ const delay = (time) => {
 
 const ImageExport = ({id, icon, name, color, size}) => {
 
-    return (<Icon fitted name={icon} className="printButton" size={size} inverted onClick={e => {
+    return (<Image src="https://wp.tasai.dgstg.org/wp-content/uploads/2021/05/download.svg" size={size} className="wp-image-169" onClick={e => {
         debugger
         var exportable = document.getElementById(id);
 
@@ -39,7 +38,7 @@ const ImageExport = ({id, icon, name, color, size}) => {
             .catch(function (error) {
                 console.error('oops, something went wrong!', error);
             });
-    }}></Icon>)
+    }}></Image>)
 }
 
 
