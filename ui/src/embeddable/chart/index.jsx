@@ -89,6 +89,7 @@ const Chart = (props) => {
         colorBy: colorBy
     }
     let child = null
+    let classStyle = "body"
     if (type === 'bar') {
         child = <BarChar height={`${height}px`} legends={legends} colors={colors} groupMode={groupMode}></BarChar>
     }
@@ -103,13 +104,14 @@ const Chart = (props) => {
     }
     if (type == 'hhIndex') {
         child = <HHIndex height={`${height}px`} legends={legends} colors={colors} groupMode={groupMode}></HHIndex>
+        classStyle = "map"
     }
     const dual= (dualMode === 'true')
     return <Container className={"chart container"} fluid={true}>
 
         <DataProvider  store={source.split("/")} source={source}>
 
-                {(!dual|| mode == 'chart') && <Container className={"body"} fluid={true}><DataConsumer>
+                {(!dual|| mode == 'chart') && <Container className={classStyle} fluid={true}><DataConsumer>
                     {child}
                 </DataConsumer></Container>}
 

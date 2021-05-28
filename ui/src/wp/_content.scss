@@ -290,6 +290,9 @@ ul.instruments{
     &.container{
       padding-bottom: $base-unit-md;
       .body{
+        background-color: transparent;
+      }
+      .map{
         background-color: $map-bg;
 
       }
