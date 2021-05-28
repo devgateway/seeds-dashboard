@@ -13,7 +13,7 @@ const Print = (props) => {
         "data-htmlId": htmlId = 'exportable.chart',
         "data-name": name = 'hhIndex'
     } = props
-    return <Container fluid={true} className={"print"}>
+    return <Container fluid={true} className={"print tooltip-trigger icon-tooltip"}>
                 <ImageExport icon={icon} size={size} color={color} id={htmlId} name={name}></ImageExport>
             </Container>
 }
@@ -25,7 +25,6 @@ const delay = (time) => {
 const ImageExport = ({id, icon, name, color, size}) => {
 
     return (<Image src="https://wp.tasai.dgstg.org/wp-content/uploads/2021/05/download.svg" size={size} className="wp-image-169" onClick={e => {
-        debugger
         var exportable = document.getElementById(id);
 
         toPng(exportable, {backgroundColor: "#FFF", style: {'border': '0px !important'}})
