@@ -103,6 +103,7 @@
       display: flex;
       flex-wrap: nowrap;
       min-height: $base-unit-rel;
+      max-width: none;
       padding: 0;
 
       .item {
