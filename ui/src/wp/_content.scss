@@ -216,8 +216,9 @@ p:empty {
 ul.reports{
   @include list-unstyled;
   margin-bottom: $base-unit-rel;
-  overflow: hidden;
+  overflow: visible;
   li{
+    color: $default-text-color;
     border-right: 1px solid $submenu-border;
     float: left;
     margin-right: $base-unit * 3;
@@ -225,19 +226,21 @@ ul.reports{
     &:last-child{
       border-right: none;
     }
-    a{
-      color: $default-text-color;
+    &:before{
+      @include list-icon;
+      background-image: url('/report.svg');
+    }
+    &:hover{
+      a{
+        color: $theme-green;
+      }
       &:before{
         @include list-icon;
-        background-image: url('/report.svg');
+        background-image: url('/report-hover.svg');
       }
-      &:hover{
-        color: $theme-orange;
-        &:before{
-          @include list-icon;
-          background-image: url('/report-hover.svg');
-        }
-      }
+    }
+    a{
+      color: $default-text-color;
     }
   }
 }
@@ -268,7 +271,7 @@ ul.instruments{
     .chart{
       &.container{
         padding: 0 $base-unit * 5 $base-unit-md $base-unit * 5;
-        
+
       }
     }
     &.map{
@@ -357,7 +360,7 @@ ul.instruments{
   .tooltip-text{
     @include border-radius(2px);
     @include tooltip-shadow();
-    border: $submenu-border;
+    border: 1px solid $submenu-border;
     font-size: $tooltip-font-size;
     background-color: $body-bg;
     color: $default-text-color;
@@ -368,7 +371,7 @@ ul.instruments{
     pointer-events: none;
     position: absolute;
     width: $base-unit-xlg * 3;
-    z-index: 1;
+    z-index: 100;
   }
   &:hover{
     background-color: $body-bg;
@@ -379,6 +382,25 @@ ul.instruments{
       opacity: 1;
     }
   }
+  &.text-tooltip{
+    padding: 0;
+    &:hover{
+      background-color: transparent;
+      border: none;
+      color: $theme-green;
+      padding: 0;
+      .tooltip-text{
+        border: 1px solid $submenu-border;
+        margin-left: -$base-unit-md;
+        margin-top: -($extend - 60);
+        width: $base-unit-xlg * 3;
+        position: absolute;
+        strong{
+          color: $theme-green;
+        }
+      }
+    }
+  }
   &.icon-tooltip{
     padding: 0;
     &:hover{
@@ -386,7 +408,7 @@ ul.instruments{
       border: none;
       padding: 0;
       .tooltip-text{
-        margin-left: -100%;
+        margin-left: -$extend;
         margin-top: 0;
         width: 150px;
       }
