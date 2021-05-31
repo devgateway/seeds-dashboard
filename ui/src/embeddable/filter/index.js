@@ -10,6 +10,7 @@ const Filter = ({
                     "data-param": param,
                     "data-placeholder": placeholder,
                     "data-multi": multi,
+                    selected,
                     categories,
                     onLoadCategories
                 }) => {
@@ -21,7 +22,7 @@ const Filter = ({
 
     }
     return <div className={"chart-filter"}>
-        <DropDownFilter placeholder={placeholder} categories={categories} type={type} multi={multi} onChange={(e, {value}) => {
+        <DropDownFilter placeholder={placeholder} categories={categories} selected={selected} type={type} multi={multi} onChange={(e, {value}) => {
             onApply(param, value)
         }}></DropDownFilter>
     </div>
@@ -29,7 +30,8 @@ const Filter = ({
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        categories: state.getIn(['data', 'categories'])
+        categories: state.getIn(['data', 'categories']),
+        selected: state.getIn(['data', 'filters'])
     }
 }
 

@@ -1,15 +1,17 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import ReactDOM from 'react-dom'
 
-
 import asyncComponent from "../AsyncComponent";
-import {Provider} from "react-redux";
+import {Provider, connect} from "react-redux";
 import getStore from "../redux/store";
 import {injectIntl, IntlProvider} from "react-intl";
 import messages_en from "../translations/en.json";
 import Chart from "../embeddable/chart/index";
 import Filter from "../embeddable/filter";
 import Print from "../embeddable/print/index";
+import Share from "../embeddable/share/index";
+import {getUrlParams} from "./htmlUtils";
+import {setFilter} from "../data/module";
 
 
 const TabbedPosts = asyncComponent(() => import("../embeddable/tabbedposts/"));
@@ -30,6 +32,7 @@ const components = {
     chart: Chart,
     filter: Filter,
     print: Print,
+    share: Share,
     tabbedPosts: TabbedPosts,
     pageModules: PageModules,
     featuredTabs: FeaturedTabs,
@@ -38,11 +41,15 @@ const components = {
 
 const store = getStore();
 
+
 class EmbeddedGateway extends React.Component {
+
+
 
     constructor() {
         super();
         this.renderEmbeddedComponents = this.renderEmbeddedComponents.bind(this)
+
     }
 
 
@@ -79,6 +86,12 @@ class EmbeddedGateway extends React.Component {
 
 
     componentDidMount() {
+        const {onFilter} = this.props
+        let params = getUrlParams()
+        if (params.length > 0) {
+            params.map(item => this.props.onFilter(item[0], item[1]));
+
+        }
         this.renderEmbeddedComponents()
     }
 
@@ -98,4 +111,10 @@ class EmbeddedGateway extends React.Component {
     }
 };
 
-export default injectIntl(EmbeddedGateway)
+
+
+const mapActionCreators = {
+    onFilter: setFilter
+};
+
+export default connect(null, mapActionCreators) (injectIntl(EmbeddedGateway))

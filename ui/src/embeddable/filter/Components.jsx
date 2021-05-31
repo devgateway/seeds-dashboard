@@ -29,7 +29,7 @@ const connected = (fn) => {
 
     const mapStateToProps = (state, ownProps) => {
         return {
-            categories: state.getIn(['ecigarettes', 'categories', 'items']),
+            categories: state.getIn(['ecigarettes', 'categories', 'items'])
         }
     }
 
@@ -71,6 +71,7 @@ export const DropDownFilter = ({
         onChange={onChange}
         header={<Dropdown.Header/>}
         floating
+        value={parseInt(selected ? selected.values().next().value : 0)}
         button
         className='filter-list'
         options={toOptions(getItems(categories, type))}

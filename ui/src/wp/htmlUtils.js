@@ -31,5 +31,11 @@ export const replaceHTMLinks = (html) => {
     return newHtml;
 }
 
+export function getUrlParams() {
+    const params = new URLSearchParams(window.location.hash.split("?")[1]);
+    const items = Array.from(params.entries());
+    return items;
+}
+
 
 export default {}

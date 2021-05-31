@@ -1,6 +1,6 @@
 import React from "react";
 import {Container} from "semantic-ui-react";
-import {Icon, Image} from 'semantic-ui-react'
+import {Image} from 'semantic-ui-react'
 import {toPng} from 'html-to-image';
 import download from 'downloadjs'
 import './print.scss'

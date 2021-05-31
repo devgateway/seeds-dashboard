@@ -8,7 +8,6 @@ const LOAD_DATA_ERROR = 'LOAD_DATA_ERROR'
 const LOAD_CATEGORIES = 'LOAD_CATEGORIES'
 const LOAD_CATEGORIES_DONE = 'LOAD_CATEGORIES_DONE'
 const LOAD_CATEGORIES_ERROR = 'LOAD_CATEGORIES_ERROR'
-
 const SET_FILTER = 'SET_FILTER'
 
 
@@ -16,9 +15,7 @@ const initialState = Immutable.Map({mode: 'info'})
 
 
 export const setFilter = (type, value) => (dispatch, getState) => {
-
     dispatch({type: SET_FILTER, param: type, value})
-
 }
 
 
