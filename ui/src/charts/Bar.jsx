@@ -94,7 +94,7 @@ const Chart = ({legends, options, intl, format, colors, groupMode, height}) => {
                   fill="rgba(0, 0, 0, 0)"/>
             <rect x={-1 * (width) / 2} y={-12} rx={2} ry={2} width={width} height={24}
                   fill={colors.colorBy == 'keys' ? '#FFF' : getColorByIndex(tick.value)}/>
-            
+
             <text
                 textAnchor="middle"
                 dominantBaseline="middle"
@@ -222,19 +222,33 @@ const Chart = ({legends, options, intl, format, colors, groupMode, height}) => {
                 tooltip={(d) => {
                     const {color, id, value} = d
                     return (
-                        <strong style={{color}}>
-                            {
-                                getTooltip(options, d, value, id)
-                                //d.data.country + ": " + value + " " + getLegendByKey(id)
-                            //colors.colorBy == 'index' ? d.data[options.indexBy] : id}: {intl.formatNumber(value / 100, format)
-                            }
-                        </strong>
+                        <div className="tooltip-wrapper">
+                          <div className="tooltip-header">
+                            <span className="label">Country Name -</span>
+                            <span className="value">60</span>
+                          </div>
+                          <ul>
+                            <li>
+                              <span className="label">Public Seed Inspectors:</span>
+                              <span className="value">60</span>
+                            </li>
+                            <li>
+                              <span className="label">Private Seed Inspectors:</span>
+                              <span className="value">0</span>
+                            </li>
+                            <li>
+                              <span className="label">Total Seed Inspectors:</span>
+                              <span className="value">60</span>
+                            </li>
+                          </ul>
+                        </div>
                     )
                 }}
                 theme={{
                     tooltip: {
                         container: {
-                            background: '#fff',
+                          boxShadow: "0 0 0 rgba(0, 0, 0, 0)",
+                          padding: 0,
                         },
                     },
                 }}
