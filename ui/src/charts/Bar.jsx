@@ -94,7 +94,7 @@ const Chart = ({legends, options, intl, format, colors, groupMode, height}) => {
                   fill="rgba(0, 0, 0, 0)"/>
             <rect x={-1 * (width) / 2} y={-12} rx={2} ry={2} width={width} height={24}
                   fill={colors.colorBy == 'keys' ? '#FFF' : getColorByIndex(tick.value)}/>
-            
+
             <text
                 textAnchor="middle"
                 dominantBaseline="middle"
@@ -139,7 +139,7 @@ const Chart = ({legends, options, intl, format, colors, groupMode, height}) => {
                 groupMode={groupMode ? groupMode : "grouped"}
                 enableGridX={options.enableGridX}
                 enableGridY={options.enableGridY}
-                margin={{top: 50, right: 10, bottom: 50, left: 150}}
+                margin={{top: 50, right: 10, bottom: 50, left: 180}}
                 padding={0.35}
                 colors={d => getColor(d.id, d.data)}
                 borderColor="#000"
