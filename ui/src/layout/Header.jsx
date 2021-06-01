@@ -59,7 +59,7 @@ const Header = ({intl, match}) => {
                         </Menu.Menu>
 
                         <Menu.Item fitted className="lang">
-                            <a href="">French</a>
+                            <a href="">Français</a>
                         </Menu.Item>
                     </Menu>
                 </MenuProvider>
