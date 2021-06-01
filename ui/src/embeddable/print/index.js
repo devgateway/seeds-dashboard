@@ -11,7 +11,7 @@ const Print = (props) => {
         "data-size": size = 'large',
         "data-color": color = 'grey',
         "data-htmlId": htmlId = 'exportable.chart',
-        "data-name": name = 'hhIndex'
+        "data-downloadName": name = 'hhIndex'
     } = props
     return <Container fluid={true} className={"print tooltip-trigger icon-tooltip"}>
                 <ImageExport icon={icon} size={size} color={color} id={htmlId} name={name}></ImageExport>

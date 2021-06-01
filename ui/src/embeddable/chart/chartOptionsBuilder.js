@@ -1,7 +1,9 @@
 export const buildSeedInspectorOptions = (data) => {
     const sortedData = data.sort((a, b) => a.country > b.country && -1 || 1)
+    
+    const maxvalue = data.reduce((max, p) => p.total > max ? p.total : max, data[0].total) + 20;
     return {
-        maxValue: 200,
+        maxValue: maxvalue,
         indexBy: 'country',
         keys: ['public', 'private'],
         legends : ['Public Seed Inspectors', 'Private Seed Inspectors'],
@@ -9,8 +11,8 @@ export const buildSeedInspectorOptions = (data) => {
         layout: 'horizontal',
         itemWidth: 150,
         apiKey: 'seedInspector',
-        enableGridX: false,
-        enableGridY: true
+        enableGridX: true,
+        enableGridY: false
     }
 
 }
