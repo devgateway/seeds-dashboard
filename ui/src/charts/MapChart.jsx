@@ -9,7 +9,7 @@ import './chart.scss'
 const Chart = ({height, options, intl}) => {
     return (
         <div className="map-wrapper" style={{height:height}}>
-            
+
             {options && options.data && <ResponsiveChoropleth
         data={options.data}
         features={countries.features}
@@ -27,7 +27,24 @@ const Chart = ({height, options, intl}) => {
         borderWidth={0.5}
         borderColor="#fff"
         isInteractive={true}
-        theme={{background: "#F3F9FF"}}
+        tooltip={(d) => {
+            const {color, id, value} = d
+            return (
+                <div className="tooltip-wrapper">
+                  <div className="tooltip-header">
+                    <span className="label">Country -</span>
+                    <span className="value">Year</span>
+                  </div>
+                  <div className="map-tooltip-data">
+                  <span className="value">Maize</span>
+                  <span className="label">HHI Index value: <span>5499</span> (Extremely High)</span>
+                  </div>
+                </div>
+            )
+        }}
+        theme={{
+          background: "#F3F9FF",
+        }}
         /*legends={[
             {
                 anchor: 'bottom-left',
@@ -54,7 +71,7 @@ const Chart = ({height, options, intl}) => {
             }
         ]}*/
     />}
-        
+
         </div>
     )
 }

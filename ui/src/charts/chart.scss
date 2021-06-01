@@ -2,7 +2,9 @@
 
 .tooltip-wrapper{
   @include border-radius(5px);
+  background-color: $body-bg;
   border: 1px solid $filter-border-color;
+  overflow: hidden;
   padding: $base-unit-md - 5;
   width: 280px;
   .tooltip-header{
@@ -37,5 +39,20 @@
   }
   .value{
     @include popup-data-style($theme-green, $tooltip-font-size + 1, 800, right);
+  }
+  .map-tooltip-data{
+    padding-bottom: $base-unit-md;
+    .label{
+      > span{
+        color: $theme-red;
+        font-size: $tooltip-font-size + 1;
+        font-weight: $bold-weight;
+      }
+    }
+    .value{
+      display: block;
+      float: none;
+      padding-bottom: $base-unit;
+    }
   }
 }
