@@ -10,12 +10,23 @@ class BlockEdit extends Component {
     constructor(props) {
         super(props);
         this.types = [
-            {label: 'Crop', value: 'crop'},
-            {label: 'Country', value: 'country'}
+            {label: 'Crop', value: 'cropId'},
+            {label: 'Country', value: 'countryId'}
         ]
         this.crops = [
             {value: 'none', label: 'None'},
-            {value: 'cropId', label: 'Filter by crop'}
+            {value: 'bean', label: 'Beans'},
+            {value: 'cowpea', label: 'Cowpea'},
+            {value: 'groundnut', label: 'Groundnut'},
+            {value: 'maize', label: 'Maize'},
+            {value: 'millet', label: 'Millet'},
+            {value: 'pigeon', label: 'Pigeon pea'},
+            {value: 'rice', label: 'Rice'},
+            {value: 'sorghum', label: 'Sorghum'},
+            {value: 'soya', label: 'Soya bean'},
+            {value: 'sunflower', label: 'Sunflower'},
+            {value: 'teff', label: 'Teff'},
+            {value: 'wheat', label: 'Wheat'}
         ]
         this.multiSelect = [
             {value: 'single', label: 'Single'},

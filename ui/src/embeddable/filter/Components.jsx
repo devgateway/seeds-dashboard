@@ -65,16 +65,18 @@ export const DropDownFilter = ({
         >
         </Dropdown>
     } else {
+        let options = toOptions(getItems(categories, type));
+        let defValue = options.length > 0 ? options.find(x => x.text.toLowerCase()==selected.toLowerCase()).key : 0;
         return <Dropdown
         fluid
         placeholder={placeholder}
         onChange={onChange}
         header={<Dropdown.Header/>}
         floating
-        value={parseInt(selected ? selected.values().next().value : 0)}
+        value={parseInt(selected ? selected.values().next().value : defValue)}
         button
         className='filter-list'
-        options={toOptions(getItems(categories, type))}
+        options={options}
     >
     </Dropdown>
     }

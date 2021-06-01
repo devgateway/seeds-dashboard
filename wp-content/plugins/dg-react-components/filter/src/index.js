@@ -20,7 +20,7 @@ registerBlockType('dg-components/filter',
             },
             param:{
                 type:'String',
-                default:"cropId"
+                default:"Maize"
             },
             multi:{
                 type:'String',
