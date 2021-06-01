@@ -7,7 +7,8 @@ const SaveComponent = (props) => {
             placeHolder,
             type,
             param,
-            multi
+            multi,
+            filter
         }
     } = props;
     const blockProps = useBlockProps.save({
@@ -23,6 +24,7 @@ const SaveComponent = (props) => {
              data-component={"filter"}
 
              data-type={type}
+             data-filter={filter}
              data-param={param}
              data-placeholder={placeHolder}
              data-multi={multi}

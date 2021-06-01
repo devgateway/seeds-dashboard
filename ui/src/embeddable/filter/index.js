@@ -6,7 +6,8 @@ import './filter.scss'
 
 const Filter = ({
                     onApply,
-                    "data-type": type = 'cropId',
+                    "data-type": type = 'Crop',
+                    "data-filter": filter,
                     "data-param": param,
                     "data-placeholder": placeholder,
                     "data-multi": multi,
@@ -17,13 +18,9 @@ const Filter = ({
     useEffect(() => {
         onLoadCategories()
     }, [])
-    if (categories) {
-
-
-    }
     return <div className={"chart-filter"}>
-        <DropDownFilter placeholder={placeholder} categories={categories} selected={param} type={type} multi={multi} onChange={(e, {value}) => {
-            onApply(type, value)
+        <DropDownFilter placeholder={placeholder} categories={categories} selDef={param} selected={selected} type={type} multi={multi} onChange={(e, {value}) => {
+            onApply(filter, value)
         }}></DropDownFilter>
     </div>
 }

@@ -10,8 +10,14 @@ class BlockEdit extends Component {
     constructor(props) {
         super(props);
         this.types = [
-            {label: 'Crop', value: 'cropId'},
-            {label: 'Country', value: 'countryId'}
+            {label: 'Crop', value: 'crop'},
+            {label: 'Country', value: 'country'}
+        ]
+
+        this.filters = [
+            {value: 'none', label: 'None'},
+            {value: 'cropId', label: 'Filter by crop'},
+            {value: 'countryId', label: 'Filter by country'}
         ]
         this.crops = [
             {value: 'none', label: 'None'},
@@ -48,12 +54,13 @@ class BlockEdit extends Component {
                 placeHolder,
                 type,
                 param,
-                multi
+                multi,
+                filter
             }
         } = this.props;
 
 
-        const queryString = `data-type=${type}&data-param=${param}&data-placeholder=${placeHolder}&data-multi=${multi}&editing=true`
+        const queryString = `data-type=${type}&data-filter=${filter}&data-param=${param}&data-placeholder=${placeHolder}&data-multi=${multi}&editing=true`
         const divStyles = {}
 
         return ([isSelected && (<InspectorControls>
@@ -70,6 +77,17 @@ class BlockEdit extends Component {
                                 options={this.types}
                             />
 
+                        </PanelRow>
+
+                        <PanelRow>
+                            <SelectControl
+                                label={__('Filter')}
+                                value={[filter]} // e.g: value = [ 'a', 'c' ]
+                                onChange={(value) => {
+                                    setAttributes({filter: value})
+                                }}
+                                options={this.filters}
+                            />
                         </PanelRow>
 
                         <PanelRow>

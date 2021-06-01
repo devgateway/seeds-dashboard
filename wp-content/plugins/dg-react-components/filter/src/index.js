@@ -18,6 +18,10 @@ registerBlockType('dg-components/filter',
                 type:'String',
                 default:"Crop"
             },
+            filter:{
+                type:'String',
+                default:"None"
+            },
             param:{
                 type:'String',
                 default:"Maize"
