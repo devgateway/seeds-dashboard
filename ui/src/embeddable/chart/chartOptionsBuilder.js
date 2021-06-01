@@ -21,10 +21,18 @@ export const buildHHIndexOptions = (data) => {
         d.value = d.hhindex
     })
     return {
-
         data: data
     }
+}
 
+export const buildPerformanceOptions = (data) => {
+    const keys = Object.keys(data[0]).filter(x => x!="order" && x!="subindicator")
+    const sortedData = data.sort((a, b) => a.order < b.order && -1 || 1)
+    
+    return {
+        data: sortedData,
+        keys: keys
+    }
 }
 
 export const buildVarietySoldOptions = (data) => {

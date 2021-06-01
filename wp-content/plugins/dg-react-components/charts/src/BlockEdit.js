@@ -26,7 +26,8 @@ class BlockEdit extends Component {
             {value: "set3", label: 'set3'}]
         this.countries = [
             {value: 'none', label: 'None'},
-            {value: "Ghana", label: 'Ghana'}
+            {value: "Ghana", label: 'Ghana'},
+            {value: "Madagascar", label: 'Madagascar'}
         ]
         this.crops = [
             {value: 'none', label: 'None'},
@@ -126,7 +127,8 @@ class BlockEdit extends Component {
                                 options={[
                                     { label: 'Seed Inspectors', value: 'seedInspector'},
                                     { label: 'Variety Sold', value: 'varietySold'},
-                                    { label: 'HHIndex', value: 'hhIndex'}
+                                    { label: 'HHIndex', value: 'hhIndex'},
+                                    { label: 'Seed Asoc Performance', value: 'performance'}
                                 ]}
                             />
 
