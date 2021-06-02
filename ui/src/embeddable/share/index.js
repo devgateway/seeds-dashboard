@@ -18,7 +18,9 @@ const Share = (props) => {
 
 const ShareButton = ({icon, filterData}) => {
 
-    return (<Image src="https://wp.tasai.dgstg.org/wp-content/uploads/2021/05/share.svg"  className="wp-image-168"
+    return (
+      <span className="tooltip-trigger icon-tooltip">
+      <Image src="/share.svg"  className="wp-image-168"
     onClick={e => {
         let params
         let url = window.location.href.split('?')[0]
@@ -29,7 +31,9 @@ const ShareButton = ({icon, filterData}) => {
         }
         navigator.clipboard.writeText(url)
 
-    }}></Image>)
+    }}></Image><span className="tooltip-text">Share as a link.</span>
+    </span>
+  )
 }
 
 const mapStateToProps = (state, ownProps) => {
