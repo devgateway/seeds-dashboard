@@ -24,7 +24,9 @@ const delay = (time) => {
 
 const ImageExport = ({id, icon, downloadName, color, size}) => {
 
-    return (<Image src="https://wp.tasai.dgstg.org/wp-content/uploads/2021/05/download.svg" size={size} className="wp-image-169" onClick={e => {
+    return (
+      <span className="tooltip-trigger icon-tooltip">
+      <Image src="/download.svg" size={size} className="wp-image-169" onClick={e => {
         var exportable = document.getElementById(id);
 
         toPng(exportable, {backgroundColor: "#FFF", style: {'border': '0px !important'}})
@@ -38,7 +40,9 @@ const ImageExport = ({id, icon, downloadName, color, size}) => {
             .catch(function (error) {
                 console.error('oops, something went wrong!', error);
             });
-    }}></Image>)
+    }}></Image><span className="tooltip-text">Download as png.</span>
+    </span>
+  )
 }
 
 
