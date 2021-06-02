@@ -14,7 +14,8 @@ export const buildSeedInspectorOptions = (data) => {
         itemWidth: 150,
         apiKey: 'seedInspector',
         enableGridX: true,
-        enableGridY: false
+        enableGridY: false,
+        tooltipFunc: getSeedInspectorTooltip
     }
 }
 
