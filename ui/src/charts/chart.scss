@@ -1,0 +1,58 @@
+@import "../vars";
+
+.tooltip-wrapper{
+  @include border-radius(5px);
+  background-color: $body-bg;
+  border: 1px solid $filter-border-color;
+  overflow: hidden;
+  padding: $base-unit-md - 5;
+  width: 280px;
+  .tooltip-header{
+    border-bottom: 1px solid $filter-border-color;
+    margin-bottom: $base-unit;
+    padding-bottom: $base-unit;
+    overflow: hidden;
+    .label{
+      line-height: 190%;
+      margin-right: $base-unit / 2;
+    }
+    .value{
+      float: none;
+    }
+  }
+  ul{
+    @include list-unstyled;
+    li{
+      border-bottom: 1px solid $submenu-border;
+      margin-bottom: $base-unit / 2;
+      overflow: hidden;
+      padding-bottom: $base-unit / 2;
+      &:last-child{
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+      }
+    }
+  }
+  .label{
+    @include popup-data-style($default-text-color, $tooltip-font-size - 1, $regular-weight, left);
+  }
+  .value{
+    @include popup-data-style($theme-green, $tooltip-font-size + 1, 800, right);
+  }
+  .map-tooltip-data{
+    padding-bottom: $base-unit-md;
+    .label{
+      > span{
+        color: $theme-red;
+        font-size: $tooltip-font-size + 1;
+        font-weight: $bold-weight;
+      }
+    }
+    .value{
+      display: block;
+      float: none;
+      padding-bottom: $base-unit;
+    }
+  }
+}

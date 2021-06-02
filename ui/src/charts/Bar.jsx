@@ -220,21 +220,13 @@ const Chart = ({legends, options, intl, format, colors, groupMode, height}) => {
                 motionStiffness={130}
                 motionDamping={15}
                 tooltip={(d) => {
-                    const {color, id, value} = d
-                    return (
-                        <strong style={{color}}>
-                            {
-                                getTooltip(options, d, value, id)
-                                //d.data.country + ": " + value + " " + getLegendByKey(id)
-                            //colors.colorBy == 'index' ? d.data[options.indexBy] : id}: {intl.formatNumber(value / 100, format)
-                            }
-                        </strong>
-                    )
+                    return options.tooltipFunc(d)
                 }}
                 theme={{
                     tooltip: {
                         container: {
-                            background: '#fff',
+                          boxShadow: "0 0 0 rgba(0, 0, 0, 0)",
+                          padding: 0,
                         },
                     },
                 }}

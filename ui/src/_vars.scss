@@ -20,6 +20,7 @@ $theme-light-green: #55b63c;
 $menu-border: #75ae66;
 $theme-orange: #f39c00;
 $theme-yellow: #ffd686;
+$theme-red: #fb5555;
 
 // spacing units
 $base-unit-rel: 1rem;
@@ -107,4 +108,11 @@ $charts-options-font-size: 1.02rem;
   -moz-transition: $transition-property $duration ease-out;
   -o-transition: $transition-property $duration ease-out;
   transition: $transition-property $duration ease-out;
+}
+
+@mixin popup-data-style($color, $font-size, $font-weight, $float){
+  color: $color;
+  font-size: $font-size;
+  font-weight: $font-weight;
+  float: $float;
 }
