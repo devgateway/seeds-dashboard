@@ -392,6 +392,7 @@ ul.instruments{
     }
   }
   &.text-tooltip{
+    cursor: pointer;
     padding: 0;
     &:hover{
       background-color: transparent;
@@ -411,15 +412,16 @@ ul.instruments{
     }
   }
   &.icon-tooltip{
+    cursor: pointer;
     padding: 0;
     &:hover{
       background-color: transparent;
       border: none;
       padding: 0;
       .tooltip-text{
-        margin-left: -$extend;
+        margin-left: -($base-unit * 5);
         margin-top: 0;
-        width: 150px;
+        width: $base-unit-xlg * 1.5;
       }
     }
   }
