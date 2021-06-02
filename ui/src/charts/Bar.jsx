@@ -139,7 +139,7 @@ const Chart = ({legends, options, intl, format, colors, groupMode, height}) => {
                 groupMode={groupMode ? groupMode : "grouped"}
                 enableGridX={options.enableGridX}
                 enableGridY={options.enableGridY}
-                margin={{top: 50, right: 10, bottom: 50, left: 150}}
+                margin={{top: 50, right: 10, bottom: 50, left: 180}}
                 padding={0.35}
                 colors={d => getColor(d.id, d.data)}
                 borderColor="#000"

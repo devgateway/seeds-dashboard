@@ -13,9 +13,26 @@ class BlockEdit extends Component {
             {label: 'Crop', value: 'crop'},
             {label: 'Country', value: 'country'}
         ]
+
+        this.filters = [
+            {value: 'none', label: 'None'},
+            {value: 'cropId', label: 'Filter by crop'},
+            {value: 'countryId', label: 'Filter by country'}
+        ]
         this.crops = [
             {value: 'none', label: 'None'},
-            {value: 'cropId', label: 'Filter by crop'}
+            {value: 'bean', label: 'Beans'},
+            {value: 'cowpea', label: 'Cowpea'},
+            {value: 'groundnut', label: 'Groundnut'},
+            {value: 'maize', label: 'Maize'},
+            {value: 'millet', label: 'Millet'},
+            {value: 'pigeon', label: 'Pigeon pea'},
+            {value: 'rice', label: 'Rice'},
+            {value: 'sorghum', label: 'Sorghum'},
+            {value: 'soya', label: 'Soya bean'},
+            {value: 'sunflower', label: 'Sunflower'},
+            {value: 'teff', label: 'Teff'},
+            {value: 'wheat', label: 'Wheat'}
         ]
         this.multiSelect = [
             {value: 'single', label: 'Single'},
@@ -37,12 +54,13 @@ class BlockEdit extends Component {
                 placeHolder,
                 type,
                 param,
-                multi
+                multi,
+                filter
             }
         } = this.props;
 
 
-        const queryString = `data-type=${type}&data-param=${param}&data-placeholder=${placeHolder}&data-multi=${multi}&editing=true`
+        const queryString = `data-type=${type}&data-filter=${filter}&data-param=${param}&data-placeholder=${placeHolder}&data-multi=${multi}&editing=true`
         const divStyles = {}
 
         return ([isSelected && (<InspectorControls>
@@ -59,6 +77,17 @@ class BlockEdit extends Component {
                                 options={this.types}
                             />
 
+                        </PanelRow>
+
+                        <PanelRow>
+                            <SelectControl
+                                label={__('Filter')}
+                                value={[filter]} // e.g: value = [ 'a', 'c' ]
+                                onChange={(value) => {
+                                    setAttributes({filter: value})
+                                }}
+                                options={this.filters}
+                            />
                         </PanelRow>
 
                         <PanelRow>

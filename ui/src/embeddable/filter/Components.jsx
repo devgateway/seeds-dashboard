@@ -46,6 +46,7 @@ export const DropDownFilter = ({
                                    options,
                                    placeholder,
                                    selected,
+                                   selDef,
                                    icon = 'filter',
                                    onChange
                                }) => {
@@ -65,16 +66,19 @@ export const DropDownFilter = ({
         >
         </Dropdown>
     } else {
+        let options = toOptions(getItems(categories, type));
+        let defValue = selected ? selected.values().next().value : options.length > 0 ? options.find(x => x.text.toLowerCase()==selDef.toLowerCase()).key : 0;
+        debugger
         return <Dropdown
         fluid
         placeholder={placeholder}
         onChange={onChange}
         header={<Dropdown.Header/>}
         floating
-        value={parseInt(selected ? selected.values().next().value : 0)}
+        value={defValue}
         button
         className='filter-list'
-        options={toOptions(getItems(categories, type))}
+        options={options}
     >
     </Dropdown>
     }

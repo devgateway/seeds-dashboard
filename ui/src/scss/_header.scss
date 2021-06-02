@@ -23,7 +23,7 @@
       display: block;
       font-size: $body-font-size - 4;
       opacity: 1;
-      padding-right: $base-unit-md;
+      padding-right: $base-unit-md + 10;
       &:hover{
         opacity: 0.6;
       }

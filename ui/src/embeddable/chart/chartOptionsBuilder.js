@@ -2,8 +2,10 @@ import React from 'react'
 
 export const buildSeedInspectorOptions = (data) => {
     const sortedData = data.sort((a, b) => a.country > b.country && -1 || 1)
+    
+    const maxvalue = data.reduce((max, p) => p.total > max ? p.total : max, data[0].total) + 20;
     return {
-        maxValue: 200,
+        maxValue: maxvalue,
         indexBy: 'country',
         keys: ['public', 'private'],
         legends : ['Public Seed Inspectors', 'Private Seed Inspectors'],
@@ -11,9 +13,8 @@ export const buildSeedInspectorOptions = (data) => {
         layout: 'horizontal',
         itemWidth: 150,
         apiKey: 'seedInspector',
-        enableGridX: false,
-        enableGridY: true,
-        tooltipFunc: getSeedInspectorTooltip
+        enableGridX: true,
+        enableGridY: false
     }
 }
 
@@ -49,6 +50,16 @@ export const buildHHIndexOptions = (data) => {
     })
     return {
         data: data
+    }
+}
+
+export const buildPerformanceOptions = (data) => {
+    const keys = Object.keys(data[0]).filter(x => x!="order" && x!="subindicator")
+    const sortedData = data.sort((a, b) => a.order < b.order && -1 || 1)
+    
+    return {
+        data: sortedData,
+        keys: keys
     }
 }
 

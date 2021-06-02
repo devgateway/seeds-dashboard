@@ -4,8 +4,9 @@ import DataProvider from "../../data/DataProvider";
 import {connect} from "react-redux";
 import Bar from "../../charts/Bar";
 import MapChart from "../../charts/MapChart";
+import Radar from "../../charts/Radar";
 import DataConsumer from "../../data/DataConsumer";
-import {buildBarOptions, buildDivergingOptions, buildPieOptions, buildSeedInspectorOptions, buildVarietySoldOptions, buildHHIndexOptions} from './chartOptionsBuilder'
+import {buildBarOptions, buildDivergingOptions, buildPieOptions, buildSeedInspectorOptions, buildVarietySoldOptions, buildHHIndexOptions, buildPerformanceOptions} from './chartOptionsBuilder'
 import './charts.scss'
 import HalfPie from "../../charts/HalfPie";
 import TheContent from "../../wp/template-parts/TheContent";
@@ -31,6 +32,14 @@ const HHIndex = (props) => {
     const options = buildHHIndexOptions(data)
 
     return <MapChart height={height}  options={options}></MapChart>
+}
+
+
+const Performance = (props) => {
+    const {data, legends, colors, height, groupMode} = props
+    const options = buildPerformanceOptions(data)
+
+    return <Radar height={height}  options={options}></Radar>
 }
 
 const VarietySold = (props) => {
@@ -105,6 +114,9 @@ const Chart = (props) => {
     if (type == 'hhIndex') {
         child = <HHIndex height={`${height}px`} legends={legends} colors={colors} groupMode={groupMode}></HHIndex>
         classStyle = "map"
+    }
+    if (type == 'performance') {
+        child = <Performance height={`${height}px`} legends={legends} colors={colors} groupMode={groupMode}></Performance>
     }
     const dual= (dualMode === 'true')
     return <Container className={"chart container"} fluid={true}>
