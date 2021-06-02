@@ -1,3 +1,5 @@
+import React from 'react'
+
 export const buildSeedInspectorOptions = (data) => {
     const sortedData = data.sort((a, b) => a.country > b.country && -1 || 1)
     return {
@@ -10,9 +12,34 @@ export const buildSeedInspectorOptions = (data) => {
         itemWidth: 150,
         apiKey: 'seedInspector',
         enableGridX: false,
-        enableGridY: true
+        enableGridY: true,
+        tooltipFunc: getSeedInspectorTooltip
     }
+}
 
+function getSeedInspectorTooltip(d) {
+    return (
+            <div className="tooltip-wrapper">
+                <div className="tooltip-header">
+                <span className="label">{d.data.country} -</span>
+                <span className="value">{d.data.year}</span>
+                </div>
+                <ul>
+                <li>
+                    <span className="label">Public Seed Inspectors:</span>
+                    <span className="value">{d.data.public ? d.data.public:"N/A"}</span>
+                </li>
+                <li>
+                    <span className="label">Private Seed Inspectors:</span>
+                    <span className="value">{d.data.private ? d.data.private:"N/A"}</span>
+                </li>
+                <li>
+                    <span className="label">Total Seed Inspectors:</span>
+                    <span className="value">{d.data.total ? d.data.total:"N/A"}</span>
+                </li>
+                </ul>
+            </div>
+    )
 }
 
 export const buildHHIndexOptions = (data) => {
@@ -21,10 +48,8 @@ export const buildHHIndexOptions = (data) => {
         d.value = d.hhindex
     })
     return {
-
         data: data
     }
-
 }
 
 export const buildVarietySoldOptions = (data) => {
@@ -40,9 +65,20 @@ export const buildVarietySoldOptions = (data) => {
         layout: 'vertical',
         apiKey: 'varietySold',
         enableGridX: false,
-        enableGridY: true
+        enableGridY: true,
+        tooltipFunc: getVarietySoldTooltip
     }
+}
 
+function getVarietySoldTooltip(d) {
+    return (
+            <div className="tooltip-wrapper">
+                <div className="tooltip-header">
+                <span className="label">{Object.entries(d.data).find(x => x[0]==d.id.slice(0,5))[1]} -</span>
+                <span className="value">{d.value}</span>
+                </div>
+            </div>
+    )
 }
 
 export const buildBarOptions = (data, includeTotal) => {

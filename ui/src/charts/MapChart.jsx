@@ -6,6 +6,21 @@ import countries from "./africa_countries.json";
 
 import './chart.scss'
 
+const getTooltipLegendByValue = (value) => {
+    let tooltipLegend = "(Extremely High)"
+    if (value < 1000) {
+        tooltipLegend = "(Extremely Low)"
+    } else if (value < 2000) {
+        tooltipLegend = "(Low)"
+    } else if (value < 3000) {
+        tooltipLegend = "(Average)"
+    } else if (value < 4000) {
+        tooltipLegend = "(High)"
+    }
+
+    return tooltipLegend;
+}
+
 const Chart = ({height, options, intl}) => {
     return (
         <div className="map-wrapper" style={{height:height}}>
@@ -27,20 +42,25 @@ const Chart = ({height, options, intl}) => {
         borderWidth={0.5}
         borderColor="#fff"
         isInteractive={true}
-        tooltip={(d) => {
-            const {color, id, value} = d
-            return (
-                <div className="tooltip-wrapper">
-                  <div className="tooltip-header">
-                    <span className="label">Country -</span>
-                    <span className="value">Year</span>
-                  </div>
-                  <div className="map-tooltip-data">
-                  <span className="value">Maize</span>
-                  <span className="label">HHI Index value: <span>5499</span> (Extremely High)</span>
-                  </div>
-                </div>
-            )
+        tooltip={(e) => {
+            if (e.feature.data) {
+                return (
+                    <div className="tooltip-wrapper">
+                    <div className="tooltip-header">
+                        <span className="label">{e.feature.data.country} -</span>
+                        <span className="value">{e.feature.data.year}</span>
+                    </div>
+                    <div className="map-tooltip-data">
+                    <span className="value">{e.feature.data.crop}</span>
+                    <span className="label">HHI Index value: <span>{e.feature.data.value}</span> {getTooltipLegendByValue(e.feature.data.value)}</span>
+                    </div>
+                    </div>
+                )
+            } else {
+                return (
+                    <div />
+                )
+            }
         }}
         theme={{
           background: "#F3F9FF",

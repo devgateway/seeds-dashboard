@@ -220,29 +220,7 @@ const Chart = ({legends, options, intl, format, colors, groupMode, height}) => {
                 motionStiffness={130}
                 motionDamping={15}
                 tooltip={(d) => {
-                    const {color, id, value} = d
-                    return (
-                        <div className="tooltip-wrapper">
-                          <div className="tooltip-header">
-                            <span className="label">Country Name -</span>
-                            <span className="value">60</span>
-                          </div>
-                          <ul>
-                            <li>
-                              <span className="label">Public Seed Inspectors:</span>
-                              <span className="value">60</span>
-                            </li>
-                            <li>
-                              <span className="label">Private Seed Inspectors:</span>
-                              <span className="value">0</span>
-                            </li>
-                            <li>
-                              <span className="label">Total Seed Inspectors:</span>
-                              <span className="value">60</span>
-                            </li>
-                          </ul>
-                        </div>
-                    )
+                    return options.tooltipFunc(d)
                 }}
                 theme={{
                     tooltip: {
