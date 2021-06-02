@@ -7,7 +7,8 @@ const SaveComponent = (props) => {
             icon,
             htmlId,
             size,
-            color
+            color,
+            downloadName
         }
     } = props;
     const blockProps = useBlockProps.save({
@@ -25,6 +26,7 @@ const SaveComponent = (props) => {
              data-htmlId={htmlId}
              data-size={size}
              data-color={color}
+             data-downloadName={downloadName}
         >
         </div>
     );
