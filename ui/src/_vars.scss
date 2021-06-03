@@ -20,6 +20,7 @@ $theme-light-green: #55b63c;
 $menu-border: #75ae66;
 $theme-orange: #f39c00;
 $theme-yellow: #ffd686;
+$input-bg: #fef0d6;
 $theme-red: #fb5555;
 
 // spacing units
@@ -42,6 +43,7 @@ $medium-weight: 600;
 $bold-weight: 800;
 
 $body-font-size: 18px;
+$label-font-size: 12px;
 $tooltip-font-size: 14px;
 $header-title-size: 1.2rem;
 $footer-title-size: 3rem;
@@ -115,4 +117,13 @@ $charts-options-font-size: 1.02rem;
   font-size: $font-size;
   font-weight: $font-weight;
   float: $float;
+}
+
+@mixin export-icon{
+  background-color: transparent;
+  background-position: center 2px;
+  background-repeat: no-repeat;
+  padding: 0;
+  height: $base-unit * 3;
+  width: $base-unit * 3;
 }
