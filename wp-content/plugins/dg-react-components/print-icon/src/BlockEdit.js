@@ -56,12 +56,13 @@ class BlockEdit extends Component {
                 icon,
                 htmlId,
                 size,
-                color
+                color,
+                downloadName
             }
         } = this.props;
 
 
-        const queryString = `data-icon=${icon}&data-id=${htmlId}&data-size=${size}&data-color=${color}&editing=true`
+        const queryString = `data-icon=${icon}&data-id=${htmlId}&data-size=${size}&data-downloadName=${downloadName}&data-color=${color}&editing=true`
         const divStyles = {}
 
         return ([isSelected && (<InspectorControls>
@@ -75,6 +76,14 @@ class BlockEdit extends Component {
                                     setAttributes({icon: value})
                                 }}
                                 options={this.icons}
+                            />
+                        </PanelRow>
+
+                        <PanelRow>
+                            <TextControl
+                                label={__('Image download name')}
+                                value={downloadName}
+                                onChange={(downloadName) => setAttributes({downloadName})}
                             />
                         </PanelRow>
                         <PanelRow>

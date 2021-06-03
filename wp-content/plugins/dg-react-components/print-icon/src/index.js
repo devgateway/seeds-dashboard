@@ -14,6 +14,10 @@ registerBlockType('dg-components/print',
                 type:'String',
                 default:"image"
             },
+            downloadName:{
+                type:'String',
+                default:"tasai_chart"
+            },
             size:{
                 type:'String',
                 default:"large"

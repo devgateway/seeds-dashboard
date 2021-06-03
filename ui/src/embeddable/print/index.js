@@ -11,7 +11,7 @@ const Print = (props) => {
         "data-size": size = 'large',
         "data-color": color = 'grey',
         "data-htmlId": htmlId = 'exportable.chart',
-        "data-downloadName": name = 'hhIndex'
+        "data-downloadname": downloadName = 'hhIndex'
     } = props
     return <Container fluid={true} className={"print-wrapper"}>
                 <ImageExport icon={icon} size={size} color={color} id={htmlId} name={name}></ImageExport>
@@ -22,7 +22,7 @@ const delay = (time) => {
     return new Promise((resolve => window.setTimeout(resolve, time)))
 }
 
-const ImageExport = ({id, icon, name, color, size}) => {
+const ImageExport = ({id, icon, downloadName, color, size}) => {
 
     return (
       <Popup content='Download as png.' trigger={

@@ -34,6 +34,7 @@ const Chart = ({height, options, intl}) => {
         animate={true}
         motionConfig="wobbly"
         isInteractive={true}
+        gridLabel={LabelComponent}
         legends={[
             {
                 anchor: 'top-right',
@@ -60,5 +61,14 @@ const Chart = ({height, options, intl}) => {
         </div>
     )
 }
+
+const LabelComponent = ({ id, anchor }) => (
+    <g transform={`translate(${anchor === 'end' ? -130 : anchor === 'middle' ? -50 : -20}, ${anchor === 'middle' ? 20: -10})`}>
+        <text className="radar-label">{id}</text>
+        
+    </g>
+)
+
+
 
 export default injectIntl(Chart)
