@@ -22,24 +22,25 @@ const ShareButton = ({icon, filterData}) => {
         <Dropdown className="share">
         <Dropdown.Menu className='left'>
         <label>Get Link</label>
-        <Input placeholder='url' />
+        <Input placeholder={window.location.href} />
         <Button onClick={e => {
-        let params
-        let url = window.location.href.split('?')[0]
-        const filters = filterData;
-        if (filters) {
-            params = Object.entries({...filters.toJS()}).map(e => e.join('=')).join('&');
-            url += '?' + params
-        }
-        navigator.clipboard.writeText(url)
+            let params
+            let url = window.location.href.split('?')[0]
+            const filters = filterData;
+            if (filters) {
+                params = Object.entries({...filters.toJS()}).map(e => e.join('=')).join('&');
+                url += '?' + params
+            }
+            navigator.clipboard.writeText(url)
 
-    }}>Share Link</Button>
+        }}>Share Link</Button>
 
         </Dropdown.Menu>
       </Dropdown>
       } />
   )
 }
+
 
 const mapStateToProps = (state, ownProps) => {
     return {

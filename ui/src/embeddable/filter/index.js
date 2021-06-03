@@ -18,6 +18,7 @@ const Filter = ({
     useEffect(() => {
         onLoadCategories()
     }, [])
+    
     return <div className={"chart-filter"}>
         <DropDownFilter placeholder={placeholder} categories={categories} selDef={param} selected={selected} type={type} multi={multi} onChange={(e, {value}) => {
             onApply(filter, value)

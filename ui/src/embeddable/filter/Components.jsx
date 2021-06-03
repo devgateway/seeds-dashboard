@@ -67,7 +67,9 @@ export const DropDownFilter = ({
         </Dropdown>
     } else {
         let options = toOptions(getItems(categories, type));
-        let defValue = selected ? selected.values().next().value : options.length > 0 ? options.find(x => x.text.toLowerCase()==selDef.toLowerCase()).key : 0;
+        let defValue = selected ? parseInt(selected.values().next().value) : options.length > 0 ? options.find(x => x.text.toLowerCase()==selDef.toLowerCase()).key : 0;
+        
+        debugger
         return <Dropdown
         fluid
         placeholder={placeholder}
