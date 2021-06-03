@@ -64,7 +64,7 @@
 }
 
 text.radar-label{
-  font-size: 12px !important;
+  font-size: $label-font-size !important;
 }
 .radar{
   >div{
@@ -73,7 +73,7 @@ text.radar-label{
         @include border-radius(5px);
         background-color: $body-bg;
         border:1px solid $filter-border-color;
-        font-size: 13px;
+        font-size: $label-font-size + 1;
         padding: $base-unit * 2;
         display:block;
         visibility: visible;
