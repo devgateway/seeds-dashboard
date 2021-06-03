@@ -35,6 +35,7 @@ const Chart = ({height, options, intl}) => {
         motionConfig="wobbly"
         isInteractive={true}
         gridLabel={LabelComponent}
+        tooltipFormat={d => d + "%"}
         legends={[
             {
                 anchor: 'top-right',
