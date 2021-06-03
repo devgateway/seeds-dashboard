@@ -56,6 +56,7 @@
       .item {
         align-self: flex-end;
         color: $body-bg;
+        cursor: pointer;
         font-size: $body-font-size - 4;
         font-weight: $bold-weight;
         height: $base-unit-lg + 5;
