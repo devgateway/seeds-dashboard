@@ -1,6 +1,6 @@
 import React from "react";
 import {connect} from "react-redux";
-import {Container} from "semantic-ui-react";
+import {Container, Dropdown, Popup, Input, Button} from "semantic-ui-react";
 import {Image} from 'semantic-ui-react'
 import './share.scss'
 
@@ -9,19 +9,21 @@ const Share = (props) => {
         "data-icon": icon = 'image',
         filterData
     } = props
-    return <Container fluid={true} className={"print tooltip-trigger icon-tooltip"}>
+    return <Container fluid={true} className={"share-wrapper"}>
                 <ShareButton icon={icon} filterData={filterData}></ShareButton>
             </Container>
 }
 
-
-
 const ShareButton = ({icon, filterData}) => {
 
     return (
-      <span className="tooltip-trigger icon-tooltip">
-      <Image src="/share.svg"  className="wp-image-168"
-    onClick={e => {
+
+      <Popup content='Share as a link.' trigger={
+        <Dropdown className="share">
+        <Dropdown.Menu className='left'>
+        <label>Get Link</label>
+        <Input placeholder='url' />
+        <Button onClick={e => {
         let params
         let url = window.location.href.split('?')[0]
         const filters = filterData;
@@ -31,8 +33,11 @@ const ShareButton = ({icon, filterData}) => {
         }
         navigator.clipboard.writeText(url)
 
-    }}></Image><span className="tooltip-text">Share as a link.</span>
-    </span>
+    }}>Share Link</Button>
+
+        </Dropdown.Menu>
+      </Dropdown>
+      } />
   )
 }
 

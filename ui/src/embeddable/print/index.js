@@ -1,5 +1,5 @@
 import React from "react";
-import {Container} from "semantic-ui-react";
+import {Container, Popup} from "semantic-ui-react";
 import {Image} from 'semantic-ui-react'
 import {toPng} from 'html-to-image';
 import download from 'downloadjs'
@@ -13,7 +13,7 @@ const Print = (props) => {
         "data-htmlId": htmlId = 'exportable.chart',
         "data-downloadName": name = 'hhIndex'
     } = props
-    return <Container fluid={true} className={"print tooltip-trigger icon-tooltip"}>
+    return <Container fluid={true} className={"print-wrapper"}>
                 <ImageExport icon={icon} size={size} color={color} id={htmlId} name={name}></ImageExport>
             </Container>
 }
@@ -25,22 +25,22 @@ const delay = (time) => {
 const ImageExport = ({id, icon, name, color, size}) => {
 
     return (
-      <span className="tooltip-trigger icon-tooltip">
-      <Image src="/download.svg" size={size} className="wp-image-169" onClick={e => {
-        var exportable = document.getElementById(id);
+      <Popup content='Download as png.' trigger={
+        <div onClick={e => {
+          var exportable = document.getElementById(id);
 
-        toPng(exportable, {backgroundColor: "#FFF", style: {'border': '0px !important'}})
-            .then(delay(1))
-            .then(function (dataUrl) {
-                console.log("printing")
-                download(dataUrl, name + '.png');
+          toPng(exportable, {backgroundColor: "#FFF", style: {'border': '0px !important'}})
+              .then(delay(1))
+              .then(function (dataUrl) {
+                  console.log("printing")
+                  download(dataUrl, name + '.png');
 
-            })
-            .catch(function (error) {
-                console.error('oops, something went wrong!', error);
-            });
-    }}></Image><span className="tooltip-text">Download as png.</span>
-    </span>
+              })
+              .catch(function (error) {
+                  console.error('oops, something went wrong!', error);
+              });
+        }}></div>
+      } />
   )
 }
 
