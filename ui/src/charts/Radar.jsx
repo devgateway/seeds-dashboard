@@ -7,7 +7,7 @@ import './chart.scss'
 const Chart = ({height, options, intl}) => {
     return (
         <div style={{height:height}}>
-            
+
             {options && options.data && <ResponsiveRadar
         data={options.data}
         keys={options.keys}
@@ -39,7 +39,7 @@ const Chart = ({height, options, intl}) => {
             {
                 anchor: 'top-right',
                 direction: 'row',
-                translateX: -50,
+                translateX: -90,
                 translateY: -40,
                 itemWidth: 80,
                 itemHeight: 20,
@@ -57,7 +57,7 @@ const Chart = ({height, options, intl}) => {
             }
         ]}
     />}
-        
+
         </div>
     )
 }
@@ -65,7 +65,7 @@ const Chart = ({height, options, intl}) => {
 const LabelComponent = ({ id, anchor }) => (
     <g transform={`translate(${anchor === 'end' ? -130 : anchor === 'middle' ? -50 : -20}, ${anchor === 'middle' ? 20: -10})`}>
         <text className="radar-label">{id}</text>
-        
+
     </g>
 )
 
