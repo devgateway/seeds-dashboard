@@ -32,7 +32,6 @@ const ImageExport = ({id, icon, downloadName, color, size}) => {
         toPng(exportable, {backgroundColor: "#FFF", style: {'border': '0px !important'}})
             .then(delay(1))
             .then(function (dataUrl) {
-                debugger
                 console.log("printing")
                 download(dataUrl, downloadName + '.png');
 
