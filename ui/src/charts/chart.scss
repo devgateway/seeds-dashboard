@@ -66,3 +66,34 @@
 text.radar-label{
   font-size: 12px !important;
 }
+.radar{
+  >div{
+    >div{
+      >div{
+        @include border-radius(5px);
+        background-color: $body-bg;
+        border:1px solid $filter-border-color;
+        font-size: 13px;
+        padding: $base-unit * 2;
+        display:block;
+        visibility: visible;
+        opacity: 1;
+        position: absolute;
+        strong{
+          color: $default-text-color;
+          font-weight: 500;
+        }
+        table{
+          color: $default-text-color;
+          margin-top: $base-unit;
+          td{
+            &:last-child{
+              color: $theme-green;
+              font-weight: 700;
+            }
+          }
+        }
+      }
+    }
+  }
+}

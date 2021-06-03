@@ -6,7 +6,7 @@ import './chart.scss'
 
 const Chart = ({height, options, intl}) => {
     return (
-        <div style={{height:height}}>
+        <div style={{height:height}} className="radar">
 
             {options && options.data && <ResponsiveRadar
         data={options.data}
@@ -56,6 +56,14 @@ const Chart = ({height, options, intl}) => {
                 ]
             }
         ]}
+        theme={{
+            tooltip: {
+                container: {
+                  boxShadow: "0 0 0 rgba(0, 0, 0, 0)",
+                  padding: 0,
+                },
+            },
+        }}
     />}
 
         </div>
