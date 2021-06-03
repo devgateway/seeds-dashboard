@@ -581,7 +581,7 @@ ul.instruments{
     background-image: url('/download.svg');
     background-position: 0 -2px;
     background-size: $base-unit * 3.3 $base-unit * 3.3;
-    margin-left: $base-unit;
+    margin-left: $base-unit + 5;
   }
 }
 

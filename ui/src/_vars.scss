@@ -67,6 +67,12 @@ $light-green: #31ba1a;
 $charts-options-height: 66px;
 $charts-options-font-size: 1.02rem;
 
+@mixin box-shadow{
+  box-shadow: -1px 1px 9px -3px rgba(0,0,0,0.3);
+  -webkit-box-shadow: -1px 1px 9px -3px rgba(0,0,0,0.3);
+  -moz-box-shadow: -1px 1px 9px -3px rgba(0,0,0,0.3);
+}
+
 @mixin gray-raleway-font {
   font-size: $charts-options-font-size;
   color: $gray;
