@@ -14,7 +14,7 @@ const Print = (props) => {
         "data-downloadname": downloadName = 'hhIndex'
     } = props
     return <Container fluid={true} className={"print-wrapper"}>
-                <ImageExport icon={icon} size={size} color={color} id={htmlId} name={name}></ImageExport>
+                <ImageExport icon={icon} size={size} color={color} id={htmlId} downloadName={downloadName}></ImageExport>
             </Container>
 }
 
@@ -33,7 +33,7 @@ const ImageExport = ({id, icon, downloadName, color, size}) => {
               .then(delay(1))
               .then(function (dataUrl) {
                   console.log("printing")
-                  download(dataUrl, name + '.png');
+                  download(dataUrl, downloadName + '.png');
 
               })
               .catch(function (error) {
