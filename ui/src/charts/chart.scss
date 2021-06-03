@@ -8,9 +8,9 @@
   padding: $base-unit-md - 5;
   width: 280px;
   .tooltip-header{
-    border-bottom: 1px solid $filter-border-color;
-    margin-bottom: $base-unit;
-    padding-bottom: $base-unit;
+    // border-bottom: 1px solid $filter-border-color;
+    // margin-bottom: $base-unit;
+    // padding-bottom: $base-unit;
     overflow: hidden;
     .label{
       line-height: 190%;
@@ -22,6 +22,9 @@
   }
   ul{
     @include list-unstyled;
+    border-top: 1px solid $filter-border-color;
+    margin-top: $base-unit;
+    padding-top: $base-unit;
     li{
       border-bottom: 1px solid $submenu-border;
       margin-bottom: $base-unit / 2;
@@ -42,6 +45,9 @@
   }
   .map-tooltip-data{
     padding-bottom: $base-unit-md;
+    border-top: 1px solid $filter-border-color;
+    margin-top: $base-unit;
+    padding-top: $base-unit;
     .label{
       > span{
         color: $theme-red;
