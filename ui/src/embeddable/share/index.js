@@ -33,7 +33,7 @@ function getDropdown(filterData) {
         <Input placeholder={url} />
         <Button onClick={e => {
             navigator.clipboard.writeText(url)
-        }}>Share Link</Button>
+        }}>Copy Link</Button>
         </Dropdown.Menu>
       </Dropdown>
     )

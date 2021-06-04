@@ -17,13 +17,17 @@ const getItems = (categories, type) => {
     return [];
 }
 
-const toOptions = (items) => items ? items.sort((a, b) => a.position - b.position).map(i => ({
-    key: i.id,
-    value: i.id,
-    text: i.value,
-    icon: i.value.toLocaleLowerCase(),
+const toOptions = (items) => {    
+    return items ? items.sort((a, b) => a.code > b.code ? 1 : b.code > a.code ? -1 : 0)
+    //TODO remove filter whenever we have data for pigeon pea crop
+    .filter(f => i.code!='pigeonpea')
+    .map(i => ({
+        key: i.id,
+        value: i.id,
+        text: i.value,
+    })) : []
+}
 
-})) : []
 
 const connected = (fn) => {
 
@@ -67,6 +71,7 @@ export const DropDownFilter = ({
         </Dropdown>
     } else {
         let options = toOptions(getItems(categories, type));
+        
         let defValue = selected ? parseInt(selected.values().next().value) : options.length > 0 ? options.find(x => x.text.toLowerCase()==selDef.toLowerCase()).key : 0;        
         return <Dropdown
         fluid
