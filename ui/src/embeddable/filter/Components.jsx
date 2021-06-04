@@ -20,7 +20,7 @@ const getItems = (categories, type) => {
 const toOptions = (items) => {    
     return items ? items.sort((a, b) => a.code > b.code ? 1 : b.code > a.code ? -1 : 0)
     //TODO remove filter whenever we have data for pigeon pea crop
-    .filter(f => i.code!='pigeonpea')
+    .filter(f => f.code!='pigeonpea')
     .map(i => ({
         key: i.id,
         value: i.id,
