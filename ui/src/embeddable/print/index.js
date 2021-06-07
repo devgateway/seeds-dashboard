@@ -46,12 +46,11 @@ const ImageExport = ({id, icon, downloadName, color, size, contextRef}) => {
                 var exportable = document.getElementById(id);
 
                 toPng(exportable, {backgroundColor: "#FFF", style: {'border': '0px !important'}})
+                    .then(show2ndPopup(setOpen))
                     .then(delay(1))
                     .then(function (dataUrl) {
                         console.log("printing")
                         download(dataUrl, downloadName + '.png')
-                        show2ndPopup(setOpen)
-
                     })
                     .catch(function (error) {
                         console.error('oops, something went wrong!', error);
