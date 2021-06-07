@@ -1,4 +1,4 @@
-import {Container, Flag, Menu} from "semantic-ui-react";
+import {Container, Dropdown, Flag, Menu} from "semantic-ui-react";
 import React, {useEffect, useState} from "react";
 import MenuProvider from "../wp/providers/MenuProvider";
 import MenuConsumer from "../wp/consumers/MenuConsumer";
@@ -18,21 +18,37 @@ const BreadCrumbs = ({pages}) => {
 
 }
 
+const CountryDropdown =() => {
+    return (
+        <Dropdown search>
+            <Dropdown.Menu>
+                <Dropdown.Item text='Ghana' />
+                <Dropdown.Item text='Rwanda' />
+                <Dropdown.Item text='Tanzania' />
+            </Dropdown.Menu>
+        </Dropdown>
+    )
+}
+
 
 const MyMenuItems = ({withIcons, active, menu, onSetSelected, selected, locale}) => {
 
     useEffect((e) => {
     }, [menu])
-
     return menu && <React.Fragment>
-        {menu.items.map(i => (
-            <Menu.Item  className={`divided ${selected && selected.ID == i.ID ? 'selected' : ''}  ${active==i.slug?"active":""}`}
+        {menu.items.map(i => {
+            if (selected == undefined && i.post_title== "Cross-Country View") {
+                onSetSelected(i)
+            }
+            return (
+            <Menu.Item  className={`divided ${selected && selected.ID == i.ID ? 'selected' : ''}  ${active==i.slug || (active==undefined && (i.object_id =="138" || i.object_id =="19"))?"active":""}`}
                        onMouseOver={e => onSetSelected(i)}>
                 {withIcons && <div className={"mark"}></div>}
                 {i.child_items?<span>{i.title}</span>:<a href={replaceLink(i.url, locale)}>{i.title}</a>}
-
+                {//i.slug == "country-view" ? <CountryDropdown/> : <></>
+                     }
             </Menu.Item>
-        ))}
+        )})}
 
     </React.Fragment>
 }

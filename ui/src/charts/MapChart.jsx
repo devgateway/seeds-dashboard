@@ -8,17 +8,21 @@ import './chart.scss'
 
 const getTooltipLegendByValue = (value) => {
     let tooltipLegend = "(Extremely High)"
+    let className = "label1"
     if (value < 1000) {
         tooltipLegend = "(Extremely Low)"
+        //className = "elow"
     } else if (value < 2000) {
         tooltipLegend = "(Low)"
+        //className = "low"
     } else if (value < 3000) {
         tooltipLegend = "(Average)"
+        //className = "average"
     } else if (value < 4000) {
         tooltipLegend = "(High)"
+        //className = "high"
     }
-
-    return tooltipLegend;
+    return (<span className={className}>{tooltipLegend}</span>);
 }
 
 const Chart = ({height, options, intl}) => {
@@ -31,12 +35,12 @@ const Chart = ({height, options, intl}) => {
         margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
         colors={['#C4E765', '#96C11F', '#F9D133', '#FB9755', '#FB5555']}
         label="properties.name"
-        width="580"
+        width="700"
         domain={[0 , 5000]}
         unknownColor="#D1D2D4"
         //valueFormat=".2s"
         projectionScale={400}
-        projectionTranslation={[ 0.3, 0.5 ]}
+        projectionTranslation={[ 0.36, 0.51 ]}
         projectionRotation={[ 0, 0, 0 ]}
         enableGraticule={false}
         borderWidth={0.5}
@@ -52,7 +56,9 @@ const Chart = ({height, options, intl}) => {
                     </div>
                     <div className="map-tooltip-data">
                     <span className="value">{e.feature.data.crop}</span>
-                    <span className="label">HHI Index value: <span>{e.feature.data.value}</span> {getTooltipLegendByValue(e.feature.data.value)}</span>
+                    <span className="label1">HHI Index value: </span>
+                    <span className="labelBolder">{e.feature.data.value} </span> 
+                    {getTooltipLegendByValue(e.feature.data.value)}
                     </div>
                     </div>
                 )

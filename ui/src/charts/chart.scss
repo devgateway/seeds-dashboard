@@ -55,10 +55,48 @@
         font-weight: $bold-weight;
       }
     }
+    .label1{
+      
+        color: grey;
+        font-size: $tooltip-font-size;
+        font-weight: normal;
+        display: inline;
+      
+    }
+    .labelBolder{
+      
+        color: grey;
+        font-size: $tooltip-font-size;
+        font-weight: $bold-weight;
+        display: inline;
+      
+    }
     .value{
       display: block;
       float: none;
       padding-bottom: $base-unit;
+    }
+    .elow{
+      font-size: $tooltip-font-size ;
+      color: #C4E765;
+      font-weight: bolder;
+      
+    }
+    .low{
+      font-size: $tooltip-font-size + 1;
+      color: #96C11F;
+    }
+    .average{
+      font-size: $tooltip-font-size + 1;
+      color: #F9D133;
+    }
+    .high{
+      font-size: $tooltip-font-size + 1;
+      color: #FB9755;
+    }
+    .ehigh{
+      font-size: $tooltip-font-size + 1;
+      color: #FB5555;
     }
   }
 }
