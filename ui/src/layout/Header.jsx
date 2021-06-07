@@ -37,7 +37,7 @@ const MyMenuItems = ({withIcons, active, menu, onSetSelected, selected, locale})
     }, [menu])
     return menu && <React.Fragment>
         {menu.items.map(i => {
-            if (selected == undefined && i.post_title== "Cross-Country View") {
+            if (selected == undefined && i.post_title == "Cross Country View") {
                 onSetSelected(i)
             }
             return (
