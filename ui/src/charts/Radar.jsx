@@ -4,7 +4,7 @@ import {injectIntl} from 'react-intl';
 
 import './chart.scss'
 
-const Chart = ({height, options, intl}) => {
+const Chart = ({height, options, intl, colors}) => {
     return (
         <div style={{height:height}} className="radar">
 
@@ -16,6 +16,8 @@ const Chart = ({height, options, intl}) => {
         margin={{ top: 70, right: 80, bottom: 40, left: 80 }}
         curve="linearClosed"
         borderWidth={2}
+        colors={d => getColor(d, colors)}
+
         borderColor={{ from: 'color' }}
         gridLevels={7}
         gridShape="linear"
@@ -28,7 +30,6 @@ const Chart = ({height, options, intl}) => {
         enableDotLabel={true}
         dotLabel={d => d.value + "%"}
         dotLabelYOffset={-12}
-        colors={{ scheme: 'category10' }}
         fillOpacity={0}
         blendMode="multiply"
         animate={true}
@@ -69,6 +70,15 @@ const Chart = ({height, options, intl}) => {
 
         </div>
     )
+}
+
+const getColor = (d, colors) => {
+    if (d && colors) {
+        return Object.entries(colors).find(x => x[0] == d.key)[1]
+    } else {
+        return "#000000"
+    }
+
 }
 
 const LabelComponent = ({ id, anchor }) => (

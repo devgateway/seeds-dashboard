@@ -38,8 +38,9 @@ const HHIndex = (props) => {
 const Performance = (props) => {
     const {data, legends, colors, height, groupMode} = props
     const options = buildPerformanceOptions(data)
-
-    return <Radar height={height}  options={options}></Radar>
+    //TODO add more colors!
+    const colorsSI = {'2020':'#4D843F', '2016':'#F39C00'}
+    return <Radar height={height}  options={options} colors={colorsSI}></Radar>
 }
 
 const VarietySold = (props) => {
