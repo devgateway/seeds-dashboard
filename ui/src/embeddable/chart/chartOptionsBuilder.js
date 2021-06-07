@@ -1,8 +1,12 @@
 import React from 'react'
 
 export const buildSeedInspectorOptions = (data) => {
+    data.forEach(d => {
+        d.publicStr = "" + d.public
+        d.privateStr = "" + d.private
+        d.totalStr = "" + d.total
+    })
     const sortedData = data.sort((a, b) => a.country > b.country && -1 || 1)
-    
     const maxvalue = data.reduce((max, p) => p.total > max ? p.total : max, data[0].total) + 20;
     return {
         maxValue: maxvalue,
@@ -29,15 +33,15 @@ function getSeedInspectorTooltip(d) {
                 <ul>
                 <li>
                     <span className="label">Public Seed Inspectors:</span>
-                    <span className="value">{d.data.public ? d.data.public:"N/A"}</span>
+                    <span className="value">{d.data.publicStr ? d.data.publicStr:"N/A"}</span>
                 </li>
                 <li>
                     <span className="label">Private Seed Inspectors:</span>
-                    <span className="value">{d.data.private ? d.data.private:"N/A"}</span>
+                    <span className="value">{d.data.privateStr ? d.data.privateStr:"N/A"}</span>
                 </li>
                 <li>
                     <span className="label">Total Seed Inspectors:</span>
-                    <span className="value">{d.data.total ? d.data.total:"N/A"}</span>
+                    <span className="value">{d.data.totalStr ? d.data.totalStr:"N/A"}</span>
                 </li>
                 </ul>
             </div>
