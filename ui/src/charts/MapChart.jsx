@@ -56,7 +56,7 @@ const Chart = ({height, options, intl}) => {
                     </div>
                     <div className="map-tooltip-data">
                     <span className="value">{e.feature.data.crop}</span>
-                    <span className="label1">HHI Index value: </span>
+                    <span className="label1">HHI value: </span>
                     <span className="labelBolder">{e.feature.data.value} </span> 
                     {getTooltipLegendByValue(e.feature.data.value)}
                     </div>
