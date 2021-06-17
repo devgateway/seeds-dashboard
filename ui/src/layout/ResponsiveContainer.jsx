@@ -6,6 +6,7 @@ import './layout.scss'
 import {Media} from "../AppMedia"
 import Footer from "./Footer";
 import Header from "./Header";
+import { getData } from "../data/api";
 
 // Heads up!
 // We using React Static to prerender our docs with server side rendering, this is a quite simple solution.
@@ -16,18 +17,30 @@ import Header from "./Header";
  * Neither Semantic UI nor Semantic UI React offer a responsive navbar, however, it can be implemented easily.
  * It can be more complicated, but you can create really flexible markup.
  */
+
 class DesktopContainer extends Component {
+    
+    state = {
+        countries: []
+    }
+
+    componentDidMount() {
+        if (this.state.countries.length === 0) {
+            getData('filter/countryMenu').then(data => {
+                this.setState({ countries: data})
+            });
+        }
+    }
+
     render() {
         const {children, fixed} = this.props
         return (
             <Container fluid className="content-wrapper">
-                <Header></Header>
+                <Header countries={this.state.countries}></Header>
                 <Container className="desktop">
                     {children}
                 </Container>
             </Container>
-
-
         )
     }
 }

@@ -13,8 +13,6 @@ export const getCategories = (params) => {
     return get(URL_TAXONOMY, params)
 }
 
-
 export const getData = (path, params) => {
-    //return get(URL_STATS )
     return get(URL_STATS + "/" + path+(params?'?'+queryParams(params):''))
 }
