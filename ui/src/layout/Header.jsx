@@ -1,4 +1,4 @@
-import { Container, Dropdown, Flag, Menu } from "semantic-ui-react";
+import { Container, Dropdown, Grid, Icon, Menu, Popup } from "semantic-ui-react";
 import React, { useEffect, useState } from "react";
 import MenuProvider from "../wp/providers/MenuProvider";
 import MenuConsumer from "../wp/consumers/MenuConsumer";
@@ -7,8 +7,6 @@ import { injectIntl } from "react-intl";
 import { replaceLink } from '../wp/htmlUtils'
 import TheTitle from "../wp/template-parts/TheTitle";
 import { withRouter } from "react-router";
-import { getData } from "../data/api";
-import Search from '../wp/Search'
 
 const BreadCrumbs = ({ pages }) => {
     return (
@@ -17,7 +15,7 @@ const BreadCrumbs = ({ pages }) => {
                 pages && pages.map(p =>
                     <p>
                         {
-                            p.slug != 'home' ?
+                            p.slug !== 'home' ?
                             <span>
                                 <a href={"/#"}> Home</a> / <TheTitle as={"span"} post={p}></TheTitle>
                             </span>
@@ -30,43 +28,85 @@ const BreadCrumbs = ({ pages }) => {
     )
 }
 
-const CountryDropdown = ({ visible, countries, setCountry, setCountryDropDownVisible }) => {
+const CountryPopupItem = ({ selected, country, setCountry }) => {
     return (
-        visible && countries.length ?
-            <Dropdown open={visible}>
-                <Dropdown.Menu style={{ backgroundColor: '#ececec', left: '-10em', marginTop:'2em', right: '-1.6em' }}>
+        <>
+            <a href="#" key={country.countryId} onClick={(e) => {
+                e.preventDefault()
+                setCountry(country)
+            }} style={{
+                color: selected ? '#f39c00':'#717171',
+                fontSize: '14px',
+                fontWeight: 700,
+                textDecoration: 'none',
+            
+            }}>
+                {country.name}
+            </a>
+            <br/>
+        </>
+    )
+}
+
+const CountryPopup = ({ country, countries, setCountry }) => {
+    return (
+        countries && countries.length &&
+        <Grid centered columns={countries.length >= 2 ? 2:1}>
+            <Grid.Column>
+                {
+                    countries.length >= 2 ?
+                    countries.slice(0, Math.ceil(countries.length/2)).map(i =>
+                        <CountryPopupItem 
+                            {...(country && country.countryId === i.countryId ? { selected: true } : {})}
+                            country={i}
+                            setCountry={setCountry}
+                        />
+                    ):
+                    countries.map(i =>
+                        <CountryPopupItem 
+                            {...(country && country.countryId === i.countryId ? { selected: true } : {})}
+                            country={i}
+                            setCountry={setCountry}
+                        />
+                    )
+                }
+            </Grid.Column>
+            {
+                countries.length >= 2 &&
+                <Grid.Column>
                     {
-                        countries.map(i => {
-                            return (
-                                <Dropdown.Item key={i.countryId} onClick={(e, data) => {
-                                    setCountry(data.country)
-                                    setCountryDropDownVisible(false)
-                                }} value={i.countryId} country={i}>
-                                    <span style={{color: '#303030', fontWeight: 700}}>{i.name}</span>
-                                </Dropdown.Item>
-                            )
-                        })
+                        countries.slice(Math.ceil(countries.length/2)).map(i =>
+                            <CountryPopupItem 
+                                {...(country && country.countryId === i.countryId ? { selected: true } : {})}
+                                country={i}
+                                setCountry={setCountry}
+                            />
+                        )
                     }
-                </Dropdown.Menu>
-            </Dropdown>
-        :<Dropdown></Dropdown>
+                </Grid.Column>
+            }
+        </Grid>
     )
 }
 
 const MyMenuItems = ({ withIcons, active, menu, onSetSelected, selected, locale, setCountry, countries, setChildMenu, setFirstLink }) => {
-    const [visible, setCountryDropDownVisible] = useState(false)
+    const [country, setCountryValue] = useState()
+    const [countryPopup, setCountryPopUp] = useState(false)
     const onMouseOver = (e, i) => {
         onSetSelected(i);
         if (i.post_title && i.post_title === 'Cross Country View') {
             setChildMenu('Cross Country View')
-            setCountryDropDownVisible(false)
         } else if (i.post_title && i.post_title === 'Country View') {
             setChildMenu('Country View')
-            setCountryDropDownVisible(true)
-        } else {
-            setCountryDropDownVisible(false)
+            setCountryPopUp(true)
         }
     }
+    useEffect(() => {
+        if (setCountry) {
+            setCountry(country)
+            setCountryPopUp(false)
+        }
+    }, [country])
     return menu && (
         <React.Fragment>
             {
@@ -77,24 +117,55 @@ const MyMenuItems = ({ withIcons, active, menu, onSetSelected, selected, locale,
                     if (setFirstLink && !i.child_items && key === 0) {
                         setFirstLink(replaceLink(i.url, locale))
                     }
-                    return (
+                    const menuItem = (
                         <Menu.Item
                             key={i.ID}
                             className={`divided ${selected && selected.ID === i.ID ? 'selected' : ''}  ${active === i.slug || (active === undefined && (i.object_id === "138" || i.object_id === "19")) ? "active" : ""}`}
                             onMouseOver={ e => { onMouseOver(e, i) }}
                         >
                             { withIcons && <div className={"mark"}></div> }
-                            { i.child_items ? <span>{i.title}</span> : <a href={replaceLink(i.url, locale)}>{i.title}</a> }
-                            { i.post_title === "Country View" &&
-                                <CountryDropdown
-                                    visible={visible}
-                                    countries={countries}
-                                    setCountry={setCountry}
-                                    setCountryDropDownVisible={setCountryDropDownVisible}
-                                />
+                            {
+                                i.child_items ?
+                                <span>
+                                    {i.title}
+                                    {
+                                        i.post_title === "Country View" &&
+                                        <Icon
+                                            name='chevron down'
+                                            size='small'
+                                            style={{ paddingLeft: '1em'}}
+                                        />
+                                    }
+                                </span>:
+                                <a href={replaceLink(i.url, locale)}>{i.title}</a>
                             }
                         </Menu.Item>
                     )
+                    if (i.post_title === "Country View") {
+                        return (
+                            <Popup
+                                basic
+                                flowing
+                                hoverable
+                                {...(!countryPopup ? { open: false } : {})}
+                                pinned
+                                position='bottom left'
+                                style={{
+                                    backgroundColor: '#ececec',
+                                    borderRadius: '0',
+                                    color: '#ececec'
+                                }}
+                                trigger={menuItem}
+                            >
+                                <CountryPopup
+                                    country={country}
+                                    countries={countries}
+                                    setCountry={setCountryValue}
+                                />
+                            </Popup>
+                        )
+                    }
+                    return menuItem
                 })
             }
         </React.Fragment>
@@ -102,21 +173,23 @@ const MyMenuItems = ({ withIcons, active, menu, onSetSelected, selected, locale,
 }
 
 const CountryViewSubMenu = ({ countries, country, intl, active, setChildMenu, onSetSelected, setFirstLink }) => {
+
     return countries && countries.length && (
         <>
             {
-                countries.map(c => {
+                countries.map((c, i) => {
                     return (
-                        <Container key={c.countryId} fluid={true} className={"child"} style={{display: c.iso === country.iso ? 'block':'none'}}>
-                            <MenuProvider slug={c.iso}>
-                                <Menu fluid text>
-                                    <MenuConsumer>
+                        <Container key={'container-' + i + '-' + c.countryId} fluid={true} className={"child"} style={{display: c.iso === country.iso ? 'block':'none'}}>
+                            <MenuProvider key={'menu-provider-' + i + '-' + c.countryId} slug={c.iso}>
+                                <Menu key={'menu-' + i + '-' + c.countryId} fluid text>
+                                    <MenuConsumer key={'menu-consumer-' + i + '-' + c.countryId}>
                                         <MyMenuItems
+                                            key={'my-menu-items-' + i + '-' + c.countryId}
                                             active={active}
                                             locale={intl.locale}
                                             setChildMenu={setChildMenu}
                                             onSetSelected={onSetSelected}
-                                            setFirstLink={setFirstLink}
+                                            {...(c.iso === country.iso ? { setFirstLink: setFirstLink } : {})}
                                         />
                                     </MenuConsumer>
                                 </Menu>
@@ -129,15 +202,18 @@ const CountryViewSubMenu = ({ countries, country, intl, active, setChildMenu, on
     )
 }
 
-const Header = ({ intl, match, history, countries }) => {
+const Header = ({ intl, match, countries }) => {
     const [country, setCountry] = useState()
     const [childMenu, setChildMenu] = useState("Cross Country View")
     const [firstLink, setFirstLink] = useState()
     const [selected, setSelected] = useState()
     const { slug } = match.params
     useEffect(() => {
-        // history.push(firstLink);
-        console.log(firstLink)
+        if (firstLink) {
+            const host = window.location.protocol + '//' + window.location.hostname + (window.location.port ? ':' + window.location.port : '')
+            const link = host + '/#/' + firstLink.replace('#', '')
+            window.location.href = link;
+        }
     }, [firstLink])
     return (
         <React.Fragment>
