@@ -139,7 +139,7 @@ const Chart = ({legends, options, intl, format, colors, groupMode, height}) => {
                 groupMode={groupMode ? groupMode : "grouped"}
                 enableGridX={options.enableGridX}
                 enableGridY={options.enableGridY}
-                margin={{top: 50, right: 10, bottom: 50, left: 180}}
+                margin={{top: 50, right: 10, bottom: 50, left: 195}}
                 padding={0.35}
                 colors={d => getColor(d.id, d.data)}
                 borderColor="#000"
@@ -193,10 +193,10 @@ const Chart = ({legends, options, intl, format, colors, groupMode, height}) => {
                         translateY: -30,
                         itemsSpacing: 2,
                         itemWidth: options.itemWidth,
-                        itemHeight: 30,
+                        itemHeight: 5,
                         itemDirection: 'left-to-right',
                         itemOpacity: 0.85,
-                        symbolSize: 20,
+                        symbolSize: 10,
                         onClick: (d) => {
                             toggle(d.id)
                         },
@@ -223,6 +223,14 @@ const Chart = ({legends, options, intl, format, colors, groupMode, height}) => {
                     return options.tooltipFunc(d)
                 }}
                 theme={{
+                  axis: {
+                  ticks: {
+                    text: {
+                      fill:"#000000",
+                      fontWeight: "bold"
+                    }
+                  }
+                },
                     tooltip: {
                         container: {
                           boxShadow: "0 0 0 rgba(0, 0, 0, 0)",
