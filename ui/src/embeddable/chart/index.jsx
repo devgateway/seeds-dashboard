@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Button, Container, Grid} from "semantic-ui-react";
+import {Button, Container, Grid, Loader} from "semantic-ui-react";
 import DataProvider from "../../data/DataProvider";
 import {connect} from "react-redux";
 import Bar from "../../charts/Bar";
@@ -10,6 +10,21 @@ import {buildBarOptions, buildDivergingOptions, buildPieOptions, buildSeedInspec
 import './charts.scss'
 import HalfPie from "../../charts/HalfPie";
 import TheContent from "../../wp/template-parts/TheContent";
+
+const Loading = (props) => {
+    return (
+        <Loader
+            active
+            inline='centered'
+            content='Loading'
+            style={{
+                backgroundColor: '#fff',
+                marginTop: (props.height/2)+ 'px',
+                marginBottom: (props.height/2)+ 'px'
+            }}
+        />
+    )
+}
 
 const BarChar = (props) => {
     const {data, legends, colors, height, groupMode} = props
@@ -69,6 +84,7 @@ const Diverging = (props) => {
 
 
 const Chart = (props) => {
+    const CHART_LOAD_DELAY = 1 // delay loading of charts in seconds
     const {filters} = props
     const {
         editing = false,
@@ -89,6 +105,13 @@ const Chart = (props) => {
     } = props
 
     const [mode, setMode] = useState(editing ? "chart" : 'info')
+    const [loading, setLoading] = useState(true)
+
+    if (CHART_LOAD_DELAY > 0) {
+        setTimeout(() => { setLoading(false) }, CHART_LOAD_DELAY *  1000);
+    } else {
+        setLoading(false) // rare scenario
+    }
 
     const legends = {
         left: left,
@@ -125,7 +148,7 @@ const Chart = (props) => {
         <DataProvider  store={source.split("/")} source={source}>
 
                 {(!dual|| mode == 'chart') && <Container className={classStyle} fluid={true}><DataConsumer>
-                    {child}
+                    {loading ? <Loading  height={height} />:child}
                 </DataConsumer></Container>}
 
         </DataProvider>
