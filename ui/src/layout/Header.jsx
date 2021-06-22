@@ -89,7 +89,7 @@ const CountryPopup = ({ country, countries, setCountry }) => {
     )
 }
 
-const MyMenuItems = ({ withIcons, active, menu, onSetSelected, selected, locale, setCountry, countries, setChildMenu, setFirstLink }) => {
+const MyMenuItems = ({ withIcons, active, menu, onSetSelected, selected, locale, setCountry, countries, setChildMenu, setFirstLink, mainMenu }) => {
     const [country, setCountryValue] = useState()
     const [countryPopup, setCountryPopUp] = useState(false)
     const onMouseOver = (e, i) => {
@@ -168,6 +168,14 @@ const MyMenuItems = ({ withIcons, active, menu, onSetSelected, selected, locale,
                     return menuItem
                 })
             }
+            {
+                mainMenu &&
+                <Menu.Item key={'selected-country'} className={`selected`}>
+                    <span style={{ color: '#ffd686', fontStyle: 'italic', textTransform: 'capitalize' }}>
+                        { country ? country.name + ' Selected' : '' }
+                    </span>
+                </Menu.Item>
+            }
         </React.Fragment>
     )
 }
@@ -233,23 +241,12 @@ const Header = ({ intl, match, countries }) => {
                                         setCountry={setCountry}
                                         countries={countries}
                                         setChildMenu={setChildMenu}
+                                        mainMenu={true}
                                     >
                                     </MyMenuItems>
                                 </MenuConsumer>
                             </Menu.Menu>
                             <Menu.Item fitted className="lang">
-                                {
-                                    country ?
-                                    <span style={{
-                                        color: '#ffd686',
-                                        float: 'left',
-                                        fontSize: '0.8em',
-                                        fontWeight: '700',
-                                        marginRight: '1em'
-                                    }}>
-                                        [{ country.name }]
-                                    </span> : ''
-                                }
                                 <a href="">Français</a>
                             </Menu.Item>
                         </Menu>
