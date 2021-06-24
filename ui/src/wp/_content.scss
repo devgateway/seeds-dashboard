@@ -123,9 +123,9 @@ ul.wp.post.list {
 }
 
 .wp-block-separator {
-  border: 1px solid $light-gray;
-  width: 100% !important;;
-  max-width: 100% !important;
+  border: 1px solid $separator-color;
+  width: $extend !important;;
+  max-width: $extend !important;
   margin-left: auto;
   margin-right: auto;
 
@@ -148,14 +148,9 @@ p:empty {
 
 .wp-block-group.compacted {
   .wp-block-columns {
-    margin-bottom: 10px;
-    margin: 0px;
-    padding: 0px !important;
-
-    * {
-
-    }
-
+    margin-bottom: $base-unit;
+    margin: 0;
+    padding: 0 !important;
     .wp-block-column:not(:first-child) {
       margin-left: 3px;
     }
@@ -204,7 +199,7 @@ p:empty {
 .wp-block-column{
   &.bordered{
     @include border-radius(4px);
-    border: 1px solid $submenu-border;
+    border: 1px solid $overview-border;
     margin: $base-unit / 2;
     padding: $base-unit * 2;
     &.nospace{
@@ -224,6 +219,7 @@ ul.reports{
     color: $default-text-color;
     border-right: 1px solid $submenu-border;
     float: left;
+    font-size: 16px;
     margin-right: $base-unit * 3;
     padding-right: $base-unit * 3;
     &:last-child{
@@ -420,7 +416,7 @@ ul.instruments{
   padding-left: $base-unit;
   padding-right: $base-unit;
   .section{
-    border-bottom: 1px solid $submenu-border;
+    border-bottom: 1px solid $overview-border;
     margin-bottom: $base-unit;
     padding-bottom: $base-unit;
     padding-top: $base-unit / 2;
@@ -445,37 +441,59 @@ ul.instruments{
     padding-bottom: 0;
     padding-top: 0;
   }
+  .business-rank{
+    .data{
+      font-size: 20px;
+    }
+    .label{
+      color: $label-color;
+      font-size: $tooltip-font-size;
+    }
+  }
   .label{
-    font-size: 14px;
+    color: $label-color;
+    font-size: $label-font-size + 1;
+    line-height: 1.5;
     margin-right: $base-unit / 2;
+    &.heading{
+      color: $dark-blue-text;
+      font-size: $tooltip-font-size;
+    }
   }
   .section-title{
+    color: $dark-blue-text;
     font-size: 14px;
     margin-bottom: $base-unit + 5;
     overflow: hidden;
   }
   .data{
     color: $theme-green;
-    font-size: 18px;
-    font-weight: 700;
+    font-size: 16px;
+    font-weight: 800;
     margin-right: $base-unit - 4;
   }
   .household-data{
     margin-top: $base-unit / 2;
     .label{
       color: $label-color;
+      line-height: 1.2;
       margin-bottom: $base-unit / 2;
       margin-top: $base-unit / 3;
     }
     .data{
       color: $theme-green;
-      font-size: 25px;
+      font-size: 21px;
+      font-weight: 700;
+      margin-top: -5px;
+    }
+    .data-value{
+      font-size: 30px;
     }
   }
   .household-icon{
     @include border-radius($extend / 2);
     background-color: $theme-green;
-    background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDI0LjIuMSwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IgoJIHZpZXdCb3g9IjAgMCAxMDAgMTAwIiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCAxMDAgMTAwOyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+CjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+Cgkuc3Qwe2ZpbGw6bm9uZTtzdHJva2U6I0ZGRkZGRjtzdHJva2Utd2lkdGg6MjtzdHJva2UtbGluZWNhcDpyb3VuZDtzdHJva2UtbWl0ZXJsaW1pdDoxMDt9Cgkuc3Qxe2ZpbGw6bm9uZTtzdHJva2U6I0ZGRkZGRjtzdHJva2Utd2lkdGg6MjtzdHJva2UtbWl0ZXJsaW1pdDoxMDt9Cjwvc3R5bGU+CjxnPgoJPGc+CgkJPHBhdGggY2xhc3M9InN0MCIgZD0iTTQwLjcsNTguN2wzLjMtMS43YzAsMCwwLDAsMCwwbDEuNi0wLjhjMC43LTAuNCwxLjEtMSwxLjEtMS43di0yYzAsMC0wLjYtMC43LTEuMi0xLjhsMCwwbDAsMAoJCQljLTAuMS0wLjEtMC4xLTAuMy0wLjItMC40YzAsMCwwLDAsMCwwYy0wLjEtMC4yLTAuMS0wLjMtMC4yLTAuNXYwYzAtMC4xLTAuMS0wLjMtMC4yLTAuNWMwLDAsMC0wLjEsMC0wLjFjMC0wLjItMC4xLTAuNC0wLjEtMC41CgkJCWMtMC40LTAuMy0wLjgtMC44LTAuOC0xLjNWNDVjMC0wLjUsMC4yLTAuOSwwLjUtMS4ydi0zYy0wLjgtMC42LTItMS4yLTMuOS0xLjJjLTUuMywwLTUuNSw0LjMtNS41LDQuM3YyLjcKCQkJYy0wLjMsMC4zLTAuNSwwLjYtMC41LDF2MS44YzAsMC41LDAuMywwLjksMC43LDEuMmMwLjUsMiwyLjEsMy40LDIuMSwzLjR2MS43YzAsMC42LTAuNCwxLjItMC45LDEuNWwtMy43LDIuMgoJCQljLTEuMywwLjctMi4xLDEuOS0yLjEsMy4zdjEuNWg3Ljh2LTEuN0MzOC40LDYwLjgsMzkuMyw1OS40LDQwLjcsNTguN3oiLz4KCQk8cGF0aCBjbGFzcz0ic3QxIiBkPSJNNjcuMyw1OS4zbC01LjItMi4zYy0wLjMtMC4xLTAuNS0wLjQtMC43LTAuOGMtMC4xLTAuMywwLjEtMC43LDAuNC0wLjdoMy43YzAsMCwxLjMsMC4xLDIuNC0wLjMKCQkJYzAuNi0wLjMsMC44LTEsMC40LTEuNmMtMS4xLTEuNi0zLjQtNS4zLTMuNS05LjJjMCwwLTAuMS01LjktNi02Yy0xLjIsMC0yLjEsMC4zLTIuOSwwLjZjMC4yLDAuOCwwLjEsMS40LDAuMSwxLjR2My4xCgkJCWMwLjMsMC4zLDAuNSwwLjcsMC41LDEuMnYyLjFjMCwwLjctMC41LDEuMy0xLjEsMS41Yy0wLjQsMS4xLTAuOSwyLjItMS42LDMuMmMtMC4yLDAuMy0wLjQsMC40LTAuNSwwLjZ2MmMwLDAuNCwwLjIsMC45LDAuNCwxLjIKCQkJaDEuNWMwLjQsMCwwLjUsMC40LDAuMiwwLjdjLTAuMSwwLjEtMC4yLDAuMS0wLjMsMC4ybDQuMywyLjFjMS41LDAuNywyLjQsMi4yLDIuNCwzLjh2MS42aDcuNHYtMS40QzY5LjQsNjEuMyw2OC42LDYwLDY3LjMsNTkuM3oKCQkJIi8+CgkJPHBhdGggY2xhc3M9InN0MCIgZD0iTTU5LjUsNTguN2wtNS4xLTIuNWMtMC43LTAuMy0xLjEtMS0xLjEtMS43di0yYzAuMS0wLjIsMC4zLTAuNCwwLjUtMC42YzAuNy0xLDEuMi0yLDEuNi0zLjIKCQkJYzAuNy0wLjIsMS4xLTAuOCwxLjEtMS41di0yLjFjMC0wLjUtMC4yLTAuOS0wLjUtMS4ydi0zLjFjMCwwLDAuNi00LjgtNS45LTQuOHMtNS45LDQuOC01LjksNC44djMuMWMtMC4zLDAuMy0wLjUsMC43LTAuNSwxLjIKCQkJdjIuMWMwLDAuNiwwLjMsMS4xLDAuOCwxLjNjMC41LDIuMywxLjksNCwxLjksNHYyYzAsMC43LTAuNCwxLjQtMSwxLjdsLTQuOCwyLjZjLTEuNCwwLjgtMi4yLDIuMi0yLjIsMy43djEuN2gyMy41di0xLjYKCQkJQzYxLjksNjAuOSw2MSw1OS40LDU5LjUsNTguN3oiLz4KCTwvZz4KCTxjaXJjbGUgY2xhc3M9InN0MSIgY3g9IjUwIiBjeT0iNTAiIHI9IjQwLjUiLz4KPC9nPgo8L3N2Zz4K");
+    background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDI1LjIuMywgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IgoJIHZpZXdCb3g9IjAgMCAxMDAgMTAwIiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCAxMDAgMTAwOyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+CjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+Cgkuc3Qwe2ZpbGw6bm9uZTtzdHJva2U6I0ZGRkZGRjtzdHJva2Utd2lkdGg6MjtzdHJva2UtbGluZWNhcDpyb3VuZDtzdHJva2UtbWl0ZXJsaW1pdDoxMDt9Cgkuc3Qxe2ZpbGw6bm9uZTtzdHJva2U6I0ZGRkZGRjtzdHJva2Utd2lkdGg6MjtzdHJva2UtbWl0ZXJsaW1pdDoxMDt9Cgkuc3Qye29wYWNpdHk6MC4zO2ZpbGw6bm9uZTtzdHJva2U6I0ZGRkZGRjtzdHJva2Utd2lkdGg6MjtzdHJva2UtbWl0ZXJsaW1pdDoxMDtlbmFibGUtYmFja2dyb3VuZDpuZXcgICAgO30KPC9zdHlsZT4KPGc+Cgk8cGF0aCBjbGFzcz0ic3QwIiBkPSJNNDAuNyw1OC43TDQ0LDU3bDAsMGwxLjYtMC44YzAuNy0wLjQsMS4xLTEsMS4xLTEuN3YtMmMwLDAtMC42LTAuNy0xLjItMS44bDAsMGwwLDBjLTAuMS0wLjEtMC4xLTAuMy0wLjItMC40CgkJbDAsMGMtMC4xLTAuMi0wLjEtMC4zLTAuMi0wLjVsMCwwYzAtMC4xLTAuMS0wLjMtMC4yLTAuNXYtMC4xYzAtMC4yLTAuMS0wLjQtMC4xLTAuNWMtMC40LTAuMy0wLjgtMC44LTAuOC0xLjNWNDUKCQljMC0wLjUsMC4yLTAuOSwwLjUtMS4ydi0zYy0wLjgtMC42LTItMS4yLTMuOS0xLjJjLTUuMywwLTUuNSw0LjMtNS41LDQuM3YyLjdjLTAuMywwLjMtMC41LDAuNi0wLjUsMXYxLjhjMCwwLjUsMC4zLDAuOSwwLjcsMS4yCgkJYzAuNSwyLDIuMSwzLjQsMi4xLDMuNHYxLjdjMCwwLjYtMC40LDEuMi0wLjksMS41bC0zLjcsMi4yYy0xLjMsMC43LTIuMSwxLjktMi4xLDMuM3YxLjVoNy44di0xLjdDMzguNCw2MC44LDM5LjMsNTkuNCw0MC43LDU4Ljd6CgkJIi8+Cgk8cGF0aCBjbGFzcz0ic3QxIiBkPSJNNjcuMyw1OS4zTDYyLjEsNTdjLTAuMy0wLjEtMC41LTAuNC0wLjctMC44Yy0wLjEtMC4zLDAuMS0wLjcsMC40LTAuN2gzLjdjMCwwLDEuMywwLjEsMi40LTAuMwoJCWMwLjYtMC4zLDAuOC0xLDAuNC0xLjZjLTEuMS0xLjYtMy40LTUuMy0zLjUtOS4yYzAsMC0wLjEtNS45LTYtNmMtMS4yLDAtMi4xLDAuMy0yLjksMC42YzAuMiwwLjgsMC4xLDEuNCwwLjEsMS40djMuMQoJCWMwLjMsMC4zLDAuNSwwLjcsMC41LDEuMnYyLjFjMCwwLjctMC41LDEuMy0xLjEsMS41Yy0wLjQsMS4xLTAuOSwyLjItMS42LDMuMmMtMC4yLDAuMy0wLjQsMC40LTAuNSwwLjZ2MmMwLDAuNCwwLjIsMC45LDAuNCwxLjIKCQloMS41YzAuNCwwLDAuNSwwLjQsMC4yLDAuN2MtMC4xLDAuMS0wLjIsMC4xLTAuMywwLjJsNC4zLDIuMWMxLjUsMC43LDIuNCwyLjIsMi40LDMuOHYxLjZoNy40di0xLjRDNjkuNCw2MS4zLDY4LjYsNjAsNjcuMyw1OS4zeiIKCQkvPgoJPHBhdGggY2xhc3M9InN0MCIgZD0iTTU5LjUsNTguN2wtNS4xLTIuNWMtMC43LTAuMy0xLjEtMS0xLjEtMS43di0yYzAuMS0wLjIsMC4zLTAuNCwwLjUtMC42YzAuNy0xLDEuMi0yLDEuNi0zLjIKCQljMC43LTAuMiwxLjEtMC44LDEuMS0xLjV2LTIuMWMwLTAuNS0wLjItMC45LTAuNS0xLjJ2LTMuMWMwLDAsMC42LTQuOC01LjktNC44cy01LjksNC44LTUuOSw0Ljh2My4xYy0wLjMsMC4zLTAuNSwwLjctMC41LDEuMnYyLjEKCQljMCwwLjYsMC4zLDEuMSwwLjgsMS4zYzAuNSwyLjMsMS45LDQsMS45LDR2MmMwLDAuNy0wLjQsMS40LTEsMS43bC00LjgsMi42Yy0xLjQsMC44LTIuMiwyLjItMi4yLDMuN3YxLjdoMjMuNXYtMS42CgkJQzYxLjksNjAuOSw2MSw1OS40LDU5LjUsNTguN3oiLz4KPC9nPgo8Y2lyY2xlIGNsYXNzPSJzdDIiIGN4PSI1MCIgY3k9IjUwIiByPSI0MC41Ii8+Cjwvc3ZnPgo=");
     background-size: $extend $extend;
     float: left;
     height:$base-unit-xlg - 20;
@@ -490,7 +508,7 @@ ul.instruments{
 
 // Temporary legend styles (remove when react component is created)
 .crop{
-  background-position: left $base-unit / 3.5;
+  background-position: left $base-unit / 3;
   background-repeat: no-repeat;
   background-size: $base-unit $base-unit;
   margin-bottom: $base-unit + 5;
