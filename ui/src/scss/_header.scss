@@ -157,3 +157,14 @@
     background-color: $theme-green;
   }
 }
+
+.country-item{
+  font-size: $tooltip-font-size;
+  font-weight:700;
+  line-height: 1;
+  display:block;
+  margin-bottom: -$base-unit-sm;
+  &:hover{
+    color: $theme-orange !important;
+  }
+}
