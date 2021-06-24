@@ -31,15 +31,11 @@ const BreadCrumbs = ({ pages }) => {
 const CountryPopupItem = ({ selected, country, setCountry }) => {
     return (
         <>
-            <a href="#" key={country.countryId} onClick={(e) => {
+            <a className="country-item" href="#" key={country.countryId} onClick={(e) => {
                 e.preventDefault()
                 setCountry(country)
             }} style={{
-                color: selected ? '#f39c00':'#717171',
-                fontSize: '14px',
-                fontWeight: 700,
-                textDecoration: 'none',
-            
+                color: selected ? '#f39c00':'#717171'
             }}>
                 {country.name}
             </a>
@@ -56,14 +52,14 @@ const CountryPopup = ({ country, countries, setCountry }) => {
                 {
                     countries.length >= 2 ?
                     countries.slice(0, Math.ceil(countries.length/2)).map(i =>
-                        <CountryPopupItem 
+                        <CountryPopupItem
                             {...(country && country.countryId === i.countryId ? { selected: true } : {})}
                             country={i}
                             setCountry={setCountry}
                         />
                     ):
                     countries.map(i =>
-                        <CountryPopupItem 
+                        <CountryPopupItem
                             {...(country && country.countryId === i.countryId ? { selected: true } : {})}
                             country={i}
                             setCountry={setCountry}
@@ -76,7 +72,7 @@ const CountryPopup = ({ country, countries, setCountry }) => {
                 <Grid.Column>
                     {
                         countries.slice(Math.ceil(countries.length/2)).map(i =>
-                            <CountryPopupItem 
+                            <CountryPopupItem
                                 {...(country && country.countryId === i.countryId ? { selected: true } : {})}
                                 country={i}
                                 setCountry={setCountry}
@@ -144,6 +140,7 @@ const MyMenuItems = ({ withIcons, active, menu, onSetSelected, selected, locale,
                     if (i.post_title === "Country View") {
                         return (
                             <Popup
+                            className="test"
                                 basic
                                 flowing
                                 hoverable
@@ -157,7 +154,7 @@ const MyMenuItems = ({ withIcons, active, menu, onSetSelected, selected, locale,
                                 }}
                                 trigger={menuItem}
                             >
-                                <CountryPopup
+                                <CountryPopup className="country-dropdown"
                                     country={country}
                                     countries={countries}
                                     setCountry={setCountryValue}
