@@ -53,7 +53,7 @@ const CountryInfo = ({ data }) => {
             </Grid.Row>
             <Grid.Row className={`section`}>
                 <Grid.Column width={16} className={`business-rank`}>
-                    <span class="label">Ease of Doing Business Rank (2020)</span>
+                    <span class="label">Ease of Doing Business Rank ({ data.year })</span>
                     <span class="data">{ data.business }</span><span class="label">of 190</span>
                 </Grid.Column>
             </Grid.Row>
