@@ -1,13 +1,20 @@
 import React from "react";
 import { Grid } from "semantic-ui-react";
+import millify from "millify";
 
 const CountryInfo = ({ data }) => {
+    const config = {
+        precision: 2,
+        lowercase: true,
+        space: true,
+        units: ["", "thousand", "million", "billion", "trillion"],
+    }
     return (
         <Grid className={`land-data`}>
             <Grid.Row key={`gr-1`} className={`section`}>
                 <Grid.Column key={`gc-1-1`} width={10}>
                     <span className="label">Total Land Area</span>
-                    <span className="data">{ Number(data.landArea).toLocaleString() } Hectares</span>
+                    <span className="data">{ millify(data.landArea, config) } Hectares</span>
                 </Grid.Column>
                 <Grid.Column key={`gc-1-2`} width={6}>
                     <span className="label">Arable Land</span>
@@ -40,14 +47,14 @@ const CountryInfo = ({ data }) => {
                     <div className="household-icon orange"></div>
                     <div className="household-data">
                         <div className="label">Total<br/>Population</div>
-                        <div className="data large"><span className="data-value">{ Number(data.population).toLocaleString() }</span></div>
+                        <div className="data large"><span className="data-value">{ millify(data.population, config) }</span></div>
                     </div>
                 </Grid.Column>
                 <Grid.Column key={`gc-4-2`} width={8}>
                     <div className="household-icon"></div>
                     <div className="household-data">
                         <div className="label">Farming<br/>Households</div>
-                        <div className="data large"><span className="data-value">{ Number(data.farmingHouseholds).toLocaleString() }</span></div>
+                        <div className="data large"><span className="data-value">{ millify(data.farmingHouseholds, config) }</span></div>
                     </div>
                 </Grid.Column>
             </Grid.Row>
