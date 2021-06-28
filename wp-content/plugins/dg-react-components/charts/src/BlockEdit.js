@@ -128,7 +128,8 @@ class BlockEdit extends Component {
                                     { label: 'Seed Inspectors', value: 'seedInspector'},
                                     { label: 'Variety Sold', value: 'varietySold'},
                                     { label: 'HHIndex', value: 'hhIndex'},
-                                    { label: 'Seed Asoc Performance', value: 'performance'}
+                                    { label: 'Seed Asoc Performance', value: 'performance'},
+                                    { label: 'Country Info', value: 'countryInfo'}
                                 ]}
                             />
 
