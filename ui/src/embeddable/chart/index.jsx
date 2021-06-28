@@ -11,6 +11,7 @@ import './charts.scss'
 import HalfPie from "../../charts/HalfPie";
 import TheContent from "../../wp/template-parts/TheContent";
 import Loading from "../../layout/Loading";
+import CountryOverview from "../countryinfo";
 
 const BarChar = (props) => {
     const { data, legends, colors, height, groupMode } = props
@@ -116,6 +117,9 @@ const Chart = (props) => {
     }
     if (type == 'performance') {
         child = <Performance height={`${height}px`} legends={legends} colors={colors} groupMode={groupMode}></Performance>
+    }
+    if (type == 'countryInfo') {
+        child = <CountryOverview></CountryOverview>
     }
     const dual = (dualMode === 'true')
     return (

@@ -1,11 +1,9 @@
 import React from "react";
 import { Grid } from "semantic-ui-react";
-import DataProvider from "../../data/DataProvider";
-import DataConsumer from "../../data/DataConsumer";
 
-const CountryInfo = ({ data, classStyle }) => {
+const CountryInfo = ({ data }) => {
     return (
-        <Grid className={classStyle}>
+        <Grid className={`land-data`}>
             <Grid.Row className={`section`}>
                 <Grid.Column width={10}>
                     <span class="label">Total Land Area</span>
@@ -63,18 +61,4 @@ const CountryInfo = ({ data, classStyle }) => {
     )
 }
 
-const CountryOverview = (props) => {
-    const {
-        'data-country': country = 'ghana',
-    } = props
-    const source = 'countryInfo/' + country;
-    return (
-        <DataProvider store={source.split("/")} source={source}>
-            <DataConsumer>
-                <CountryInfo classStyle={`land-data`}></CountryInfo>
-            </DataConsumer>
-        </DataProvider>
-    )
-}
-
-export default CountryOverview
+export default CountryInfo
