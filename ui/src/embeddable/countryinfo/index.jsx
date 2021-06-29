@@ -26,11 +26,12 @@ const CountryInfo = ({ data }) => {
                     <div className="section-title">Top Harvested Crops and Value</div>
                 </Grid.Column>
                 {
-                    ["maize", "rice", "pea", "soy"].map((value, key) => {
+                    [...Array(4)].map((value, key) => {
                         return data["harvestedCrop" + (key + 1)] &&
-                            <Grid.Column  key={`gc-2-2-` + key} width={8}>
-                                <div className={`crop ${value}`}>
-                                    <div className="label"><span style={{ textTransform: 'capitalize' }}>{value}</span> / in hectares</div>
+                            data["nameCrop" + (key + 1)] &&
+                            <Grid.Column  key={`gc-2-2-` + (key + 1)} width={8}>
+                                <div className={`crop ${(data["nameCrop" + (key + 1)]).toLowerCase().replaceAll(" ", "-")}`}>
+                                    <div className="label">{data["nameCrop" + (key + 1)]} / in hectares</div>
                                     <div className="data">{Number(data["harvestedCrop" + (key + 1)]).toLocaleString()}</div>
                                 </div>
                             </Grid.Column>
