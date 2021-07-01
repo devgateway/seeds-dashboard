@@ -2,9 +2,9 @@ import React from 'react'
 
 export const buildSeedInspectorOptions = (data) => {
     data.forEach(d => {
-        d.publicStr = "" + d.public ? d.public : "N/A"
-        d.privateStr = "" + d.private ? d.private : "N/A"
-        d.totalStr = "" + d.total ? d.total : "N/A"
+        d.publicStr = "" + d.public
+        d.privateStr = "" + d.private
+        d.totalStr = "" + d.total
     })
     const sortedData = data.sort((a, b) => a.country > b.country && -1 || 1)
     const maxvalue = data.reduce((max, p) => p.total > max ? p.total : max, data[0].total) + 20;
@@ -33,15 +33,15 @@ function getSeedInspectorTooltip(d) {
                 <ul>
                 <li>
                     <span className="label">Public Seed Inspectors:</span>
-                    <span className="value">{d.data.publicStr ? d.data.publicStr:"N/A"}</span>
+                    <span className="value">{d.data.publicStr >=0 ? d.data.publicStr:"N/A"}</span>
                 </li>
                 <li>
                     <span className="label">Private Seed Inspectors:</span>
-                    <span className="value">{d.data.privateStr ? d.data.privateStr:"N/A"}</span>
+                    <span className="value">{d.data.privateStr >=0 ? d.data.privateStr:"N/A"}</span>
                 </li>
                 <li>
                     <span className="label">Total Seed Inspectors:</span>
-                    <span className="value">{d.data.totalStr ? d.data.totalStr:"N/A"}</span>
+                    <span className="value">{d.data.totalStr >=0 ? d.data.totalStr:"N/A"}</span>
                 </li>
                 </ul>
             </div>
