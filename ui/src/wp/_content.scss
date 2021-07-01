@@ -200,7 +200,8 @@ p:empty {
   &.bordered{
     @include border-radius(4px);
     border: 1px solid $overview-border;
-    margin: $base-unit / 2;
+    margin: $base-unit / 2 $base-unit 0 0;
+    // 5px 10px 0 0
     padding: $base-unit * 2;
     &.nospace{
       padding: 0;
