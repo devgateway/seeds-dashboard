@@ -1,9 +1,9 @@
 import React from 'react'
 import {FormattedDate, injectIntl} from 'react-intl';
-
 import EmbeddedGateway from '../EmbeddedGateway.js'
 import {Container} from "semantic-ui-react";
 import {replaceHTMLinks} from "../htmlUtils";
+import Loading from "../../layout/Loading";
 
 const Enhance = (props) => {
     const Component = props.as ? props.as : Container;
@@ -71,7 +71,7 @@ class Content extends React.Component {
                 </Enhance>
             </EmbeddedGateway>
         } else {
-            return showLoading ? 'Loading' : false;
+            return showLoading ? <Loading/> : false;
         }
     }
 
