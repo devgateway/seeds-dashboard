@@ -13,8 +13,8 @@ const Chart = ({ height, options, intl, colors }) => {
                 <ThemeProvider>
                     <div style={{ textAlign: 'right' }}>
                         <SvgWrapper
-                            // width={'100%'}
-                            height={30}
+                            width={'172'}
+                            height={40}
                             margin={{ left: 0, right: 0, top: 0, bottom: 0 }}
                         >
                             <BoxLegendSvg
@@ -45,7 +45,7 @@ const Chart = ({ height, options, intl, colors }) => {
                     keys={options.keys}
                     indexBy="subindicator"
                     maxValue="100"
-                    margin={{ top: 30, right: 80, bottom: 40, left: 80 }}
+                    margin={{ top: 60, right: 80, bottom: 80, left: 80 }}
                     curve="linearClosed"
                     borderWidth={2}
                     colors={d => getColor(d, colors)}

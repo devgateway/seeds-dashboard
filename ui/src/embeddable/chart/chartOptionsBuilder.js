@@ -33,15 +33,15 @@ function getSeedInspectorTooltip(d) {
                 <ul>
                 <li>
                     <span className="label">Public Seed Inspectors:</span>
-                    <span className="value">{d.data.publicStr ? d.data.publicStr:"N/A"}</span>
+                    <span className="value">{d.data.publicStr >=0 ? d.data.publicStr:"N/A"}</span>
                 </li>
                 <li>
                     <span className="label">Private Seed Inspectors:</span>
-                    <span className="value">{d.data.privateStr ? d.data.privateStr:"N/A"}</span>
+                    <span className="value">{d.data.privateStr >=0 ? d.data.privateStr:"N/A"}</span>
                 </li>
                 <li>
                     <span className="label">Total Seed Inspectors:</span>
-                    <span className="value">{d.data.totalStr ? d.data.totalStr:"N/A"}</span>
+                    <span className="value">{d.data.totalStr >=0 ? d.data.totalStr:"N/A"}</span>
                 </li>
                 </ul>
             </div>

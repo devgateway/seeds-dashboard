@@ -11,6 +11,7 @@ import './charts.scss'
 import HalfPie from "../../charts/HalfPie";
 import TheContent from "../../wp/template-parts/TheContent";
 import Loading from "../../layout/Loading";
+import CountryOverview from "../countryinfo";
 
 const BarChar = (props) => {
     const { data, legends, colors, height, groupMode } = props
@@ -59,7 +60,7 @@ const Diverging = (props) => {
 }
 
 const Chart = (props) => {
-    const CHART_LOAD_DELAY = 1 // delay loading of charts in seconds
+    let CHART_LOAD_DELAY = 1 // delay loading of charts in seconds
     const { filters } = props
     const {
         editing = false,
@@ -81,13 +82,6 @@ const Chart = (props) => {
 
     const [mode, setMode] = useState(editing ? "chart" : 'info')
     const [loading, setLoading] = useState(true)
-
-    if (CHART_LOAD_DELAY > 0) {
-        setTimeout(() => { setLoading(false) }, CHART_LOAD_DELAY * 1000);
-    } else {
-        setLoading(false) // rare scenario
-    }
-
     const legends = {
         left: left,
         bottom: bottom
@@ -117,7 +111,16 @@ const Chart = (props) => {
     if (type == 'performance') {
         child = <Performance height={`${height}px`} legends={legends} colors={colors} groupMode={groupMode}></Performance>
     }
+    if (type == 'countryInfo') {
+        CHART_LOAD_DELAY = 0.001
+        child = <CountryOverview></CountryOverview>
+    }
     const dual = (dualMode === 'true')
+    if (CHART_LOAD_DELAY > 0) {
+        setTimeout(() => { setLoading(false) }, CHART_LOAD_DELAY * 1000);
+    } else {
+        setLoading(false)
+    }
     return (
         <Container className={"chart container"} fluid={true}>
             <DataProvider store={source.split("/")} source={source}>
