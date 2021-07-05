@@ -3,8 +3,9 @@ import {connect} from 'react-redux'
 import {injectIntl} from 'react-intl';
 import {clean, getPages} from '../module'
 import {PageContext} from './Context'
-import {Container, Loader, Segment} from "semantic-ui-react";
+import {Container, Segment} from "semantic-ui-react";
 import PropTypes from 'prop-types'
+import Loading from "../../layout/Loading";
 
 /*
 Will load a post base ond passed properties and put in PostContext
@@ -40,8 +41,7 @@ class PageProvider extends React.Component {
     }
 
 
-    componentWillUnmount(){
-
+    componentWillUnmount() {
         const {before, perPage, page, fields, parent, slug, store, intl: {locale}} = this.props
         if(this.props.debugger){
 
@@ -53,19 +53,23 @@ class PageProvider extends React.Component {
         if (pages && pages.length > 0) {
             return <PageContext.Provider value={pages}>{this.props.children}</PageContext.Provider>
         } else if (error) {
-            return <Segment color={"red"}><h1>500</h1>
-                <p>The service is not available please try again in a few minutes</p></Segment>
-        } else if (loading) {
-            return (<Container>
-                        <Loader inverted content='Loading'/>
-                   </Container>)
-        } else if (loading == false) {
-            return <Container>
+            return (
                 <Segment color={"red"}>
-                    <h1>404</h1>
-                    <p>Can't find this page</p>
+                    <h1>500</h1>
+                    <p>The service is not available please try again in a few minutes</p>
                 </Segment>
-            </Container>
+            )
+        } else if (loading) {
+            return <Loading/>
+        } else if (loading == false) {
+            return (
+                <Container>
+                    <Segment color={"red"}>
+                        <h1>404</h1>
+                        <p>Can't find this page</p>
+                    </Segment>
+                </Container>
+            )
         }
         return null
     }

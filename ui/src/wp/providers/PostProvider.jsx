@@ -3,12 +3,12 @@ import {connect} from 'react-redux'
 import {injectIntl} from 'react-intl';
 import {getPosts} from '../module'
 import {PostContext} from './Context'
-import {Container, Loader, Segment} from "semantic-ui-react";
+import {Container, Segment} from "semantic-ui-react";
+import Loading from "../../layout/Loading";
 
 class PostProvider extends React.Component {
 
     componentDidMount() {
-
         const {type = 'posts', taxonomy, categories, before, perPage, page, fields, slug, store} = this.props
         this.props.onLoadPost({slug, wType:type, taxonomy, categories, before, perPage, page, fields, store})
     }
@@ -18,26 +18,26 @@ class PostProvider extends React.Component {
     }
 
     render() {
-
         const {posts, category, loading, error} = this.props
-
         if (posts && posts.length > 0) {
             return <PostContext.Provider value={posts}>{this.props.children}</PostContext.Provider>
         } else if (error) {
-            return <Segment color={"red"}>
-                <h1>500</h1>
-                <p>The service is not available please try again in a few minutes</p>
-            </Segment>
-        } else if (loading) {
-            return (<Container>
-                     <Loader></Loader>
-                   </Container>)
-        } else {
-            return <Container>
+            return (
                 <Segment color={"red"}>
-                        <p>No entries found</p>
+                    <h1>500</h1>
+                    <p>The service is not available please try again in a few minutes</p>
                 </Segment>
-            </Container>
+            )
+        } else if (loading) {
+            return <Loading/>
+        } else {
+            return (
+                <Container>
+                    <Segment color={"red"}>
+                        <p>No entries found</p>
+                    </Segment>
+                </Container>
+            )
         }
     }
 }

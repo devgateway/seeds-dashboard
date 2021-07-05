@@ -10,7 +10,6 @@ import { buildBarOptions, buildDivergingOptions, buildPieOptions, buildSeedInspe
 import './charts.scss'
 import HalfPie from "../../charts/HalfPie";
 import TheContent from "../../wp/template-parts/TheContent";
-import Loading from "../../layout/Loading";
 import CountryOverview from "../countryinfo";
 
 const BarChar = (props) => {
@@ -60,7 +59,6 @@ const Diverging = (props) => {
 }
 
 const Chart = (props) => {
-    let CHART_LOAD_DELAY = 1 // delay loading of charts in seconds
     const { filters } = props
     const {
         editing = false,
@@ -81,7 +79,6 @@ const Chart = (props) => {
     } = props
 
     const [mode, setMode] = useState(editing ? "chart" : 'info')
-    const [loading, setLoading] = useState(true)
     const legends = {
         left: left,
         bottom: bottom
@@ -112,15 +109,9 @@ const Chart = (props) => {
         child = <Performance height={`${height}px`} legends={legends} colors={colors} groupMode={groupMode}></Performance>
     }
     if (type == 'countryInfo') {
-        CHART_LOAD_DELAY = 0.001
         child = <CountryOverview></CountryOverview>
     }
     const dual = (dualMode === 'true')
-    if (CHART_LOAD_DELAY > 0) {
-        setTimeout(() => { setLoading(false) }, CHART_LOAD_DELAY * 1000);
-    } else {
-        setLoading(false)
-    }
     return (
         <Container className={"chart container"} fluid={true}>
             <DataProvider store={source.split("/")} source={source}>
@@ -128,7 +119,7 @@ const Chart = (props) => {
                     (!dual || mode == 'chart') &&
                     <Container className={classStyle} fluid={true}>
                         <DataConsumer>
-                            { loading ? <Loading height={height} /> : child }
+                            { child }
                         </DataConsumer>
                     </Container>
                 }
