@@ -87,20 +87,21 @@ const CountryPopup = ({ country, countries, setCountry }) => {
 
 const MyMenuItems = ({ withIcons, active, menu, onSetSelected, selected, locale, setCountry, countries, setChildMenu, setFirstLink, mainMenu }) => {
     const [country, setCountryValue] = useState()
-    const [countryPopup, setCountryPopUp] = useState(false)
+    const [countryPopup, setCountryPopup] = useState(false)
+    const [countryPopupOpen, setCountryPopupOpen] = useState(false)
     const onMouseOver = (e, i) => {
         onSetSelected(i);
         if (i.post_title && i.post_title === 'Cross Country View') {
             setChildMenu('Cross Country View')
         } else if (i.post_title && i.post_title === 'Country View') {
             setChildMenu('Country View')
-            setCountryPopUp(true)
+            setCountryPopup(true)
         }
     }
     useEffect(() => {
         if (setCountry) {
             setCountry(country)
-            setCountryPopUp(false)
+            setCountryPopup(false)
         }
     }, [country])
     return menu && (
@@ -127,7 +128,7 @@ const MyMenuItems = ({ withIcons, active, menu, onSetSelected, selected, locale,
                                     {
                                         i.post_title === "Country View" &&
                                         <Icon
-                                            name='chevron down'
+                                            name={`chevron ${ countryPopupOpen ? 'up' : 'down'}`}
                                             size='small'
                                             style={{ paddingLeft: '1em'}}
                                         />
@@ -153,6 +154,8 @@ const MyMenuItems = ({ withIcons, active, menu, onSetSelected, selected, locale,
                                     color: '#ececec'
                                 }}
                                 trigger={menuItem}
+                                onClose={() => setCountryPopupOpen(false)}
+                                onOpen={() => setCountryPopupOpen(true)}
                             >
                                 <CountryPopup className="country-dropdown"
                                     country={country}
