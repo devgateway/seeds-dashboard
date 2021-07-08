@@ -47,7 +47,7 @@ const CountryPopupItem = ({ selected, country, setCountry }) => {
 const CountryPopup = ({ country, countries, setCountry }) => {
     return (
         countries && countries.length &&
-        <Grid centered columns={countries.length >= 2 ? 2:1}>
+        <Grid centered columns={countries.length >= 2 ? 2:1} className="country-menu">
             <Grid.Column>
                 {
                     countries.length >= 2 ?
@@ -140,7 +140,7 @@ const MyMenuItems = ({ withIcons, active, menu, onSetSelected, selected, locale,
                     if (i.post_title === "Country View") {
                         return (
                             <Popup
-                            className="test"
+                            className="country-popup-wrapper"
                                 basic
                                 flowing
                                 hoverable
