@@ -11,6 +11,7 @@ import './charts.scss'
 import HalfPie from "../../charts/HalfPie";
 import TheContent from "../../wp/template-parts/TheContent";
 import CountryOverview from "../countryinfo";
+import { setFilter } from "../../data/module";
 
 const BarChar = (props) => {
     const { data, legends, colors, height, groupMode } = props
@@ -59,7 +60,7 @@ const Diverging = (props) => {
 }
 
 const Chart = (props) => {
-    const { filters } = props
+    const { applyFilter } = props
     const {
         editing = false,
         childContent,
@@ -89,26 +90,28 @@ const Chart = (props) => {
     }
     let child = null
     let classStyle = "body"
+    if (type === 'hhIndex') {
+        child = <HHIndex height={`${height}px`} legends={legends} colors={colors} groupMode={groupMode}></HHIndex>
+        classStyle = "map"
+    } else {
+        applyFilter('cropId', []) // clear crop id filter
+    }
     if (type === 'bar') {
         child = <BarChar height={`${height}px`} legends={legends} colors={colors} groupMode={groupMode}></BarChar>
     }
-    if (type == 'halfPie') {
+    if (type === 'halfPie') {
         child = <PieChart height={`${height}px`} legends={legends} colors={colors} groupMode={groupMode}></PieChart>
     }
-    if (type == 'seedInspector') {
+    if (type === 'seedInspector') {
         child = <SeedInspectors height={`${height}px`} legends={legends} colors={colors} groupMode={groupMode}></SeedInspectors>
     }
-    if (type == 'varietySold') {
+    if (type === 'varietySold') {
         child = <VarietySold height={`${height}px`} legends={legends} colors={colors} groupMode={groupMode}></VarietySold>
     }
-    if (type == 'hhIndex') {
-        child = <HHIndex height={`${height}px`} legends={legends} colors={colors} groupMode={groupMode}></HHIndex>
-        classStyle = "map"
-    }
-    if (type == 'performance') {
+    if (type === 'performance') {
         child = <Performance height={`${height}px`} legends={legends} colors={colors} groupMode={groupMode}></Performance>
     }
-    if (type == 'countryInfo') {
+    if (type === 'countryInfo') {
         child = <CountryOverview></CountryOverview>
     }
     const dual = (dualMode === 'true')
@@ -152,6 +155,8 @@ const mapStateToProps = (state, ownProps) => {
     return {}
 }
 
-const mapActionCreators = {};
+const mapActionCreators = {
+    applyFilter: setFilter
+};
 
 export default connect(mapStateToProps, mapActionCreators)(Chart)
