@@ -14,7 +14,7 @@ const CountryInfo = ({ data }) => {
             <Grid.Row key={`gr-1`} className={`section`}>
                 <Grid.Column key={`gc-1-1`} width={10}>
                     <span className="label">Total Land Area</span>
-                    <span className="data">{ data.landArea ? millify(data.landArea, config) + "Hectares" : "-" }</span>
+                    <span className="data">{ data.landArea ? millify(data.landArea, config) + " Hectares" : "-" }</span>
                 </Grid.Column>
                 <Grid.Column key={`gc-1-2`} width={6}>
                     <span className="label">Arable Land</span>
