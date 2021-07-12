@@ -40,7 +40,9 @@ function getDropdown(filterData, setOpen) {
     let url = window.location.href.split('?')[0]
     if (filterData) {
         params = Object.entries({...filterData.toJS()}).map(e => e.join('=')).join('&');
-        url += '?' + params
+        if (params) {
+            url += '?' + params
+        }
     }
     return (
         <Dropdown className="share">
