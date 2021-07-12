@@ -14,11 +14,11 @@ const CountryInfo = ({ data }) => {
             <Grid.Row key={`gr-1`} className={`section`}>
                 <Grid.Column key={`gc-1-1`} width={10}>
                     <span className="label">Total Land Area</span>
-                    <span className="data">{ millify(data.landArea, config) } Hectares</span>
+                    <span className="data">{ data.landArea ? millify(data.landArea, config) + "Hectares" : "-" }</span>
                 </Grid.Column>
                 <Grid.Column key={`gc-1-2`} width={6}>
                     <span className="label">Arable Land</span>
-                    <span className="data">{ Number(data.arableLand).toLocaleString() }%</span>
+                    <span className="data">{ data.arableLand ? Number(data.arableLand).toLocaleString() + "%" : "-" }</span>
                 </Grid.Column>
             </Grid.Row>
             <Grid.Row key={`gr-2`} className={`section`}>
@@ -48,21 +48,21 @@ const CountryInfo = ({ data }) => {
                     <div className="household-icon orange"></div>
                     <div className="household-data">
                         <div className="label">Total<br/>Population</div>
-                        <div className="data large"><span className="data-value">{ millify(data.population, config) }</span></div>
+                        <div className="data large"><span className="data-value">{ data.population ? millify(data.population, config) : '-' }</span></div>
                     </div>
                 </Grid.Column>
                 <Grid.Column key={`gc-4-2`} width={8}>
                     <div className="household-icon"></div>
                     <div className="household-data">
                         <div className="label">Farming<br/>Households</div>
-                        <div className="data large"><span className="data-value">{ millify(data.farmingHouseholds, config) }</span></div>
+                        <div className="data large"><span className="data-value">{ data.farmingHouseholds ? millify(data.farmingHouseholds, config) : '-' }</span></div>
                     </div>
                 </Grid.Column>
             </Grid.Row>
             <Grid.Row key={`gr-5`} className={`section`}>
                 <Grid.Column key={`gc-5-1`} width={16} className={`business-rank`}>
-                    <span className="label">Ease of Doing Business Rank ({ data.year })</span>
-                    <span className="data">{ data.business }</span><span className="label">of 190</span>
+                    <span className="label">Ease of Doing Business Rank ({ data.year ? data.year : '-' })</span>
+                    <span className="data">{ data.business ? data.business : '-' }</span><span className="label">of 190</span>
                 </Grid.Column>
             </Grid.Row>
         </Grid>
