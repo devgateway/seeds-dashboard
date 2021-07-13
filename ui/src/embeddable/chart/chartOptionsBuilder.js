@@ -87,13 +87,24 @@ export const buildVarietySoldOptions = (data) => {
 }
 
 function getVarietySoldTooltip(d) {
+    let crop = d.id.slice(0,5)
     return (
-            <div className="tooltip-wrapper">
-                <div className="tooltip-header">
-                <span className="label">{Object.entries(d.data).find(x => x[0]==d.id.slice(0,5))[1]} -</span>
-                <span className="value">{d.value}</span>
-                </div>
+        <div className="tooltip-wrapper">
+            <div className="tooltip-header">
+                <span className="label">{d.data[crop]} -</span>
+                <span className="value">{d.data['year']}</span>
             </div>
+            <ul>
+                <li>
+                    <span className="label">Number of varieties sold:</span>
+                    <span className="value">{ d.data[crop + "Value"] ? d.data[crop + "Value"] : "N/A" }</span>
+                </li>
+                <li>
+                    <span className="label">Names of popular varieties:</span>
+                    <span className="value" style={{float:'left'}}>{ d.data[crop + "Varieties"] ? d.data[crop + "Varieties"].join(", ") : "N/A" }</span>
+                </li>
+            </ul>
+        </div>
     )
 }
 
