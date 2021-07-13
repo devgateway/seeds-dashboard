@@ -1,5 +1,5 @@
 import {get} from '../api/commons'
-const API_ROOT = document.location.href.indexOf('localhost') > -1 ? 'http://localhost:8070' : "https://tasai.dgstg.org"
+const API_ROOT = document.location.href.indexOf('localhost') > -1 ? 'http://localhost:8070' : "https://" + document.location.host.replace('ui.', '')
 const URL_TAXONOMY = API_ROOT + '/api/categories'
 const URL_STATS = API_ROOT + '/api'
 

@@ -3,8 +3,8 @@ import {get} from '../api/commons.js'
 const API_ROOT = document.location.href.indexOf('localhost') > -1 ?
     //"https://wp.tasai.dgstg.org/wp-json"
      'http://localhost:8075/wp-json'
-    : "https://wp.tasai.dgstg.org/wp-json"
-    //"https://wp." + document.location.host.replace('ui.', '') + '/wp-json'
+    : //"https://wp.tasai.dgstg.org/wp-json"
+    "https://wp." + document.location.host.replace('ui.', '') + '/wp-json'
 const URL_MENU = API_ROOT + '/menus/v1/menus/'
 const URL_API_BASE = API_ROOT + '/wp/v2/'
 const URL_POSTS = API_ROOT + '/wp/v2/posts'

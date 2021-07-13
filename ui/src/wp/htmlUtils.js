@@ -1,6 +1,6 @@
 export const replaceLink = (url, locale) => {
     let localhost = new RegExp("^(http|https)://localhost:8075", "ig");
-    let prod = new RegExp("^(http|https)://" + "wp.tasai.dgstg.org", "ig");
+    let prod = new RegExp("^(http|https)://" + document.location.host.replace('ui.', 'wp.'), "ig");
     return url.replaceAll(localhost, "#" + locale).replaceAll(prod, "#" + locale)
 }
 
