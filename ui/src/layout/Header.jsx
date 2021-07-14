@@ -85,7 +85,7 @@ const CountryPopup = ({ country, countries, setCountry }) => {
     )
 }
 
-const MyMenuItems = ({ withIcons, active, menu, onSetSelected, selected, locale, setCountry, countries, setChildMenu, setFirstLink, mainMenu }) => {
+const MyMenuItems = ({ withIcons, active, menu, onSetSelected, selected, locale, setCountry, countries, childMenu, setChildMenu, setFirstLink, mainMenu }) => {
     const [country, setCountryValue] = useState()
     const [countryPopup, setCountryPopup] = useState(false)
     const [countryPopupOpen, setCountryPopupOpen] = useState(false)
@@ -169,10 +169,10 @@ const MyMenuItems = ({ withIcons, active, menu, onSetSelected, selected, locale,
                 })
             }
             {
-                mainMenu &&
+                mainMenu && country && childMenu && childMenu === "Country View" &&
                 <Menu.Item key={'selected-country'} className={`selected`}>
                     <span style={{ color: '#ffd686', fontStyle: 'italic', textTransform: 'capitalize' }}>
-                        { country ? country.name + ' Selected' : '' }
+                        { country.name + ' Selected' }
                     </span>
                 </Menu.Item>
             }
@@ -240,6 +240,7 @@ const Header = ({ intl, match, countries }) => {
                                         onSetSelected={setSelected}
                                         setCountry={setCountry}
                                         countries={countries}
+                                        childMenu={childMenu}
                                         setChildMenu={setChildMenu}
                                         mainMenu={true}
                                     >
