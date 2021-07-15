@@ -28,6 +28,7 @@
     "start": "wp-scripts start"
   },
   "dependencies": {
+    "@babel/core": "^7.14.6",
     "@wordpress/icons": "^2.9.1",
     "classnames": "^2.2.6",
     "semantic-ui-react": "^2.0.3"

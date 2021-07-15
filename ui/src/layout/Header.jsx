@@ -43,7 +43,7 @@ const CountryPopupItem = ({ selected, country, setCountry }) => {
 const CountryPopup = ({ country, countries, setCountry }) => {
     return (
         countries && countries.length &&
-        <Grid centered columns={countries.length >= 2 ? 2:1}>
+        <Grid centered columns={countries.length >= 2 ? 2:1} className="country-menu">
             <Grid.Column>
                 {
                     countries.length >= 2 ?
@@ -84,22 +84,23 @@ const CountryPopup = ({ country, countries, setCountry }) => {
     )
 }
 
-const MyMenuItems = ({ withIcons, active, menu, onSetSelected, selected, intl, setCountry, countries, setChildMenu, setFirstLink, mainMenu }) => {
+const MyMenuItems = ({ withIcons, active, menu, onSetSelected, selected, intl, setCountry, countries, setChildMenu, childMenu, setFirstLink, mainMenu }) => {
     const [country, setCountryValue] = useState()
-    const [countryPopup, setCountryPopUp] = useState(false)
+    const [countryPopup, setCountryPopup] = useState(false)
+    const [countryPopupOpen, setCountryPopupOpen] = useState(false)
     const onMouseOver = (e, i) => {
         onSetSelected(i);
         if (i.post_title && i.post_title === 'Cross Country View') {
             setChildMenu('Cross Country View')
         } else if (i.post_title && i.post_title === 'Country View') {
             setChildMenu('Country View')
-            setCountryPopUp(true)
+            setCountryPopup(true)
         }
     }
     useEffect(() => {
         if (setCountry) {
             setCountry(country)
-            setCountryPopUp(false)
+            setCountryPopup(false)
         }
     }, [country])
     return menu && (
@@ -126,7 +127,7 @@ const MyMenuItems = ({ withIcons, active, menu, onSetSelected, selected, intl, s
                                     {
                                         i.post_title === "Country View" &&
                                         <Icon
-                                            name='chevron down'
+                                            name={`chevron ${ countryPopupOpen ? 'up' : 'down'}`}
                                             size='small'
                                             style={{ paddingLeft: '1em'}}
                                         />
@@ -140,7 +141,7 @@ const MyMenuItems = ({ withIcons, active, menu, onSetSelected, selected, intl, s
                         return (
                             <Popup
                                 key={`popup-` + i.ID}
-                                className="test"
+                                className="country-popup-wrapper"
                                 basic
                                 flowing
                                 hoverable
@@ -153,6 +154,8 @@ const MyMenuItems = ({ withIcons, active, menu, onSetSelected, selected, intl, s
                                     color: '#ececec'
                                 }}
                                 trigger={menuItem}
+                                onClose={() => setCountryPopupOpen(false)}
+                                onOpen={() => setCountryPopupOpen(true)}
                             >
                                 <CountryPopup className="country-dropdown"
                                     country={country}
@@ -166,10 +169,10 @@ const MyMenuItems = ({ withIcons, active, menu, onSetSelected, selected, intl, s
                 })
             }
             {
-                mainMenu &&
+                mainMenu && country && childMenu && childMenu === "Country View" &&
                 <Menu.Item key={'selected-country'} className={`selected`}>
                     <span style={{ color: '#ffd686', fontStyle: 'italic', textTransform: 'capitalize' }}>
-                        { country ? country.name + ' Selected' : '' }
+                        { country.name + ' Selected' }
                     </span>
                 </Menu.Item>
             }
@@ -237,6 +240,7 @@ const Header = ({intl, match, data}) => {
                                         onSetSelected={setSelected}
                                         setCountry={setCountry}
                                         countries={data}
+                                        childMenu={childMenu}
                                         setChildMenu={setChildMenu}
                                         mainMenu={true}
                                     >

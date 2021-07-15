@@ -3,7 +3,8 @@ import {connect} from 'react-redux'
 import {injectIntl} from 'react-intl';
 import DataContext from './DataContext'
 import {getData} from "./module";
-import {Container, Dimmer, Loader, Segment} from "semantic-ui-react";
+import {Container, Segment} from "semantic-ui-react";
+import Loading from "../layout/Loading";
 
 class DataProvider extends React.Component {
     componentDidMount() {
@@ -21,24 +22,23 @@ class DataProvider extends React.Component {
         if (data) {
             return <DataContext.Provider value={data}>{this.props.children}</DataContext.Provider>
         } else if (error) {
-            return <Segment color={"red"}>
-                <h1>500</h1>
-                <p>Wasn't able to load data</p>
-            </Segment>
-        } else if (loading) {
-            return (<Container>
-                <Dimmer active inverted>
-                    <h1>Data Loading</h1>
-                    <Loader inverted content='Loading'/>
-                </Dimmer>
-            </Container>)
-        } else {
-            return <Container>
+            return (
                 <Segment color={"red"}>
-                    <h1>404</h1>
-                    <p>Can't find this page</p>
+                    <h1>500</h1>
+                    <p>Wasn't able to load data</p>
                 </Segment>
-            </Container>
+            )
+        } else if (loading) {
+            return <Loading/>
+        } else {
+            return (
+                <Container>
+                    <Segment color={"red"}>
+                        <h1>404</h1>
+                        <p>Can't find this page</p>
+                    </Segment>
+                </Container>
+            )
         }
         return null
     }
