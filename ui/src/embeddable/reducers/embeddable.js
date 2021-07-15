@@ -1,5 +1,5 @@
 import Immutable from 'immutable'
-import {sendShowCase, subscribe} from "./api";
+import {sendShowCase, subscribe} from "./embeddable-api";
 
 const SHOW_CASE_SEND = "SEND_SHOW_CASE"
 const SHOW_CASE_SEND_DONE = "SEND_SHOW_CASE_DONE"
@@ -14,7 +14,7 @@ const NEWS_LETTER_SUBSCRIBE_FAILURE = "NEWS_LETTER_SUBSCRIBE_FAILURE"
 const initialState = Immutable.Map({})
 
 export const newsletterSubscription = (params) => (dispatch, getState) => {
-    return new Promise(((resolve,reject) =>{
+    return new Promise(((resolve, reject) => {
 
         dispatch({type: NEWS_LETTER_SUBSCRIBE})
         subscribe(params).then((res) => {
@@ -25,15 +25,19 @@ export const newsletterSubscription = (params) => (dispatch, getState) => {
             reject()
         })
 
-    } ))
+    }))
 }
-
 
 
 export const sendShowCaseForm = (params) => (dispatch, getState) => {
     dispatch({type: SHOW_CASE_SEND})
+
     sendShowCase(params).then((res) => {
-        dispatch({type: SHOW_CASE_SEND_DONE})
+        if (res.status === 500) {
+            dispatch({type: SHOW_CASE_SEND_FAILURE})
+        } else {
+            dispatch({type: SHOW_CASE_SEND_DONE})
+        }
     }).catch((err) => {
         dispatch({type: SHOW_CASE_SEND_FAILURE})
     })

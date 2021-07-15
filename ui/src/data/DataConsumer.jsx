@@ -1,12 +1,9 @@
 import React from 'react'
 import DataContext from './DataContext'
 
-const PostConsumer = (props) => {
-
-    
+const DataConsumer = (props) => {
     return (
         <DataContext.Consumer>
-
             {(data) => {
                 return data && <React.Fragment>
                      {React.Children.map(props.children, (child => {
@@ -18,5 +15,4 @@ const PostConsumer = (props) => {
     )
 }
 
-
-export default PostConsumer
+export default DataConsumer

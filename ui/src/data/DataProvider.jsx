@@ -6,23 +6,18 @@ import {getData} from "./module";
 import {Container, Dimmer, Loader, Segment} from "semantic-ui-react";
 
 class DataProvider extends React.Component {
-
     componentDidMount() {
         const {source,store} = this.props
         this.props.onLoadData({source,store})
     }
-
     componentDidUpdate(prevProps, prevState, snapshot) {
-
         if (prevProps.filters!=this.props.filters){
             const {source,store} = this.props
             this.props.onLoadData({source,store})
         }
     }
-
     render() {
         const {data, loading, error} = this.props
-
         if (data) {
             return <DataContext.Provider value={data}>{this.props.children}</DataContext.Provider>
         } else if (error) {
@@ -38,7 +33,6 @@ class DataProvider extends React.Component {
                 </Dimmer>
             </Container>)
         } else {
-
             return <Container>
                 <Segment color={"red"}>
                     <h1>404</h1>
@@ -46,18 +40,15 @@ class DataProvider extends React.Component {
                 </Segment>
             </Container>
         }
-
         return null
     }
 }
 
 const mapStateToProps = (state, ownProps) => {
     const {store} = ownProps
-
     return {
         data: state.getIn(['data', ...store, 'data']),
         filters: state.getIn(['data','filters']),
-
         error: state.getIn(['data', ...store, 'error']),
         loading: state.getIn(['data', ...store, 'loading']),
     }

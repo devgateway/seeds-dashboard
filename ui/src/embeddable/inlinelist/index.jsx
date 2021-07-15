@@ -1,11 +1,6 @@
 import React, {useState} from 'react'
 import {Container, Grid, Label} from 'semantic-ui-react'
-import PostProvider from "../../wp/providers/PostProvider";
-import PostConsumer from "../../wp/consumers/PostConsumer";
-import TheIntro from "../../wp/template-parts/TheIntro";
-import MediaProvider from "../../wp/providers/MediaProvider";
-import MediaConsumer from "../../wp/consumers/MediaConsumer";
-import TheIcon from "../../wp/template-parts/TheIcon";
+import {MediaConsumer, MediaProvider, PostConsumer, PostIcon, PostIntro, PostProvider} from "@devgateway/wp-react-lib";
 
 
 class ListOfPost extends React.Component {
@@ -21,12 +16,12 @@ class ListOfPost extends React.Component {
                             <MediaProvider
                                 id={p.meta_fields && p.meta_fields.icon ? p.meta_fields.icon[0] : null}>
                                 <MediaConsumer>
-                                    <TheIcon as={Label}></TheIcon>
+                                    <PostIcon as={Label}></PostIcon>
                                 </MediaConsumer>
                             </MediaProvider>
                         </Grid.Column>}
                         <Grid.Column width={showIcons ? 15 : 16}>
-                            <TheIntro as={Container} fluid post={p}/>
+                            <PostIntro as={Container} fluid post={p}/>
                         </Grid.Column>
 
                     </Grid>
@@ -51,7 +46,7 @@ const Root = (props) => {
         "data-show-post-icons": showIcons,
         parent,
         editing,
-        component,
+        component, unique
 
     } = props
 
@@ -60,7 +55,7 @@ const Root = (props) => {
         <PostProvider type={type}
                       taxonomy={taxonomy}
                       categories={categories}
-                      store={"inline_list_" + random}
+                      store={"inline_list_" + parent + "_" + unique}
                       page={1}
                       perPage={items}>
             <PostConsumer>
