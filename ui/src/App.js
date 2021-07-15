@@ -48,6 +48,7 @@ class IntlRoutes extends Component {
         const locale = this.props.match.params.lan
         return (
             <IntlProvider key={locale} locale={locale} messages={messages[locale]}>
+                <InjectTitle/>
                 <AppContextProvider getComponent={getComponentByNameIgnoreCase} store={store} locale={locale}>
                     <Switch>
                         {
@@ -126,9 +127,7 @@ class IntlRoutes extends Component {
                             //page route
                         }
                         <Route path="/:lan/:slug/" exact render={props => {
-
                             return (
-
                                 <PageProvider
                                     locale={locale}
                                     slug={props.match.params.slug}
@@ -179,7 +178,6 @@ class IntlRoutes extends Component {
     }
 }
 
-
 const MainRoutes = (props) => {
     return (
         <ConnectedRouter history={history}>
@@ -193,9 +191,11 @@ const MainRoutes = (props) => {
 
 class AppWrapper extends Component {
     render() {
-        return (<Provider store={store}>
-            <MainRoutes/>
-        </Provider>);
+        return (
+            <Provider store={store}>
+                <MainRoutes/>
+            </Provider>
+        );
     }
 }
 
