@@ -41,7 +41,7 @@ services:
       - frontend
       - backend
     ports:
-      - 8070:80
+      - 8075:80
     logging:
       driver: journald
 
