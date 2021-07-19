@@ -85,7 +85,6 @@ const CountryPopup = ({ country, countries, setCountry }) => {
 }
 
 const MyMenuItems = ({ withIcons, active, menu, onSetSelected, selected, intl, country, setCountry, countries, setChildMenu, childMenu, setFirstLink, mainMenu }) => {
-    const [country, setCountryValue] = useState()
     const [countryPopup, setCountryPopup] = useState(false)
     const [countryPopupOpen, setCountryPopupOpen] = useState(false)
     const onMouseOver = (e, i) => {
