@@ -26,7 +26,7 @@ const BreadCrumbs = ({ pages }) => {
 
 const CountryPopupItem = ({ selected, country, setCountry }) => {
     return (
-        <>
+        <React.Fragment key={`react-fragment-country-popup-item-` + country.countryId}>
             <a className="country-item" href="#" key={country.countryId} onClick={(e) => {
                 e.preventDefault()
                 setCountry(country)
@@ -36,7 +36,7 @@ const CountryPopupItem = ({ selected, country, setCountry }) => {
                 {country.name}
             </a>
             <br/>
-        </>
+        </React.Fragment>
     )
 }
 
@@ -84,7 +84,7 @@ const CountryPopup = ({ country, countries, setCountry }) => {
     )
 }
 
-const MyMenuItems = ({ withIcons, active, menu, onSetSelected, selected, intl, setCountry, countries, setChildMenu, childMenu, setFirstLink, mainMenu }) => {
+const MyMenuItems = ({ withIcons, active, menu, onSetSelected, selected, intl, country, setCountry, countries, setChildMenu, childMenu, setFirstLink, mainMenu }) => {
     const [country, setCountryValue] = useState()
     const [countryPopup, setCountryPopup] = useState(false)
     const [countryPopupOpen, setCountryPopupOpen] = useState(false)
@@ -100,7 +100,7 @@ const MyMenuItems = ({ withIcons, active, menu, onSetSelected, selected, intl, s
     useEffect(() => {
         if (setCountry) {
             setCountry(country)
-            setCountryPopup(false)
+        setCountryPopup(false)
         }
     }, [country])
     return menu && (
@@ -160,7 +160,7 @@ const MyMenuItems = ({ withIcons, active, menu, onSetSelected, selected, intl, s
                                 <CountryPopup className="country-dropdown"
                                     country={country}
                                     countries={countries}
-                                    setCountry={setCountryValue}
+                                    setCountry={setCountry}
                                 />
                             </Popup>
                         )
@@ -169,43 +169,14 @@ const MyMenuItems = ({ withIcons, active, menu, onSetSelected, selected, intl, s
                 })
             }
             {
-                mainMenu && country && childMenu && childMenu === "Country View" &&
+                mainMenu &&
                 <Menu.Item key={'selected-country'} className={`selected`}>
                     <span style={{ color: '#ffd686', fontStyle: 'italic', textTransform: 'capitalize' }}>
-                        { country.name + ' Selected' }
+                        { (country && childMenu && childMenu === "Country View") ? country.name + ' Selected':'' }
                     </span>
                 </Menu.Item>
             }
         </React.Fragment>
-    )
-}
-
-const CountryViewSubMenu = ({ countries, country, intl, active, setChildMenu, onSetSelected, setFirstLink }) => {
-    return countries && countries.length && (
-        <>
-            {
-                countries.map((c, i) => {
-                    return (
-                        <Container key={'container-' + i + '-' + c.countryId} fluid={true} className={"child"} style={{display: c.iso === country.iso ? 'block':'none'}}>
-                            <MenuProvider key={'menu-provider-' + i + '-' + c.countryId} slug={c.iso}>
-                                <Menu key={'menu-' + i + '-' + c.countryId} fluid text>
-                                    <MenuConsumer key={'menu-consumer-' + i + '-' + c.countryId}>
-                                        <MyMenuItems
-                                            key={'my-menu-items-' + i + '-' + c.countryId}
-                                            active={active}
-                                            intl={intl}
-                                            setChildMenu={setChildMenu}
-                                            onSetSelected={onSetSelected}
-                                            {...(c.iso === country.iso ? { setFirstLink: setFirstLink } : {})}
-                                        />
-                                    </MenuConsumer>
-                                </Menu>
-                            </MenuProvider>
-                        </Container>
-                    )
-                })
-            }
-        </>
     )
 }
 
@@ -238,6 +209,7 @@ const Header = ({intl, match, data}) => {
                                         intl={intl}
                                         selected={selected}
                                         onSetSelected={setSelected}
+                                        country={country}
                                         setCountry={setCountry}
                                         countries={data}
                                         childMenu={childMenu}
@@ -254,16 +226,29 @@ const Header = ({intl, match, data}) => {
                     </MenuProvider>
                 </Container>
                 {
-                    childMenu && childMenu === "Country View" && country &&
-                    <CountryViewSubMenu
-                        active={slug}
-                        countries={data}
-                        country={country}
-                        intl={intl}
-                        setChildMenu={setChildMenu}
-                        onSetSelected={setSelected}
-                        setFirstLink={setFirstLink}
-                    />
+                    childMenu && childMenu === "Country View" && country && data && data.length && data.map((c, i) => {
+                        return (
+                            <Container key={'container-' + i + '-' + c.countryId} fluid={true} className={"child"} style={{display: c.iso === country.iso ? 'block':'none'}}>
+                                <MenuProvider key={'menu-provider-' + i + '-' + c.countryId} slug={c.iso}>
+                                    <Menu key={'menu-' + i + '-' + c.countryId} fluid text>
+                                        <MenuConsumer key={'menu-consumer-' + i + '-' + c.countryId}>
+                                            <MyMenuItems
+                                                key={'my-menu-items-' + i + '-' + c.countryId}
+                                                active={slug}
+                                                countries={data}
+                                                country={country}
+                                                setCountry={setCountry}
+                                                intl={intl}
+                                                setChildMenu={setChildMenu}
+                                                onSetSelected={e => null}
+                                                {...(c.iso === country.iso ? { setFirstLink: setFirstLink } : {})}
+                                            />
+                                        </MenuConsumer>
+                                    </Menu>
+                                </MenuProvider>
+                            </Container>
+                        )
+                    })
                 }
                 {
                     childMenu && (childMenu === "Cross Country View" || (childMenu === "Country View" && !country)) && selected && selected.child_items &&
@@ -274,6 +259,8 @@ const Header = ({intl, match, data}) => {
                                 active={slug}
                                 intl={intl}
                                 withIcons
+                                country={country}
+                                setCountry={setCountry}
                                 onSetSelected={e => null}
                                 menu={{ items: selected.child_items }}
                                 setChildMenu={setChildMenu}
