@@ -19,6 +19,15 @@
       opacity: 0.8;
     }
   }
+  .tertiary-logo{
+    float: right;
+    margin-right: $base-unit + 10;
+    opacity: 1;
+    width: $base-unit-xlg * 1.6;
+    &:hover{
+      opacity: 0.8;
+    }
+  }
   .footer-title {
     color: $footer-title-color;
     float: left;
