@@ -11,6 +11,7 @@ const LOAD_CATEGORIES_ERROR = 'LOAD_CATEGORIES_ERROR'
 
 const SET_FILTER = 'SET_FILTER'
 const SET_COUNTRY = 'SET_COUNTRY'
+
 const initialState = Immutable.Map({mode: 'info', country: null})
 
 export const setFilter = (type, value) => (dispatch, getState) => {
@@ -38,7 +39,7 @@ export const getCategories = () => (dispatch, getState) => {
     })
 }
 
-export const setData = ({app, csv, store, params}) => (dispatch, getState) => {
+export const setData = ({csv, store, params}) => (dispatch, getState) => {
     const filters = getState().get('data').getIn(['filters'])
     if (filters) {
         params = {...params, ...filters.toJS()}
@@ -47,13 +48,13 @@ export const setData = ({app, csv, store, params}) => (dispatch, getState) => {
     dispatch({type: LOAD_DATA_DONE, store, data})
 }
 
-export const getData = ({app, source, store, params}) => (dispatch, getState) => {
+export const getData = ({source, store, params}) => (dispatch, getState) => {
     const filters = getState().get('data').getIn(['filters'])
     if (filters) {
         params = {...params, ...filters.toJS()}
     }
     dispatch({type: LOAD_DATA, params, store})
-    api.getData({app, source, params})
+    api.getData(source, params)
         .then(data => dispatch({type: LOAD_DATA_DONE, store, data}))
         .catch(error => dispatch({type: LOAD_DATA_ERROR, store, error}))
 }

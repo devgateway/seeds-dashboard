@@ -1,15 +1,7 @@
 import {get} from '../../api/commons'
 
-
-const PREVALENCE_API_ROOT = process.env.REACT_APP_PREVALENCE_API
-const POLICY_API_ROOT = process.env.REACT_APP_POLICY_API
-
-const PREVALENCE_URL_TAXONOMY = PREVALENCE_API_ROOT + '/categories'
-
-const APIS = {
-    prevalence: PREVALENCE_API_ROOT,
-    policy: POLICY_API_ROOT
-}
+const URL_TAXONOMY = process.env.REACT_APP_TAXONOMY_API
+const URL_STATS = process.env.REACT_APP_STATS_API
 
 function queryParams(params) {
     return Object.keys(params)
@@ -18,10 +10,9 @@ function queryParams(params) {
 }
 
 export const getCategories = (params) => {
-    return get(PREVALENCE_URL_TAXONOMY, params)
+    return get(URL_TAXONOMY, params)
 }
 
-export const getData = ({source, app, params}) => {
-    return get(APIS[app] + "/stats/" + source + (params ? '?' + queryParams(params) : ''))
+export const getData = (path, params) => {
+    return get(URL_STATS + "/" + path+(params?'?'+queryParams(params):''))
 }
-
