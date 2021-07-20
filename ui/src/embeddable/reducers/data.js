@@ -10,10 +10,15 @@ const LOAD_CATEGORIES_DONE = 'LOAD_CATEGORIES_DONE'
 const LOAD_CATEGORIES_ERROR = 'LOAD_CATEGORIES_ERROR'
 
 const SET_FILTER = 'SET_FILTER'
-const initialState = Immutable.Map({mode: 'info'})
+const SET_COUNTRY = 'SET_COUNTRY'
+const initialState = Immutable.Map({mode: 'info', country: null})
 
 export const setFilter = (type, value) => (dispatch, getState) => {
     dispatch({type: SET_FILTER, param: type, value})
+}
+
+export const setCountry = (value) => (dispatch, getState) => {
+    dispatch({type: SET_COUNTRY, value})
 }
 
 export const getCategories = () => (dispatch, getState) => {
@@ -85,6 +90,13 @@ export default (state = initialState, action) => {
                 return state.deleteIn(['filters', param], value)
             }
             return state.setIn(['filters', param], value)
+        }
+        case SET_COUNTRY: {
+            const {value} = action
+            if (!value){
+                return state.setIn(['country'], null)
+            }
+            return state.setIn(['country'], value)
         }
         default:
             return state
