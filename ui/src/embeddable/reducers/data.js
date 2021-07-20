@@ -1,5 +1,6 @@
-import * as api from './api'
+import * as api from './data-api'
 import Immutable from 'immutable'
+import Papa from 'papaparse'
 
 const LOAD_DATA = 'LOAD_DATA'
 const LOAD_DATA_DONE = 'LOAD_DATA_DONE'
@@ -7,12 +8,18 @@ const LOAD_DATA_ERROR = 'LOAD_DATA_ERROR'
 const LOAD_CATEGORIES = 'LOAD_CATEGORIES'
 const LOAD_CATEGORIES_DONE = 'LOAD_CATEGORIES_DONE'
 const LOAD_CATEGORIES_ERROR = 'LOAD_CATEGORIES_ERROR'
-const SET_FILTER = 'SET_FILTER'
 
-const initialState = Immutable.Map({mode: 'info'})
+const SET_FILTER = 'SET_FILTER'
+const SET_COUNTRY = 'SET_COUNTRY'
+
+const initialState = Immutable.Map({mode: 'info', country: null})
 
 export const setFilter = (type, value) => (dispatch, getState) => {
     dispatch({type: SET_FILTER, param: type, value})
+}
+
+export const setCountry = (value) => (dispatch, getState) => {
+    dispatch({type: SET_COUNTRY, value})
 }
 
 export const getCategories = () => (dispatch, getState) => {
@@ -32,12 +39,19 @@ export const getCategories = () => (dispatch, getState) => {
     })
 }
 
-export const getData = ({source, store, params}) => (dispatch, getState) => {
-    let params;
+export const setData = ({csv, store, params}) => (dispatch, getState) => {
     const filters = getState().get('data').getIn(['filters'])
     if (filters) {
+        params = {...params, ...filters.toJS()}
+    }
+    const data = Papa.parse(csv, {header: true});
+    dispatch({type: LOAD_DATA_DONE, store, data})
+}
 
-        params = {...filters.toJS()}
+export const getData = ({source, store, params}) => (dispatch, getState) => {
+    const filters = getState().get('data').getIn(['filters'])
+    if (filters) {
+        params = {...params, ...filters.toJS()}
     }
     dispatch({type: LOAD_DATA, params, store})
     api.getData(source, params)
@@ -73,10 +87,17 @@ export default (state = initialState, action) => {
             return state
         case SET_FILTER: {
             const {param, value} = action
-            if (value.length==0){
+            if (value.length == 0) {
                 return state.deleteIn(['filters', param], value)
             }
             return state.setIn(['filters', param], value)
+        }
+        case SET_COUNTRY: {
+            const {value} = action
+            if (!value){
+                return state.setIn(['country'], null)
+            }
+            return state.setIn(['country'], value)
         }
         default:
             return state

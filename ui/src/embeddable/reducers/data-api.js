@@ -1,4 +1,4 @@
-import {get} from '../api/commons'
+import {get} from '../../api/commons'
 
 const URL_TAXONOMY = process.env.REACT_APP_TAXONOMY_API
 const URL_STATS = process.env.REACT_APP_STATS_API

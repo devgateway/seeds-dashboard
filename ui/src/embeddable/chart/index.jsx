@@ -9,7 +9,7 @@ import DataConsumer from "../../data/DataConsumer";
 import { buildBarOptions, buildDivergingOptions, buildPieOptions, buildSeedInspectorOptions, buildVarietySoldOptions, buildHHIndexOptions, buildPerformanceOptions } from './chartOptionsBuilder'
 import './charts.scss'
 import HalfPie from "../../charts/HalfPie";
-import TheContent from "../../wp/template-parts/TheContent";
+import {PostContent} from "@devgateway/wp-react-lib";
 import CountryOverview from "../countryinfo";
 import { setFilter } from "../../data/module";
 
@@ -130,7 +130,7 @@ const Chart = (props) => {
             {
                 dual && childContent && mode == 'info' &&
                 <Container className={"body"}>
-                    <TheContent post={{ content: { rendered: childContent } }}></TheContent>
+                    <PostContent post={{ content: { rendered: childContent } }}></PostContent>
                 </Container>
             }
             {

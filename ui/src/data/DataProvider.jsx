@@ -7,19 +7,16 @@ import {Container, Segment} from "semantic-ui-react";
 import Loading from "../layout/Loading";
 
 class DataProvider extends React.Component {
-
     componentDidMount() {
         const {source,store} = this.props
         this.props.onLoadData({source,store})
     }
-
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevProps.filters!=this.props.filters){
             const {source,store} = this.props
             this.props.onLoadData({source,store})
         }
     }
-
     render() {
         const {data, loading, error} = this.props
         if (data) {
@@ -52,7 +49,6 @@ const mapStateToProps = (state, ownProps) => {
     return {
         data: state.getIn(['data', ...store, 'data']),
         filters: state.getIn(['data','filters']),
-
         error: state.getIn(['data', ...store, 'error']),
         loading: state.getIn(['data', ...store, 'loading']),
     }

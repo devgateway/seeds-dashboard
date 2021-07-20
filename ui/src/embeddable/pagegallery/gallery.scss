@@ -11,11 +11,25 @@
       height: 100%;
       padding: 0px;
 
+      .wp-block-columns {
+        bottom: $base-unit;
+        position: absolute;
+        z-index: 1;
+      }
+
+      .wp-block-cover {
+        margin-bottom: $base-unit * 6;
+      }
+
       .ui.container.entry-content,
       figure, img, .wp-block-image {
         width: 100% !important;
         margin-bottom: .4rem;
         padding: 0px;
+      }
+
+      .wp-block-image .aligncenter {
+        display: block;
       }
 
       p {
