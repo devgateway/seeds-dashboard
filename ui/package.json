@@ -63,8 +63,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "postinstall": "cd wp-react-lib && npm install && npm run dist"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": "react-app"
