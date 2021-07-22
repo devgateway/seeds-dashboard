@@ -6,8 +6,6 @@ services:
       context: ./ui/
     volumes:
       - ui:/var/www/ui
-    env_file:
-      - ui/.env.stage
     restart: "no"
 
   wordpress:
@@ -93,8 +91,6 @@ services:
       - backend
     ports:
       - 8070:80
-    env_file:
-      - ui/.env.stage
     logging:
       driver: journald
 
