@@ -1,19 +1,22 @@
 import React, {useState} from 'react'
 import {Button, Container, Grid, Label, Menu} from 'semantic-ui-react'
-import {PostConsumer, PostProvider} from "../../wp";
-import TheIntro from "../../wp/template-parts/TheIntro";
-import '../embeddable.scss'
-import MediaProvider from "../../wp/providers/MediaProvider";
-import MediaConsumer from "../../wp/consumers/MediaConsumer";
-import TheIcon from "../../wp/template-parts/TheIcon";
-import TheLabel from "../../wp/template-parts/TheLabel";
+import {
+    MediaConsumer,
+    MediaProvider,
+    PostConsumer,
+    PostIcon,
+    PostIntro,
+    PostLabel,
+    PostProvider
+} from "@devgateway/wp-react-lib";
 
-const ItemMenu = ({posts, activeItem, setActive,showLabels}) => {
+const ItemMenu = ({posts, activeItem, setActive, showLabels}) => {
 
     return posts ? posts.map(post => <Menu.Item key={post.id} onClick={e => setActive(post.slug)}
                                                 className={post.slug === activeItem ? 'active' : ''}>
 
-        {showLabels?<TheLabel post={post}></TheLabel>:<Label><span dangerouslySetInnerHTML={{__html: post.title.rendered}}/></Label>}
+        {showLabels ? <PostLabel post={post}></PostLabel> :
+            <Label><span dangerouslySetInnerHTML={{__html: post.title.rendered}}/></Label>}
 
 
     </Menu.Item>) : null
@@ -21,19 +24,23 @@ const ItemMenu = ({posts, activeItem, setActive,showLabels}) => {
 }
 
 const GriNavigator = ({posts, activeItem, setActive, showIcons, showLabels}) => {
+
+    const count = posts.length
     return posts ? posts.map(post => {
         const iconUrl = post['_embedded'] && post['_embedded']["wp:featuredmedia"] ? post['_embedded']["wp:featuredmedia"][0].source_url : null
         return <Grid.Column key={post.id}
                             className={(post.slug == activeItem ? 'active' : null) + (showIcons ? ' has-icon' : '')}>
 
-            <Button onClick={e => setActive(post.slug)}>
-                {showIcons &&<MediaProvider id={post.meta_fields&&post.meta_fields.icon?post.meta_fields.icon[0]:null}>
+            <Button onClick={e => setActive(post.slug)} className={`${count == 1 ? 'one' : ''}`}>
+                {showIcons &&
+                <MediaProvider id={post.meta_fields && post.meta_fields.icon ? post.meta_fields.icon[0] : null}>
                     <MediaConsumer>
-                        <TheIcon className={"icon"}></TheIcon>
+                        <PostIcon className={"icon"}></PostIcon>
                     </MediaConsumer>
                 </MediaProvider>}
 
-                {showLabels?<TheLabel  post={post}></TheLabel>:<Label><span dangerouslySetInnerHTML={{__html: post.title.rendered}}/></Label>}
+                {showLabels ? <PostLabel post={post}></PostLabel> :
+                    <Label><span dangerouslySetInnerHTML={{__html: post.title.rendered}}/></Label>}
 
             </Button>
         </Grid.Column>
@@ -42,30 +49,29 @@ const GriNavigator = ({posts, activeItem, setActive, showIcons, showLabels}) => 
 
 const TabContent = ({posts, activeItem}) => {
 
-    return posts ? posts.filter(p => p.slug === activeItem).map(p => <TheIntro as={Container} fluid key={p.id} post={p}/>) : null
+    return posts ? posts.filter(p => p.slug === activeItem).map(p => <PostIntro as={Container} fluid key={p.id}
+                                                                                post={p}/>) : null
 
 
 }
 
 
-const SingleTabbedView = ({posts,showLabels}) => {
+const SingleTabbedView = ({posts, showLabels}) => {
     const [activeItem, setActive] = useState(posts ? posts[0].slug : null)
 
     return (
         <React.Fragment>
-
             <Menu className="tabbed posts" text>
-                <ItemMenu showLabels={showLabels} posts={posts} setActive={setActive} activeItem={activeItem}></ItemMenu>
+                <ItemMenu showLabels={showLabels} posts={posts} setActive={setActive}
+                          activeItem={activeItem}></ItemMenu>
             </Menu>
-
             <TabContent posts={posts} activeItem={activeItem}></TabContent>
-
         </React.Fragment>
     )
 }
 
 
-const GridTabbedView = ({posts, showLabels,showIcons}) => {
+const GridTabbedView = ({posts, showLabels, showIcons}) => {
     const [activeItem, setActive] = useState(posts ? posts[0].slug : null)
 
     return (
@@ -95,16 +101,22 @@ const Wrapper = (props) => {
         "data-theme": theme = 'light',
         "data-show-icons": showIcons,
         "data-show-labels": showLabels,
-        parent, editing
+        parent, editing, unique
     } = props
 
-    return <Container className={`tcdi tabbed posts ${editing ? 'editing' : ''}`} fluid={true}>
-                <PostProvider type={type} taxonomy={taxonomy} categories={categories}
-                      store={"tabbedposts_" + parent} page={1}
-                      perPage={items}>
-                    <PostConsumer>
 
-                        {theme == 'light' ? <SingleTabbedView showLabels={showLabels=="true"}></SingleTabbedView> :<GridTabbedView showLabels={showLabels==='true'} showIcons={showIcons == 'true'}></GridTabbedView>}
+    return <Container className={`tcdi tabbed posts ${editing ? 'editing' : ''}`} fluid={true}>
+
+        <PostProvider type={type} taxonomy={taxonomy} categories={categories}
+                      store={"tabbedposts_" + parent + '_' + unique} page={1}
+                      perPage={items}>
+            <PostConsumer>
+
+                {theme == 'light' ?
+                    <SingleTabbedView showLabels={showLabels == "true"}></SingleTabbedView> :
+                    <GridTabbedView showLabels={showLabels === 'true'} showIcons={showIcons == 'true'}>
+
+                    </GridTabbedView>}
 
             </PostConsumer>
 
