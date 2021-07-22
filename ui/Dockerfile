@@ -1,7 +1,14 @@
+FROM node:12.16.3 AS wp-react-lib
+COPY wp-react-lib /tmp/ui/wp-react-lib
+WORKDIR /tmp/ui/wp-react-lib
+COPY .env ./
+RUN npm install && npm run dist
+
 FROM node:12.16.3 AS compiler
 WORKDIR /tmp/ui
+COPY --from=wp-react-lib /tmp/ui/wp-react-lib  /tmp/ui/wp-react-lib
 COPY package*.json ./
-COPY wp-react-lib ./
+COPY .env ./
 RUN npm install
 RUN npm rebuild node-sass
 COPY public ./public/
