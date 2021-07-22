@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@artsy/fresnel": "^1.3.0",
-    "@devgateway/wp-react-lib": "file:../wp-react-lib",
+    "@devgateway/wp-react-lib": "file:wp-react-lib",
     "@nivo/bar": "^0.67.0",
     "@nivo/colors": "^0.67.0",
     "@nivo/core": "^0.67.0",
@@ -63,7 +63,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "postinstall": "cd wp-react-lib && npm install && npm run dist"
   },
   "eslintConfig": {
     "extends": "react-app"
