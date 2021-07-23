@@ -1,4 +1,4 @@
-echo "EMBEDDABLE_URI=https://tobacco.dgstg.org/#/en/embeddable" > .env
+echo "EMBEDDABLE_URI=https://ui.tasaivista.dgpreprod.org/#/en/embeddable" > .env
 
 for d in */; do
    echo ".................. Compiling folder $d ..................."
