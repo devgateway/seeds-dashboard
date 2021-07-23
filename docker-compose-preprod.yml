@@ -1,6 +1,13 @@
 version: '3'
 
 services:
+  plugins:
+    build:
+      context: ./wp-react-blocks-plugin/
+    volumes:
+      - ./wp-react-blocks-plugin/blocks/build:/tmp/plugins
+    restart: "no"
+
   ui:
     build:
       context: ./ui/
@@ -11,6 +18,7 @@ services:
   wordpress:
     image: library/wordpress:5.7-fpm-alpine
     depends_on:
+      - plugins
       - mysql
     environment:
       WORDPRESS_DB_HOST: mysql
@@ -20,6 +28,7 @@ services:
     volumes:
       - ./data/wordpress:/var/www/html
       - ./wp-content:/var/www/html/wp-content
+      - ./wp-react-blocks-plugin:/var/www/html/wp-content/plugins/wp-react-blocks-plugin
       - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
     networks:
       - backend  #for dev purpose we use a bridged network

@@ -8,6 +8,7 @@ ui/package-lock.json
 ui/pnpm-lock.yaml
 /api/
 /ui/build/
+/ui/wp-react-lib/dist/
 /wp-content/plugins/dg-react-components/page-gallery/node_modules/
 /wp-content/plugins/dg-react-components/block-styles/node_modules/
 /wp-content/plugins/dg-react-components/charts/node_modules/
@@ -15,3 +16,5 @@ ui/pnpm-lock.yaml
 /wp-content/plugins/dg-react-components/page-modules/node_modules/
 /wp-content/plugins/dg-react-components/post-carousel/node_modules/
 /wp-content/plugins/dg-react-components/tabbed-posts/node_modules/
+/wp-react-blocks-plugin/blocks/build/
+/wp-react-blocks-plugin/blocks/node_modules/
