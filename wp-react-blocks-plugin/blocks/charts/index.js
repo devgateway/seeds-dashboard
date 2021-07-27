@@ -4,7 +4,7 @@ import BlockSave from "./BlockSave";
 import BlockEdit from "./BlockEdit";
 import {Chart} from '../icons/index.js'
 
-registerBlockType(process.env.BLOCKS_NS+'/chart',
+registerBlockType(process.env.BLOCKS_NS + '/chart',
     {
         title: __('Data Chart'),
         icon: Chart,
@@ -15,20 +15,22 @@ registerBlockType(process.env.BLOCKS_NS+'/chart',
                 type: 'number',
                 default: 500,
             },
-
+            width: {
+                type: 'number',
+                default: 900,
+            },
             type: {
                 type: 'string',
-                default: "bar",
+                default: "seedInspector",
             },
             source: {
                 type: 'string',
-                default: 'gender/smoke',
+                default: '',
             },
             bottomLegend: {
                 type: 'string',
                 default: "Bottom Legends",
-            }
-            ,
+            },
             leftLegend: {
                 type: 'string',
                 default: "Left Legends",
@@ -37,121 +39,36 @@ registerBlockType(process.env.BLOCKS_NS+'/chart',
                 type: 'string',
                 default: 'nivo'
             },
-
             colorBy: {
                 type: 'String',
                 default: 'index'
             },
-            prevalenceLevel1: {
+            level1: {
                 type: 'String',
-                default: 'gender'
+                default: 'none'
             },
-
-            prevalenceLevel2: {
+            level2: {
                 type: 'String',
-                default: 'race'
+                default: 'none'
             },
-
-            prevalenceLevel3: {
+            level3: {
                 type: 'String',
-                default: 'smoke'
+                default: 'none'
             },
-            policyLevel1: {
-                type: 'String',
-                default: 'year'
+            groupMode:{
+                type:'String',
+                default:'stacked',
             },
-            groupMode: {
-                type: 'String',
-                default: 'grouped',
+            mode:{
+                type:'String',
+                default:"chart"
             },
-            mode: {
-                type: 'String',
-                default: "chart"
-            },
-
-
-            dualMode: {
-                type: "Boolean",
-                default: false
-            },
-            toggleInfoLabel: {
-                type: 'String',
-                default: "Info Graphic"
-            },
-            toggleChartLabel: {
-                type: 'String',
-                default: "Chart"
-            },
-            dataSourceLabel: {
-                type: 'String',
-                default: "Source"
-            },
-            dataSource: {
-                type: 'String',
-                default: "NIDS"
-            },
-
-            legendPosition: {
-                type: 'String',
-                default: "right"
-            },
-            legendsWidth: {
-                type: 'mumeric',
-                default: 100
-            },
-            showLegends: {
-                type: 'boolean',
-                default: true
-            },
-            app: {
-                type: 'String',
-                default: "prevalence"
-            },
-            params: {
-                type: Object,
-                default: {}
-            },
-            format: {
-                type: Object,
-                default: {"style": "percent", "minimumFractionDigits": 1, "maximumFractionDigits": 1}
-            },
-            tickRotation: {
-                type: 'mumeric',
-                default: 0
-            },
-            tickColor: {
-                type: "String",
-                default: "rgb(0,0,0)"
-            },
-            keys: {
-                type: "Array",
-                default: []
-            },
-            formatStyle: {
-                type: "String",
-                default: "Percent"
+            dualMode:{
+                type:"Boolean",
+                default:false
             }
-            ,
-            decimalPoints: {
-                type: "Numeric",
-                default: 2
-            }
-            ,
-            currency: {
-                type: "String",
-                default: ""
-            }
-            ,
-            yearFilter: {
-                type: "String",
-                default: ""
-            }
-            ,
-
-        }
-        ,
+        },
         edit: BlockEdit,
         save: BlockSave,
     }
-)
-;
+);

@@ -6,13 +6,8 @@ import {Fragment} from "@wordpress/element";
 import {createHigherOrderComponent} from '@wordpress/compose'
 import classnames from 'classnames'
 
-const allowedBlocks = ['core/paragraph'];
-
-
-
+const allowedBlocks = ['core/paragraph', 'core/heading'];
 const withFontSettingsClass = createHigherOrderComponent((BlockListBlock) => {
-
-
     return (props) => {
         const {
             name,
@@ -20,13 +15,14 @@ const withFontSettingsClass = createHigherOrderComponent((BlockListBlock) => {
             setAttributes,
             isSelected,
         } = props;
-
-
+        if ( allowedBlocks.indexOf(name)> -1) {
+            //return   <BlockListBlock {...props}/>;
+        }
         let className = props.className || ""
-        if (weight!=null) {
+        if (weight) {
             className = classnames(className, "has-weight-" + weight)
         }
-        if (condensed==true) {
+        if (condensed) {
             className = classnames(className, "has-condensed-text")
         }
         return <Fragment>
@@ -35,24 +31,23 @@ const withFontSettingsClass = createHigherOrderComponent((BlockListBlock) => {
     };
 }, 'withClientIdClassName');
 
-
 function addAttributes( settings, name ) {
-
-    if( typeof settings.attributes !== 'undefined'   && allowedBlocks.includes( settings.name )){
-
+    if ( allowedBlocks.indexOf(name)> -1) {
+    //    return settings;
+    }
+    //check if object exists for old Gutenberg version compatibility
+    if( typeof settings.attributes !== 'undefined' ){
         settings.attributes = Object.assign( settings.attributes, {
             weight:{
                 type: 'String',
-                default: null,
+                default: "400",
             },
             condensed:{
                 type: 'boolean',
                 default: false,
             }
         });
-
     }
-
     return settings;
 }
 
@@ -66,66 +61,57 @@ function addAttributes( settings, name ) {
  * @return {Object} extraProps Modified block element.
  */
 function applyExtraClass(extraProps, blockType, attributes) {
-
-    if ( allowedBlocks.includes( blockType.name )) {
-        const {weight, condensed} = attributes;
-        if (weight!=null) {
-            extraProps.className = classnames(extraProps.className, "has-weight-" + weight);
-        }
-        if (condensed===true) {
-            extraProps.className = classnames(extraProps.className, "has-condensed-text");
-        }
+    if ( allowedBlocks.indexOf( blockType.name ) === -1 ) {
+        //return extraProps
     }
-
+    const {weight, condensed} = attributes;
+    if (weight) {
+        extraProps.className = classnames(extraProps.className, "has-weight-" + weight);
+    }
+    if (condensed) {
+        extraProps.className = classnames(extraProps.className, "has-condensed-text");
+    }
     return extraProps
 }
 
 const withAdvancedControls = createHigherOrderComponent( ( BlockEdit ) => {
     return ( props ) => {
-
         const {
-            name,
             attributes,
             setAttributes,
             isSelected,
         } = props;
-
         const {
             weight,condensed
         } = attributes;
-
-
         return (
             <Fragment>
                 <BlockEdit {...props}/>
-                { isSelected &&  allowedBlocks.includes( name ) &&<InspectorControls>
-                    <Panel header={__("Font Settings")}>
-                        <PanelBody>
-                            <PanelRow>
-                                <ToggleControl
-                                    label="Condensed"
-                                    checked={props.attributes.condensed}
-                                    onChange={() => {
-                                        setAttributes({condensed: !props.attributes.condensed})
-                                    }}
-                                />
-                            </PanelRow>
-
-                            <PanelRow>
-                                <ButtonGroup>
-                                    <Button isPrimary={weight == "300"}
-                                            onClick={e => setAttributes({weight: "300"})}>Light</Button>
-                                    <Button isPrimary={!weight || weight == "400"}
-                                            onClick={e => setAttributes({weight: "400"})}>Regular</Button>
-                                    <Button isPrimary={weight == "700"}
-                                            onClick={e => setAttributes({weight: "700"})}>Medium</Button>
-                                </ButtonGroup>
-                            </PanelRow>
-                        </PanelBody>
-                    </Panel>
-                </InspectorControls>
+                {
+                    isSelected &&
+                    <InspectorControls>
+                        <Panel header={__("Font Settings")}>
+                            <PanelBody>
+                                <PanelRow>
+                                    <ToggleControl
+                                        label="Condensed"
+                                        checked={props.attributes.condensed}
+                                        onChange={() => {
+                                            setAttributes({condensed: !props.attributes.condensed})
+                                        }}
+                                    />
+                                </PanelRow>
+                                <PanelRow>
+                                    <ButtonGroup>
+                                        <Button isPrimary={weight == "300"} onClick={e => setAttributes({weight: "300"})}>Light</Button>
+                                        <Button isPrimary={weight == "400"} onClick={e => setAttributes({weight: "400"})}>Regular</Button>
+                                        <Button isPrimary={weight == "700"} onClick={e => setAttributes({weight: "700"})}>Medium</Button>
+                                    </ButtonGroup>
+                                </PanelRow>
+                            </PanelBody>
+                        </Panel>
+                    </InspectorControls>
                 }
-
             </Fragment>
         );
     };

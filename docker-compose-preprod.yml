@@ -43,6 +43,7 @@ services:
       - ./nginx/ui_preprod.conf:/etc/nginx/conf.d/ui.conf:ro
       - ./data/wordpress:/var/www/html:ro
       - ./wp-content:/var/www/html/wp-content:ro
+      - ./wp-react-blocks-plugin:/var/www/html/wp-content/plugins/wp-react-blocks-plugin:ro
       - ui:/var/www/ui:ro
     depends_on:
       - wordpress

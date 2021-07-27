@@ -1,8 +1,8 @@
 FROM node:12.16.3 AS compiler
 WORKDIR /tmp/blocks
 COPY blocks ./
-RUN npm install
-RUN npm run build
+COPY .env ./
+RUN npm install && npm run build
 
 FROM alpine:latest
 COPY --from=compiler /tmp/blocks/build/* /usr/src/

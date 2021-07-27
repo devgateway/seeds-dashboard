@@ -18,3 +18,4 @@ ui/pnpm-lock.yaml
 /wp-content/plugins/dg-react-components/tabbed-posts/node_modules/
 /wp-react-blocks-plugin/blocks/build/
 /wp-react-blocks-plugin/blocks/node_modules/
+/node_modules

@@ -4,7 +4,7 @@ import BlockSave from "./BlockSave";
 import BlockEdit from "./BlockEdit";
 import Generic from "../icons";
 
-registerBlockType(process.env.BLOCKS_NS+'/filter',
+registerBlockType(process.env.BLOCKS_NS + '/filter',
     {
         title: __('Data Filter'),
         icon: Generic,
@@ -13,22 +13,26 @@ registerBlockType(process.env.BLOCKS_NS+'/filter',
         attributes: {
             placeHolder:{
                 type:'String',
-                default:"Age Group"
+                default:"Filter by ..."
             },
             type:{
                 type:'String',
-                default:"AgeGroup"
+                default:"Crop"
+            },
+            filter:{
+                type:'String',
+                default:"None"
             },
             param:{
                 type:'String',
-                default:"age"
+                default:"Maize"
+            },
+            multi:{
+                type:'String',
+                default:"single"
             }
-
-
-        }
-        ,
+        },
         edit: BlockEdit,
         save: BlockSave,
     }
-)
-;
+);
