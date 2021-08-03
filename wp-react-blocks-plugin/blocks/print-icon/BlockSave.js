@@ -4,7 +4,7 @@ const SaveComponent = (props) => {
     const {
         attributes: {
             icon,
-            htmlId,
+            htmlClass,
             size,
             color,
             downloadName
@@ -20,7 +20,7 @@ const SaveComponent = (props) => {
             className={"wp-react-lib-component"}
             data-component={"print"}
             data-icon={icon}
-            data-htmlId={htmlId}
+            data-htmlClass={htmlClass}
             data-size={size}
             data-color={color}
             data-downloadName={downloadName}

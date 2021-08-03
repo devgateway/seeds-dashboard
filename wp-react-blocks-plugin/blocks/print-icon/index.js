@@ -26,9 +26,9 @@ registerBlockType(process.env.BLOCKS_NS + '/print',
                 type: 'String',
                 default: "grey"
             },
-            htmlId:{
+            htmlClass:{
                 type: 'String',
-                default: "exportable.chart"
+                default: "chart-wrapper"
             }
         },
         edit: BlockEdit,

@@ -45,13 +45,13 @@ class BlockEdit extends Component {
             className, isSelected,
             toggleSelection, setAttributes, attributes: {
                 icon,
-                htmlId,
+                htmlClass,
                 size,
                 color,
                 downloadName
             }
         } = this.props;
-        const queryString = `data-icon=${icon}&data-id=${htmlId}&data-size=${size}&data-downloadName=${downloadName}&data-color=${color}&editing=true`
+        const queryString = `data-icon=${icon}&data-htmlClass=${htmlClass}&data-size=${size}&data-downloadName=${downloadName}&data-color=${color}&editing=true`
         const divStyles = {}
         return ([
             isSelected &&
@@ -98,9 +98,9 @@ class BlockEdit extends Component {
                             </PanelRow>
                             <PanelRow>
                                 <TextControl
-                                    label={__('Html id')}
-                                    value={htmlId}
-                                    onChange={(htmlId) => setAttributes({htmlId})}
+                                    label={__('Html Class')}
+                                    value={htmlClass}
+                                    onChange={(htmlClass) => setAttributes({htmlClass})}
                                 />
                             </PanelRow>
                         </PanelBody>
