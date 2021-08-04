@@ -29,6 +29,7 @@ services:
       - ./data/wordpress:/var/www/html
       - ./wp-react-blocks-plugin:/var/www/html/wp-content/plugins/wp-react-blocks-plugin
       - ./wp-content:/var/www/html/wp-content
+      - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
     networks:
       - backend  #for dev purpose we use a bridged network
     logging:
