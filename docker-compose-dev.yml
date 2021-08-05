@@ -15,6 +15,18 @@ services:
       - ui:/var/www/ui
     restart: "no"
 
+  metabase:
+    image: metabase/metabase:v0.40.2
+    environment:
+      MB_DB_TYPE: postgres
+      MB_DB_DBNAME: metabase
+      MB_DB_PORT: 5432
+      MB_DB_USER: metabase
+      MB_DB_PASS: 12345678
+      MB_DB_HOST: host.docker.internal
+    ports:
+      - 3030:3000
+
   wordpress:
     image: library/wordpress:5.7-fpm-alpine
     depends_on:
@@ -41,12 +53,14 @@ services:
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./nginx/wordpress_dev.conf:/etc/nginx/conf.d/wordpress.conf:ro
+      - ./nginx/metabase_dev.conf:/etc/nginx/conf.d/metabase.conf:ro
       - ./data/wordpress:/var/www/html:ro
       - ./wp-react-blocks-plugin:/var/www/html/wp-content/plugins/wp-react-blocks-plugin:ro
       - ./wp-content:/var/www/html/wp-content:ro
       - ui:/var/www/ui:ro
     depends_on:
       - wordpress
+      - metabase
     networks:
       - frontend
     ports:
