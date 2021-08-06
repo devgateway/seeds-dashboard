@@ -109,6 +109,7 @@ services:
       - ui:/var/www/ui:ro
     depends_on:
       - wordpress
+      - metabase
     networks:
       - frontend
       - backend
