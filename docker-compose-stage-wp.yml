@@ -48,6 +48,8 @@ services:
       MB_DB_HOST: host.docker.internal
     networks:
       - backend
+    logging:
+      driver: journald
 
   nginx:
     image: nginx:alpine
