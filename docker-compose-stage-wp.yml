@@ -52,6 +52,7 @@ services:
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./nginx/wordpress_stage.conf:/etc/nginx/conf.d/wordpress.conf:ro
+      - ./nginx/metabase_stage.conf:/etc/nginx/conf.d/metabase_stage.conf:ro
       - ./nginx/ui.conf:/etc/nginx/conf.d/ui.conf:ro
       - ./data/wordpress:/var/www/html:ro
       - ./wp-content:/var/www/html/wp-content:ro
