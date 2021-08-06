@@ -85,6 +85,8 @@ services:
 
   metabase:
     image: metabase/metabase:v0.40.2
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     environment:
       MB_DB_TYPE: postgres
       MB_DB_DBNAME: metabase
@@ -92,8 +94,6 @@ services:
       MB_DB_USER: metabase
       MB_DB_PASS: 12345678
       MB_DB_HOST: host.docker.internal
-    ports:
-      - 3030:3000
 
   nginx:
     image: nginx:alpine

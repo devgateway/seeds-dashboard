@@ -46,8 +46,6 @@ services:
       MB_DB_USER: metabase
       MB_DB_PASS: 12345678
       MB_DB_HOST: host.docker.internal
-    ports:
-      - 3030:3000
 
   nginx:
     image: nginx:alpine
