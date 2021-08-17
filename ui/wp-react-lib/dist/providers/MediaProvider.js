@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { getMedia } from '../reducers/actions';
+import LocalizedProvider from "./LocalizedProvider";
 export const MediaContext = /*#__PURE__*/React.createContext();
 /*
 Will load a post base ond passed properties and put in PostContext
@@ -8,7 +9,6 @@ Will load a post base ond passed properties and put in PostContext
 
 class MediaProvider extends React.Component {
   componentDidMount() {
-    //TODO:pass locale
     const {
       onLoad,
       loading,
@@ -52,4 +52,4 @@ const mapStateToProps = (state, ownProps) => {
 const mapActionCreators = {
   onLoad: getMedia
 };
-export default connect(mapStateToProps, mapActionCreators)(MediaProvider);
+export default LocalizedProvider(connect(mapStateToProps, mapActionCreators)(MediaProvider));
