@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { search } from '../reducers/actions';
 import { SearchContext } from './Context';
+import LocalizedProvider from "./LocalizedProvider";
 
 class PostProvider extends React.Component {
   componentDidMount() {
@@ -92,4 +93,4 @@ const mapStateToProps = (state, ownProps) => {
 const mapActionCreators = {
   onLoad: search
 };
-export default connect(mapStateToProps, mapActionCreators)(PostProvider);
+export default LocalizedProvider(connect(mapStateToProps, mapActionCreators)(PostProvider));
