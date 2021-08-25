@@ -1,1 +1,1 @@
-docker-compose -f docker-compose-dev.yml up  mysql  wordpress nginx
+docker-compose -f docker-compose-dev.yml up mysql wordpress metabase nginx

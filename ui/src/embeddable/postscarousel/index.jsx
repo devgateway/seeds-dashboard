@@ -1,12 +1,9 @@
-import PostProvider from "../../wp/providers/PostProvider";
-import PostConsumer from "../../wp/consumers/PostConsumer";
-//import Carousel from "../../wp/components/carousel";
+import {PostConsumer, PostIntro, PostProvider} from "@devgateway/wp-react-lib";
+
 import 'pure-react-carousel/dist/react-carousel.es.css';
 import React, {useState} from "react";
 import {Container} from "semantic-ui-react";
 import {CarouselProvider, DotGroup, Slide, Slider} from "pure-react-carousel";
-import TheIntro from "../../wp/template-parts/TheIntro";
-import './carousel.scss'
 
 const Carousel = (props) => {
     let i = 0
@@ -16,7 +13,7 @@ const Carousel = (props) => {
         totalSlides={posts.length}>
         <Slider>
             {posts.map(p => <Slide index={i++}>
-                <TheIntro post={p} fluid/>
+                <PostIntro post={p} fluid/>
             </Slide>)}
         </Slider>
         <DotGroup/>
@@ -33,7 +30,7 @@ const _Carousel = (props) => {
         <CarouselProvider totalSlides={posts.length}>
             <Slider>
                 {posts.map(p => <Slide index={i++}>
-                    <TheIntro post={p}/>
+                    <PostIntro post={p}/>
                 </Slide>)}
             </Slider>
             <DotGroup/>
@@ -48,10 +45,11 @@ const PostCarousel = (props) => {
         "data-taxonomy": taxonomy,
         "data-categories": categories,
         "data-items": items,
-        editing, parent
+        editing, parent, unique
     } = props
     return <Container className={`tcdi post carousel ${editing ? 'editing' : ''}`} fluid={true}>
-        <PostProvider type={type} taxonomy={taxonomy} categories={categories} store={"carousel" + random} page={1}
+        <PostProvider type={type} taxonomy={taxonomy} categories={categories}
+                      store={"carousel_" + parent + "_" + unique} page={1}
                       perPage={items}>
             <PostConsumer>
                 <Carousel></Carousel>

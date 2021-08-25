@@ -1,14 +1,9 @@
 import {Container, Image, Menu, Visibility} from "semantic-ui-react";
-import React from "react";
-import PageProvider from "../../wp/providers/PageProvider";
-import {PageConsumer} from "../../wp";
-import './modules.scss'
-import MediaProvider from "../../wp/providers/MediaProvider";
-import MediaConsumer from "../../wp/consumers/MediaConsumer";
+import React, {createRef} from "react";
+import {MediaConsumer, MediaProvider, PageConsumer, PageProvider, PostContent} from "@devgateway/wp-react-lib";
 
 import {injectIntl} from "react-intl";
 import FloatingNavigator from './FloatingNavigator'
-import TheContent from "../../wp/template-parts/TheContent";
 
 
 export const SectionHeader = ({title, subtitle, icon, media}) => {
@@ -34,12 +29,12 @@ class Module extends React.Component {
         const {page, locale} = this.props
         return (<Container fluid={true} className={"section " + page.slug} id={page.id}>
 
-            <MediaProvider id={page.meta_fields&&page.meta_fields.icon?page.meta_fields.icon[0]:null}>
+            <MediaProvider id={page.meta_fields && page.meta_fields.icon ? page.meta_fields.icon[0] : null}>
                 <MediaConsumer>
                     <SectionHeader title={page.title.rendered} subtitle={page.meta_fields.subtitle}/>
                 </MediaConsumer>
             </MediaProvider>
-            {page && <TheContent as={Container} fluid={true} post={page} visibility={{content: true, title: false}}/>}
+            {page && <PostContent as={Container} fluid={true} post={page}/>}
         </Container>)
 
     }
@@ -47,6 +42,8 @@ class Module extends React.Component {
 }
 
 class PageIterator extends React.Component {
+    contextRef = createRef()
+
     constructor(props) {
         super(props)
         this.onVisibilityUpdate = this.onVisibilityUpdate.bind(this)
@@ -74,27 +71,24 @@ class PageIterator extends React.Component {
     }) {
         let active = false
 
-        if (onScreen) {
+        const bboxScreen = document.body.getBoundingClientRect();
+        const bbox = document.getElementById(id) ? document.getElementById(id).getBoundingClientRect() : null;
+
+        if (onScreen && bbox != null) {
+
             if (direction == 'down') {
+
+                if (bbox.y / bboxScreen.height < .7) {
+                    active = true
+                }
+
+
+            }
+            if (direction == 'up' && bbox.y / bboxScreen.height < .7) {
                 active = true
-                if (passing && percentagePassed > .75) {
-                    active = false
-                }
-            }
-
-            if (direction == 'up') {
-                if (onScreen) {
-                    if (topVisible) {
-                        active = true
-                    }
-
-                    if (passing && percentagePassed < .65) {
-                        active = true
-                    }
-
-                }
 
             }
+
         }
         let modules = this.state.modules.slice();
 
@@ -113,17 +107,14 @@ class PageIterator extends React.Component {
 
 
     render() {
-
-        const {pages, locale, editing} = this.props
-
+        const {pages, locale, editing, navTitle, toTopLabel} = this.props
         const childPages = pages ? pages.sort((a, b) => a.menu_order - b.menu_order) : []
-
         const list = childPages.map(p => {
             return {
                 active: (this.state.modules.indexOf(p.id) > -1),
                 id: p.id,
                 label: p.meta_fields.label ? p.meta_fields.label : p.title.rendered,
-                iconComponent: <MediaProvider id={p.meta_fields&&p.meta_fields.icon?p.meta_fields.icon[0]:null}>
+                iconComponent: <MediaProvider id={p.meta_fields && p.meta_fields.icon ? p.meta_fields.icon[0] : null}>
                     <MediaConsumer>
                         <MediaImage/>
                     </MediaConsumer>
@@ -131,16 +122,23 @@ class PageIterator extends React.Component {
             }
         })
 
-        return (
-            <React.Fragment>
-                    {!editing&&<FloatingNavigator sections={list}/>}
-                     {childPages.map(p => <Visibility onUpdate={(e, {calculations}) => {
-                        this.onVisibilityUpdate(p.id, calculations)
-                    }}>
-                        <Module locale={locale} {...this.props} page={p} onVisibilityUpdate={this.onVisibilityUpdate}/>
-                    </Visibility>
-                )}
+        return (<React.Fragment>
 
+                {!editing && <FloatingNavigator navTitle={navTitle} toTopLabel={toTopLabel} sections={list}/>}
+
+                <div className={"pages"}>
+                    {childPages.map(p => (
+                            <Visibility onUpdate={(e, {calculations}) => {
+                                this.onVisibilityUpdate(p.id, calculations)
+                            }}>
+
+                                <Module locale={locale} {...this.props} page={p}
+                                        onVisibilityUpdate={this.onVisibilityUpdate}/>
+
+                            </Visibility>
+                        )
+                    )}
+                </div>
             </React.Fragment>
         )
     }
@@ -154,16 +152,23 @@ const Root = (props) => {
         "data-taxonomy": taxonomy,
         "data-categories": categories,
         "data-items": items,
-        editing,
+        "data-nav-label": navTitle = "Sections",
+        "data-to-top-label": toTopLabel = "TO THE TOP",
+        editing, parent, unique,
         intl: {locale}
     } = props
-    return (<Container className="tcdi dashboard green">
-            {props.parent && <PageProvider parent={props.parent} store={props.parent} perPage={100}>
+
+
+    return (<Container className="tcdi dashboard green" fluid={true}>
+
+            {props.parent &&
+            <PageProvider parent={props.parent} store={"modules_" + parent + "_" + unique} perPage={100}>
                 <PageConsumer>
-                    <PageIterator editing={editing==="true"} locale={locale}></PageIterator>
+                    <PageIterator toTopLabel={toTopLabel} navTitle={navTitle} editing={editing === "true"}
+                                  locale={locale}></PageIterator>
                 </PageConsumer>
             </PageProvider>}
-            {!props.parent && <h1>No child pages yet</h1>}
+
         </Container>
     )
 }

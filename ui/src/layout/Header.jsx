@@ -1,12 +1,10 @@
-import { Container, Dropdown, Grid, Icon, Menu, Popup } from "semantic-ui-react";
+import {Container, Grid, Icon, Menu, Popup} from "semantic-ui-react";
 import React, { useEffect, useState } from "react";
-import MenuProvider from "../wp/providers/MenuProvider";
-import MenuConsumer from "../wp/consumers/MenuConsumer";
-import { PageConsumer } from "../wp";
+import {MenuProvider, MenuConsumer, PostTitle, utils} from "@devgateway/wp-react-lib";
 import { injectIntl } from "react-intl";
-import { replaceLink } from '../wp/htmlUtils'
-import TheTitle from "../wp/template-parts/TheTitle";
 import { withRouter } from "react-router";
+import {connect} from 'react-redux'
+import {setCountry} from '../embeddable/reducers/data'
 
 const BreadCrumbs = ({ pages }) => {
     return (
@@ -17,7 +15,7 @@ const BreadCrumbs = ({ pages }) => {
                         {
                             p.slug !== 'home' ?
                             <span>
-                                <a href={"/#"}> Home</a> / <TheTitle as={"span"} post={p}></TheTitle>
+                                <a href={"/#"}> Home</a> / <PostTitle as={"span"} post={p}></PostTitle>
                             </span>
                             : ''
                         }
@@ -30,7 +28,7 @@ const BreadCrumbs = ({ pages }) => {
 
 const CountryPopupItem = ({ selected, country, setCountry }) => {
     return (
-        <>
+        <React.Fragment key={`react-fragment-country-popup-item-` + country.countryId}>
             <a className="country-item" href="#" key={country.countryId} onClick={(e) => {
                 e.preventDefault()
                 setCountry(country)
@@ -40,7 +38,7 @@ const CountryPopupItem = ({ selected, country, setCountry }) => {
                 {country.name}
             </a>
             <br/>
-        </>
+        </React.Fragment>
     )
 }
 
@@ -54,6 +52,7 @@ const CountryPopup = ({ country, countries, setCountry }) => {
                     countries.slice(0, Math.ceil(countries.length/2)).map(i =>
                         <CountryPopupItem
                             {...(country && country.countryId === i.countryId ? { selected: true } : {})}
+                            key={i.countryId}
                             country={i}
                             setCountry={setCountry}
                         />
@@ -61,6 +60,7 @@ const CountryPopup = ({ country, countries, setCountry }) => {
                     countries.map(i =>
                         <CountryPopupItem
                             {...(country && country.countryId === i.countryId ? { selected: true } : {})}
+                            key={i.countryId}
                             country={i}
                             setCountry={setCountry}
                         />
@@ -74,6 +74,7 @@ const CountryPopup = ({ country, countries, setCountry }) => {
                         countries.slice(Math.ceil(countries.length/2)).map(i =>
                             <CountryPopupItem
                                 {...(country && country.countryId === i.countryId ? { selected: true } : {})}
+                                key={i.countryId}
                                 country={i}
                                 setCountry={setCountry}
                             />
@@ -85,40 +86,31 @@ const CountryPopup = ({ country, countries, setCountry }) => {
     )
 }
 
-const MyMenuItems = ({ withIcons, active, menu, onSetSelected, selected, locale, setCountry, countries, childMenu, setChildMenu, setFirstLink, mainMenu }) => {
-    const [country, setCountryValue] = useState()
+const MyMenuItems = ({withIcons, active, menu, selected, intl, country, setCountry, countries, setChildMenu, childMenu, mainMenu}) => {
     const [countryPopup, setCountryPopup] = useState(false)
     const [countryPopupOpen, setCountryPopupOpen] = useState(false)
-    const onMouseOver = (e, i) => {
-        onSetSelected(i);
-        if (i.post_title && i.post_title === 'Cross Country View') {
-            setChildMenu('Cross Country View')
-        } else if (i.post_title && i.post_title === 'Country View') {
-            setChildMenu('Country View')
-            setCountryPopup(true)
-        }
-    }
     useEffect(() => {
-        if (setCountry) {
-            setCountry(country)
+        // auto closes popup when country is selected
+        if (country) {
             setCountryPopup(false)
         }
     }, [country])
-    return menu && (
+    return menu && menu.items ?
         <React.Fragment>
             {
                 menu.items.map((i, key) => {
-                    if (selected === undefined && i.post_title === "Cross Country View") {
-                        onSetSelected(i)
-                    }
-                    if (setFirstLink && !i.child_items && key === 0) {
-                        setFirstLink(replaceLink(i.url, locale))
-                    }
                     const menuItem = (
                         <Menu.Item
                             key={i.ID}
-                            className={`divided ${selected && selected.ID === i.ID ? 'selected' : ''}  ${active === i.slug || (active === undefined && (i.object_id === "138" || i.object_id === "19")) ? "active" : ""}`}
-                            onMouseOver={ e => { onMouseOver(e, i) }}
+                            className={`divided ${((selected && selected.ID === i.ID) || (i.post_title === 'Country View' && country)) ? 'selected' : ''}  ${active === i.slug || (active === undefined && (i.object_id === "138" || i.object_id === "19")) ? "active" : ""}`}
+                            onMouseOver={ e => {
+                                if (i.post_title && (i.post_title === 'Cross Country View' || i.post_title === 'Country View')) {
+                                    setChildMenu(i.post_title)
+                                    if (i.post_title === 'Country View') {
+                                        setCountryPopup(true)
+                                    }
+                                }
+                            }}
                         >
                             { withIcons && <div className={"mark"}></div> }
                             {
@@ -134,14 +126,15 @@ const MyMenuItems = ({ withIcons, active, menu, onSetSelected, selected, locale,
                                         />
                                     }
                                 </span>:
-                                <a href={replaceLink(i.url, locale)}>{i.title}</a>
+                                <a href={utils.replaceLink(i.url, intl.locale)}>{i.title}</a>
                             }
                         </Menu.Item>
                     )
                     if (i.post_title === "Country View") {
                         return (
                             <Popup
-                            className="country-popup-wrapper"
+                                key={`popup-` + i.ID}
+                                className="country-popup-wrapper"
                                 basic
                                 flowing
                                 hoverable
@@ -157,11 +150,12 @@ const MyMenuItems = ({ withIcons, active, menu, onSetSelected, selected, locale,
                                 onClose={() => setCountryPopupOpen(false)}
                                 onOpen={() => setCountryPopupOpen(true)}
                             >
-                                <CountryPopup className="country-dropdown"
+                                <CountryPopup
+                                    className="country-dropdown"
                                     country={country}
                                     countries={countries}
-                                    setCountry={setCountryValue}
-                                />
+                                    setCountry={setCountry}
+                                ></CountryPopup>
                             </Popup>
                         )
                     }
@@ -169,126 +163,208 @@ const MyMenuItems = ({ withIcons, active, menu, onSetSelected, selected, locale,
                 })
             }
             {
-                mainMenu && country && childMenu && childMenu === "Country View" &&
+                mainMenu &&
                 <Menu.Item key={'selected-country'} className={`selected`}>
                     <span style={{ color: '#ffd686', fontStyle: 'italic', textTransform: 'capitalize' }}>
-                        { country.name + ' Selected' }
+                        { country ? country.name + ' Selected':'' }
                     </span>
                 </Menu.Item>
             }
-        </React.Fragment>
-    )
+        </React.Fragment> : null
 }
 
-const CountryViewSubMenu = ({ countries, country, intl, active, setChildMenu, onSetSelected, setFirstLink }) => {
-
-    return countries && countries.length && (
-        <>
-            {
-                countries.map((c, i) => {
-                    return (
-                        <Container key={'container-' + i + '-' + c.countryId} fluid={true} className={"child"} style={{display: c.iso === country.iso ? 'block':'none'}}>
-                            <MenuProvider key={'menu-provider-' + i + '-' + c.countryId} slug={c.iso}>
-                                <Menu key={'menu-' + i + '-' + c.countryId} fluid text>
-                                    <MenuConsumer key={'menu-consumer-' + i + '-' + c.countryId}>
-                                        <MyMenuItems
-                                            key={'my-menu-items-' + i + '-' + c.countryId}
-                                            active={active}
-                                            locale={intl.locale}
-                                            setChildMenu={setChildMenu}
-                                            onSetSelected={onSetSelected}
-                                            {...(c.iso === country.iso ? { setFirstLink: setFirstLink } : {})}
-                                        />
-                                    </MenuConsumer>
-                                </Menu>
-                            </MenuProvider>
-                        </Container>
-                    )
-                })
-            }
-        </>
-    )
-}
-
-const Header = ({ intl, match, countries }) => {
-    const [country, setCountry] = useState()
-    const [childMenu, setChildMenu] = useState("Cross Country View")
-    const [firstLink, setFirstLink] = useState()
-    const [selected, setSelected] = useState()
-    const { slug } = match.params
+const MenuExtractor = ({type, menu, setMenu}) => {
     useEffect(() => {
-        if (firstLink) {
-            const host = window.location.protocol + '//' + window.location.hostname + (window.location.port ? ':' + window.location.port : '')
-            const link = host + '/#/' + firstLink.replace('#', '')
-            window.location.href = link;
+        setMenu(type, menu)
+    }, [type, menu])
+    return null
+}
+
+const Header = ({intl, match, data, country, setCountry}) => {
+    const [mainMenuItems, setMainMenuItems] = useState([])
+    const [childMenuItems, setChildMenuItems] = useState([])
+    const [childMenu, setChildMenu] = useState("Cross Country View")
+    const [selected, setSelected] = useState()
+    const [preview, setPreview] = useState()
+    const { slug, lan } = match.params
+    const useHash = process.env.REACT_APP_USE_HASH_LINKS.toLowerCase() === "true";
+    const setMenu = (type, menu) => {
+        if (type === 'main') {
+            let items = {...mainMenuItems}
+            items[menu.name] = { items: menu.items }
+            setMainMenuItems(items)
+        } else if (type === 'child') {
+            let items = {...childMenuItems}
+            items[menu.name] = { child_items: menu.items }
+            setChildMenuItems(items)
         }
-    }, [firstLink])
+    }
+    useEffect(() => {
+        let view = "Country View"
+        let country = null
+        if (slug === undefined) {
+            view = "Cross Country View"
+        }
+        else {
+            if (
+                mainMenuItems['Main'] &&
+                mainMenuItems['Main']['items'] &&
+                mainMenuItems['Main']['items'][0] &&
+                mainMenuItems['Main']['items'][0]['child_items']
+            ) {
+                const mainMenuMatches = mainMenuItems['Main']['items'][0]['child_items'].filter(i => {
+                    const current = utils.replaceLink(i.url, intl.locale) // make url local
+                        .replace((useHash ? '#':'') + lan, '') // remove language and/or hash
+                        .replace(/(^\/)|(\/$)/g, "") // remove leading and trailing "/"
+                    return current === slug
+                })
+                if (mainMenuMatches.length) {
+                    view = "Cross Country View"
+                }
+            }
+            // else if (data.length) {
+            //     for(var i = 0; i < data.length; i++) {
+            //         if (childMenuItems[data[i].iso] && childMenuItems[data[i].iso]['child_items']) {
+            //             let childMenuMatches = childMenuItems[data[i].iso]['child_items'].filter(i => {
+            //                 const current = utils.replaceLink(i.url, intl.locale) // make url local
+            //                     .replace((useHash ? '#':'') + lan, '') // remove language and/or hash
+            //                     .replace(/(^\/)|(\/$)/g, "") // remove leading and trailing "/"
+            //                 return current === slug
+            //             })
+            //             if (childMenuMatches.length) {
+            //                 view = "Country View"
+            //                 country = data[i]
+            //                 break;
+            //             }
+            //         }
+            //     }
+            // }
+        }
+        if (view === "Cross Country View") {
+            setCountry(null)
+            setPreview(undefined)
+            setChildMenu("Cross Country View")
+        } else if (view === "Country View" && country) {
+            setChildMenu("Country View")
+            setCountry(country)
+        }
+    // }, [slug, mainMenuItems, intl.locale, lan, useHash, childMenuItems, data, setCountry])
+    }, [slug, mainMenuItems, intl.locale, lan, useHash, setCountry])
+    useEffect(() => {
+        if (country) {
+            setChildMenu('Country View')
+            const menuItem = childMenuItems[country.iso]
+            setSelected(menuItem)
+            if (menuItem && menuItem['child_items'] && menuItem['child_items'][0] && menuItem['child_items'][0]['url']) {
+                const firstLink = utils.replaceLink(menuItem['child_items'][0]['url'], intl.locale)
+                const host = window.location.protocol + '//' + window.location.hostname + (window.location.port ? ':' + window.location.port : '')
+                const link = host + '/#/' + firstLink.replace('#', '')
+                window.location.href = link
+            }
+        }
+    }, [country])
+    useEffect(() => {
+        if (selected === undefined) {
+            if (
+                childMenu === "Cross Country View" &&
+                mainMenuItems['Main'] &&
+                mainMenuItems['Main']['items'] &&
+                mainMenuItems['Main']['items'][0]
+            ) {
+                setSelected(mainMenuItems['Main']['items'][0])
+            } else if (
+                childMenu === "Country View" &&
+                country &&
+                childMenuItems[country.iso]
+            ) {
+                setSelected(childMenuItems[country.iso])
+            }
+        } else {
+            if (
+                childMenu === "Cross Country View" &&
+                mainMenuItems['Main'] &&
+                mainMenuItems['Main']['items'] &&
+                mainMenuItems['Main']['items'][0]
+            ) {
+                setPreview(mainMenuItems['Main']['items'][0])
+            } else if (childMenu === "Country View") {
+                setPreview(undefined)
+            }
+        }
+    }, [selected, childMenu, mainMenuItems, childMenuItems, country, setSelected])
     return (
         <React.Fragment>
+            <MenuProvider slug={"main"} key={`menu-provider-main`}>
+                <MenuConsumer key={`menu-consumer-main`}>
+                    <MenuExtractor type={'main'} setMenu={setMenu}></MenuExtractor>
+                </MenuConsumer>
+            </MenuProvider>
             <Container fluid={true} className="header">
                 <Container fluid={true} className={"background"}>
-                    <MenuProvider slug={"main"}>
-                        <Menu className={"branding"} text>
-                            <a href="/"><img className="logo" src='/tasai-logo.svg' /></a>
-                            <span className="title">Seeds Dashboard</span>
-                            <Menu.Menu className={"pages"}>
-                                <MenuConsumer>
-                                    <MyMenuItems
-                                        active={slug}
-                                        locale={intl.locale}
-                                        selected={selected}
-                                        onSetSelected={setSelected}
-                                        setCountry={setCountry}
-                                        countries={countries}
-                                        childMenu={childMenu}
-                                        setChildMenu={setChildMenu}
-                                        mainMenu={true}
-                                    >
-                                    </MyMenuItems>
-                                </MenuConsumer>
-                            </Menu.Menu>
-                            <Menu.Item fitted className="lang">
-                                <a href="">Français</a>
-                            </Menu.Item>
-                        </Menu>
-                    </MenuProvider>
+                    <Menu className={"branding"} text>
+                        <a href="/"><img className="logo" src='/tasai-logo.svg' /></a>
+                        <span className="title">Seeds Dashboard</span>
+                        <Menu.Menu className={"pages"}>
+                            <MyMenuItems
+                                key="main-menu-items"
+                                active={slug}
+                                intl={intl}
+                                selected={selected}
+                                country={country}
+                                setCountry={setCountry}
+                                countries={data}
+                                childMenu={childMenu}
+                                setChildMenu={setChildMenu}
+                                mainMenu={true}
+                                menu={mainMenuItems['Main']}
+                            >
+                            </MyMenuItems>
+                        </Menu.Menu>
+                        <Menu.Item fitted className="lang">
+                            <a href="">Français</a>
+                        </Menu.Item>
+                    </Menu>
                 </Container>
                 {
-                    childMenu && childMenu === "Country View" && country &&
-                    <CountryViewSubMenu
-                        active={slug}
-                        countries={countries}
-                        country={country}
-                        intl={intl}
-                        setChildMenu={setChildMenu}
-                        onSetSelected={setSelected}
-                        setFirstLink={setFirstLink}
-                    />
+                    data.length && data.map((c, i) => {
+                        return (
+                            <MenuProvider key={'menu-provider-' + i + '-' + c.countryId} slug={c.iso}>
+                                <MenuConsumer key={'menu-consumer-' + i + '-' + c.countryId}>
+                                    <MenuExtractor type={'child'} setMenu={setMenu}></MenuExtractor>
+                                </MenuConsumer>
+                            </MenuProvider>
+                        )
+                    })
                 }
                 {
-                    childMenu && (childMenu === "Cross Country View" || (childMenu === "Country View" && !country)) && selected && selected.child_items &&
+                    ((preview && preview.child_items) || (selected && selected.child_items)) && (childMenu === "Cross Country View" || childMenu === "Country View") &&
                     <Container fluid={true} className={"child"}>
                         <Menu fluid text>
                             <MyMenuItems
+                                key="child-menu-items"
                                 active={slug}
-                                locale={intl.locale}
-                                withIcons
-                                onSetSelected={e => null}
-                                menu={{ items: selected.child_items }}
-                                setChildMenu={setChildMenu}
+                                selected={selected}
+                                intl={intl}
+                                menu={{ items: preview ? preview.child_items:selected.child_items }}
+                                mainMenu={false}
                             >
                             </MyMenuItems>
                         </Menu>
                     </Container>
                 }
             </Container>
-            <Container className={"url breadcrumbs"}>
-                <PageConsumer>
-                    <BreadCrumbs></BreadCrumbs>
-                </PageConsumer>
-            </Container>
         </React.Fragment>
     )
 }
 
-export default injectIntl(withRouter(Header))
+const mapStateToProps = (state, ownProps) => {
+    return {
+        country: state.get('data').getIn(['country']),
+    }
+}
+
+const mapActionCreators = {
+    setCountry: setCountry
+};
+
+export default connect(mapStateToProps, mapActionCreators)(injectIntl(withRouter(Header)))
