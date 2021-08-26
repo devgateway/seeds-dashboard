@@ -1,5 +1,4 @@
 export const post = (url, params, isBlob) => {
-
     return new Promise((resolve, reject) => {
         fetch(url, {
             headers: {
@@ -29,7 +28,6 @@ export const post = (url, params, isBlob) => {
 }
 export const get = (url, params = {}) => {
     return new Promise((resolve, reject) => {
-
         fetch(url)
             .then(
                 function (response) {
@@ -52,9 +50,5 @@ export const queryParams = (params) => {
         .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
         .join('&')
 }
-
-
-
-
 
 export const getAnaliticUserCode = () => "CODE"

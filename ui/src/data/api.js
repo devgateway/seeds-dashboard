@@ -1,7 +1,7 @@
 import {get} from '../api/commons'
-const API_ROOT = document.location.href.indexOf('localhost') > -1 ? 'http://localhost:8070' : "https://" + document.location.host.replace('ui.', '')
-const URL_TAXONOMY = API_ROOT + '/api/categories'
-const URL_STATS = API_ROOT + '/api'
+
+const URL_TAXONOMY = process.env.REACT_APP_TAXONOMY_API
+const URL_STATS = process.env.REACT_APP_STATS_API
 
 function queryParams(params) {
     return Object.keys(params)

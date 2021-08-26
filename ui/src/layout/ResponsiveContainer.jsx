@@ -6,7 +6,8 @@ import './layout.scss'
 import {Media} from "../AppMedia"
 import Footer from "./Footer";
 import Header from "./Header";
-import { getData } from "../data/api";
+import DataConsumer from "../data/DataConsumer";
+import DataProvider from "../data/DataProvider";
 
 // Heads up!
 // We using React Static to prerender our docs with server side rendering, this is a quite simple solution.
@@ -19,24 +20,15 @@ import { getData } from "../data/api";
  */
 
 class DesktopContainer extends Component {
-    
-    state = {
-        countries: []
-    }
-
-    componentDidMount() {
-        if (this.state.countries.length === 0) {
-            getData('filter/countryMenu').then(data => {
-                this.setState({ countries: data})
-            });
-        }
-    }
-
     render() {
         const {children, fixed} = this.props
         return (
             <Container fluid className="content-wrapper">
-                <Header countries={this.state.countries}></Header>
+                <DataProvider store={'countries'} source={"filter/countryMenu"}>
+                    <DataConsumer>
+                        <Header></Header>
+                    </DataConsumer>
+                </DataProvider>
                 <Container className="desktop">
                     {children}
                 </Container>
@@ -50,15 +42,12 @@ DesktopContainer.propTypes = {
 }
 
 class MobileContainer extends Component {
-
     state = {}
     handleSidebarHide = () => this.setState({sidebarOpened: false})
     handleToggle = () => this.setState({sidebarOpened: true})
-
     render() {
         const {children, big} = this.props
         const {sidebarOpened} = this.state
-
         return (
             <Container>
                 <Sidebar
@@ -68,11 +57,8 @@ class MobileContainer extends Component {
                     vertical
                     visible={sidebarOpened}>
                     <Container>
-
                     </Container>
-
                 </Sidebar>
-
                 <Sidebar.Pusher dimmed={sidebarOpened}>
                     <Container fluid>
                         <Menu>
@@ -91,23 +77,18 @@ MobileContainer.propTypes = {
 }
 
 class ResponsiveContainer extends Component {
-
-
     render() {
         const {children, fixed, locale} = this.props
         return (<div>
             <style>
                 {Media.mediaStyles}
             </style>
-
             <DesktopContainer fixed={fixed}>
                 {children}
             </DesktopContainer>
             <Footer></Footer>
-
         </div>)
     }
 }
-
 
 export default ResponsiveContainer
