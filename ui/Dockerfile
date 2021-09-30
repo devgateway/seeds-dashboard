@@ -1,7 +1,6 @@
 FROM node:12.16.3 AS compiler
 WORKDIR /tmp/ui
-COPY package-lock.json ./
-COPY package-stage.json ./package.json
+COPY package*.json ./
 RUN npm install
 RUN npm rebuild node-sass
 COPY public ./public/

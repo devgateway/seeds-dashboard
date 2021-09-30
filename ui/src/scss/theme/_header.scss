@@ -53,7 +53,7 @@
       height: 22px;
       margin-top: -3px;
       background-repeat: no-repeat !important;
-      background: url("/za-flag.png");
+      background: url("/static/images/za-flag.png");
 
     }
 
@@ -176,7 +176,7 @@
           background-size: 15px 15px;
           margin-right: 11px;
           /* webpackIgnore: true */
-          background-image: url("/child-menu-arrow.svg");
+          background-image: url("/static/images/child-menu-arrow.svg");
           background-repeat: no-repeat;
         }
       }
@@ -189,7 +189,7 @@
           background-size: 15px 15px;
           margin-right: 10px;
           /* webpackIgnore: true */
-          background-image: url("/header_arrow_green.png");
+          background-image: url("/static/images/header_arrow_green.png");
           background-repeat: no-repeat;
         }
       }
@@ -202,7 +202,7 @@
         .mark {
           @extend .mark;
           /* webpackIgnore: true */
-          background-image: url("/child-menu-arrow-active.svg");
+          background-image: url("/static/images/child-menu-arrow-active.svg");
         }
 
         a {
