@@ -1,5 +1,6 @@
 FROM node:12.16.3 AS compiler
 WORKDIR /tmp/ui
+COPY .env.stage ./.env
 COPY package*.json ./
 RUN npm install
 RUN npm rebuild node-sass
