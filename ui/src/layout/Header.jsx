@@ -69,7 +69,7 @@ const MyMenuItems = injectIntl(withRouter(({
       <><Menu.Item
         className={`divided ${i.child_items ? 'has-child-items' : ''} 
                  ${selected && selected.ID === i.ID ? 'selected' : ''}  ${active === i.slug ? "active" : ""} 
-                 ${addClass ? i.slug.replace(/\s+/g, '-').toLowerCase() : ''}`}
+                 ${addClass && i.slug ? i.slug.replace(/\s+/g, '-').toLowerCase() : ''}`}
 
       >
 
@@ -109,14 +109,17 @@ const Header = ({ intl: { locale }, match }) => {
           </div>
         </Menu>
       </Container>
+
+      {isCustom &&
       <Container fluid={true} className="dashboard-menu">
-        <Menu.Menu className={"pages"} >
+        <Menu.Menu className={"pages"}>
           <MenuConsumer>
             <MyMenuItems active={slug} selected={selected}
                          onSetSelected={setSelected} addClass addSeparator />
           </MenuConsumer>
         </Menu.Menu>
       </Container>
+      }
     </Container>
 
     {!isCustom && <Container className={"url breadcrumbs"}>
