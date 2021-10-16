@@ -1,4 +1,4 @@
-$font-family: 'Roboto', sans-serif;
+$font-family: 'Lato', sans-serif;
 
 $blue: #3e53a6;
 $light-blue: #5089a6;
@@ -26,4 +26,31 @@ $charts-options-font-size: 1.02rem;
   font-family: "Raleway";
 }
 
+
 $base-unit: 10px;
+$base-unit-md: 20px;
+/*MENUS*/
+$dashboard-menu-height: 185px;
+$yellow-header: 20px;
+$title-header: 80px;
+$extend: 100%;
+
+/*TASAI*/
+$header-border-width: 300px;
+/*COLORS*/
+$yellow: #EFCB16;
+$text-color: #555555;
+$menu-text-color: #555555;
+$menu-font-size: 16pt;
+@mixin menu-icon {
+  font-size: $menu-font-size - 1;
+  font-weight: 500;
+  outline: none;
+  text-transform: capitalize;
+  background-repeat: no-repeat;
+  padding-left: calc(1.75em + 0.75rem);
+  background-position: center left calc(0.100em + 0.1875rem);
+  filter:  brightness(0) invert(1);
+  background-size: 45px 45px;
+  display: inline-block;
+}
