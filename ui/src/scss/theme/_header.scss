@@ -1,276 +1,149 @@
+@import 'src/scss/vars';
 
 .container.header {
-  height: 150px;
-  padding: 0px;
-  margin: 0px;
-  box-shadow: none;
-  left: auto;
+  height: $dashboard-menu-height + $yellow-header+$title-header;
 
-  .background {
-    border-bottom: 1px solid $light-gray;
-    background-color: #f9f9f9;
-
-  }
-
-  .menu.branding {
-    background-color: #f9f9f9;
-    height: 96px;
+  .top_header {
+    height: $yellow-header;
+    background: $yellow;
   }
 
   .branding {
     &.menu {
-      img {
-        margin-top: $base-unit - 3;
+      margin: 0;
+      padding: 0px;
+      height: $title-header;
+
+      .item {
+        padding: 0px;
+      }
+
+      .logo-container {
+        width: $header-border-width;
+        flex: 0 0 $header-border-width;
+        padding-left: 30px;
+
+        img {
+          height: 75px;
+          border: 0;
+        }
       }
     }
   }
 
-  .menu, .branding {
-    padding: 0px;
-    margin: 0px;
-    max-width: 1366px;
-    margin: auto;
+  .align-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
 
+  .title-container {
+    align-items: center;
+    width: 100%;
 
-    .flag:not(.icon):before {
-
+    .title {
+      text-align: center;
+      color: $text-color;
+      font-size: 32pt;
+      font-weight: 500;
     }
+  }
 
-    .divider {
+  .lang-container {
+    align-items: end;
+    width: $header-border-width;
+    flex: 0 0 $header-border-width;
+    margin-right: 20px;
 
-
-      div {
-
-        border-left: 1px solid $light-gray;
-        height: 46px;
-
-      }
-
-    }
-
-    .flag::before {
-      width: 20px;
-      height: 22px;
-      margin-top: -3px;
-      background-repeat: no-repeat !important;
-      background: url("/static/images/za-flag.png");
-
-    }
-
-    .item.fitted {
-      color: #000;
-      font-size: 22px;
-    }
-
-    .item {
-
-
+    .lang {
       cursor: pointer;
-      font-size: 15px;
+      display: block;
 
-      margin: 0px 1%;
-    }
+      > a {
+        background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='utf-8'%3F%3E%3C!-- Generator: Adobe Illustrator 24.2.1, SVG Export Plug-In . SVG Version: 6.00 Build 0) --%3E%3Csvg version='1.1' id='Layer_1' focusable='false' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 192 512' style='enable-background:new 0 0 192 512;' xml:space='preserve'%3E%3Cstyle type='text/css'%3E .st0%7Bfill:%23555555;%7D%0A%3C/style%3E%3Cpath class='st0' d='M0,384.7V127.3c0-17.8,21.5-26.7,34.1-14.1l128.7,128.7c7.8,7.8,7.8,20.5,0,28.3L34.1,398.8 C21.5,411.4,0,402.5,0,384.7z'/%3E%3C/svg%3E%0A");
+        background-position: $base-unit-md 1px;
+        background-repeat: no-repeat;
+        background-size: $extend - 3 $extend - 3;
+        color: $text-color;
+        cursor: pointer;
+        display: block;
+        font-size: 13px;
+        font-weight: 800;
+        opacity: 1;
+        padding-right: $base-unit-md + 10;
 
-    .pages {
-      align-self: flex-end;
-      height: 96px;
-      width: 100%;
-
-      .item:nth-child(1) {
-        margin-left: 4%;
+        &:hover {
+          opacity: 0.6;
+        }
       }
+    }
+  }
+
+  .dashboard-menu {
+    height: $dashboard-menu-height;
+    background-image: url("/static/images/menu_background.jpg");
+    background-repeat: no-repeat;
+    background-size: 100%;
+    display: flex;
+
+    .menu {
+      width: 100%;
+      flex: 0 0 100%;
+      height: 80px;
+      display: flex;
+      justify-content: center;
+      background-color: rgba(0, 0, 0, 0.4);
+      padding: 0;
 
       .item {
+        float: left;
+        width: 330px;
+        height: 80px;
+        font-size: $menu-font-size;
+        cursor: pointer;
+        justify-content: flex-start;
+        padding-top: 10px;
 
-        a {
-          color: $menu-link-color;
+        &:hover:not(.fitted) {
+          background-color: rgba(239, 203, 22, 0.7);
+        }
 
-          &:hover {
-            color: $light-blue;
+        &.selected {
+          background-color: rgba(239, 203, 22, 0.7);
+        }
+
+        &.fitted {
+          width: 40px;
+        }
+
+        &.country-overview {
+          width: 200px;
+          flex: 0 0 200px;
+
+          a {
+            background-image: url("/static/images/country_dashboard.svg");
           }
         }
 
-        box-sizing: border-box;
-        margin: 0px;
-        text-transform: uppercase;
-        justify-content: center;
-        height: 71px;
-        min-width: 12%;
-        padding: 0px 4%;
+        &.cross-country-dashboard {
+          width: 200px;
+          flex: 0 0 200px;
 
-        align-self: flex-end;
-        border: 1px solid transparent;
-        padding-bottom: 25px;
-      }
-
-      .item.selected {
-        font-weight: bold;
-        height: 71px;
-        color: $light-blue;
-        background-color: #FFF;
-        border-bottom: 1px solid #FFF !important;
-
-        a {
-          color: $light-blue;
-        }
-      }
-
-      .item.has-child-items {
-        color: $menu-link-color;
-        padding-bottom: 27px;
-
-        span::after {
-          transform: rotate(90deg);
-          content: '\203A';
-          margin-left: 10px;
-          float: right;
-          display: block;
-        }
-      }
-
-      .item.selected.has-child-items {
-        color: $light-blue;
-        border: 1px solid $light-gray;
-        margin-bottom: -1px;
-        border-bottom-right-radius: 3px;
-        border-bottom-left-radius: 3px;
-        margin-bottom: -1px;
-        padding-bottom: 28px;
-
-        span::after {
-          transform: rotate(-90deg);
-          content: '\203A';
-          margin-left: $base-unit;
-          float: right;
-          display: block;
+          a {
+            background-image: url("/static/images/cross_country_dashboard.svg");
+          }
         }
 
-      }
-
-
-    }
-  }
-
-  .container.child {
-    .menu {
-      max-width: 100%;
-      margin-top: 0px;
-      padding: 0px;
-      border-bottom: 1px solid $light-gray;
-      justify-content: center;
-
-      .item {
-        margin-top: 1px;
-
-        a {
-          color: #9798a0;
-        }
-
-        text-transform: uppercase;
-        padding: 0px 10px;
-        margin: 0px .5%;
-
-        .mark {
-          width: 15px;
-          height: 17px;
-          background-size: 15px 15px;
-          margin-right: 11px;
-          /* webpackIgnore: true */
-          background-image: url("/static/images/child-menu-arrow.svg");
-          background-repeat: no-repeat;
-        }
-      }
-
-      .item.selected {
-
-        .mark {
-          width: 15px;
-          height: 16px;
-          background-size: 15px 15px;
-          margin-right: 10px;
-          /* webpackIgnore: true */
-          background-image: url("/static/images/header_arrow_green.png");
-          background-repeat: no-repeat;
-        }
-      }
-
-      .item.selected {
-        color: $green;
-      }
-
-      .item.active {
-        .mark {
-          @extend .mark;
-          /* webpackIgnore: true */
-          background-image: url("/static/images/child-menu-arrow-active.svg");
+        &.data-summary {
+          a {
+            background-image: url("/static/images/data_summary_country_comparisons.svg");
+          }
         }
 
         a {
-          font-weight: 800;
-          color: $green;
-
+          @include menu-icon;
         }
       }
     }
-  }
-}
-
-.url.breadcrumbs {
-  margin-top: $base-unit * 3;
-  font-size: 16px;
-
-  span {
-    color: $breadcrumb-grey;
-  }
-
-  span {
-    color: $breadcrumb-grey;
-  }
-
-  span:after, a:not(:last-child):after {
-    color: $breadcrumb-grey;
-    font-family: "Roboto";
-    content: '/';
-    display: inline;
-    font-size: 16px;
-    margin: 0px 10px;
-  }
-
-  a {
-    color: $breadcrumb-grey;
-  }
-
-
-  * {
-    padding: 0px;
-    margin: 0px;
-  }
-
-  .active {
-    color: $green;
-  }
-
-  .entry-content {
-    display: inline !important;;
-  }
-
-  .title {
-    font-size: 16px;
-
-
-  }
-
-  height: 30px;
-}
-
-
-.ui.search {
-  input.prompt {
-    border-radius: 0px;
-  }
-
-  i.search.icon {
-    color: #FFF;
-    background-color: #5089a6;
   }
 }
