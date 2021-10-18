@@ -81,10 +81,16 @@
 
   .dashboard-menu {
     height: $dashboard-menu-height;
-    background-image: url("/static/images/menu_background.jpg");
+    background-image: url("/static/images/menu_background.jpeg");
+    background-position: 50% 65%;
     background-repeat: no-repeat;
     background-size: 100%;
     display: flex;
+    -webkit-transform: scaleX(-1);
+
+    * {
+      -webkit-transform: scaleX(-1);
+    }
 
     .menu {
       width: 100%;
