@@ -33,9 +33,9 @@ const messages = {
 };
 
 
-const InjectTitle = injectIntl(({ intl ,locale}) => {
+const InjectTitle = injectIntl(({ intl, locale }) => {
   document.title = intl.formatMessage({ id: 'app.title', defaultMessage: process.env.REACT_APP_TITLE });
-  document.documentElement.lang=locale;
+  document.documentElement.lang = locale;
   return null
 })
 
@@ -61,7 +61,7 @@ class IntlRoutes extends Component {
     const locale = this.props.match.params.lan
     return (
       <IntlProvider key={locale} locale={locale} messages={messages[locale]}>
-        <InjectTitle locale={locale}/>
+        <InjectTitle locale={locale} />
         <AppContextProvider getComponent={getComponentByNameIgnoreCase} store={store} locale={locale}>
           <Switch>
             {
@@ -79,7 +79,7 @@ class IntlRoutes extends Component {
               <PageProvider
                 slug={"home"}
                 store={"home"}>
-                <ResponsiveContainer>
+                <ResponsiveContainer isHome>
                   <PageConsumer>
                     <Page />
                   </PageConsumer>

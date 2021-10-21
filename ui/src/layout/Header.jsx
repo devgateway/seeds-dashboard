@@ -54,7 +54,7 @@ const MyMenuItems = injectIntl(withRouter(({
   useEffect(() => {
     if (!selected) {
       const pathSelected = getPath(menu, match)
-      const items = pathSelected.filter(i => i.menu_item_parent === 0)
+      const items = pathSelected.filter(i => i.menu_item_parent === "0")
       if (items) {
         onSetSelected(items[0])
       }
@@ -69,7 +69,7 @@ const MyMenuItems = injectIntl(withRouter(({
       <><Menu.Item
         className={`divided ${i.child_items ? 'has-child-items' : ''} 
                  ${selected && selected.ID === i.ID ? 'selected' : ''}  ${active === i.slug ? "active" : ""} 
-                 ${addClass && i.slug ? i.slug.replace(/\s+/g, '-').toLowerCase() : ''}`}
+                 ${addClass && i.slug ? `_${i.slug.replace(/\s+/g, '-').toLowerCase()}` : ''}`}
 
       >
 
@@ -87,14 +87,25 @@ const Header = ({ intl: { locale }, match }) => {
 
   const [selected, setSelected] = useState()
   const { slug, parent } = match.params;
-  let isCustom = false;
-  if ((parent && parent === MENU_DASHBOARD) || slug === MENU_DASHBOARD) {
-    isCustom = true;
+
+  const isCustom = (parent && parent === MENU_DASHBOARD) || slug === MENU_DASHBOARD;
+
+
+  let bannerClass;
+  if (isCustom) {
+    bannerClass = 'dashboard';
+  } else {
+    if (parent) {
+      bannerClass = parent;
+    } else {
+      bannerClass = slug;
+    }
   }
+
   const logoUrl = process.env.REACT_APP_USE_HASH_LINKS ? `/#/${locale}` : `/${locale}`
 
-  return <MenuProvider slug={isCustom ? MENU_DASHBOARD : MENU_MAIN}>
-    <Container fluid={true} className="header">
+  return <MenuProvider slug={isCustom ? MENU_DASHBOARD : MENU_MAIN} locale={locale}>
+    <Container fluid={true} className={`header ${!bannerClass ? ' home' : ''}`}>
       <Container fluid={true} className="top_header" />
       <Container fluid={true} className="background">
         <Menu className={"branding"} text>
@@ -102,32 +113,36 @@ const Header = ({ intl: { locale }, match }) => {
             <a href={logoUrl}><img alt="Home" className="brand logo" src='/tasai_Logo.svg' /></a>
           </div>
           <div className="title-container align-content">
-            <span className="title">TASAI DASHBOARD</span>
+            {isCustom && <span className="title">TASAI DASHBOARD</span>}
+            {!isCustom && <Container fluid={true} className="regular-menu">
+              <Menu.Menu className={"pages"}>
+                <MenuConsumer>
+                  <MyMenuItems active={slug} selected={selected}
+                               onSetSelected={setSelected} />
+                </MenuConsumer>
+              </Menu.Menu>
+            </Container>}
           </div>
           <div className="lang-container align-content">
             <div className="lang"><a>français</a></div>
           </div>
         </Menu>
       </Container>
-
-      {isCustom &&
-      <Container fluid={true} className="dashboard-menu">
-        <Menu.Menu className={"pages"}>
+      <Container fluid={true} className={`dashboard-menu ${bannerClass ? bannerClass : ' home'}`}>
+        <Menu.Menu className={`pages${(!selected || !selected.child_items) && !isCustom ? ' not-selected' : ''}`}>
+          {isCustom &&
           <MenuConsumer>
             <MyMenuItems active={slug} selected={selected}
                          onSetSelected={setSelected} addClass addSeparator />
           </MenuConsumer>
+          }
+          {selected && selected.child_items &&
+          <MyMenuItems active={slug} locale={locale} onSetSelected={e => null}
+                       addSeparator addClass menu={{ items: selected.child_items }}>}</MyMenuItems>
+          }
         </Menu.Menu>
       </Container>
-      }
     </Container>
-
-    {!isCustom && <Container className={"url breadcrumbs"}>
-      <MenuConsumer>
-        <BreadCrumbs />
-      </MenuConsumer>
-    </Container>
-    }
   </MenuProvider>
 
 }

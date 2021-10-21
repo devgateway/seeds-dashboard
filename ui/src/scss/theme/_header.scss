@@ -1,7 +1,22 @@
 @import 'src/scss/vars';
 
 .container.header {
-  height: $dashboard-menu-height + $yellow-header+$title-header;
+  .background {
+    border-bottom: 1px solid #dadada;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: rgb(218, 218, 218);
+    height: $title-header;
+  }
+
+  &:not(.home) {
+    height: $dashboard-menu-height + $yellow-header + $title-header;
+  }
+
+  &.home {
+    height: $dashboard-menu-height-home + $yellow-header + $title-header;
+    margin: 0;
+  }
 
   .top_header {
     height: $yellow-header;
@@ -11,21 +26,28 @@
   .branding {
     &.menu {
       margin: 0;
-      padding: 0px;
+      padding: 0;
       height: $title-header;
 
       .item {
-        padding: 0px;
+        padding: 0;
       }
 
       .logo-container {
-        width: $header-border-width;
-        flex: 0 0 $header-border-width;
+        @media (max-width: 1024px) {
+          width: $header-border-width - $header-border-width-800;
+          flex: 0 0 $header-border-width - $header-border-width-800;
+        }
+        @media (min-width: 1025px) {
+          width: $header-border-width;
+          flex: 0 0 $header-border-width;
+        }
         padding-left: 30px;
 
         img {
-          height: 75px;
+          height: 50px;
           border: 0;
+
         }
       }
     }
@@ -44,15 +66,89 @@
     .title {
       text-align: center;
       color: $text-color;
-      font-size: 32pt;
+      @media (max-width: 1024px) {
+        font-size: 18pt;
+      }
+      @media (min-width: 1025px) {
+        font-size: 31px;
+      }
       font-weight: 500;
     }
+
+    .regular-menu {
+      .pages {
+        display: flex;
+        align-self: flex-end;
+        width: auto;
+        justify-content: center;
+        padding-top: 25px;
+
+        .item {
+          a {
+            color: $menu-text-color;
+
+            &:hover {
+              font-weight: bold;
+              color: $yellow;
+            }
+          }
+
+          @media (max-width: 1024px) {
+            font-size: 10px;
+          }
+          @media (min-width: 1100px) and (max-width: 1200px) {
+            font-size: 14px;
+          }
+          @media (min-width: 1201px) {
+            font-size: 16px;
+          }
+          box-sizing: border-box;
+          margin: 0;
+          justify-content: center;
+          min-width: 2%;
+          align-self: flex-end;
+          border: 1px solid transparent;
+          padding: 0 2% 25px;
+        }
+
+        .item.selected {
+          font-weight: bold;
+          color: $yellow;
+
+          a {
+            color: $yellow;
+          }
+        }
+
+        .item.has-child-items {
+          padding-bottom: 25px;
+        }
+
+        .item.selected.has-child-items {
+          margin-bottom: -1px;
+          border-bottom-right-radius: 3px;
+          border-bottom-left-radius: 3px;
+          padding-bottom: 28px;
+
+        }
+
+
+      }
+
+    }
+
   }
 
   .lang-container {
     align-items: end;
-    width: $header-border-width;
-    flex: 0 0 $header-border-width;
+    @media (max-width: 1024px) {
+      width: $header-border-width - $header-border-width-800;
+      flex: 0 0 $header-border-width -$header-border-width-800;
+    }
+    @media (min-width: 1025px) {
+      width: $header-border-width;
+      flex: 0 0 $header-border-width;
+    }
     margin-right: 20px;
 
     .lang {
@@ -81,16 +177,29 @@
 
   .dashboard-menu {
     height: $dashboard-menu-height;
-    background-image: url("/static/images/menu_background.jpeg");
     background-position: 50% 65%;
     background-repeat: no-repeat;
     background-size: 100%;
     display: flex;
-    -webkit-transform: scaleX(-1);
 
-    * {
-      -webkit-transform: scaleX(-1);
+
+    &.home {
+      height: $dashboard-menu-height-home;
     }
+
+    &.dashboard {
+      -webkit-transform: scaleX(-1);
+      background-image: url("/static/images/menu_background.jpeg");
+
+      * {
+        -webkit-transform: scaleX(-1);
+      }
+    }
+
+    &.people {
+      background-image: url("/static/images/people_banner.jpeg");
+    }
+
 
     .menu {
       width: 100%;
@@ -99,55 +208,116 @@
       display: flex;
       justify-content: center;
       background-color: rgba(0, 0, 0, 0.4);
+
+      &.not-selected {
+        background-color: transparent;
+      }
+
       padding: 0;
 
       .item {
-        float: left;
-        width: 330px;
+        width: 160px;
         height: 80px;
         font-size: $menu-font-size;
         cursor: pointer;
-        justify-content: flex-start;
-        padding-top: 10px;
+        display: flex;
+        align-self: flex-end;
+        justify-content: center;
+        align-items: center;
 
         &:hover:not(.fitted) {
           background-color: rgba(239, 203, 22, 0.7);
         }
 
-        &.selected {
+        &.selected, &.active {
           background-color: rgba(239, 203, 22, 0.7);
         }
 
+
         &.fitted {
-          width: 40px;
-        }
-
-        &.country-overview {
-          width: 200px;
-          flex: 0 0 200px;
-
-          a {
-            background-image: url("/static/images/country_dashboard.svg");
-          }
-        }
-
-        &.cross-country-dashboard {
-          width: 200px;
-          flex: 0 0 200px;
-
-          a {
-            background-image: url("/static/images/cross_country_dashboard.svg");
-          }
-        }
-
-        &.data-summary {
-          a {
-            background-image: url("/static/images/data_summary_country_comparisons.svg");
-          }
+          width: 20px;
         }
 
         a {
           @include menu-icon;
+          background-image: url("/static/images/data_summary_country_comparisons.svg");
+        }
+
+        &._country-overview {
+          a {
+            background-image: url("/static/images/country_dashboard.svg") !important;
+          }
+        }
+
+        /*ABOUT*/
+        &._background {
+          a {
+            background-image: url("/static/images/background.svg") !important;
+          }
+        }
+
+        &._methods {
+          a {
+            background-image: url("/static/images/methods.svg") !important;
+          }
+        }
+
+        &._indicators {
+          a {
+            background-image: url("/static/images/indicators.svg") !important;
+          }
+        }
+
+        /*PEOPLE*/
+        &._team {
+          a {
+            background-image: url("/static/images/team.svg") !important;
+          }
+        }
+
+        &._researchers {
+          a {
+            background-image: url("/static/images/researchers.svg") !important;
+          }
+        }
+
+        &._board {
+          a {
+            background-image: url("/static/images/board.svg") !important;
+          }
+        }
+
+        &._cross-country-dashboard {
+          width: 200px;
+          flex: 0 0 200px;
+
+          a {
+            background-image: url("/static/images/cross_country_dashboard.svg") !important;;
+          }
+        }
+
+        &._data-summary {
+          width: 250px;
+
+          a {
+            background-image: url("/static/images/data_summary_country_comparisons.svg") !important;;
+          }
+        }
+
+
+      }
+    }
+  }
+}
+
+html:lang(fr) {
+  .container.header {
+    .dashboard-menu {
+      .menu {
+        .item {
+          &:not(.fitted) {
+            width: 220px;
+          }
         }
       }
     }
