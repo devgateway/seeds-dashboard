@@ -31,12 +31,17 @@ $base-unit: 10px;
 $base-unit-md: 20px;
 /*MENUS*/
 $dashboard-menu-height: 185px;
+$dashboard-menu-height-home: 80px;
 $yellow-header: 20px;
 $title-header: 80px;
 $extend: 100%;
 
 /*TASAI*/
 $header-border-width: 300px;
+
+$header-border-width: 250px;
+$header-border-width-800: 120px;
+
 /*COLORS*/
 $yellow: #EFCB16;
 $text-color: #555555;
@@ -53,4 +58,5 @@ $menu-font-size: 16pt;
   filter:  brightness(0) invert(1);
   background-size: 45px 45px;
   display: inline-block;
+  cursor: pointer;
 }

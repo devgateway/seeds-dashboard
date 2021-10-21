@@ -33,6 +33,13 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
+a:focus {
+  outline-style: none;
+  box-shadow: none;
+  border-color: transparent;
+
+}
+
 .ui {
   font-family: $font-family;
 }
@@ -43,6 +50,15 @@ code {
 
 .ui.container.fluid.desktop {
   max-width: 1366px !important;
+
+  &.home {
+    margin-top: - $dashboard-menu-height-home;
+
+    .entry-content {
+      position: relative;
+      z-index: -100;
+    }
+  }
 }
 
 
