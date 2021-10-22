@@ -239,17 +239,7 @@
         }
 
         a {
-          font-size: $menu-font-size - 1;
-          font-weight: 500;
-          outline: none;
-          text-transform: capitalize;
-          background-repeat: no-repeat;
-          padding-left: calc(1.75em + 0.75rem);
-          background-position: center left calc(0.100em + 0.1875rem);
-          filter:  brightness(0) invert(1);
-          background-size: 45px 45px;
-          display: inline-block;
-          cursor: pointer;
+          @include menu-icon;
           background-image: url("/static/images/data_summary_country_comparisons.svg");
         }
 
