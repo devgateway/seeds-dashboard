@@ -46,14 +46,14 @@ $header-border-width-800: 120px;
 $yellow: #EFCB16;
 $text-color: #555555;
 $menu-text-color: #555555;
-$menu-font-size: 16pt;
+$menu-font-size: 16px;
 @mixin menu-icon {
   font-size: $menu-font-size - 1;
-  font-weight: 500;
+  font-weight: 600;
   outline: none;
   text-transform: capitalize;
   background-repeat: no-repeat;
-  padding-left: calc(1.75em + 0.75rem);
+  padding-left: calc(2.50em + 0.75rem);
   background-position: left calc(0.100em + 0.1875rem) center;
   filter:  brightness(0) invert(1);
   background-size: 45px 45px;

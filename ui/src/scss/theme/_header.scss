@@ -45,7 +45,7 @@
         padding-left: 30px;
 
         img {
-          height: 50px;
+          height: 90px;
           border: 0;
 
         }
@@ -182,7 +182,6 @@
     background-size: 100%;
     display: flex;
 
-
     &.home {
       height: $dashboard-menu-height-home;
     }
@@ -197,6 +196,7 @@
     }
 
     &.people {
+      background-position: 45% 30%;
       background-image: url("/static/images/people_banner.jpeg");
     }
 
@@ -240,13 +240,6 @@
 
         a {
           @include menu-icon;
-          background-image: url("/static/images/data_summary_country_comparisons.svg");
-        }
-
-        &._country-overview {
-          a {
-            background-image: url("/static/images/country_dashboard.svg") !important;
-          }
         }
 
         /*ABOUT*/
@@ -287,9 +280,57 @@
           }
         }
 
+        &._board {
+          a {
+            background-image: url("/static/images/board.svg") !important;
+          }
+        }
+
+        /*Dashboard*/
+        &._dashboard {
+          a {
+            background-position: 10px 5px;
+            /*padding-right: calc(2.50em + 0.75rem);*/
+            padding-top: 15px;
+            height: 50px;
+            background-image: url("/static/images/dashboard.svg") !important;
+          }
+        }
+
+        &._country-reports {
+          a {
+            background-image: url("/static/images/country_reports.svg") !important;
+          }
+        }
+
+        &._other-publications {
+          a {
+            background-image: url("/static/images/other_publications.svg") !important;
+          }
+        }
+        &._country-info {
+          a {
+            background-position: 10px 5px;
+            /*padding-right: calc(2.50em + 0.75rem);*/
+            padding-top: 15px;
+            height: 50px;
+            background-image: url("/static/images/country_info.svg") !important;
+          }
+        }
+        /*Custom*/
+        &._country-overview {
+          width: 210px;
+          flex: 0 0 210px;
+
+          a {
+            width: 180px;
+            background-image: url("/static/images/country_dashboard.svg") !important;
+          }
+        }
+
         &._cross-country-dashboard {
-          width: 200px;
-          flex: 0 0 200px;
+          width: 210px;
+          flex: 0 0 210px;
 
           a {
             background-image: url("/static/images/cross_country_dashboard.svg") !important;;
@@ -297,7 +338,8 @@
         }
 
         &._data-summary {
-          width: 250px;
+          width: 200px;
+          flex: 0 0 200px;
 
           a {
             background-image: url("/static/images/data_summary_country_comparisons.svg") !important;;
