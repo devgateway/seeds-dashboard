@@ -31,6 +31,7 @@ services:
       - ./wp-react-blocks-plugin:/var/www/html/wp-content/plugins/wp-react-blocks-plugin
       - ./wp-content:/var/www/html/wp-content
       - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
+      - ./wordpress/php.ini-development:/usr/local/etc/php/php.ini
     networks:
       - backend  #for dev purpose we use a bridged network
     logging:
