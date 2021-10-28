@@ -21,6 +21,7 @@ import {
 } from "@devgateway/wp-react-lib";
 import queryString from "query-string";
 import { Container, Segment } from "semantic-ui-react";
+import { detectClientCountry } from "./embeddable/reducers/data";
 
 const store = getStore()
 
@@ -48,13 +49,13 @@ class IntlRoutes extends Component {
   componentDidMount() {
     const locale = this.props.match.params.lan
     store.dispatch(updateIntl({ locale, messages: messages[this.props.match.params.lan] }))
-
+    store.dispatch(detectClientCountry());
   }
 
   componentDidUpdate() {
     const locale = this.props.match.params.lan
     store.dispatch(updateIntl({ locale, messages: messages[locale] }))
-
+    store.dispatch(detectClientCountry());
   }
 
   render() {
