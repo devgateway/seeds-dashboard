@@ -1,9 +1,30 @@
 @import 'src/scss/vars';
 
 .container.wp-react-lib.footer {
-  margin-top: 100px;
   background-color: $yellow;
   line-height: 16px !important;
+  position: absolute;
+  bottom: 0;
+
+  .wp-block-columns.footer-table {
+    > div:nth-child(1) {
+
+      border-right: 1px solid $text-color-dark;
+    }
+    margin: 0;
+  }
+
+  p {
+    color: $text-color-dark;
+  }
+
+  a {
+    color: $text-color-dark;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 
   .header {
     height: 20px;
@@ -11,5 +32,30 @@
     background-position: 50% 65%;
     background-repeat: no-repeat;
     background-size: 100%;
+  }
+
+  .wp-block-columns {
+    &.follow_us {
+      margin: 0;
+
+      width: 50%;
+
+      .wp-block-column {
+        margin: 0;
+      }
+
+      img {
+        filter: $logos-color;
+      }
+    }
+
+    &.logos {
+      img {
+        filter: $logos-color;
+        width: 190px;
+        height: 90px
+      }
+
+    }
   }
 }

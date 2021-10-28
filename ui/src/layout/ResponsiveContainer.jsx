@@ -21,7 +21,7 @@ class DesktopContainer extends Component {
     const { children, isHome } = this.props
     return (
       <Container fluid>
-        <Header></Header>
+        <Header />
         <Container className={`desktop ${isHome ? ' home' : ''}`} fluid>
           {children}
         </Container>
@@ -82,7 +82,7 @@ class ResponsiveContainer extends Component {
 
   render() {
     const { children, isHome } = this.props
-    return (<div>
+    return (<div style={{ height: '100%'}}>
       <style>
         {Media.mediaStyles}
       </style>

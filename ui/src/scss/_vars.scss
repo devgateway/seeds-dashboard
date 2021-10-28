@@ -45,8 +45,10 @@ $header-border-width-800: 120px;
 /*COLORS*/
 $yellow: #EFCB16;
 $text-color: #555555;
+$text-color-dark: #3F3F3F;
 $menu-text-color: #555555;
 $menu-font-size: 16px;
+$logos-color: brightness(0) invert(0.4);
 @mixin menu-icon {
   font-size: $menu-font-size - 1;
   font-weight: 600;
