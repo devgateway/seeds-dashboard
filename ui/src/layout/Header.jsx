@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import { MenuConsumer, MenuProvider, utils } from "@devgateway/wp-react-lib";
 import { injectIntl } from "react-intl";
 import { withRouter } from "react-router";
+import { connect } from "react-redux";
+import { COUNTRY_SETTINGS } from "../embeddable/reducers/StoreConstants";
 
 const MENU_DASHBOARD = 'dashboard';
 const MENU_MAIN = 'main';
@@ -83,8 +85,11 @@ const MyMenuItems = injectIntl(withRouter(({
   </React.Fragment>
 }))
 
-const Header = ({ intl: { locale }, match }) => {
+const Header = ({ intl: { locale }, match, country_settings }) => {
 
+  //TODO for testing purpouses to be deleted
+
+  console.log(country_settings ? `Detected country : ${country_settings.country}` : 'Default country');
   const [selected, setSelected] = useState()
   const { slug, parent } = match.params;
 
@@ -147,5 +152,11 @@ const Header = ({ intl: { locale }, match }) => {
 
 }
 
+const mapStateToProps = (state) => {
+  return {
+    country_settings: state.getIn(['data', COUNTRY_SETTINGS, 'data'])
+  }
+}
+const mapActionCreators = {};
 
-export default injectIntl(withRouter(Header))
+export default connect(mapStateToProps, mapActionCreators)(injectIntl(withRouter(Header)));
