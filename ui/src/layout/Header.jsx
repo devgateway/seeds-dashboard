@@ -1,4 +1,4 @@
-import { Container, Flag, Menu } from "semantic-ui-react";
+import { Container, Menu } from "semantic-ui-react";
 import React, { useEffect, useState } from "react";
 import { MenuConsumer, MenuProvider, utils } from "@devgateway/wp-react-lib";
 import { injectIntl } from "react-intl";
@@ -32,7 +32,7 @@ const BreadCrumbs = withRouter(injectIntl(({ menu, match, intl }) => {
 
   let path = getPath(menu, match)
   return <React.Fragment>
-    <a href={"#"}> Home </a>
+    <a href={"/#"}> Home </a>
     {path.map(i => !i.child_items ? <a className={i.slug === match.params.slug ? 'active' : ''}
                                        href={utils.replaceLink(i.url, intl.locale)}> {i.post_title}</a> :
       <span>{i.post_title} </span>)}
