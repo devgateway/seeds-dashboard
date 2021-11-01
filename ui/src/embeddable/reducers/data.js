@@ -78,8 +78,7 @@ export const detectClientCountry = () => (dispatch) => {
       return dispatch({ type: LOAD_COUNTRY_SETTINGS_ERROR, error });
     })
 }
-
-export default (state = initialState, action) => {
+const reducer = (state = initialState, action) => {
   switch (action.type) {
     case LOAD_DATA: {
       const { store } = action
@@ -113,7 +112,7 @@ export default (state = initialState, action) => {
       return state
     case SET_FILTER: {
       const { param, value } = action
-      if (value.length == 0) {
+      if (value.length === 0) {
         return state.deleteIn(['filters', param], value)
       }
       return state.setIn(['filters', param], value)
@@ -142,3 +141,5 @@ export default (state = initialState, action) => {
       return state
   }
 }
+export default reducer;
+

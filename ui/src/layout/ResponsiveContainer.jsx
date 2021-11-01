@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, useState } from 'react'
 
 import { Container, Icon, Menu, Sidebar, } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
@@ -16,84 +16,64 @@ import Header from "./Header";
  * Neither Semantic UI nor Semantic UI React offer a responsive navbar, however, it can be implemented easily.
  * It can be more complicated, but you can create really flexible markup.
  */
-class DesktopContainer extends Component {
-  render() {
-    const { children, isHome } = this.props
-    return (
-      <Container fluid>
-        <Header />
-        <Container className={`desktop ${isHome ? ' home' : ''}`} fluid>
-          {children}
-        </Container>
-      </Container>
-
-
-    )
-  }
+const DesktopContainer = ({ children, isHome }) => {
+  return <Container fluid>
+    <Header />
+    <Container className={`desktop ${isHome ? ' home' : ''}`} fluid>
+      {children}
+    </Container>
+  </Container>
 }
+
 
 DesktopContainer.propTypes = {
   children: PropTypes.node,
 }
+const MobileContainer = ({ children, big }) => {
+  const [sidebarOpened, setSidebarOpened] = useState(false);
+  const handleSidebarHide = () => setSidebarOpened(false);
+  const handleToggle = () => setSidebarOpened(true)
+  return (
+    <Container>
+      <Sidebar
+        as={Menu}
+        animation='push'
+        onHide={handleSidebarHide}
+        vertical
+        visible={sidebarOpened}>
+        <Container>
+          <MainMenu slug="main" />
+        </Container>
 
-class MobileContainer extends Component {
+      </Sidebar>
 
-  state = {}
-  handleSidebarHide = () => this.setState({ sidebarOpened: false })
-  handleToggle = () => this.setState({ sidebarOpened: true })
-
-  render() {
-    const { children, big } = this.props
-    const { sidebarOpened } = this.state
-
-    return (
-      <Container>
-        <Sidebar
-          as={Menu}
-          animation='push'
-          onHide={this.handleSidebarHide}
-          vertical
-          visible={sidebarOpened}>
-          <Container>
-            <MainMenu slug="main" />
-          </Container>
-
-        </Sidebar>
-
-        <Sidebar.Pusher dimmed={sidebarOpened}>
-          <Container fluid>
-            <Menu>
-              <Menu.Item onClick={this.handleToggle}> <Icon name='sidebar' color="orange" /> </Menu.Item>
-            </Menu>
-            {children}
-          </Container>
-        </Sidebar.Pusher>
-      </Container>
-    )
-  }
+      <Sidebar.Pusher dimmed={sidebarOpened}>
+        <Container fluid>
+          <Menu>
+            <Menu.Item onClick={handleToggle}> <Icon name='sidebar' color="orange" /> </Menu.Item>
+          </Menu>
+          {children}
+        </Container>
+      </Sidebar.Pusher>
+    </Container>
+  )
 }
 
 MobileContainer.propTypes = {
   children: PropTypes.node,
 }
+const ResponsiveContainer = ({ children, isHome }) => {
+  return <div style={{ height: '100%' }}>
+    <style>
+      {Media.mediaStyles}
+    </style>
 
-class ResponsiveContainer extends Component {
+    <DesktopContainer isHome={isHome}>
+      {children}
+    </DesktopContainer>
+    <Footer></Footer>
 
-
-  render() {
-    const { children, isHome } = this.props
-    return (<div style={{ height: '100%'}}>
-      <style>
-        {Media.mediaStyles}
-      </style>
-
-      <DesktopContainer isHome={isHome}>
-        {children}
-      </DesktopContainer>
-      <Footer></Footer>
-
-    </div>)
-  }
+  </div>
 }
 
 

@@ -60,7 +60,7 @@ class EmbeddedGateway extends React.Component {
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         const {parent} = this.props
-        if (parent != prevProps.parent) {
+        if (parent !== prevProps.parent) {
             this.renderEmbeddedComponents()
         }
     }

@@ -41,11 +41,6 @@ const InjectTitle = injectIntl(({ intl, locale }) => {
 })
 
 class IntlRoutes extends Component {
-
-  constructor(props) {
-    super(props);
-  }
-
   componentDidMount() {
     const locale = this.props.match.params.lan
     store.dispatch(updateIntl({ locale, messages: messages[this.props.match.params.lan] }))
@@ -76,7 +71,7 @@ class IntlRoutes extends Component {
             {
               //default route (home)
             }
-            <Route path="/:lan" exact render={props => (
+            <Route path="/:lan" exact render={() => (
               <PageProvider
                 slug={"home"}
                 store={"home"}>
@@ -197,7 +192,7 @@ class IntlRoutes extends Component {
 }
 
 
-const MainRoutes = (props) => {
+const MainRoutes = () => {
   return (<ConnectedRouter history={history}>
 
     <Switch>
