@@ -48,16 +48,20 @@ a:focus {
   max-width: 1080px;
 }
 
-.ui.container.fluid.desktop {
-  max-width: 1366px !important;
+.ui.container.fluid {
+  .desktop {
+    max-width: 1366px !important;
+    margin-bottom: 100px;
 
-  &.home {
-    margin-top: - $dashboard-menu-height-home;
+    &.home {
+      margin-top: - $dashboard-menu-height-home;
 
-    .entry-content {
-      position: relative;
-      z-index: -100;
+      .entry-content {
+        position: relative;
+        z-index: -100;
+      }
     }
+
   }
 }
 
