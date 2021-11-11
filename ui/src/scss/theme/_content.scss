@@ -197,7 +197,7 @@ p:empty {
 .wp-block-spacer {
   clear: none;
 }
-
+// Heading with underline
 .underlined{
   &:after{
     content: '';
@@ -210,10 +210,7 @@ p:empty {
     width: $base-unit * 10;
   }
 }
-.wp-block-columns.bg{
-  background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDI2LjAuMSwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IgoJIHZpZXdCb3g9IjAgMCAxMDI0IDUwMCIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgMTAyNCA1MDA7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4KCS5zdDB7ZmlsbDpub25lO30KCS5zdDF7b3BhY2l0eTowLjE1O2ZpbGw6I0VGQ0IxNjt9Cgkuc3Qye29wYWNpdHk6MC4xNTtmaWxsOiNEMUNDQTU7fQo8L3N0eWxlPgo8Zz4KCTxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik0zNTMuMSwzMTYuNWMtODQuMSw1Ny0yNDEuOS0zLjItMzUyLjctMTM0LjRjLTAuMS0wLjItMC4zLTAuMy0wLjQtMC41VjUwMGg2MzgKCQljLTkyLjMtMTI0LjgtMTA1LjgtMjYxLjUtMjcuMS0zMTQuNmM4NC4xLTU3LDI0MS45LDMuMiwzNTIuNywxMzQuNGMxOS45LDIzLjcsNDAuNSw1MS42LDYwLjQsODEuOFYwSDMyNC42CgkJQzQxOC4yLDEyNS4zLDQzMi4zLDI2My4yLDM1My4xLDMxNi41eiIvPgoJPHBhdGggY2xhc3M9InN0MSIgZD0iTTM1My4xLDMxNi41Yzc5LjEtNTMuNCw2NS4xLTE5MS4yLTI4LjUtMzE2LjVIMHYxODEuNmMwLjEsMC4yLDAuMywwLjMsMC40LDAuNQoJCUMxMTEuMiwzMTMuMywyNjksMzczLjUsMzUzLjEsMzE2LjV6Ii8+Cgk8cGF0aCBjbGFzcz0ic3QyIiBkPSJNNjEwLjksMTg1LjRDNTMyLjIsMjM4LjUsNTQ1LjcsMzc1LjIsNjM4LDUwMGgzODZ2LTk4LjRjLTE5LjktMzAuMi00MC40LTU4LjEtNjAuNC04MS44CgkJQzg1Mi44LDE4OC41LDY5NSwxMjguMyw2MTAuOSwxODUuNHoiLz4KPC9nPgo8L3N2Zz4K");
-  background-size: cover;
-}
+// Full width banners and images
 .wp-block-cover.full-width-cover{
   background-color: transparent;
   img.wp-block-cover__image-background{
@@ -223,4 +220,12 @@ p:empty {
 }
 .wp-block-cover.full-width-cover.has-background-dim:not([class*=-background-color]){
   background-color: transparent;
+}
+
+// Banner with text
+.banner-title{
+  margin-top: -($base-unit * 3);
+}
+.banner-subtitle{
+  margin-bottom: -($base-unit * 3);
 }
