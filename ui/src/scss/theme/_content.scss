@@ -212,7 +212,6 @@ p:empty {
 }
 // Full width banners and images
 .wp-block-cover.full-width-cover{
-  background-color: transparent;
   img.wp-block-cover__image-background{
     width: 100vw;
     margin-left: calc(-50vw + 50%);
@@ -222,10 +221,25 @@ p:empty {
   background-color: transparent;
 }
 
+// Full width banner with solid bg color
+.wp-block-cover.full-width-cover.bg-color{
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+}
 // Banner with text
 .banner-title{
   line-height: 125%;
 }
 .banner-subtitle{
   margin-bottom: -($base-unit * 3);
+}
+
+// Intro banner
+.intro{
+  h2{
+    font-size: 2.8rem !important;
+    line-height: 120%;
+    margin-top: -5px;
+    margin-bottom: -5px;
+  }
 }
