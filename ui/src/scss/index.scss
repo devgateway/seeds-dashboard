@@ -47,7 +47,10 @@ a:focus {
 .ui.container.narrow {
   max-width: 1080px;
 }
+.ui.container.entry-content{
+  width: 1366px !important;
 
+}
 .ui.container.fluid {
   .desktop {
     max-width: 1366px !important;

@@ -85,11 +85,7 @@ const MyMenuItems = injectIntl(withRouter(({
   </React.Fragment>
 }))
 
-const Header = ({ intl: { locale }, match, country_settings }) => {
-
-  //TODO for testing purpouses to be deleted
-
-  console.log(country_settings ? `Detected country : ${country_settings.country}` : 'Default country');
+const Header = ({ intl: { locale }, match }) => {
   const [selected, setSelected] = useState()
   const { slug, parent } = match.params;
 
@@ -149,14 +145,6 @@ const Header = ({ intl: { locale }, match, country_settings }) => {
       </Container>
     </Container>
   </MenuProvider>
-
 }
 
-const mapStateToProps = (state) => {
-  return {
-    country_settings: state.getIn(['data', COUNTRY_SETTINGS, 'data'])
-  }
-}
-const mapActionCreators = {};
-
-export default connect(mapStateToProps, mapActionCreators)(injectIntl(withRouter(Header)));
+export default (injectIntl(withRouter(Header)));

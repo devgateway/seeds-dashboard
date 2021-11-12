@@ -1,4 +1,89 @@
+@import 'src/scss/vars';
+
 .filters {
-  padding: 20px;
-  border: 1px solid blue;
+  background-color: #aeaeae;
+  display: flex !important;
+  justify-content: center;
+  height: 60px;
+
+  .country-filter-container {
+    width: 90%;
+    background-color: $yellow;
+
+    .filter-title {
+      font-size: 19px;
+      color: white;
+    }
+
+    .ui.vertical.menu {
+      padding: 0;
+      height: $country-filter-height;
+      border: 0;
+      border-radius: 0;
+      background-color: $orange;
+
+      .title {
+        font-size: 19px;
+        color: white;
+      }
+    }
+
+    .selected-country {
+      background-color: $orange;
+    }
+
+    .country-carousel {
+
+
+      .carousel__slider--horizontal {
+        height: $country-filter-height;
+
+        /*.carousel__inner-slide{
+          border-right: 1px solid white;
+          &:last-child {
+            border: 1px solid pink;
+          }
+        } */
+      }
+
+      li {
+        height: 60px !important;
+        min-height: 60px !important;
+
+        div {
+          border-right: 1px solid white;
+        }
+
+        &:last-child {
+          div {
+            border: 0;
+          }
+        }
+      }
+    }
+
+    .ui.checkbox.checked {
+      label {
+        color: $green;
+        text-decoration: underline;
+      }
+
+    }
+
+    &.ui.grid {
+      margin: 0;
+
+      .column {
+        padding: 0;
+
+        &:first-child {
+          border-right: 1px solid white;
+        }
+
+        .ui.grid {
+          margin: 0px;
+        }
+      }
+    }
+  }
 }

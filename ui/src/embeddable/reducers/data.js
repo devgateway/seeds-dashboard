@@ -2,14 +2,14 @@
 import * as api from './data-api'
 import Immutable from 'immutable'
 import Papa from 'papaparse'
-import { COUNTRY_SETTINGS } from "./StoreConstants";
+import { COUNTRIES_FILTER, COUNTRY_SETTINGS } from "./StoreConstants";
 
 const LOAD_DATA = 'LOAD_DATA'
 const LOAD_DATA_DONE = 'LOAD_DATA_DONE'
 const LOAD_DATA_ERROR = 'LOAD_DATA_ERROR'
-const LOAD_CATEGORIES = 'LOAD_CATEGORIES'
-const LOAD_CATEGORIES_DONE = 'LOAD_CATEGORIES_DONE'
-const LOAD_CATEGORIES_ERROR = 'LOAD_CATEGORIES_ERROR'
+const LOAD_COUNTRIES = 'LOAD_COUNTRIES'
+const LOAD_COUNTRIES_DONE = 'LOAD_COUNTRIES_DONE'
+const LOAD_COUNTRIES_ERROR = 'LOAD_COUNTRIES_ERROR'
 
 const LOAD_COUNTRY_SETTINGS = 'LOAD_COUNTRY_SETTINGS'
 const LOAD_COUNTRY_SETTINGS_DONE = 'LOAD_COUNTRY_SETTINGS_DONE'
@@ -22,24 +22,23 @@ const initialState = Immutable.Map({ mode: 'info' })
 
 
 export const setFilter = (type, value) => (dispatch, getState) => {
-
   dispatch({ type: SET_FILTER, param: type, value })
 
 }
 
 
-export const getCategories = () => (dispatch, getState) => {
+export const getCountries = () => (dispatch, getState) => {
   dispatch({
-    type: LOAD_CATEGORIES
+    type: LOAD_COUNTRIES
   })
-  api.getCategories().then(data => {
+  api.getCountriesData().then(data => {
     dispatch({
-      type: LOAD_CATEGORIES_DONE,
-      data
+      type: LOAD_COUNTRIES_DONE,
+      data: data.sort((a, b) => a.country.localeCompare(b.country))
     })
   }).catch(error => {
     dispatch({
-      type: LOAD_CATEGORIES_ERROR,
+      type: LOAD_COUNTRIES_ERROR,
       error
     })
   })
@@ -101,14 +100,14 @@ const reducer = (state = initialState, action) => {
     }
 
 
-    case LOAD_CATEGORIES:
+    case LOAD_COUNTRIES:
       return state
-    case LOAD_CATEGORIES_DONE:
+    case LOAD_COUNTRIES_DONE:
       const { data } = action
 
-      return state.setIn(['categories'], Immutable.fromJS(data))
+      return state.setIn([COUNTRIES_FILTER], data)
 
-    case LOAD_CATEGORIES_ERROR:
+    case LOAD_COUNTRIES_ERROR:
       return state
     case SET_FILTER: {
       const { param, value } = action

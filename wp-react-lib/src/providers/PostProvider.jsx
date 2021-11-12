@@ -69,7 +69,6 @@ class PostProvider extends React.Component {
 
     render() {
         const {posts, meta, loading, error, locale} = this.props
-        debugger;
         if (posts && posts.length > 0) {
             return <PostContext.Provider value={{posts, locale, meta}}>{this.props.children}</PostContext.Provider>
         } else if (error) {

@@ -42,8 +42,13 @@ $header-border-width: 300px;
 $header-border-width: 250px;
 $header-border-width-800: 120px;
 
+
+$country-filter-height: 60px;
+
 /*COLORS*/
 $yellow: #EFCB16;
+$orange: #f39c00;
+$green: #4d843f;
 $text-color: #555555;
 $text-color-dark: #3F3F3F;
 $menu-text-color: #555555;
@@ -64,4 +69,10 @@ $logos-color: brightness(0) invert(0.4);
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+@mixin align-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center
 }
