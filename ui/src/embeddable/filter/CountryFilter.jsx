@@ -101,6 +101,7 @@ const CountryFilter = ({ countries, onApply, filters, navigationCountry }) => {
               <Accordion.Title
                 active={activeIndex === 0}
                 content='Select a country'
+                icon="angle right"
                 index={0}
                 onClick={handleClick}
               />

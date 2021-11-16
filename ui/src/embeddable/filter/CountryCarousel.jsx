@@ -1,6 +1,7 @@
 import { ButtonBack, ButtonNext, CarouselContext, CarouselProvider, Slide, Slider } from "pure-react-carousel";
 import React, { useContext, useEffect, useState } from "react";
 import { ADDITIONAL_COUNTRIES } from "./CountryFilter";
+import { Icon } from "semantic-ui-react";
 
 
 const CountryCarousel = ({ countries, selectedCountry, setVisibleCountries }) => {
@@ -38,17 +39,17 @@ const CountryCarousel = ({ countries, selectedCountry, setVisibleCountries }) =>
   return (
     <>
       <div className="navigator">
-        <ButtonBack>&lt;</ButtonBack>
+        <ButtonBack><Icon name="angle left"/></ButtonBack>
       </div>
       <div className="slider-container">
         <Slider>{getCountriesCarousel()}
         </Slider>
       </div>
       <div className="navigator">
-        <ButtonNext>&gt;</ButtonNext>
+        <ButtonNext><Icon name="angle right"/></ButtonNext>
       </div>
     </>
-  )
+)
 };
 
 export default CountryCarousel;

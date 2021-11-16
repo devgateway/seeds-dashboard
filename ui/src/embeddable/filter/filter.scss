@@ -39,10 +39,10 @@
           @include font-filter;
           height: 60px;
           width: 100%;
-
-          .dropdown.icon {
-            margin: 0;
-            transform: rotate(0deg);
+          &.active{
+            .angle.icon{
+              transform: rotate(90deg);
+            }
           }
         }
 
@@ -130,6 +130,17 @@
         &:disabled {
           color: grey;
         }
+
+        &.carousel__back-button {
+          i{
+            padding-right: 12px;
+          }
+        }
+        &.carousel__next-button {
+          i{
+            padding-right: 12px;
+          }
+        }
       }
 
       li {
@@ -140,7 +151,8 @@
           @include font-filter;
           height: 60px;
         }
-        &.carousel__slide--visible ~.carousel__slide--visible{
+
+        &.carousel__slide--visible ~ .carousel__slide--visible {
           border-left: 1px solid white;
         }
       }
