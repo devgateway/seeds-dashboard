@@ -6,9 +6,18 @@
   justify-content: center;
   height: 60px;
 
+  .ui {
+    font-family: "Proxima Nova", Lato;
+  }
+
   .country-filter-container {
     width: 90%;
-    background-color: $yellow;
+
+    .select-country-grid {
+      .column {
+        border-left: 1px solid white;
+      }
+    }
 
     .filter-title {
       font-size: 19px;
@@ -19,45 +28,120 @@
       padding: 0;
       height: $country-filter-height;
       border: 0;
-      border-radius: 0;
       background-color: $orange;
+      width: 100%;
 
-      .title {
-        font-size: 19px;
-        color: white;
+      .item {
+        border-radius: 0;
+        padding: 0;
+
+        .title {
+          @include font-filter;
+          height: 60px;
+          width: 100%;
+
+          .dropdown.icon {
+            margin: 0;
+            transform: rotate(0deg);
+          }
+        }
+
+        .content {
+          width: 178%;
+          border: 1px solid #e4e1d9;
+          padding: 10px;
+          box-shadow: 1px 2px #e4e1d9;
+          min-height: 250px;
+
+          .ui.input {
+            width: 90%;
+          }
+
+          .ui.form {
+            input {
+              height: 40px;
+            }
+
+            i.icons {
+              padding-left: 25px;
+
+              .icon {
+                left: 72%
+              }
+            }
+          }
+
+          .ui.form {
+            .field {
+
+              .ui.radio.checkbox {
+                label {
+                  font-size: 12pt;
+                }
+              }
+            }
+          }
+        }
+
+        .active.title {
+          .dropdown.icon {
+            transform: rotate(90deg);
+          }
+        }
       }
     }
 
-    .selected-country {
+    .selected-country.column {
       background-color: $orange;
+      @include font-filter;
+
     }
 
     .country-carousel {
-
-
       .carousel__slider--horizontal {
         height: $country-filter-height;
 
-        /*.carousel__inner-slide{
-          border-right: 1px solid white;
-          &:last-child {
-            border: 1px solid pink;
-          }
-        } */
+      }
+
+      .carousel {
+        display: flex;
+      }
+
+      .navigator {
+        width: 15px;
+      }
+
+      .slider-container {
+        width: 100%;
+        background-color: $green;
+
+      }
+
+      button {
+        border: 0;
+        color: white;
+        font-size: 25px;
+        padding: 0;
+        font-weight: bold;
+        background-color: #3d702f;
+        width: 15px;
+        height: 60px;
+
+        &:disabled {
+          color: grey;
+        }
       }
 
       li {
         height: 60px !important;
         min-height: 60px !important;
 
-        div {
-          border-right: 1px solid white;
+        & div {
+          @include font-filter;
+          height: 60px;
         }
-
-        &:last-child {
-          div {
-            border: 0;
-          }
+        &.carousel__slide--visible ~.carousel__slide--visible{
+          border-left: 1px solid white;
         }
       }
     }
@@ -75,10 +159,6 @@
 
       .column {
         padding: 0;
-
-        &:first-child {
-          border-right: 1px solid white;
-        }
 
         .ui.grid {
           margin: 0px;

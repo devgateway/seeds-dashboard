@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { Container } from "semantic-ui-react";
 import { connect } from "react-redux";
 import { setFilter } from "../reducers/data";
-//import { CountryFilter } from './CountryFilter'
 import './filter.scss'
 import { getCountries } from "../reducers/data";
 import { COUNTRIES_FILTER, COUNTRY_SETTINGS } from "../reducers/StoreConstants";
@@ -14,25 +13,11 @@ const Filter = ({
   useEffect(() => {
     onLoadCountries()
   }, [])
-  const addNavigationCountry = () => {
-    if (countries) {
-      const orderedCountries = [...countries];
-      orderedCountries.some((item, idx) =>
-        item.isoCode === 'ET' &&
-        orderedCountries.unshift(
-          orderedCountries.splice(idx, 1)[0]
-        )
-      )
-      return orderedCountries;
-    } else {
-      return countries;
-    }
-
-  }
   return <Container fluid={true} className={"filters"}
   ><CountryFilter
     navigationCountry={country_settings ? country_settings.country : null}
-    countries={addNavigationCountry()} onApply={onApply} filters={filters}
+    countries={countries} onApply={onApply} filters={filters}
+    navigationCountry={country_settings ? country_settings.country : null}
   /></Container>
 }
 

@@ -38,7 +38,7 @@ $extend: 100%;
 
 /*TASAI*/
 $header-border-width: 300px;
-
+$country-filter-height: 60px;
 $header-border-width: 250px;
 $header-border-width-800: 120px;
 
@@ -74,6 +74,17 @@ $logos-color: brightness(0) invert(0.4);
   flex-direction: column;
   justify-content: center
 }
+
+@mixin font-filter {
+  font-size: 16px;
+  color: white;
+  font-weight: 600;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 @mixin border-radius($radius) {
   border-radius: $radius;
   -webkit-border-radius: $radius;
