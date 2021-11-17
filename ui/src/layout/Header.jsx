@@ -2,7 +2,7 @@ import { Container, Menu } from "semantic-ui-react";
 import React, { useEffect, useState } from "react";
 import { MenuConsumer, MenuProvider, utils } from "@devgateway/wp-react-lib";
 import { injectIntl } from "react-intl";
-import { withRouter } from "react-router";
+import { useHistory, withRouter } from "react-router";
 import { connect } from "react-redux";
 import { COUNTRY_SETTINGS } from "../embeddable/reducers/StoreConstants";
 
@@ -88,6 +88,7 @@ const MyMenuItems = injectIntl(withRouter(({
 
 const Header = ({ intl: { locale }, match }) => {
   const [selected, setSelected] = useState()
+  const routerHistory = useHistory();
   const { slug, parent } = match.params;
 
   const isCustom = (parent && parent === MENU_DASHBOARD) || slug === MENU_DASHBOARD;
@@ -102,6 +103,10 @@ const Header = ({ intl: { locale }, match }) => {
     } else {
       bannerClass = slug;
     }
+  }
+  const gotoLanguage = (lang) => {
+    const slugUrl = slug ? `/${slug}` : ``;
+    routerHistory.push(`/${lang}${slugUrl}`);
   }
 
   const logoUrl = process.env.REACT_APP_USE_HASH_LINKS ? `/#/${locale}` : `/${locale}`
@@ -126,7 +131,10 @@ const Header = ({ intl: { locale }, match }) => {
             </Container>}
           </div>
           <div className="lang-container align-content">
-            <div className="lang"><a>français</a></div>
+            <div className="lang">
+              {locale === 'en' && <a onClick={() => gotoLanguage('fr')}>français</a>}
+              {locale === 'fr' && <a onClick={() => gotoLanguage('en')}>english</a>}
+            </div>
           </div>
         </Menu>
       </Container>
