@@ -8,12 +8,13 @@ import {CarouselProvider, DotGroup, Slide, Slider} from "pure-react-carousel";
 const Carousel = (props) => {
     let i = 0
     const {posts} = props
+    debugger;
     return (<CarouselProvider
 
         totalSlides={posts.length}>
         <Slider>
             {posts.map(p => <Slide index={i++}>
-                <PostIntro post={p} fluid/>
+                <PostIntro post={p} fluid showLink/>
             </Slide>)}
         </Slider>
         <DotGroup/>
@@ -47,6 +48,7 @@ const PostCarousel = (props) => {
         "data-items": items,
         editing, parent, unique
     } = props
+    debugger;
     return <Container className={`wp-react-lib post carousel ${editing ? 'editing' : ''}`} fluid={true}>
         <PostProvider type={type} taxonomy={taxonomy} categories={categories}
                       store={"carousel_" + parent + "_" + unique} page={1}
