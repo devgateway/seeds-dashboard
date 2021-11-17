@@ -1,36 +1,36 @@
 import React, { useEffect } from "react";
 import { Container } from "semantic-ui-react";
 import { connect } from "react-redux";
-import { getCategories, setFilter } from "../reducers/data";
-import { CountryFilter } from './Components'
+import { setFilter } from "../reducers/data";
 import './filter.scss'
+import { getCountries } from "../reducers/data";
+import { COUNTRIES_FILTER, COUNTRY_SETTINGS } from "../reducers/StoreConstants";
+import CountryFilter from "./CountryFilter";
 
 const Filter = ({
-                  onApply, "data-type": type = 'AgeGroup', categories, onLoadCategories
+                  onApply, countries, onLoadCountries, country_settings, filters
                 }) => {
-  /*useEffect(() => {
-    onLoadCategories()
-  }, [])*/
-  /*TODO to be complented in SEEDSDT-170*/
-  /*return <Container fluid={true} className={"filter"}>
-    <CountryFilter type={type} onChange={(e, { value }) => {
-      onApply(param, value)
-    }}></CountryFilter>
-
-  </Container>*/
-  return <Container fluid={true} className={"filters"}><CountryFilter /></Container>
+  useEffect(() => {
+    onLoadCountries()
+  }, [])
+  return <Container fluid={true} className={"filters"}
+  ><CountryFilter
+    navigationCountry={country_settings ? country_settings.country : null}
+    countries={countries} onApply={onApply} filters={filters}
+    navigationCountry={country_settings ? country_settings.country : null}
+  /></Container>
 }
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    categories: state.getIn(['data', 'categories'])
+    filters: state.getIn(['data', 'filters']),
+    countries: state.getIn(['data', COUNTRIES_FILTER]),
+    country_settings: state.getIn(['data', COUNTRY_SETTINGS, 'data'])
   }
 }
 
 const mapActionCreators = {
   onApply: setFilter,
-  onLoadCategories: getCategories
+  onLoadCountries: getCountries
 };
-
-//export default connect(mapStateToProps, mapActionCreators)(Filter)
-export default Filter;
+export default connect(mapStateToProps, mapActionCreators)(Filter)

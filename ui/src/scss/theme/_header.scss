@@ -14,7 +14,7 @@
     }
 
     &.home {
-      height: $dashboard-menu-height-home + 50;
+      height: $dashboard-menu-height-home + $yellow-header + $title-header;
       margin: 0;
     }
 

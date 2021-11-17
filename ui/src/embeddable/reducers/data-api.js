@@ -1,13 +1,13 @@
 import { get } from '../../api/commons'
 
 
-const PREVALENCE_API_ROOT = process.env.REACT_APP_PREVALENCE_API
+const SURVEY_API = process.env.REACT_APP_SURVEY_API
 const POLICY_API_ROOT = process.env.REACT_APP_POLICY_API
 
-const PREVALENCE_URL_TAXONOMY = PREVALENCE_API_ROOT + '/categories'
+const SURVEY_COUNTRIES_API = `${SURVEY_API}/filter/latestCountryStudies`
 
 const APIS = {
-  prevalence: PREVALENCE_API_ROOT,
+  prevalence: '',
   policy: POLICY_API_ROOT
 }
 
@@ -17,8 +17,8 @@ function queryParams(params) {
     .join('&')
 }
 
-export const getCategories = (params) => {
-  return get(PREVALENCE_URL_TAXONOMY, params)
+export const getCountriesData = (params) => {
+  return get(SURVEY_COUNTRIES_API, params)
 }
 
 export const getData = ({ source, app, params }) => {
