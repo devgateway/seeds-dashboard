@@ -108,3 +108,12 @@ $breakpoint-phone: 480px;
   -webkit-border-radius: $radius;
   -moz-border-radius: $radius;
 }
+
+// Buttons
+@mixin button($radius, $bg-color, $text-color){
+  @include border-radius($radius);
+  background-color: $bg-color;
+  font-size: 16px !important;
+  color: $text-color;
+  letter-spacing: 1px;
+}
