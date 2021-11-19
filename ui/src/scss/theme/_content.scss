@@ -243,3 +243,45 @@ p:empty {
     margin-bottom: -5px;
   }
 }
+// Key Resources
+.key-resources{
+  background-color: #ffffff;
+  margin-left: $extend / 20;
+  margin-top: -($base-unit * 8.5);
+  padding-left: $base-unit * 3.5;
+  padding-right: $base-unit * 3.5;
+  padding-top: $base-unit * 3;
+  position: relative;
+  z-index: 1;
+  width: $extend - 10;
+  h3{
+    a{
+      color: $text-color;
+    }
+  }
+  .green-link a{
+    color: $green-link;
+    font-weight: bold;
+    &:hover{
+      color: $text-color;
+    }
+  }
+  .wp-block-column{
+    padding: 0 $base-unit * 5 $base-unit * 3.5 $base-unit * 5;
+    @include tablet-portrait{
+      padding: 0;
+    }
+    &:first-child{
+      border-right: 4px dotted $light-gray;
+      @include tablet-portrait{
+        border-right: none;
+      }
+    }
+    &:nth-child(2){
+      border-right: 4px dotted $light-gray;
+      @include tablet-portrait{
+        border-right: none;
+      }
+    }
+  }
+}
