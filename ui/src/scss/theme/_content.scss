@@ -132,11 +132,7 @@ p:empty {
 
 .wp-block-buttons {
   .wp-block-button__link {
-    @include border-radius(3px);
-    background-color: $yellow;
-    font-size: 16px !important;
-    color: $white;
-    letter-spacing: 1px;
+    @include button(3px, $yellow, $white);
   }
 }
 
@@ -241,5 +237,39 @@ p:empty {
     line-height: 120%;
     margin-top: -5px;
     margin-bottom: -5px;
+  }
+}
+
+// News section
+
+.wp-block-query{
+  &.news{
+    img{
+      border-bottom: 5px solid $yellow;
+    }
+    .wp-block-post-excerpt__excerpt{
+      color: $text-color;
+      font-size: 0.8rem;
+    }
+    .wp-block-post-excerpt__more-link{
+      @include button(3px, $yellow, $white);
+      padding: $base-unit $base-unit * 2 $base-unit * 1.3 $base-unit * 2;
+      &:hover{
+        background-color: $orange;
+      }
+    }
+    h3{
+      a{
+        color: $text-color;
+        font-size: 1.2rem;
+      }
+    }
+    li{
+      clear: none;
+      float: left;
+      padding-left: $base-unit * 2.5;
+      padding-right: $base-unit * 2.5;
+      width: $extend / 3;
+    }
   }
 }

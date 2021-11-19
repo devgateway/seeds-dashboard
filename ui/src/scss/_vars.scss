@@ -52,6 +52,7 @@ $menu-text-color: #555555;
 $white: #ffffff;
 $menu-font-size: 16px;
 $logos-color: brightness(0) invert(0.4);
+
 @mixin menu-icon {
   font-size: $menu-font-size - 1;
   font-weight: 600;
@@ -89,4 +90,13 @@ $logos-color: brightness(0) invert(0.4);
   border-radius: $radius;
   -webkit-border-radius: $radius;
   -moz-border-radius: $radius;
+}
+
+// Buttons
+@mixin button($radius, $bg-color, $text-color){
+  @include border-radius($radius);
+  background-color: $bg-color;
+  font-size: 16px !important;
+  color: $text-color;
+  letter-spacing: 1px;
 }
