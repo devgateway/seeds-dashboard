@@ -1,16 +1,31 @@
+FROM node:12.16.3 AS libcompiler
+WORKDIR /tmp/ui
+COPY ./wp-react-lib/public public
+COPY ./wp-react-lib/src src
+COPY ./wp-react-lib/package.json package.json
+RUN npm install &&  npm run dist
+
+
+
 FROM node:12.16.3 AS compiler
 WORKDIR /tmp/ui
-COPY .env.stage ./.env
-COPY package*.json ./
+COPY ./ui/.env.stage ./.env
+COPY ./ui/package*.json ./
+COPY ./ui/public ./public/
+COPY ./ui/src ./src/
+
+COPY --from=libcompiler /tmp/ui/package.json ../wp-react-lib/package.json
+COPY --from=libcompiler /tmp/ui/dist ../wp-react-lib/dist
+
+
 RUN npm install
 RUN npm rebuild node-sass
-COPY public ./public/
-COPY src ./src/
+
 RUN npm run build \
   && tar -C build -czf /tmp/ui.tgz .
 
 FROM alpine:latest
 COPY --from=compiler /tmp/ui.tgz /usr/src/ui.tgz
-COPY update.sh /usr/local/bin
+COPY ./ui/update.sh /usr/local/bin
 VOLUME /var/www/ui
 CMD ["/usr/local/bin/update.sh"]
