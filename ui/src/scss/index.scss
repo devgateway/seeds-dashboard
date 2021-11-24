@@ -57,11 +57,15 @@ a:focus {
     margin-bottom: 100px;
 
     &.home {
-      margin-top: - $dashboard-menu-height-home;
-
+      // margin-top: - $dashboard-menu-height-home;
+      .full-width-cover{
+        &.intro{
+          margin-top: -($base-unit * 3);
+        }
+      }
       .entry-content {
         position: relative;
-        z-index: -100;
+        z-index: 1;
       }
     }
 
