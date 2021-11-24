@@ -1,5 +1,5 @@
 p {
-  color: $gray;
+  color: $text-color;
   line-height: 1.5;
   font-weight: 400;
   font-size: 1rem;
@@ -88,4 +88,11 @@ h6 {
 
 .has-weight-700 {
   font-weight: 700;
+}
+
+// Titles with no bottom margin (used in team pages)
+.compact{
+  h2, h3, h4{
+    margin-bottom: -$base-unit;
+  }
 }
