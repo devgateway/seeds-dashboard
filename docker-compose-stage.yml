@@ -10,7 +10,8 @@ services:
 
   ui:
     build:
-      context: ./ui/
+      context: ./
+      dockerfile: ./ui/Dockerfile
     volumes:
       - ui:/var/www/ui
     restart: "no"
@@ -110,7 +111,7 @@ services:
       - ./data/wordpress:/var/www/html:ro
       - ./wp-content:/var/www/html/wp-content:ro
       - ./wp-react-blocks-plugin:/var/www/html/wp-content/plugins/wp-react-blocks-plugin:ro
-      - ui:/var/www/ui:ro
+      - ui:/var/www/ui:rw
     depends_on:
       - wordpress
       - metabase

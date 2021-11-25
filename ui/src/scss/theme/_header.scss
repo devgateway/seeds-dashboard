@@ -14,7 +14,7 @@
     }
 
     &.home {
-      height: $dashboard-menu-height-home + $yellow-header + $title-header;
+      height: $dashboard-menu-height-home + $yellow-header + $title-header /  2.8;
       margin: 0;
     }
 
@@ -208,6 +208,9 @@
         display: flex;
         justify-content: center;
         background-color: rgba(0, 0, 0, 0.4);
+
+        position: relative;
+        z-index:10;
 
         &.not-selected {
           background-color: transparent;
