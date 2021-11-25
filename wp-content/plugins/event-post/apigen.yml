@@ -1,6 +1,0 @@
-parameters:
-    visibility_levels: [public, protected] # array
-    annotation_groups: [todo, deprecated] # array
-    title: "Eventpost Code Reference" # string
-    base_url: "https://event-post.com/docs/" # string
-    overwrite: false # bool
