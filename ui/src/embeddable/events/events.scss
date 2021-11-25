@@ -1,0 +1,14 @@
+.events {
+  &.ui.grid {
+    padding: 0;
+    margin: 0;
+  }
+
+  .column {
+    border: 1px solid pink;
+    padding: 0;
+    margin: 0;
+  }
+
+  width: 100%;
+}

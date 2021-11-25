@@ -15,8 +15,6 @@ const LineData = ({children, data}) => {
         })
         return row
     })
-
-    debugger;
     const options = {
         data: chartData
     }
