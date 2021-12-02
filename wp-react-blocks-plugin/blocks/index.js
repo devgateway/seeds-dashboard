@@ -12,5 +12,5 @@ require("./newsletter")
 require("./showcase-form")
 require("./ailments-body")
 require("./downloads")
+require("./events")
 require("./data-summary")
-
