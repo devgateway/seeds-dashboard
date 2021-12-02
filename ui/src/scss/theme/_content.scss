@@ -331,3 +331,20 @@ p:empty {
     width: $base-unit * 10;
   }
 }
+// Events component
+
+.ui.grid>.column{
+  &.event-date,
+  &.event-location{
+    font-size: 0.8rem;
+    padding: 0;
+    .icon{
+      color: $yellow;
+      background-color: transparent;
+    }
+    .label{
+      color: $text-color;
+      text-transform: uppercase;
+    }
+  }
+}
