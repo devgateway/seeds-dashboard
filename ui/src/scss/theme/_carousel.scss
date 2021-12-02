@@ -14,8 +14,8 @@
 
   .wp-block-columns {
     .wp-block-column {
-      padding: 0px;
-      margin: 0px;
+      // padding: 0px;
+      // margin: 0px;
     }
 
   }
@@ -24,11 +24,11 @@
 
   li {
     padding: 0px;
-    min-height: 565px;
+    min-height: 350px;
 
-    .ui.fluid.container.entry-content {
-
-
+    // temporary - removed read more link
+    .link{
+      display: none;
     }
 
     .wp-block-buttons {
@@ -62,7 +62,7 @@
   }
 
   .carousel__dot:hover {
-    background-color: #3e8e41
+    background-color: $yellow;
   }
 
   .carousel__dot:focus {
@@ -71,13 +71,13 @@
   }
 
   .carousel__dot:active {
-    background-color: #3e8e41;
+    background-color: $yellow;
     box-shadow: none;
     transform: translateY(0px);
   }
 
   .carousel__dot--selected {
-    background-color: #3e53a6;
+    background-color: $text-color;
   }
 
 }
