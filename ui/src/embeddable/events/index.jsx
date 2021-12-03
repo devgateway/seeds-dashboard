@@ -21,8 +21,8 @@ const Events = ({
   return (
     <Grid className="events">
       <Grid.Column width={8} className="event-date"><Icon
-        name="calendar" /> {pEventStartDate.toLocaleDateString("en-US", options)}</Grid.Column><Grid.Column
-      width={8} className="event-location"><Icon name="map marker alternate" /> {eventLocation}</Grid.Column>
+        className="calendar" /> <span className="label">{pEventStartDate.toLocaleDateString("en-US", options)}</span></Grid.Column><Grid.Column
+      width={8} className="event-location"><Icon className="marker" /> <span className="label">{eventLocation}</span></Grid.Column>
     </Grid>
   )
 }

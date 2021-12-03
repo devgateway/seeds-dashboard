@@ -116,3 +116,17 @@ $breakpoint-phone: 480px;
   color: $text-color;
   letter-spacing: 1px;
 }
+
+// Event icons
+@mixin event-icon(){
+  background-position: center;
+  background-size: 110% 110%;
+  display: block;
+  float: left;
+  height: $base-unit * 3;
+  margin-top: -7px;
+  width: $base-unit * 3;
+  &:before{
+    content: none;
+  }
+}
