@@ -6,8 +6,6 @@ $dark-gray: #5c5d63;
 $breadcrumb-grey: #535454;
 $gray: #66676d;
 $light-gray: #dadada;
-$indicator-border-color: #dfe2e5;
-$background-selected-country: #fefaf2;
 $separator-grey: #ececec;
 $red: #ba5555;
 $menu-link-color: #54657e;
@@ -16,7 +14,7 @@ $blue: #3e53a6;
 $green: #5baf95;
 
 $health-color: #5baf95;
-/*$light-green: #31ba1a;*/
+$light-green: #31ba1a;
 
 $charts-options-height: 66px;
 $charts-options-font-size: 1.02rem;
@@ -43,20 +41,15 @@ $header-border-width: 300px;
 $country-filter-height: 60px;
 $header-border-width: 250px;
 $header-border-width-800: 120px;
-$screen-width: 1350px;
 
 /*COLORS*/
 $yellow: #EFCB16;
 $orange: #f39c00;
-$light-green: #619155;
 $green: #4d843f;
 $green-link: #84a43a;
 $text-color: #555555;
 $text-color-dark: #3F3F3F;
 $menu-text-color: #555555;
-$odd_grey: #f6f6f6;
-$wide-background-color: #dde0e3;
-
 $white: #ffffff;
 $menu-font-size: 16px;
 $logos-color: brightness(0) invert(0.4);
@@ -68,21 +61,13 @@ $breakpoint-phone: 480px;
 
 // Mobile Mixins
 @mixin tablet {
-  @media (max-width: $breakpoint-tablet-landscape) {
-    @content;
-  }
+  @media (max-width: $breakpoint-tablet-landscape) { @content; }
 }
-
 @mixin tablet-portrait {
-  @media (max-width: $breakpoint-tablet-portrait) {
-    @content;
-  }
+  @media (max-width: $breakpoint-tablet-portrait) { @content; }
 }
-
 @mixin phone {
-  @media (max-width: $breakpoint-phone) {
-    @content;
-  }
+  @media (max-width: $breakpoint-phone) { @content; }
 }
 
 @mixin menu-icon {
@@ -103,7 +88,8 @@ $breakpoint-phone: 480px;
 
 @mixin align-content {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: center
 }
 
 @mixin font-filter {
@@ -123,12 +109,26 @@ $breakpoint-phone: 480px;
 }
 
 // Buttons
-@mixin button($radius, $bg-color, $text-color) {
+@mixin button($radius, $bg-color, $text-color){
   @include border-radius($radius);
   background-color: $bg-color;
   font-size: 16px !important;
   color: $text-color;
   letter-spacing: 1px;
+}
+
+// Event icons
+@mixin event-icon(){
+  background-position: center;
+  background-size: 110% 110%;
+  display: block;
+  float: left;
+  height: $base-unit * 3;
+  margin-top: -7px;
+  width: $base-unit * 3;
+  &:before{
+    content: none;
+  }
 }
 
 @mixin display-flex($justify-content) {
