@@ -4,13 +4,13 @@ import './IndicatorLabel.scss';
 import { injectIntl } from "react-intl";
 import { LEGEND } from "../Constants";
 
-const IndicatorLabel = ({ field, className, range, displayType, intl }) => {
+const IndicatorLabel = ({ field, className, range, displayType, intl, selectedCountry }) => {
   if (field) {
     const style = {}
     let r;
     if (range) {
       const value = parseInt(field.value);
-      r = range.find(r => value >= r.min && value < r.max);
+      r = range.find(r => value >= r.min && value <= r.max);
       if (r) {
         style['background-color'] = r.color;
         style['color'] = '#FFFFFF';
@@ -18,8 +18,8 @@ const IndicatorLabel = ({ field, className, range, displayType, intl }) => {
     }
     return <Grid
       className={className}>
-      <Grid.Column width={10} className="label">{field.label}</Grid.Column>
-      <Grid.Column width={6} className="value" style={style}>
+      <Grid.Column width={selectedCountry ? 9 : 10} className="label">{field.label}</Grid.Column>
+      <Grid.Column width={selectedCountry ? 7 : 6} className="value" style={style}>
         {r && <Popup
           trigger={<div>{formatValue(field.value, displayType, intl)}</div>}
           className="indicator-popup"
