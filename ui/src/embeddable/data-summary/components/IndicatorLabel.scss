@@ -1,0 +1,48 @@
+@import 'src/scss/vars';
+
+.indicator-sub-title {
+  &.ui.grid{
+    height: 100%;
+  }
+  /*border-bottom: 1px solid #dfe2e5;*/
+
+  .value {
+    @include display-flex(center);
+    border-right: 1px solid $indicator-border-color;
+  }
+
+  .column {
+    font-size: 12px;
+    font-style: italic;
+  }
+}
+
+.indicator-label {
+  &.grid {
+    height: 100%;
+  }
+
+  .column {
+    font-weight: 600;
+    align-items: center !important;
+    display: flex !important;
+    &.label {
+      padding-left: 15px !important;
+
+    }
+
+    &.value {
+      @include align-content;
+      justify-content: center;
+      border-right: 1px solid $indicator-border-color;
+
+      div {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+  }
+}

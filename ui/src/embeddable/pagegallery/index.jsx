@@ -10,6 +10,7 @@ const DashboardGallery = ({pages, width}) => {
 
     return (<Grid columns={3} stackable={true}>
         {childPages.map(p =>
+          // eslint-disable-next-line react/jsx-key
             <Grid.Column className={"item"}>
                 <Container fluid={true} className={"preview"}>
                     <PostIntro as={"div"} post={p}></PostIntro>

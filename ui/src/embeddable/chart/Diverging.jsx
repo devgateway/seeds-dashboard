@@ -137,6 +137,7 @@ const Chart = ({colors, options, intl, format}) => {
             <div className="interactive panel">
 
                 <div className="item active"> Show/Hidden :</div>
+                {/* eslint-disable-next-line react/jsx-key */}
                 {options.data.map(d => <div className={filter.indexOf(d[options.indexBy]) > -1 ? 'item' : 'item active'}
                                             onClick={e => toggle(d[options.indexBy])}>{d[options.indexBy]}</div>)}
             </div>

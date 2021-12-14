@@ -3,8 +3,6 @@ import React, { useEffect, useState } from "react";
 import { MenuConsumer, MenuProvider, utils } from "@devgateway/wp-react-lib";
 import { injectIntl } from "react-intl";
 import { useHistory, withRouter } from "react-router";
-import { connect } from "react-redux";
-import { COUNTRY_SETTINGS } from "../embeddable/reducers/StoreConstants";
 
 const MENU_DASHBOARD = 'dashboard';
 const MENU_MAIN = 'main';

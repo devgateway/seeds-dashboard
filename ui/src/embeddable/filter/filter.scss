@@ -11,7 +11,7 @@
   }
 
   .country-filter-container {
-    width: 90%;
+    width: $screen-width!important;
 
     .select-country-grid {
       .column {
@@ -47,6 +47,9 @@
         }
 
         .content {
+          background-color: white;
+          position: relative;
+          z-index: 1;
           width: 178%;
           border: 1px solid #e4e1d9;
           padding: 10px;

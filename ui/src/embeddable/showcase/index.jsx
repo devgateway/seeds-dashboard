@@ -48,6 +48,7 @@ function FileUploader({onSelectionChange, showValidation, inputRef, name}) {
                 <input {...getInputProps()}/>
                 <p>Drag 'n' drop files here, or click select button to select files</p>
                 {files.length > 0 ? <ul>
+                    {/* eslint-disable-next-line react/jsx-key */}
                     {files.map(f => <li><Label color="green" icon='file'>{f.name}</Label></li>)}
                 </ul> : null}
 

@@ -12,7 +12,7 @@ const Carousel = ({ posts, itemsPerPage }) => {
     visibleSlides={itemsPerPage}
     totalSlides={posts.length}>
     <Slider>
-      {posts.map(p => <Slide index={i++}>
+      {posts.map(p => <Slide index={i++} key={p.id}>
         <PostIntro post={p} fluid showLink />
       </Slide>)}
     </Slider>
@@ -29,7 +29,7 @@ const _Carousel = (props) => {
   return <Container fluid={true} className={"carousel"}>
     <CarouselProvider totalSlides={posts.length}>
       <Slider>
-        {posts.map(p => <Slide index={i++}>
+        {posts.map(p => <Slide index={i++} key={p.id}>
           <PostIntro post={p} />
         </Slide>)}
       </Slider>

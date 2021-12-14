@@ -130,3 +130,19 @@ $breakpoint-phone: 480px;
     content: none;
   }
 }
+
+@mixin display-flex($justify-content) {
+  display: flex !important;
+  justify-content: $justify-content;
+  align-items: center;
+}
+
+@mixin borders-15 {
+  background: $wide-background-color;
+  padding-right: 15px;
+  padding-left: 15px;;
+  .ui.three.column.grid {
+    background: white;
+    height: 100%;
+  }
+}

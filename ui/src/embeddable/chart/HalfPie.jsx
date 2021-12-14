@@ -76,6 +76,7 @@ const Chart = ({colors, height, options, intl, format}) => {
                 <div className="item active"> Show/Hidden :</div>
                 {
                     [...new Set(options.data.map(d => d.child))].map(d =>
+                      // eslint-disable-next-line react/jsx-key
                         <div className={filter.indexOf(d) > -1 ? 'item' : 'item active'}
                              onClick={e => toggle(d)}>{d}</div>)}
             </div>

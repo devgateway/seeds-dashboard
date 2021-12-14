@@ -65,11 +65,9 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "creact-scripts test",
+    "lint": "eslint src --ext .jsx --ext *.js --cache",
     "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
   },
   "browserslist": {
     "production": [
@@ -82,6 +80,14 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "eslintConfig": {
+    "extends": "react-app",
+    "parser": "babel-eslint",
+    "rules": {
+      "react/jsx-key": "error",
+      "no-console": "warn"
+    }
   },
   "devDependencies": {
     "css-loader": "^5.2.6",

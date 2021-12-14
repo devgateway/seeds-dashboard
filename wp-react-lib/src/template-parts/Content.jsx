@@ -58,7 +58,6 @@ class Content extends React.Component {
                 body = content
             }
 
-
             return <EmbeddedGateway locale={locale} messages={messages} parent={preview ? post.parent : post.id}>
                 <Enhance className="entry-content" {...this.props}>
                     {showDate &&

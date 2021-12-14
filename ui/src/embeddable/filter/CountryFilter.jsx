@@ -4,6 +4,7 @@ import { Accordion, Container, Form, Grid, Icon, Input, Menu } from "semantic-ui
 import 'pure-react-carousel/dist/react-carousel.es.css';
 import { CarouselProvider } from "pure-react-carousel";
 import CountryCarousel from "./CountryCarousel";
+import { SELECTED_COUNTRY } from "../reducers/StoreConstants";
 
 export const ADDITIONAL_COUNTRIES = 3;
 const CountryFilter = ({ countries, onApply, filters, navigationCountry }) => {
@@ -12,7 +13,7 @@ const CountryFilter = ({ countries, onApply, filters, navigationCountry }) => {
   const handleSelectedCountry = (event, { value }) => {
     setActiveIndex(undefined);
     setSearchKeyword(undefined);
-    onApply('selectedCountry', value);
+    onApply(SELECTED_COUNTRY, value);
   }
   const handleSearch = (event, { value }) => {
     setSearchKeyword(value);
@@ -21,8 +22,8 @@ const CountryFilter = ({ countries, onApply, filters, navigationCountry }) => {
     return countries && countries.filter(c => {
       return searchKeyword ? c.country.toLowerCase().includes(searchKeyword.toLowerCase()) : true
     }).map(c => {
-      const checked = filters && c.countryId === filters.get('selectedCountry');
-      return <Grid.Column><Form.Radio
+      const checked = filters && c.countryId === filters.get(SELECTED_COUNTRY);
+      return <Grid.Column key={c.countryId}><Form.Radio
         key={c.countryId}
         checked={checked}
         className={`${checked ? 'checked' : ''}`}
@@ -30,7 +31,6 @@ const CountryFilter = ({ countries, onApply, filters, navigationCountry }) => {
         onClick={handleSelectedCountry}
       /></Grid.Column>;
     });
-    /*return controls ? [, ...controls] : null;*/
   }
 
   const getFirstSelectedCountry = () => {
@@ -49,13 +49,13 @@ const CountryFilter = ({ countries, onApply, filters, navigationCountry }) => {
   }
   useEffect(() => {
     if (getFirstSelectedCountry()) {
-      onApply('selectedCountry', getFirstSelectedCountry());
+      onApply(SELECTED_COUNTRY, getFirstSelectedCountry());
     }
   }, [countries]);
   const getSelectedCountry = () => {
-    if (filters && filters.get('selectedCountry')) {
+    if (filters && filters.get(SELECTED_COUNTRY)) {
       if (countries) {
-        const selectedCountry = countries.find(c => c.countryId === filters.get('selectedCountry'));
+        const selectedCountry = countries.find(c => c.countryId === filters.get(SELECTED_COUNTRY));
         return `${selectedCountry.country} ${selectedCountry.year}`;
       }
     }
@@ -86,7 +86,7 @@ const CountryFilter = ({ countries, onApply, filters, navigationCountry }) => {
     let length = 0;
     if (countries) {
       length = countries.length;
-      if (filters && filters.get('selectedCountry')) {
+      if (filters && filters.get(SELECTED_COUNTRY)) {
         length = length - 1;
       }
     }
@@ -121,7 +121,7 @@ const CountryFilter = ({ countries, onApply, filters, navigationCountry }) => {
           visibleSlides={ADDITIONAL_COUNTRIES}
           step={3}
         >
-          <CountryCarousel selectedCountry={filters ? filters.get('selectedCountry') : null}
+          <CountryCarousel selectedCountry={filters ? filters.get(SELECTED_COUNTRY) : null}
                            countries={countries} setVisibleCountries={onApply}
                            navigationCountry={navigationCountry}
           />

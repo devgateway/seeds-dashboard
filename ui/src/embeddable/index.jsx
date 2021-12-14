@@ -15,6 +15,7 @@ const NewsLetter = asyncComponent(() => import("./newsletter/"));
 const ShowcaseForm = asyncComponent(() => import("./showcase/"));
 const Body = asyncComponent(() => import("./body/"));
 const Filter = asyncComponent(() => import("./filter/"));
+const DataSummary = asyncComponent(() => import("./data-summary/"));
 const Download = asyncComponent(() => import("./download/"));
 const Events = asyncComponent(() => import("./events/"));
 export const reducers = {
@@ -28,6 +29,7 @@ const components = {
   postsCarousel: PostsCarousel,
   chart: Chart,
   filter: Filter,
+  dataSummary: DataSummary,
   showCaseForm: ShowcaseForm,
   newsLetter: NewsLetter,
   body: Body,
@@ -36,7 +38,7 @@ const components = {
   featuredTabs: FeaturedTabs,
   inlineList: InlineList,
   download: Download,
-  events: Events
+    events: Events
 }
 
 export const getComponentByNameIgnoreCase = (name) => {

@@ -54,7 +54,7 @@ const FeaturedTabs = ({posts, width, height, color, moreLabel}) => {
 
             <Grid stackable columns={active != null ? 1 : posts.length} className="desktop">
                 {posts && posts.map((post, i) => {
-                    return <React.Fragment>
+                    return <React.Fragment key={post.id}>
                         <Transition.Group animation={'fade'} duration={{show: 200, hide: 0}}>
                             {(active == null) && <Grid.Column style={{"background-color": arrayColors[i]}}>
                                 <FeaturedPost post={post} moreLabel={moreLabel}
