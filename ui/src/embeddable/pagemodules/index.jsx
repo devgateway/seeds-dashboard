@@ -128,6 +128,7 @@ class PageIterator extends React.Component {
 
                 <div className={"pages"}>
                     {childPages.map(p => (
+                      // eslint-disable-next-line react/jsx-key
                             <Visibility onUpdate={(e, {calculations}) => {
                                 this.onVisibilityUpdate(p.id, calculations)
                             }}>

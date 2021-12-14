@@ -2,7 +2,12 @@
 import * as api from './data-api'
 import Immutable from 'immutable'
 import Papa from 'papaparse'
-import { COUNTRIES_FILTER, COUNTRY_SETTINGS, SUMMARY_INDICATORS } from "./StoreConstants";
+import {
+  COUNTRIES_FILTER,
+  COUNTRY_SETTINGS,
+  SUMMARY_INDICATORS,
+  SUMMARY_INDICATORS_INFORMATION
+} from "./StoreConstants";
 
 const LOAD_DATA = 'LOAD_DATA'
 const LOAD_DATA_DONE = 'LOAD_DATA_DONE'
@@ -14,6 +19,11 @@ const LOAD_COUNTRIES_ERROR = 'LOAD_COUNTRIES_ERROR'
 const LOAD_INDICATORS = 'LOAD_INDICATORS'
 const LOAD_INDICATORS_DONE = 'LOAD_INDICATORS_DONE'
 const LOAD_INDICATORS_ERROR = 'LOAD_INDICATORS_ERROR'
+
+const LOAD_INDICATORS_INFORMATION = 'LOAD_INDICATORS_INFORMATION'
+const LOAD_INDICATORS_INFORMATION_DONE = 'LOAD_INDICATORS_INFORMATION_DONE'
+const LOAD_INDICATORS_INFORMATION_ERROR = 'LOAD_INDICATORS_INFORMATION_ERROR'
+
 
 const LOAD_COUNTRY_SETTINGS = 'LOAD_COUNTRY_SETTINGS'
 const LOAD_COUNTRY_SETTINGS_DONE = 'LOAD_COUNTRY_SETTINGS_DONE'
@@ -60,6 +70,25 @@ export const getIndicators = () => (dispatch, getState) => {
   }).catch(error => {
     dispatch({
       type: LOAD_INDICATORS_ERROR,
+      error
+    })
+  })
+}
+export const getIndicatorsInformation = (categoryId) => (dispatch, getState) => {
+  dispatch({
+    type: LOAD_INDICATORS_INFORMATION,
+    param: categoryId
+  })
+  api.getIndicatorsInformation(categoryId).then(data => {
+    dispatch({
+      type: LOAD_INDICATORS_INFORMATION_DONE,
+      param: categoryId,
+      data: data
+    })
+  }).catch(error => {
+    dispatch({
+      type: LOAD_INDICATORS_INFORMATION_ERROR,
+      param: categoryId,
       error
     })
   })
@@ -130,16 +159,31 @@ const reducer = (state = initialState, action) => {
     case LOAD_COUNTRIES_ERROR:
       return state
 
-    case LOAD_INDICATORS:
+    case LOAD_INDICATORS: {
       return state
+    }
 
     case LOAD_INDICATORS_DONE: {
       const { data } = action
       return state.setIn([SUMMARY_INDICATORS], data)
     }
 
-    case LOAD_INDICATORS_ERROR:
+    case LOAD_INDICATORS_ERROR:{
       return state
+    }
+    case LOAD_INDICATORS_INFORMATION: {
+      return state
+    }
+
+    case LOAD_INDICATORS_INFORMATION_DONE: {
+      const { data } = action
+      return state.setIn([SUMMARY_INDICATORS_INFORMATION], data)
+    }
+
+    case LOAD_INDICATORS_INFORMATION_ERROR:{
+      return state
+    }
+
 
     case SET_FILTER: {
       const { param, value } = action

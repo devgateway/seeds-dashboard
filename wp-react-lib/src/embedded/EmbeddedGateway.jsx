@@ -24,6 +24,7 @@ class EmbeddedGateway extends React.Component {
         element.removeAttribute('data-component');
 
         if (component) {
+          const { messages } = this.props;
           const props = { ...this.props };
           const attrs = element.attributes;
           for (let i = attrs.length - 1; i >= 0; i--) {
@@ -32,8 +33,8 @@ class EmbeddedGateway extends React.Component {
           const C = getComponent(component);
           if (C) {
             ReactDOM.render(<Provider store={store}>
-              <IntlProvider locale={locale}>
-                <AppContextProvider getComponent={getComponent} store={store} locale={locale}>
+              <IntlProvider key={locale} locale={locale} messages={messages[locale]}>
+                <AppContextProvider getComponent={getComponent} store={store} locale={locale} messages={messages}>
                   <C unique={`embeddable_${index}`} {...props} childContent={element.innerHTML} />
                 </AppContextProvider>
               </IntlProvider>

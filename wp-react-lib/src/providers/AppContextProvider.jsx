@@ -11,8 +11,8 @@ class AppContextProvider extends React.Component {
     }
 
     render() {
-        const {locale, store, getComponent} = this.props
-        return (<AppContext.Provider value={{store, getComponent, locale}}>
+        const {locale, store, getComponent, messages} = this.props;
+        return (<AppContext.Provider value={{store, getComponent, locale, messages}}>
             {this.props.children}
         </AppContext.Provider>);
     }

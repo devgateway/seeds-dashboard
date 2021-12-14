@@ -10,8 +10,7 @@ class ListOfPost extends React.Component {
         return (
             <Container fluid className="inline list">
                 {posts && posts.map(p => (
-
-                    <Grid>
+                    <Grid key={p.id}>
                         {showIcons && <Grid.Column textAlign={"center"} width={1}>
                             <MediaProvider
                                 id={p.meta_fields && p.meta_fields.icon ? p.meta_fields.icon[0] : null}>

@@ -58,7 +58,8 @@ class IntlRoutes extends Component {
     return (
       <IntlProvider key={locale} locale={locale} messages={messages[locale]}>
         <InjectTitle locale={locale} />
-        <AppContextProvider getComponent={getComponentByNameIgnoreCase} store={store} locale={locale}>
+        <AppContextProvider getComponent={getComponentByNameIgnoreCase} store={store} locale={locale}
+                            messages={messages}>
           <Switch>
             {
               //Category Route
@@ -71,18 +72,21 @@ class IntlRoutes extends Component {
             {
               //default route (home)
             }
-            <Route path="/:lan" exact render={() => (
-              <PageProvider
-                slug={"home"}
-                store={"home"}>
-                <ResponsiveContainer isHome>
-                  <PageConsumer>
-                    <Page />
-                  </PageConsumer>
-                </ResponsiveContainer>
-              </PageProvider>
+            <Route path="/:lan" exact render={() => {
+              return (
+                <PageProvider
+                  slug={"home"}
+                  store={"home"}
+                  messages={messages}>
+                  <ResponsiveContainer isHome>
+                    <PageConsumer>
+                      <Page />
+                    </PageConsumer>
+                  </ResponsiveContainer>
+                </PageProvider>
 
-            )}>
+              );
+            }}>
             </Route>
             <Route exact={true} path="/:lan/embeddable/:name" render={(props) => {
               let params = queryString.parse(props.location.search)
@@ -136,12 +140,13 @@ class IntlRoutes extends Component {
               //page route
             }
             <Route path="/:lan/:slug/" exact render={props => {
-
               return (
 
                 <PageProvider
                   slug={props.match.params.slug}
-                  store={props.match.params.slug}>
+                  store={props.match.params.slug}
+                  messages={messages}
+                >
                   <ResponsiveContainer>
                     <PageConsumer>
                       <Page />
@@ -154,18 +159,21 @@ class IntlRoutes extends Component {
             {
               //child route
             }
-            <Route path="/:lan/:parent/:slug/" exact render={props => (
-              <PageProvider
-                slug={props.match.params.slug}
-                store={props.match.params.slug}>
-                <ResponsiveContainer>
-                  <PageConsumer>
-                    <Page />
-                  </PageConsumer>
-                </ResponsiveContainer>
-              </PageProvider>
+            <Route path="/:lan/:parent/:slug/" exact render={props => {
+              return (
+                <PageProvider
+                  slug={props.match.params.slug}
+                  store={props.match.params.slug}
+                  messages={messages}>
+                  <ResponsiveContainer>
+                    <PageConsumer>
+                      <Page />
+                    </PageConsumer>
+                  </ResponsiveContainer>
+                </PageProvider>
 
-            )}>
+              );
+            }}>
 
 
             </Route>

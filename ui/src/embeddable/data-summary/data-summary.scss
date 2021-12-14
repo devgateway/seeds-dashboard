@@ -1,5 +1,15 @@
 @import 'src/scss/vars';
 
+.ui.popup.indicator-popup {
+  &:before {
+    content: none;
+  }
+
+  border-radius: 0;
+  background-color: #f9fff8;
+  border: 1px solid #82b55c;
+
+}
 
 .ui.container.fluid .desktop {
   max-width: 100% !important;
@@ -13,7 +23,7 @@
   .data-summary-heading {
     width: $screen-width !important;
     display: flex !important;
-    height: 130px;
+    height: 200px;
 
     margin-bottom: 10px;
 
@@ -42,6 +52,8 @@
         }
 
         &.legends {
+          margin-bottom: 10px;
+
           .column {
             div {
               padding-left: 5px;
@@ -50,13 +62,13 @@
             }
 
             padding: 0;
-            font-size: 17px;
+            font-size: 16px;
             font-weight: bold;
             background-color: $light-gray;
             color: #868686;
 
             i.fitted.icon {
-              padding-right: 10px;
+              padding-right: 15px;
             }
 
             .dark-red {
@@ -82,33 +94,213 @@
         }
 
       }
-
     }
   }
 
   .summary-container {
     width: $screen-width !important;
-    padding-top: 20px;
 
     .ui.accordion {
+      .title.theme-title {
+        margin-bottom: 5px;
+
+        &.active {
+          margin-bottom: 2px;
+
+          &.theme-overview {
+            margin-bottom: 0;
+          }
+        }
+      }
+
+      &.table-container {
+        &.overview {
+          .selected-countries, .other-countries {
+            padding: 0;
+          }
+
+          .other-countries {
+            .indicator-title {
+              border-bottom: 1px solid $indicator-border-color;
+              height: 30px;
+              @include borders-15;
+
+              .ui.column.grid {
+                height: 100%;
+              }
+            }
+
+            .row.even, .row.odd {
+              @include borders-15;
+            }
+          }
+        }
+        .icon.chevron{
+          margin-left: 3px;
+        }
+        .active.content {
+          padding: 0;
+        }
+
+        margin: 0;
+
+        .odd {
+          background-color: $odd_grey;
+        }
+
+        .even {
+          .indicator-selected-country {
+            background-color: $background-selected-country;
+          }
+        }
+
+        .selected-countries {
+          .ui.grid:not(.indicator-label) {
+            border-left: 1px solid $indicator-border-color;
+          }
+
+          .indicator-title {
+            &.ui.grid {
+              height: 30px;
+
+              .ui.grid.indicator-sub-title {
+                height: 100%;
+                border-left: 1px solid $indicator_border_color;
+              }
+            }
+
+            .column:last-child {
+              background-color: $background-selected-country;
+
+            }
+          }
+        }
+
+        .even, .odd {
+          .border {
+            width: 15px;
+            background-color: grey;
+            content: 'b';
+          }
+
+          height: 40px;
+          border-bottom: 1px solid $indicator_border_color;
+
+          .indicator-selected-country {
+            border-left: 1px solid $indicator_border_color;
+          }
+
+        }
+
+        .title {
+          padding: 0;
+          margin-bottom: 5px;
+
+          &.active {
+            margin-bottom: 0;
+          }
+        }
+
+        .icon {
+          &.chevron {
+            font-size: 0.75em;
+
+          }
+
+          &.info {
+            &:hover {
+              background-color: #82b55c;
+              color: white;
+              cursor: pointer;
+            }
+
+          }
+        }
+
+        .ui.grid {
+          &.indicator-title {
+            border-bottom: 1px solid $light-gray;
+          }
+
+          .row.indicator-title {
+            border-bottom: 1px solid $light-gray;
+
+            .ui.grid.indicator-sub-title {
+
+            }
+          }
+
+          margin: 0;
+          font-size: 16px;
+
+          .column {
+            padding: 0;
+            height: 100%;
+
+            &.crop-title {
+              padding-right: 10px;
+              @include display-flex(right)
+            }
+          }
+
+          .other-countries {;
+
+            .row.even, .row.odd {
+              @include borders-15;
+            }
+
+            .row.indicator-title {
+              height: 30px;
+              @include borders-15;
+            }
+
+
+          }
+        }
+      }
+
       width: 100%;
 
       .title {
         border-top: 0 !important;
-        height: 50px;
+        height: 45px;
 
         &.active {
-          color: $light-green;
+          .summary-theme {
+            color: $light-green;
+          }
+
+          .icon {
+            &.chevron {
+              transform: rotate(180deg);
+            }
+          }
         }
 
-        .indicator-theme {
+        .summary-common {
           height: 45px;
-          background-color: $light-gray;
           display: flex;
           align-content: center;
           align-items: center;
+          font-size: 18px;
+          font-weight: bold;
+          padding-left: 10px;
 
+          &.indicator {
+            background-color: #ffd686;
+            color: #774c00;
+
+            div {
+              padding-right: 10px;
+              padding-left: 5px;
+            }
+          }
+
+          &.summary-theme {
+            background-color: $light-gray;
+          }
         }
+
       }
     }
   }

@@ -4,15 +4,16 @@ import 'pure-react-carousel/dist/react-carousel.es.css';
 import React, {useState} from "react";
 import {Container} from "semantic-ui-react";
 import {CarouselProvider, DotGroup, Slide, Slider} from "pure-react-carousel";
+import { ADDITIONAL_COUNTRIES } from "../filter/CountryFilter";
 
 const Carousel = (props) => {
     let i = 0
     const {posts} = props
     return (<CarouselProvider
-
+      visibleSlides={3}
         totalSlides={posts.length}>
         <Slider>
-            {posts.map(p => <Slide index={i++}>
+            {posts.map(p => <Slide index={i++} key={p.id}>
                 <PostIntro post={p} fluid showLink/>
             </Slide>)}
         </Slider>
@@ -29,7 +30,7 @@ const _Carousel = (props) => {
     return <Container fluid={true} className={"carousel"}>
         <CarouselProvider totalSlides={posts.length}>
             <Slider>
-                {posts.map(p => <Slide index={i++}>
+                {posts.map(p => <Slide index={i++} key={p.id}>
                     <PostIntro post={p}/>
                 </Slide>)}
             </Slider>
