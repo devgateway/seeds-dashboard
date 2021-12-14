@@ -133,11 +133,19 @@
             .row.even, .row.odd {
               @include borders-15;
             }
+
+            .row.odd {
+              .ui.three.column.grid {
+                background-color: #f6f6f6;
+              }
+            }
           }
         }
-        .icon.chevron{
+
+        .icon.chevron {
           margin-left: 3px;
         }
+
         .active.content {
           padding: 0;
         }
@@ -247,6 +255,12 @@
 
             .row.even, .row.odd {
               @include borders-15;
+            }
+
+            .row.odd {
+              .ui.three.column.grid {
+                background-color: #f6f6f6;
+              }
             }
 
             .row.indicator-title {
