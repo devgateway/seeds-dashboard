@@ -67,11 +67,11 @@ const DataSummaryBody = ({
     return <Grid className={`table-container accordion ${isOverview ? ' overview' : ''}`}>
       <Grid.Column width={7} className="selected-countries">
         <Grid className="indicator-title">
-          <Grid.Column width={indicator.type === INDICATOR ? 12 : 9}>
+          <Grid.Column width={10}>
           </Grid.Column>
-          <Grid.Column width={indicator.type === INDICATOR ? 4 : 7}><IndicatorLabel
+          <Grid.Column width={ 6}><IndicatorLabel
             field={{ value: indicator.displayType === 'Rating' || indicator.displayType === 'HHI value (color)' ? 'rating' : 'number' }}
-            className={'indicator-sub-title'} displayType={LEGEND} />
+            className={'indicator-sub-title'} displayType={LEGEND} selectedCountry/>
           </Grid.Column>
         </Grid>
         {indicator.childs.sort((a, b) => a.position > b.position).map((f, index) => {
@@ -85,18 +85,18 @@ const DataSummaryBody = ({
               && sc.countryId === filters.get(SELECTED_COUNTRY)));
           }
           return <Grid className={`${index % 2 === 0 ? EVEN : ODD}`} key={f.id}>
-            <Grid.Column width={indicator.type === INDICATOR ? 12 : 9}
+            <Grid.Column width={10}
                          className="crop-title">
               {(f.type === SUB_INDICATOR || f.isTotal) &&
                 <Tooltip item={f} />
               }
               {f.name}
             </Grid.Column>
-            <Grid.Column width={indicator.type === INDICATOR ? 4 : 7}
+            <Grid.Column width={ 6}
                          className={"indicator-selected-country"}><IndicatorLabel
               field={field}
               className={'indicator-label'}
-              range={range} displayType={indicator.displayType} />
+              range={range} displayType={indicator.displayType} selectedCountry/>
             </Grid.Column>
           </Grid>
         })}
