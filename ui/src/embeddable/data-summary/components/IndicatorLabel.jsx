@@ -21,12 +21,13 @@ const IndicatorLabel = ({ field, className, range, displayType, intl, selectedCo
       <Grid.Column width={selectedCountry ? 9 : 10} className="label">{field.label}</Grid.Column>
       <Grid.Column width={selectedCountry ? 7 : 6} className="value" style={style}>
         {r && <Popup
-          trigger={<div>{formatValue(field.value, displayType, intl)}</div>}
+          trigger={<div
+            className={isNaN(field.value) ? ' letter' : ''}>{formatValue(field.value, displayType, intl)}</div>}
           className="indicator-popup"
           position="right center">
           <Legend val={r.legend} color={r.color} />
         </Popup>}
-        {!r && formatValue(field.value, displayType, intl)}
+        {!r && <div className={isNaN(field.value) ? ' letter' : ''}>{formatValue(field.value, displayType, intl)}</div>}
       </Grid.Column>
     </Grid>
   } else {
