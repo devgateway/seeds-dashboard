@@ -16,14 +16,20 @@
     font-style: italic;
   }
 }
-
+.indicator-selected-country{
+  .indicator-label {
+    .column{
+      font-weight:600;
+    }
+  }
+}
 .indicator-label {
   &.grid {
     height: 100%;
   }
 
   .column {
-    font-weight: 600;
+    font-weight: 400;
     align-items: center !important;
     display: flex !important;
     &.label {

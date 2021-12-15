@@ -64,7 +64,7 @@
             padding: 0;
             font-size: 16px;
             font-weight: bold;
-            background-color: $light-gray;
+            background-color: #f9f9f9;
             color: #868686;
 
             i.fitted.icon {
@@ -141,11 +141,6 @@
             }
           }
         }
-
-        .icon.chevron {
-          margin-left: 3px;
-        }
-
         .active.content {
           padding: 0;
         }
@@ -182,8 +177,9 @@
 
             }
           }
-          .odd{
-            .indicator-selected-country{
+
+          .odd {
+            .indicator-selected-country {
               background-color: #f6f1e9;
             }
           }
@@ -215,11 +211,6 @@
         }
 
         .icon {
-          &.chevron {
-            font-size: 0.75em;
-
-          }
-
           &.info {
             &:hover {
               background-color: #82b55c;
@@ -244,7 +235,7 @@
           }
 
           margin: 0;
-          font-size: 16px;
+          font-size: 14px;
 
           .column {
             padding: 0;
@@ -301,8 +292,8 @@
           display: flex;
           align-content: center;
           align-items: center;
-          font-size: 18px;
-          font-weight: bold;
+          font-size: 14px;
+          font-weight: 600;
           padding-left: 10px;
 
           &.indicator {
@@ -311,7 +302,7 @@
 
             div {
               padding-right: 10px;
-              padding-left: 5px;
+
             }
           }
 

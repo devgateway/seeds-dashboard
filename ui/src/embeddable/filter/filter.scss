@@ -11,7 +11,7 @@
   }
 
   .country-filter-container {
-    width: $screen-width!important;
+    width: $screen-width !important;
 
     .select-country-grid {
       .column {
@@ -37,10 +37,18 @@
 
         .title {
           @include font-filter;
+          justify-content: left;
+          font-size: 16px;
+          font-weight: 700;
           height: 60px;
           width: 100%;
-          &.active{
-            .angle.icon{
+          padding-left: 25px;
+          .angle.icon{
+            margin-left: -18px;
+          }
+
+          &.active {
+            .angle.icon {
               transform: rotate(90deg);
             }
           }
@@ -79,7 +87,7 @@
 
               .ui.radio.checkbox {
                 label {
-                  font-size: 12pt;
+                  font-size: 10px;
                 }
               }
             }
@@ -97,6 +105,8 @@
     .selected-country.column {
       background-color: $orange;
       @include font-filter;
+      font-size: 14px;
+      font-weight: 800;
 
     }
 
@@ -135,12 +145,13 @@
         }
 
         &.carousel__back-button {
-          i{
+          i {
             padding-right: 12px;
           }
         }
+
         &.carousel__next-button {
-          i{
+          i {
             padding-right: 12px;
           }
         }
