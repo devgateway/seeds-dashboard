@@ -13,13 +13,13 @@ const Carousel = ({ posts, itemsPerPage, messages, orientation, navigatorStyle }
   return (<CarouselProvider
     visibleSlides={parseInt(itemsPerPage)}
     totalSlides={posts.length}
-    orientation={orientation} className={navigatorStyle === 'button' ? "carousel-flex" : ''}
+    orientation={orientation} className={navigatorStyle === 'buttons' ? "carousel-flex" : ''}
   >
 
-    {navigatorStyle === 'button' && <div className="navigator">
+    {navigatorStyle === 'buttons' && <div className="navigator">
       <ButtonBack><Icon name="angle left" /></ButtonBack>
     </div>}
-    <div className={navigatorStyle === 'button' ? "carousel-container" : ''}>
+    <div className={navigatorStyle === 'buttons' ? "carousel-container" : ''}>
       <Slider>
         {posts.map(p => {
           return <Slide index={i++} key={p.id}>
@@ -28,7 +28,7 @@ const Carousel = ({ posts, itemsPerPage, messages, orientation, navigatorStyle }
         })}
       </Slider>
     </div>
-    {navigatorStyle === 'button' && <div className="navigator">
+    {navigatorStyle === 'buttons' && <div className="navigator">
       <ButtonNext><Icon name="angle right" /></ButtonNext>
     </div>}
     {navigatorStyle === 'dots' && <DotGroup />}
@@ -93,7 +93,8 @@ const PostCarousel = ({
                   store={"carousel_" + parent + "_" + unique} page={1}
                   perPage={items}>
       <PostConsumer>
-        <Carousel itemsPerPage={itemsPerPage} messages={messages} orientation={orientation}></Carousel>
+        <Carousel itemsPerPage={itemsPerPage} messages={messages} orientation={orientation}
+                  navigatorStyle={navigatorStyle}></Carousel>
       </PostConsumer>
     </PostProvider>
   </Container>
