@@ -6,12 +6,18 @@ import {
   COUNTRIES_FILTER,
   COUNTRY_SETTINGS,
   SUMMARY_INDICATORS,
-  SUMMARY_INDICATORS_INFORMATION
+  SUMMARY_INDICATORS_INFORMATION, WP_CATEGORIES
 } from "./StoreConstants";
+import { getCategoriesWP } from "./data-api";
 
 const LOAD_DATA = 'LOAD_DATA'
 const LOAD_DATA_DONE = 'LOAD_DATA_DONE'
 const LOAD_DATA_ERROR = 'LOAD_DATA_ERROR'
+
+const LOAD_WP_CATEGORIES = 'LOAD_WP_CATEGORIES'
+const LOAD_WP_CATEGORIES_DONE = 'LOAD_WP_CATEGORIES_DONE'
+const LOAD_WP_CATEGORIES_ERROR = 'LOAD_WP_CATEGORIES_ERROR'
+
 const LOAD_COUNTRIES = 'LOAD_COUNTRIES'
 const LOAD_COUNTRIES_DONE = 'LOAD_COUNTRIES_DONE'
 const LOAD_COUNTRIES_ERROR = 'LOAD_COUNTRIES_ERROR'
@@ -53,6 +59,23 @@ export const getCountries = () => (dispatch, getState) => {
   }).catch(error => {
     dispatch({
       type: LOAD_COUNTRIES_ERROR,
+      error
+    })
+  })
+}
+
+export const getWpCategories = () => (dispatch, getState) => {
+  dispatch({
+    type: LOAD_WP_CATEGORIES
+  });
+  api.getCategoriesWP().then(data => {
+    dispatch({
+      type: LOAD_WP_CATEGORIES_DONE,
+      data: data
+    })
+  }).catch(error => {
+    dispatch({
+      type: LOAD_WP_CATEGORIES_ERROR,
       error
     })
   })
@@ -149,6 +172,15 @@ const reducer = (state = initialState, action) => {
         .setIn([...store, 'data'], data)
     }
 
+
+    case LOAD_WP_CATEGORIES:
+      return state
+    case LOAD_WP_CATEGORIES_DONE: {
+      const { data } = action
+      return state.setIn([WP_CATEGORIES], data)
+    }
+    case LOAD_WP_CATEGORIES_ERROR:
+      return state
 
     case LOAD_COUNTRIES:
       return state

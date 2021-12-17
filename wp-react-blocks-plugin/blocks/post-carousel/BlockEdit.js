@@ -5,6 +5,9 @@ import {
   PanelBody,
   PanelRow,
   ResizableBox,
+  CheckboxControl,
+  TextControl,
+  SelectControl
 } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { BlockEditWithFilters, SizeConfig } from "../commons";
@@ -27,7 +30,11 @@ class BlockEdit extends BlockEditWithFilters {
         taxonomy,
         categories,
         height = 650,
-        itemsPerPage
+        itemsPerPage,
+        connectFilter,
+        valuesFilterStore,
+        selectedFilterStore,
+        fieldOrientation
       },
     } = this.props;
 
@@ -37,6 +44,10 @@ class BlockEdit extends BlockEditWithFilters {
     queryString += `&data-categories=${categories}`;
     queryString += `&data-items=${count}`;
     queryString += `&data-items-per-page=${itemsPerPage}`;
+    queryString += `&data-connect-filter=${connectFilter}`;
+    queryString += `&data-values-filter-store=${valuesFilterStore}`;
+    queryString += `&data-selected-filter-store=${selectedFilterStore}`;
+    queryString += `&data-orientation=${fieldOrientation}`;
 
     const divStyles = { height: height + 'px', width: '100%' }
 
@@ -61,10 +72,41 @@ class BlockEdit extends BlockEditWithFilters {
                   value={itemsPerPage}
                   label={__("items per page")} />
               </PanelRow>
+              <SelectControl
+                label={__('Orientation:')}
+                value={[fieldOrientation]}
+                onChange={(fieldOrientation) => {
+                  setAttributes({ fieldOrientation })
+                }}
+                options={[
+                  { label: 'Vertical', value: 'vertical' },
+                  { label: 'Horizontal', value: 'horizontal' }
+                ]}
+              />
             </PanelBody>
             <SizeConfig initialOpen={false} setAttributes={setAttributes} height={height}></SizeConfig>
             {this.renderFilters()}
           </Panel>
+          <PanelBody title={__("Carousel Filters configuration")}>
+            <PanelRow>
+              <CheckboxControl
+                label={__('Connect filter component')}
+                checked={connectFilter}
+                onChange={() => setAttributes({ connectFilter: !connectFilter })} />
+            </PanelRow>
+            {connectFilter && <PanelRow>
+              <TextControl
+                label={__('Values store')}
+                value={valuesFilterStore}
+                onChange={(valuesFilterStore) => setAttributes({ valuesFilterStore })}
+              /></PanelRow>}
+            {connectFilter && <PanelRow>
+              <TextControl
+                label={__('selected filter store')}
+                value={selectedFilterStore}
+                onChange={(selectedFilterStore) => setAttributes({ selectedFilterStore })}
+              /></PanelRow>}
+          </PanelBody>
         </InspectorControls>
 
 

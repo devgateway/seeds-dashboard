@@ -4,7 +4,9 @@ const SaveComponent = (props) => {
 
   const {
     attributes: {
-      type
+      type,
+      selectedCountryFirst,
+      addYear
     }
   } = props;
   const blockProps = useBlockProps.save({
@@ -17,6 +19,8 @@ const SaveComponent = (props) => {
     <div className={"wp-react-lib-component"}
          data-component={"filter"}
          data-type={type}
+         data-selected-country-first={selectedCountryFirst}
+         data-add-year={addYear}
     >
     </div>
 
