@@ -34,7 +34,8 @@ class BlockEdit extends BlockEditWithFilters {
         connectFilter,
         valuesFilterStore,
         selectedFilterStore,
-        fieldOrientation
+        fieldOrientation,
+        navigatorStyle
       },
     } = this.props;
 
@@ -48,7 +49,7 @@ class BlockEdit extends BlockEditWithFilters {
     queryString += `&data-values-filter-store=${valuesFilterStore}`;
     queryString += `&data-selected-filter-store=${selectedFilterStore}`;
     queryString += `&data-orientation=${fieldOrientation}`;
-
+    queryString += `&data-navigator-style=${navigatorStyle}`;
     const divStyles = { height: height + 'px', width: '100%' }
 
     return (
@@ -72,6 +73,17 @@ class BlockEdit extends BlockEditWithFilters {
                   value={itemsPerPage}
                   label={__("items per page")} />
               </PanelRow>
+              <SelectControl
+                label={__('Navigator style:')}
+                value={[navigatorStyle]}
+                onChange={(navigatorStyle) => {
+                  setAttributes({ navigatorStyle })
+                }}
+                options={[
+                  { label: 'Dots', value: 'dots' },
+                  { label: 'Buttons', value: 'buttons' }
+                ]}
+              />
               <SelectControl
                 label={__('Orientation:')}
                 value={[fieldOrientation]}

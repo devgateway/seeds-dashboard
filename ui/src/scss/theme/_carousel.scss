@@ -1,4 +1,11 @@
 .carousel {
+  &.carousel-flex {
+    display: flex;
+  }
+
+  .carousel-container {
+    width: 100%;
+  }
 
   width: 100%;
 
@@ -27,7 +34,7 @@
     min-height: 350px;
 
     // temporary - removed read more link
-    .link{
+    .link {
       display: none;
     }
 
@@ -84,28 +91,34 @@
 
 
 // Events carousel
-.event-carousel{
-  .link{
+.event-carousel {
+  .link {
     display: block;
   }
-  .carousel{
-    li{
+
+  .carousel {
+    li {
       min-height: $base-unit * 55;
     }
   }
-  h3{
+
+  h3 {
     font-size: 0.9rem !important;
-    a{
+
+    a {
       color: $text-color;
-      &:hover{
+
+      &:hover {
         color: $green-link;
       }
     }
   }
-  p{
-    a{
+
+  p {
+    a {
       color: $green-link;
-      &:hover{
+
+      &:hover {
         color: $text-color;
       }
     }
