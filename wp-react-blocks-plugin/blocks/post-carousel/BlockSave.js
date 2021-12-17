@@ -6,7 +6,11 @@ const SaveComponent = (props) => {
       type,
       taxonomy,
       categories,
-      itemsPerPage
+      itemsPerPage,
+      valuesFilterStore,
+      selectedFilterStore,
+      connectFilter,
+      fieldOrientation
     },
   } = props;
 
@@ -18,6 +22,10 @@ const SaveComponent = (props) => {
       <div data-items={count} data-type={type}
            data-items-per-page={itemsPerPage}
            data-taxonomy={taxonomy}
+           data-values-filter-store={valuesFilterStore}
+           data-selected-filter-store={selectedFilterStore}
+           data-connect-filter={connectFilter}
+           data-orientation={fieldOrientation}
            data-categories={categories.toString()}
            className={"wp-react-lib-component"}
            data-component={"postsCarousel"}>

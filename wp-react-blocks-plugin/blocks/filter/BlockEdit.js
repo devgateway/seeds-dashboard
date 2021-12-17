@@ -1,5 +1,5 @@
 import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
-import { Panel, PanelBody, PanelRow, SelectControl, TextControl } from '@wordpress/components';
+import { Panel, PanelBody, PanelRow, SelectControl, TextControl, CheckboxControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { BaseBlockEdit } from '../commons/index'
 
@@ -9,11 +9,14 @@ class BlockEdit extends BaseBlockEdit {
     const {
       className, isSelected,
       toggleSelection, setAttributes, attributes: {
-        type
+        type, selectedCountryFirst, addYear
       }
     } = this.props;
 
-    const queryString = `data-type=${type}&editing=true`
+    let queryString = `data-type=${type}`;
+    queryString += `&data-selected-country-first=${selectedCountryFirst}`;
+    queryString += `&data-add-year=${addYear}`;
+    queryString += `&editing=true`
     const divStyles = {}
     return ([isSelected && (<InspectorControls>
         <Panel header={__("Chart Configuration")}>
@@ -27,8 +30,22 @@ class BlockEdit extends BaseBlockEdit {
                   setAttributes({ type: value })
                 }}
                 options={[
-                  { label: 'Country', value: 'Country' }]}
+                  { label: 'Country', value: 'Country' },
+                  { label: 'Carousel', value: 'Carousel' }
+                ]}
               />
+            </PanelRow>
+            <PanelRow>
+              <CheckboxControl
+                label={__('Selected country first:')}
+                checked={selectedCountryFirst}
+                onChange={() => setAttributes({ selectedCountryFirst: !selectedCountryFirst })} />
+            </PanelRow>
+            <PanelRow>
+              <CheckboxControl
+                label={__('Add year:')}
+                checked={addYear}
+                onChange={() => setAttributes({ addYear: !addYear })} />
             </PanelRow>
           </PanelBody>
         </Panel>

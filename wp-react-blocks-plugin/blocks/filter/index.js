@@ -14,9 +14,15 @@ registerBlockType(process.env.BLOCKS_NS + '/filter',
       type: {
         type: 'String',
         default: "Country"
+      },
+      selectedCountryFirst: {
+        type: 'Boolean',
+        default: false
+      },
+      addYear: {
+        type: 'Boolean',
+        default: true
       }
-
-
     }
     ,
     edit: BlockEdit,

@@ -1,6 +1,8 @@
 import { get } from '../../api/commons'
 
 const SURVEY_API = process.env.REACT_APP_SURVEY_API
+const APP_WP_API = process.env.REACT_APP_WP_API;
+const WP_CATEGORIES = APP_WP_API + '/wp/v2/categories?per_page=100&_locale=user';
 const POLICY_API_ROOT = process.env.REACT_APP_POLICY_API
 const SURVEY_FILTER_API = 'filter';
 const DATA_SUMMARY = 'dataSummary';
@@ -20,6 +22,9 @@ function queryParams(params) {
 
 export const getCountriesData = (params) => {
   return get(SURVEY_COUNTRIES_API, params)
+}
+export const getCategoriesWP = (params) => {
+  return get(WP_CATEGORIES, params)
 }
 export const getIndicatorsData = (params) => {
   return get(SURVEY_INDICATORS_API, params)
