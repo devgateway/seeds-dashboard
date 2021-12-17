@@ -2,6 +2,7 @@ import { get } from '../../api/commons'
 
 const SURVEY_API = process.env.REACT_APP_SURVEY_API
 const APP_WP_API = process.env.REACT_APP_WP_API;
+//TODO add parameters as config
 const WP_CATEGORIES = APP_WP_API + '/wp/v2/categories?per_page=100&_locale=user';
 const POLICY_API_ROOT = process.env.REACT_APP_POLICY_API
 const SURVEY_FILTER_API = 'filter';
