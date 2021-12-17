@@ -7,19 +7,20 @@ import { ButtonBack, ButtonNext, CarouselProvider, DotGroup, Slide, Slider } fro
 import { connect } from "react-redux";
 import { getIndicatorsInformation, getWpCategories } from "../reducers/data";
 import { WP_CATEGORIES } from "../reducers/StoreConstants";
+import { BUTTONS, DOTS } from "./Constants";
 
 const Carousel = ({ posts, itemsPerPage, messages, orientation, navigatorStyle }) => {
   let i = 0;
   return (<CarouselProvider
     visibleSlides={parseInt(itemsPerPage)}
     totalSlides={posts.length}
-    orientation={orientation} className={navigatorStyle === 'buttons' ? "carousel-flex" : ''}
+    orientation={orientation} className={navigatorStyle === BUTTONS ? "carousel-flex" : ''}
   >
 
-    {navigatorStyle === 'buttons' && <div className="navigator">
+    {navigatorStyle === BUTTONS && <div className="navigator">
       <ButtonBack><Icon name="angle left" /></ButtonBack>
     </div>}
-    <div className={navigatorStyle === 'buttons' ? "carousel-container" : ''}>
+    <div className={navigatorStyle === BUTTONS ? "carousel-container" : ''}>
       <Slider>
         {posts.map(p => {
           return <Slide index={i++} key={p.id}>
@@ -28,10 +29,10 @@ const Carousel = ({ posts, itemsPerPage, messages, orientation, navigatorStyle }
         })}
       </Slider>
     </div>
-    {navigatorStyle === 'buttons' && <div className="navigator">
+    {navigatorStyle === BUTTONS && <div className="navigator">
       <ButtonNext><Icon name="angle right" /></ButtonNext>
     </div>}
-    {navigatorStyle === 'dots' && <DotGroup />}
+    {navigatorStyle === DOTS && <DotGroup />}
   </CarouselProvider>)
 
 
@@ -65,7 +66,7 @@ const PostCarousel = ({
                         "data-connect-filter": connectFilter,
                         "data-values-filter-store": valuesFilterStore,
                         "data-selected-filter-store": selectedFilterStore,
-                        "data-navigator-style": navigatorStyle = 'dots',
+                        "data-navigator-style": navigatorStyle = DOTS,
                         filters, filtersData, categoriesWP, onLoadWPCategories
                       }) => {
   const [random, setRandomStore] = useState(Math.random() * (99999 - 1) + 1);
