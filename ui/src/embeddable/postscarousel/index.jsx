@@ -2,34 +2,36 @@ import { PostConsumer, PostIntro, PostProvider } from "@devgateway/wp-react-lib"
 
 import 'pure-react-carousel/dist/react-carousel.es.css';
 import React, { useEffect, useState } from "react";
-import { Container } from "semantic-ui-react";
-import { CarouselProvider, DotGroup, Slide, Slider } from "pure-react-carousel";
-import { ADDITIONAL_COUNTRIES } from "../filter/CountryFilter";
+import { Container, Icon } from "semantic-ui-react";
+import { ButtonBack, ButtonNext, CarouselProvider, DotGroup, Slide, Slider } from "pure-react-carousel";
 import { connect } from "react-redux";
-import {
-  COUNTRIES_FILTER,
-  COUNTRY_SETTINGS,
-  SELECTED_COUNTRY,
-  SUMMARY_INDICATORS,
-  SUMMARY_INDICATORS_INFORMATION, WP_CATEGORIES
-} from "../reducers/StoreConstants";
 import { getIndicatorsInformation, getWpCategories } from "../reducers/data";
+import { WP_CATEGORIES } from "../reducers/StoreConstants";
 
-const Carousel = ({ posts, itemsPerPage, messages, orientation }) => {
-  let i = 0
+const Carousel = ({ posts, itemsPerPage, messages, orientation, navigatorStyle }) => {
+  let i = 0;
   return (<CarouselProvider
-    visibleSlides={itemsPerPage}
+    visibleSlides={parseInt(itemsPerPage)}
     totalSlides={posts.length}
-    orientation={orientation}
+    orientation={orientation} className={navigatorStyle === 'button' ? "carousel-flex" : ''}
   >
-    <Slider>
-      {posts.map(p => {
-        return <Slide index={i++} key={p.id}>
-          <PostIntro post={p} fluid showLink messages={messages} />
-        </Slide>;
-      })}
-    </Slider>
-    <DotGroup />
+
+    {navigatorStyle === 'button' && <div className="navigator">
+      <ButtonBack><Icon name="angle left" /></ButtonBack>
+    </div>}
+    <div className={navigatorStyle === 'button' ? "carousel-container" : ''}>
+      <Slider>
+        {posts.map(p => {
+          return <Slide index={i++} key={p.id}>
+            <PostIntro post={p} fluid showLink messages={messages} />
+          </Slide>;
+        })}
+      </Slider>
+    </div>
+    {navigatorStyle === 'button' && <div className="navigator">
+      <ButtonNext><Icon name="angle right" /></ButtonNext>
+    </div>}
+    {navigatorStyle === 'dots' && <DotGroup />}
   </CarouselProvider>)
 
 
@@ -63,6 +65,7 @@ const PostCarousel = ({
                         "data-connect-filter": connectFilter,
                         "data-values-filter-store": valuesFilterStore,
                         "data-selected-filter-store": selectedFilterStore,
+                        "data-navigator-style": navigatorStyle = 'dots',
                         filters, filtersData, categoriesWP, onLoadWPCategories
                       }) => {
   const [random, setRandomStore] = useState(Math.random() * (99999 - 1) + 1);

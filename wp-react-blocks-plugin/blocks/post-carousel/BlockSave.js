@@ -10,7 +10,8 @@ const SaveComponent = (props) => {
       valuesFilterStore,
       selectedFilterStore,
       connectFilter,
-      fieldOrientation
+      fieldOrientation,
+      navigatorStyle
     },
   } = props;
 
@@ -26,6 +27,7 @@ const SaveComponent = (props) => {
            data-selected-filter-store={selectedFilterStore}
            data-connect-filter={connectFilter}
            data-orientation={fieldOrientation}
+           data-navigator-style={navigatorStyle}
            data-categories={categories.toString()}
            className={"wp-react-lib-component"}
            data-component={"postsCarousel"}>

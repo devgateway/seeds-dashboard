@@ -45,6 +45,10 @@ registerBlockType(process.env.BLOCKS_NS + '/post-carousel',
       fieldOrientation: {
         type: "String",
         default: "horizontal"
+      },
+      navigatorStyle: {
+        type: "String",
+        default: "dots"
       }
 
 
