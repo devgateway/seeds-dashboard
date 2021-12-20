@@ -5,10 +5,13 @@ $light-blue: #5089a6;
 $dark-gray: #5c5d63;
 $breadcrumb-grey: #535454;
 $gray: #66676d;
+$text-color: #555555;
 $light-gray: #dadada;
 $separator-grey: #ececec;
 $red: #ba5555;
 $menu-link-color: #54657e;
+$link-green: #80973a;
+$link-green-hover: #3f3f3f;
 
 $blue: #3e53a6;
 $green: #5baf95;
@@ -150,4 +153,15 @@ $breakpoint-phone: 480px;
     background: white;
     height: 100%;
   }
+}
+
+@mixin list-unstyled{
+  list-style: none;
+}
+
+@mixin country-crop-icon(){
+  background-position: left center;
+  background-repeat: no-repeat;
+  background-size: $base-unit * 5;
+  padding-left: $base-unit * 6;
 }
