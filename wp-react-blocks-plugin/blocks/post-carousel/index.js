@@ -30,6 +30,25 @@ registerBlockType(process.env.BLOCKS_NS + '/post-carousel',
       categories: {
         type: 'array',
         default: [],
+      },
+      selectedFilterStore: {
+        type: "String",
+        default: undefined
+      },
+      valuesFilterStore: {
+        type: "String",
+        default: undefined
+      }, connectFilter: {
+        type: "Boolean",
+        default: false
+      },
+      fieldOrientation: {
+        type: "String",
+        default: "horizontal"
+      },
+      navigatorStyle: {
+        type: "String",
+        default: "dots"
       }
 
 
