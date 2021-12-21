@@ -6,7 +6,8 @@ const SaveComponent = (props) => {
     attributes: {
       type,
       selectedCountryFirst,
-      addYear
+      addYear,
+      selectedCountryLabel
     }
   } = props;
   const blockProps = useBlockProps.save({
@@ -15,12 +16,14 @@ const SaveComponent = (props) => {
 
   const divClass = {}
   const divStyles = {}
+  debugger;
   return (
     <div className={"wp-react-lib-component"}
          data-component={"filter"}
          data-type={type}
          data-selected-country-first={selectedCountryFirst}
          data-add-year={addYear}
+         data-selected-country-label={selectedCountryLabel}
     >
     </div>
 

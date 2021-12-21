@@ -9,17 +9,18 @@ class BlockEdit extends BaseBlockEdit {
     const {
       className, isSelected,
       toggleSelection, setAttributes, attributes: {
-        type, selectedCountryFirst, addYear
+        type, selectedCountryFirst, addYear, selectedCountryLabel
       }
     } = this.props;
 
     let queryString = `data-type=${type}`;
     queryString += `&data-selected-country-first=${selectedCountryFirst}`;
     queryString += `&data-add-year=${addYear}`;
+    queryString += `&data-selected-country-label=${selectedCountryLabel}`;
     queryString += `&editing=true`
     const divStyles = {}
     return ([isSelected && (<InspectorControls>
-        <Panel header={__("Chart Configuration")}>
+        <Panel header={__("Filters Configuration")}>
           <PanelBody>
             <PanelRow>
 
@@ -47,6 +48,12 @@ class BlockEdit extends BaseBlockEdit {
                 checked={addYear}
                 onChange={() => setAttributes({ addYear: !addYear })} />
             </PanelRow>
+            <PanelRow>
+              <TextControl
+                label={__('Selected country label')}
+                value={selectedCountryLabel}
+                onChange={(selectedCountryLabel) => setAttributes({ selectedCountryLabel })}
+              /></PanelRow>
           </PanelBody>
         </Panel>
       </InspectorControls>),
