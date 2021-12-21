@@ -2,7 +2,7 @@ import { Accordion, Form, Grid, Icon, Input, Menu } from "semantic-ui-react";
 import React, { useState } from "react";
 import { SELECTED_COUNTRY } from "../../reducers/StoreConstants";
 
-const CountrySelector = ({ countries, filters, onApply, selectedCountryFirst, addYear }) => {
+const CountrySelector = ({ countries, filters, onApply, selectedCountryFirst, addYear, selectedCountryLabel }) => {
   const [activeIndex, setActiveIndex] = useState([0]);
   const [searchKeyword, setSearchKeyword] = useState(undefined);
   const handleSelectedCountry = (event, { value }) => {
@@ -72,7 +72,8 @@ const CountrySelector = ({ countries, filters, onApply, selectedCountryFirst, ad
           <Accordion.Content active={activeIndex === 0} content={CountryForm} />
         </Menu.Item>
       </Accordion>
-    </Grid.Column>, <Grid.Column key={2} width={7} className="selected-country">{getSelectedCountry()}</Grid.Column>];
+    </Grid.Column>, <Grid.Column key={2} width={7} className="selected-country">{selectedCountryLabel &&
+      <span>{selectedCountryLabel}</span>}{getSelectedCountry()}</Grid.Column>];
     if (selectedCountryFirst === 'true') {
       return grids.reverse();
     } else {

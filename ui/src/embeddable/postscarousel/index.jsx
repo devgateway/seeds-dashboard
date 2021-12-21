@@ -78,14 +78,16 @@ const PostCarousel = ({
   let categoryWP;
   if (filters && filtersData && categoriesWP) {
     //TODO add object id (countryId) as parameter
-    const filterSelected = filtersData.get(valuesFilterStore).find(fd => fd.countryId === filters.get(selectedFilterStore));
-    if (filterSelected) {
-      //TODO add object value (country) as parameter
-      const slug = filterSelected.country.replace(/\s+/g, '-').toLowerCase();
-      categoryWP = categoriesWP.find(cwp => cwp.slug === slug);
-      if (!categoryWP) {
-        //TODO add not-found as a parameter
-        categoryWP = categoriesWP.find(cwp => cwp.slug === 'not-found');
+    if (filtersData.get(valuesFilterStore)) {
+      const filterSelected = filtersData.get(valuesFilterStore).find(fd => fd.countryId === filters.get(selectedFilterStore));
+      if (filterSelected) {
+        //TODO add object value (country) as parameter
+        const slug = filterSelected.country.replace(/\s+/g, '-').toLowerCase();
+        categoryWP = categoriesWP.find(cwp => cwp.slug === slug);
+        if (!categoryWP) {
+          //TODO add not-found as a parameter
+          categoryWP = categoriesWP.find(cwp => cwp.slug === 'not-found');
+        }
       }
     }
   }

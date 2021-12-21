@@ -22,6 +22,10 @@ registerBlockType(process.env.BLOCKS_NS + '/filter',
       addYear: {
         type: 'Boolean',
         default: true
+      },
+      selectedCountryLabel: {
+        type: 'String',
+        default: ''
       }
     }
     ,

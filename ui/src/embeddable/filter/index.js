@@ -13,12 +13,12 @@ const Filter = ({
                   "data-type": dataType,
                   "data-selected-country-first": selectedCountryFirst = false,
                   "data-add-year": addYear = true,
-                  "data-use-id": useId = true,
-                  "data-store": searchStore,
+                  "data-selected-country-label": selectedCountryLabel = undefined
                 }) => {
   useEffect(() => {
     onLoadCountries()
-  }, [])
+  }, []);
+
   useEffect(() => {
     if (getFirstSelectedCountry()) {
       onApply(SELECTED_COUNTRY, getFirstSelectedCountry());
@@ -42,10 +42,12 @@ const Filter = ({
   let classes = 'filters'
   let childComponent = <CountryFilter
     countries={countries} onApply={onApply} filters={filters} addYear={addYear}
+    selectedCountryLabel={selectedCountryLabel}
   />;
   if (dataType === "Country") {
     childComponent = <CountrySelector countries={countries} onApply={onApply} filters={filters}
-                                      selectedCountryFirst={selectedCountryFirst} addYear={addYear} />
+                                      selectedCountryFirst={selectedCountryFirst} addYear={addYear}
+                                      selectedCountryLabel={selectedCountryLabel} />
     classes = "country-selector";
   }
 
