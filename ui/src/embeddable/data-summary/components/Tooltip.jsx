@@ -2,9 +2,9 @@ import { injectIntl } from "react-intl";
 import { Icon, Popup } from "semantic-ui-react";
 import React from "react";
 
-const Tooltip = ({ item, intl }) => {
+const Tooltip = ({ item, intl, tiny }) => {
   return <Popup
-    trigger={<Icon circular size='tiny' name='info' />}
+    trigger={<Icon circular size={tiny ? 'tiny' : 'small'} name='info' />}
     className="indicator-popup"
     position="right center">
     {intl.formatMessage({

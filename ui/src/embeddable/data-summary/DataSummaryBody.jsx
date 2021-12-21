@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Accordion, Container, Grid, Icon, Popup } from "semantic-ui-react";
+import { Accordion, Container, Grid, Icon} from "semantic-ui-react";
 import {
   COUNTRY_SETTINGS,
   SELECTED_COUNTRY,
@@ -11,7 +11,7 @@ import { getIndicatorsInformation } from "../reducers/data";
 import { connect } from "react-redux";
 import IndicatorLabel from "./components/IndicatorLabel";
 import { injectIntl } from "react-intl";
-import { EVEN, INDICATOR, LEGEND, ODD, SUB_INDICATOR } from "./Constants";
+import { EVEN,  LEGEND, ODD, SUB_INDICATOR } from "./Constants";
 import Tooltip from "./components/Tooltip";
 
 const DataSummaryBody = ({
@@ -88,7 +88,7 @@ const DataSummaryBody = ({
             <Grid.Column width={10}
                          className="crop-title">
               {(f.type === SUB_INDICATOR || f.isTotal) &&
-                <Tooltip item={f} />
+                <Tooltip item={f} tiny />
               }
               {f.name}
             </Grid.Column>
