@@ -34,7 +34,7 @@
 
       .row {
         height: 50px;
-        padding: 0px;
+        padding: 0;
 
         &.title {
           height: 80px;
@@ -114,6 +114,11 @@
       }
 
       &.table-container {
+        .title{
+          .icon{
+            font-size: .65em;
+          }
+        }
         &.overview {
           .selected-countries, .other-countries {
             padding: 0;
