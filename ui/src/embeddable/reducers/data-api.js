@@ -10,6 +10,7 @@ const DATA_SUMMARY = 'dataSummary';
 const SURVEY_COUNTRIES_API = `${SURVEY_API}/${SURVEY_FILTER_API}/latestCountryStudies`
 const SURVEY_INDICATORS_API = `${SURVEY_API}/${SURVEY_FILTER_API}/indicators`
 const SURVEY_INDICATOR_INFORMATION_API = `${SURVEY_API}/${DATA_SUMMARY}/categoryId/{categoryId}/latest`;
+const WP_DOCUMENTS_API = `${SURVEY_API}/wp-json/wp/v2/media`;
 const APIS = {
   prevalence: '',
   policy: POLICY_API_ROOT
@@ -41,5 +42,9 @@ export function getIndicatorsInformation(categoryId) {
 
 export const loadCountrySettings = () => {
   return get('https://ipinfo.io/json?token=145d05e17c7c25');
+}
+
+export const getDocumentsData = (params) => {
+  return get(WP_DOCUMENTS_API, params)
 }
 
