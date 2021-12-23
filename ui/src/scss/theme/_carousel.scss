@@ -62,14 +62,14 @@
     background-color: $text-color;
     margin: 5px;
     border-radius: 100%;
-    height: 15px;
-    width: 15px;
+    height: 12px;
+    width: 10px;
     border: 0px !important;
 
   }
 
   .carousel__dot:hover {
-    background-color: $yellow;
+    background-color: $green-link;
   }
 
   .carousel__dot:focus {
@@ -78,13 +78,13 @@
   }
 
   .carousel__dot:active {
-    background-color: $yellow;
+    background-color: $green-link;
     box-shadow: none;
     transform: translateY(0px);
   }
 
   .carousel__dot--selected {
-    background-color: $green-link;
+    background-color: $yellow;
   }
 
 }
