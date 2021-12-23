@@ -79,7 +79,7 @@ export const getDocuments = () => (dispatch, getState) => {
   }).catch(error => {
     dispatch({
       type: LOAD_DOCUMENTS_ERROR,
-      error
+      error: error.message
     })
   })
 }
@@ -278,7 +278,7 @@ const reducer = (state = initialState, action) => {
 
     case LOAD_DOCUMENTS_ERROR: {
       return state.setIn([WP_DOCUMENTS, 'data'], null)
-          .setIn([WP_DOCUMENTS, 'error'], action.data)
+          .setIn([WP_DOCUMENTS, 'error'], action.error)
           .setIn([WP_DOCUMENTS, 'loading'], false)
     }
 

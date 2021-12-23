@@ -3,13 +3,14 @@ import {Container} from "semantic-ui-react";
 import {connect} from "react-redux";
 import './styles.scss'
 import {getDocuments} from "../reducers/data";
-import {WP_DOCUMENTS} from "../reducers/StoreConstants";
+import {DATA, WP_DOCUMENTS} from "../reducers/StoreConstants";
 import Documents from "./Documents";
 
 const ListOfDocuments = ({
                              onLoadDocuments,
                              documents,
                              loading,
+                             error,
                              "data-type": dataType,
                              "data-show-inline": showInline = true
                          }) => {
@@ -19,15 +20,16 @@ const ListOfDocuments = ({
     }, []);
 
     const classes = 'styles';
-    const childComponent = <Documents type={dataType} showInline={showInline} list={documents} loading={loading}/>
+    const childComponent = <Documents type={dataType} showInline={showInline} list={documents} loading={loading}
+                                      error={error}/>
     return <Container fluid={true} className={classes}>{childComponent}</Container>
 }
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        documents: state.getIn([WP_DOCUMENTS, 'data']),
-        loading: state.getIn([WP_DOCUMENTS, 'loading']),
-        error: state.getIn([WP_DOCUMENTS, 'error'])
+        documents: state.getIn([DATA, WP_DOCUMENTS, 'data']),
+        loading: state.getIn([DATA, WP_DOCUMENTS, 'loading']),
+        error: state.getIn([DATA, WP_DOCUMENTS, 'error'])
     }
 }
 

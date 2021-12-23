@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 
-const Documents = ({ type, showInline, list, loading }) => {
-    const [activeIndex, setActiveIndex] = useState([0]);
-    const [searchKeyword, setSearchKeyword] = useState(undefined);
+const Documents = ({ type, showInline, list, loading, error }) => {
 
-    return (<div>TODO</div>);
+    return (<div>type: {type}-inline: {showInline}-list: {list}-loading: {loading}-error: {error}</div>);
 }
 
 export default Documents;
