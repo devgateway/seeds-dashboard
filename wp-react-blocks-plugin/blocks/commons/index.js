@@ -34,7 +34,11 @@ export class BaseBlockEdit extends Component {
                 current_language: new URLSearchParams(document.location.search).get("edit_lang")
             });
         });
-
+        apiFetch({path: '/wp/v2/categories?per_page=100&_locale=user'}).then((data) => {
+            this.setState({
+                categories: data
+            });
+        });
     }
 }
 
