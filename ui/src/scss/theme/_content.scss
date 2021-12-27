@@ -337,6 +337,7 @@ p:empty {
     width: $base-unit * 10;
   }
 }
+
 // Events component
 
 .ui.grid>.column{
@@ -353,6 +354,11 @@ p:empty {
       text-transform: uppercase;
     }
   }
+}
+
+// Testiomanials
+.testimonial{
+  min-height: $base-unit * 35;
 }
 
 // Custom icon images
