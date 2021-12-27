@@ -29,7 +29,7 @@ const ListOfDocuments = ({
         }
     }, [categoriesWP]);
 
-    const classes = 'styles';
+    const classes = 'styles reports';
     let filtered;
     // Match country in the media categories with country in the data filter component. 
     if (documents && selectedCountryId && countries) {

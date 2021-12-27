@@ -13,11 +13,19 @@ const Documents = ({type, showInline, list, loading, error}) => {
     if (list && list.length > 0) {
         const data = list.filter(i => i.mime_type === 'application/pdf');
         console.log(data);
-        return data.map(i => {
-            return <a href={i.guid.rendered} key={i.id}>{i.title.rendered}</a>;
-        });
+        return <ul> {
+            data.map(i => {
+                return <li key={i.id}>
+                    <a href={i.guid.rendered} key={i.id} dangerouslySetInnerHTML={escapeTitle(i.title.rendered)}/>
+                </li>;
+            })
+        }</ul>;
     } else {
         return null;
+    }
+
+    function escapeTitle(title) {
+        return {__html: title}
     }
 }
 
