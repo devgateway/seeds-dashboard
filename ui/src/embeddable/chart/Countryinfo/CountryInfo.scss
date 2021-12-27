@@ -1,0 +1,93 @@
+@import 'src/scss/vars';
+
+.country-info {
+  color: $text-color;
+  font-size: 18px;
+
+  &.ui.grid {
+    margin: 0;
+  }
+
+  .section {
+    &.totals {
+      background-color: #EBEBEB;
+
+      .column {
+        align-items: end;
+
+        .label {
+          font-size: 14px;
+          text-transform: uppercase;
+        }
+
+        .data {
+          margin-left: 10px;
+          font-size: 21px;
+          color: #84a43a;
+
+        }
+
+        .label, .data {
+          align-items: end;
+          display: flex;
+        }
+
+        display: flex;
+      }
+    }
+
+    .household-data {
+      .label, .data {
+        display: flex;
+        text-align: left;
+      }
+
+      .data {
+        font-weight: 700;
+        font-size: 29px;
+        color: $green-link;
+      }
+    }
+
+    .business-rank {
+      display: flex!important;
+
+      .data {
+        font-size: 20px;
+        font-weight: 700;
+        color: $green-link;
+      }
+    }
+
+    .section-title {
+      width: 100%;
+      display: flex;
+      font-weight: 700;
+    }
+
+    &.border {
+      border-top: 1px solid $light-gray;
+    }
+  }
+
+  .crop-container {
+    padding: 0.5em;
+
+    .crop {
+      .label, .data {
+        width: 100%;
+        display: flex;
+      }
+
+      .label {
+        font-weight: 400;
+      }
+
+      .data {
+        font-weight: 800;
+        font-size: 29px;
+        color: $green-link;
+      }
+    }
+  }
+}

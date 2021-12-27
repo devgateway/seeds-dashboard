@@ -162,6 +162,6 @@ $breakpoint-phone: 480px;
 @mixin country-crop-icon(){
   background-position: left center;
   background-repeat: no-repeat;
-  background-size: $base-unit * 5;
-  padding-left: $base-unit * 6;
+  background-size: $base-unit * 4.5;
+  padding-left: $base-unit * 5;
 }
