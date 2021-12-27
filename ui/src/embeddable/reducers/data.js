@@ -148,15 +148,17 @@ export const setData = ({ app, csv, store, params }) => (dispatch, getState) => 
 
 }
 
-export const getData = ({ app, source, store, params }) => (dispatch, getState) => {
-  const filters = getState().get('data').getIn(['filters'])
-  if (filters) {
-    params = { ...params, ...filters.toJS() }
-  }
-  dispatch({ type: LOAD_DATA, params, store })
-  api.getData({ app, source, params })
-    .then(data => dispatch({ type: LOAD_DATA_DONE, store, data }))
-    .catch(error => dispatch({ type: LOAD_DATA_ERROR, store, error }))
+export const getData = ({ app, source, store, params }) => {
+  return (dispatch, getState) => {
+    const filters = getState().get('data').getIn(['filters'])
+    if (filters) {
+      params = { ...params, ...filters.toJS() }
+    }
+    dispatch({ type: LOAD_DATA, params, store })
+    api.getData({ app, source, params })
+      .then(data => dispatch({ type: LOAD_DATA_DONE, store, data }))
+      .catch(error => dispatch({ type: LOAD_DATA_ERROR, store, error }))
+  };
 }
 
 
@@ -220,7 +222,7 @@ const reducer = (state = initialState, action) => {
       return state.setIn([SUMMARY_INDICATORS], data)
     }
 
-    case LOAD_INDICATORS_ERROR:{
+    case LOAD_INDICATORS_ERROR: {
       return state
     }
     case LOAD_INDICATORS_INFORMATION: {
@@ -232,7 +234,7 @@ const reducer = (state = initialState, action) => {
       return state.setIn([SUMMARY_INDICATORS_INFORMATION], data)
     }
 
-    case LOAD_INDICATORS_INFORMATION_ERROR:{
+    case LOAD_INDICATORS_INFORMATION_ERROR: {
       return state
     }
 

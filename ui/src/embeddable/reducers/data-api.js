@@ -11,9 +11,13 @@ const SURVEY_COUNTRIES_API = `${SURVEY_API}/${SURVEY_FILTER_API}/latestCountrySt
 const SURVEY_INDICATORS_API = `${SURVEY_API}/${SURVEY_FILTER_API}/indicators`
 const SURVEY_INDICATOR_INFORMATION_API = `${SURVEY_API}/${DATA_SUMMARY}/categoryId/{categoryId}/latest`;
 const WP_DOCUMENTS_API = `${APP_WP_API}/wp/v2/media`;
+
+//TODO remove hardcoded country once SEEDSDT-243 is done
+let COUNTRY_INFORMATION_API = `${SURVEY_API}/countryInfo/countryId/9`;
 const APIS = {
   prevalence: '',
-  policy: POLICY_API_ROOT
+  policy: POLICY_API_ROOT,
+  countryInfo: COUNTRY_INFORMATION_API
 }
 
 function queryParams(params) {
@@ -33,7 +37,7 @@ export const getIndicatorsData = (params) => {
 }
 
 export const getData = ({ source, app, params }) => {
-  return get(APIS[app] + "/stats/" + source + (params ? '?' + queryParams(params) : ''))
+  return get(APIS[app] + (params ? '?' + queryParams(params) : ''))
 }
 
 export function getIndicatorsInformation(categoryId) {
