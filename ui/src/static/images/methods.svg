@@ -1,1 +1,20 @@
-<svg id="e2ab0d7b-8f16-48f5-8334-d200fee1c752" data-name="art" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><defs><style>.f33745be-28e5-49f2-bc11-174f2eed25e3{fill:none;stroke:#555;stroke-miterlimit:10;}</style></defs><path class="f33745be-28e5-49f2-bc11-174f2eed25e3" d="M39.15,22.74c-.79,2-2.26,2.4-3.38,1.75s-1.58-1.88-.78-3.92,2.93-5.09,4.08-4.49.88,4.62.08,6.66"/><path class="f33745be-28e5-49f2-bc11-174f2eed25e3" d="M41.94,27.31c-.92-2-.17-3.29,1.08-3.65s2.45.16,3.37,2.15,1.64,5.64.42,6.06-4-2.57-4.87-4.56"/><circle class="f33745be-28e5-49f2-bc11-174f2eed25e3" cx="46.71" cy="18.48" r="2.47"/><path class="f33745be-28e5-49f2-bc11-174f2eed25e3" d="M33.67,32V28.21l-2.94-.41a10,10,0,0,0-1.22-3l1.78-2.38-2.71-2.7-2.37,1.78a9.92,9.92,0,0,0-3-1.23l-.42-2.93H19l-.42,2.93a9.92,9.92,0,0,0-3,1.23l-2.37-1.78-2.71,2.7,1.78,2.38a10,10,0,0,0-1.22,3l-2.94.41V32l2.94.42a10.28,10.28,0,0,0,1.22,3l-1.78,2.37,2.71,2.71,2.37-1.79a9.92,9.92,0,0,0,3,1.23L19,42.88h3.82l.42-2.94a9.92,9.92,0,0,0,3-1.23l2.37,1.79,2.71-2.71L29.5,35.42a10,10,0,0,0,1.23-3Z"/><path class="f33745be-28e5-49f2-bc11-174f2eed25e3" d="M49.75,43.41V40.79l-2-.28a6.86,6.86,0,0,0-.84-2l1.22-1.62L46.27,35l-1.62,1.22a6.91,6.91,0,0,0-2-.84l-.29-2H39.73l-.29,2a6.91,6.91,0,0,0-2,.84L35.8,35,34,36.86l1.22,1.62a6.6,6.6,0,0,0-.84,2l-2,.28v2.62l2,.28a6.6,6.6,0,0,0,.84,2L34,47.34l1.85,1.85L37.42,48a6.91,6.91,0,0,0,2,.84l.29,2h2.61l.29-2a6.91,6.91,0,0,0,2-.84l1.62,1.22,1.85-1.85L46.9,45.72a6.86,6.86,0,0,0,.84-2Z"/><circle class="f33745be-28e5-49f2-bc11-174f2eed25e3" cx="20.92" cy="30.13" r="3.05"/><circle class="f33745be-28e5-49f2-bc11-174f2eed25e3" cx="41.03" cy="42.1" r="2.04"/></svg>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 26.0.2, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="f42291c4-8c0d-48d9-9350-7a5cc1228249"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 64 64"
+	 style="enable-background:new 0 0 64 64;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:none;stroke:#FFFFFF;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
+</style>
+<g>
+	<polygon class="st0" points="49.4,24.6 38.9,14 18.6,14 18.6,53.8 49.4,53.8 	"/>
+	<polyline class="st0" points="38.9,14 38.9,24.6 49.4,24.6 	"/>
+	<polygon class="st0" points="18.6,14 38.9,14 45.7,20.8 45.7,10.3 14.9,10.3 14.9,50.1 18.6,50.1 	"/>
+	<line class="st0" x1="32.2" y1="30.6" x2="44.2" y2="30.6"/>
+	<polyline class="st0" points="29.9,28.3 26.2,31.3 24.7,29.8 	"/>
+	<line class="st0" x1="32.2" y1="38.8" x2="44.2" y2="38.8"/>
+	<polyline class="st0" points="29.9,36.6 26.2,39.6 24.7,38.1 	"/>
+	<line class="st0" x1="32.2" y1="47.1" x2="44.2" y2="47.1"/>
+	<polyline class="st0" points="29.9,44.8 26.2,47.8 24.7,46.3 	"/>
+</g>
+</svg>
