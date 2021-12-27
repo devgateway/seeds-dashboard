@@ -12,7 +12,6 @@ const Documents = ({type, showInline, list, loading, error}) => {
     }
     if (list && list.length > 0) {
         const data = list.filter(i => i.mime_type === 'application/pdf');
-        console.log(data);
         return <ul> {
             data.map(i => {
                 return <li key={i.id}>
@@ -21,7 +20,7 @@ const Documents = ({type, showInline, list, loading, error}) => {
             })
         }</ul>;
     } else {
-        return null;
+        return <div>No Reports</div>
     }
 
     function escapeTitle(title) {
