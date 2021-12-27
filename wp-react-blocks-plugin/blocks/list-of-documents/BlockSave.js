@@ -5,7 +5,8 @@ const SaveComponent = (props) => {
     const {
         attributes: {
             type,
-            showInline
+            showInline,
+            countries,
         }
     } = props;
     const blockProps = useBlockProps.save({
@@ -18,7 +19,8 @@ const SaveComponent = (props) => {
         <div className={"wp-react-lib-component"}
              data-component={"listOfDocuments"}
              data-type={type}
-             data-show-inline={showInline}>
+             data-show-inline={showInline}
+             data-countries={countries}>
         </div>
     );
 }

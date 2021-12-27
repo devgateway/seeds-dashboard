@@ -34,7 +34,7 @@ class BlockEdit extends BaseBlockEdit {
                         </PanelRow>
                         <PanelRow>
                             <PanelBody title={__('Countries')}>
-                                {this.generateCategories()}
+                                {this.generateCountries()}
                             </PanelBody>
                         </PanelRow>
                         <PanelRow>
@@ -55,9 +55,9 @@ class BlockEdit extends BaseBlockEdit {
         );
     }
 
-    generateCategories = () => {
+    generateCountries = () => {
         const {categories} = this.state;
-        const list = categories.filter(i => i.parent === categories.find(j => j.name === 'country').id)
+        const list = categories.filter(i => i.parent === categories.find(j => j.name === 'country-report').id)
             .sort(i => i.name.toLowerCase())
             .map(c => {
                 return (<CheckboxControl

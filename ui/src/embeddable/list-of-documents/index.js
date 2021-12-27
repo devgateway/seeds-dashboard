@@ -14,7 +14,9 @@ const ListOfDocuments = ({
                              error,
                              "data-type": dataType,
                              "data-show-inline": showInline = true,
-                             categoriesWP
+                             categoriesWP,
+                             selectedCountry: selectedCountryId,
+                             countries
                          }) => {
 
     useEffect(() => {
@@ -28,7 +30,15 @@ const ListOfDocuments = ({
     }, [categoriesWP]);
 
     const classes = 'styles';
-    const childComponent = <Documents type={dataType} showInline={showInline} list={documents} loading={loading}
+    let filtered;
+    if (documents && selectedCountryId && countries) {
+        const selectedCountry = countries.find(i => i.countryId === selectedCountryId);
+        const countryCategory = categoriesWP.find(i=>i.name.toLowerCase() === selectedCountry.country.toLowerCase())
+        if (countryCategory) {
+            filtered = documents.filter(i => i.categories.find(j => j === countryCategory.id));
+        }
+    }
+    const childComponent = <Documents type={dataType} showInline={showInline} list={filtered} loading={loading}
                                       error={error}/>
     return <Container fluid={true} className={classes}>{childComponent}</Container>
 }
@@ -39,6 +49,8 @@ const mapStateToProps = (state, ownProps) => {
         loading: state.getIn([DATA, WP_DOCUMENTS, 'loading']),
         error: state.getIn([DATA, WP_DOCUMENTS, 'error']),
         categoriesWP: state.getIn([DATA, WP_CATEGORIES]),
+        selectedCountry: state.getIn([DATA, 'filters', 'selected-country']),
+        countries: state.getIn([DATA, 'countries'])
     }
 }
 
