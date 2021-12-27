@@ -31,6 +31,7 @@ const ListOfDocuments = ({
 
     const classes = 'styles';
     let filtered;
+    // Match country in the media categories with country in the data filter component. 
     if (documents && selectedCountryId && countries) {
         const selectedCountry = countries.find(i => i.countryId === selectedCountryId);
         const countryCategory = categoriesWP.find(i=>i.name.toLowerCase() === selectedCountry.country.toLowerCase())

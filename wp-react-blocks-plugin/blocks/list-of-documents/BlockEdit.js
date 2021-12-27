@@ -33,11 +33,6 @@ class BlockEdit extends BaseBlockEdit {
                             />
                         </PanelRow>
                         <PanelRow>
-                            <PanelBody title={__('Countries')}>
-                                {this.generateCountries()}
-                            </PanelBody>
-                        </PanelRow>
-                        <PanelRow>
                             <CheckboxControl
                                 label={__('Show Inline')}
                                 checked={showInline}

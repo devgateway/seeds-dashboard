@@ -14,7 +14,7 @@ const Documents = ({type, showInline, list, loading, error}) => {
         const data = list.filter(i => i.mime_type === 'application/pdf');
         console.log(data);
         return data.map(i => {
-            return <div key={i.id}>{i.title.rendered}</div>;
+            return <a href={i.guid.rendered} key={i.id}>{i.title.rendered}</a>;
         });
     } else {
         return null;
