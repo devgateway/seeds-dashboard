@@ -9,7 +9,7 @@ import { getIndicatorsInformation, getWpCategories } from "../reducers/data";
 import { WP_CATEGORIES } from "../reducers/StoreConstants";
 import { BUTTONS, DOTS } from "./Constants";
 
-const Carousel = ({ posts, itemsPerPage, messages, orientation, navigatorStyle }) => {
+const Carousel = ({ posts, itemsPerPage, messages, orientation, navigatorStyle, locale }) => {
   let i = 0;
   return (<CarouselProvider
     visibleSlides={parseInt(itemsPerPage)}
@@ -24,7 +24,7 @@ const Carousel = ({ posts, itemsPerPage, messages, orientation, navigatorStyle }
       <Slider>
         {posts.map(p => {
           return <Slide index={i++} key={p.id}>
-            <PostIntro post={p} fluid showLink messages={messages} />
+            <PostIntro post={p} fluid showLink messages={messages} locale={locale} />
           </Slide>;
         })}
       </Slider>
