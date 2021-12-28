@@ -16,7 +16,9 @@ const ListOfDocuments = ({
                              categoriesWP,
                              selectedCountry: selectedCountryId,
                              countries,
-                             "data-category": category
+                             "data-category": category,
+                             "data-no-data-text": noDataText,
+                             "editing": editing
                          }) => {
 
     useEffect(() => {
@@ -30,6 +32,13 @@ const ListOfDocuments = ({
     }, [categoriesWP]);
 
     const classes = 'styles reports';
+    
+    if (editing === 'true') {
+        return <Container fluid={true} className={classes}>
+            <span>The list of documents is available in preview mode only.</span>
+        </Container>
+    }
+    
     let filtered;
     // Match country in the media categories with country in the data filter component. 
     if (documents && selectedCountryId && countries && category !== '0') {
@@ -42,7 +51,7 @@ const ListOfDocuments = ({
     }
     const childComponent = <Documents type={dataType} showInline={showInline} list={filtered}
                                       loading={loading || !countries || !selectedCountryId || !categoriesWP}
-                                      error={error}/>
+                                      error={error} noDataText={noDataText}/>
     return <Container fluid={true} className={classes}>{childComponent}</Container>
 }
 

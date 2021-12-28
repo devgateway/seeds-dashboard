@@ -23,6 +23,10 @@ registerBlockType(process.env.BLOCKS_NS + '/documents-list',
                 type: "number",
                 default: undefined
             },
+            noDataText: {
+                type: 'string',
+                default: 'No documents available'
+            }
         },
         edit: BlockEdit,
         save: BlockSave,

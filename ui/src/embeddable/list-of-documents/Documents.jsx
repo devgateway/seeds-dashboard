@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 
-const Documents = ({type, showInline, list, loading, error}) => {
+const Documents = ({type, showInline, list, loading, error, noDataText}) => {
 
     // TODO: add more logic for different types of files other than .pdf
     if (loading) {
@@ -19,7 +19,7 @@ const Documents = ({type, showInline, list, loading, error}) => {
             })
         }</ul>;
     } else {
-        return <div>No Reports</div>
+        return <div>{noDataText}</div>
     }
 
     function escapeTitle(title) {

@@ -1,5 +1,5 @@
 import {InspectorControls, useBlockProps} from '@wordpress/block-editor';
-import {Panel, PanelBody, PanelRow, SelectControl, CheckboxControl} from '@wordpress/components';
+import {Panel, PanelBody, PanelRow, SelectControl, TextControl} from '@wordpress/components';
 import {__} from '@wordpress/i18n';
 import {BaseBlockEdit} from '../commons/index'
 
@@ -9,40 +9,28 @@ class BlockEdit extends BaseBlockEdit {
         const {
             className, isSelected,
             toggleSelection, setAttributes, attributes: {
-                type, showInline, category
+                type, showInline, category, noDataText
             }
         } = this.props;
 
         let queryString = `data-type=${type}`;
         queryString += `&data-show-inline=${showInline}`;
         queryString += `&data-category=${category}`;
+        queryString += `&data-no-data-text=${noDataText}`;
         queryString += `&editing=true`;
         const divStyles = {}
         return ([isSelected && (<InspectorControls>
                 <Panel header={__("List of Documents Configuration")}>
                     <PanelBody>
                         <PanelRow>
-                            <SelectControl
-                                label={__('Type:')}
-                                value={[type]} // e.g: value = [ 'a', 'c' ]
-                                onChange={(value) => {
-                                    setAttributes({type: value})
-                                }}
-                                options={[
-                                    {label: 'PDF', value: 'PDF'}
-                                ]}
+                            {this.generateCategories(category)}
+                        </PanelRow>
+                        <PanelRow>
+                            <TextControl
+                                label={__('No Data Text:')}
+                                value={noDataText}
+                                onChange={(noDataText) => setAttributes({noDataText})}
                             />
-                        </PanelRow>
-                        <PanelRow>
-                            <PanelBody>
-                                {this.generateCategories(category)}
-                            </PanelBody>
-                        </PanelRow>
-                        <PanelRow>
-                            <CheckboxControl
-                                label={__('Show Inline')}
-                                checked={showInline}
-                                onChange={() => setAttributes({showInline: !showInline})}/>
                         </PanelRow>
                     </PanelBody>
                 </Panel>

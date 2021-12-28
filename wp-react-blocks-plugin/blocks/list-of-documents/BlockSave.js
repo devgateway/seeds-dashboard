@@ -6,7 +6,8 @@ const SaveComponent = (props) => {
         attributes: {
             type,
             showInline,
-            category
+            category,
+            noDataText
         }
     } = props;
     const blockProps = useBlockProps.save({
@@ -20,6 +21,7 @@ const SaveComponent = (props) => {
              data-component={"listOfDocuments"}
              data-type={type}
              data-show-inline={showInline}
+             data-no-data-text={noDataText}
              data-category={category}>
         </div>
     );
