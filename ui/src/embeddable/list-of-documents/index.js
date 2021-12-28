@@ -40,7 +40,8 @@ const ListOfDocuments = ({
             filtered = documents.filter(i => i.categories.find(j => j === countryCategory.id));
         }
     }
-    const childComponent = <Documents type={dataType} showInline={showInline} list={filtered} loading={loading}
+    const childComponent = <Documents type={dataType} showInline={showInline} list={filtered}
+                                      loading={loading || !countries || !selectedCountryId || !categoriesWP}
                                       error={error}/>
     return <Container fluid={true} className={classes}>{childComponent}</Container>
 }
