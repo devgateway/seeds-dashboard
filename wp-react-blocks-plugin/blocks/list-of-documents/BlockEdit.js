@@ -9,13 +9,14 @@ class BlockEdit extends BaseBlockEdit {
         const {
             className, isSelected,
             toggleSelection, setAttributes, attributes: {
-                type, showInline
+                type, showInline, category
             }
         } = this.props;
 
         let queryString = `data-type=${type}`;
         queryString += `&data-show-inline=${showInline}`;
-        queryString += `&editing=true`
+        queryString += `&data-category=${category}`;
+        queryString += `&editing=true`;
         const divStyles = {}
         return ([isSelected && (<InspectorControls>
                 <Panel header={__("List of Documents Configuration")}>
@@ -31,6 +32,11 @@ class BlockEdit extends BaseBlockEdit {
                                     {label: 'PDF', value: 'PDF'}
                                 ]}
                             />
+                        </PanelRow>
+                        <PanelRow>
+                            <PanelBody>
+                                {this.generateCategories(category)}
+                            </PanelBody>
                         </PanelRow>
                         <PanelRow>
                             <CheckboxControl
@@ -50,16 +56,24 @@ class BlockEdit extends BaseBlockEdit {
         );
     }
 
-    generateCountries = () => {
+    generateCategories = (category) => {
+        const {setAttributes} = this.props;
         const {categories} = this.state;
-        const list = categories.filter(i => i.parent === categories.find(j => j.name === 'country-report').id)
+        const list = categories.filter(i => i.parent === 0)
             .sort(i => i.name.toLowerCase())
-            .map(c => {
-                return (<CheckboxControl
-                    label={c.name}
-                />);
+            .map(i => {
+                return {label: i.name, value: i.id};
             });
-        return list;
+        list.push({label: __('Select one category'), value: 0});
+        return (<SelectControl
+            label={__('Category:')}
+            value={[category]} // e.g: value = [ 'a', 'c' ]
+            onChange={(value) => {
+                // alert(category + " - " + value);
+                setAttributes({category: Number(value)})
+            }}
+            options={list}
+        />)
     }
 }
 

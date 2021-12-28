@@ -18,7 +18,11 @@ registerBlockType(process.env.BLOCKS_NS + '/documents-list',
             showInline: {
                 type: 'Boolean',
                 default: true
-            }
+            },
+            category: {
+                type: "number",
+                default: undefined
+            },
         },
         edit: BlockEdit,
         save: BlockSave,
