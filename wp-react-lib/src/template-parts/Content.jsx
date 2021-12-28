@@ -72,7 +72,7 @@ class Content extends React.Component {
                                dangerouslySetInnerHTML={{__html: replaceHTMLinks(body, locale)}}/>}
                     {showLink === true &&
 
-                    <a href={replaceLink(post.link)}
+                    <a href={replaceLink(post.link, locale)}
                        className="link">Read More</a>}
                 </Enhance>
             </EmbeddedGateway>
