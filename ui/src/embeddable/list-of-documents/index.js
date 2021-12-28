@@ -32,15 +32,16 @@ const ListOfDocuments = ({
     const classes = 'styles reports';
     let filtered;
     // Match country in the media categories with country in the data filter component. 
-    if (documents && selectedCountryId && countries) {
+    if (documents && selectedCountryId && countries && category !== '0') {
         const selectedCountry = countries.find(i => i.countryId === selectedCountryId);
-        const countryCategory = categoriesWP.find(i => i.name.toLowerCase() === selectedCountry.country.toLowerCase())
+        const countryCategory = categoriesWP.find(i => i.name.toLowerCase() === selectedCountry.country.toLowerCase()
+            && i.parent === Number(category))
         if (countryCategory) {
             filtered = documents.filter(i => i.categories.find(j => j === countryCategory.id));
         }
     }
     const childComponent = <Documents type={dataType} showInline={showInline} list={filtered} loading={loading}
-                                      error={error} category={category}/>
+                                      error={error}/>
     return <Container fluid={true} className={classes}>{childComponent}</Container>
 }
 

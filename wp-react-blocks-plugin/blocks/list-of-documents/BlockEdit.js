@@ -59,12 +59,15 @@ class BlockEdit extends BaseBlockEdit {
     generateCategories = (category) => {
         const {setAttributes} = this.props;
         const {categories} = this.state;
-        const list = categories.filter(i => i.parent === 0)
+        let list = [];
+        list.push({label: __('Select one category'), value: 0});
+        categories.filter(i => i.parent === 0)
             .sort(i => i.name.toLowerCase())
             .map(i => {
                 return {label: i.name, value: i.id};
-            });
-        list.push({label: __('Select one category'), value: 0});
+            }).forEach(i => {
+            list.push(i);
+        });
         return (<SelectControl
             label={__('Category:')}
             value={[category]} // e.g: value = [ 'a', 'c' ]

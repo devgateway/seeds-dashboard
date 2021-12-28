@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 
-const Documents = ({type, showInline, list, loading, error, category}) => {
+const Documents = ({type, showInline, list, loading, error}) => {
 
     // TODO: add more logic for different types of files other than .pdf
     const documents = [];
