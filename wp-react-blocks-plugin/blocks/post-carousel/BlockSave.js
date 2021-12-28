@@ -3,6 +3,7 @@ const SaveComponent = (props) => {
     setAttributes,
     attributes: {
       count,
+      height,
       type,
       taxonomy,
       categories,
@@ -28,6 +29,7 @@ const SaveComponent = (props) => {
            data-connect-filter={connectFilter}
            data-orientation={fieldOrientation}
            data-navigator-style={navigatorStyle}
+           data-height={height}
            data-categories={categories.toString()}
            className={"wp-react-lib-component"}
            data-component={"postsCarousel"}>

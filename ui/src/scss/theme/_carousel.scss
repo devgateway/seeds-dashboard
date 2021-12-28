@@ -1,4 +1,10 @@
 .carousel {
+  &.ui.fluid.container {
+    .carousel {
+      height: 100%;
+    }
+  }
+
   &.carousel-flex {
     display: flex;
   }

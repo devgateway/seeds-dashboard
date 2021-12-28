@@ -38,25 +38,10 @@ const Carousel = ({ posts, itemsPerPage, messages, orientation, navigatorStyle, 
 
 }
 
-
-const _Carousel = (props) => {
-  let i = 0
-  const { posts } = this.props
-  return <Container fluid={true} className={"carousel"}>
-    <CarouselProvider totalSlides={posts.length}>
-      <Slider>
-        {posts.map(p => <Slide index={i++} key={p.id}>
-          <PostIntro post={p} />
-        </Slide>)}
-      </Slider>
-      <DotGroup />
-    </CarouselProvider>
-  </Container>
-
-}
 const PostCarousel = ({
                         "data-type": type,
                         "data-taxonomy": taxonomy,
+                        "data-height": height = 650,
                         "data-categories": categories,
                         "data-items": items,
                         "data-orientation": orientation = 'horizontal',
@@ -91,13 +76,14 @@ const PostCarousel = ({
       }
     }
   }
-  return <Container className={`wp-react-lib post carousel ${editing ? 'editing' : ''}`} fluid={true}>
+  return <Container className={`wp-react-lib post carousel ${editing ? 'editing' : ''}`} fluid={true}
+                    style={{ "height": height + 'px' }}>
     <PostProvider type={type} taxonomy={taxonomy} categories={categoryWP ? categoryWP.id : categories}
                   store={"carousel_" + parent + "_" + unique} page={1}
                   perPage={items}>
       <PostConsumer>
         <Carousel itemsPerPage={itemsPerPage} messages={messages} orientation={orientation}
-                  navigatorStyle={navigatorStyle}></Carousel>
+                  navigatorStyle={navigatorStyle} />
       </PostConsumer>
     </PostProvider>
   </Container>

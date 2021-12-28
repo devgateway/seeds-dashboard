@@ -29,7 +29,7 @@ class BlockEdit extends BlockEditWithFilters {
         type,
         taxonomy,
         categories,
-        height = 650,
+        height,
         itemsPerPage,
         connectFilter,
         valuesFilterStore,
@@ -44,6 +44,7 @@ class BlockEdit extends BlockEditWithFilters {
     queryString += `&data-taxonomy=${taxonomy}`;
     queryString += `&data-categories=${categories}`;
     queryString += `&data-items=${count}`;
+    queryString += `&data-height=${height}`;
     queryString += `&data-items-per-page=${itemsPerPage}`;
     queryString += `&data-connect-filter=${connectFilter}`;
     queryString += `&data-values-filter-store=${valuesFilterStore}`;
