@@ -2,7 +2,7 @@ import React, {useEffect} from "react";
 import {Container} from "semantic-ui-react";
 import {connect} from "react-redux";
 import {getDocuments, getWpCategories} from "../reducers/data";
-import {DATA, WP_CATEGORIES, WP_DOCUMENTS} from "../reducers/StoreConstants";
+import {DATA, SELECTED_COUNTRY, WP_CATEGORIES, WP_DOCUMENTS} from "../reducers/StoreConstants";
 import Documents from "./Documents";
 
 const ListOfDocuments = ({
@@ -18,18 +18,18 @@ const ListOfDocuments = ({
                              countries,
                              "data-category": category,
                              "data-no-data-text": noDataText,
-                             "editing": editing
+                             editing
                          }) => {
 
     useEffect(() => {
         onLoadCategories()
-    }, []);
+    }, [onLoadCategories]);
 
     useEffect(() => {
         if (categoriesWP) {
             onLoadDocuments()
         }
-    }, [categoriesWP]);
+    }, [categoriesWP, onLoadDocuments]);
 
     const classes = 'styles reports';
     
@@ -55,13 +55,13 @@ const ListOfDocuments = ({
     return <Container fluid={true} className={classes}>{childComponent}</Container>
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
     return {
         documents: state.getIn([DATA, WP_DOCUMENTS, 'data']),
         loading: state.getIn([DATA, WP_DOCUMENTS, 'loading']),
         error: state.getIn([DATA, WP_DOCUMENTS, 'error']),
         categoriesWP: state.getIn([DATA, WP_CATEGORIES]),
-        selectedCountry: state.getIn([DATA, 'filters', 'selected-country']),
+        selectedCountry: state.getIn([DATA, 'filters', SELECTED_COUNTRY]),
         countries: state.getIn([DATA, 'countries'])
     }
 }

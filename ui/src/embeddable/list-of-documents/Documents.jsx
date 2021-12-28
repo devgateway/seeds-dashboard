@@ -1,4 +1,5 @@
 import React, {useState} from "react";
+import {APPLICATION_PDF} from "./Constants";
 
 const Documents = ({type, showInline, list, loading, error, noDataText}) => {
 
@@ -10,7 +11,7 @@ const Documents = ({type, showInline, list, loading, error, noDataText}) => {
         return (<div>ERROR: {error}</div>);
     }
     if (list && list.length > 0) {
-        const data = list.filter(i => i.mime_type === 'application/pdf');
+        const data = list.filter(i => i.mime_type === APPLICATION_PDF);
         return <ul> {
             data.map(i => {
                 return <li key={i.id}>
