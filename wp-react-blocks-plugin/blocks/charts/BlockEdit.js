@@ -126,7 +126,7 @@ class BlockEdit extends BaseBlockEdit {
             {
               mode == "chart" &&
               <div>
-                <iframe id={"id_description_iframe"} onLoad={e => this.iframeLoaded()} scrolling={"no"}
+                <iframe id={"id_description_iframe"}  scrolling={"no"}
                         style={divStyles} src={this.state.react_ui_url + "/en/embeddable/chart?" + queryString} />
               </div>
             }

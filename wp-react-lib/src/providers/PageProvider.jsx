@@ -81,12 +81,7 @@ class PageProvider extends React.Component {
             if (fallbackComponent) {
                 return <>{fallbackComponent}</>;
             } else {
-                return <Container>
-                    <Segment color={"red"}>
-                        <h1>404</h1>
-                        <p>Can't find this page</p>
-                    </Segment>
-                </Container>
+                return <PageNotFound/>
             }
         }
         return null
@@ -111,3 +106,12 @@ const mapActionCreators = {
 };
 
 export default LocalizedProvider(connect(mapStateToProps, mapActionCreators)(PageProvider))
+
+export const PageNotFound = () => {
+  return <Container>
+    <Segment color={"red"}>
+      <h1>404</h1>
+      <p>Can't find this page</p>
+    </Segment>
+  </Container>
+}
