@@ -19,6 +19,7 @@ const DataSummary = asyncComponent(() => import("./data-summary/"));
 const Download = asyncComponent(() => import("./download/"));
 const Events = asyncComponent(() => import("./events/"));
 const ListOfDocuments = asyncComponent(() => import("./list-of-documents/"));
+const InnerPage = asyncComponent(() => import("./innerPage/"));
 export const reducers = {
   data,
   embeddable
@@ -40,7 +41,8 @@ const components = {
   inlineList: InlineList,
   download: Download,
   events: Events,
-  listOfDocuments: ListOfDocuments
+  listOfDocuments: ListOfDocuments,
+  innerPage: InnerPage
 }
 
 export const getComponentByNameIgnoreCase = (name) => {

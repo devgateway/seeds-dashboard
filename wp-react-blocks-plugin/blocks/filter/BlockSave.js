@@ -16,7 +16,6 @@ const SaveComponent = (props) => {
 
   const divClass = {}
   const divStyles = {}
-  debugger;
   return (
     <div className={"wp-react-lib-component"}
          data-component={"filter"}

@@ -8,6 +8,7 @@ import { connect } from "react-redux";
 import { getIndicatorsInformation, getWpCategories } from "../reducers/data";
 import { WP_CATEGORIES } from "../reducers/StoreConstants";
 import { BUTTONS, DOTS } from "./Constants";
+import { getSlugFromFilters } from "../utils/common";
 
 const Carousel = ({ posts, itemsPerPage, messages, orientation, navigatorStyle, locale }) => {
   let i = 0;
@@ -54,25 +55,21 @@ const PostCarousel = ({
                         "data-navigator-style": navigatorStyle = DOTS,
                         filters, filtersData, categoriesWP, onLoadWPCategories
                       }) => {
+  const isConectFilter = connectFilter === 'true';
   const [random, setRandomStore] = useState(Math.random() * (99999 - 1) + 1);
   useEffect(() => {
-    if (connectFilter === 'true') {
+    if (isConectFilter) {
       onLoadWPCategories();
     }
   }, [taxonomy, categories, onLoadWPCategories])
   let categoryWP;
-  if (filters && filtersData && categoriesWP) {
-    //TODO add object id (countryId) as parameter
-    if (filtersData.get(valuesFilterStore)) {
-      const filterSelected = filtersData.get(valuesFilterStore).find(fd => fd.countryId === filters.get(selectedFilterStore));
-      if (filterSelected) {
-        //TODO add object value (country) as parameter
-        const slug = filterSelected.country.replace(/\s+/g, '-').toLowerCase();
-        categoryWP = categoriesWP.find(cwp => cwp.slug === slug);
-        if (!categoryWP) {
-          //TODO add not-found as a parameter
-          categoryWP = categoriesWP.find(cwp => cwp.slug === 'not-found');
-        }
+  if (isConectFilter) {
+    const slug = getSlugFromFilters(filters, filtersData, valuesFilterStore, selectedFilterStore);
+    if (categoriesWP) {
+      categoryWP = categoriesWP.find(cwp => cwp.slug === slug);
+      if (!categoryWP) {
+        //TODO add not-found as a parameter
+        categoryWP = categoriesWP.find(cwp => cwp.slug === 'not-found');
       }
     }
   }

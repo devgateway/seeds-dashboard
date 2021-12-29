@@ -36,3 +36,17 @@ export const lightenDarkenColor = (col, amt) => {
   return (usePound ? "#" : "") + (g | (b << 8) | (r << 16)).toString(16);
 
 }
+export const getSlugFromFilters = (filters, filtersData, valuesFilterStore, selectedFilterStore) => {
+  let slug;
+  if (filters && filtersData) {
+    //TODO add object id (countryId) as parameter
+    if (filtersData.get(valuesFilterStore)) {
+      const filterSelected = filtersData.get(valuesFilterStore).find(fd => fd.countryId === filters.get(selectedFilterStore));
+      if (filterSelected) {
+        //TODO add object value (country) as parameter
+        slug = filterSelected.country.replace(/\s+/g, '-').toLowerCase();
+      }
+    }
+  }
+  return slug;
+}
