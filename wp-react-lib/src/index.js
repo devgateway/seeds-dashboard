@@ -4,7 +4,7 @@ import Taxonomy from './templates/Taxonomy'
 import Category from "./templates/Category"
 
 import PostProvider from './providers/PostProvider'
-import PageProvider from './providers/PageProvider'
+import PageProvider, { PageNotFound } from './providers/PageProvider'
 import MediaProvider from './providers/MediaProvider'
 import MenuProvider from './providers/MenuProvider'
 import TaxonomyProvider from './providers/TaxonomyProvider'
@@ -52,7 +52,8 @@ export {
     PostIntro,
     PostLabel,
     PostTitle,
-    PostIcon
+    PostIcon,
+    PageNotFound
 
 }
 

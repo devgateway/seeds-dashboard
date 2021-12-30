@@ -18,6 +18,8 @@ const Filter = asyncComponent(() => import("./filter/"));
 const DataSummary = asyncComponent(() => import("./data-summary/"));
 const Download = asyncComponent(() => import("./download/"));
 const Events = asyncComponent(() => import("./events/"));
+const ListOfDocuments = asyncComponent(() => import("./list-of-documents/"));
+const InnerPage = asyncComponent(() => import("./innerPage/"));
 export const reducers = {
   data,
   embeddable
@@ -38,7 +40,9 @@ const components = {
   featuredTabs: FeaturedTabs,
   inlineList: InlineList,
   download: Download,
-    events: Events
+  events: Events,
+  listOfDocuments: ListOfDocuments,
+  innerPage: InnerPage
 }
 
 export const getComponentByNameIgnoreCase = (name) => {

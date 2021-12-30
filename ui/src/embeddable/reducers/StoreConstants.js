@@ -6,3 +6,4 @@ export const SUMMARY_INDICATORS = 'summary-indicators';
 export const SUMMARY_INDICATORS_INFORMATION = 'summary-indicators-information';
 export const VISIBLE_COUNTRIES = 'visible-countries';
 export const SELECTED_COUNTRY = 'selected-country';
+export const WP_DOCUMENTS = 'wp-documents';

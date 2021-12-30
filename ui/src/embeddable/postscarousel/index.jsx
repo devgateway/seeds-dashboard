@@ -8,8 +8,9 @@ import { connect } from "react-redux";
 import { getIndicatorsInformation, getWpCategories } from "../reducers/data";
 import { WP_CATEGORIES } from "../reducers/StoreConstants";
 import { BUTTONS, DOTS } from "./Constants";
+import { getSlugFromFilters } from "../utils/common";
 
-const Carousel = ({ posts, itemsPerPage, messages, orientation, navigatorStyle }) => {
+const Carousel = ({ posts, itemsPerPage, messages, orientation, navigatorStyle, locale }) => {
   let i = 0;
   return (<CarouselProvider
     visibleSlides={parseInt(itemsPerPage)}
@@ -24,7 +25,7 @@ const Carousel = ({ posts, itemsPerPage, messages, orientation, navigatorStyle }
       <Slider>
         {posts.map(p => {
           return <Slide index={i++} key={p.id}>
-            <PostIntro post={p} fluid showLink messages={messages} />
+            <PostIntro post={p} fluid showLink messages={messages} locale={locale} />
           </Slide>;
         })}
       </Slider>
@@ -38,25 +39,10 @@ const Carousel = ({ posts, itemsPerPage, messages, orientation, navigatorStyle }
 
 }
 
-
-const _Carousel = (props) => {
-  let i = 0
-  const { posts } = this.props
-  return <Container fluid={true} className={"carousel"}>
-    <CarouselProvider totalSlides={posts.length}>
-      <Slider>
-        {posts.map(p => <Slide index={i++} key={p.id}>
-          <PostIntro post={p} />
-        </Slide>)}
-      </Slider>
-      <DotGroup />
-    </CarouselProvider>
-  </Container>
-
-}
 const PostCarousel = ({
                         "data-type": type,
                         "data-taxonomy": taxonomy,
+                        "data-height": height = 650,
                         "data-categories": categories,
                         "data-items": items,
                         "data-orientation": orientation = 'horizontal',
@@ -69,35 +55,32 @@ const PostCarousel = ({
                         "data-navigator-style": navigatorStyle = DOTS,
                         filters, filtersData, categoriesWP, onLoadWPCategories
                       }) => {
+  const isConectFilter = connectFilter === 'true';
   const [random, setRandomStore] = useState(Math.random() * (99999 - 1) + 1);
   useEffect(() => {
-    if (connectFilter === 'true') {
+    if (isConectFilter) {
       onLoadWPCategories();
     }
   }, [taxonomy, categories, onLoadWPCategories])
   let categoryWP;
-  if (filters && filtersData && categoriesWP) {
-    //TODO add object id (countryId) as parameter
-    if (filtersData.get(valuesFilterStore)) {
-      const filterSelected = filtersData.get(valuesFilterStore).find(fd => fd.countryId === filters.get(selectedFilterStore));
-      if (filterSelected) {
-        //TODO add object value (country) as parameter
-        const slug = filterSelected.country.replace(/\s+/g, '-').toLowerCase();
-        categoryWP = categoriesWP.find(cwp => cwp.slug === slug);
-        if (!categoryWP) {
-          //TODO add not-found as a parameter
-          categoryWP = categoriesWP.find(cwp => cwp.slug === 'not-found');
-        }
+  if (isConectFilter) {
+    const slug = getSlugFromFilters(filters, filtersData, valuesFilterStore, selectedFilterStore);
+    if (categoriesWP) {
+      categoryWP = categoriesWP.find(cwp => cwp.slug === slug);
+      if (!categoryWP) {
+        //TODO add not-found as a parameter
+        categoryWP = categoriesWP.find(cwp => cwp.slug === 'not-found');
       }
     }
   }
-  return <Container className={`wp-react-lib post carousel ${editing ? 'editing' : ''}`} fluid={true}>
+  return <Container className={`wp-react-lib post carousel ${editing ? 'editing' : ''}`} fluid={true}
+                    style={{ "height": height + 'px' }}>
     <PostProvider type={type} taxonomy={taxonomy} categories={categoryWP ? categoryWP.id : categories}
                   store={"carousel_" + parent + "_" + unique} page={1}
                   perPage={items}>
       <PostConsumer>
         <Carousel itemsPerPage={itemsPerPage} messages={messages} orientation={orientation}
-                  navigatorStyle={navigatorStyle}></Carousel>
+                  navigatorStyle={navigatorStyle} />
       </PostConsumer>
     </PostProvider>
   </Container>

@@ -2,17 +2,11 @@ const SaveComponent = (props) => {
   const {
     setAttributes,
     attributes: {
-      count,
-      height,
-      type,
-      taxonomy,
-      categories,
-      itemsPerPage,
+      defaultPage,
       valuesFilterStore,
       selectedFilterStore,
       connectFilter,
-      fieldOrientation,
-      navigatorStyle
+      height
     },
   } = props;
 
@@ -21,18 +15,13 @@ const SaveComponent = (props) => {
 
 
   return (<div className={divClass} style={divStyles}>
-      <div data-items={count} data-type={type}
-           data-items-per-page={itemsPerPage}
-           data-taxonomy={taxonomy}
+      <div data-default-page={defaultPage}
            data-values-filter-store={valuesFilterStore}
            data-selected-filter-store={selectedFilterStore}
            data-connect-filter={connectFilter}
-           data-orientation={fieldOrientation}
-           data-navigator-style={navigatorStyle}
            data-height={height}
-           data-categories={categories.toString()}
            className={"wp-react-lib-component"}
-           data-component={"postsCarousel"}>
+           data-component={"innerPage"}>
       </div>
     </div>
 

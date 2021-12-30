@@ -15,6 +15,10 @@ registerBlockType(process.env.BLOCKS_NS + '/post-carousel',
         type: 'number',
         default: 3,
       },
+      height: {
+        type: 'number',
+        default: 650,
+      },
       itemsPerPage: {
         type: 'number',
         default: 1,

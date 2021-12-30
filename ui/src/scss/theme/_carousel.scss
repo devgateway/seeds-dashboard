@@ -1,4 +1,10 @@
 .carousel {
+  &.ui.fluid.container {
+    .carousel {
+      height: 100%;
+    }
+  }
+
   &.carousel-flex {
     display: flex;
   }
@@ -34,10 +40,6 @@
     min-height: 350px;
 
     // temporary - removed read more link
-    .link {
-      display: none;
-    }
-
     .wp-block-buttons {
       padding: 10px 0px;
 
