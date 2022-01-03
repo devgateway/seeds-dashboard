@@ -202,7 +202,9 @@ p:empty {
   }
 }
 .wp-block-cover.full-width-cover.has-background-dim:not([class*=-background-color]){
-  background-color: transparent;
+  .wp-block-cover__inner-container{
+    max-width: 1366px;
+  }
 }
 
 // Full width banner with solid bg color
