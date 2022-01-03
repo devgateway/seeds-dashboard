@@ -322,9 +322,13 @@ p:empty {
 .has-border{
   border: 2px solid $light-gray;
 }
+.has-border-radius{
+  @include border-radius(5px);
+}
 .has-padding{
   padding: $base-unit * 2.5 $base-unit * 2.5 0 $base-unit * 2.5;
 }
+
 
 // To underline headings
 .underlined{
