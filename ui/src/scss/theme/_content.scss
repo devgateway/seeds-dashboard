@@ -196,12 +196,18 @@ p:empty {
 
 // Full width banners and images
 .wp-block-cover.full-width-cover{
+  &.intro{
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+  }
   img.wp-block-cover__image-background{
     width: 100vw;
     margin-left: calc(-50vw + 50%);
   }
 }
 .wp-block-cover.full-width-cover.has-background-dim:not([class*=-background-color]){
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
   .wp-block-cover__inner-container{
     max-width: 1366px;
   }
@@ -465,6 +471,8 @@ p:empty {
   margin-top: -($base-unit * 9.8);
   min-height: $base-unit * 18;
   height: $base-unit * 18;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
 }
 
 // Content table
