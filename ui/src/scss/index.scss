@@ -37,9 +37,16 @@ a:focus {
   outline-style: none;
   box-shadow: none;
   border-color: transparent;
-
 }
-
+a{
+  img{
+    cursor: pointer;
+    opacity: 1;
+    &:hover{
+      opacity: 0.85;
+    }
+  }
+}
 .ui {
   font-family: $font-family;
 }

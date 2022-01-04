@@ -10,7 +10,7 @@
     }
 
     &:not(.home) {
-      height: $dashboard-menu-height + $yellow-header + $title-header;
+      // height: $dashboard-menu-height + $yellow-header + $title-header;
     }
 
     &.home {
@@ -176,7 +176,7 @@
     }
 
     .dashboard-menu {
-      height: $dashboard-menu-height;
+      // height: $dashboard-menu-height;
       background-position: 50% 65%;
       background-repeat: no-repeat;
       background-size: 100%;
@@ -193,11 +193,6 @@
         * {
           -webkit-transform: scaleX(-1);
         }
-      }
-
-      &.people {
-        background-position: 45% 30%;
-        background-image: url("/static/images/people_banner.jpeg");
       }
 
 
@@ -259,6 +254,12 @@
           }
 
           &._indicators {
+            a {
+              background-image: url("/static/images/partners.svg") !important;
+            }
+          }
+
+          &._partners {
             a {
               background-image: url("/static/images/partners.svg") !important;
             }

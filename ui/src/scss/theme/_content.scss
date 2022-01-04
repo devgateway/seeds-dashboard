@@ -196,13 +196,21 @@ p:empty {
 
 // Full width banners and images
 .wp-block-cover.full-width-cover{
+  &.intro{
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+  }
   img.wp-block-cover__image-background{
     width: 100vw;
     margin-left: calc(-50vw + 50%);
   }
 }
 .wp-block-cover.full-width-cover.has-background-dim:not([class*=-background-color]){
-  background-color: transparent;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  .wp-block-cover__inner-container{
+    max-width: 1366px;
+  }
 }
 
 // Full width banner with solid bg color
@@ -320,9 +328,13 @@ p:empty {
 .has-border{
   border: 2px solid $light-gray;
 }
+.has-border-radius{
+  @include border-radius(5px);
+}
 .has-padding{
   padding: $base-unit * 2.5 $base-unit * 2.5 0 $base-unit * 2.5;
 }
+
 
 // To underline headings
 .underlined{
@@ -452,4 +464,80 @@ p:empty {
 .households{
   @extend .population;
   background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDI2LjAuMiwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IgoJIHZpZXdCb3g9IjAgMCA3NyA3NyIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgNzcgNzc7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4KCS5zdDB7ZmlsbDojNTU1NTU1O30KCS5zdDF7ZmlsbDpub25lO3N0cm9rZTojRkZGRkZGO3N0cm9rZS1saW5lY2FwOnJvdW5kO3N0cm9rZS1saW5lam9pbjpyb3VuZDtzdHJva2UtbWl0ZXJsaW1pdDoxMDt9Cjwvc3R5bGU+CjxjaXJjbGUgY2xhc3M9InN0MCIgY3g9IjM4LjYiIGN5PSIzOC4yIiByPSIzNS45Ii8+CjxnPgoJPGc+CgkJPGc+CgkJCTxjaXJjbGUgY2xhc3M9InN0MSIgY3g9IjMzLjMiIGN5PSIzNy40IiByPSIyLjUiLz4KCQkJPGc+CgkJCQk8cGF0aCBjbGFzcz0ic3QxIiBkPSJNNDEuMSw0MC4xYy0wLjgsMC44LTEuOSwxLTIuNCwwLjVjLTAuNS0wLjUtMC4yLTEuNiwwLjYtMi40YzAuOC0wLjgsMi42LTEuOCwzLjEtMS4zCgkJCQkJQzQyLjksMzcuNCw0MS45LDM5LjMsNDEuMSw0MC4xIi8+CgkJCQk8cGF0aCBjbGFzcz0ic3QxIiBkPSJNNDQuOCwzMmMwLjgsMC45LDEsMiwwLjUsMi42Yy0wLjUsMC41LTEuNSwwLjItMi4zLTAuNmMtMC44LTAuOS0xLjctMi44LTEuMi0zLjMKCQkJCQlDNDIuMywzMC4xLDQ0LDMxLjEsNDQuOCwzMiIvPgoJCQkJPHBhdGggY2xhc3M9InN0MSIgZD0iTTQyLjksNDYuNWMtMC40LDEtMS4xLDEuMi0xLjcsMC45Yy0wLjYtMC4zLTAuOC0wLjktMC40LTEuOWMwLjQtMSwxLjQtMi41LDItMi4yCgkJCQkJQzQzLjQsNDMuNSw0My4zLDQ1LjUsNDIuOSw0Ni41Ii8+CgkJCQk8Y2lyY2xlIGNsYXNzPSJzdDEiIGN4PSIzOC43IiBjeT0iMzMuNCIgcj0iMS4yIi8+CgkJCTwvZz4KCQkJPHBhdGggY2xhc3M9InN0MSIgZD0iTTMzLjMsNTUuOUgzM2MtMi42LDAtNC43LTIuMS00LjctNC43di02LjZjMC0yLjYsMi4xLTQuNyw0LjctNC43aDAuM2MyLjYsMCw0LjcsMi4xLDQuNyw0Ljd2NCIvPgoJCQk8cGF0aCBjbGFzcz0ic3QxIiBkPSJNMzQuNCw0Mi41Ii8+CgkJCTxwYXRoIGNsYXNzPSJzdDEiIGQ9Ik0zMy4zLDU1LjloMi4zYzIuMiwwLDQuMS0xLjIsNS0yLjloLTYuNGMwLDAtMC41LDAtMC43LDBoMGMtMS4xLDAtMS45LTEtMS45LTIuMnYtNi4zIi8+CgkJCTxwYXRoIGNsYXNzPSJzdDEiIGQ9Ik0zMi40LDQ4LjdjMSwyLjQsMy41LDQuMiw2LjMsNC4yczUuMi0xLjcsNi4zLTQuMkgzMi40eiIvPgoJCTwvZz4KCQk8Zz4KCQkJPGNpcmNsZSBjbGFzcz0ic3QxIiBjeD0iNTIuMyIgY3k9IjM3LjQiIHI9IjIuNSIvPgoJCQk8cGF0aCBjbGFzcz0ic3QxIiBkPSJNNDYuMiw1NS45aDYuNWMyLjYsMCw0LjctMi4xLDQuNy00Ljd2LTYuNmMwLTIuNi0yLjEtNC43LTQuNy00LjdoLTAuM2MtMS4zLDAtMi41LDAuNS0zLjMsMS40Ii8+CgkJPC9nPgoJCTxnPgoJCQk8Y2lyY2xlIGNsYXNzPSJzdDEiIGN4PSIyNC45IiBjeT0iNDIuMiIgcj0iMi41Ii8+CgkJCTxwYXRoIGNsYXNzPSJzdDEiIGQ9Ik0zMi40LDU1LjloLTcuOGMtMi42LDAtNC43LTIuMS00LjctNC43di0xLjljMC0yLjYsMi4xLTQuNyw0LjctNC43aDAuM2MxLjMsMCwyLjUsMC41LDMuMywxLjQiLz4KCQk8L2c+CgkJPGc+CgkJCTxjaXJjbGUgY2xhc3M9InN0MSIgY3g9IjQ2LjYiIGN5PSI0MC43IiByPSIyLjUiLz4KCQkJPHBhdGggY2xhc3M9InN0MSIgZD0iTTM1LjUsNTUuOWgxMS4zYzIuNiwwLDQuNy0yLjEsNC43LTQuN3YtMy40YzAtMi42LTIuMS00LjctNC43LTQuN2gtMC4zYy0xLjMsMC0yLjUsMC41LTMuMywxLjQiLz4KCQk8L2c+Cgk8L2c+Cgk8cG9seWxpbmUgY2xhc3M9InN0MSIgcG9pbnRzPSI1Ni45LDMxLjEgMzguNSwxNi40IDIwLjIsMzEuMSAJIi8+CjwvZz4KPC9zdmc+Cg==");
+}
+
+// Page Headers
+.header-image{
+  margin-top: -($base-unit * 9.8);
+  min-height: $base-unit * 18;
+  height: $base-unit * 18;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+}
+
+// Content table
+.content-table table{
+  border:2px solid $separator-grey;
+  td{
+    border:2px solid $separator-grey;
+    color: $text-color;
+    font-size: 0.8rem;
+    &:first-child{
+      color: $dark-green;
+      font-weight: bold;
+    }
+    &:nth-child(4){
+      font-weight: bold;
+      text-align:center;
+      text-transform: uppercase;
+    }
+    &:last-child{
+      text-align:center;
+    }
+    ul{
+      list-style: disc;
+      margin-left: $base-unit + 7;
+    }
+    p, li{
+      font-size: 0.8rem;
+    }
+    &.grey-bg{
+      background-color: $table-grey-bg;
+    }
+    &.light-orange{
+      background-color: $table-light-orange-bg;
+      color: $text-color;
+    }
+  }
+}
+
+.table-symbol{
+  @include border-radius(100%);
+  color: #ffffff;
+  padding-left: 3px;
+  padding-right: 3px;
+  display: block;
+  height: $base-unit * 2;
+  line-height: $base-unit * 2;
+  margin: auto;
+  width: $base-unit * 2;
+
+  &.plus{
+    background-color: $link-green;
+  }
+  &.minus{
+    background-color: $red;
+  }
+  &.plus-minus{
+    background-color: darken($table-light-orange-bg, 15%);
+    font-size: 0.5rem;
+  }
+}
+
+// Colored text in methods table
+.red-text{
+  color: $red;
+}
+.green-text{
+  color: $dark-green;
 }
