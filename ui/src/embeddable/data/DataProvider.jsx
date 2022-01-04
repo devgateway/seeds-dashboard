@@ -4,15 +4,19 @@ import { injectIntl } from 'react-intl';
 import DataContext from './DataContext'
 import { Container, Loader, Segment } from "semantic-ui-react";
 import { getData, setData } from "../reducers/data";
+import { COUNTRY_INFO } from "../reducers/StoreConstants";
 
 class DataProvider extends React.Component {
 
   componentDidMount() {
-    const { app, source, store, params, csv } = this.props
+    const { app, source, store, params, csv, filters } = this.props
     if (app === "csv") {
       this.props.onSetData({ app, csv, store, params })
     } else {
-      this.props.onLoadData({ app, source, store, params })
+      //TODO create a better way to check if api requires filters
+      if ((app === COUNTRY_INFO && filters) || app !== COUNTRY_INFO) {
+        this.props.onLoadData({ app, source, store, params })
+      }
     }
 
   }
@@ -24,7 +28,10 @@ class DataProvider extends React.Component {
       if (app === "csv") {
         this.props.onSetData({ app, csv, store, params })
       } else {
-        this.props.onLoadData({ app, source, store, params })
+        //TODO create a better way to check if api requires filters
+        if ((app === COUNTRY_INFO && filters) || app !== COUNTRY_INFO) {
+          this.props.onLoadData({ app, source, store, params })
+        }
       }
     }
   }

@@ -15,7 +15,7 @@ import { PostContent } from "@devgateway/wp-react-lib";
 import PrevalenceBarDataframe from './PrevalenceBarDataFrame'
 import PolicyDataFrame from './PolicyDataFrame'
 import CSVDataFrame from "./CSVDataFrame";
-import Countryinfo from "./Countryinfo";
+import CountryInfo from "./Countryinfo";
 
 const PieChart = (props) => {
   const { data, legends, colors, height } = props
@@ -128,7 +128,7 @@ const Chart = (props) => {
 
   const dual = (dualMode === 'true')
   if (type === 'countryInfo') {
-    child = <Countryinfo></Countryinfo>
+    child = <CountryInfo/>
   }
   return (<div ref={ref}>
       <Container className={"chart container"} style={{ "minHeight": height + 'px' }} fluid={true}>
