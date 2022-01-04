@@ -16,7 +16,7 @@ import PrevalenceBarDataframe from './PrevalenceBarDataFrame'
 import PolicyDataFrame from './PolicyDataFrame'
 import CSVDataFrame from "./CSVDataFrame";
 import CountryInfo from "./Countryinfo";
-import {COUNTRY_INFO} from "../reducers/StoreConstants";
+import {COUNTRY_INFO, NUMBER_OF_VARIETIES_RELEASED} from "../reducers/StoreConstants";
 import NumberOfVarietiesReleased from "./NumberOfVarietiesReleased";
 
 const PieChart = (props) => {
@@ -129,10 +129,13 @@ const Chart = (props) => {
     }
 
     const dual = (dualMode === 'true')
-    if (type === COUNTRY_INFO) {
-        child = <CountryInfo/>
-    } else {
-        child = <NumberOfVarietiesReleased/>
+    switch (type) {
+        case NUMBER_OF_VARIETIES_RELEASED:
+            child = <NumberOfVarietiesReleased/>;
+            break;
+        case COUNTRY_INFO:
+            child = <CountryInfo/>
+            break;
     }
     return (<div ref={ref}>
             <Container className={"chart container"} style={{"minHeight": height + 'px'}} fluid={true}>

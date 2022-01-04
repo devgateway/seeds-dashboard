@@ -1,5 +1,5 @@
 import { get } from '../../api/commons'
-import { COUNTRY_INFO, SELECTED_COUNTRY } from "./StoreConstants";
+import {COUNTRY_INFO, NUMBER_OF_VARIETIES_RELEASED, SELECTED_COUNTRY} from "./StoreConstants";
 
 const SURVEY_API = process.env.REACT_APP_SURVEY_API
 const IP_INFO_URL = 'https://ipinfo.io/json?token=145d05e17c7c25';
@@ -15,10 +15,13 @@ const SURVEY_INDICATOR_INFORMATION_API = `${SURVEY_API}/${DATA_SUMMARY}/category
 const WP_DOCUMENTS_API = `${APP_WP_API}/wp/v2/media`;
 
 let COUNTRY_INFORMATION_API = `${SURVEY_API}/countryInfo/countryId/`;
+let NUMBER_OF_VARIETIES_RELEASED_API = `${SURVEY_API}/chart/numberVarietiesReleased/year/crop`;
+
 const APIS = {
   prevalence: '',
   policy: POLICY_API_ROOT,
-  countryInfo: COUNTRY_INFORMATION_API
+  [COUNTRY_INFO]: COUNTRY_INFORMATION_API,
+  [NUMBER_OF_VARIETIES_RELEASED]: NUMBER_OF_VARIETIES_RELEASED_API
 }
 
 function queryParams(params) {
@@ -37,9 +40,17 @@ export const getIndicatorsData = (params) => {
   return get(SURVEY_INDICATORS_API, params)
 }
 
-export const getData = ({ source, app, params }) => {
+export const getData = ({source, app, params}) => {
   if (app === COUNTRY_INFO && params && params[SELECTED_COUNTRY]) {
     return get(APIS[app] + params[SELECTED_COUNTRY]);
+  } else if (app === NUMBER_OF_VARIETIES_RELEASED) {
+    if (params['selected-country']) {
+      params.countryId = params['selected-country'];
+      return get(APIS[app] + (params ? '?' + queryParams(params) : ''));
+    } else {
+      // TODO: remove this after we are sure we will always use the country filter component.
+      return get(APIS[app] + (params ? '&' + queryParams(params) : ''))  
+    }
   } else {
     return get(APIS[app] + (params ? '?' + queryParams(params) : ''))
   }
