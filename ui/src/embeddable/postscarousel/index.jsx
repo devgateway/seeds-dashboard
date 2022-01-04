@@ -19,7 +19,7 @@ const Carousel = ({ posts, itemsPerPage, messages, orientation, navigatorStyle, 
   >
 
     {navigatorStyle === BUTTONS && <div className="navigator">
-      <ButtonBack><Icon name="angle left" /></ButtonBack>
+      <ButtonBack><Icon name="chevron left" /></ButtonBack>
     </div>}
     <div className={navigatorStyle === BUTTONS ? "carousel-container" : ''}>
       <Slider>
@@ -31,7 +31,7 @@ const Carousel = ({ posts, itemsPerPage, messages, orientation, navigatorStyle, 
       </Slider>
     </div>
     {navigatorStyle === BUTTONS && <div className="navigator">
-      <ButtonNext><Icon name="angle right" /></ButtonNext>
+      <ButtonNext><Icon name="chevron right" /></ButtonNext>
     </div>}
     {navigatorStyle === DOTS && <DotGroup />}
   </CarouselProvider>)
