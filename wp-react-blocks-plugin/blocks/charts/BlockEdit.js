@@ -41,13 +41,14 @@ class BlockEdit extends BaseBlockEdit {
             <PanelBody>
               <PanelRow>
                 <SelectControl
-                  label={__('Type:')}
+                  label={__('Indicator:')}
                   value={[type]}
                   onChange={(type) => {
                     setAttributes({ type })
                   }}
                   options={[
-                    { label: 'Country Info', value: 'countryInfo' }
+                    { label: 'Country Info', value: 'countryInfo' },
+                    { label: 'Number of varieties released in last 3 years', value: 'numberOfVarietiesReleasedLast3Years' }
                   ]}
                 />
               </PanelRow>
