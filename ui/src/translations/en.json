@@ -71,5 +71,6 @@
   "tooltip-E1": "Availability of agricultural extension services for smallholder farmers",
   "tooltip-E2": "Concentration of agro-dealer network",
   "tooltip-E3.1": "Availability of seed in small packages",
-  "tooltip-E4.1": "Price of seed at planting"
+  "tooltip-E4.1": "Price of seed at planting",
+  "symbol-M": "Millions"
 }
