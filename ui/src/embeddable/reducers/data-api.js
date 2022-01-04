@@ -14,8 +14,7 @@ const SURVEY_INDICATORS_API = `${SURVEY_API}/${SURVEY_FILTER_API}/indicators`
 const SURVEY_INDICATOR_INFORMATION_API = `${SURVEY_API}/${DATA_SUMMARY}/categoryId/{categoryId}/latest`;
 const WP_DOCUMENTS_API = `${APP_WP_API}/wp/v2/media`;
 
-//TODO remove hardcoded country once SEEDSDT-243 is done
-let COUNTRY_INFORMATION_API = `${SURVEY_API}/countryInfo/countryId/9`;
+let COUNTRY_INFORMATION_API = `${SURVEY_API}/countryInfo/countryId/`;
 const APIS = {
   prevalence: '',
   policy: POLICY_API_ROOT,
