@@ -466,3 +466,70 @@ p:empty {
   min-height: $base-unit * 18;
   height: $base-unit * 18;
 }
+
+// Content table
+.content-table table{
+  border:2px solid $separator-grey;
+  td{
+    border:2px solid $separator-grey;
+    color: $text-color;
+    font-size: 0.8rem;
+    &:first-child{
+      color: $dark-green;
+      font-weight: bold;
+    }
+    &:nth-child(4){
+      font-weight: bold;
+      text-align:center;
+      text-transform: uppercase;
+    }
+    &:last-child{
+      text-align:center;
+    }
+    ul{
+      list-style: disc;
+      margin-left: $base-unit + 7;
+    }
+    p, li{
+      font-size: 0.8rem;
+    }
+    &.grey-bg{
+      background-color: $table-grey-bg;
+    }
+    &.light-orange{
+      background-color: $table-light-orange-bg;
+      color: $text-color;
+    }
+  }
+}
+
+.table-symbol{
+  @include border-radius(100%);
+  color: #ffffff;
+  padding-left: 3px;
+  padding-right: 3px;
+  display: block;
+  height: $base-unit * 2;
+  line-height: $base-unit * 2;
+  margin: auto;
+  width: $base-unit * 2;
+
+  &.plus{
+    background-color: $link-green;
+  }
+  &.minus{
+    background-color: $red;
+  }
+  &.plus-minus{
+    background-color: darken($table-light-orange-bg, 15%);
+    font-size: 0.5rem;
+  }
+}
+
+// Colored text in methods table
+.red-text{
+  color: $red;
+}
+.green-text{
+  color: $dark-green;
+}
