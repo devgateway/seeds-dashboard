@@ -155,7 +155,7 @@ export const getData = ({ app, source, store, params }) => {
       params = { ...params, ...filters.toJS() }
     }
     dispatch({ type: LOAD_DATA, params, store })
-    api.getData({ app, source, params })
+    return api.getData({ app, source, params })
       .then(data => dispatch({ type: LOAD_DATA_DONE, store, data }))
       .catch(error => dispatch({ type: LOAD_DATA_ERROR, store, error }))
   };

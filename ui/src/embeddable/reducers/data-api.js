@@ -49,7 +49,7 @@ export const getData = ({source, app, params}) => {
       return get(APIS[app] + (params ? '?' + queryParams(params) : ''));
     } else {
       // TODO: remove this after we are sure we will always use the country filter component.
-      return get(APIS[app] + (params ? '&' + queryParams(params) : ''))  
+      return Promise.resolve();
     }
   } else {
     return get(APIS[app] + (params ? '?' + queryParams(params) : ''))
