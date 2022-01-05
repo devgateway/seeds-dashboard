@@ -40,13 +40,15 @@ const Filter = ({
     return firstSelectedCountry;
   }
   let classes = 'filters'
+  const isAddYear = addYear === true || addYear === "true";
+  const isSelectedCountryFirst = selectedCountryFirst === true || selectedCountryFirst === 'true';
   let childComponent = <CountryFilter
-    countries={countries} onApply={onApply} filters={filters} addYear={addYear}
+    countries={countries} onApply={onApply} filters={filters} addYear={isAddYear}
     selectedCountryLabel={selectedCountryLabel}
   />;
   if (dataType === "Country") {
     childComponent = <CountrySelector countries={countries} onApply={onApply} filters={filters}
-                                      selectedCountryFirst={selectedCountryFirst} addYear={addYear}
+                                      selectedCountryFirst={isSelectedCountryFirst} addYear={isAddYear}
                                       selectedCountryLabel={selectedCountryLabel} />
     classes = "country-selector";
   }
