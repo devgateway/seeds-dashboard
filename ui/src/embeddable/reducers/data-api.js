@@ -44,8 +44,8 @@ export const getData = ({source, app, params}) => {
   if (app === COUNTRY_INFO && params && params[SELECTED_COUNTRY]) {
     return get(APIS[app] + params[SELECTED_COUNTRY]);
   } else if (app === NUMBER_OF_VARIETIES_RELEASED) {
-    if (params['selected-country']) {
-      params.countryId = params['selected-country'];
+    if (params[SELECTED_COUNTRY]) {
+      params.countryId = params[SELECTED_COUNTRY];
       return get(APIS[app] + (params ? '?' + queryParams(params) : ''));
     } else {
       // TODO: remove this after we are sure we will always use the country filter component.
