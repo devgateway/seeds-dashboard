@@ -16,19 +16,28 @@ const IndicatorLabel = ({ field, className, range, displayType, intl, selectedCo
         style['color'] = '#FFFFFF';
       }
     }
+    const getGridColumns = () => {
+      if (!field.label && isNaN(field.value) && displayType !== LEGEND) {
+        return <div className={isNaN(field.value) ? ' letter centered' : ''}>{field.value}</div>;
+      } else {
+        return <><Grid.Column width={selectedCountry ? 9 : 10} className="label">{field.label}</Grid.Column>
+          <Grid.Column width={selectedCountry ? 7 : 6} className="value" style={style}>
+            {r && <Popup
+              trigger={<div
+                className={isNaN(field.value) ? ' letter' : ''}>{formatValue(field.value, displayType, intl)}</div>}
+              className="indicator-popup"
+              position="right center">
+              <Legend val={r.legend} color={r.color} />
+            </Popup>}
+            {!r &&
+              <div className={isNaN(field.value) ? ' letter' : ''}>{formatValue(field.value, displayType, intl)}</div>}
+          </Grid.Column></>
+      }
+    }
+
     return <Grid
       className={className}>
-      <Grid.Column width={selectedCountry ? 9 : 10} className="label">{field.label}</Grid.Column>
-      <Grid.Column width={selectedCountry ? 7 : 6} className="value" style={style}>
-        {r && <Popup
-          trigger={<div
-            className={isNaN(field.value) ? ' letter' : ''}>{formatValue(field.value, displayType, intl)}</div>}
-          className="indicator-popup"
-          position="right center">
-          <Legend val={r.legend} color={r.color} />
-        </Popup>}
-        {!r && <div className={isNaN(field.value) ? ' letter' : ''}>{formatValue(field.value, displayType, intl)}</div>}
-      </Grid.Column>
+      {getGridColumns()}
     </Grid>
   } else {
     return null

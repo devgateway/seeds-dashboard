@@ -5,6 +5,7 @@
     content: none;
   }
 
+  font-size: 14px;
   border-radius: 0;
   background-color: #f9fff8;
   border: 1px solid #82b55c;
@@ -114,11 +115,12 @@
       }
 
       &.table-container {
-        .title{
-          .icon{
+        .title {
+          .icon {
             font-size: .65em;
           }
         }
+
         &.overview {
           .selected-countries, .other-countries {
             padding: 0;
@@ -146,6 +148,7 @@
             }
           }
         }
+
         .active.content {
           padding: 0;
         }
@@ -247,8 +250,14 @@
             height: 100%;
 
             &.crop-title {
+              font-size: 13px;
               padding-right: 10px;
-              @include display-flex(right)
+              @include display-flex(right);
+              i.circular.icon {
+                -webkit-box-shadow: 0 0 0 0.1em rgba(0, 0, 0, 1) inset;
+                box-shadow: 0 0 0 0.1em rgba(0, 0, 0, 1) inset;
+              }
+
             }
           }
 
