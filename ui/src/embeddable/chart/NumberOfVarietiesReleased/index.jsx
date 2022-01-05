@@ -2,11 +2,13 @@ import React from "react";
 import {Grid} from "semantic-ui-react";
 import Line from "../Line";
 import {ResponsiveLine} from "@nivo/line";
+import Crops from "../crop";
 
 const NumberOfVarietiesReleased = ({data}) => {
     const processedData = [];
     if (data) {
         const yearsInValues = Object.keys(data.values);
+        const allYears = fillGaps(yearsInValues);
         const crops = data.dimensions.crop.values;
         crops.forEach(c => {
             const header = {
@@ -14,10 +16,17 @@ const NumberOfVarietiesReleased = ({data}) => {
                 data: []
             };
             yearsInValues.forEach(y => {
-                header.data.push({
-                    x: y,
-                    y: data.values[y][c]
-                });
+                if (data.values[y]) {
+                    header.data.push({
+                        x: y,
+                        y: data.values[y][c]
+                    });
+                } else {
+                    header.data.push({
+                        x: y,
+                        y: null
+                    });
+                }
             });
             processedData.push(header);
         });
@@ -26,8 +35,8 @@ const NumberOfVarietiesReleased = ({data}) => {
     return (
         <Grid className={`number-varieties-released`}>
             <Grid.Row className={`crops-with-icons`}>
-                <Grid.Column width={16}>
-                    <div className="label">Crops -- TODO: insert crop icons with a new component</div>
+                <Grid.Column width={8}>
+                    <Crops data={data.dimensions.crop.values}/>
                 </Grid.Column>
             </Grid.Row>
             <Grid.Row className={`section`}>
@@ -47,7 +56,7 @@ const NumberOfVarietiesReleased = ({data}) => {
                                 tickSize: 5,
                                 tickPadding: 5,
                                 tickRotation: 0,
-                                legend: data.dimensions.year.enLabel,
+                                legend: 'Year',
                                 legendOffset: 36,
                                 legendPosition: 'middle'
                             }}
@@ -56,7 +65,7 @@ const NumberOfVarietiesReleased = ({data}) => {
                                 tickSize: 5,
                                 tickPadding: 5,
                                 tickRotation: 0,
-                                legend: data.dimensions.crop.enLabel,
+                                legend: 'Number of varieties released',
                                 legendOffset: -40,
                                 legendPosition: 'middle'
                             }}
@@ -98,6 +107,17 @@ const NumberOfVarietiesReleased = ({data}) => {
             </Grid.Row>
         </Grid>
     )
+}
+
+function fillGaps(data) {
+    const sorted = data.sort();
+    const min = Number(sorted[0]);
+    const max = Number(sorted[data.length - 1]);
+    const all = [];
+    for (let i = min; i <= max; i++) {
+        all.push(i);
+    }
+    return all;
 }
 
 export default NumberOfVarietiesReleased
