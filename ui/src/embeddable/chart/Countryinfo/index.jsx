@@ -24,7 +24,7 @@ const CountryInfo = ({ data, intl }) => {
     return symbol;
   }
   const getValue = (field) => {
-    if (field) {
+    if (field && field.value) {
       if (field.symbol === '%') {
         const format = { style: 'decimal', minimumFractionDigits: 0, maximumFractionDigits: 2 }
         return `${intl.formatNumber(field.value * 100, format)} %`;
