@@ -14,7 +14,7 @@ const CountrySelector = ({ countries, filters, onApply, selectedCountryFirst, ad
     if (filters && filters.get(SELECTED_COUNTRY)) {
       if (countries) {
         const selectedCountry = countries.find(c => c.countryId === filters.get(SELECTED_COUNTRY));
-        return `${selectedCountry.country} ${addYear === 'true' ? ' ' + selectedCountry.year : ''}`;
+        return `${selectedCountry.country} ${addYear ? ' ' + selectedCountry.year : ''}`;
       }
     }
   }
@@ -31,7 +31,7 @@ const CountrySelector = ({ countries, filters, onApply, selectedCountryFirst, ad
         key={c.countryId}
         checked={checked}
         className={`${checked ? 'checked' : ''}`}
-        label={`${c.country}${addYear === 'true' ? ' ' + c.year : ''}`} name='size' type='radio' value={c.countryId}
+        label={`${c.country}${addYear ? ' ' + c.year : ''}`} name='size' type='radio' value={c.countryId}
         onClick={handleSelectedCountry}
       /></Grid.Column>;
     });
@@ -74,7 +74,7 @@ const CountrySelector = ({ countries, filters, onApply, selectedCountryFirst, ad
       </Accordion>
     </Grid.Column>, <Grid.Column key={2} width={7} className="selected-country">{selectedCountryLabel &&
       <span>{selectedCountryLabel}</span>}{getSelectedCountry()}</Grid.Column>];
-    if (selectedCountryFirst === 'true') {
+    if (selectedCountryFirst ) {
       return grids.reverse();
     } else {
       return grids;

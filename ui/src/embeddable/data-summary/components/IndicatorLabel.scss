@@ -22,6 +22,12 @@
   }
 }
 .indicator-label {
+  .letter.centered {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
   &.grid {
     height: 100%;
   }
@@ -44,12 +50,6 @@
         height: 100%;
         @include display-flex(right);
         padding-right: 5px;
-
-        &.letter {
-          /*
-           uncomment if want letters to be centered (MD)
-          justify-content: center;*/
-        }
       }
     }
   }
