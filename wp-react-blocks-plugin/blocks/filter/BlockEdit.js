@@ -59,7 +59,7 @@ class BlockEdit extends BaseBlockEdit {
       </InspectorControls>),
 
         (<div>
-            <iframe id={"id_description_iframe"} onLoad={e => this.iframeLoaded()} scrolling={"no"}
+            <iframe id={"id_description_iframe"}  scrolling={"no"}
                     style={divStyles} src={this.state.react_ui_url + "/en/embeddable/filter?" + queryString} />
           </div>
 
