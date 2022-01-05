@@ -133,19 +133,24 @@
 }
 
 // Carousel arrows
-.navigator{
-  padding-top: 20%;
-  button{
-    background-color: $green-link;
-    border:1px solid $green-link;
-    color: #ffffff;
-    padding-bottom: $base-unit;
-    padding-top: $base-unit;
-    &:hover{
-      background-color: darken($green-link,10%);
+.post.carousel {
+  .navigator {
+    padding-top: 20%;
+
+    button {
+      background-color: $green-link;
+      border: 1px solid $green-link;
+      color: #ffffff;
+      padding-bottom: $base-unit;
+      padding-top: $base-unit;
+
+      &:hover {
+        background-color: darken($green-link, 10%);
+      }
     }
-  }
-  button:disabled{
-    opacity: 0.8;
+
+    button:disabled {
+      opacity: 0.8;
+    }
   }
 }
