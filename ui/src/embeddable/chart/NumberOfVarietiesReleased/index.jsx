@@ -21,6 +21,27 @@ const cropColors = {
     wheat: defaultColor,
     pigeon: defaultColor
 };
+const theme = {
+    axis: {
+        ticks: {
+            text: {
+                fontSize: 15,
+                fill: "gray"
+            },
+            line: {
+                stroke: "rgba(255,255,255,0)",
+                strokeWidth: 0
+            }
+        },
+        legend: {
+            text: {
+                fontSize: 15,
+                fill: "black",
+                fontWeight: 'bold'
+            }
+        }
+    }
+};
 
 const NumberOfVarietiesReleased = ({data}) => {
     const processedData = [];
@@ -55,7 +76,7 @@ const NumberOfVarietiesReleased = ({data}) => {
         <Grid className={`number-varieties-released`}>
             <Grid.Row className={`crops-with-icons`}>
                 <Grid.Column width={8}>
-                    <Crops data={data.dimensions.crop.values}/>
+                    <Crops data={data.dimensions.crop.values} title="Crops" titleClass="crops-title"/>
                 </Grid.Column>
             </Grid.Row>
             <Grid.Row className={`chart-section`}>
@@ -63,12 +84,14 @@ const NumberOfVarietiesReleased = ({data}) => {
                     <div style={{height: 450}}>
                         {/*<Line options={data2} legends={{}}/>*/}
                         <ResponsiveLine
+                            theme={theme}
                             data={processedData}
+                            /*enableSlices="x"*/
                             colors={{datum: 'color'}}
                             margin={{top: 50, right: 50, bottom: 50, left: 50}}
                             xScale={{type: 'point'}}
                             yScale={{type: 'linear', min: 'auto', max: 'auto', stacked: false, reverse: false}}
-                            yFormat=" >-.2f"
+                            yFormat=" >-.0r"
                             axisTop={null}
                             axisRight={null}
                             enableGridX={false}
@@ -88,7 +111,8 @@ const NumberOfVarietiesReleased = ({data}) => {
                                 tickRotation: 0,
                                 legend: 'Number of varieties released',
                                 legendOffset: -40,
-                                legendPosition: 'middle'
+                                legendPosition: 'middle',
+                                format: e => Math.floor(e) === e && e
                             }}
                             pointBorderWidth={2}
                             pointSize={10}
@@ -100,10 +124,11 @@ const NumberOfVarietiesReleased = ({data}) => {
                                 return (
                                     <div className={"chart tooltip"} style={{"backgroundColor": d.point.serieColor}}>
                                         {d.point.serieId} ({d.point.data.x})
-                                        : {d.point.data.y}
+                                        : {Math.round(d.point.data.y)}
                                     </div>
                                 )
                             }}
+                            /*sliceTooltip={}*/
                         />
                     </div>
                 </Grid.Column>

@@ -1,9 +1,23 @@
+$border_gray: rgba(175, 179, 182, 0.57);
+
 .crops-with-icons {
-  padding-bottom: 0 !important;
-  padding-top: 0 !important;
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+  border-bottom: $border_gray 1px solid;
+  border-top: $border_gray 1px solid;
+  border-right: $border_gray 1px solid;
+  border-left: $border_gray 1px solid;
 }
 
 .chart-section {
   padding-bottom: 0 !important;
   padding-top: 0 !important;
+  border: $border_gray 1px solid;
+  border-top: none;
+}
+
+.crops-title {
+  font-size: 1.2rem;
+  color: black;
+  font-weight: bold;
 }

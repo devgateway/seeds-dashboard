@@ -1,13 +1,19 @@
 import React from "react";
+import './styles.scss';
 
-const Crops = ({data}) => {
+const Crops = ({data, title, titleClass}) => {
     return (
-        data.map(c => {
-            const class_ = "crop " + c.toLowerCase();
-            return (<div key={c} className={class_} style={{height: '50px', width: '25%', float: 'left'}}>
-                <label style={{float: 'left', marginTop: '13px'}}>{c}</label>
-            </div>)
-        })
+        <div>
+            {title ? (<div className="crop legend">
+                <label className={titleClass || ''}>{title}</label>
+            </div>) : null}
+            {data.map(c => {
+                const class_ = "crop " + c.toLowerCase() + " crop-icon";
+                return (<div key={c} className={class_}>
+                    <label>{c}</label>
+                </div>)
+            })}
+        </div>
     )
 }
 
