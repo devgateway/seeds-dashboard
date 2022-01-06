@@ -3,6 +3,24 @@ import {Grid} from "semantic-ui-react";
 import Line from "../Line";
 import {ResponsiveLine} from "@nivo/line";
 import Crops from "../crop";
+import './styles.scss';
+
+const defaultColor = '#000000';
+const cropColors = {
+    maize: '#efcb16',
+    cowpea: '#f38e28',
+    rice: '#3a5f2e',
+    sorghum: '#798161',
+    sunflower: defaultColor,
+    ['soya bean']: '#84a43d',
+    teff: defaultColor,
+    bean: defaultColor,
+    beans: defaultColor,
+    groundnut: defaultColor,
+    millet: defaultColor,
+    wheat: defaultColor,
+    pigeon: defaultColor
+};
 
 const NumberOfVarietiesReleased = ({data}) => {
     const processedData = [];
@@ -13,7 +31,8 @@ const NumberOfVarietiesReleased = ({data}) => {
         crops.forEach(c => {
             const header = {
                 id: c,
-                data: []
+                data: [],
+                color: cropColors[c.toLowerCase()] || defaultColor
             };
             yearsInValues.forEach(y => {
                 if (data.values[y]) {
@@ -39,18 +58,20 @@ const NumberOfVarietiesReleased = ({data}) => {
                     <Crops data={data.dimensions.crop.values}/>
                 </Grid.Column>
             </Grid.Row>
-            <Grid.Row className={`section`}>
+            <Grid.Row className={`chart-section`}>
                 <Grid.Column width={16}>
-                    <div style={{height: 350}}>
+                    <div style={{height: 450}}>
                         {/*<Line options={data2} legends={{}}/>*/}
                         <ResponsiveLine
                             data={processedData}
-                            margin={{top: 50, right: 110, bottom: 50, left: 60}}
+                            colors={{datum: 'color'}}
+                            margin={{top: 50, right: 50, bottom: 50, left: 50}}
                             xScale={{type: 'point'}}
                             yScale={{type: 'linear', min: 'auto', max: 'auto', stacked: false, reverse: false}}
                             yFormat=" >-.2f"
                             axisTop={null}
                             axisRight={null}
+                            enableGridX={false}
                             axisBottom={{
                                 orient: 'bottom',
                                 tickSize: 5,
@@ -69,38 +90,20 @@ const NumberOfVarietiesReleased = ({data}) => {
                                 legendOffset: -40,
                                 legendPosition: 'middle'
                             }}
-                            pointSize={10}
-                            pointColor={{theme: 'background'}}
                             pointBorderWidth={2}
-                            pointBorderColor={{from: 'serieColor'}}
+                            pointSize={10}
+                            pointColor={{from: 'color', modifiers: []}}
+                            pointBorderColor={{from: 'serieColor', modifiers: []}}
                             pointLabelYOffset={-12}
                             useMesh={true}
-                            legends={[
-                                {
-                                    anchor: 'bottom-right',
-                                    direction: 'column',
-                                    justify: false,
-                                    translateX: 100,
-                                    translateY: 0,
-                                    itemsSpacing: 0,
-                                    itemDirection: 'left-to-right',
-                                    itemWidth: 80,
-                                    itemHeight: 20,
-                                    itemOpacity: 0.75,
-                                    symbolSize: 12,
-                                    symbolShape: 'circle',
-                                    symbolBorderColor: 'rgba(0, 0, 0, .5)',
-                                    effects: [
-                                        {
-                                            on: 'hover',
-                                            style: {
-                                                itemBackground: 'rgba(0, 0, 0, .03)',
-                                                itemOpacity: 1
-                                            }
-                                        }
-                                    ]
-                                }
-                            ]}
+                            tooltip={(d) => {
+                                return (
+                                    <div className={"chart tooltip"} style={{"backgroundColor": d.point.serieColor}}>
+                                        {d.point.serieId} ({d.point.data.x})
+                                        : {d.point.data.y}
+                                    </div>
+                                )
+                            }}
                         />
                     </div>
                 </Grid.Column>
