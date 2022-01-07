@@ -49,7 +49,7 @@ const CountrySelector = ({ countries, filters, onApply, selectedCountryFirst, ad
           <Icon name='delete' size='tiny' link onClick={() => setSearchKeyword('')} />
         </Icon.Group>
       </Form.Group>
-      <Grid columns={3}>
+      <Grid columns={2}>
         {generateCountries()}
       </Grid>
     </Form>
@@ -65,7 +65,7 @@ const CountrySelector = ({ countries, filters, onApply, selectedCountryFirst, ad
           <Accordion.Title
             active={activeIndex === 0}
             content='Select a country'
-            icon="angle right"
+            icon="caret down"
             index={0}
             onClick={handleClick}
           />
