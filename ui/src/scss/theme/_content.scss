@@ -334,6 +334,14 @@ p:empty {
 .has-padding{
   padding: $base-unit * 2.5 $base-unit * 2.5 0 $base-unit * 2.5;
 }
+.green-link{
+  a{
+    color: $link-green;
+    &:hover{
+      color: $text-color;
+    }
+  }
+}
 
 
 // To underline headings
