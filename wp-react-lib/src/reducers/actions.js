@@ -73,12 +73,13 @@ export const getPosts = ({
                              locale = "en",
                              previewNonce,
                              previewId,
-                             search
+                             search, postType, id
                          }) => (dispatch, getState) => {
 
     dispatch({type: LOAD_POSTS, slug, taxonomy, categories, before, perPage, page, fields, store, locale})
 
-    wp.getPosts(slug, type, taxonomy, categories, before, perPage, page, fields, locale, previewNonce, previewId, search)
+    wp.getPosts(slug, type, taxonomy, categories, before, perPage, page, fields, locale, previewNonce, previewId,
+      search,postType, id)
         .then(response => {
             const {data, meta} = response
             dispatch({

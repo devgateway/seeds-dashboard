@@ -175,10 +175,23 @@ class IntlRoutes extends Component {
               );
             }}>
 
-
             </Route>
-
-
+            <Route path="/:lan/type/:postType/:id/" exact render={props => {
+              return (
+                <ResponsiveContainer>
+                  <PostProvider
+                    id={props.match.params.id}
+                    postType={props.match.params.postType}
+                    store={props.match.params.postType + props.match.params.id}
+                  >
+                    <PostConsumer>
+                      <Post />
+                    </PostConsumer>
+                  </PostProvider>
+                </ResponsiveContainer>
+              );
+            }}>
+            </Route>
             <Route path="/:lan/:year/:month/:day/:slug/" exact render={props => (
               <ResponsiveContainer>
                 <PostProvider

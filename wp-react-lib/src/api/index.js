@@ -95,30 +95,36 @@ export const getMenu = (name, locale) => {
     return get(URL_MENU + name + '?lang=' + locale)
 }
 
-export const getPosts = (slug, type, taxonomy, categories, before, perPage, page, fields, locale, previewNonce, previewId, search) => {
+export const getPosts = (slug, type, taxonomy, categories, before, perPage, page, fields, locale, previewNonce,
+  previewId, search,postType, id) => {
     //language , categories id, date before, record per page, number of page, fields to be included, post type
     //const {lang, slug, wType: type, taxonomy, categories, before, perPage, page, fields} = params
 
-    let url = URL_API_BASE + (type ? type : 'posts')
-    if (previewId) {
-        url += '/' + previewId + '/revisions'
-            + (previewNonce ? '?_wpnonce=' + previewNonce + '&' : '')
-    } else {
-        url += "?"
-    }
-    url += '_embed=true&lang=' + locale
-        + (slug ? '&slug=' + slug : '')
-    if (!slug) {
-        url += (categories ? (taxonomy ? '&' + taxonomy : '&categories')
-            + "=" + (categories ? categories : "") : '') //ids
-            + (before ? "&before=" + before.toISOString() : "")
-            + (perPage ? '&per_page=' + perPage : '')
-            + (page ? '&page=' + page : '')
-            + (fields ? '&_fields=' + fields : '')
-            + (search ? '&search=' + search : '')
+    let url = URL_API_BASE ;
+    if(postType){
+      url += `${postType}/${id}?lang=${locale}`;
+    }else {
+        url += (type ? type : 'posts');
+        if (previewId) {
+            url += '/' + previewId + '/revisions'
+              + (previewNonce ? '?_wpnonce=' + previewNonce + '&' : '')
+        } else {
+            url += "?"
+        }
+        url += '_embed=true&lang=' + locale
+          + (slug ? '&slug=' + slug : '')
+        if (!slug) {
+            url += (categories ? (taxonomy ? '&' + taxonomy : '&categories')
+                + "=" + (categories ? categories : "") : '') //ids
+              + (before ? "&before=" + before.toISOString() : "")
+              + (perPage ? '&per_page=' + perPage : '')
+              + (page ? '&page=' + page : '')
+              + (fields ? '&_fields=' + fields : '')
+              + (search ? '&search=' + search : '')
+        }
+      url += "&lang=" + locale
     }
 
-    url += "&lang=" + locale
     return get(url)
 }
 
