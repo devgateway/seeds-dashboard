@@ -1,10 +1,13 @@
 import React from "react";
-import { Grid, Popup } from "semantic-ui-react";
+import { Grid, Placeholder, Popup } from "semantic-ui-react";
 import './IndicatorLabel.scss';
 import { injectIntl } from "react-intl";
 import { LEGEND } from "../Constants";
+import { COUNTRY_SETTINGS, SUMMARY_INDICATORS, SUMMARY_INDICATORS_INFORMATION } from "../../reducers/StoreConstants";
+import { getIndicatorsInformation } from "../../reducers/data";
+import { connect } from "react-redux";
 
-const IndicatorLabel = ({ field, className, range, displayType, intl, selectedCountry }) => {
+const IndicatorLabel = ({ field, className, range, displayType, intl, selectedCountry, loading }) => {
   if (field) {
     const style = {}
     let r;
@@ -40,7 +43,12 @@ const IndicatorLabel = ({ field, className, range, displayType, intl, selectedCo
       {getGridColumns()}
     </Grid>
   } else {
-    return null
+    let empty = null;
+    if (loading) {
+      empty = <Placeholder>
+        <Placeholder.Line length='full' /></Placeholder>
+    }
+    return empty;
   }
 }
 
@@ -68,4 +76,12 @@ const Legend = ({ val, color }) => {
     }}>{val.match(regexText)}</span><span><span style={{ color: 'grey' }}>{val.match(number)}</span></span>&nbsp;</>
   )
 }
-export default injectIntl(IndicatorLabel);
+
+const mapStateToProps = (state) => {
+  return {
+    loading: state.getIn(['data', SUMMARY_INDICATORS_INFORMATION, 'LOADING'])
+  }
+}
+
+const mapActionCreators = {};
+export default connect(mapStateToProps, mapActionCreators)(injectIntl(IndicatorLabel));
