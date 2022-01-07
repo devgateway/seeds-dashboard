@@ -226,16 +226,16 @@ const reducer = (state = initialState, action) => {
       return state
     }
     case LOAD_INDICATORS_INFORMATION: {
-      return state
+      return state.setIn([SUMMARY_INDICATORS_INFORMATION, 'LOADING'], true);
     }
 
     case LOAD_INDICATORS_INFORMATION_DONE: {
       const { data } = action
-      return state.setIn([SUMMARY_INDICATORS_INFORMATION], data)
+      return state.setIn([SUMMARY_INDICATORS_INFORMATION, 'LOADING'], false).setIn([SUMMARY_INDICATORS_INFORMATION, 'data'], data);
     }
 
     case LOAD_INDICATORS_INFORMATION_ERROR: {
-      return state
+      return state.setIn([SUMMARY_INDICATORS_INFORMATION, 'LOADING'], false)
     }
 
 
@@ -265,23 +265,23 @@ const reducer = (state = initialState, action) => {
         .deleteIn([COUNTRY_SETTINGS, 'error'])
         .setIn([COUNTRY_SETTINGS, 'data'], action.data)
     }
-    
+
     case LOAD_DOCUMENTS: {
       return state.deleteIn([WP_DOCUMENTS, 'error'])
-          .setIn([WP_DOCUMENTS, 'loading'], true)
-          .setIn([WP_DOCUMENTS, 'data'], null)
+        .setIn([WP_DOCUMENTS, 'loading'], true)
+        .setIn([WP_DOCUMENTS, 'data'], null)
     }
 
     case LOAD_DOCUMENTS_DONE: {
       return state.setIn([WP_DOCUMENTS, 'data'], action.data)
-          .deleteIn([WP_DOCUMENTS, 'error'])
-          .setIn([WP_DOCUMENTS, 'loading'], false)
+        .deleteIn([WP_DOCUMENTS, 'error'])
+        .setIn([WP_DOCUMENTS, 'loading'], false)
     }
 
     case LOAD_DOCUMENTS_ERROR: {
       return state.setIn([WP_DOCUMENTS, 'data'], null)
-          .setIn([WP_DOCUMENTS, 'error'], action.error)
-          .setIn([WP_DOCUMENTS, 'loading'], false)
+        .setIn([WP_DOCUMENTS, 'error'], action.error)
+        .setIn([WP_DOCUMENTS, 'loading'], false)
     }
 
     default:

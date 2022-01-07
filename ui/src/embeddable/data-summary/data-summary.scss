@@ -21,6 +21,10 @@
 }
 
 .data-summary {
+  .ui.placeholder{
+    margin-left: 5px;
+    margin-right: 5px;
+  }
   .data-summary-heading {
     width: $screen-width !important;
     display: flex !important;

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Accordion, Container, Grid, Icon} from "semantic-ui-react";
+import { Accordion, Container, Grid, Icon } from "semantic-ui-react";
 import {
   COUNTRY_SETTINGS,
   SELECTED_COUNTRY,
@@ -11,7 +11,7 @@ import { getIndicatorsInformation } from "../reducers/data";
 import { connect } from "react-redux";
 import IndicatorLabel from "./components/IndicatorLabel";
 import { injectIntl } from "react-intl";
-import { EVEN,  LEGEND, ODD, SUB_INDICATOR } from "./Constants";
+import { EVEN, LEGEND, ODD, SUB_INDICATOR } from "./Constants";
 import Tooltip from "./components/Tooltip";
 
 const DataSummaryBody = ({
@@ -69,9 +69,9 @@ const DataSummaryBody = ({
         <Grid className="indicator-title">
           <Grid.Column width={10}>
           </Grid.Column>
-          <Grid.Column width={ 6}><IndicatorLabel
+          <Grid.Column width={6}><IndicatorLabel
             field={{ value: indicator.displayType === 'Rating' || indicator.displayType === 'HHI value (color)' ? 'rating' : 'number' }}
-            className={'indicator-sub-title'} displayType={LEGEND} selectedCountry/>
+            className={'indicator-sub-title'} displayType={LEGEND} selectedCountry />
           </Grid.Column>
         </Grid>
         {indicator.childs.sort((a, b) => a.position > b.position).map((f, index) => {
@@ -92,11 +92,11 @@ const DataSummaryBody = ({
               }
               {f.name}
             </Grid.Column>
-            <Grid.Column width={ 6}
+            <Grid.Column width={6}
                          className={"indicator-selected-country"}><IndicatorLabel
               field={field}
               className={'indicator-label'}
-              range={range} displayType={indicator.displayType} selectedCountry/>
+              range={range} displayType={indicator.displayType} selectedCountry />
             </Grid.Column>
           </Grid>
         })}
@@ -116,13 +116,16 @@ const DataSummaryBody = ({
         </Grid.Row>
         {indicator.childs.sort((a, b) => a.position > b.position).map((f, index) => {
           let effectiveF = f;
-          if (isOverview) {
+          if (isOverview || f.type === SUB_INDICATOR) {
             effectiveF = f.childs[0];
           }
           return (
             <Grid.Row className={index % 2 === 0 ? 'even' : 'odd'} key={effectiveF.id}>
               <Grid columns={3}>
                 {filters && filters.get(VISIBLE_COUNTRIES).map(vc => {
+                  if (effectiveF.id === 952) {
+                    debugger;
+                  }
                   const field = selectedCountry.find(
                     sc => (sc.fieldId === effectiveF.id && sc.countryId === vc)
                   )
@@ -224,7 +227,7 @@ const mapStateToProps = (state) => {
     country_settings: state.getIn(['data', COUNTRY_SETTINGS, 'data']),
     filters: state.getIn(['data', 'filters']),
     summary_indicators: state.getIn(['data', SUMMARY_INDICATORS]),
-    summary_indicators_information: state.getIn(['data', SUMMARY_INDICATORS_INFORMATION])
+    summary_indicators_information: state.getIn(['data', SUMMARY_INDICATORS_INFORMATION, 'data'])
   }
 }
 
