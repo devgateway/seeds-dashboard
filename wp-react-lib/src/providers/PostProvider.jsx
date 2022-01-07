@@ -78,7 +78,6 @@ class PostProvider extends React.Component {
           if (!Array.isArray(postsArray)) {
             postsArray = [];
             postsArray.push(posts);
-            debugger;
           }
           return <PostContext.Provider
             value={{ posts: postsArray, locale, meta }}>{this.props.children}</PostContext.Provider>

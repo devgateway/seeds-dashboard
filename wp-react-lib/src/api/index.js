@@ -105,7 +105,6 @@ export const getPosts = (slug, type, taxonomy, categories, before, perPage, page
       url += `${postType}/${id}?lang=${locale}`;
     }else {
         url += (type ? type : 'posts');
-        debugger;
         if (previewId) {
             url += '/' + previewId + '/revisions'
               + (previewNonce ? '?_wpnonce=' + previewNonce + '&' : '')

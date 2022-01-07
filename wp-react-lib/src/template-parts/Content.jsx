@@ -85,7 +85,6 @@ class Content extends React.Component {
     let url = replaceLink1;
     if (slug && id) {
       url = replaceLink1.replace(slug, id);
-      debugger;
     }
     return url;
   }
