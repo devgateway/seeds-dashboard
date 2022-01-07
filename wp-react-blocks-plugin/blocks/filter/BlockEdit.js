@@ -1,5 +1,13 @@
 import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
-import { Panel, PanelBody, PanelRow, SelectControl, TextControl, CheckboxControl } from '@wordpress/components';
+import {
+  Panel,
+  PanelBody,
+  PanelRow,
+  SelectControl,
+  TextControl,
+  CheckboxControl,
+  RangeControl
+} from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { BaseBlockEdit } from '../commons/index'
 
@@ -9,7 +17,7 @@ class BlockEdit extends BaseBlockEdit {
     const {
       className, isSelected,
       toggleSelection, setAttributes, attributes: {
-        type, selectedCountryFirst, addYear, selectedCountryLabel
+        type, selectedCountryFirst, addYear, selectedCountryLabel, countryColumns
       }
     } = this.props;
 
@@ -17,13 +25,13 @@ class BlockEdit extends BaseBlockEdit {
     queryString += `&data-selected-country-first=${selectedCountryFirst}`;
     queryString += `&data-add-year=${addYear}`;
     queryString += `&data-selected-country-label=${selectedCountryLabel}`;
+    queryString += `&data-country-columns=${countryColumns}`;
     queryString += `&editing=true`
     const divStyles = {}
     return ([isSelected && (<InspectorControls>
         <Panel header={__("Filters Configuration")}>
           <PanelBody>
             <PanelRow>
-
               <SelectControl
                 label={__('Type:')}
                 value={[type]} // e.g: value = [ 'a', 'c' ]
@@ -54,12 +62,20 @@ class BlockEdit extends BaseBlockEdit {
                 value={selectedCountryLabel}
                 onChange={(selectedCountryLabel) => setAttributes({ selectedCountryLabel })}
               /></PanelRow>
+            <PanelRow>
+              <RangeControl
+                label={__('Country columns count')}
+                value={countryColumns}
+                onChange={(countryColumns) => setAttributes({ countryColumns })}
+                min={1}
+                max={1000}
+              /></PanelRow>
           </PanelBody>
         </Panel>
       </InspectorControls>),
 
         (<div>
-            <iframe id={"id_description_iframe"}  scrolling={"no"}
+            <iframe id={"id_description_iframe"} scrolling={"no"}
                     style={divStyles} src={this.state.react_ui_url + "/en/embeddable/filter?" + queryString} />
           </div>
 

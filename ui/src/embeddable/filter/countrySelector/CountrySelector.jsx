@@ -2,7 +2,15 @@ import { Accordion, Form, Grid, Icon, Input, Menu } from "semantic-ui-react";
 import React, { useState } from "react";
 import { SELECTED_COUNTRY } from "../../reducers/StoreConstants";
 
-const CountrySelector = ({ countries, filters, onApply, selectedCountryFirst, addYear, selectedCountryLabel }) => {
+const CountrySelector = ({
+                           countries,
+                           filters,
+                           onApply,
+                           selectedCountryFirst,
+                           addYear,
+                           selectedCountryLabel,
+                           countryColumns
+                         }) => {
   const [activeIndex, setActiveIndex] = useState([0]);
   const [searchKeyword, setSearchKeyword] = useState(undefined);
   const handleSelectedCountry = (event, { value }) => {
@@ -49,7 +57,7 @@ const CountrySelector = ({ countries, filters, onApply, selectedCountryFirst, ad
           <Icon name='delete' size='tiny' link onClick={() => setSearchKeyword('')} />
         </Icon.Group>
       </Form.Group>
-      <Grid columns={2}>
+      <Grid columns={countryColumns}>
         {generateCountries()}
       </Grid>
     </Form>
@@ -74,7 +82,7 @@ const CountrySelector = ({ countries, filters, onApply, selectedCountryFirst, ad
       </Accordion>
     </Grid.Column>, <Grid.Column key={2} width={7} className="selected-country">{selectedCountryLabel &&
       <span>{selectedCountryLabel}</span>}{getSelectedCountry()}</Grid.Column>];
-    if (selectedCountryFirst ) {
+    if (selectedCountryFirst) {
       return grids.reverse();
     } else {
       return grids;
