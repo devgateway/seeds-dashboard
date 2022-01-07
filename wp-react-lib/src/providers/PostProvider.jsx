@@ -21,11 +21,13 @@ class PostProvider extends React.Component {
             locale,
             previewNonce,
             previewId,
-            search
+            search,
+            postType,
+            id
         } = this.props
         this.props.onLoadPost({
             slug, type, taxonomy, categories, before, perPage, page, fields, store, locale, previewNonce,
-            previewId, search
+            previewId, search, postType, id
         })
     }
 
@@ -43,7 +45,9 @@ class PostProvider extends React.Component {
             locale,
             previewNonce,
             previewId,
-            search
+            search,
+            postType,
+            id
         } = this.props
 
         if (categories != prevProps.categories || locale != prevProps.locale || slug != prevProps.slug ||
@@ -62,15 +66,22 @@ class PostProvider extends React.Component {
                 locale,
                 previewNonce,
                 previewId,
-                search
+                search, postType, id
             })
         }
     }
 
     render() {
-        const {posts, meta, loading, error, locale} = this.props
-        if (posts && posts.length > 0) {
-            return <PostContext.Provider value={{posts, locale, meta}}>{this.props.children}</PostContext.Provider>
+        const {posts, meta, loading, error, locale} = this.props;
+        if (posts && (posts.length > 0 || posts.id)) {
+          let postsArray = posts;
+          if (!Array.isArray(postsArray)) {
+            postsArray = [];
+            postsArray.push(posts);
+            debugger;
+          }
+          return <PostContext.Provider
+            value={{ posts: postsArray, locale, meta }}>{this.props.children}</PostContext.Provider>
         } else if (error) {
             return <Segment color={"red"}>
                 <h1>500</h1>
