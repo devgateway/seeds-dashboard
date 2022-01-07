@@ -4,6 +4,8 @@ import Line from "../Line";
 import {ResponsiveLine} from "@nivo/line";
 import Crops from "../crop";
 import './styles.scss';
+import Source from "../source";
+import Filter from "../filter";
 
 const defaultColor = '#000000';
 const cropColors = {
@@ -74,6 +76,11 @@ const NumberOfVarietiesReleased = ({data}) => {
 
     return (
         <Grid className={`number-varieties-released`}>
+            <Grid.Row className={`filters-section`}>
+                <Grid.Column>
+                    <Filter/>
+                </Grid.Column>
+            </Grid.Row>
             <Grid.Row className={`crops-with-icons`}>
                 <Grid.Column width={8}>
                     <Crops data={data.dimensions.crop.values} title="Crops" titleClass="crops-title"/>
@@ -131,6 +138,11 @@ const NumberOfVarietiesReleased = ({data}) => {
                             /*sliceTooltip={}*/
                         />
                     </div>
+                </Grid.Column>
+            </Grid.Row>
+            <Grid.Row className={`source-section`}>
+                <Grid.Column>
+                    <Source title="Source: TASAI"/>
                 </Grid.Column>
             </Grid.Row>
         </Grid>
