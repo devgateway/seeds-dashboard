@@ -47,10 +47,11 @@ const theme = {
 
 const NumberOfVarietiesReleased = ({data}) => {
     const processedData = [];
+    let crops = [];
     if (data) {
         const yearsInValues = Object.keys(data.values);
         const allYears = fillGaps(yearsInValues);
-        const crops = data.dimensions.crop.values;
+        crops = data.dimensions.crop.values;
         crops.forEach(c => {
             const header = {
                 id: c,
@@ -78,7 +79,7 @@ const NumberOfVarietiesReleased = ({data}) => {
         <Grid className={`number-varieties-released`}>
             <Grid.Row className={`filters-section`}>
                 <Grid.Column>
-                    <Filter/>
+                    <Filter data={crops}/>
                 </Grid.Column>
             </Grid.Row>
             <Grid.Row className={`crops-with-icons`}>
