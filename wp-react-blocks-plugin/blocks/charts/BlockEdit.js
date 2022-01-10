@@ -48,7 +48,7 @@ class BlockEdit extends BaseBlockEdit {
                   }}
                   options={[
                     { label: 'Country Info', value: 'countryInfo' },
-                    { label: 'Number of varieties released in last 3 years', value: 'NumberOfVarietiesReleased' }
+                    { label: 'Number of varieties released in last 3 years', value: 'numberOfVarietiesReleased' }
                   ]}
                 />
               </PanelRow>
