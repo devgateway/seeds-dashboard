@@ -2,10 +2,17 @@ import React, {useState} from "react";
 import './styles.scss';
 import {Accordion, Form, Menu} from "semantic-ui-react";
 
-const Filter = ({data}) => {
+const Filter = ({data, onChange}) => {
 
     const [activeIndex, setActiveIndex] = useState([0]);
     const [numberOfSelectedCrops, setNumberOfSelectedCrops] = useState([1, 1, 1, 1]);
+    const [currentData, setCurrentData] = useState(null);
+
+    if (data !== currentData) {
+        setCurrentData(data);
+        setNumberOfSelectedCrops([1, 1, 1, 1]);
+        setActiveIndex([0]);
+    }
 
     const handleClick = (e, titleProps) => {
         const {index} = titleProps
@@ -13,10 +20,11 @@ const Filter = ({data}) => {
     }
 
     const handleChange = (e, props) => {
-        const currentlySelected = Object.assign(new Array, numberOfSelectedCrops);
+        const currentlySelected = Object.assign([], numberOfSelectedCrops);
         const index = data.findIndex(i => i === props.value);
         currentlySelected[index] = currentlySelected[index] === 0 ? 1 : 0;
         setNumberOfSelectedCrops(currentlySelected);
+        onChange(currentlySelected);
     }
 
     const generateContent = () => {

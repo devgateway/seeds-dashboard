@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {Grid} from "semantic-ui-react";
 import Line from "../Line";
 import {ResponsiveLine} from "@nivo/line";
@@ -46,51 +46,82 @@ const theme = {
 };
 
 const NumberOfVarietiesReleased = ({data}) => {
+
+    const [selectedCrops, setSelectedCrops] = useState(null);
+    const [initialCrops, setInitialCrops] = useState(null);
+    const [currentData, setCurrentData] = useState(null);
+
     const processedData = [];
-    let crops = [];
-    if (data) {
-        const yearsInValues = Object.keys(data.values);
-        const allYears = fillGaps(yearsInValues);
-        crops = data.dimensions.crop.values;
-        crops.forEach(c => {
-            const header = {
-                id: c,
-                data: [],
-                color: cropColors[c.toLowerCase()] || defaultColor
-            };
-            yearsInValues.forEach(y => {
-                if (data.values[y]) {
-                    header.data.push({
-                        x: y,
-                        y: data.values[y][c]
-                    });
-                } else {
-                    header.data.push({
-                        x: y,
-                        y: null
-                    });
-                }
-            });
-            processedData.push(header);
+
+    if (!data) {
+        return null;
+    }
+    let crops = data.dimensions.crop.values;
+
+    if (data !== currentData) {
+        setCurrentData(data);
+        setSelectedCrops(crops);
+        setInitialCrops(crops);
+    }
+
+    const yearsInValues = Object.keys(data.values);
+    const allYears = fillGaps(yearsInValues);
+
+    // For initialization only.
+    if (!initialCrops) {
+        setSelectedCrops(crops);
+        setInitialCrops(crops);
+    } else {
+        crops = selectedCrops;
+    }
+
+    crops.forEach(c => {
+        const header = {
+            id: c,
+            data: [],
+            color: cropColors[c.toLowerCase()] || defaultColor
+        };
+        yearsInValues.forEach(y => {
+            if (data.values[y]) {
+                header.data.push({
+                    x: y,
+                    y: data.values[y][c]
+                });
+            } else {
+                header.data.push({
+                    x: y,
+                    y: null
+                });
+            }
         });
+        processedData.push(header);
+    });
+
+    const handleCropFilterChange = (selected) => {
+        const currentlySelected = [];
+        for (let i = 0; i < selected.length; i++) {
+            if (selected[i] === 1) {
+                currentlySelected.push(initialCrops[i]);
+            }
+        }
+        setSelectedCrops(currentlySelected);
     }
 
     return (
         <Grid className={`number-varieties-released`}>
             <Grid.Row className={`filters-section`}>
                 <Grid.Column>
-                    <Filter data={crops}/>
+                    <Filter data={initialCrops} onChange={handleCropFilterChange}/>
                 </Grid.Column>
             </Grid.Row>
             <Grid.Row className={`crops-with-icons`}>
                 <Grid.Column width={8}>
-                    <Crops data={data.dimensions.crop.values} title="Crops" titleClass="crops-title"/>
+                    <Crops data={selectedCrops} title="Crops" titleClass="crops-title"/>
                 </Grid.Column>
             </Grid.Row>
             <Grid.Row className={`chart-section`}>
                 <Grid.Column width={16}>
                     <div style={{height: 450}}>
-                        {/*<Line options={data2} legends={{}}/>*/}
                         <ResponsiveLine
                             theme={theme}
                             data={processedData}
