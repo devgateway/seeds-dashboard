@@ -73,7 +73,7 @@ const CountrySelector = ({
           <Accordion.Title
             active={activeIndex === 0}
             content='Select a country'
-            icon="caret down"
+            icon="angle right"
             index={0}
             onClick={handleClick}
           />
