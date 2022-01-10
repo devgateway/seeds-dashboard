@@ -497,7 +497,6 @@ p:empty {
     &:nth-child(4){
       font-weight: bold;
       text-align:center;
-      text-transform: uppercase;
     }
     &:last-child{
       text-align:center;
@@ -511,10 +510,13 @@ p:empty {
     }
     &.grey-bg{
       background-color: $table-grey-bg;
+      color: $text-color;
+      font-weight: 700;
     }
     &.light-orange{
       background-color: $table-light-orange-bg;
       color: $text-color;
+      text-align: left;
     }
   }
 }
