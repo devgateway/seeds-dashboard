@@ -26,6 +26,10 @@ registerBlockType(process.env.BLOCKS_NS + '/filter',
       selectedCountryLabel: {
         type: 'String',
         default: ''
+      },
+      countryColumns: {
+        type: "Number",
+        default: 3
       }
     }
     ,

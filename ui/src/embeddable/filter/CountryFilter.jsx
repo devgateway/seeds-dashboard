@@ -8,7 +8,7 @@ import { SELECTED_COUNTRY } from "../reducers/StoreConstants";
 import CountrySelector from "./countrySelector/CountrySelector";
 
 export const ADDITIONAL_COUNTRIES = 3;
-const CountryFilter = ({ countries, onApply, filters, addYear }) => {
+const CountryFilter = ({ countries, onApply, filters, addYear, countryColumns }) => {
 
   const getLength = () => {
     let length = 0;
@@ -22,7 +22,8 @@ const CountryFilter = ({ countries, onApply, filters, addYear }) => {
   }
   return <Grid className="country-filter-container">
     <Grid.Column width={7}>
-      <CountrySelector countries={countries} onApply={onApply} filters={filters} addYear={addYear} />
+      <CountrySelector countries={countries} onApply={onApply} filters={filters} addYear={addYear}
+                       countryColumns={countryColumns} />
     </Grid.Column>
     <Grid.Column width={9}>
       <Container fluid={true} className={"country-carousel"}>
