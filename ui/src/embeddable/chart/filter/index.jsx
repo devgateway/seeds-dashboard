@@ -30,8 +30,7 @@ const Filter = ({data, onChange}) => {
     const generateContent = () => {
         return (data.map((c, i) => {
             return (<div key={c}>
-                <Form.Checkbox value={c} checked={numberOfSelectedCrops[i] === 1} onChange={handleChange}/>
-                <label>{c}</label>
+                <Form.Checkbox value={c} checked={numberOfSelectedCrops[i] === 1} onChange={handleChange} label={c}/>
             </div>);
         }));
     }
