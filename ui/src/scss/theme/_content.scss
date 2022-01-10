@@ -551,3 +551,104 @@ p:empty {
 .green-text{
   color: $dark-green;
 }
+
+// Country selector filter
+.country-selector{
+  .ui.vertical.menu{
+    @include border-radius(0);
+    border: 1px solid $separator-grey;
+    box-shadow: none;
+    float: right;
+    font-size: 0.9rem;
+    margin-bottom: $base-unit;
+    min-height: $base-unit * 4;
+    padding:0;
+    width: $base-unit * 25;
+    &:hover{
+      background-color: $separator-grey;
+    }
+    .item{
+      padding: $base-unit;
+      .title{
+        color: $text-color;
+        font-weight: bold;
+      }
+      .icon{
+        color: $text-color;
+        float: left;
+        margin-top: 3px;
+      }
+      .input{
+        width: $extend - 15;
+      }
+    }
+  }
+  .content{
+    background-color: #ffffff;
+    border:1px solid $separator-grey;
+    left: -($base-unit/5);
+    padding-bottom: $base-unit * 2 !important;
+    position: absolute;
+    top: $base-unit * 4.4;
+    width: $base-unit * 25;
+    z-index: 1;
+    .ui.grid>.column{
+      padding: 0 0 $base-unit / 5 $base-unit + 2;
+    }
+    .ui.form{
+      padding: $base-unit;
+      .ui.grid{
+        margin: -0.5rem;
+      }
+      label{
+        font-size: 0.8rem;
+      }
+      .grouped.fields{
+        margin-bottom: $base-unit * 3;
+        margin-top: -$base-unit;
+        overflow: hidden;
+      }
+      .search.icon{
+        font-size: 0.8rem;
+        margin-top: 2px;
+      }
+      .icons{
+        float: right;
+        margin-top: $base-unit;
+        .link{
+          color: $gray;
+          display: block;
+          left: $base-unit - 1;
+          top: $base-unit - 1;
+        }
+        .outline{
+          color: $gray;
+        }
+      }
+      input[type=text]{
+        @include border-radius(0);
+        font-size: 0.8rem;
+      }
+      .ui.radio.checkbox label:after{
+        height: $base-unit * 2.5;
+        left: -5px;
+        top: -4px;
+        width: $base-unit * 2.5;
+      }
+      .ui.radio.checkbox input:checked~label:after{
+        background-color: $link-green;
+      }
+    }
+  }
+}
+
+.researchers-filter{
+  border-bottom: 1px solid $separator-grey;
+  .selected-country{
+    color: $green;
+    margin-top: $base-unit;
+    > span{
+      color: $text-color;
+    }
+  }
+}
