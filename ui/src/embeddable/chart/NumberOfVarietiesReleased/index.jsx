@@ -180,7 +180,7 @@ const NumberOfVarietiesReleased = ({data}) => {
                                             <tbody>
                                             <tr>
                                                 <td className="year">{d.point.data.x}</td>
-                                                <td>{d.point.data.y}</td>
+                                                <td style={{fontWeight: 'bold'}}>{d.point.data.y}</td>
                                             </tr>
                                             </tbody>
                                         </table>
