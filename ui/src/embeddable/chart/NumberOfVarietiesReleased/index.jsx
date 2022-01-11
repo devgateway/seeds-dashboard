@@ -160,12 +160,32 @@ const NumberOfVarietiesReleased = ({data}) => {
                             pointLabelYOffset={-12}
                             useMesh={true}
                             tooltip={(d) => {
-                                return (
-                                    <div className={"chart tooltip"} style={{"backgroundColor": d.point.serieColor}}>
-                                        {d.point.serieId} ({d.point.data.x})
-                                        : {Math.round(d.point.data.y)}
+                                return (<div className="tooltip-container">
+                                    <div className="header-container">
+                                        <div className="header">
+                                            <div className="inner-container">
+                                                <div className={d.point.serieId.toLowerCase() + " crop-icon"}/>
+                                                <div className="crop-name">{d.point.serieId}</div>
+                                            </div>
+                                        </div>
                                     </div>
-                                )
+                                    <div className="amount-container">
+                                        <table width="100%">
+                                            <thead>
+                                            <tr>
+                                                <td className="year"><span>Year</span></td>
+                                                <td className="vr"><span>Varieties Released</span></td>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                <td className="year">{d.point.data.x}</td>
+                                                <td>{d.point.data.y}</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>)
                             }}
                             /*sliceTooltip={}*/
                         />
