@@ -1,10 +1,11 @@
 import React, {useState} from "react";
 import {Grid} from "semantic-ui-react";
 import {ResponsiveLine} from "@nivo/line";
-import Crops from "../crop";
+import Crops from "../common/crop";
 import './styles.scss';
-import Source from "../source";
-import Filter from "../filter";
+import Source from "../common/source";
+import Filter from "../common/filter";
+import Header from "../common/header";
 import {getColor} from "../Countryinfo/CountryInfoChart";
 
 const theme = {
@@ -93,6 +94,11 @@ const NumberOfVarietiesReleased = ({data, sources}) => {
 
     return (
         <Grid className={`number-varieties-released`}>
+            <Grid.Row className="header-section">
+                <Grid.Column>
+                    <Header title="Number of Varieties Released" subtitle="(3 Year Moving Average)"/>
+                </Grid.Column>
+            </Grid.Row>
             <Grid.Row className={`filters-section`}>
                 <Grid.Column>
                     <Filter data={initialCrops} onChange={handleCropFilterChange}/>
