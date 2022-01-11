@@ -1,28 +1,12 @@
 import React, {useState} from "react";
 import {Grid} from "semantic-ui-react";
-import Line from "../Line";
 import {ResponsiveLine} from "@nivo/line";
 import Crops from "../crop";
 import './styles.scss';
 import Source from "../source";
 import Filter from "../filter";
+import {getColor} from "../Countryinfo/CountryInfoChart";
 
-const defaultColor = '#000000';
-const cropColors = {
-    maize: '#efcb16',
-    cowpea: '#f38e28',
-    rice: '#3a5f2e',
-    sorghum: '#798161',
-    sunflower: defaultColor,
-    ['soya bean']: '#84a43d',
-    teff: defaultColor,
-    bean: defaultColor,
-    beans: defaultColor,
-    groundnut: defaultColor,
-    millet: defaultColor,
-    wheat: defaultColor,
-    pigeon: defaultColor
-};
 const theme = {
     axis: {
         ticks: {
@@ -79,7 +63,7 @@ const NumberOfVarietiesReleased = ({data}) => {
         const header = {
             id: c,
             data: [],
-            color: cropColors[c.toLowerCase()] || defaultColor
+            color: getColor({id: c.toLowerCase()})
         };
         yearsInValues.forEach(y => {
             if (data.values[y]) {
