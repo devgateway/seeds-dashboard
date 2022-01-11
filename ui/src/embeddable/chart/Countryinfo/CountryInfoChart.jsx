@@ -13,7 +13,9 @@ const buildData = (rawData) => {
   });
   return newData;
 }
-const getColor = (item) => {
+
+// TODO: move to another file.
+export const getColor = (item) => {
   const colors = {
     "maize": "#EFCB16",
     "rice": "#3A5F2E",
@@ -21,13 +23,18 @@ const getColor = (item) => {
     "cowpea": "#F38E28",
     "groundnut": "#894F1F",
     "soya-bean": "#83A33E",
+    "soya bean": "#83A33E",
     "beans": "#C5C39E",
+    "bean": "#C5C39E",
     "sunflower": "#3F3F3F",
     "teff": "#20676C",
-    "wheat": "#A78D0C"
+    "wheat": "#A78D0C",
+    millet: '#000000',
+    pigeon: '#000000'
   }
-  return colors[item.id];
+  return colors[item.id] || '#000000';
 }
+
 const CountryInfoChart = ({ rawData }) => (
   <ResponsivePie
     data={buildData(rawData)}
