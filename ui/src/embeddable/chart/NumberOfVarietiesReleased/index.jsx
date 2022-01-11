@@ -29,7 +29,7 @@ const theme = {
     }
 };
 
-const NumberOfVarietiesReleased = ({data}) => {
+const NumberOfVarietiesReleased = ({data, sources}) => {
 
     const [selectedCrops, setSelectedCrops] = useState(null);
     const [initialCrops, setInitialCrops] = useState(null);
@@ -178,7 +178,7 @@ const NumberOfVarietiesReleased = ({data}) => {
             </Grid.Row>
             <Grid.Row className={`source-section`}>
                 <Grid.Column>
-                    <Source title="Source: TASAI"/>
+                    <Source title={"Source: " + sources}/>
                 </Grid.Column>
             </Grid.Row>
         </Grid>

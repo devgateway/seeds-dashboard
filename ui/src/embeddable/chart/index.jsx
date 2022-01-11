@@ -66,7 +66,8 @@ const Chart = (props) => {
         'data-style': style = "decimal",
         "data-decimals": decimals = "2",
         'data-currency': currency = "",
-        "data-csv": csv = ""
+        "data-csv": csv = "",
+        "data-sources": sources = ""
 
     } = props
 
@@ -131,7 +132,7 @@ const Chart = (props) => {
     const dual = (dualMode === 'true')
     switch (type) {
         case NUMBER_OF_VARIETIES_RELEASED:
-            child = <NumberOfVarietiesReleased/>;
+            child = <NumberOfVarietiesReleased sources={sources}/>;
             break;
         case COUNTRY_INFO:
             child = <CountryInfo/>
