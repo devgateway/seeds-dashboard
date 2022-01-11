@@ -53,6 +53,10 @@ class BlockEdit extends BaseBlockEdit {
                                         {
                                             label: 'Number of varieties released in last 3 years',
                                             value: 'numberOfVarietiesReleased'
+                                        },
+                                        {
+                                            label: 'Varieties released with special features',
+                                            value: 'varietiesReleasedWithSpecialFeatures'
                                         }
                                     ]}
                                 />

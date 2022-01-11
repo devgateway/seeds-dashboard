@@ -1,6 +1,7 @@
 export const DATA = 'data';
-export const COUNTRY_INFO='countryInfo';
-export const NUMBER_OF_VARIETIES_RELEASED='numberOfVarietiesReleased';
+export const COUNTRY_INFO = 'countryInfo';
+export const NUMBER_OF_VARIETIES_RELEASED = 'numberOfVarietiesReleased';
+export const VARIETIES_RELEASED_WITH_SPECIAL_FEATURES = 'varietiesReleasedWithSpecialFeatures';
 export const COUNTRY_SETTINGS = 'country-settings';
 export const COUNTRIES_FILTER = 'countries';
 export const WP_CATEGORIES = 'wp-categories';
