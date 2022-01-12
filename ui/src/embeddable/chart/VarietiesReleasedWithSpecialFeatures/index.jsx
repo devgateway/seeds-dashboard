@@ -57,21 +57,27 @@ const VarietiesReleasedWithSpecialFeatures = ({data, sources}) => {
         crops = selectedCrops;
     }
 
+    const colors = [];
+    const keys = [];
     crops.forEach(c => {
         let sumWF = 0;
         let sumWOF = 0;
         Object.keys(data.values[c]).forEach(i => {
-            sumWF += data.values[c][i].withSpecialFeature || 0;
-            sumWOF += data.values[c][i].withoutSpecialFeature || 0;
+            sumWF += data.values[c][i].withspecialfeature || 0;
+            sumWOF += data.values[c][i].withoutspecialfeature || 0;
         });
+        const key1 = 'withSpecialFeature_' + c;
+        const key2 = 'withoutSpecialFeature_' + c;
         const header = {
             crop: c,
-            withSpecialFeature: sumWF,
-            withoutSpecialFeature: sumWOF,
-            withSpecialFeatureColor: getColor({id: c.toLowerCase()}),
-            withoutSpecialFeatureColor: getColor({id: c.toLowerCase()}),
+            [key1]: sumWF,
+            [key2]: sumWOF,
         };
         processedData.push(header);
+        keys.push(key1);
+        keys.push(key2);
+        colors.push(getColor({id: c.toLowerCase()}));
+        colors.push(getColor({id: c.toLowerCase()}) + 80);
     });
     console.log(processedData);
 
@@ -107,42 +113,16 @@ const VarietiesReleasedWithSpecialFeatures = ({data, sources}) => {
                     <div style={{height: 450}}>
                         <ResponsiveBar
                             data={processedData}
-                            keys={['withSpecialFeature', 'withoutSpecialFeature']}
+                            keys={keys}
                             indexBy="crop"
                             margin={{top: 50, right: 130, bottom: 50, left: 60}}
                             padding={0.3}
                             valueScale={{type: 'linear'}}
                             indexScale={{type: 'band', round: true}}
-                            colors={{scheme: 'nivo'}}
-                            defs={[
-                                {
-                                    id: 'dots',
-                                    type: 'patternDots',
-                                    background: 'inherit',
-                                    color: '#38bcb2',
-                                    size: 4,
-                                    padding: 1,
-                                    stagger: true
-                                },
-                                {
-                                    id: 'lines',
-                                    type: 'patternLines',
-                                    background: 'inherit',
-                                    color: '#eed312',
-                                    rotation: -45,
-                                    lineWidth: 6,
-                                    spacing: 10
-                                }
-                            ]}
-                            fill={[
-                                {
-                                    match: {
-                                        id: 'withoutSpecialFeature'
-                                    },
-                                    id: 'lines'
-                                }
-                            ]}
-                            borderColor={{from: 'color', modifiers: [['darker', 1.6]]}}
+                            colors={colors}
+                            enableLabel={false}
+                            borderWidth={1}
+                            borderColor={{from: 'color', modifiers: [['darker', 0.4]]}}
                             axisTop={null}
                             axisRight={null}
                             axisBottom={{
@@ -161,37 +141,30 @@ const VarietiesReleasedWithSpecialFeatures = ({data, sources}) => {
                                 legendPosition: 'middle',
                                 legendOffset: -40
                             }}
-                            labelSkipWidth={12}
-                            labelSkipHeight={12}
-                            labelTextColor={{from: 'color', modifiers: [['darker', 1.6]]}}
-                            /*legends={[
-                                {
-                                    dataFrom: 'keys',
-                                    anchor: 'bottom-right',
-                                    direction: 'column',
-                                    justify: false,
-                                    translateX: 120,
-                                    translateY: 0,
-                                    itemsSpacing: 2,
-                                    itemWidth: 100,
-                                    itemHeight: 20,
-                                    itemDirection: 'left-to-right',
-                                    itemOpacity: 0.85,
-                                    symbolSize: 20,
-                                    effects: [
-                                        {
-                                            on: 'hover',
-                                            style: {
-                                                itemOpacity: 1
-                                            }
-                                        }
-                                    ]
-                                }
-                            ]}*/
-                            role="application"
-                            ariaLabel="Nivo bar chart demo"
-                            barAriaLabel={function (e) {
-                                return e.id + ": " + e.formattedValue + " in country: " + e.indexValue
+                            tooltip={(d) => {
+                                console.log(d);
+                                return (<div className="tooltip-container">
+                                    <div className="header-container">
+                                        <div className="header">
+                                            <div className="inner-container">
+                                                <div className={d.indexValue.toLowerCase() + " crop-icon"}/>
+                                                <div className="crop-name">{d.indexValue}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="amount-container">
+                                        <table width="100%">
+                                            <tbody>
+                                            <tr>
+                                                <td>
+                                                    <span className="bold">{d.data[d.id]} out of {d.data['withSpecialFeature_' + d.indexValue.toLowerCase()] + d.data['withoutSpecialFeature_' + d.indexValue.toLowerCase()]} </span>
+                                                    <span>varieties released.</span>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>)
                             }}
                         />
                     </div>
