@@ -3,6 +3,7 @@
 .country-info {
   color: $text-color;
   font-size: 18px;
+  height: 100%;
 
   &.ui.grid {
     margin: 0;
@@ -50,7 +51,7 @@
     }
 
     .business-rank {
-      display: flex!important;
+      display: flex !important;
 
       .data {
         font-size: 20px;
