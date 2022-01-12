@@ -8,7 +8,7 @@ const buildData = (rawData) => {
     return {
       "id": rawData[`nameCrop${key + 1}`].replace(/\s+/g, '-').toLowerCase(),
       "label": rawData[`nameCrop${key + 1}`],
-      "value": rawData[`harvestedCrop${key + 1}`],
+      "value": rawData[`harvestedCrop${key + 1}`].value,
     }
   });
   return newData;
