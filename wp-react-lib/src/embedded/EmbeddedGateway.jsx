@@ -33,7 +33,7 @@ class EmbeddedGateway extends React.Component {
           const C = getComponent(component);
           if (C) {
             ReactDOM.render(<Provider store={store}>
-              <IntlProvider key={locale} locale={locale} messages={messages[locale]}>
+              <IntlProvider key={locale} locale={locale} messages={messages ? messages[locale] : {}}>
                 <AppContextProvider getComponent={getComponent} store={store} locale={locale} messages={messages}>
                   <C unique={`embeddable_${index}`} {...props} childContent={element.innerHTML} />
                 </AppContextProvider>
