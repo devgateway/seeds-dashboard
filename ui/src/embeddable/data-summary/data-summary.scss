@@ -21,10 +21,11 @@
 }
 
 .data-summary {
-  .ui.placeholder{
+  .ui.placeholder {
     margin-left: 5px;
     margin-right: 5px;
   }
+
   .data-summary-heading {
     width: $screen-width !important;
     display: flex !important;
@@ -257,6 +258,8 @@
               font-size: 13px;
               padding-right: 10px;
               @include display-flex(right);
+              text-align: right;
+
               i.circular.icon {
                 -webkit-box-shadow: 0 0 0 0.1em rgba(0, 0, 0, 1) inset;
                 box-shadow: 0 0 0 0.1em rgba(0, 0, 0, 1) inset;

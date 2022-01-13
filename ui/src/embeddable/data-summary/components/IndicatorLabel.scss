@@ -1,9 +1,15 @@
 @import 'src/scss/vars';
 
+.empty {
+  border-right: 1px solid $indicator-border-color;
+  height: 100%;
+}
+
 .indicator-sub-title {
   &.ui.grid {
     height: 100%;
   }
+
   .value {
     @include display-flex(center);
     border-right: 1px solid $indicator-border-color;
@@ -14,25 +20,30 @@
     font-style: italic;
   }
 }
-.indicator-selected-country{
+
+.indicator-selected-country {
   .indicator-label {
-    .column{
-      font-weight:600;
+    .column {
+      font-weight: 600;
     }
   }
 }
+
 .indicator-label {
   .letter.centered {
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
+    border-right: 1px solid $indicator-border-color;
   }
+
   &.grid {
     height: 100%;
   }
 
   .column {
+
     font-weight: 400;
     align-items: center !important;
     display: flex !important;

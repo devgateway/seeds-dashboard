@@ -123,9 +123,6 @@ const DataSummaryBody = ({
             <Grid.Row className={index % 2 === 0 ? 'even' : 'odd'} key={effectiveF.id}>
               <Grid columns={3}>
                 {filters && filters.get(VISIBLE_COUNTRIES).map(vc => {
-                  if (effectiveF.id === 952) {
-                    debugger;
-                  }
                   const field = selectedCountry.find(
                     sc => (sc.fieldId === effectiveF.id && sc.countryId === vc)
                   )
