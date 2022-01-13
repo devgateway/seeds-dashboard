@@ -43,7 +43,7 @@ const IndicatorLabel = ({ field, className, range, displayType, intl, selectedCo
       {getGridColumns()}
     </Grid>
   } else {
-    let empty = null;
+    let empty = <div className="empty"/>;
     if (loading) {
       empty = <Placeholder>
         <Placeholder.Line length='full' /></Placeholder>

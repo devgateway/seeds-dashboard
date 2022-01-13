@@ -67,7 +67,7 @@ const CountrySelector = ({
     setActiveIndex(activeIndex === index ? -1 : index);
   }
   const getSelectedCountryGrids = () => {
-    const grids = [<Grid.Column width={9} key={1}>
+    const grids = [<Grid.Column width={10} key={1}>
       <Accordion as={Menu} vertical>
         <Menu.Item>
           <Accordion.Title
@@ -80,7 +80,7 @@ const CountrySelector = ({
           <Accordion.Content active={activeIndex === 0} content={CountryForm} />
         </Menu.Item>
       </Accordion>
-    </Grid.Column>, <Grid.Column key={2} width={7} className="selected-country">{selectedCountryLabel &&
+    </Grid.Column>, <Grid.Column key={2} width={6} className="selected-country">{selectedCountryLabel &&
       <span>{selectedCountryLabel}</span>}{getSelectedCountry()}</Grid.Column>];
     if (selectedCountryFirst) {
       return grids.reverse();
