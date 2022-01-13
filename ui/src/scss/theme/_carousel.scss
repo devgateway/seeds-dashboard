@@ -154,3 +154,43 @@
     }
   }
 }
+
+// Researchers vertical carousel - no dots, auto height on carousel and slides
+.vertical{
+  // Vertical Carousel without dots
+  .post.carousel{
+    height: auto !important;
+  }
+  &.no-navigation{
+    .carousel__dot-group{
+      display: none;
+    }
+  }
+  .carousel__slider--vertical{
+    li{
+      display: block;
+      margin-bottom: $base-unit * 3;
+      min-height: auto;
+      height: auto;
+      overflow: hidden;
+    }
+    .carousel__slider-tray-wrap--vertical{
+      min-height: $extend!important;
+      height: $extend !important;
+      position: relative;
+      overflow: hidden;
+    }
+    .carousel__inner-slide{
+      position: relative;
+    }
+  }
+}
+
+// Carousel without read more
+.no-read-more{
+  .carousel{
+    .link{
+      display: none;
+    }
+  }
+}
