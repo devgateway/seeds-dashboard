@@ -11,22 +11,12 @@ import {
 } from "@devgateway/wp-react-lib";
 
 const ItemMenu = ({ posts, activeItem, setActive, showLabels }) => {
-
-  return posts ? posts.sort((a, b) => {
-      if (a.id < b.id) {
-        return -1;
-      }
-      if (a.id > b.id) {
-        return 1;
-      }
-      return 0;
-    }
-  ).map(post => <Menu.Item key={post.id}
-                           onClick={e => setActive(post.slug)}
-                           className={(post.slug === activeItem ? 'active' : '')}>
+  return posts ? posts.map(post => <Menu.Item key={post.id}
+                                              onClick={e => setActive(post.slug)}
+                                              className={(post.slug === activeItem ? 'active' : '')}>
 
     {showLabels ? <PostLabel post={post}></PostLabel> :
-      <Label className={` _${post.slug.replace(/\s+/g, '-').toLowerCase()}`}>
+      <Label className={` _${post.slug.replace(/\s+/g, '-').toLowerCase()}`}  >
         <div dangerouslySetInnerHTML={{ __html: post.title.rendered }} />
       </Label>}
 
@@ -70,15 +60,28 @@ const TabContent = (props) => {
 
 const SingleTabbedView = (props) => {
   const { posts, showLabels } = props;
-  const [activeItem, setActive] = useState(posts ? posts[0].slug : null)
+  let orderedPosts;
+  if (posts) {
+    orderedPosts = posts.sort((a, b) => {
+        if (a.id < b.id) {
+          return -1;
+        }
+        if (a.id > b.id) {
+          return 1;
+        }
+        return 0;
+      }
+    );
+  }
+  const [activeItem, setActive] = useState(orderedPosts ? orderedPosts[0].slug : null)
 
   return (
     <React.Fragment>
       <Menu className="tabbed posts" text>
-        <ItemMenu showLabels={showLabels} posts={posts} setActive={setActive}
+        <ItemMenu showLabels={showLabels} posts={orderedPosts} setActive={setActive}
                   activeItem={activeItem} />
       </Menu>
-      <TabContent posts={posts} activeItem={activeItem}></TabContent>
+      <TabContent posts={orderedPosts} activeItem={activeItem}></TabContent>
     </React.Fragment>
   )
 }
