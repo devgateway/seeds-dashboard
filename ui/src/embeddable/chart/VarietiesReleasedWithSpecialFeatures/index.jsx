@@ -115,13 +115,13 @@ const VarietiesReleasedWithSpecialFeatures = ({data, sources}) => {
                             data={processedData}
                             keys={keys}
                             indexBy="crop"
-                            margin={{top: 50, right: 130, bottom: 50, left: 60}}
+                            margin={{top: 50, right: 60, bottom: 70, left: 70}}
                             padding={0.3}
                             valueScale={{type: 'linear'}}
                             indexScale={{type: 'band', round: true}}
                             colors={colors}
-                            enableLabel={false}
-                            borderWidth={1}
+                            borderWidth={0}
+                            borderRadius={0}
                             borderColor={{from: 'color', modifiers: [['darker', 0.4]]}}
                             axisTop={null}
                             axisRight={null}
@@ -131,7 +131,7 @@ const VarietiesReleasedWithSpecialFeatures = ({data, sources}) => {
                                 tickRotation: 0,
                                 legend: 'Crops',
                                 legendPosition: 'middle',
-                                legendOffset: 32
+                                legendOffset: 45,
                             }}
                             axisLeft={{
                                 tickSize: 5,
@@ -139,10 +139,17 @@ const VarietiesReleasedWithSpecialFeatures = ({data, sources}) => {
                                 tickRotation: 0,
                                 legend: 'Number of Varieties Released',
                                 legendPosition: 'middle',
-                                legendOffset: -40
+                                legendOffset: -60,
+                                tickValues: 5
                             }}
+                            enableLabel={true}
+                            label={(data) => {
+                                console.log(data);
+                                return data.data["withSpecialFeature_" + data.indexValue]
+                                    + data.data["withoutSpecialFeature_" + data.indexValue];
+                            }}
+                            labelFormat={d => <tspan y={-5}>{`${d}`}</tspan>}
                             tooltip={(d) => {
-                                console.log(d);
                                 return (<div className="tooltip-container">
                                     <div className="header-container">
                                         <div className="header">
@@ -157,7 +164,8 @@ const VarietiesReleasedWithSpecialFeatures = ({data, sources}) => {
                                             <tbody>
                                             <tr>
                                                 <td>
-                                                    <span className="bold">{d.data[d.id]} out of {d.data['withSpecialFeature_' + d.indexValue.toLowerCase()] + d.data['withoutSpecialFeature_' + d.indexValue.toLowerCase()]} </span>
+                                                    <span
+                                                        className="bold">{d.data[d.id]} out of {d.data['withSpecialFeature_' + d.indexValue.toLowerCase()] + d.data['withoutSpecialFeature_' + d.indexValue.toLowerCase()]} </span>
                                                     <span>varieties released.</span>
                                                 </td>
                                             </tr>
