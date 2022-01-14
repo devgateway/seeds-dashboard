@@ -12,8 +12,10 @@ const theme = {
     axis: {
         ticks: {
             text: {
-                fontSize: 15,
-                fill: "gray"
+                fontSize: 13,
+                /*fontWeight: 'bold',*/
+                fill: "gray",
+                textTransform: 'capitalize'
             },
             line: {
                 stroke: "rgba(255,255,255,0)",
@@ -77,9 +79,8 @@ const VarietiesReleasedWithSpecialFeatures = ({data, sources}) => {
         keys.push(key1);
         keys.push(key2);
         colors.push(getColor({id: c.toLowerCase()}));
-        colors.push(getColor({id: c.toLowerCase()}) + 80);
+        colors.push(getColor({id: c.toLowerCase()}, {fade: true}));
     });
-    console.log(processedData);
 
     const handleCropFilterChange = (selected) => {
         const currentlySelected = [];
@@ -146,6 +147,7 @@ const VarietiesReleasedWithSpecialFeatures = ({data, sources}) => {
                 <Grid.Column width={16}>
                     <div style={{height: 450}}>
                         <ResponsiveBar
+                            theme={theme}
                             layers={["grid", "axes", "bars", TotalLabels, "markers", "legends"]}
                             data={processedData}
                             keys={keys}
@@ -161,7 +163,7 @@ const VarietiesReleasedWithSpecialFeatures = ({data, sources}) => {
                             axisTop={null}
                             axisRight={null}
                             axisBottom={{
-                                tickSize: 5,
+                                tickSize: 0,
                                 tickPadding: 5,
                                 tickRotation: 0,
                                 legend: 'Crops',
@@ -169,7 +171,7 @@ const VarietiesReleasedWithSpecialFeatures = ({data, sources}) => {
                                 legendOffset: 45,
                             }}
                             axisLeft={{
-                                tickSize: 5,
+                                tickSize: 0,
                                 tickPadding: 5,
                                 tickRotation: 0,
                                 legend: 'Number of Varieties Released',
@@ -194,7 +196,8 @@ const VarietiesReleasedWithSpecialFeatures = ({data, sources}) => {
                                             <tr>
                                                 <td>
                                                     <span
-                                                        className="bold">{d.data[d.id]} out of {d.data['withSpecialFeature_' + d.indexValue.toLowerCase()] + d.data['withoutSpecialFeature_' + d.indexValue.toLowerCase()]} </span>
+                                                        className="bold">{d.data[d.id]} out of {(d.data['withSpecialFeature_' + d.indexValue.toLowerCase()] || 0)
+                                                    + (d.data['withoutSpecialFeature_' + d.indexValue.toLowerCase()] || 0)} </span>
                                                     <span>varieties released.</span>
                                                 </td>
                                             </tr>

@@ -15,8 +15,7 @@ const buildData = (rawData) => {
 }
 
 // TODO: move to another file.
-export const getColor = (item) => {
-  const colors = {
+const baseColors = {
     "maize": "#EFCB16",
     "rice": "#3A5F2E",
     "sorghum": "#798161",
@@ -31,8 +30,33 @@ export const getColor = (item) => {
     "wheat": "#A78D0C",
     millet: '#000000',
     pigeon: '#000000'
+}
+
+const fadeColors = {
+    "maize": "#f5dd69",
+    "rice": "#73a665",
+    "sorghum": "#c1cca3",
+    "cowpea": "#f6a654",
+    "groundnut": "#ad896c",
+    "soya-bean": "#91a861",
+    "soya bean": "#91a861",
+    "beans": "#dedcc0",
+    "bean": "#dedcc0",
+    "sunflower": "#939393",
+    "teff": "#679396",
+    "wheat": "#d2bf62",
+    millet: '#8a8a8a',
+    pigeon: '#8a8a8a'
+}
+
+export const getColor = (item, options) => {
+  const options_ = options || {};
+  if (options_.fade) {
+      debugger
+      return fadeColors[item.id] || '#8a8a8a';
+  } else {
+      return baseColors[item.id] || '#000000';
   }
-  return colors[item.id] || '#000000';
 }
 
 const CountryInfoChart = ({ rawData }) => (

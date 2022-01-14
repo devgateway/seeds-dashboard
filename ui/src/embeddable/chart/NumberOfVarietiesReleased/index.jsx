@@ -141,7 +141,8 @@ const NumberOfVarietiesReleased = ({data, sources}) => {
                                 legend: 'Number of varieties released',
                                 legendOffset: -40,
                                 legendPosition: 'middle',
-                                format: e => Math.floor(e) === e && e
+                                format: e => Math.floor(e) === e && e,
+                                tickValues: 5
                             }}
                             pointBorderWidth={2}
                             pointSize={10}
