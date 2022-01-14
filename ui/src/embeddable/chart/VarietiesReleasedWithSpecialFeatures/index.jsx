@@ -90,7 +90,42 @@ const VarietiesReleasedWithSpecialFeatures = ({data, sources}) => {
         }
         setSelectedCrops(currentlySelected);
     }
+    const indexBy = "crop";
+// returns a list of total value labels for stacked bars
+    const TotalLabels = ({ bars, yScale }) => {
+        // space between top of stacked bars and total label
+        const labelMargin = 20;
 
+        return bars.map(({ data: { data, indexValue }, x, width }, i) => {
+            // sum of all the bar values in a stacked bar
+            const total = Object.keys(data)
+              //f ilter out whatever your indexBy value is
+              .filter(key => key !== indexBy)
+              .reduce((a, key) => a + data[key], 0);
+
+            return (
+              <g
+                transform={`translate(${x}, ${yScale(total) - labelMargin})`}
+                key={`${indexValue}-${i}`}
+              >
+                  <text
+                    // add any class to the label here
+                    className="bar-total-label"
+                    x={width / 2}
+                    y={labelMargin / 2}
+                    textAnchor="middle"
+                    alignmentBaseline="central"
+                    // add any style to the label here
+                    style={{
+                        fill: "rgb(51, 51, 51)"
+                    }}
+                  >
+                      {total}
+                  </text>
+              </g>
+            );
+        });
+    };
     return (
         <Grid className={`number-varieties-released`}>
             <Grid.Row className="header-section">
@@ -112,6 +147,7 @@ const VarietiesReleasedWithSpecialFeatures = ({data, sources}) => {
                 <Grid.Column width={16}>
                     <div style={{height: 450}}>
                         <ResponsiveBar
+                          layers={["grid", "axes", "bars", TotalLabels, "markers", "legends"]}
                             data={processedData}
                             keys={keys}
                             indexBy="crop"
@@ -148,7 +184,9 @@ const VarietiesReleasedWithSpecialFeatures = ({data, sources}) => {
                                 return data.data["withSpecialFeature_" + data.indexValue]
                                     + data.data["withoutSpecialFeature_" + data.indexValue];
                             }}
-                            labelFormat={d => <tspan y={-5}>{`${d}`}</tspan>}
+                            labelFormat={(d) => {
+                                return <tspan y={-5}></tspan>;
+                            }}
                             tooltip={(d) => {
                                 return (<div className="tooltip-container">
                                     <div className="header-container">
