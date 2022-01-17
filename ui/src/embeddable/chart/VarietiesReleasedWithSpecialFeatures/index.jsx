@@ -7,6 +7,7 @@ import Source from "../common/source";
 import Crops from "../common/filters/crops";
 import Header from "../common/header";
 import {getColor} from "../Countryinfo/CountryInfoChart";
+import Years from "../common/filters/years";
 
 const theme = {
     axis: {
@@ -37,6 +38,7 @@ const VarietiesReleasedWithSpecialFeatures = ({data, sources}) => {
     const [selectedCrops, setSelectedCrops] = useState(null);
     const [initialCrops, setInitialCrops] = useState(null);
     const [currentData, setCurrentData] = useState(null);
+    const [selectedYear, setSelectedYear] = useState(null);
 
     const processedData = [];
 
@@ -44,11 +46,13 @@ const VarietiesReleasedWithSpecialFeatures = ({data, sources}) => {
         return null;
     }
     let crops = data.dimensions.crop.values;
+    let years = data.dimensions.year.values;
 
     if (data !== currentData) {
         setCurrentData(data);
         setSelectedCrops(crops);
         setInitialCrops(crops);
+        setSelectedYear(years[years.length - 1])
     }
 
     // For initialization only.
@@ -64,10 +68,16 @@ const VarietiesReleasedWithSpecialFeatures = ({data, sources}) => {
     crops.forEach(c => {
         let sumWF = 0;
         let sumWOF = 0;
-        Object.keys(data.values[c]).forEach(i => {
-            sumWF += data.values[c][i].withspecialfeature || 0;
-            sumWOF += data.values[c][i].withoutspecialfeature || 0;
-        });
+        if (selectedYear) {
+            sumWF = data.values[c][selectedYear].withspecialfeature || 0;
+            sumWOF = data.values[c][selectedYear].withoutspecialfeature || 0;
+        } else {
+            Object.keys(data.values[c]).forEach(i => {
+                sumWF += data.values[c][i].withspecialfeature || 0;
+                sumWOF += data.values[c][i].withoutspecialfeature || 0;
+            });
+        }
+
         const key1 = 'withSpecialFeature_' + c;
         const key2 = 'withoutSpecialFeature_' + c;
         const header = {
@@ -81,6 +91,10 @@ const VarietiesReleasedWithSpecialFeatures = ({data, sources}) => {
         colors.push(getColor({id: c.toLowerCase()}));
         colors.push(getColor({id: c.toLowerCase()}, {fade: true}));
     });
+
+    const handleYearFilterChange = (selected) => {
+        setSelectedYear(selected);
+    }
 
     const handleCropFilterChange = (selected) => {
         const currentlySelected = [];
@@ -134,8 +148,11 @@ const VarietiesReleasedWithSpecialFeatures = ({data, sources}) => {
                 </Grid.Column>
             </Grid.Row>
             <Grid.Row className={`filters-section`}>
-                <Grid.Column>
+                <Grid.Column computer={4} mobile={16}>
                     <Crops data={initialCrops} onChange={handleCropFilterChange}/>
+                </Grid.Column>
+                <Grid.Column computer={4} mobile={16}>
+                    <Years data={years} onChange={handleYearFilterChange}/>
                 </Grid.Column>
             </Grid.Row>
             <Grid.Row className={`crops-with-icons`}>

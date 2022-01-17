@@ -52,7 +52,6 @@ const fadeColors = {
 export const getColor = (item, options) => {
   const options_ = options || {};
   if (options_.fade) {
-      debugger
       return fadeColors[item.id] || '#8a8a8a';
   } else {
       return baseColors[item.id] || '#000000';

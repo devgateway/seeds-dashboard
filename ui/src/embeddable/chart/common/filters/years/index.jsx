@@ -2,15 +2,15 @@ import React, {useState} from "react";
 import './styles.scss';
 import {Accordion, Form, Menu} from "semantic-ui-react";
 
-const Filter = ({data, onChange}) => {
+const Years = ({data, onChange}) => {
 
     const [activeIndex, setActiveIndex] = useState([0]);
-    const [numberOfSelectedCrops, setNumberOfSelectedCrops] = useState([1, 1, 1, 1]);
+    const [selectedYear, setSelectedYear] = useState(null);
     const [currentData, setCurrentData] = useState(null);
 
     if (data !== currentData) {
         setCurrentData(data);
-        setNumberOfSelectedCrops([1, 1, 1, 1]);
+        setSelectedYear(data[data.length - 1]);
         setActiveIndex([0]);
     }
 
@@ -20,24 +20,21 @@ const Filter = ({data, onChange}) => {
     }
 
     const handleChange = (e, props) => {
-        const currentlySelected = Object.assign([], numberOfSelectedCrops);
-        const index = data.findIndex(i => i === props.value);
-        currentlySelected[index] = currentlySelected[index] === 0 ? 1 : 0;
-        setNumberOfSelectedCrops(currentlySelected);
-        onChange(currentlySelected);
+        setSelectedYear(props.value);
+        onChange(props.value);
     }
 
     const generateContent = () => {
-        return (data.map((c, i) => {
+        return (data.map((c) => {
+            debugger
             return (<div key={c}>
-                <Form.Checkbox value={c} checked={numberOfSelectedCrops[i] === 1} onChange={handleChange} label={c}/>
+                <Form.Radio value={c} checked={selectedYear === c} onChange={handleChange} label={c}/>
             </div>);
         }));
     }
 
-    const sum = numberOfSelectedCrops.reduce((acc, a) => acc + a, 0);
-    const title = (<div><span className="filter-selector-title">Crop(s) </span><span
-        className="filter-selector-numbers">{sum} of 4</span></div>);
+    const title = (<div><span className="filter-selector-title">Year </span><span
+        className="filter-selector-numbers">1 of {data.length}</span></div>);
     return (
         <Accordion as={Menu} vertical>
             <Menu.Item>
@@ -54,4 +51,4 @@ const Filter = ({data, onChange}) => {
     )
 }
 
-export default Filter
+export default Years
