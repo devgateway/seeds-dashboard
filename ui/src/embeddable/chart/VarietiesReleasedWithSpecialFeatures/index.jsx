@@ -1,10 +1,10 @@
 import React, {useState} from "react";
 import {Grid} from "semantic-ui-react";
 import {ResponsiveBar} from '@nivo/bar'
-import Crops from "../common/crop";
+import CropsLegend from "../common/crop";
 import './styles.scss';
 import Source from "../common/source";
-import Filter from "../common/filter";
+import Crops from "../common/filters/crops";
 import Header from "../common/header";
 import {getColor} from "../Countryinfo/CountryInfoChart";
 
@@ -135,12 +135,12 @@ const VarietiesReleasedWithSpecialFeatures = ({data, sources}) => {
             </Grid.Row>
             <Grid.Row className={`filters-section`}>
                 <Grid.Column>
-                    <Filter data={initialCrops} onChange={handleCropFilterChange}/>
+                    <Crops data={initialCrops} onChange={handleCropFilterChange}/>
                 </Grid.Column>
             </Grid.Row>
             <Grid.Row className={`crops-with-icons`}>
                 <Grid.Column width={8}>
-                    <Crops data={selectedCrops} title="Crops" titleClass="crops-title"/>
+                    <CropsLegend data={selectedCrops} title="Crops" titleClass="crops-title"/>
                 </Grid.Column>
             </Grid.Row>
             <Grid.Row className={`chart-section`}>

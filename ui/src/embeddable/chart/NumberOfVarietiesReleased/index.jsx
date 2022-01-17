@@ -4,7 +4,7 @@ import {ResponsiveLine} from "@nivo/line";
 import Crops from "../common/crop";
 import './styles.scss';
 import Source from "../common/source";
-import Filter from "../common/filter";
+import Filter from "../common/filters/crops";
 import Header from "../common/header";
 import {getColor} from "../Countryinfo/CountryInfoChart";
 
