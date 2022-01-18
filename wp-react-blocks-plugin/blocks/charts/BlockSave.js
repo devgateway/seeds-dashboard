@@ -9,7 +9,8 @@ const SaveComponent = (props) => {
             type,
             dualMode,
             download,
-            sources
+            sources,
+            mostRecentYears
         }
     } = props;
     const blockProps = useBlockProps.save({
@@ -26,6 +27,7 @@ const SaveComponent = (props) => {
              data-dualMode={dualMode}
              data-download={download}
              data-sources={sources}
+             data-most-recent-years={mostRecentYears}
         />
     );
 }
