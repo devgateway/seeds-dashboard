@@ -19,6 +19,10 @@ registerBlockType(process.env.BLOCKS_NS + '/chart',
                 type: 'number',
                 default: 900,
             },
+          mostRecentYears: {
+            type: 'number',
+            default: 5,
+          },
             type: {
                 type: 'string',
                 default: "countryInfo",

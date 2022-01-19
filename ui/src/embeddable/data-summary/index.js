@@ -3,10 +3,12 @@ import { Container, Sticky } from "semantic-ui-react";
 import { connect } from "react-redux";
 import { COUNTRY_SETTINGS, DATA, SUMMARY_INDICATORS } from "../reducers/StoreConstants";
 import './data-summary.scss';
-import Heading from "./Heading";
+
 import { getIndicators } from "../reducers/data";
 import DataSummaryBody from "./DataSummaryBody";
 import Filter from "../filter";
+import { legends } from "./LegendsConstants";
+import Heading from "./components/Heading";
 
 const DataSummary = ({ onLoadIndicators, summary_indicators }) => {
   useEffect(() => {
@@ -15,7 +17,7 @@ const DataSummary = ({ onLoadIndicators, summary_indicators }) => {
   const contextRef = useRef(null);
   return (<div ref={contextRef}>
     <Container fluid={true} className={"data-summary"}>
-      <Heading />
+      <Heading legends={legends} title={"Data Summary: Country comparison"} />
     </Container>
     <Sticky context={contextRef}>
       <Filter />

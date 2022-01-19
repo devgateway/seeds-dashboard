@@ -90,13 +90,6 @@ h6 {
   font-weight: 700;
 }
 
-// Titles with no bottom margin (used in team pages)
-.compact{
-  h2, h3, h4{
-    margin-bottom: -$base-unit;
-  }
-}
-
 .uppercase{
   text-transform: uppercase;
 }

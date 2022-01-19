@@ -26,7 +26,8 @@ class BlockEdit extends BaseBlockEdit {
                 dualMode,
                 mode,
                 download,
-                sources
+                sources,
+                mostRecentYears
             }
         } = this.props;
         let queryString = `data-height=${height}`;
@@ -34,6 +35,7 @@ class BlockEdit extends BaseBlockEdit {
         queryString += `&data-dualmode=${dualMode}`;
         queryString += `&data-download=${download}`;
         queryString += `&data-sources=${sources}`;
+        queryString += `data-most-recent-years=${mostRecentYears}`;
         queryString += `&editing=true`
         const divStyles = {height: height + 'px', width: '100%'}
         return (
@@ -57,6 +59,10 @@ class BlockEdit extends BaseBlockEdit {
                                         {
                                             label: 'Varieties released with special features',
                                             value: 'varietiesReleasedWithSpecialFeatures'
+                                        },
+                                        {
+                                            label: 'Availability of basic seed',
+                                            value: 'availabilityOfBasicSeed'
                                         }
                                     ]}
                                 />
@@ -75,7 +81,14 @@ class BlockEdit extends BaseBlockEdit {
                                     onChange={(download) => setAttributes({download})}
                                 />
                             </PanelRow>
-
+                            {type==='availabilityOfBasicSeed' && <PanelRow>
+                                <RangeControl
+                                  label={__('Max number years to show')}
+                                  value={mostRecentYears}
+                                  onChange={(mostRecentYears) => setAttributes({ mostRecentYears })}
+                                  min={1}
+                                  max={10}
+                                /></PanelRow>}
                             <PanelRow>
                                 <RangeControl
                                     label={__('Chart Width')}

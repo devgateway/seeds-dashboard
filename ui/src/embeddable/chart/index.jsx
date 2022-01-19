@@ -19,10 +19,12 @@ import CountryInfo from "./Countryinfo";
 import {
     COUNTRY_INFO,
     NUMBER_OF_VARIETIES_RELEASED,
-    VARIETIES_RELEASED_WITH_SPECIAL_FEATURES
+    VARIETIES_RELEASED_WITH_SPECIAL_FEATURES,
+    AVAILABILITY_OF_BASIC_SEED
 } from "../reducers/StoreConstants";
 import NumberOfVarietiesReleased from "./NumberOfVarietiesReleased";
 import VarietiesReleasedWithSpecialFeatures from "./VarietiesReleasedWithSpecialFeatures";
+import AvailabilityOfBasicSeed from "./AvailabilityOfBasicSeed";
 
 const PieChart = (props) => {
     const {data, legends, colors, height} = props
@@ -72,10 +74,10 @@ const Chart = (props) => {
         "data-decimals": decimals = "2",
         'data-currency': currency = "",
         "data-csv": csv = "",
-        "data-sources": sources = ""
+        "data-sources": sources = "",
+      "data-most-recent-years": mostRecentYears = 5
 
-    } = props
-
+    } = props;
     const ref = useRef(null);
 
     function filter(node) {
@@ -145,6 +147,10 @@ const Chart = (props) => {
         case COUNTRY_INFO:
             child = <CountryInfo/>
             break;
+      case AVAILABILITY_OF_BASIC_SEED:
+        child = <AvailabilityOfBasicSeed mostRecentYears={mostRecentYears} sources={sources}/>;
+        break;
+
     }
     return (<div ref={ref}>
             <Container className={"chart container"} style={{"minHeight": height + 'px'}} fluid={true}>

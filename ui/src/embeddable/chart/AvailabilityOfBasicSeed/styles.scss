@@ -1,0 +1,127 @@
+@import 'src/scss/vars';
+
+.availability-of-basic-seed-container {
+  &.ui.grid {
+    color: #626262;
+    margin: 0;
+    width: 100%;
+    border-bottom: 1px solid $indicator-border-color;
+
+    .row {
+      &.with-bottom-border {
+        border-bottom: 1px solid $indicator-border-color;
+      }
+      &.chart-title{
+        font-family: Museo Slab, serif;
+        font-weight: 700;
+        height: 65px;
+        padding-left: 25px;
+        display: flex;
+        justify-content: left;
+        align-content: center;
+        font-size: 21px;
+
+        span{
+          color:$green;
+        }
+      }
+      &.border-left{
+        border-left: 1px solid $indicator-border-color;
+      }
+      &.border-right{
+        border-right: 1px solid $indicator-border-color;
+      }
+        &.datasource-container {
+          height: 30px;
+          color: $green;
+          background-color: #f6f9f5;
+          font-weight: 900;
+          padding-left: 20px;
+          @include display-flex(left);
+        }
+
+
+      padding: 0;
+
+      .seeds-title {
+        display: flex;
+        align-items: center;
+        padding-left: 30px;
+
+        div {
+          transform: rotate(-90deg);
+          width: fit-content;
+          font-size: 16px;
+          font-weight: 600;
+        }
+      }
+    }
+
+    .column {
+      padding: 0;
+
+      .ui.column.grid {
+        margin: 0;
+
+        .column {
+          &.with-bottom-border {
+            border-top: 1px solid $indicator-border-color;
+          }
+
+          height: 90px;
+          display: flex;
+          align-items: center;
+
+          &:not(.crop-container) {
+            justify-content: center;
+          }
+        }
+
+        .years-title {
+          font-size: 16px;
+          font-weight: 900;
+        }
+      }
+
+      .crop {
+        width: fit-content;
+        background-size: 25px;
+        height: 25px;
+        padding-left: 30px;
+        font-size: 19px;
+        text-transform: capitalize;
+        &.average{
+          padding-left: 0;
+          font-weight: 900;
+        }
+      }
+    }
+  }
+
+  .chart-heading {
+    height: 65px;
+
+    .ui.grid {
+      .row {
+        height: 65px;
+        .column {
+          background-color: transparent;
+          color: #868686;
+          &.legend-title{
+            font-weight: 900;
+            color: #000000;
+            padding-left: 25px;
+          }
+        }
+      }
+    }
+  }
+
+  .availability-of-basic-seed {
+    &.ui.grid {
+      margin: 0;
+
+
+    }
+  }
+}

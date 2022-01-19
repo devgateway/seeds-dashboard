@@ -3,7 +3,8 @@ import {
   COUNTRY_INFO,
   NUMBER_OF_VARIETIES_RELEASED,
   SELECTED_COUNTRY,
-  VARIETIES_RELEASED_WITH_SPECIAL_FEATURES
+  VARIETIES_RELEASED_WITH_SPECIAL_FEATURES,
+  AVAILABILITY_OF_BASIC_SEED,
 } from "./StoreConstants";
 
 const SURVEY_API = process.env.REACT_APP_SURVEY_API
@@ -22,13 +23,15 @@ const WP_DOCUMENTS_API = `${APP_WP_API}/wp/v2/media`;
 let COUNTRY_INFORMATION_API = `${SURVEY_API}/countryInfo/countryId/`;
 let NUMBER_OF_VARIETIES_RELEASED_API = `${SURVEY_API}/chart/numberVarietiesReleased/year/crop`;
 let VARIETIES_RELEASED_WITH_SPECIAL_FEATURES_API = `${SURVEY_API}/chart/cropsReleased/crop/year`;
+let AVAILABILITY_OF_BASIC_SEED_API = `${SURVEY_API}/chart/availabilityBasicSeed/crop/year/`;
 
 const APIS = {
   prevalence: '',
   policy: POLICY_API_ROOT,
   [COUNTRY_INFO]: COUNTRY_INFORMATION_API,
   [NUMBER_OF_VARIETIES_RELEASED]: NUMBER_OF_VARIETIES_RELEASED_API,
-  [VARIETIES_RELEASED_WITH_SPECIAL_FEATURES]: VARIETIES_RELEASED_WITH_SPECIAL_FEATURES_API
+  [VARIETIES_RELEASED_WITH_SPECIAL_FEATURES]: VARIETIES_RELEASED_WITH_SPECIAL_FEATURES_API,
+  [AVAILABILITY_OF_BASIC_SEED]: AVAILABILITY_OF_BASIC_SEED_API
 }
 
 function queryParams(params) {
@@ -47,10 +50,12 @@ export const getIndicatorsData = (params) => {
   return get(SURVEY_INDICATORS_API, params)
 }
 
-export const getData = ({source, app, params}) => {
+export const getData = ({ source, app, params }) => {
   if (app === COUNTRY_INFO && params && params[SELECTED_COUNTRY]) {
     return get(APIS[app] + params[SELECTED_COUNTRY]);
-  } else if (app === NUMBER_OF_VARIETIES_RELEASED || app === VARIETIES_RELEASED_WITH_SPECIAL_FEATURES) {
+  } else if (app === NUMBER_OF_VARIETIES_RELEASED 
+      || app === AVAILABILITY_OF_BASIC_SEED 
+      || app === VARIETIES_RELEASED_WITH_SPECIAL_FEATURES) {
     if (params[SELECTED_COUNTRY]) {
       params.countryId = params[SELECTED_COUNTRY];
       return get(APIS[app] + (params ? '?' + queryParams(params) : ''));
