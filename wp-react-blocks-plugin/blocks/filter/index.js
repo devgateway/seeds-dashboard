@@ -30,6 +30,10 @@ registerBlockType(process.env.BLOCKS_NS + '/filter',
       countryColumns: {
         type: "Number",
         default: 3
+      },
+      dataSource: {
+        type: "string",
+        default: "latestCountryStudies"
       }
     }
     ,
