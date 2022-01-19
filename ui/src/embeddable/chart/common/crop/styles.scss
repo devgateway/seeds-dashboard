@@ -3,6 +3,10 @@
   width: auto;
   float: left;
   margin-right: 25px;
+  
+  .crops-title {
+    font-size: 16pt;
+  }
 
   label {
     float: left;
@@ -18,7 +22,20 @@
 
   label {
     float: left;
-    margin-top: 13px;
+    margin-top: 15px;
     text-transform: capitalize;
+    font-size: 12pt;
   }
+}
+
+.lighter-crop {
+  height: 50px;
+  width: 25px;
+  top: 2px;
+  left: -27px;
+  filter: brightness(109%);
+  z-index: 999999;
+  background-color: white;
+  opacity: 0.5;
+  position: relative;
 }

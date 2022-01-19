@@ -173,7 +173,7 @@ const VarietiesReleasedWithSpecialFeatures = ({data, sources}) => {
             </Grid.Row>
             {!noData ? <Grid.Row className={`crops-with-icons`}>
                 <Grid.Column width={8}>
-                    <CropsLegend data={selectedCrops} title="Crops" titleClass="crops-title"/>
+                    <CropsLegend data={selectedCrops} title="Crops" titleClass="crops-title" addLighterDiv={true}/>
                 </Grid.Column>
             </Grid.Row> : null}
             <Grid.Row className={`chart-section`}>
