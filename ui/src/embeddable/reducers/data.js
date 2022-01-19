@@ -50,11 +50,11 @@ export const setFilter = (type, value) => (dispatch, getState) => {
 }
 
 
-export const getCountries = () => (dispatch, getState) => {
+export const getCountries = (dataSource) => (dispatch, getState) => {
   dispatch({
     type: LOAD_COUNTRIES
   })
-  api.getCountriesData().then(data => {
+  api.getCountriesData(dataSource).then(data => {
     dispatch({
       type: LOAD_COUNTRIES_DONE,
       data: data.sort((a, b) => a.country.localeCompare(b.country))

@@ -14,7 +14,7 @@ const WP_CATEGORIES = APP_WP_API + '/wp/v2/categories?per_page=100&_locale=user'
 const POLICY_API_ROOT = process.env.REACT_APP_POLICY_API
 const SURVEY_FILTER_API = 'filter';
 const DATA_SUMMARY = 'dataSummary';
-const SURVEY_COUNTRIES_API = `${SURVEY_API}/${SURVEY_FILTER_API}/latestCountryStudies`
+const SURVEY_COUNTRIES_API = `${SURVEY_API}/${SURVEY_FILTER_API}/`
 const SURVEY_INDICATORS_API = `${SURVEY_API}/${SURVEY_FILTER_API}/indicators`
 const SURVEY_INDICATOR_INFORMATION_API = `${SURVEY_API}/${DATA_SUMMARY}/categoryId/{categoryId}/latest`;
 const WP_DOCUMENTS_API = `${APP_WP_API}/wp/v2/media`;
@@ -36,8 +36,8 @@ function queryParams(params) {
     .join('&')
 }
 
-export const getCountriesData = (params) => {
-  return get(SURVEY_COUNTRIES_API, params)
+export const getCountriesData = (dataSource, params) => {
+  return get(SURVEY_COUNTRIES_API + dataSource, params)
 }
 export const getCategoriesWP = (params) => {
   return get(WP_CATEGORIES, params)

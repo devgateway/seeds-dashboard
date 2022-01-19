@@ -14,10 +14,11 @@ const Filter = ({
                   "data-selected-country-first": selectedCountryFirst = false,
                   "data-add-year": addYear = true,
                   "data-selected-country-label": selectedCountryLabel = undefined,
-                  "data-country-columns": countryColumns = 3
+                  "data-country-columns": countryColumns = 3,
+                  "data-data-source": dataSource = "latestCountryStudies"
                 }) => {
   useEffect(() => {
-    onLoadCountries()
+    onLoadCountries(dataSource)
   }, []);
 
   useEffect(() => {

@@ -6,7 +6,8 @@ import {
   SelectControl,
   TextControl,
   CheckboxControl,
-  RangeControl
+  RangeControl,
+  dataSource
 } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { BaseBlockEdit } from '../commons/index'
@@ -26,6 +27,7 @@ class BlockEdit extends BaseBlockEdit {
     queryString += `&data-add-year=${addYear}`;
     queryString += `&data-selected-country-label=${selectedCountryLabel}`;
     queryString += `&data-country-columns=${countryColumns}`;
+    queryString += `&data-data-source=${dataSource}`;
     queryString += `&editing=true`
     const divStyles = {}
     return ([isSelected && (<InspectorControls>
@@ -41,6 +43,19 @@ class BlockEdit extends BaseBlockEdit {
                 options={[
                   { label: 'Country', value: 'Country' },
                   { label: 'Carousel', value: 'Carousel' }
+                ]}
+              />
+            </PanelRow>
+            <PanelRow>
+              <SelectControl
+                label={__('DataSource:')}
+                value={[dataSource]}
+                onChange={(dataSource) => {
+                  setAttributes({ dataSource })
+                }}
+                options={[
+                  { label: 'Latest country studies', value: 'latestCountryStudies' },
+                  { label: 'Country researcher list ', value: 'countryResearcherList ' }
                 ]}
               />
             </PanelRow>
