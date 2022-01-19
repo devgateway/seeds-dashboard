@@ -16,25 +16,25 @@ const baseColors = {
     "sunflower": "#3F3F3F",
     "teff": "#20676C",
     "wheat": "#A78D0C",
-    millet: '#000000',
-    pigeon: '#000000'
+    millet: '#878786',
+    pigeon: '#878786'
 }
 
 const fadeColors = {
-    "maize": "#f5dd69",
-    "rice": "#73a665",
-    "sorghum": "#c1cca3",
-    "cowpea": "#f6a654",
-    "groundnut": "#ad896c",
-    "soya-bean": "#91a861",
-    "soya bean": "#91a861",
-    "beans": "#dedcc0",
-    "bean": "#dedcc0",
+    "maize": "#f7e58b",
+    "rice": "#9daf97",
+    "sorghum": "#bcc0b0",
+    "cowpea": "#f9c694",
+    "groundnut": "#c4a78f",
+    "soya-bean": "#c1d19e",
+    "soya bean": "#c1d19e",
+    "beans": "#e2e1ce",
+    "bean": "#e2e1ce",
     "sunflower": "#939393",
-    "teff": "#679396",
-    "wheat": "#d2bf62",
-    millet: '#8a8a8a',
-    pigeon: '#8a8a8a'
+    "teff": "#90b3b6",
+    "wheat": "#d3c686",
+    millet: '#c3c3c2',
+    pigeon: '#c3c3c2'
 }
 
 export const getColor = (item, options) => {

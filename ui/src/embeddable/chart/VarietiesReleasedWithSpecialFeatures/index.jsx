@@ -164,10 +164,10 @@ const VarietiesReleasedWithSpecialFeatures = ({data, sources}) => {
                 </Grid.Column>
             </Grid.Row>
             <Grid.Row className={`filters-section`}>
-                {!noData ? <Grid.Column computer={4} mobile={16}>
+                {!noData ? <Grid.Column computer={3} mobile={16}>
                     <Crops data={initialCrops} onChange={handleCropFilterChange}/>
                 </Grid.Column> : null}
-                {!noData ? <Grid.Column computer={4} mobile={16}>
+                {!noData ? <Grid.Column computer={3} mobile={16}>
                     <Years data={years} onChange={handleYearFilterChange}/>
                 </Grid.Column> : null}
             </Grid.Row>
