@@ -16,7 +16,7 @@ const ItemMenu = ({ posts, activeItem, setActive, showLabels }) => {
                                               className={(post.slug === activeItem ? 'active' : '')}>
 
     {showLabels ? <PostLabel post={post}></PostLabel> :
-      <Label className={` _${post.slug.replace(/\s+/g, '-').toLowerCase()}`}  >
+      <Label className={` _${post.slug.replace(/\s+/g, '-').toLowerCase()}`}>
         <div dangerouslySetInnerHTML={{ __html: post.title.rendered }} />
       </Label>}
 
@@ -50,16 +50,16 @@ const GriNavigator = ({ posts, activeItem, setActive, showIcons, showLabels }) =
 }
 
 const TabContent = (props) => {
-  const { posts, activeItem, messages } = props;
+  const { posts, activeItem, messages, locale } = props;
   return posts ? posts.filter(p => p.slug === activeItem).map(p => <PostIntro as={Container} fluid key={p.id}
-                                                                              post={p} messages={messages} />) : null
+                                                                              post={p} messages={messages}
+                                                                              locale={locale} />) : null
 
 
 }
 
 
-const SingleTabbedView = (props) => {
-  const { posts, showLabels } = props;
+const SingleTabbedView = ({ posts, showLabels, messages, locale }) => {
   let orderedPosts;
   if (posts) {
     orderedPosts = posts.sort((a, b) => {
@@ -81,7 +81,7 @@ const SingleTabbedView = (props) => {
         <ItemMenu showLabels={showLabels} posts={orderedPosts} setActive={setActive}
                   activeItem={activeItem} />
       </Menu>
-      <TabContent posts={orderedPosts} activeItem={activeItem}></TabContent>
+      <TabContent posts={orderedPosts} activeItem={activeItem} messages={messages} locale={locale}></TabContent>
     </React.Fragment>
   )
 }
@@ -118,9 +118,8 @@ const Wrapper = (props) => {
     "data-theme": theme = 'light',
     "data-show-icons": showIcons,
     "data-show-labels": showLabels,
-    parent, editing, unique, messages
+    parent, editing, unique, messages, locale
   } = props;
-
   return <Container className={`wp-react-lib tabbed posts ${editing ? 'editing' : ''}`} fluid={true}>
 
     <PostProvider type={type} taxonomy={taxonomy} categories={categories}
@@ -129,7 +128,7 @@ const Wrapper = (props) => {
       <PostConsumer>
 
         {theme == 'light' ?
-          <SingleTabbedView showLabels={showLabels == "true"} messages={messages}></SingleTabbedView> :
+          <SingleTabbedView showLabels={showLabels == "true"} messages={messages} locale={locale}></SingleTabbedView> :
           <GridTabbedView showLabels={showLabels === 'true'} showIcons={showIcons == 'true'} messages={messages}>
 
           </GridTabbedView>}

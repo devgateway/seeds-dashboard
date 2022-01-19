@@ -8,7 +8,8 @@ const SaveComponent = (props) => {
       selectedCountryFirst,
       addYear,
       selectedCountryLabel,
-      countryColumns
+      countryColumns,
+      dataSource
     }
   } = props;
   const blockProps = useBlockProps.save({
@@ -25,6 +26,7 @@ const SaveComponent = (props) => {
          data-add-year={addYear}
          data-selected-country-label={selectedCountryLabel}
          data-country-columns={countryColumns}
+         data-data-source={dataSource}
     >
     </div>
 
