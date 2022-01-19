@@ -1,18 +1,6 @@
 import React from "react";
 import { ResponsivePie } from '@nivo/pie'
-
-//"color": "hsl(209, 70%, 50%)"
-
-const buildData = (rawData) => {
-  const newData = [...Array(4)].map((value, key) => {
-    return {
-      "id": rawData[`nameCrop${key + 1}`].replace(/\s+/g, '-').toLowerCase(),
-      "label": rawData[`nameCrop${key + 1}`],
-      "value": rawData[`harvestedCrop${key + 1}`].value,
-    }
-  });
-  return newData;
-}
+import { getCropsArray } from "./index";
 
 // TODO: move to another file.
 export const getColor = (item) => {
@@ -37,7 +25,7 @@ export const getColor = (item) => {
 
 const CountryInfoChart = ({ rawData }) => (
   <ResponsivePie
-    data={buildData(rawData)}
+    data={getCropsArray(rawData)}
     margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
     innerRadius={0.5}
     padAngle={0.7}

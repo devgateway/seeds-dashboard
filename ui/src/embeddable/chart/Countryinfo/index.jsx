@@ -33,6 +33,23 @@ const CountryInfo = ({ data, intl }) => {
       }
     } else return '-';
   }
+  const getOrderedCrops = () => {
+    let aOrderedCrops = [];
+
+    if (data) {
+      aOrderedCrops =
+        getCropsArray(data).sort((a, b) => {
+          if (a.value < b.value) {
+            return -1;
+          }
+          if (a.value > b.value) {
+            return 1;
+          }
+          return 0;
+        });
+    }
+    return aOrderedCrops;
+  }
   return (
     data && <Grid className={`country-info`}>
       <Grid.Row className={`section totals`}>
@@ -55,15 +72,13 @@ const CountryInfo = ({ data, intl }) => {
         <Grid.Column width={12}>
           <Grid>
             {
-              [...Array(4)].map((value, key) => {
-                return data["harvestedCrop" + (key + 1)] &&
-                  data["nameCrop" + (key + 1)] &&
-                  <Grid.Column key={`gc-2-2-` + (key + 1)} width={8} className={'crop-container'}>
-                    <div className={`crop ${(data["nameCrop" + (key + 1)]).toLowerCase().replaceAll(" ", "-")}`}>
-                      <div className="label has-condensed-text">{data["nameCrop" + (key + 1)]} / in hectares</div>
-                      <div className="data">{Number(data["harvestedCrop" + (key + 1)].value).toLocaleString()}</div>
-                    </div>
-                  </Grid.Column>
+              getOrderedCrops().map((crop) => {
+                return <Grid.Column key={`${crop.label}`} width={8} className={'crop-container'}>
+                  <div className={`crop ${(crop.label).toLowerCase().replaceAll(" ", "-")}`}>
+                    <div className="label has-condensed-text">{crop.label} / in hectares</div>
+                    <div className="data">{crop.value.toLocaleString()}</div>
+                  </div>
+                </Grid.Column>
               })
             }
           </Grid>
@@ -104,8 +119,26 @@ const CountryInfo = ({ data, intl }) => {
           </div>
         </Grid.Column>
       </Grid.Row>
+      <Grid.Row className={`section`}>
+        <Grid.Column width={16} className={`business-rank`}>
+          <div className="label">Enabling the Business of Agriculture ({data.year ? data.year : '-'})
+            <span className="data"> {data.easeAgriculture ? data.easeAgriculture.value : '-'}</span> of 190
+          </div>
+        </Grid.Column>
+      </Grid.Row>
     </Grid>
   )
 }
+export const getCropsArray = (rawData) => {
+  const newData = [...Array(4)].map((value, key) => {
+    return {
+      "id": rawData[`nameCrop${key + 1}`].replace(/\s+/g, '-').toLowerCase(),
+      "label": rawData[`nameCrop${key + 1}`],
+      "value": rawData[`harvestedCrop${key + 1}`] ? rawData[`harvestedCrop${key + 1}`].value : 0,
+    }
+  });
+  return newData;
+}
+
 
 export default injectIntl(CountryInfo)
