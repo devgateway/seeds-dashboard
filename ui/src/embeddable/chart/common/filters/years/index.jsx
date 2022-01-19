@@ -26,7 +26,6 @@ const Years = ({data, onChange}) => {
 
     const generateContent = () => {
         return (data.map((c) => {
-            debugger
             return (<div key={c}>
                 <Form.Radio value={c} checked={selectedYear === c} onChange={handleChange} label={c}/>
             </div>);

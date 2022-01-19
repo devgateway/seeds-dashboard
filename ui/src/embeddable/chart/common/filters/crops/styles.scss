@@ -58,6 +58,7 @@
         min-height: 115px;
         text-align: left;
         opacity: 0.95;
+        text-transform: capitalize;
         
         .checkbox {
           width: 100%;
@@ -83,7 +84,7 @@
 
         .ui.form {
           .field {
-
+            
             .ui.radio.checkbox {
               label {
                 font-size: 10px;

@@ -117,7 +117,7 @@ const NumberOfVarietiesReleased = ({data, sources}) => {
                             data={processedData}
                             /*enableSlices="x"*/
                             colors={{datum: 'color'}}
-                            margin={{top: 50, right: 50, bottom: 50, left: 50}}
+                            margin={{top: 50, right: 50, bottom: 50, left: 80}}
                             xScale={{type: 'point'}}
                             yScale={{type: 'linear', min: 'auto', max: 'auto', stacked: false, reverse: false}}
                             yFormat=" >-.0r"
@@ -139,11 +139,12 @@ const NumberOfVarietiesReleased = ({data, sources}) => {
                                 tickPadding: 5,
                                 tickRotation: 0,
                                 legend: 'Number of varieties released',
-                                legendOffset: -40,
+                                legendOffset: -60,
                                 legendPosition: 'middle',
                                 format: e => Math.floor(e) === e && e,
                                 tickValues: 5
                             }}
+                            gridYValues={5}
                             pointBorderWidth={2}
                             pointSize={10}
                             pointColor={{from: 'color', modifiers: []}}

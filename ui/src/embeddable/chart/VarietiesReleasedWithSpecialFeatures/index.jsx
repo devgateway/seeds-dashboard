@@ -41,56 +41,67 @@ const VarietiesReleasedWithSpecialFeatures = ({data, sources}) => {
     const [selectedYear, setSelectedYear] = useState(null);
 
     const processedData = [];
-
-    if (!data || !data.dimensions || !data.dimensions.crop) {
-        return null;
-    }
-    let crops = data.dimensions.crop.values;
-    let years = data.dimensions.year.values;
-
-    if (data !== currentData) {
-        setCurrentData(data);
-        setSelectedCrops(crops);
-        setInitialCrops(crops);
-        setSelectedYear(years[years.length - 1])
-    }
-
-    // For initialization only.
-    if (!initialCrops) {
-        setSelectedCrops(crops);
-        setInitialCrops(crops);
-    } else {
-        crops = selectedCrops;
-    }
-
+    let noData = false;
+    let crops = null;
+    let years = null;
     const colors = [];
     const keys = [];
-    crops.forEach(c => {
-        let sumWF = 0;
-        let sumWOF = 0;
-        if (selectedYear) {
-            sumWF = data.values[c][selectedYear].withspecialfeature || 0;
-            sumWOF = data.values[c][selectedYear].withoutspecialfeature || 0;
-        } else {
-            Object.keys(data.values[c]).forEach(i => {
-                sumWF += data.values[c][i].withspecialfeature || 0;
-                sumWOF += data.values[c][i].withoutspecialfeature || 0;
-            });
+    let max = 0;
+
+    if (!data || !data.dimensions || !data.dimensions.crop) {
+        noData = true;
+    } else {
+        crops = data.dimensions.crop.values;
+        years = data.dimensions.year.values;
+
+        if (data !== currentData) {
+            setCurrentData(data);
+            setSelectedCrops(crops);
+            setInitialCrops(crops);
+            setSelectedYear(years[years.length - 1])
+
+            // workaround for selectedCrops not being updated.
+            return null;
         }
 
-        const key1 = 'withSpecialFeature_' + c;
-        const key2 = 'withoutSpecialFeature_' + c;
-        const header = {
-            crop: c,
-            [key1]: sumWF,
-            [key2]: sumWOF,
-        };
-        processedData.push(header);
-        keys.push(key1);
-        keys.push(key2);
-        colors.push(getColor({id: c.toLowerCase()}));
-        colors.push(getColor({id: c.toLowerCase()}, {fade: true}));
-    });
+        // For initialization only.
+        if (!initialCrops) {
+            setSelectedCrops(crops);
+            setInitialCrops(crops);
+        } else {
+            crops = selectedCrops;
+        }
+
+        crops.forEach(c => {
+            let sumWF = 0;
+            let sumWOF = 0;
+            if (selectedYear) {
+                sumWF = data.values[c][selectedYear].withspecialfeature || 0;
+                sumWOF = data.values[c][selectedYear].withoutspecialfeature || 0;
+            } else {
+                Object.keys(data.values[c]).forEach(i => {
+                    sumWF += data.values[c][i].withspecialfeature || 0;
+                    sumWOF += data.values[c][i].withoutspecialfeature || 0;
+                });
+            }
+
+            const key1 = 'withSpecialFeature_' + c;
+            const key2 = 'withoutSpecialFeature_' + c;
+            const header = {
+                crop: c,
+                [key1]: sumWF,
+                [key2]: sumWOF,
+            };
+            processedData.push(header);
+            keys.push(key1);
+            keys.push(key2);
+            colors.push(getColor({id: c.toLowerCase()}));
+            colors.push(getColor({id: c.toLowerCase()}, {fade: true}));
+            if (max < (sumWF + sumWOF)) {
+                max = (sumWF + sumWOF);
+            }
+        });
+    }
 
     const handleYearFilterChange = (selected) => {
         setSelectedYear(selected);
@@ -112,16 +123,18 @@ const VarietiesReleasedWithSpecialFeatures = ({data, sources}) => {
         // space between top of stacked bars and total label
         const labelMargin = 20;
 
-        return bars.map(({data: {data, indexValue}, x, width}, i) => {
+        const numbers = [];
+        bars.forEach(({data: {data, indexValue}, x, width}, i) => {
             // sum of all the bar values in a stacked bar
             const total = Object.keys(data)
                 //filter out whatever your indexBy value is
                 .filter(key => key !== indexBy)
                 .reduce((a, key) => a + data[key], 0);
 
-            return (
-                <g
-                    transform={`translate(${x}, ${yScale(total) - labelMargin})`}
+            const transform = `translate(${x}, ${yScale(total) - labelMargin})`;
+            if (!numbers.find(i => i.props.transform === transform)) {
+                numbers.push(<g
+                    transform={transform}
                     key={`${indexValue}-${i}`}>
                     <text
                         // add any class to the label here
@@ -132,14 +145,17 @@ const VarietiesReleasedWithSpecialFeatures = ({data, sources}) => {
                         alignmentBaseline="central"
                         // add any style to the label here
                         style={{
-                            fill: "rgb(51, 51, 51)"
+                            fontWeight: 'bold',
+                            fontSize: '12pt'
                         }}>
                         {total}
                     </text>
-                </g>
-            );
+                </g>);
+            }
         });
+        return numbers;
     };
+
     return (
         <Grid className={`number-varieties-released`}>
             <Grid.Row className="header-section">
@@ -148,30 +164,30 @@ const VarietiesReleasedWithSpecialFeatures = ({data, sources}) => {
                 </Grid.Column>
             </Grid.Row>
             <Grid.Row className={`filters-section`}>
-                <Grid.Column computer={4} mobile={16}>
+                {!noData ? <Grid.Column computer={4} mobile={16}>
                     <Crops data={initialCrops} onChange={handleCropFilterChange}/>
-                </Grid.Column>
-                <Grid.Column computer={4} mobile={16}>
+                </Grid.Column> : null}
+                {!noData ? <Grid.Column computer={4} mobile={16}>
                     <Years data={years} onChange={handleYearFilterChange}/>
-                </Grid.Column>
+                </Grid.Column> : null}
             </Grid.Row>
-            <Grid.Row className={`crops-with-icons`}>
+            {!noData ? <Grid.Row className={`crops-with-icons`}>
                 <Grid.Column width={8}>
                     <CropsLegend data={selectedCrops} title="Crops" titleClass="crops-title"/>
                 </Grid.Column>
-            </Grid.Row>
+            </Grid.Row> : null}
             <Grid.Row className={`chart-section`}>
                 <Grid.Column width={16}>
                     <div style={{height: 450}}>
-                        <ResponsiveBar
+                        {!noData ? <ResponsiveBar
                             theme={theme}
                             layers={["grid", "axes", "bars", TotalLabels, "markers", "legends"]}
                             data={processedData}
                             keys={keys}
-                            indexBy="crop"
+                            indexBy={indexBy}
                             margin={{top: 50, right: 60, bottom: 70, left: 70}}
                             padding={0.3}
-                            valueScale={{type: 'linear'}}
+                            valueScale={{type: 'linear', max: max * 1.25}}
                             indexScale={{type: 'band', round: true}}
                             colors={colors}
                             borderWidth={0}
@@ -194,8 +210,9 @@ const VarietiesReleasedWithSpecialFeatures = ({data, sources}) => {
                                 legend: 'Number of Varieties Released',
                                 legendPosition: 'middle',
                                 legendOffset: -60,
-                                tickValues: 5
+                                tickValues: 6
                             }}
+                            gridYValues={6}
                             enableLabel={false}
                             tooltip={(d) => {
                                 return (<div className="tooltip-container">
@@ -223,7 +240,7 @@ const VarietiesReleasedWithSpecialFeatures = ({data, sources}) => {
                                     </div>
                                 </div>)
                             }}
-                        />
+                        /> : <h2>No Data</h2>}
                     </div>
                 </Grid.Column>
             </Grid.Row>
