@@ -689,6 +689,22 @@ p:empty {
 }
 
 
+// Titles with no bottom margin (used in team pages)
+.compact{
+  h2, h3, h4, p{
+    margin-bottom: -$base-unit;
+  }
+}
+.wp-block-group{
+  &.compact{
+    p{
+      margin-bottom: -$base-unit;
+      border: 1px dotted red;
+    }
+  }
+}
+
+
 /*legends*/
 .chart-heading {
   width: $screen-width !important;
@@ -766,3 +782,4 @@ p:empty {
     }
   }
 }
+
