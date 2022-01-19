@@ -1,19 +1,18 @@
 import { Container, Grid, Icon } from "semantic-ui-react";
 import React from "react";
-import { legends } from "./LegendsConstants";
 
-const Heading = () => {
+const Heading = ({ legends, title }) => {
   return (
     <>
-      <Container fluid={true} className={"data-summary-heading"}>
+      <Container fluid={true} className={"chart-heading"}>
         <Grid columns={16} stretched>
-          <Grid.Row className="title">
-            <div>Data Summary: Country comparison</div>
-          </Grid.Row>
+          {title && <Grid.Row className="title">
+            <div>{title}</div>
+          </Grid.Row>}
           {legends.map(legend => {
             return <Grid.Row className="legends" key={legend.id}>
               {legend.legend.map(l => {
-                return <Grid.Column width={l.width} key={l.id}>
+                return <Grid.Column width={l.width} key={l.id} className={`${l.className ? l.className : ''}`}>
                   <div>{l.color && <Icon name="stop" fitted className={l.color} />}{l.label}</div>
                 </Grid.Column>
               })}
