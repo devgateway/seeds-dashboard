@@ -3,7 +3,6 @@ import { Provider } from 'react-redux'
 import { Redirect, Route, Switch } from 'react-router' // react-router v4/v5
 import { ConnectedRouter } from 'connected-react-router/immutable'
 import getStore, { history } from './redux/store';
-import { createBrowserHistory } from "history";
 import messages_en from "./translations/en.json";
 import { updateIntl } from 'react-intl-redux'
 import { injectIntl, IntlProvider } from "react-intl";
