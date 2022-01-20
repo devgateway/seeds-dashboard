@@ -56,15 +56,15 @@ const PostCarousel = ({
                         "data-navigator-style": navigatorStyle = DOTS,
                         filters, filtersData, categoriesWP, onLoadWPCategories
                       }) => {
-  const isConectFilter = connectFilter === 'true';
+  const isConnectFilter = connectFilter === 'true';
   const [random, setRandomStore] = useState(Math.random() * (99999 - 1) + 1);
   useEffect(() => {
-    if (isConectFilter) {
+    if (isConnectFilter) {
       onLoadWPCategories();
     }
   }, [taxonomy, categories, onLoadWPCategories])
   let categoryWP;
-  if (isConectFilter) {
+  if (isConnectFilter) {
     const slug = getSlugFromFilters(filters, filtersData, valuesFilterStore, selectedFilterStore);
     if (categoriesWP) {
       categoryWP = categoriesWP.find(cwp => cwp.slug === slug);
