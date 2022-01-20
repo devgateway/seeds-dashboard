@@ -31,6 +31,13 @@
   text-align: center;
 }
 
+p{
+  &.has-text-color{
+    a{
+      color: $link-color-default;
+    }
+  }
+}
 
 figure {
   padding: 0;
@@ -208,7 +215,6 @@ p:empty {
 .wp-block-cover.full-width-cover.has-background-dim:not([class*=-background-color]){
   width: 100vw;
   margin-left: calc(-50vw + 50%);
-  z-index: -1;
   .wp-block-cover__inner-container{
     max-width: 1366px;
   }
@@ -521,6 +527,7 @@ p:empty {
   height: $base-unit * 18;
   width: 100vw;
   margin-left: calc(-50vw + 50%);
+  z-index: -1;
 }
 
 // Content table
