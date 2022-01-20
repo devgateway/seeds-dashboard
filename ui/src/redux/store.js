@@ -4,18 +4,9 @@ import { createHashHistory } from 'history'
 import { routerMiddleware } from 'connected-react-router/immutable'
 import Immutable from 'immutable'
 import createRootReducer from "./reducer";
-import ReactGA from 'react-ga';
 
 
 export const history = createHashHistory()
-
-
-ReactGA.initialize('G-ZYJ0NBVDEX');
-
-history.listen(location => {
-  ReactGA.set({ page: location.pathname });
-  ReactGA.pageview(location.pathname);
-});
 
 const initialState = Immutable.Map()
 

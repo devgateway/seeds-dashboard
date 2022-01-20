@@ -22,6 +22,13 @@ import {
 import queryString from "query-string";
 import { Container, Segment } from "semantic-ui-react";
 import { detectClientCountry } from "./embeddable/reducers/data";
+import TagManager from 'react-gtm-module'
+
+const tagManagerArgs = {
+  gtmId: 'GTM-TD25WMT'
+}
+
+TagManager.initialize(tagManagerArgs)
 
 const store = getStore()
 
