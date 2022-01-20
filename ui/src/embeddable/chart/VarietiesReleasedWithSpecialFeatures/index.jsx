@@ -8,14 +8,15 @@ import Crops from "../common/filters/crops";
 import Header from "../common/header";
 import {getColor} from "../Countryinfo/CountryInfoChart";
 import Years from "../common/filters/years";
+import CropsWithSpecialFeatures from "../common/cropWithSpecialFeatures";
 
 const theme = {
     axis: {
         ticks: {
             text: {
-                fontSize: 13,
+                fontSize: 12,
                 /*fontWeight: 'bold',*/
-                fill: "gray",
+                fill: "#adafb2",
                 textTransform: 'capitalize'
             },
             line: {
@@ -25,9 +26,10 @@ const theme = {
         },
         legend: {
             text: {
-                fontSize: 15,
+                fontSize: 12,
                 fill: "black",
-                fontWeight: 'bold'
+                fontWeight: 'bold',
+                /*fontFamily: 'Lato'*/
             }
         }
     }
@@ -146,7 +148,7 @@ const VarietiesReleasedWithSpecialFeatures = ({data, sources}) => {
                         // add any style to the label here
                         style={{
                             fontWeight: 'bold',
-                            fontSize: '12pt'
+                            fontSize: '14pt'
                         }}>
                         {total}
                     </text>
@@ -174,6 +176,9 @@ const VarietiesReleasedWithSpecialFeatures = ({data, sources}) => {
             {!noData ? <Grid.Row className={`crops-with-icons`}>
                 <Grid.Column width={8}>
                     <CropsLegend data={selectedCrops} title="Crops" titleClass="crops-title" addLighterDiv={true}/>
+                </Grid.Column>
+                <Grid.Column width={8} className="withSeparator">
+                    <CropsWithSpecialFeatures/>
                 </Grid.Column>
             </Grid.Row> : null}
             <Grid.Row className={`chart-section`}>
@@ -240,7 +245,7 @@ const VarietiesReleasedWithSpecialFeatures = ({data, sources}) => {
                                     </div>
                                 </div>)
                             }}
-                        /> : <h2>No Data</h2>}
+                        /> : <h2 className="no-data">No Data</h2>}
                     </div>
                 </Grid.Column>
             </Grid.Row>

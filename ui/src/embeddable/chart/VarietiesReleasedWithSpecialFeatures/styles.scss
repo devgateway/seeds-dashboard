@@ -1,4 +1,4 @@
-$border_gray: rgba(175, 179, 182, 0.57);
+$border_gray: rgba(229, 229, 229, 1);
 
 .crops-with-icons {
   padding-top: 10px !important;
@@ -93,7 +93,7 @@ $border_gray: rgba(175, 179, 182, 0.57);
 
   .amount-container {
     width: 200px;
-    
+
     table {
       width: 100%;
       padding: 5px;
@@ -105,7 +105,7 @@ $border_gray: rgba(175, 179, 182, 0.57);
       font-size: 14px;
       color: dimgray;
       text-align: left;
-      
+
       .year {
         text-align: left;
       }
@@ -116,4 +116,12 @@ $border_gray: rgba(175, 179, 182, 0.57);
 .bold {
   font-weight: bold;
   color: black;
+}
+
+.withSeparator {
+  border-left: 1px solid #eeeeee;
+}
+
+.no-data {
+  text-align: center
 }

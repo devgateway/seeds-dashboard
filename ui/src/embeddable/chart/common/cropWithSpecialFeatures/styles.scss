@@ -1,0 +1,30 @@
+label {
+  float: left;
+  margin-top: 15px;
+  font-size: 12pt;
+  margin-right: 10px;
+}
+
+.crop-icon {
+  height: 50px;
+  width: auto;
+  float: left;
+  margin-right: 0px;
+}
+
+.lighter-crop2 {
+  height: 50px;
+  width: 25px;
+  top: 2px;
+  left: -30px;
+  filter: brightness(109%);
+  z-index: 999999;
+  background-color: white;
+  opacity: 0.5;
+  position: relative;
+}
+
+.black-circle {
+  background-size: 40px;
+  opacity: 0.55;
+}
