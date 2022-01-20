@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Provider } from 'react-redux'
 import { Redirect, Route, Switch } from 'react-router' // react-router v4/v5
 import { ConnectedRouter } from 'connected-react-router/immutable'
-import getStore, { history } from './redux/store'
+import getStore, { history } from './redux/store';
 import messages_en from "./translations/en.json";
 import { updateIntl } from 'react-intl-redux'
 import { injectIntl, IntlProvider } from "react-intl";
@@ -23,8 +23,7 @@ import queryString from "query-string";
 import { Container, Segment } from "semantic-ui-react";
 import { detectClientCountry } from "./embeddable/reducers/data";
 
-const store = getStore()
-
+const store = getStore();
 
 // kick off the polyfill!
 smoothscroll.polyfill();
@@ -45,7 +44,7 @@ const InjectTitle = injectIntl(({ intl, locale }) => {
 
 class IntlRoutes extends Component {
   componentDidMount() {
-    const locale = this.props.match.params.lan
+    const locale = this.props.match.params.lan;
     store.dispatch(updateIntl({ locale, messages: messages[this.props.match.params.lan] }))
     store.dispatch(detectClientCountry());
   }
@@ -57,7 +56,8 @@ class IntlRoutes extends Component {
   }
 
   render() {
-    const locale = this.props.match.params.lan
+    const locale = this.props.match.params.lan;
+
     return (
       <IntlProvider key={locale} locale={locale} messages={messages[locale]}>
         <InjectTitle locale={locale} />
