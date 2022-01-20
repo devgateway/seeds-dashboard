@@ -22,11 +22,8 @@ import {
 import queryString from "query-string";
 import { Container, Segment } from "semantic-ui-react";
 import { detectClientCountry } from "./embeddable/reducers/data";
-import ReactGA from 'react-ga';
 
 const store = getStore();
-
-ReactGA.initialize('G-ZYJ0NBVDEX');
 
 // kick off the polyfill!
 smoothscroll.polyfill();
@@ -47,7 +44,6 @@ class IntlRoutes extends Component {
     const locale = this.props.match.params.lan;
     store.dispatch(updateIntl({ locale, messages: messages[this.props.match.params.lan] }))
     store.dispatch(detectClientCountry());
-    ReactGA.pageview(window.location.pathname);
   }
 
   componentDidUpdate() {
