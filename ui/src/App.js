@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Provider } from 'react-redux'
 import { Redirect, Route, Switch } from 'react-router' // react-router v4/v5
 import { ConnectedRouter } from 'connected-react-router/immutable'
-import getStore from './redux/store';
+import getStore, { history } from './redux/store';
 import { createBrowserHistory } from "history";
 import messages_en from "./translations/en.json";
 import { updateIntl } from 'react-intl-redux'
@@ -28,14 +28,6 @@ import ReactGA from 'react-ga';
 const store = getStore();
 
 ReactGA.initialize('G-ZYJ0NBVDEX');
-
-const history = createBrowserHistory();
-history.listen(location => {
-  ReactGA.set({ page: location.pathname });
-  ReactGA.pageview(location.pathname);
-});
-
-
 
 // kick off the polyfill!
 smoothscroll.polyfill();
@@ -71,7 +63,6 @@ class IntlRoutes extends Component {
     return (
       <IntlProvider key={locale} locale={locale} messages={messages[locale]}>
         <InjectTitle locale={locale} />
-
         <AppContextProvider getComponent={getComponentByNameIgnoreCase} store={store} locale={locale}
                             messages={messages}>
           <Switch>
