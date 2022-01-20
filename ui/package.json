@@ -48,6 +48,7 @@
     "react-fittext": "^1.0.0",
     "react-ga": "^2.7.0",
     "react-google-recaptcha": "^2.1.0",
+    "react-gtm-module": "^2.0.11",
     "react-intl": "^5.18.1",
     "react-intl-redux": "^2.2.0",
     "react-redux": "^7.2.4",
