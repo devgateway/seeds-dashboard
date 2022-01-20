@@ -787,3 +787,19 @@ p:empty {
     }
   }
 }
+
+// Testimonials feed
+.testimonials{
+  li{
+    padding: $base-unit * 5.5 0 $base-unit * 2 0;
+    border-bottom: 1px solid $separator-grey;
+  }
+  img{
+    @include border-radius(50%);
+    border: 1px solid $separator-grey;
+    max-width: $base-unit * 15;
+  }
+  .wp-block-post-excerpt__excerpt{
+    font-size: 30px;
+  }
+}
