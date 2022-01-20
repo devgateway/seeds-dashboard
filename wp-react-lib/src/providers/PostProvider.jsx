@@ -23,11 +23,12 @@ class PostProvider extends React.Component {
             previewId,
             search,
             postType,
-            id
+            id,
+            slug404
         } = this.props
         this.props.onLoadPost({
             slug, type, taxonomy, categories, before, perPage, page, fields, store, locale, previewNonce,
-            previewId, search, postType, id
+            previewId, search, postType, id,slug404
         })
     }
 
@@ -47,7 +48,8 @@ class PostProvider extends React.Component {
             previewId,
             search,
             postType,
-            id
+            id,
+            slug404
         } = this.props
 
         if (categories != prevProps.categories || locale != prevProps.locale || slug != prevProps.slug ||
@@ -66,7 +68,7 @@ class PostProvider extends React.Component {
                 locale,
                 previewNonce,
                 previewId,
-                search, postType, id
+                search, postType, id, slug404
             })
         }
     }
