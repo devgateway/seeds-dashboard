@@ -57,10 +57,13 @@ class BlockEdit extends BaseBlockEdit {
                                             value: 'numberOfVarietiesReleased'
                                         },
                                         {
+                                            label: 'Varieties released with special features',
+                                            value: 'varietiesReleasedWithSpecialFeatures'
+                                        },
+                                        {
                                             label: 'Availability of basic seed',
                                             value: 'availabilityOfBasicSeed'
-                                        },
-
+                                        }
                                     ]}
                                 />
                             </PanelRow>

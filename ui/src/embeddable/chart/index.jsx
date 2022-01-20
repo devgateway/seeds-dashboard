@@ -16,8 +16,14 @@ import PrevalenceBarDataframe from './PrevalenceBarDataFrame'
 import PolicyDataFrame from './PolicyDataFrame'
 import CSVDataFrame from "./CSVDataFrame";
 import CountryInfo from "./Countryinfo";
-import { AVAILABILITY_OF_BASIC_SEED, COUNTRY_INFO, NUMBER_OF_VARIETIES_RELEASED } from "../reducers/StoreConstants";
+import {
+    COUNTRY_INFO,
+    NUMBER_OF_VARIETIES_RELEASED,
+    VARIETIES_RELEASED_WITH_SPECIAL_FEATURES,
+    AVAILABILITY_OF_BASIC_SEED
+} from "../reducers/StoreConstants";
 import NumberOfVarietiesReleased from "./NumberOfVarietiesReleased";
+import VarietiesReleasedWithSpecialFeatures from "./VarietiesReleasedWithSpecialFeatures";
 import AvailabilityOfBasicSeed from "./AvailabilityOfBasicSeed";
 
 const PieChart = (props) => {
@@ -134,6 +140,9 @@ const Chart = (props) => {
     switch (type) {
         case NUMBER_OF_VARIETIES_RELEASED:
             child = <NumberOfVarietiesReleased sources={sources}/>;
+            break;
+        case VARIETIES_RELEASED_WITH_SPECIAL_FEATURES:
+            child = <VarietiesReleasedWithSpecialFeatures sources={sources}/>;
             break;
         case COUNTRY_INFO:
             child = <CountryInfo/>
