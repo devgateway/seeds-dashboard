@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Provider } from 'react-redux'
 import { Redirect, Route, Switch } from 'react-router' // react-router v4/v5
 import { ConnectedRouter } from 'connected-react-router/immutable'
-import getStore, { history } from './redux/store'
+import getStore, { history } from './redux/store';
 import messages_en from "./translations/en.json";
 import { updateIntl } from 'react-intl-redux'
 import { injectIntl, IntlProvider } from "react-intl";
@@ -23,8 +23,7 @@ import queryString from "query-string";
 import { Container, Segment } from "semantic-ui-react";
 import { detectClientCountry } from "./embeddable/reducers/data";
 
-const store = getStore()
-
+const store = getStore();
 
 // kick off the polyfill!
 smoothscroll.polyfill();
@@ -32,6 +31,9 @@ smoothscroll.polyfill();
 const messages = {
   'en': messages_en
 };
+
+const PAGE_404_SLUG="error-404";
+const POST_404_SLUG="post-404";
 
 
 const InjectTitle = injectIntl(({ intl, locale }) => {
@@ -42,7 +44,7 @@ const InjectTitle = injectIntl(({ intl, locale }) => {
 
 class IntlRoutes extends Component {
   componentDidMount() {
-    const locale = this.props.match.params.lan
+    const locale = this.props.match.params.lan;
     store.dispatch(updateIntl({ locale, messages: messages[this.props.match.params.lan] }))
     store.dispatch(detectClientCountry());
   }
@@ -54,7 +56,8 @@ class IntlRoutes extends Component {
   }
 
   render() {
-    const locale = this.props.match.params.lan
+    const locale = this.props.match.params.lan;
+
     return (
       <IntlProvider key={locale} locale={locale} messages={messages[locale]}>
         <InjectTitle locale={locale} />
@@ -77,7 +80,9 @@ class IntlRoutes extends Component {
                 <PageProvider
                   slug={"home"}
                   store={"home"}
-                  messages={messages}>
+                  messages={messages}
+                  slug404={PAGE_404_SLUG}
+                >
                   <ResponsiveContainer isHome>
                     <PageConsumer>
                       <Page />
@@ -125,7 +130,8 @@ class IntlRoutes extends Component {
               return (
                 <ResponsiveContainer>
                   <PageProvider store={"preview"} perPage={1} view={preview}
-                                previewNonce={previewNonce} previewId={props.match.params.id}>
+                                previewNonce={previewNonce} previewId={props.match.params.id}
+                  >
                     <PageConsumer>
                       <Page preview={true} />
                     </PageConsumer>
@@ -146,6 +152,7 @@ class IntlRoutes extends Component {
                   slug={props.match.params.slug}
                   store={props.match.params.slug}
                   messages={messages}
+                  slug404={PAGE_404_SLUG}
                 >
                   <ResponsiveContainer>
                     <PageConsumer>
@@ -164,7 +171,8 @@ class IntlRoutes extends Component {
                 <PageProvider
                   slug={props.match.params.slug}
                   store={props.match.params.slug}
-                  messages={messages}>
+                  messages={messages}
+                  slug404={PAGE_404_SLUG}>
                   <ResponsiveContainer>
                     <PageConsumer>
                       <Page />
@@ -183,6 +191,7 @@ class IntlRoutes extends Component {
                     id={props.match.params.id}
                     postType={props.match.params.postType}
                     store={props.match.params.postType + props.match.params.id}
+                    slug404={POST_404_SLUG}
                   >
                     <PostConsumer>
                       <Post />
@@ -197,6 +206,7 @@ class IntlRoutes extends Component {
                 <PostProvider
                   slug={props.match.params.slug}
                   store={props.match.params.slug}
+                  slug404={POST_404_SLUG}
                 >
                   <PostConsumer>
                     <Post />
@@ -205,7 +215,22 @@ class IntlRoutes extends Component {
               </ResponsiveContainer>
             )}>
             </Route>
-
+            <Route exact render={props => {
+              debugger
+              return (
+                <PageProvider
+                  slug={PAGE_404_SLUG}
+                  store={PAGE_404_SLUG}
+                  messages={messages}>
+                  <ResponsiveContainer>
+                    <PageConsumer>
+                      <Page />
+                    </PageConsumer>
+                  </ResponsiveContainer>
+                </PageProvider>
+              );
+            }}>
+            </Route>
           </Switch>
         </AppContextProvider>
       </IntlProvider>)

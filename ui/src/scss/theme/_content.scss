@@ -31,6 +31,13 @@
   text-align: center;
 }
 
+p{
+  &.has-text-color{
+    a{
+      color: $link-color-default;
+    }
+  }
+}
 
 figure {
   padding: 0;
@@ -208,7 +215,6 @@ p:empty {
 .wp-block-cover.full-width-cover.has-background-dim:not([class*=-background-color]){
   width: 100vw;
   margin-left: calc(-50vw + 50%);
-  z-index: -1;
   .wp-block-cover__inner-container{
     max-width: 1366px;
   }
@@ -283,13 +289,21 @@ p:empty {
 
 .wp-block-query{
   &.news{
+    overflow: hidden;
     img{
       border-bottom: 5px solid $yellow;
     }
     .wp-block-post-excerpt__excerpt{
       color: $text-color;
       font-size: 0.8rem;
+      min-height: $base-unit * 13;
+	    position: relative;
+      .wp-block-post-excerpt__more-text{
+        bottom: 0;
+  	    position: absolute;
+      }
     }
+
     .wp-block-post-excerpt__more-link{
       @include button(3px, $yellow, $white);
       padding: $base-unit $base-unit * 2 $base-unit * 1.3 $base-unit * 2;
@@ -298,6 +312,8 @@ p:empty {
       }
     }
     h3{
+      margin-bottom: 0;
+	    min-height: $base-unit * 9;
       a{
         color: $text-color;
         font-size: 1.2rem;
@@ -525,6 +541,7 @@ p:empty {
   height: $base-unit * 18;
   width: 100vw;
   margin-left: calc(-50vw + 50%);
+  z-index: -1;
 }
 
 // Content table
@@ -789,5 +806,21 @@ p:empty {
       }
 
     }
+  }
+}
+
+// Testimonials feed
+.testimonials{
+  li{
+    padding: $base-unit * 5.5 0 $base-unit * 2 0;
+    border-bottom: 1px solid $separator-grey;
+  }
+  img{
+    @include border-radius(50%);
+    border: 1px solid $separator-grey;
+    max-width: $base-unit * 15;
+  }
+  .wp-block-post-excerpt__excerpt{
+    font-size: 30px;
   }
 }
