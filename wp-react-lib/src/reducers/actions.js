@@ -192,7 +192,6 @@ export const getPages = ({
   wp.getPages(before, perPage, page, fields, parent, slug, store, locale, previewNonce, previewId, search)
     .then(response => {
       const { data, meta } = response;
-      debugger
       if (data.length === 0 && slug404) {
         wp.getPages(before, perPage, page, fields, parent, slug404, store, locale, previewNonce, previewId, search)
           .then(response => {

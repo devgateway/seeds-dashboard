@@ -18,7 +18,7 @@ import Header from "./Header";
  */
 const DesktopContainer = ({ children, isHome }) => {
   return <Container fluid>
-    <Header />
+    <Header firstChildLink />
     <Container className={`desktop ${isHome ? ' home' : ''}`} fluid>
       {children}
     </Container>
