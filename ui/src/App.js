@@ -53,9 +53,10 @@ const InjectTitle = injectIntl(({ intl, locale }) => {
 
 class IntlRoutes extends Component {
   componentDidMount() {
-    const locale = this.props.match.params.lan
+    const locale = this.props.match.params.lan;
     store.dispatch(updateIntl({ locale, messages: messages[this.props.match.params.lan] }))
     store.dispatch(detectClientCountry());
+    ReactGA.pageview(window.location.pathname);
   }
 
   componentDidUpdate() {
