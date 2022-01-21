@@ -1,10 +1,10 @@
 import React, {useState} from "react";
 import {Grid} from "semantic-ui-react";
 import {ResponsiveLine} from "@nivo/line";
-import Crops from "../common/crop";
+import CropsLegend from "../common/crop";
 import './styles.scss';
 import Source from "../common/source";
-import Filter from "../common/filters/crops";
+import CropFilter from "../common/filters/crops";
 import Header from "../common/header";
 import {getColor} from "../Countryinfo/CountryInfoChart";
 
@@ -12,8 +12,8 @@ const theme = {
     axis: {
         ticks: {
             text: {
-                fontSize: 15,
-                fill: "gray"
+                fontSize: 12,
+                fill: "#adafb2",
             },
             line: {
                 stroke: "rgba(255,255,255,0)",
@@ -22,9 +22,9 @@ const theme = {
         },
         legend: {
             text: {
-                fontSize: 15,
+                fontSize: 12,
                 fill: "black",
-                fontWeight: 'bold'
+                fontWeight: 'bold',
             }
         }
     }
@@ -51,6 +51,7 @@ const NumberOfVarietiesReleased = ({data, sources}) => {
 
     const yearsInValues = Object.keys(data.values);
     const allYears = fillGaps(yearsInValues);
+    let max = 0;
 
     // For initialization only.
     if (!initialCrops) {
@@ -72,6 +73,9 @@ const NumberOfVarietiesReleased = ({data, sources}) => {
                     x: y,
                     y: data.values[y][c]
                 });
+                if (max < data.values[y][c]) {
+                    max = data.values[y][c];
+                }
             } else {
                 header.data.push({
                     x: y,
@@ -101,12 +105,12 @@ const NumberOfVarietiesReleased = ({data, sources}) => {
             </Grid.Row>
             <Grid.Row className={`filters-section`}>
                 <Grid.Column>
-                    <Filter data={initialCrops} onChange={handleCropFilterChange}/>
+                    <CropFilter data={initialCrops} onChange={handleCropFilterChange}/>
                 </Grid.Column>
             </Grid.Row>
             <Grid.Row className={`crops-with-icons`}>
                 <Grid.Column width={8}>
-                    <Crops data={selectedCrops} title="Crops" titleClass="crops-title"/>
+                    <CropsLegend data={selectedCrops} title="Crops" titleClass="crops-title"/>
                 </Grid.Column>
             </Grid.Row>
             <Grid.Row className={`chart-section`}>
@@ -117,9 +121,9 @@ const NumberOfVarietiesReleased = ({data, sources}) => {
                             data={processedData}
                             /*enableSlices="x"*/
                             colors={{datum: 'color'}}
-                            margin={{top: 50, right: 50, bottom: 50, left: 80}}
+                            margin={{top: 50, right: 60, bottom: 70, left: 70}}
                             xScale={{type: 'point'}}
-                            yScale={{type: 'linear', min: 'auto', max: 'auto', stacked: false, reverse: false}}
+                            yScale={{type: 'linear', min: 'auto', max: max * 1.15, stacked: false, reverse: false}}
                             yFormat=" >-.0r"
                             axisTop={null}
                             axisRight={null}
@@ -130,7 +134,7 @@ const NumberOfVarietiesReleased = ({data, sources}) => {
                                 tickPadding: 5,
                                 tickRotation: 0,
                                 legend: 'Year',
-                                legendOffset: 36,
+                                legendOffset: 45,
                                 legendPosition: 'middle'
                             }}
                             axisLeft={{
@@ -159,22 +163,18 @@ const NumberOfVarietiesReleased = ({data, sources}) => {
                                                 <div className={d.point.serieId.toLowerCase() + " crop-icon"}/>
                                                 <div className="crop-name">{d.point.serieId}</div>
                                             </div>
+                                            <div className="table">
+                                                <label style={{float: 'left'}} className="year">Year</label>
+                                                <label style={{float: 'right'}} className="vr">Varieties Released</label>
+                                            </div>
                                         </div>
                                     </div>
                                     <div className="amount-container">
                                         <table width="100%">
-                                            <thead>
-                                            <tr>
-                                                <td className="year"><span>Year</span></td>
-                                                <td className="vr"><span>Varieties Released</span></td>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
                                             <tr>
                                                 <td className="year">{d.point.data.x}</td>
                                                 <td style={{fontWeight: 'bold'}}>{d.point.data.y}</td>
                                             </tr>
-                                            </tbody>
                                         </table>
                                     </div>
                                 </div>)

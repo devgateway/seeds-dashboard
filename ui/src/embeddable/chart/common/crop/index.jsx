@@ -1,7 +1,7 @@
 import React from "react";
 import './styles.scss';
 
-const Crops = ({data, title, titleClass, addLighterDiv}) => {
+const CropsLegend = ({data, title, titleClass, addLighterDiv}) => {
     return (
         <div>
             {title ? (<div className="crop legend">
@@ -18,4 +18,4 @@ const Crops = ({data, title, titleClass, addLighterDiv}) => {
     )
 }
 
-export default Crops
+export default CropsLegend

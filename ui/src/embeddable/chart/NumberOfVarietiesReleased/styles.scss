@@ -57,21 +57,41 @@ $border_gray: rgba(229, 229, 229, 1);
 
   .header-container {
     background-color: #eef1fa;
-    width: 200px;
-    height: 45px;
-    border-bottom: 1px solid #dbdce0;
+    width: 199px;
+    height: 65px;
+    // border-bottom: 1px solid #dbdce0;
+    border-right: 1px solid #dbdce0;
 
     .header {
       margin: auto;
       width: 150px;
       //border: 1px solid green;
-      height: 50px;
+      height: 35px;
+
+      .table {
+        width: 100%;
+
+        label {
+          font-size: 9pt;
+          margin-top: 7px;
+        }
+
+        .year {
+          position: relative;
+          left: -12px;
+        }
+
+        .vr {
+          position: relative;
+          right: -22px;
+        }
+      }
 
       .inner-container {
         margin: auto;
         width: auto;
         //border: 1px solid red;
-        height: 45px;
+        //height: 25px;
         display: table;
 
         .crop-icon {
@@ -107,7 +127,7 @@ $border_gray: rgba(229, 229, 229, 1);
       border: none;
       font-size: 14px;
       color: dimgray;
-      
+
       .year {
         text-align: left;
       }
