@@ -22,16 +22,9 @@ import {
 import queryString from "query-string";
 import { Container, Segment } from "semantic-ui-react";
 import { detectClientCountry } from "./embeddable/reducers/data";
-import TagManager from 'react-gtm-module'
-
-const tagManagerArgs = {
-  gtmId: 'GTM-TD25WMT'
-}
-
-TagManager.initialize(tagManagerArgs)
+import withTracker from "./withTracker";
 
 const store = getStore()
-
 
 // kick off the polyfill!
 smoothscroll.polyfill();
@@ -55,6 +48,7 @@ class IntlRoutes extends Component {
     const locale = this.props.match.params.lan
     store.dispatch(updateIntl({ locale, messages: messages[this.props.match.params.lan] }))
     store.dispatch(detectClientCountry());
+    withTracker();
   }
 
   componentDidUpdate() {
