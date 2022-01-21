@@ -51,18 +51,23 @@ export const getIndicatorsData = (params) => {
 }
 
 export const getData = ({ source, app, params }) => {
-  debugger;
   if (app === COUNTRY_INFO && params && (params[SELECTED_COUNTRY] || params[DEFAULT_COUNTRY_ID])) {
     let countryId = params[DEFAULT_COUNTRY_ID];
     if (params[SELECTED_COUNTRY]) {
       countryId = params[SELECTED_COUNTRY];
+      delete params[DEFAULT_COUNTRY_ID];
     }
     return get(APIS[app] + countryId);
   } else if (app === NUMBER_OF_VARIETIES_RELEASED
     || app === AVAILABILITY_OF_BASIC_SEED
     || app === VARIETIES_RELEASED_WITH_SPECIAL_FEATURES) {
-    if (params[SELECTED_COUNTRY]) {
-      params.countryId = params[SELECTED_COUNTRY];
+
+    if (params[SELECTED_COUNTRY] || params[DEFAULT_COUNTRY_ID]) {
+      params.countryId = params[DEFAULT_COUNTRY_ID];
+      if (params[SELECTED_COUNTRY]) {
+        params.countryId = params[SELECTED_COUNTRY];
+        delete params[DEFAULT_COUNTRY_ID];
+      }
       return get(APIS[app] + (params ? '?' + queryParams(params) : ''));
     } else {
       // TODO: remove this after we are sure we will always use the country filter component.
