@@ -26,6 +26,8 @@ import withTracker from "./withTracker";
 
 const store = getStore()
 
+
+
 // kick off the polyfill!
 smoothscroll.polyfill();
 
@@ -48,7 +50,6 @@ class IntlRoutes extends Component {
     const locale = this.props.match.params.lan
     store.dispatch(updateIntl({ locale, messages: messages[this.props.match.params.lan] }))
     store.dispatch(detectClientCountry());
-    withTracker();
   }
 
   componentDidUpdate() {
@@ -243,7 +244,7 @@ const MainRoutes = () => {
   return (<ConnectedRouter history={history}>
 
     <Switch>
-      <Route path="/:lan" render={(props) => <IntlRoutes {...props} />} />
+      <Route component={withTracker(IntlRoutes, { } )} path="/:lan" render={(props) => <IntlRoutes {...props} />} />
       <Redirect to="/en" />
     </Switch>
 
