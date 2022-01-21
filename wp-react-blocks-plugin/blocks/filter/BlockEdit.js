@@ -6,8 +6,7 @@ import {
   SelectControl,
   TextControl,
   CheckboxControl,
-  RangeControl,
-  dataSource
+  RangeControl
 } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { BaseBlockEdit } from '../commons/index'
@@ -18,7 +17,8 @@ class BlockEdit extends BaseBlockEdit {
     const {
       className, isSelected,
       toggleSelection, setAttributes, attributes: {
-        type, selectedCountryFirst, addYear, selectedCountryLabel, countryColumns
+        type, selectedCountryFirst, addYear, selectedCountryLabel, countryColumns,
+        dataSource
       }
     } = this.props;
 
@@ -50,8 +50,8 @@ class BlockEdit extends BaseBlockEdit {
               <SelectControl
                 label={__('DataSource:')}
                 value={[dataSource]}
-                onChange={(dataSource) => {
-                  setAttributes({ dataSource })
+                onChange={(value) => {
+                  setAttributes({ dataSource: value })
                 }}
                 options={[
                   { label: 'Latest country studies', value: 'latestCountryStudies' },
