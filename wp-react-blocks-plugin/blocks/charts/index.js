@@ -42,7 +42,11 @@ registerBlockType(process.env.BLOCKS_NS + '/chart',
             sources: {
                 type: 'String',
                 default: ""
-            }
+            },
+          defaultCountryId: {
+            type: 'number',
+            default: 9
+          }
         },
         edit: BlockEdit,
         save: BlockSave,
