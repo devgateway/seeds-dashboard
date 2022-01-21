@@ -49,13 +49,15 @@ class BlockEdit extends BaseBlockEdit {
         const {categories} = this.state;
         let list = [];
         list.push({label: __('Select one category'), value: 0});
-        categories.filter(i => i.parent === 0)
-            .sort(i => i.name.toLowerCase())
-            .map(i => {
-                return {label: i.name, value: i.id};
-            }).forEach(i => {
-            list.push(i);
-        });
+        if (categories) {
+            categories.filter(i => i.parent === 0)
+                .sort(i => i.name.toLowerCase())
+                .map(i => {
+                    return {label: i.name, value: i.id};
+                }).forEach(i => {
+                list.push(i);
+            });
+        }
         return (<SelectControl
             label={__('Category:')}
             value={[category]} // e.g: value = [ 'a', 'c' ]

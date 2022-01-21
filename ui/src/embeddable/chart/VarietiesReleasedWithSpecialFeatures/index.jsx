@@ -50,7 +50,7 @@ const VarietiesReleasedWithSpecialFeatures = ({data, sources}) => {
     const keys = [];
     let max = 0;
 
-    if (!data || !data.dimensions || !data.dimensions.crop) {
+    if (!data || !data.dimensions || !data.dimensions.crop || data.id === null) {
         noData = true;
     } else {
         crops = data.dimensions.crop.values;
