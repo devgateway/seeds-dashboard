@@ -4,7 +4,7 @@ import {
   NUMBER_OF_VARIETIES_RELEASED,
   SELECTED_COUNTRY,
   VARIETIES_RELEASED_WITH_SPECIAL_FEATURES,
-  AVAILABILITY_OF_BASIC_SEED,
+  AVAILABILITY_OF_BASIC_SEED, DEFAULT_COUNTRY_ID,
 } from "./StoreConstants";
 
 const SURVEY_API = process.env.REACT_APP_SURVEY_API
@@ -51,11 +51,16 @@ export const getIndicatorsData = (params) => {
 }
 
 export const getData = ({ source, app, params }) => {
-  if (app === COUNTRY_INFO && params && params[SELECTED_COUNTRY]) {
-    return get(APIS[app] + params[SELECTED_COUNTRY]);
-  } else if (app === NUMBER_OF_VARIETIES_RELEASED 
-      || app === AVAILABILITY_OF_BASIC_SEED 
-      || app === VARIETIES_RELEASED_WITH_SPECIAL_FEATURES) {
+  debugger;
+  if (app === COUNTRY_INFO && params && (params[SELECTED_COUNTRY] || params[DEFAULT_COUNTRY_ID])) {
+    let countryId = params[DEFAULT_COUNTRY_ID];
+    if (params[SELECTED_COUNTRY]) {
+      countryId = params[SELECTED_COUNTRY];
+    }
+    return get(APIS[app] + countryId);
+  } else if (app === NUMBER_OF_VARIETIES_RELEASED
+    || app === AVAILABILITY_OF_BASIC_SEED
+    || app === VARIETIES_RELEASED_WITH_SPECIAL_FEATURES) {
     if (params[SELECTED_COUNTRY]) {
       params.countryId = params[SELECTED_COUNTRY];
       return get(APIS[app] + (params ? '?' + queryParams(params) : ''));
