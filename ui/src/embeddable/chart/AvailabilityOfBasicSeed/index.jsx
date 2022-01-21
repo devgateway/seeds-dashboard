@@ -7,7 +7,8 @@ import { legends } from "./components/LegendConstant";
 
 const AvailabilityOfBasicSeed = ({ data, mostRecentYears, sources }) => {
   let yearsToShow;
-  if (data) {
+  let noData = false;
+  if (data && data.id) {
     yearsToShow = data.dimensions.year.values.sort((a, b) => {
       if (parseInt(a) < parseInt(b)) {
         return -1;
@@ -20,14 +21,19 @@ const AvailabilityOfBasicSeed = ({ data, mostRecentYears, sources }) => {
     if (yearsToShow.length > mostRecentYears) {
       yearsToShow = yearsToShow.slice(Math.max(yearsToShow.length - mostRecentYears, 1));
     }
+  } else {
+    noData = true;
   }
   return <Grid className={"availability-of-basic-seed-container"}>
     <Grid.Row className={"with-bottom-border chart-title"}><span>Availability of Basic Seed&nbsp;</span>(seed company
       rating
       out of 100)</Grid.Row>
     <Grid.Row className={"with-bottom-border border-left  border-right"}><Heading legends={legends} /></Grid.Row>
-    <Grid.Row className={"with-bottom-border border-left border-right"}><AvailabilityOfBasicSeedChart data={data}
-                                                                                                      yearsToShow={yearsToShow} /></Grid.Row>
+    <Grid.Row className={"with-bottom-border border-left border-right"}>
+      {!noData ?
+        <AvailabilityOfBasicSeedChart data={data}
+                                      yearsToShow={yearsToShow} /> : <div className={"no-data"}>No data</div>}
+    </Grid.Row>
     <Grid.Row className={"datasource-container border-left border-right"}>Source: {sources}</Grid.Row>
   </Grid>
 }

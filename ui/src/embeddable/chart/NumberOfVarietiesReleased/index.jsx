@@ -38,7 +38,7 @@ const NumberOfVarietiesReleased = ({data, sources}) => {
 
     const processedData = [];
 
-    if (!data) {
+    if (!data || data.id === null) {
         return null;
     }
     let crops = data.dimensions.crop.values;
