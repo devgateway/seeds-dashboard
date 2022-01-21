@@ -5,6 +5,7 @@ import {
   SELECTED_COUNTRY,
   VARIETIES_RELEASED_WITH_SPECIAL_FEATURES,
   AVAILABILITY_OF_BASIC_SEED, DEFAULT_COUNTRY_ID,
+  AVERAGE_AGE_VARIETIES_SOLD,
 } from "./StoreConstants";
 
 const SURVEY_API = process.env.REACT_APP_SURVEY_API
@@ -23,6 +24,7 @@ const WP_DOCUMENTS_API = `${APP_WP_API}/wp/v2/media`;
 let COUNTRY_INFORMATION_API = `${SURVEY_API}/countryInfo/countryId/`;
 let NUMBER_OF_VARIETIES_RELEASED_API = `${SURVEY_API}/chart/numberVarietiesReleased/year/crop`;
 let VARIETIES_RELEASED_WITH_SPECIAL_FEATURES_API = `${SURVEY_API}/chart/cropsReleased/crop/year`;
+let AVERAGE_AGE_VARIETIES_SOLD_API = `${SURVEY_API}/chart/averageAgeVarietiesSold/crop/year`;
 let AVAILABILITY_OF_BASIC_SEED_API = `${SURVEY_API}/chart/availabilityBasicSeed/crop/year/`;
 
 const APIS = {
@@ -31,6 +33,7 @@ const APIS = {
   [COUNTRY_INFO]: COUNTRY_INFORMATION_API,
   [NUMBER_OF_VARIETIES_RELEASED]: NUMBER_OF_VARIETIES_RELEASED_API,
   [VARIETIES_RELEASED_WITH_SPECIAL_FEATURES]: VARIETIES_RELEASED_WITH_SPECIAL_FEATURES_API,
+  [AVERAGE_AGE_VARIETIES_SOLD]: AVERAGE_AGE_VARIETIES_SOLD_API,
   [AVAILABILITY_OF_BASIC_SEED]: AVAILABILITY_OF_BASIC_SEED_API
 }
 
@@ -60,7 +63,8 @@ export const getData = ({ source, app, params }) => {
     return get(APIS[app] + countryId);
   } else if (app === NUMBER_OF_VARIETIES_RELEASED
     || app === AVAILABILITY_OF_BASIC_SEED
-    || app === VARIETIES_RELEASED_WITH_SPECIAL_FEATURES) {
+    || app === VARIETIES_RELEASED_WITH_SPECIAL_FEATURES
+    || app === AVERAGE_AGE_VARIETIES_SOLD) {
     if (params[SELECTED_COUNTRY]) {
       params.countryId = params[SELECTED_COUNTRY];
       return get(APIS[app] + (params ? '?' + queryParams(params) : ''));
