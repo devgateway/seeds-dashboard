@@ -3,8 +3,7 @@ import { ResponsivePie } from '@nivo/pie'
 import { getCropsArray } from "./index";
 
 // TODO: move to another file.
-export const getColor = (item) => {
-  const colors = {
+const baseColors = {
     "maize": "#EFCB16",
     "rice": "#3A5F2E",
     "sorghum": "#798161",
@@ -17,10 +16,34 @@ export const getColor = (item) => {
     "sunflower": "#3F3F3F",
     "teff": "#20676C",
     "wheat": "#A78D0C",
-    millet: '#000000',
-    pigeon: '#000000'
+    millet: '#878786',
+    pigeon: '#878786'
+}
+
+const fadeColors = {
+    "maize": "#f7e58b",
+    "rice": "#9daf97",
+    "sorghum": "#bcc0b0",
+    "cowpea": "#f9c694",
+    "groundnut": "#c4a78f",
+    "soya-bean": "#c1d19e",
+    "soya bean": "#c1d19e",
+    "beans": "#e2e1ce",
+    "bean": "#e2e1ce",
+    "sunflower": "#939393",
+    "teff": "#90b3b6",
+    "wheat": "#d3c686",
+    millet: '#c3c3c2',
+    pigeon: '#c3c3c2'
+}
+
+export const getColor = (item, options) => {
+  const options_ = options || {};
+  if (options_.fade) {
+      return fadeColors[item.id] || '#8a8a8a';
+  } else {
+      return baseColors[item.id] || '#000000';
   }
-  return colors[item.id] || '#000000';
 }
 
 const CountryInfoChart = ({ rawData }) => (

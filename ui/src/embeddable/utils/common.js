@@ -40,7 +40,7 @@ export const getSlugFromFilters = (filters, filtersData, valuesFilterStore, sele
   let slug;
   if (filters && filtersData) {
     //TODO add object id (countryId) as parameter
-    if (valuesFilterStore && filtersData.get(valuesFilterStore) && selectedFilterStore && filtersData.get(selectedFilterStore)) {
+    if (valuesFilterStore && filtersData.get(valuesFilterStore) && selectedFilterStore && filters.get(selectedFilterStore)) {
       const filterSelected = filtersData.get(valuesFilterStore).find(fd => fd.countryId === filters.get(selectedFilterStore));
       if (filterSelected) {
         //TODO add object value (country) as parameter

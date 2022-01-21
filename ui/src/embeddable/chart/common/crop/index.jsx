@@ -1,7 +1,7 @@
 import React from "react";
 import './styles.scss';
 
-const Crops = ({data, title, titleClass}) => {
+const Crops = ({data, title, titleClass, addLighterDiv}) => {
     return (
         <div>
             {title ? (<div className="crop legend">
@@ -11,6 +11,7 @@ const Crops = ({data, title, titleClass}) => {
                 const class_ = "crop " + c.toLowerCase() + " crop-icon";
                 return (<div key={c} className={class_}>
                     <label>{c}</label>
+                    {addLighterDiv ? <div className="lighter-crop"/> : null}
                 </div>)
             })}
         </div>

@@ -33,12 +33,6 @@ $border_gray: rgba(229, 229, 229, 1);
   }
 }
 
-.crops-title {
-  font-size: 1.2rem;
-  color: black;
-  font-weight: bold;
-}
-
 .filters-section {
   //padding-bottom: 7px !important;
   //padding-top: 7px !important;
@@ -54,12 +48,13 @@ $border_gray: rgba(229, 229, 229, 1);
   height: auto;
   box-shadow: 0 3px 10px #dbdce0;
   border: 1px solid #dbdce0;
+  width: 200px;
 
   .header-container {
     background-color: #eef1fa;
-    width: 200px;
+    width: 198px;
     height: 45px;
-    border-bottom: 1px solid #dbdce0;
+    //border: 1px solid #dbdce0;
 
     .header {
       margin: auto;
@@ -97,6 +92,8 @@ $border_gray: rgba(229, 229, 229, 1);
   }
 
   .amount-container {
+    width: 200px;
+
     table {
       width: 100%;
       padding: 5px;
@@ -107,10 +104,24 @@ $border_gray: rgba(229, 229, 229, 1);
       border: none;
       font-size: 14px;
       color: dimgray;
-      
+      text-align: left;
+
       .year {
         text-align: left;
       }
     }
   }
+}
+
+.bold {
+  font-weight: bold;
+  color: black;
+}
+
+.withSeparator {
+  border-left: 1px solid #eeeeee;
+}
+
+.no-data {
+  text-align: center
 }

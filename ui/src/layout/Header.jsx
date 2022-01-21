@@ -38,7 +38,18 @@ const BreadCrumbs = withRouter(injectIntl(({ menu, match, intl }) => {
 
 }))
 
-
+const PrincipalMenuItem = ({ i, onSetSelected, locale, firstChildLink }) => {
+  if (i.child_items) {
+    if (firstChildLink) {
+      return <a onMouseOver={() => onSetSelected(i)}
+                href={utils.replaceLink(i.child_items[0].url, locale)}>{i.title}</a>;
+    } else {
+      return <span onMouseOver={() => onSetSelected(i)}>{i.title}</span>;
+    }
+  } else {
+    return <a onMouseOver={() => onSetSelected(i)} href={utils.replaceLink(i.url, locale)}>{i.title}</a>;
+  }
+}
 const MyMenuItems = injectIntl(withRouter(({
                                              withIcons,
                                              active,
@@ -48,9 +59,9 @@ const MyMenuItems = injectIntl(withRouter(({
                                              match,
                                              addClass,
                                              addSeparator,
-                                             intl: { locale }
+                                             intl: { locale },
+                                             firstChildLink
                                            }) => {
-
   useEffect(() => {
     if (!selected) {
       const pathSelected = getPath(menu, match)
@@ -74,17 +85,15 @@ const MyMenuItems = injectIntl(withRouter(({
 
       >
 
-        {withIcons && <div className={"mark"} />} {i.child_items ?
-        <span onMouseOver={() => onSetSelected(i)}>{i.title}</span> :
-        <a onMouseOver={() => onSetSelected(i)} href={utils.replaceLink(i.url, locale)}>{i.title}</a>}
-
+        {withIcons && <div className={"mark"} />} <PrincipalMenuItem i={i} onSetSelected={onSetSelected}
+                                                                     locale={locale} firstChildLink={firstChildLink} />
       </Menu.Item>
         {index !== menu.items.length - 1 && addSeparator && <Menu.Item fitted />}</>))}
 
   </React.Fragment>
 }))
 
-const Header = ({ intl: { locale }, match }) => {
+const Header = ({ intl: { locale }, match, firstChildLink }) => {
   const [selected, setSelected] = useState()
   const routerHistory = useHistory();
   const { slug, parent } = match.params;
@@ -123,7 +132,7 @@ const Header = ({ intl: { locale }, match }) => {
               <Menu.Menu className={"pages"}>
                 <MenuConsumer>
                   <MyMenuItems active={slug} selected={selected}
-                               onSetSelected={setSelected} />
+                               onSetSelected={setSelected} firstChildLink={firstChildLink} />
                 </MenuConsumer>
               </Menu.Menu>
             </Container>}
@@ -139,14 +148,14 @@ const Header = ({ intl: { locale }, match }) => {
       <Container fluid={true} className={`dashboard-menu ${bannerClass ? bannerClass : ' home'}`}>
         <Menu.Menu className={`pages${(!selected || !selected.child_items) && !isCustom ? ' not-selected' : ''}`}>
           {isCustom &&
-          <MenuConsumer>
-            <MyMenuItems active={slug} selected={selected}
-                         onSetSelected={setSelected} addClass addSeparator />
-          </MenuConsumer>
+            <MenuConsumer>
+              <MyMenuItems active={slug} selected={selected}
+                           onSetSelected={setSelected} addClass addSeparator />
+            </MenuConsumer>
           }
           {selected && selected.child_items &&
-          <MyMenuItems active={slug} locale={locale} onSetSelected={e => null}
-                       addSeparator addClass menu={{ items: selected.child_items }}>}</MyMenuItems>
+            <MyMenuItems active={slug} locale={locale} onSetSelected={e => null}
+                         addSeparator addClass menu={{ items: selected.child_items }}>}</MyMenuItems>
           }
         </Menu.Menu>
       </Container>
