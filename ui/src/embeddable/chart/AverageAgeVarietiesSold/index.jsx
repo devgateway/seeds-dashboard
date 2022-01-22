@@ -50,7 +50,7 @@ const AverageAgeVarietiesSold = ({data, sources}) => {
     const keys = [];
     let max = 0;
 
-    if (!data || !data.dimensions || !data.dimensions.crop) {
+    if (!data || !data.dimensions || !data.dimensions.crop || data.id === null) {
         noData = true;
     } else {
         crops = data.dimensions.crop.values;
@@ -75,34 +75,23 @@ const AverageAgeVarietiesSold = ({data, sources}) => {
         }
 
         crops.forEach(c => {
-            let sumWF = 0;
-            let sumWOF = 0;
-            if (selectedYear) {
-                sumWF = data.values[c][selectedYear].withspecialfeature || 0;
-                sumWOF = data.values[c][selectedYear].withoutspecialfeature || 0;
-            } else {
-                Object.keys(data.values[c]).forEach(i => {
-                    sumWF += data.values[c][i].withspecialfeature || 0;
-                    sumWOF += data.values[c][i].withoutspecialfeature || 0;
-                });
-            }
+            const entry = {crop: c};
+            Object.keys(data.values[c]).forEach(i => {
+                const key = '' + i;
+                entry[key] = data.values[c][i];
+                if (!keys.find(i => i === key)) {
+                    keys.push(key);
+                }
+                colors.push(getColor({id: c.toLowerCase()}));
 
-            const key1 = 'withSpecialFeature_' + c;
-            const key2 = 'withoutSpecialFeature_' + c;
-            const header = {
-                crop: c,
-                [key1]: sumWF,
-                [key2]: sumWOF,
-            };
-            processedData.push(header);
-            keys.push(key1);
-            keys.push(key2);
-            colors.push(getColor({id: c.toLowerCase()}));
-            colors.push(getColor({id: c.toLowerCase()}, {fade: true}));
-            if (max < (sumWF + sumWOF)) {
-                max = (sumWF + sumWOF);
-            }
+                if (Number(entry[i]) > max) {
+                    max = Number(entry[i]);
+                }
+            });
+            processedData.push(entry);
         });
+        console.log(processedData);
+        console.log(keys);
     }
 
     const handleYearFilterChange = (selected) => {
@@ -123,7 +112,7 @@ const AverageAgeVarietiesSold = ({data, sources}) => {
     // returns a list of total value labels for stacked bars
     const TotalLabels = ({bars, yScale}) => {
         // space between top of stacked bars and total label
-        const labelMargin = 20;
+        const labelMargin = 10;
 
         const numbers = [];
         bars.forEach(({data: {data, indexValue}, x, width}, i) => {
@@ -162,7 +151,7 @@ const AverageAgeVarietiesSold = ({data, sources}) => {
         <Grid className={`number-varieties-released`}>
             <Grid.Row className="header-section">
                 <Grid.Column>
-                    <Header title="Total Crops Released With and Without Special Features" subtitle=""/>
+                    <Header title="Average Age of Varieties Sold" subtitle=""/>
                 </Grid.Column>
             </Grid.Row>
             <Grid.Row className={`filters-section`}>
@@ -173,28 +162,22 @@ const AverageAgeVarietiesSold = ({data, sources}) => {
                     <Years data={years} onChange={handleYearFilterChange}/>
                 </Grid.Column> : null}
             </Grid.Row>
-            {!noData ? <Grid.Row className={`crops-with-icons`}>
-                <Grid.Column width={8}>
-                    <CropsLegend data={selectedCrops} title="Crops" titleClass="crops-title" addLighterDiv={true}/>
-                </Grid.Column>
-                <Grid.Column width={8} className="withSeparator">
-                    <CropsWithSpecialFeatures/>
-                </Grid.Column>
-            </Grid.Row> : null}
             <Grid.Row className={`chart-section`}>
                 <Grid.Column width={16}>
                     <div style={{height: 450}}>
                         {!noData ? <ResponsiveBar
                             theme={theme}
+                            groupMode="grouped"
                             layers={["grid", "axes", "bars", TotalLabels, "markers", "legends"]}
                             data={processedData}
                             keys={keys}
                             indexBy={indexBy}
                             margin={{top: 50, right: 60, bottom: 70, left: 70}}
                             padding={0.3}
-                            valueScale={{type: 'linear', max: max * 1.25}}
+                            valueScale={{type: 'linear', max: 'auto'}}
                             indexScale={{type: 'band', round: true}}
-                            colors={colors}
+                            //colors={colors}
+                            colors={{scheme: 'purple_orange'}}
                             borderWidth={0}
                             borderRadius={0}
                             borderColor={{from: 'color', modifiers: [['darker', 0.4]]}}
@@ -219,7 +202,31 @@ const AverageAgeVarietiesSold = ({data, sources}) => {
                             }}
                             gridYValues={6}
                             enableLabel={false}
-                            tooltip={(d) => {
+                            legends={[
+                                {
+                                    dataFrom: 'keys',
+                                    anchor: 'top-left',
+                                    direction: 'row',
+                                    justify: false,
+                                    translateX: 120,
+                                    translateY: -40,
+                                    itemsSpacing: 2,
+                                    itemWidth: 150,
+                                    itemHeight: 20,
+                                    itemDirection: 'left-to-right',
+                                    itemOpacity: 0.85,
+                                    symbolSize: 20,
+                                    effects: [
+                                        {
+                                            on: 'hover',
+                                            style: {
+                                                itemOpacity: 1
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]}
+                            /*tooltip={(d) => {
                                 return (<div className="tooltip-container-vrwsf">
                                     <div className="header-container">
                                         <div className="header">
@@ -244,7 +251,7 @@ const AverageAgeVarietiesSold = ({data, sources}) => {
                                         </table>
                                     </div>
                                 </div>)
-                            }}
+                            }}*/
                         /> : <h2 className="no-data">No Data</h2>}
                     </div>
                 </Grid.Column>
