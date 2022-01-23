@@ -35,6 +35,10 @@ const theme = {
     }
 };
 
+const blueColors = [
+    '#3377b6', '#83b2de', '#9abfe1', '#c2dbf3'
+];
+
 const AverageAgeVarietiesSold = ({data, sources}) => {
 
     const [selectedCrops, setSelectedCrops] = useState(null);
@@ -76,13 +80,13 @@ const AverageAgeVarietiesSold = ({data, sources}) => {
 
         crops.forEach(c => {
             const entry = {crop: c};
-            Object.keys(data.values[c]).forEach(i => {
+            Object.keys(data.values[c]).forEach((i, j) => {
                 const key = '' + i;
                 entry[key] = data.values[c][i];
                 if (!keys.find(i => i === key)) {
                     keys.push(key);
                 }
-                colors.push(getColor({id: c.toLowerCase()}));
+                colors.push(blueColors[j]);
 
                 if (Number(entry[i]) > max) {
                     max = Number(entry[i]);
@@ -115,14 +119,8 @@ const AverageAgeVarietiesSold = ({data, sources}) => {
         const labelMargin = 10;
 
         const numbers = [];
-        bars.forEach(({data: {data, indexValue}, x, width}, i) => {
-            // sum of all the bar values in a stacked bar
-            const total = Object.keys(data)
-                //filter out whatever your indexBy value is
-                .filter(key => key !== indexBy)
-                .reduce((a, key) => a + data[key], 0);
-
-            const transform = `translate(${x}, ${yScale(total) - labelMargin})`;
+        bars.forEach(({data: {data, indexValue, id}, x, width}, i) => {
+            const transform = `translate(${x}, ${yScale(data[id]) - labelMargin})`;
             if (!numbers.find(i => i.props.transform === transform)) {
                 numbers.push(<g
                     transform={transform}
@@ -139,7 +137,7 @@ const AverageAgeVarietiesSold = ({data, sources}) => {
                             fontWeight: 'bold',
                             fontSize: '14pt'
                         }}>
-                        {total}
+                        {data[id]}
                     </text>
                 </g>);
             }
@@ -174,10 +172,11 @@ const AverageAgeVarietiesSold = ({data, sources}) => {
                             indexBy={indexBy}
                             margin={{top: 50, right: 60, bottom: 70, left: 70}}
                             padding={0.3}
+                            innerPadding={8}
                             valueScale={{type: 'linear', max: 'auto'}}
                             indexScale={{type: 'band', round: true}}
-                            //colors={colors}
-                            colors={{scheme: 'purple_orange'}}
+                            colors={colors}
+                            //colors={{scheme: 'purple_orange'}}
                             borderWidth={0}
                             borderRadius={0}
                             borderColor={{from: 'color', modifiers: [['darker', 0.4]]}}
