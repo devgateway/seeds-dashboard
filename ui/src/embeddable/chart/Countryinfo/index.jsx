@@ -39,10 +39,10 @@ const CountryInfo = ({ data, intl }) => {
     if (data) {
       aOrderedCrops =
         getCropsArray(data).sort((a, b) => {
-          if (a.value < b.value) {
+          if (a.value > b.value) {
             return -1;
           }
-          if (a.value > b.value) {
+          if (a.value < b.value) {
             return 1;
           }
           return 0;
