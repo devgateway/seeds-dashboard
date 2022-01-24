@@ -1,14 +1,11 @@
 import React, {useState} from "react";
 import {Grid} from "semantic-ui-react";
 import {ResponsiveBar} from '@nivo/bar'
-import CropsLegend from "../common/crop";
 import './styles.scss';
 import Source from "../common/source";
 import CropFilter from "../common/filters/crops";
 import Header from "../common/header";
-import {getColor} from "../Countryinfo/CountryInfoChart";
 import Years from "../common/filters/years";
-import CropsWithSpecialFeatures from "../common/cropWithSpecialFeatures";
 
 const theme = {
     axis: {
@@ -143,6 +140,18 @@ const AverageAgeVarietiesSold = ({data, sources}) => {
         return numbers;
     };
 
+    const generateLegends = () => {
+        return (<div style={{width: '100%', display: 'flex'}}>
+            <span className={"legend-title"}>Year(s)</span>
+            <div className="years">{years.map((y, i) => {
+                return (<div className="year" key={y}>
+                    <div className="circle" style={{background: blueColors[i]}}/>
+                    <span key={y}>{y}</span>
+                </div>);
+            })}</div>
+        </div>);
+    }
+
     return (
         <Grid className={`average-age-varieties-sold`}>
             <Grid.Row className="header-section">
@@ -157,6 +166,9 @@ const AverageAgeVarietiesSold = ({data, sources}) => {
                 {!noData ? <Grid.Column computer={3} mobile={16}>
                     <Years data={years} onChange={handleYearFilterChange}/>
                 </Grid.Column> : null}
+            </Grid.Row>
+            <Grid.Row className="legend-section">
+                {generateLegends()}
             </Grid.Row>
             <Grid.Row className={`chart-section`}>
                 <Grid.Column width={16}>
@@ -198,30 +210,6 @@ const AverageAgeVarietiesSold = ({data, sources}) => {
                             }}
                             gridYValues={6}
                             enableLabel={false}
-                            legends={[
-                                {
-                                    dataFrom: 'keys',
-                                    anchor: 'top-left',
-                                    direction: 'row',
-                                    justify: false,
-                                    translateX: 120,
-                                    translateY: -40,
-                                    itemsSpacing: 2,
-                                    itemWidth: 150,
-                                    itemHeight: 20,
-                                    itemDirection: 'left-to-right',
-                                    itemOpacity: 0.85,
-                                    symbolSize: 20,
-                                    effects: [
-                                        {
-                                            on: 'hover',
-                                            style: {
-                                                itemOpacity: 1
-                                            }
-                                        }
-                                    ]
-                                }
-                            ]}
                             tooltip={(d) => {
                                 return (<div className="tooltip-container-aavs">
                                     <div className="header-container">
