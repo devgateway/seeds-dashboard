@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import {Grid} from "semantic-ui-react";
 import {ResponsiveBar} from '@nivo/bar'
 import CropsLegend from "../common/crop";
+import { useTheme } from '@nivo/core'
 import './styles.scss';
 import Source from "../common/source";
 import CropFilter from "../common/filters/crops";
@@ -34,7 +35,14 @@ const theme = {
         }
     }
 };
-
+const getTextWidth = (text, font) => {
+    // re-use canvas object for better performance
+    const canvas = document.createElement("canvas");
+    const context = canvas.getContext("2d");
+    context.font = font;
+    const metrics = context.measureText(text);
+    return metrics.width;
+}
 const blueColors = [
     '#3377b6', '#83b2de', '#9abfe1', '#c2dbf3'
 ];
@@ -145,11 +153,58 @@ const AverageAgeVarietiesSold = ({data, sources}) => {
         return numbers;
     };
 
+    const CustomTick = tick => {
+        const tickRotation= 0;
+        const theme = useTheme()
+        const tickConfig = {
+            color: '#FFFFFF',
+            fontColor: '#000000',
+            fontSize: 10
+        };
+        const width = getTextWidth(tick.value, `${tickConfig.fontSize}px Roboto`) + 15;
+
+        return (<g transform={`translate(${tick.x - 20},${tick.y + 25})`}>
+            <rect transform={`rotate(${tickRotation})`}
+                  x={(-1 * (width) / 2 + 2)}
+                  y={-6} rx={3} ry={3}
+                  width={(width) + 2} height={22}
+                  fill="rgba(255, 255, 255)" />
+            <rect transform={`rotate(${tickRotation})`}
+                  x={(-1 * (width) / 2)}
+                  y={-12}
+                  rx={2}
+                  ry={2} width={width} height={22}
+                  fill={tickConfig.color} />
+            <circle className="bf9b314a-3cc5-4de7-9c56-1dcdbbfe5361" cx="20" cy="20" r="16" />
+            <ellipse className="e636d849-c039-47ee-8a84-0bf4236dd588" cx="20" cy="20" rx="11.27" ry="5.24"
+                     transform="translate(-8.21 22.11) rotate(-49.28)" />
+            <ellipse className="e636d849-c039-47ee-8a84-0bf4236dd588" cx="21.05" cy="18.78" rx="2.57" ry="1.58"
+                     transform="translate(-6.92 22.48) rotate(-49.28)" />
+            <text transform={`rotate(${tickRotation})`}
+                  textAnchor="middle"
+                  dominantBaseline="middle"
+                  style={{
+                      ...theme.axis.ticks.text,
+                      fill: tickConfig.fontColor,
+                      fontSize: "12px",
+                  }}
+            >
+
+                <circle className="bf9b314a-3cc5-4de7-9c56-1dcdbbfe5361" cx="20" cy="20" r="16" />
+                <ellipse className="e636d849-c039-47ee-8a84-0bf4236dd588" cx="20" cy="20" rx="11.27" ry="5.24"
+                         transform="translate(-8.21 22.11) rotate(-49.28)" />
+                <ellipse className="e636d849-c039-47ee-8a84-0bf4236dd588" cx="21.05" cy="18.78" rx="2.57" ry="1.58"
+                         transform="translate(-6.92 22.48) rotate(-49.28)" />
+              {tick.value}
+            </text>
+
+        </g>)
+    }
     return (
         <Grid className={`number-varieties-released`}>
             <Grid.Row className="header-section">
                 <Grid.Column>
-                    <Header title="Average Age of Varieties Sold" subtitle=""/>
+                  <Header title="Average Age of Varieties Sold" subtitle=""/>
                 </Grid.Column>
             </Grid.Row>
             <Grid.Row className={`filters-section`}>
@@ -169,6 +224,7 @@ const AverageAgeVarietiesSold = ({data, sources}) => {
                             layers={["grid", "axes", "bars", TotalLabels, "markers", "legends"]}
                             data={processedData}
                             keys={keys}
+                            axisBottom={{ renderTick: CustomTick }}
                             indexBy={indexBy}
                             margin={{top: 50, right: 60, bottom: 70, left: 70}}
                             padding={0.3}
@@ -182,14 +238,6 @@ const AverageAgeVarietiesSold = ({data, sources}) => {
                             borderColor={{from: 'color', modifiers: [['darker', 0.4]]}}
                             axisTop={null}
                             axisRight={null}
-                            axisBottom={{
-                                tickSize: 0,
-                                tickPadding: 5,
-                                tickRotation: 0,
-                                legend: 'Crops',
-                                legendPosition: 'middle',
-                                legendOffset: 45,
-                            }}
                             axisLeft={{
                                 tickSize: 0,
                                 tickPadding: 5,
@@ -263,5 +311,4 @@ const AverageAgeVarietiesSold = ({data, sources}) => {
         </Grid>
     )
 }
-
 export default AverageAgeVarietiesSold
