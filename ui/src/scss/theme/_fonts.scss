@@ -12,13 +12,14 @@ b, strong {
 
 h1 {
   color: $gray;
-  font-size: 30px;
+  font-family: $title-font-family;
+  font-size: 36px;
 }
 
 h2 {
+  font-family: $title-font-family;
   font-size: 2rem !important;
   color: $gray;
-  font-family:'Museo Slab W01_700';
 }
 
 h3 {
