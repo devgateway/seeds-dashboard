@@ -40,9 +40,12 @@ const getTextWidth = (text, font) => {
     const metrics = context.measureText(text);
     return metrics.width;
 }
+
 const blueColors = [
-    '#3377b6', '#83b2de', '#9abfe1', '#c2dbf3'
+    '#3377b6', '#7dafde', '#9fbfdc', '#c2dbf3'
 ];
+
+const FAKE_NUMBER = 0.001;
 
 const AverageAgeVarietiesSold = ({data, sources}) => {
 
@@ -87,7 +90,7 @@ const AverageAgeVarietiesSold = ({data, sources}) => {
             const entry = {crop: c};
             Object.keys(data.values[c]).forEach((i, j) => {
                 const key = '' + i;
-                entry[key] = data.values[c][i];
+                entry[key] = Number(data.values[c][i]) >= 0 ? data.values[c][i] : FAKE_NUMBER;
                 if (!keys.find(i => i === key)) {
                     keys.push(key);
                 }
@@ -118,6 +121,7 @@ const AverageAgeVarietiesSold = ({data, sources}) => {
 
     // returns a list of total value labels for stacked bars
     const TotalLabels = ({bars, yScale}) => {
+        const data_ = data;
         // space between top of stacked bars and total label
         const labelMargin = 30;
 
@@ -140,7 +144,7 @@ const AverageAgeVarietiesSold = ({data, sources}) => {
                             fontWeight: 'bold',
                             fontSize: '14pt'
                         }}>
-                        {data[id]}
+                        {data[id] !== FAKE_NUMBER ? data[id] : data_.values[data.crop][id]}
                     </text>
                 </g>);
             }
