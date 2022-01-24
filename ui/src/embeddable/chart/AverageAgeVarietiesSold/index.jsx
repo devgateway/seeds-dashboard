@@ -102,8 +102,6 @@ const AverageAgeVarietiesSold = ({data, sources}) => {
             });
             processedData.push(entry);
         });
-        console.log(processedData);
-        console.log(keys);
     }
 
     const handleYearFilterChange = (selected) => {
@@ -124,7 +122,7 @@ const AverageAgeVarietiesSold = ({data, sources}) => {
     // returns a list of total value labels for stacked bars
     const TotalLabels = ({bars, yScale}) => {
         // space between top of stacked bars and total label
-        const labelMargin = 10;
+        const labelMargin = 30;
 
         const numbers = [];
         bars.forEach(({data: {data, indexValue, id}, x, width}, i) => {
@@ -201,7 +199,7 @@ const AverageAgeVarietiesSold = ({data, sources}) => {
         </g>)
     }
     return (
-        <Grid className={`number-varieties-released`}>
+        <Grid className={`average-age-varieties-sold`}>
             <Grid.Row className="header-section">
                 <Grid.Column>
                   <Header title="Average Age of Varieties Sold" subtitle=""/>
@@ -232,7 +230,6 @@ const AverageAgeVarietiesSold = ({data, sources}) => {
                             valueScale={{type: 'linear', max: 'auto'}}
                             indexScale={{type: 'band', round: true}}
                             colors={colors}
-                            //colors={{scheme: 'purple_orange'}}
                             borderWidth={0}
                             borderRadius={0}
                             borderColor={{from: 'color', modifiers: [['darker', 0.4]]}}
@@ -242,7 +239,7 @@ const AverageAgeVarietiesSold = ({data, sources}) => {
                                 tickSize: 0,
                                 tickPadding: 5,
                                 tickRotation: 0,
-                                legend: 'Number of Varieties Released',
+                                legend: 'Average age (years) Years',
                                 legendPosition: 'middle',
                                 legendOffset: -60,
                                 tickValues: 6
@@ -273,8 +270,8 @@ const AverageAgeVarietiesSold = ({data, sources}) => {
                                     ]
                                 }
                             ]}
-                            /*tooltip={(d) => {
-                                return (<div className="tooltip-container-vrwsf">
+                            tooltip={(d) => {
+                                return (<div className="tooltip-container-aavs">
                                     <div className="header-container">
                                         <div className="header">
                                             <div className="inner-container">
@@ -288,17 +285,18 @@ const AverageAgeVarietiesSold = ({data, sources}) => {
                                             <tbody>
                                             <tr>
                                                 <td>
-                                                    <span
-                                                        className="bold">{d.data[d.id]} out of {(d.data['withSpecialFeature_' + d.indexValue.toLowerCase()] || 0)
-                                                    + (d.data['withoutSpecialFeature_' + d.indexValue.toLowerCase()] || 0)} </span>
-                                                    <span>varieties released.</span>
+                                                    <span>Average Age </span>
+                                                    <span className="bold">{d.data[d.id]}</span>
+                                                    <br/>
+                                                    <span>Year </span>
+                                                    <span className="bold">{d.id}</span>
                                                 </td>
                                             </tr>
                                             </tbody>
                                         </table>
                                     </div>
                                 </div>)
-                            }}*/
+                            }}
                         /> : <h2 className="no-data">No Data</h2>}
                     </div>
                 </Grid.Column>
