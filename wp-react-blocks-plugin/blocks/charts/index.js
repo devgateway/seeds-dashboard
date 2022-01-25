@@ -43,9 +43,21 @@ registerBlockType(process.env.BLOCKS_NS + '/chart',
                 type: 'String',
                 default: ""
             },
+          title: {
+            type: 'String',
+            default: ""
+          },
           defaultCountryId: {
-            type: 'number',
-            default: 9
+            type: 'Number',
+            default: 23
+          },
+          layout:{
+            type: 'String',
+            default: "vertical"
+          },
+          groupMode:{
+            type: 'String',
+            default: "stacked"
           }
         },
         edit: BlockEdit,

@@ -2,6 +2,7 @@ export const DATA = 'data';
 export const COUNTRY_INFO = 'countryInfo';
 export const NUMBER_OF_VARIETIES_RELEASED = 'numberOfVarietiesReleased';
 export const VARIETIES_RELEASED_WITH_SPECIAL_FEATURES = 'varietiesReleasedWithSpecialFeatures';
+export const NUMBER_OF_ACTIVE_BREEDERS = 'numberActiveBreeders';
 export const AVAILABILITY_OF_BASIC_SEED = 'availabilityOfBasicSeed';
 export const AVERAGE_AGE_VARIETIES_SOLD = 'avgAgeVarietiesSold';
 export const COUNTRY_SETTINGS = 'country-settings';

@@ -8,26 +8,23 @@ import DataConsumer from "../data/DataConsumer";
 import {buildDivergingOptions, buildPieOptions} from './prevalenceBuilder'
 
 import HalfPie from "./HalfPie";
-import Bar from "./Bar";
-import Line from "./Line";
 
 import {PostContent} from "@devgateway/wp-react-lib";
-import PrevalenceBarDataframe from './PrevalenceBarDataFrame'
-import PolicyDataFrame from './PolicyDataFrame'
-import CSVDataFrame from "./CSVDataFrame";
+
 import CountryInfo from "./Countryinfo";
 import {
   COUNTRY_INFO,
   NUMBER_OF_VARIETIES_RELEASED,
   VARIETIES_RELEASED_WITH_SPECIAL_FEATURES,
   AVAILABILITY_OF_BASIC_SEED, DEFAULT_COUNTRY_ID, 
-  AVERAGE_AGE_VARIETIES_SOLD
+  AVERAGE_AGE_VARIETIES_SOLD,
+  NUMBER_OF_ACTIVE_BREEDERS
 } from "../reducers/StoreConstants";
 import NumberOfVarietiesReleased from "./NumberOfVarietiesReleased";
-import VarietiesReleasedWithSpecialFeatures from "./VarietiesReleasedWithSpecialFeatures";
 import AvailabilityOfBasicSeed from "./AvailabilityOfBasicSeed";
 import { setFilter } from "../reducers/data";
 import AverageAgeVarietiesSold from "./AverageAgeVarietiesSold";
+import ChartComponent from "./ChartsComponent";
 
 const PieChart = (props) => {
     const {data, legends, colors, height} = props
@@ -59,7 +56,8 @@ const Chart = (props) => {
         'data-source': source = 'gender/smoke',
         'data-color-by': colorBy = 'index',
         'data-color-scheme': scheme = 'nivo',
-        'data-group-mode': groupMode = 'grouped',
+        'data-group-mode': groupMode = 'stacked',
+        'data-layout': layout = 'vertical',
         'data-legends-left': left = 'Left Legend',
         'data-legends-bottom': bottom = 'Bottom Legend',
         'data-dualmode': dualMode,
@@ -79,8 +77,9 @@ const Chart = (props) => {
         'data-currency': currency = "",
         "data-csv": csv = "",
         "data-sources": sources = "",
-      "data-most-recent-years": mostRecentYears = 5,
-      "data-default-country-id": defaultCountryId = 9
+        "data-title": title = "",
+        "data-most-recent-years": mostRecentYears = 5,
+        "data-default-country-id": defaultCountryId = 9
 
     } = props;
     const ref = useRef(null);
@@ -132,16 +131,9 @@ const Chart = (props) => {
     }
 
     const chartProps = {
-        tickColor: decodeURIComponent(tickColor),
-        tickRotation: tickRotation,
-        showLegends: showLegends == "true",
-        itemWidth: itemWidth,
-        height: `${contentHeight}px`,
-        legendPosition: legendPosition,
-        legends: legends,
-        colors: colors,
         groupMode: groupMode,
-        format: numberFormat
+        layout:layout,
+        title:title
     }
 
     const dual = (dualMode === 'true')
@@ -150,8 +142,12 @@ const Chart = (props) => {
             child = <NumberOfVarietiesReleased sources={sources}/>;
             break;
         case VARIETIES_RELEASED_WITH_SPECIAL_FEATURES:
-            child = <VarietiesReleasedWithSpecialFeatures sources={sources}/>;
-            break;
+        case NUMBER_OF_ACTIVE_BREEDERS:
+        {
+          const chartComponent = { sources, type, ...chartProps }
+          child = <ChartComponent {...chartComponent} />
+          break;
+        }
         case COUNTRY_INFO:
             child = <CountryInfo/>
             break;
@@ -161,6 +157,9 @@ const Chart = (props) => {
         case AVERAGE_AGE_VARIETIES_SOLD:
             child = <AverageAgeVarietiesSold sources={sources}/>
             break;
+      case AVAILABILITY_OF_BASIC_SEED:
+        child = <AvailabilityOfBasicSeed mostRecentYears={mostRecentYears} sources={sources} />;
+        break;
     }
     return (<div ref={ref}>
             <Container className={"chart container"} style={{"minHeight": height + 'px'}} fluid={true}>

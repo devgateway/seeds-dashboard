@@ -27,8 +27,11 @@ class BlockEdit extends BaseBlockEdit {
                 mode,
                 download,
                 sources,
+                title,
                 mostRecentYears,
-                defaultCountryId
+                defaultCountryId,
+                layout,
+                groupMode
             }
         } = this.props;
         let queryString = `data-height=${height}`;
@@ -36,8 +39,11 @@ class BlockEdit extends BaseBlockEdit {
         queryString += `&data-dualmode=${dualMode}`;
         queryString += `&data-download=${download}`;
         queryString += `&data-sources=${sources}`;
+        queryString += `&data-title=${title}`;
         queryString += `&data-most-recent-years=${mostRecentYears}`;
         queryString += `&data-default-country-id=${defaultCountryId}`;
+        queryString += `&data-layout=${layout}`;
+        queryString += `&data-group-mode=${groupMode}`;
         queryString += `&editing=true`
         const divStyles = {height: height + 'px', width: '100%'}
         return (
@@ -69,15 +75,13 @@ class BlockEdit extends BaseBlockEdit {
                                         {
                                             label: 'Average Age of Varieties Sold',
                                             value: 'avgAgeVarietiesSold'
+                                        },
+                                        {
+                                            label: 'Number of active breeders and adequacy of breeders',
+                                            value: 'numberActiveBreeders'
                                         }
+
                                     ]}
-                                />
-                            </PanelRow>
-                            <PanelRow>
-                                <ToggleControl
-                                    label={__("Use Infographic")}
-                                    checked={dualMode}
-                                    onChange={(dualMode) => setAttributes({dualMode})}
                                 />
                             </PanelRow>
                             <PanelRow>
@@ -95,7 +99,52 @@ class BlockEdit extends BaseBlockEdit {
                                   min={1}
                                   max={10}
                                 /></PanelRow>}
+                          {/*TODO commenting out the code since to enable the change in the different charts adjustemnets to the code
+                             TODO needs to be done out of the scope of the current stage
+                          (type==='numberActiveBreeders' ||type==='varietiesReleasedWithSpecialFeatures' )&&
                             <PanelRow>
+                              <SelectControl
+                                label={__('Layout:')}
+                                value={[layout]}
+                                onChange={(layout) => {
+                                  setAttributes({ layout })
+                                }}
+                                options={[
+                                  {
+                                    label: 'Horizontal',
+                                    value: 'horizontal'
+                                  },
+                                  {
+                                    label: 'Vertical',
+                                    value: 'vertical'
+                                  }
+
+                                ]}
+                              />
+                          </PanelRow>*/}
+                          {/*TODO commenting out the code since to enable the change in the different charts adjustemnets to the code
+                          needs to be done out of the scope of the current stage
+                              (type==='numberActiveBreeders' ||type==='varietiesReleasedWithSpecialFeatures' )&&
+                            <PanelRow>
+                            <SelectControl
+                              label={__('Group mode:')}
+                              value={[groupMode]}
+                              onChange={(groupMode) => {
+                                setAttributes({ groupMode })
+                              }}
+                              options={[
+                                {
+                                  label: 'Stacked',
+                                  value: 'stacked'
+                                },
+                                {
+                                  label: 'Grouped',
+                                  value: 'grouped'
+                                }
+
+                              ]}
+                            /></PanelRow>*/
+                          }<PanelRow>
                                 <RangeControl
                                     label={__('Chart Width')}
                                     value={width}
@@ -111,6 +160,10 @@ class BlockEdit extends BaseBlockEdit {
                                     min={1}
                                     max={1000}
                                 /></PanelRow>
+                            <PanelRow>
+                                <TextControl label={__('Chart title')} value={title}
+                                             onChange={(title) => setAttributes({title})}/>
+                            </PanelRow>
                             <PanelRow>
                                 <TextControl label={__('Source')} value={sources}
                                              onChange={(sources) => setAttributes({sources})}/>

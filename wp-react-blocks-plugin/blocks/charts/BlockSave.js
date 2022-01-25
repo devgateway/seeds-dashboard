@@ -11,7 +11,10 @@ const SaveComponent = (props) => {
             download,
             sources,
             mostRecentYears,
-            defaultCountryId
+            defaultCountryId,
+            layout,
+            groupMode,
+            title
         }
     } = props;
     const blockProps = useBlockProps.save({
@@ -28,8 +31,11 @@ const SaveComponent = (props) => {
              data-dualMode={dualMode}
              data-download={download}
              data-sources={sources}
+             data-title={title}
              data-most-recent-years={mostRecentYears}
              data-default-country-id={defaultCountryId}
+             data-layout={layout}
+             data-group-mode={groupMode}
 
         />
     );
