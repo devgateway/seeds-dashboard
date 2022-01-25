@@ -65,6 +65,10 @@ class BlockEdit extends BaseBlockEdit {
                                             value: 'numberOfVarietiesReleased'
                                         },
                                         {
+                                            label: 'Market Concentration HHI',
+                                            value: 'marketConcentrationHHI'
+                                        },
+                                        {
                                             label: 'Varieties released with special features',
                                             value: 'varietiesReleasedWithSpecialFeatures'
                                         },
