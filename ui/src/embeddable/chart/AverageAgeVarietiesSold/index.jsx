@@ -168,7 +168,8 @@ const AverageAgeVarietiesSold = ({data, sources}) => {
     }
 
     const CustomTick = tick => {
-        return <CropIcons crop={tick.value} text={tick.value} tick={tick}/>
+        return <CropIcons crop={tick.value} text={tick.value} tick={tick}
+                          style={{'textTransform': 'capitalize', fill: '#adafb2'}}/>
     }
 
     return (

@@ -1,5 +1,4 @@
 import React, {useState} from "react";
-import {useTheme} from '@nivo/core'
 import './styles.scss';
 
 const getTextWidth = (text, font) => {
@@ -123,9 +122,9 @@ const CropIcons = ({crop, text, style, tick}) => {
                 break;
         }
 
-        return (<g transform={`translate(${tick.x - 20},${tick.y + 25})`}>
-            {icon}
-            <text transform={`rotate(${tickRotation})`}
+        return (<g transform={`translate(${tick.x - 10},${tick.y + 25})`}>
+            <g transform={`translate(-40, -20)`}>{icon}</g>
+            <text transform={`translate(30, 2) rotate(${tickRotation})`}
                   textAnchor="middle"
                   dominantBaseline="middle"
                   style={style}>
