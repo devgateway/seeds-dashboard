@@ -1,4 +1,5 @@
 $font-family: 'Lato', sans-serif;
+$title-font-family:'Museo Slab W01_700';
 
 $blue: #3e53a6;
 $light-blue: #5089a6;
@@ -130,7 +131,9 @@ $breakpoint-phone: 480px;
   color: $text-color;
   letter-spacing: 1px;
 }
-
+@mixin button-hover{
+  background-color: $text-color;
+}
 // Event icons
 @mixin event-icon(){
   background-position: center;

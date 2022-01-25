@@ -11,12 +11,14 @@ b, strong {
 
 
 h1 {
-  color: $gray;
-  font-size: 30px;
+  color: $text-color;
+  font-family: $title-font-family;
+  font-size: 36px;
 }
 
 h2 {
-  font-size: 1.9rem !important;
+  font-family: $title-font-family;
+  font-size: 2rem !important;
   color: $gray;
 }
 
@@ -92,4 +94,8 @@ h6 {
 
 .uppercase{
   text-transform: uppercase;
+}
+
+.has-title-font{
+  font-family:'Museo Slab W01_700';
 }
