@@ -172,6 +172,14 @@
       display: none;
     }
   }
+  &.has-separator{
+    .carousel__slider--vertical{
+      li{
+        border-bottom: 1px solid $separator-grey;
+        padding-bottom: $base-unit * 3.5;
+      }
+    }
+  }
   .carousel__slider--vertical{
     li{
       display: block;
