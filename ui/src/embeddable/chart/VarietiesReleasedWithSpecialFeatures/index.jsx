@@ -4,7 +4,7 @@ import {ResponsiveBar} from '@nivo/bar'
 import CropsLegend from "../common/crop";
 import './styles.scss';
 import Source from "../common/source";
-import Crops from "../common/filters/crops";
+import CropFilter from "../common/filters/crops";
 import Header from "../common/header";
 import {getColor} from "../Countryinfo/CountryInfoChart";
 import Years from "../common/filters/years";
@@ -50,7 +50,7 @@ const VarietiesReleasedWithSpecialFeatures = ({data, sources}) => {
     const keys = [];
     let max = 0;
 
-    if (!data || !data.dimensions || !data.dimensions.crop) {
+    if (!data || !data.dimensions || !data.dimensions.crop || data.id === null) {
         noData = true;
     } else {
         crops = data.dimensions.crop.values;
@@ -167,7 +167,7 @@ const VarietiesReleasedWithSpecialFeatures = ({data, sources}) => {
             </Grid.Row>
             <Grid.Row className={`filters-section`}>
                 {!noData ? <Grid.Column computer={3} mobile={16}>
-                    <Crops data={initialCrops} onChange={handleCropFilterChange}/>
+                    <CropFilter data={initialCrops} onChange={handleCropFilterChange}/>
                 </Grid.Column> : null}
                 {!noData ? <Grid.Column computer={3} mobile={16}>
                     <Years data={years} onChange={handleYearFilterChange}/>
@@ -220,7 +220,7 @@ const VarietiesReleasedWithSpecialFeatures = ({data, sources}) => {
                             gridYValues={6}
                             enableLabel={false}
                             tooltip={(d) => {
-                                return (<div className="tooltip-container">
+                                return (<div className="tooltip-container-vrwsf">
                                     <div className="header-container">
                                         <div className="header">
                                             <div className="inner-container">

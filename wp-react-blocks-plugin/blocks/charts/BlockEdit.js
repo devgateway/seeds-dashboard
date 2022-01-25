@@ -27,7 +27,8 @@ class BlockEdit extends BaseBlockEdit {
                 mode,
                 download,
                 sources,
-                mostRecentYears
+                mostRecentYears,
+                defaultCountryId
             }
         } = this.props;
         let queryString = `data-height=${height}`;
@@ -35,7 +36,8 @@ class BlockEdit extends BaseBlockEdit {
         queryString += `&data-dualmode=${dualMode}`;
         queryString += `&data-download=${download}`;
         queryString += `&data-sources=${sources}`;
-        queryString += `data-most-recent-years=${mostRecentYears}`;
+        queryString += `&data-most-recent-years=${mostRecentYears}`;
+        queryString += `&data-default-country-id=${defaultCountryId}`;
         queryString += `&editing=true`
         const divStyles = {height: height + 'px', width: '100%'}
         return (
@@ -109,6 +111,10 @@ class BlockEdit extends BaseBlockEdit {
                                 <TextControl label={__('Source')} value={sources}
                                              onChange={(sources) => setAttributes({sources})}/>
                             </PanelRow>
+                          <PanelRow>
+                            <TextControl label={__('Default country ID')} value={defaultCountryId}
+                                         onChange={(defaultCountryId) => setAttributes({defaultCountryId})}/>
+                          </PanelRow>
                         </PanelBody>
                     </Panel>
                 </InspectorControls>

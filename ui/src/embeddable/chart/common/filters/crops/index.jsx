@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import './styles.scss';
 import {Accordion, Form, Menu} from "semantic-ui-react";
 
-const CropsLegend = ({data, onChange}) => {
+const CropFilter = ({data, onChange}) => {
 
     const [activeIndex, setActiveIndex] = useState([0]);
     const [numberOfSelectedCrops, setNumberOfSelectedCrops] = useState([1, 1, 1, 1]);
@@ -54,4 +54,4 @@ const CropsLegend = ({data, onChange}) => {
     )
 }
 
-export default CropsLegend
+export default CropFilter

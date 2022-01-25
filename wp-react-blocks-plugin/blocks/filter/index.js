@@ -32,7 +32,7 @@ registerBlockType(process.env.BLOCKS_NS + '/filter',
         default: 3
       },
       dataSource: {
-        type: "string",
+        type: "String",
         default: "latestCountryStudies"
       }
     }

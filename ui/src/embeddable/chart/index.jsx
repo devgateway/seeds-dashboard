@@ -1,4 +1,4 @@
-import React, {useRef, useState} from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {Button, Container, Grid, Icon, Segment} from "semantic-ui-react";
 import DataProvider from "../data/DataProvider";
 import {connect} from "react-redux";
@@ -17,14 +17,15 @@ import PolicyDataFrame from './PolicyDataFrame'
 import CSVDataFrame from "./CSVDataFrame";
 import CountryInfo from "./Countryinfo";
 import {
-    COUNTRY_INFO,
-    NUMBER_OF_VARIETIES_RELEASED,
-    VARIETIES_RELEASED_WITH_SPECIAL_FEATURES,
-    AVAILABILITY_OF_BASIC_SEED
+  COUNTRY_INFO,
+  NUMBER_OF_VARIETIES_RELEASED,
+  VARIETIES_RELEASED_WITH_SPECIAL_FEATURES,
+  AVAILABILITY_OF_BASIC_SEED, DEFAULT_COUNTRY_ID
 } from "../reducers/StoreConstants";
 import NumberOfVarietiesReleased from "./NumberOfVarietiesReleased";
 import VarietiesReleasedWithSpecialFeatures from "./VarietiesReleasedWithSpecialFeatures";
 import AvailabilityOfBasicSeed from "./AvailabilityOfBasicSeed";
+import { setFilter } from "../reducers/data";
 
 const PieChart = (props) => {
     const {data, legends, colors, height} = props
@@ -48,6 +49,7 @@ const Chart = (props) => {
         editing = false,
         unique,
         childContent,
+        setDefaultFilter,
         "data-app": app,
         "data-download": download,
         "data-height": height = 500,
@@ -75,10 +77,14 @@ const Chart = (props) => {
         'data-currency': currency = "",
         "data-csv": csv = "",
         "data-sources": sources = "",
-      "data-most-recent-years": mostRecentYears = 5
+      "data-most-recent-years": mostRecentYears = 5,
+      "data-default-country-id": defaultCountryId = 9
 
     } = props;
     const ref = useRef(null);
+  useEffect(() => {
+    setDefaultFilter(DEFAULT_COUNTRY_ID, defaultCountryId)
+  }, []);
 
     function filter(node) {
         if (node.classList) {
@@ -207,6 +213,6 @@ const mapStateToProps = (state, ownProps) => {
     return {}
 }
 
-const mapActionCreators = {};
+const mapActionCreators = { setDefaultFilter: setFilter };
 
 export default connect(mapStateToProps, mapActionCreators)(Chart)

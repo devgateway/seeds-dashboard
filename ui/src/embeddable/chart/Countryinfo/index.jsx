@@ -39,10 +39,10 @@ const CountryInfo = ({ data, intl }) => {
     if (data) {
       aOrderedCrops =
         getCropsArray(data).sort((a, b) => {
-          if (a.value < b.value) {
+          if (a.value > b.value) {
             return -1;
           }
-          if (a.value > b.value) {
+          if (a.value < b.value) {
             return 1;
           }
           return 0;
@@ -51,7 +51,7 @@ const CountryInfo = ({ data, intl }) => {
     return aOrderedCrops;
   }
   return (
-    data && <Grid className={`country-info`}>
+    <Grid className={`country-info`}>
       <Grid.Row className={`section totals`}>
         <Grid.Column width={10}>
           <div className="label">Total Land Area</div>
@@ -130,14 +130,18 @@ const CountryInfo = ({ data, intl }) => {
   )
 }
 export const getCropsArray = (rawData) => {
-  const newData = [...Array(4)].map((value, key) => {
-    return {
-      "id": rawData[`nameCrop${key + 1}`].replace(/\s+/g, '-').toLowerCase(),
-      "label": rawData[`nameCrop${key + 1}`],
-      "value": rawData[`harvestedCrop${key + 1}`] ? rawData[`harvestedCrop${key + 1}`].value : 0,
-    }
-  });
-  return newData;
+  if (rawData[`nameCrop1`]) {
+    const newData = [...Array(4)].map((value, key) => {
+      return {
+        "id": (rawData[`nameCrop${key + 1}`] ? rawData[`nameCrop${key + 1}`] : "").replace(/\s+/g, '-').toLowerCase(),
+        "label": rawData[`nameCrop${key + 1}`],
+        "value": rawData[`harvestedCrop${key + 1}`] ? rawData[`harvestedCrop${key + 1}`].value : 0,
+      }
+    });
+    return newData;
+  } else {
+    return [];
+  }
 }
 
 
