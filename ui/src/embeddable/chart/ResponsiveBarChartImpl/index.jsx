@@ -9,7 +9,9 @@ import Header from "../common/header";
 import { getColor } from "../Countryinfo/CountryInfoChart";
 import Years from "../common/filters/years";
 import CropsWithSpecialFeatures from "../common/cropWithSpecialFeatures";
+import CropIcons from "../common/cropIcons";
 
+const FAKE_NUMBER = 0.001;
 const theme = {
   axis: {
     ticks: {
@@ -36,6 +38,7 @@ const theme = {
 };
 
 const ResponsiveBarChartImpl = ({
+                                  data,
                                   noData, processedData,
                                   keys,
                                   max,
@@ -48,7 +51,7 @@ const ResponsiveBarChartImpl = ({
                                   enableGridY,
                                   getTooltipText,
                                   getTooltipHeader,
-                                  groupMode
+                                  groupMode, customTickWithCrops
                                 }) => {
 
   ;
@@ -99,14 +102,49 @@ const ResponsiveBarChartImpl = ({
     });
     return numbers;
   };
+  const TotalLabelsGrouped = ({ bars, yScale }) => {
+    const data_ = data;
+    // space between top of stacked bars and total label
+    const labelMargin = 30;
+
+    const numbers = [];
+    bars.forEach(({ data: { data, indexValue, id }, x, width }, i) => {
+      const transform = `translate(${x}, ${yScale(data[id]) - labelMargin})`;
+      if (!numbers.find(i => i.props.transform === transform)) {
+        numbers.push(<g
+          transform={transform}
+          key={`${indexValue}-${i}`}>
+          <text
+            // add any class to the label here
+            className="bar-total-label"
+            x={width / 2}
+            y={labelMargin / 2}
+            textAnchor="middle"
+            alignmentBaseline="central"
+            // add any style to the label here
+            style={{
+              fontWeight: 'bold',
+              fontSize: '14pt'
+            }}>
+            {data[id] !== FAKE_NUMBER ? data[id] : data_.values[data.crop][id]}
+          </text>
+        </g>);
+      }
+    });
+    return numbers;
+  };
   const getColors = (item) => {
     return colors.get(item.id);
+  }
+  const CustomTick = tick => {
+    return <CropIcons crop={tick.value} text={tick.value} tick={tick}
+                      style={{ 'textTransform': 'capitalize', fill: '#adafb2' }} />
   }
   return (
     <div style={{ height: 450 }}>
       {!noData ? <ResponsiveBar
         theme={theme}
-        layers={["grid", "axes", "bars", TotalLabels, "markers", "legends"]}
+        layers={["grid", "axes", "bars", groupMode === 'stacked' ? TotalLabels : TotalLabelsGrouped, "markers", "legends"]}
         data={processedData}
         keys={keys}
         indexBy={indexBy}
@@ -122,14 +160,7 @@ const ResponsiveBarChartImpl = ({
         axisRight={null}
         enableGridX={enableGridX}
         enableGridY={enableGridY}
-        axisBottom={{
-          tickSize: 0,
-          tickPadding: 5,
-          tickRotation: 0,
-          legend: bottomLegend,
-          legendPosition: 'middle',
-          legendOffset: 45,
-        }}
+        innerPadding={groupMode === 'stacked' ? 0 : 8}
         axisLeft={{
           tickSize: 0,
           tickPadding: 5,
@@ -143,6 +174,14 @@ const ResponsiveBarChartImpl = ({
         groupMode={groupMode}
         gridYValues={6}
         enableLabel={false}
+        axisBottom={customTickWithCrops ? { renderTick: CustomTick } : {
+          tickSize: 0,
+          tickPadding: 5,
+          tickRotation: 0,
+          legend: bottomLegend,
+          legendPosition: 'middle',
+          legendOffset: 45,
+        }}
         tooltip={(d) => {
           return (<div className="tooltip-container-vrwsf">
             <div className="header-container">

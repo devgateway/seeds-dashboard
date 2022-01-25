@@ -73,6 +73,10 @@ class BlockEdit extends BaseBlockEdit {
                                             value: 'availabilityOfBasicSeed'
                                         },
                                         {
+                                            label: 'Average Age of Varieties Sold',
+                                            value: 'avgAgeVarietiesSold'
+                                        },
+                                        {
                                             label: 'Number of active breeders and adequacy of breeders',
                                             value: 'numberActiveBreeders'
                                         }
