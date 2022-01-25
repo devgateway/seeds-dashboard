@@ -72,7 +72,7 @@ const AverageAgeVarietiesSold = ({data, sources}) => {
             setCurrentData(data);
             setSelectedCrops(crops);
             setInitialCrops(crops);
-            setSelectedYear(years[years.length - 1])
+            setSelectedYear(years.slice(0, 4))
 
             // workaround for selectedCrops not being updated.
             return null;
@@ -89,15 +89,17 @@ const AverageAgeVarietiesSold = ({data, sources}) => {
         crops.forEach(c => {
             const entry = {crop: c};
             Object.keys(data.values[c]).forEach((i, j) => {
-                const key = '' + i;
-                entry[key] = Number(data.values[c][i]) >= 0 ? data.values[c][i] : FAKE_NUMBER;
-                if (!keys.find(i => i === key)) {
-                    keys.push(key);
-                }
-                colors.push(blueColors[j]);
+                if (selectedYear && selectedYear.find(k => k === i)) {
+                    const key = '' + i;
+                    entry[key] = Number(data.values[c][i]) >= 0 ? data.values[c][i] : FAKE_NUMBER;
+                    if (!keys.find(i => i === key)) {
+                        keys.push(key);
+                    }
+                    colors.push(blueColors[j]);
 
-                if (Number(entry[i]) > max) {
-                    max = Number(entry[i]);
+                    if (Number(entry[i]) > max) {
+                        max = Number(entry[i]);
+                    }
                 }
             });
             processedData.push(entry);

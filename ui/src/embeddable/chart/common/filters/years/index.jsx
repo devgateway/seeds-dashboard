@@ -30,18 +30,20 @@ const Years = ({data, onChange, maxSelectable, defaultSelected}) => {
     const handleChange = (e, props) => {
         if (maxSelectable === 1) {
             setSelectedYear([props.value]);
+            onChange(props.value);
         } else {
             const index = selectedYear.findIndex(i => i === props.value);
-            const auxArray = Object.assign([], selectedYear);
+            let auxArray = Object.assign([], selectedYear);
             if (index >= 0) {
                 auxArray.splice(index, 1);
                 setSelectedYear(auxArray);
             } else {
                 auxArray.push(props.value);
-                setSelectedYear(auxArray.sort());
+                auxArray = auxArray.sort();
+                setSelectedYear(auxArray);
             }
+            onChange(auxArray)
         }
-        onChange(props.value);
     }
 
     const generateContent = () => {
