@@ -7,6 +7,7 @@ import Source from "../common/source";
 import CropFilter from "../common/filters/crops";
 import Header from "../common/header";
 import Years from "../common/filters/years";
+import CropIcons from "../common/cropIcons";
 
 const theme = {
     axis: {
@@ -167,51 +168,7 @@ const AverageAgeVarietiesSold = ({data, sources}) => {
     }
 
     const CustomTick = tick => {
-        const tickRotation = 0;
-        const theme = useTheme()
-        const tickConfig = {
-            color: '#FFFFFF',
-            fontColor: '#000000',
-            fontSize: 10
-        };
-        const width = getTextWidth(tick.value, `${tickConfig.fontSize}px Roboto`) + 15;
-
-        return (<g transform={`translate(${tick.x - 20},${tick.y + 25})`}>
-            <rect transform={`rotate(${tickRotation})`}
-                  x={(-1 * (width) / 2 + 2)}
-                  y={-6} rx={3} ry={3}
-                  width={(width) + 2} height={22}
-                  fill="rgba(255, 255, 255)"/>
-            <rect transform={`rotate(${tickRotation})`}
-                  x={(-1 * (width) / 2)}
-                  y={-12}
-                  rx={2}
-                  ry={2} width={width} height={22}
-                  fill={tickConfig.color}/>
-            <circle className="bf9b314a-3cc5-4de7-9c56-1dcdbbfe5361" cx="20" cy="20" r="16"/>
-            <ellipse className="e636d849-c039-47ee-8a84-0bf4236dd588" cx="20" cy="20" rx="11.27" ry="5.24"
-                     transform="translate(-8.21 22.11) rotate(-49.28)"/>
-            <ellipse className="e636d849-c039-47ee-8a84-0bf4236dd588" cx="21.05" cy="18.78" rx="2.57" ry="1.58"
-                     transform="translate(-6.92 22.48) rotate(-49.28)"/>
-            <text transform={`rotate(${tickRotation})`}
-                  textAnchor="middle"
-                  dominantBaseline="middle"
-                  style={{
-                      ...theme.axis.ticks.text,
-                      fill: tickConfig.fontColor,
-                      fontSize: "12px",
-                  }}
-            >
-
-                <circle className="bf9b314a-3cc5-4de7-9c56-1dcdbbfe5361" cx="20" cy="20" r="16"/>
-                <ellipse className="e636d849-c039-47ee-8a84-0bf4236dd588" cx="20" cy="20" rx="11.27" ry="5.24"
-                         transform="translate(-8.21 22.11) rotate(-49.28)"/>
-                <ellipse className="e636d849-c039-47ee-8a84-0bf4236dd588" cx="21.05" cy="18.78" rx="2.57" ry="1.58"
-                         transform="translate(-6.92 22.48) rotate(-49.28)"/>
-                {tick.value}
-            </text>
-
-        </g>)
+        return <CropIcons crop={tick.value} text={tick.value} tick={tick}/>
     }
 
     return (
