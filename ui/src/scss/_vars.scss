@@ -131,7 +131,9 @@ $breakpoint-phone: 480px;
   color: $text-color;
   letter-spacing: 1px;
 }
-
+@mixin button-hover{
+  background-color: $text-color;
+}
 // Event icons
 @mixin event-icon(){
   background-position: center;
