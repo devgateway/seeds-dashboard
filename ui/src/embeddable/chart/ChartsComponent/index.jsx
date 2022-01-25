@@ -8,7 +8,12 @@ import CropsLegend from "../common/crop";
 import CropsWithSpecialFeatures from "../common/cropWithSpecialFeatures";
 import Source from "../common/source";
 import { getColor } from "../Countryinfo/CountryInfoChart";
-import { NUMBER_OF_ACTIVE_BREEDERS, VARIETIES_RELEASED_WITH_SPECIAL_FEATURES } from "../../reducers/StoreConstants";
+import {
+  AVERAGE_AGE_VARIETIES_SOLD,
+  NUMBER_OF_ACTIVE_BREEDERS,
+  VARIETIES_RELEASED_WITH_SPECIAL_FEATURES
+} from "../../reducers/StoreConstants";
+import YearLegend from "../common/year";
 
 const ChartComponent = ({ sources, data, type, title }) => {
   const [initialCrops, setInitialCrops] = useState(null);
@@ -19,22 +24,27 @@ const ChartComponent = ({ sources, data, type, title }) => {
   let indexBy = 'crop';
   let showYearFilter = true;
   let layout = 'vertical';
+  let groupMode = 'stacked';
   let withCropsWithSpecialFeatures = true;
   let addLighterDiv = true;
   let leftLegend;
   let bottomLegend;
   let enableGridX = false;
   let enableGridY = true;
+  let legend = 'crops';
+  let customTickWithCrops = false;
   //END TODO
   let getTooltipText;
   let getTooltipHeader;
   let crops = null;
   let noData = false;
   let years = null;
-  const colors = new Map();
+  let colors = new Map();
   const keys = [];
   let max = 0;
+  let maxSelectableYear = 1;
   const processedData = [];
+  const FAKE_NUMBER = 0.001;
   if (!data || !data.dimensions || !data.dimensions.crop || data.id === null) {
     noData = true;
   } else {
@@ -44,7 +54,10 @@ const ChartComponent = ({ sources, data, type, title }) => {
       setCurrentData(data);
       setSelectedCrops(crops);
       setInitialCrops(crops);
-      setSelectedYear(years[years.length - 1])
+      //TODO see what to use
+
+      setSelectedYear(years.slice(0, 4))
+      //setSelectedYear(years[years.length - 1])
 
       // workaround for selectedCrops not being updated.
       return null;
@@ -70,6 +83,7 @@ const ChartComponent = ({ sources, data, type, title }) => {
     setSelectedYear(selected);
   }
   const numberOfActiveBreeders = () => {
+
     if (years && crops) {
       years.forEach(y => {
         const yearObject = { year: y };
@@ -90,14 +104,37 @@ const ChartComponent = ({ sources, data, type, title }) => {
       });
     }
   }
+  const processAverageVarietiesSold = () => {
+    const newBlueColors = [...blueColors];
+    crops.forEach(c => {
+      const entry = { crop: c };
+      Object.keys(data.values[c]).forEach((i, j) => {
+        if (selectedYear && selectedYear.find(k => k === i)) {
+          const key = '' + i;
+          entry[key] = Number(data.values[c][i]) >= 0 ? data.values[c][i] : FAKE_NUMBER;
+          if (!keys.find(i => i === key)) {
+            keys.push(key);
+          }
+          if (!colors.get(key)) {
+            colors.set(key, newBlueColors.shift());
+          }
+          if (Number(entry[i]) > max) {
+            max = Number(entry[i]);
+          }
+        }
+      });
+      processedData.push(entry);
+    });
+  }
   const processVarietiesReleasedWithSpecialFeatures = () => {
     if (crops) {
       crops.forEach(c => {
         let sumWF = 0;
         let sumWOF = 0;
-        if (selectedYear) {
-          sumWF = data.values[c][selectedYear].withspecialfeature || 0;
-          sumWOF = data.values[c][selectedYear].withoutspecialfeature || 0;
+        if (selectedYear && selectedYear.length > 0) {
+          //selected year is expected to be 1
+          sumWF = data.values[c][selectedYear[0]].withspecialfeature || 0;
+          sumWOF = data.values[c][selectedYear[0]].withoutspecialfeature || 0;
         } else {
           Object.keys(data.values[c]).forEach(i => {
             sumWF += data.values[c][i].withspecialfeature || 0;
@@ -124,6 +161,32 @@ const ChartComponent = ({ sources, data, type, title }) => {
     }
   }
   switch (type) {
+    case AVERAGE_AGE_VARIETIES_SOLD: {
+      getTooltipText = (d) => {
+        return <>
+          <span>Average Age</span><span
+          className="bold"> {d.data[d.id]}  </span><br />
+          <span>Year</span><span
+          className="bold"> {d.id}  </span>
+
+        </>
+      }
+      getTooltipHeader = (d) => {
+        return <>
+          <div className={d.indexValue.toLowerCase() + " crop-icon"} />
+          <div className="crop-name">{d.indexValue}</div>
+        </>;
+      }
+      legend = 'years';
+      groupMode = 'grouped';
+      title = 'Average age (years) Years';
+      leftLegend = 'Average age (years) Years';
+      withCropsWithSpecialFeatures = false;
+      customTickWithCrops = true;
+      maxSelectableYear = 4;
+      processAverageVarietiesSold();
+      break;
+    }
     case VARIETIES_RELEASED_WITH_SPECIAL_FEATURES:
       getTooltipText = (d) => {
         return <><span
@@ -169,7 +232,6 @@ const ChartComponent = ({ sources, data, type, title }) => {
       numberOfActiveBreeders();
       break;
   }
-
   return <Grid className={`number-varieties-released`}>
     <Grid.Row className="header-section">
       <Grid.Column>
@@ -181,12 +243,15 @@ const ChartComponent = ({ sources, data, type, title }) => {
         <CropFilter data={initialCrops} onChange={handleCropFilterChange} />
       </Grid.Column> : null}
       {(!noData && showYearFilter) ? <Grid.Column computer={3} mobile={16}>
-        <Years data={years} onChange={handleYearFilterChange} />
+        <Years data={years} onChange={handleYearFilterChange} maxSelectable={maxSelectableYear}
+               defaultSelected={years.slice(0, maxSelectableYear)} />
       </Grid.Column> : null}
     </Grid.Row>
     {!noData ? <Grid.Row className={`crops-with-icons`}>
       <Grid.Column width={8}>
-        <CropsLegend data={selectedCrops} title="Crops" titleClass="crops-title" addLighterDiv={addLighterDiv} />
+        {legend === 'crops' &&
+          <CropsLegend data={selectedCrops} title="Crops" titleClass="crops-title" addLighterDiv={addLighterDiv} />}
+        {legend === 'years' && <YearLegend colors={blueColors} years={years} />}
       </Grid.Column>
       <Grid.Column width={8} className="withSeparator">
         {withCropsWithSpecialFeatures && <CropsWithSpecialFeatures />}
@@ -197,9 +262,11 @@ const ChartComponent = ({ sources, data, type, title }) => {
         <ResponsiveBarChartImpl sources={sources} data={data} noData={noData} crops={crops}
                                 selectedYear={selectedYear} colors={colors} max={max} keys={keys}
                                 processedData={processedData} indexBy={indexBy} layout={layout}
+                                groupMode={groupMode}
                                 leftLegend={leftLegend} bottomLegend={bottomLegend}
                                 enableGridX={enableGridX} enableGridY={enableGridY}
                                 getTooltipText={getTooltipText} getTooltipHeader={getTooltipHeader}
+                                customTickWithCrops={customTickWithCrops}
         />
       </Grid.Column>
     </Grid.Row>
@@ -210,5 +277,8 @@ const ChartComponent = ({ sources, data, type, title }) => {
     </Grid.Row>
   </Grid>
 }
+const blueColors = [
+  '#3377b6', '#7dafde', '#9fbfdc', '#c2dbf3'
+];
 
 export default ChartComponent;

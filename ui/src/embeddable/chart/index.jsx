@@ -16,14 +16,13 @@ import {
   COUNTRY_INFO,
   NUMBER_OF_VARIETIES_RELEASED,
   VARIETIES_RELEASED_WITH_SPECIAL_FEATURES,
-  AVAILABILITY_OF_BASIC_SEED, DEFAULT_COUNTRY_ID, 
+  AVAILABILITY_OF_BASIC_SEED, DEFAULT_COUNTRY_ID,
   AVERAGE_AGE_VARIETIES_SOLD,
   NUMBER_OF_ACTIVE_BREEDERS
 } from "../reducers/StoreConstants";
 import NumberOfVarietiesReleased from "./NumberOfVarietiesReleased";
 import AvailabilityOfBasicSeed from "./AvailabilityOfBasicSeed";
 import { setFilter } from "../reducers/data";
-import AverageAgeVarietiesSold from "./AverageAgeVarietiesSold";
 import ChartComponent from "./ChartsComponent";
 
 const PieChart = (props) => {
@@ -143,6 +142,7 @@ const Chart = (props) => {
             break;
         case VARIETIES_RELEASED_WITH_SPECIAL_FEATURES:
         case NUMBER_OF_ACTIVE_BREEDERS:
+      case AVERAGE_AGE_VARIETIES_SOLD:
         {
           const chartComponent = { sources, type, ...chartProps }
           child = <ChartComponent {...chartComponent} />
@@ -154,12 +154,6 @@ const Chart = (props) => {
         case AVAILABILITY_OF_BASIC_SEED:
             child = <AvailabilityOfBasicSeed mostRecentYears={mostRecentYears} sources={sources}/>;
             break;
-        case AVERAGE_AGE_VARIETIES_SOLD:
-            child = <AverageAgeVarietiesSold sources={sources}/>
-            break;
-      case AVAILABILITY_OF_BASIC_SEED:
-        child = <AvailabilityOfBasicSeed mostRecentYears={mostRecentYears} sources={sources} />;
-        break;
     }
     return (<div ref={ref}>
             <Container className={"chart container"} style={{"minHeight": height + 'px'}} fluid={true}>

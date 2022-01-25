@@ -67,7 +67,7 @@ export const getData = ({ source, app, params }) => {
   } else if (app === NUMBER_OF_VARIETIES_RELEASED
     || app === AVAILABILITY_OF_BASIC_SEED
     || app === VARIETIES_RELEASED_WITH_SPECIAL_FEATURES
-    || app === AVERAGE_AGE_VARIETIES_SOLD 
+    || app === AVERAGE_AGE_VARIETIES_SOLD
     || app === NUMBER_OF_ACTIVE_BREEDERS
     || app === VARIETIES_RELEASED_WITH_SPECIAL_FEATURES) {
     if (params[SELECTED_COUNTRY] || params[DEFAULT_COUNTRY_ID]) {
