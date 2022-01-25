@@ -10,7 +10,7 @@ import Source from "../common/source";
 import { getColor } from "../Countryinfo/CountryInfoChart";
 import {
   AVERAGE_AGE_VARIETIES_SOLD,
-  NUMBER_OF_ACTIVE_BREEDERS,
+  NUMBER_OF_ACTIVE_BREEDERS, NUMBER_OF_ACTIVE_SEED_COMPANIES_PRODUCERS,
   VARIETIES_RELEASED_WITH_SPECIAL_FEATURES
 } from "../../reducers/StoreConstants";
 import YearLegend from "../common/year";
@@ -161,26 +161,44 @@ const ChartComponent = ({ sources, data, type, title }) => {
     }
   }
   switch (type) {
-    case AVERAGE_AGE_VARIETIES_SOLD: {
-      getTooltipText = (d) => {
-        return <>
-          <span>Average Age</span><span
-          className="bold"> {d.data[d.id]}  </span><br />
-          <span>Year</span><span
-          className="bold"> {d.id}  </span>
+    case AVERAGE_AGE_VARIETIES_SOLD:
+    case NUMBER_OF_ACTIVE_SEED_COMPANIES_PRODUCERS: {
+      if (type === AVERAGE_AGE_VARIETIES_SOLD) {
+        getTooltipText = (d) => {
+          return <>
+            <span>Average Age</span><span
+            className="bold"> {d.data[d.id]}  </span><br />
+            <span>Year</span><span
+            className="bold"> {d.id}  </span>
 
-        </>
-      }
-      getTooltipHeader = (d) => {
-        return <>
-          <div className={d.indexValue.toLowerCase() + " crop-icon"} />
-          <div className="crop-name">{d.indexValue}</div>
-        </>;
+          </>
+        }
+        getTooltipHeader = (d) => {
+          return <>
+            <div className={d.indexValue.toLowerCase() + " crop-icon"} />
+            <div className="crop-name">{d.indexValue}</div>
+          </>;
+        }
+      } else {
+        getTooltipText = (d) => {
+          return <>
+            <span
+              className="bold"> {d.data[d.id]}  </span>
+            <span>seed companies / producers </span>
+
+          </>
+        }
+        getTooltipHeader = (d) => {
+          return <>
+            <div className={d.indexValue.toLowerCase() + " crop-icon"} />
+            <div className="crop-name">{d.indexValue} {d.id}</div>
+          </>;
+        }
       }
       legend = 'years';
       groupMode = 'grouped';
-      title = 'Average age (years) Years';
-      leftLegend = 'Average age (years) Years';
+      title = 'Number of active seed companies/producers';
+      leftLegend = 'Number of Years';
       withCropsWithSpecialFeatures = false;
       customTickWithCrops = true;
       maxSelectableYear = 4;
