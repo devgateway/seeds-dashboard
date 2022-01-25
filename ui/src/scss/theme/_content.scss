@@ -722,6 +722,11 @@ p:empty {
       color: $text-color;
     }
   }
+  &.has-large-title{
+    .selected-country{
+      font-size: 2rem;
+    }
+  }
 }
 
 
