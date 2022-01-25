@@ -14,6 +14,7 @@ import {InnerBlocks} from '@wordpress/editor'; // or wp.editor
 import {__} from '@wordpress/i18n';
 import {Checkbox} from 'semantic-ui-react'
 import {BaseBlockEdit} from "../commons";
+import ApiConfigurations from './ApiConfiguration.json';
 
 class BlockEdit extends BaseBlockEdit {
     render() {
@@ -44,6 +45,9 @@ class BlockEdit extends BaseBlockEdit {
         queryString += `&data-default-country-id=${defaultCountryId}`;
         queryString += `&data-layout=${layout}`;
         queryString += `&data-group-mode=${groupMode}`;
+        if (ApiConfigurations[type]) {
+            queryString += `&data-chart-data-source=${ApiConfigurations[type].join("|")}`;
+        }
         queryString += `&editing=true`
         const divStyles = {height: height + 'px', width: '100%'}
         return (
@@ -79,6 +83,10 @@ class BlockEdit extends BaseBlockEdit {
                                         {
                                             label: 'Number of active breeders and adequacy of breeders',
                                             value: 'numberActiveBreeders'
+                                        },
+                                        {
+                                            label: 'Number of active seed companies/producers',
+                                            value: 'numberActiveCompanies'
                                         }
 
                                     ]}
