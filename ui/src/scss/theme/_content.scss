@@ -369,7 +369,7 @@ p:empty {
     background-repeat: repeat-x;
     background-size: $base-unit / 1.5 $base-unit / 1.5;
     display: block;
-    height: $base-unit / 2;
+    height: $base-unit - 3;
     margin: $base-unit auto;
     width: $base-unit * 16;
   }
@@ -636,7 +636,8 @@ p:empty {
       padding: $base-unit;
       .title{
         color: $text-color;
-        font-weight: bold;
+        font-size: 1.0rem;
+        font-weight: 900;
       }
       .icon{
         color: $text-color;
@@ -707,10 +708,15 @@ p:empty {
   }
 }
 
-.researchers-filter{
-  border-bottom: 1px solid $separator-grey;
+.country-filter{
+  &.has-separator{
+    border-bottom: 1px solid $separator-grey;
+    padding-bottom: $base-unit;
+  }
   .selected-country{
     color: $green;
+    font-family: $title-font-family;
+    font-size: 1.55rem;
     margin-top: $base-unit;
     > span{
       color: $text-color;
