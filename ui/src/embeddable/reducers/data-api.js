@@ -6,7 +6,7 @@ import {
   VARIETIES_RELEASED_WITH_SPECIAL_FEATURES,
   AVAILABILITY_OF_BASIC_SEED, DEFAULT_COUNTRY_ID,
   AVERAGE_AGE_VARIETIES_SOLD,
-  NUMBER_OF_ACTIVE_BREEDERS,
+  NUMBER_OF_ACTIVE_BREEDERS, WP_CHART,
 } from "./StoreConstants";
 
 const SURVEY_API = process.env.REACT_APP_SURVEY_API
@@ -57,6 +57,11 @@ export const getIndicatorsData = (params) => {
 }
 
 export const getData = ({ source, app, params }) => {
+  let sources;
+  if (source) {
+    sources = source.split("|");
+  }
+
   if (app === COUNTRY_INFO && params && (params[SELECTED_COUNTRY] || params[DEFAULT_COUNTRY_ID])) {
     let countryId = params[DEFAULT_COUNTRY_ID];
     if (params[SELECTED_COUNTRY]) {
@@ -69,14 +74,23 @@ export const getData = ({ source, app, params }) => {
     || app === VARIETIES_RELEASED_WITH_SPECIAL_FEATURES
     || app === AVERAGE_AGE_VARIETIES_SOLD
     || app === NUMBER_OF_ACTIVE_BREEDERS
-    || app === VARIETIES_RELEASED_WITH_SPECIAL_FEATURES) {
+    || app === VARIETIES_RELEASED_WITH_SPECIAL_FEATURES
+    || (sources && sources.length > 0 && sources[0] === WP_CHART)
+  ) {
     if (params[SELECTED_COUNTRY] || params[DEFAULT_COUNTRY_ID]) {
       params.countryId = params[DEFAULT_COUNTRY_ID];
       if (params[SELECTED_COUNTRY]) {
         params.countryId = params[SELECTED_COUNTRY];
         delete params[DEFAULT_COUNTRY_ID];
       }
-      return get(APIS[app] + (params ? '?' + queryParams(params) : ''));
+      let api;
+      if (sources && sources[0] === WP_CHART) {
+        api = `${SURVEY_API}/chart/${app}/${sources[1]}/${sources[2]}`;
+      } else {
+        api = APIS[app];
+      }
+      const apiToCall = api + (params ? '?' + queryParams(params) : '');
+      return get(apiToCall);
     } else {
       // TODO: remove this after we are sure we will always use the country filter component.
       return Promise.resolve();
