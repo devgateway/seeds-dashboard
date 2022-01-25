@@ -224,7 +224,8 @@ const AverageAgeVarietiesSold = ({data, sources}) => {
                     <CropFilter data={initialCrops} onChange={handleCropFilterChange}/>
                 </Grid.Column> : null}
                 {!noData ? <Grid.Column computer={3} mobile={16}>
-                    <Years data={years} onChange={handleYearFilterChange}/>
+                    <Years data={years} onChange={handleYearFilterChange} maxSelectable={4}
+                           defaultSelected={years.slice(0, 4)}/>
                 </Grid.Column> : null}
             </Grid.Row>
             <Grid.Row className="legend-section">

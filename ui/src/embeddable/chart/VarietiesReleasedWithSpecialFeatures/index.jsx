@@ -170,7 +170,8 @@ const VarietiesReleasedWithSpecialFeatures = ({data, sources}) => {
                     <CropFilter data={initialCrops} onChange={handleCropFilterChange}/>
                 </Grid.Column> : null}
                 {!noData ? <Grid.Column computer={3} mobile={16}>
-                    <Years data={years} onChange={handleYearFilterChange}/>
+                    <Years data={years} onChange={handleYearFilterChange} maxSelectable={1}
+                           defaultSelected={[years[years.length - 1]]}/>
                 </Grid.Column> : null}
             </Grid.Row>
             {!noData ? <Grid.Row className={`crops-with-icons`}>

@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import './styles.scss';
 import {Accordion, Form, Menu} from "semantic-ui-react";
 
-const Years = ({data, onChange}) => {
+const Years = ({data, onChange, maxSelectable, defaultSelected}) => {
 
     const [activeIndex, setActiveIndex] = useState([0]);
     const [selectedYear, setSelectedYear] = useState(null);
@@ -10,7 +10,15 @@ const Years = ({data, onChange}) => {
 
     if (data !== currentData) {
         setCurrentData(data);
-        setSelectedYear(data[data.length - 1]);
+        if (defaultSelected) {
+            setSelectedYear(defaultSelected);
+        } else {
+            if (maxSelectable) {
+                setSelectedYear(data.slice(0, maxSelectable));
+            } else {
+                setSelectedYear(data[data.length - 1]);
+            }
+        }
         setActiveIndex([0]);
     }
 
@@ -20,16 +28,42 @@ const Years = ({data, onChange}) => {
     }
 
     const handleChange = (e, props) => {
-        setSelectedYear(props.value);
+        if (maxSelectable === 1) {
+            setSelectedYear([props.value]);
+        } else {
+            const index = selectedYear.findIndex(i => i === props.value);
+            const auxArray = Object.assign([], selectedYear);
+            if (index >= 0) {
+                auxArray.splice(index, 1);
+                setSelectedYear(auxArray);
+            } else {
+                auxArray.push(props.value);
+                setSelectedYear(auxArray.sort());
+            }
+        }
         onChange(props.value);
     }
 
     const generateContent = () => {
-        return (data.map((c) => {
-            return (<div key={c}>
-                <Form.Radio value={c} checked={selectedYear === c} onChange={handleChange} label={c}/>
-            </div>);
-        }));
+        if (!maxSelectable) {
+            return 'set maxSelectable param first.';
+        }
+        if (maxSelectable === 1) {
+            return (data.map((c) => {
+                return (<div key={c}>
+                    <Form.Radio value={c} checked={selectedYear && selectedYear[0] === c}
+                                onChange={handleChange} label={c}/>
+                </div>);
+            }));
+        } else {
+            return (data.map((c, i) => {
+                return (<div key={c}>
+                    <Form.Checkbox value={c} checked={selectedYear && selectedYear.find(j => j === c)}
+                                   onChange={handleChange}
+                                   label={c}/>
+                </div>);
+            }));
+        }
     }
 
     const title = (<div><span className="filter-selector-title">Year </span><span
