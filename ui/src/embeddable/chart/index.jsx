@@ -20,11 +20,13 @@ import {
   COUNTRY_INFO,
   NUMBER_OF_VARIETIES_RELEASED,
   VARIETIES_RELEASED_WITH_SPECIAL_FEATURES,
-  AVAILABILITY_OF_BASIC_SEED, DEFAULT_COUNTRY_ID
+  AVAILABILITY_OF_BASIC_SEED, DEFAULT_COUNTRY_ID,
+  NUMBER_VARIETIES_SOLD
 } from "../reducers/StoreConstants";
 import NumberOfVarietiesReleased from "./NumberOfVarietiesReleased";
 import VarietiesReleasedWithSpecialFeatures from "./VarietiesReleasedWithSpecialFeatures";
 import AvailabilityOfBasicSeed from "./AvailabilityOfBasicSeed";
+import NumberVarietiesSold from "./NumberVarietiesSold";
 import { setFilter } from "../reducers/data";
 
 const PieChart = (props) => {
@@ -155,6 +157,9 @@ const Chart = (props) => {
             break;
       case AVAILABILITY_OF_BASIC_SEED:
         child = <AvailabilityOfBasicSeed mostRecentYears={mostRecentYears} sources={sources}/>;
+        break;
+    case NUMBER_VARIETIES_SOLD:
+        child = <NumberVarietiesSold sources={sources}/>;
         break;
 
     }
