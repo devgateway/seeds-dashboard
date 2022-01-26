@@ -16,6 +16,7 @@ import {
   COUNTRY_INFO,
   NUMBER_OF_VARIETIES_RELEASED,
   VARIETIES_RELEASED_WITH_SPECIAL_FEATURES,
+  NUMBER_VARIETIES_SOLD,
   AVAILABILITY_OF_BASIC_SEED, DEFAULT_COUNTRY_ID,
   AVERAGE_AGE_VARIETIES_SOLD,
   NUMBER_OF_ACTIVE_BREEDERS, NUMBER_OF_ACTIVE_SEED_COMPANIES_PRODUCERS
@@ -142,13 +143,14 @@ const Chart = (props) => {
             break;
         case VARIETIES_RELEASED_WITH_SPECIAL_FEATURES:
         case NUMBER_OF_ACTIVE_BREEDERS:
-      case NUMBER_OF_ACTIVE_SEED_COMPANIES_PRODUCERS:
-      case AVERAGE_AGE_VARIETIES_SOLD:
-        {
-          const chartComponent = { sources, type, ...chartProps }
-          child = <ChartComponent {...chartComponent} />
-          break;
-        }
+        case NUMBER_OF_ACTIVE_SEED_COMPANIES_PRODUCERS:
+        case NUMBER_VARIETIES_SOLD:
+        case AVERAGE_AGE_VARIETIES_SOLD:
+            {
+              const chartComponent = { sources, type, ...chartProps }
+              child = <ChartComponent {...chartComponent} />
+              break;
+            }
         case COUNTRY_INFO:
             child = <CountryInfo/>
             break;

@@ -87,6 +87,10 @@ class BlockEdit extends BaseBlockEdit {
                                         {
                                             label: 'Number of active seed companies/producers',
                                             value: 'numberActiveCompanies'
+                                        },
+                                        {
+                                            label: 'Number of varieties sold in data collection year',
+                                            value: 'numberVarietiesSold'
                                         }
 
                                     ]}
