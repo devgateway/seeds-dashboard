@@ -104,7 +104,7 @@ const ChartComponent = ({ sources, data, type, title }) => {
       });
     }
   }
-  const processAverageVarietiesSold = () => {
+  const processByYear = () => {
     const newBlueColors = [...blueColors];
     crops.forEach(c => {
       const entry = { crop: c };
@@ -126,13 +126,7 @@ const ChartComponent = ({ sources, data, type, title }) => {
       processedData.push(entry);
     });
   }
-  const processNumberVarietiesSold = () => {
-    crops.forEach(c => {
-      const header = data.values[c];
-      header.id = c;
-      processedData.push(header);
-    });
-  }
+
   const processVarietiesReleasedWithSpecialFeatures = () => {
     if (crops) {
       crops.forEach(c => {
@@ -171,7 +165,9 @@ const ChartComponent = ({ sources, data, type, title }) => {
     case NUMBER_VARIETIES_SOLD:
     case AVERAGE_AGE_VARIETIES_SOLD:
     case NUMBER_OF_ACTIVE_SEED_COMPANIES_PRODUCERS: {
+      title = 'Number of active seed companies/producers';
       if (type === NUMBER_VARIETIES_SOLD) {
+        title = 'Number of varieties sold';
         getTooltipText = (d) => {
           return <>
             <span>Number of varieties sold</span><span
@@ -221,12 +217,11 @@ const ChartComponent = ({ sources, data, type, title }) => {
       }
       legend = 'years';
       groupMode = 'grouped';
-      title = 'Number of active seed companies/producers';
       leftLegend = 'Number of Years';
       withCropsWithSpecialFeatures = false;
       customTickWithCrops = true;
       maxSelectableYear = 4;
-      processAverageVarietiesSold();
+      processByYear();
       break;
     }
     case VARIETIES_RELEASED_WITH_SPECIAL_FEATURES:
