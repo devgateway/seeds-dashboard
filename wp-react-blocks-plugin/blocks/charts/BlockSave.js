@@ -15,7 +15,8 @@ const SaveComponent = (props) => {
             defaultCountryId,
             layout,
             groupMode,
-            title
+            title,
+            subTitle
         }
     } = props;
     const blockProps = useBlockProps.save({
@@ -33,6 +34,7 @@ const SaveComponent = (props) => {
              data-download={download}
              data-sources={sources}
              data-title={title}
+             data-sub-title={subTitle}
              data-most-recent-years={mostRecentYears}
              data-default-country-id={defaultCountryId}
              data-layout={layout}

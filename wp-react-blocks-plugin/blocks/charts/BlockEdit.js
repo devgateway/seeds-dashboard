@@ -29,6 +29,7 @@ class BlockEdit extends BaseBlockEdit {
                 download,
                 sources,
                 title,
+                subTitle,
                 mostRecentYears,
                 defaultCountryId,
                 layout,
@@ -41,6 +42,7 @@ class BlockEdit extends BaseBlockEdit {
         queryString += `&data-download=${download}`;
         queryString += `&data-sources=${sources}`;
         queryString += `&data-title=${title}`;
+        queryString += `&data-sub-title=${subTitle}`
         queryString += `&data-most-recent-years=${mostRecentYears}`;
         queryString += `&data-default-country-id=${defaultCountryId}`;
         queryString += `&data-layout=${layout}`;
@@ -172,10 +174,15 @@ class BlockEdit extends BaseBlockEdit {
                                     min={1}
                                     max={1000}
                                 /></PanelRow>
-                            <PanelRow>
+
+                            {type !== 'availabilityOfBasicSeed' && <PanelRow>
                                 <TextControl label={__('Chart title')} value={title}
-                                             onChange={(title) => setAttributes({title})}/>
-                            </PanelRow>
+                                             onChange={(title) => setAttributes({ title })} />
+                            </PanelRow>}
+                            {type !== 'availabilityOfBasicSeed' && <PanelRow>
+                                <TextControl label={__('Chart sub title')} value={subTitle}
+                                             onChange={(subTitle) => setAttributes({ subTitle })} />
+                            </PanelRow>}
                             <PanelRow>
                                 <TextControl label={__('Source')} value={sources}
                                              onChange={(sources) => setAttributes({sources})}/>

@@ -30,7 +30,7 @@ const theme = {
     }
 };
 
-const NumberOfVarietiesReleased = ({data, sources}) => {
+const NumberOfVarietiesReleased = ({ data, sources, title, subTitle, editing, type }) => {
 
     const [selectedCrops, setSelectedCrops] = useState(null);
     const [initialCrops, setInitialCrops] = useState(null);
@@ -100,7 +100,7 @@ const NumberOfVarietiesReleased = ({data, sources}) => {
         <Grid className={`number-varieties-released`}>
             <Grid.Row className="header-section">
                 <Grid.Column>
-                    <Header title="Number of Varieties Released" subtitle="(3 Year Moving Average)"/>
+                    <Header title={`${title}`} subtitle={subTitle} />
                 </Grid.Column>
             </Grid.Row>
             <Grid.Row className={`filters-section`}>
@@ -186,7 +186,7 @@ const NumberOfVarietiesReleased = ({data, sources}) => {
             </Grid.Row>
             <Grid.Row className={`source-section`}>
                 <Grid.Column>
-                    <Source title={"Source: " + sources}/>
+                    <Source title={`Source: ${sources}${editing ? ` *${type}*` : ''}`} />
                 </Grid.Column>
             </Grid.Row>
         </Grid>
