@@ -46,10 +46,10 @@ const ChartComponent = ({sources, data, type, title}) => {
     let maxSelectableYear = 1;
     const processedData = [];
     const FAKE_NUMBER = 0.001;
-    
+
     let useCropLegendsRow = true;
     let useFilterByCrops = true;
-    
+
     if (!data || !data.dimensions || !data.dimensions.crop || data.id === null) {
         noData = true;
     } else {
@@ -287,7 +287,7 @@ const ChartComponent = ({sources, data, type, title}) => {
                 {withCropsWithSpecialFeatures && <CropsWithSpecialFeatures/>}
             </Grid.Column>
         </Grid.Row> : null}
-        {type === MARKET_CONCENTRATION_HHI ? <MarketConcentrationHHI data={data}/> : null}
+        {type === MARKET_CONCENTRATION_HHI ? <MarketConcentrationHHI data={data} selectedYear={selectedYear}/> : null}
         {type !== MARKET_CONCENTRATION_HHI ? (<Grid.Row className={`chart-section`}>
             <Grid.Column width={16}>
                 <ResponsiveBarChartImpl sources={sources} data={data} noData={noData} crops={crops}

@@ -2,13 +2,9 @@ import React, {useState} from "react";
 import {Grid} from "semantic-ui-react";
 import './styles.scss';
 import ResponsiveBarChartImpl from "../ResponsiveBarChartImpl";
-import Heading from "../../data-summary/components/Heading";
 import HHILegend from "./HHILegend";
 
-const MarketConcentrationHHI = ({data, sources}) => {
-
-    const [selectedYear, setSelectedYear] = useState(null);
-    const [currentData, setCurrentData] = useState(null);
+const MarketConcentrationHHI = ({data, sources, selectedYear}) => {
 
     if (!data) {
         return 'No Data';
@@ -23,15 +19,17 @@ const MarketConcentrationHHI = ({data, sources}) => {
         colors[i] = new Map();
         const item = {crop: crop};
         Object.keys(data.values[crop]).forEach(y => {
-            item[y] = data.values[crop][y];
-            if (!keys.find(k => k === y)) {
-                keys.push(y);
-            }
-            if (item[y] > max[i]) {
-                max[i] = item[y];
-            }
-            if (!colors[i].get(y)) {
-                colors[i].set(y, getColor(item[y]))
+            if (selectedYear && selectedYear.find(k => k === y)) {
+                item[y] = data.values[crop][y];
+                if (!keys.find(k => k === y)) {
+                    keys.push(y);
+                }
+                if (item[y] > max[i]) {
+                    max[i] = item[y];
+                }
+                if (!colors[i].get(y)) {
+                    colors[i].set(y, getColor(item[y]))
+                }
             }
         });
         processedData.push(item);
