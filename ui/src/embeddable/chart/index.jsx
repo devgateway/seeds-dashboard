@@ -168,7 +168,7 @@ const Chart = (props) => {
                               app={type}
                               source={chartDataSource}
                               csv={csv}
-                              store={[app, unique]}>
+                              store={[type, unique]}>
 
                     {(!dual || (mode == 'chart')) && (
                         <Container style={{"height": `${contentHeight}px`}} className={"body"}
