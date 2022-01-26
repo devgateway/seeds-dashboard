@@ -61,60 +61,23 @@ const MarketConcentrationHHI = ({data, sources}) => {
     const customTickWithCrops = true;
 
     return (
-        <>
-            <Grid.Row className="chart-section">
-                <Grid.Column computer={8} mobile={16}>
+        <Grid.Row className="chart-section">
+            {[0, 1, 2, 3].map(i => {
+                return (<Grid.Column key={i} computer={8} mobile={16}>
                     <ResponsiveBarChartImpl sources={sources} data={data} noData={noData} crops={crops}
-                                            selectedYear={selectedYear} colors={colors[0]} max={max[0]} keys={keys}
-                                            processedData={processedData.filter(i => i.crop === crops[0])}
+                                            selectedYear={selectedYear} colors={colors[i]} max={max[i]} keys={keys}
+                                            processedData={processedData.filter(j => j.crop === crops[i])}
                                             indexBy={indexBy} layout={layout}
                                             groupMode={groupMode}
                                             leftLegend={leftLegend} bottomLegend={bottomLegend}
                                             enableGridX={enableGridX} enableGridY={enableGridY}
                                             getTooltipText={getTooltipText} getTooltipHeader={getTooltipHeader}
-                                            customTickWithCrops={customTickWithCrops}
+                                            customTickWithCrops={customTickWithCrops} containerHeight={300}
+                                            gridTickLines={4}
                     />
-                </Grid.Column>
-                <Grid.Column computer={8} mobile={16}>
-                    <ResponsiveBarChartImpl sources={sources} data={data} noData={noData} crops={crops}
-                                            selectedYear={selectedYear} colors={colors[1]} max={max[1]} keys={keys}
-                                            processedData={processedData.filter(i => i.crop === crops[1])}
-                                            indexBy={indexBy} layout={layout}
-                                            groupMode={groupMode}
-                                            leftLegend={leftLegend} bottomLegend={bottomLegend}
-                                            enableGridX={enableGridX} enableGridY={enableGridY}
-                                            getTooltipText={getTooltipText} getTooltipHeader={getTooltipHeader}
-                                            customTickWithCrops={customTickWithCrops}
-                    />
-                </Grid.Column>
-            </Grid.Row>
-            <Grid.Row className="chart-section">
-                <Grid.Column computer={8} mobile={16}>
-                    <ResponsiveBarChartImpl sources={sources} data={data} noData={noData} crops={crops}
-                                            selectedYear={selectedYear} colors={colors[2]} max={max[2]} keys={keys}
-                                            processedData={processedData.filter(i => i.crop === crops[2])}
-                                            indexBy={indexBy} layout={layout}
-                                            groupMode={groupMode}
-                                            leftLegend={leftLegend} bottomLegend={bottomLegend}
-                                            enableGridX={enableGridX} enableGridY={enableGridY}
-                                            getTooltipText={getTooltipText} getTooltipHeader={getTooltipHeader}
-                                            customTickWithCrops={customTickWithCrops}
-                    />
-                </Grid.Column>
-                <Grid.Column computer={8} mobile={16}>
-                    <ResponsiveBarChartImpl sources={sources} data={data} noData={noData} crops={crops}
-                                            selectedYear={selectedYear} colors={colors[3]} max={max[3]} keys={keys}
-                                            processedData={processedData.filter(i => i.crop === crops[3])}
-                                            indexBy={indexBy} layout={layout}
-                                            groupMode={groupMode}
-                                            leftLegend={leftLegend} bottomLegend={bottomLegend}
-                                            enableGridX={enableGridX} enableGridY={enableGridY}
-                                            getTooltipText={getTooltipText} getTooltipHeader={getTooltipHeader}
-                                            customTickWithCrops={customTickWithCrops}
-                    />
-                </Grid.Column>
-            </Grid.Row>
-        </>
+                </Grid.Column>);
+            })}
+        </Grid.Row>
     )
 }
 
