@@ -257,6 +257,8 @@ const ChartComponent = ({sources, data, type, title}) => {
         case MARKET_CONCENTRATION_HHI:
             useCropLegendsRow = false;
             useFilterByCrops = false;
+            title = 'Market Concentration, as Measured by the HHI (Out of 10,000)';
+            maxSelectableYear = 4;
             break;
     }
     return <Grid className={`number-varieties-released`}>
