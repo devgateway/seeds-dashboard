@@ -14,6 +14,7 @@ import {InnerBlocks} from '@wordpress/editor'; // or wp.editor
 import {__} from '@wordpress/i18n';
 import {Checkbox} from 'semantic-ui-react'
 import {BaseBlockEdit} from "../commons";
+import ApiConfigurations from './ApiConfiguration.json';
 
 class BlockEdit extends BaseBlockEdit {
     render() {
