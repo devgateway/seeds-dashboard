@@ -146,7 +146,7 @@ const NumberVarietiesSold = ({data, sources}) => {
         <Grid className={`number-varieties-released`}>
             <Grid.Row className="header-section">
                 <Grid.Column>
-                    <Header title="Number of Varieties Sold"/>
+                    <Header title="Number of varieties sold"/>
                 </Grid.Column>
             </Grid.Row>
             <Grid.Row className={`filters-section`}>
@@ -194,7 +194,7 @@ const NumberVarietiesSold = ({data, sources}) => {
                                 tickSize: 0,
                                 tickPadding: 5,
                                 tickRotation: 0,
-                                legend: 'Number of Varieties Sold',
+                                legend: 'Number of varieties sold',
                                 legendPosition: 'middle',
                                 legendOffset: -60,
                                 tickValues: 6
