@@ -1,17 +1,28 @@
-.legend {
-  height: 50px;
-  width: auto;
-  float: left;
-  margin-right: 25px;
-  
-  .years-title {
-    font-size: 16pt;
-  }
 
-  label {
-    float: left;
-    margin-top: 13px;
-  }
+.legend-title {
+  margin-left: 20px;
+  font-weight: bold;
+  font-size: 12pt;
 }
 
+.years {
+  text-align: left;
+  width: auto;
+  display: flex;
+  margin-left: 20px;
 
+  .year {
+    display: flex;
+    width: 80px;
+    font-size: 12pt;
+
+    .circle {
+      width: 18px;
+      height: 18px;
+      -webkit-border-radius: 25px;
+      -moz-border-radius: 25px;
+      border-radius: 25px;
+      margin-right: 5px;
+    }
+  }
+}

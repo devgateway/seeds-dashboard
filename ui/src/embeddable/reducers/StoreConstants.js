@@ -2,7 +2,10 @@ export const DATA = 'data';
 export const COUNTRY_INFO = 'countryInfo';
 export const NUMBER_OF_VARIETIES_RELEASED = 'numberOfVarietiesReleased';
 export const VARIETIES_RELEASED_WITH_SPECIAL_FEATURES = 'varietiesReleasedWithSpecialFeatures';
+export const NUMBER_OF_ACTIVE_BREEDERS = 'numberActiveBreeders';
+export const NUMBER_OF_ACTIVE_SEED_COMPANIES_PRODUCERS = 'numberActiveCompanies'
 export const AVAILABILITY_OF_BASIC_SEED = 'availabilityOfBasicSeed';
+export const AVERAGE_AGE_VARIETIES_SOLD = 'avgAgeVarietiesSold';
 export const COUNTRY_SETTINGS = 'country-settings';
 export const COUNTRIES_FILTER = 'countries';
 export const WP_CATEGORIES = 'wp-categories';
@@ -13,4 +16,6 @@ export const SELECTED_COUNTRY = 'selected-country';
 export const DEFAULT_COUNTRY_ID = 'default-country-id';
 export const WP_DOCUMENTS = 'wp-documents';
 export const NUMBER_VARIETIES_SOLD = 'numberVarietiesSold';
+
+export const WP_CHART = 'wp-chart';
 

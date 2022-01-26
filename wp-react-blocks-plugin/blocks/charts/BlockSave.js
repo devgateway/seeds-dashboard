@@ -1,5 +1,6 @@
 import {InspectorControls, useBlockProps} from '@wordpress/block-editor';
 import {InnerBlocks} from '@wordpress/editor';
+import ApiConfigurations from "./ApiConfiguration.json";
 
 const SaveComponent = (props) => {
     const {
@@ -11,7 +12,10 @@ const SaveComponent = (props) => {
             download,
             sources,
             mostRecentYears,
-            defaultCountryId
+            defaultCountryId,
+            layout,
+            groupMode,
+            title
         }
     } = props;
     const blockProps = useBlockProps.save({
@@ -28,8 +32,12 @@ const SaveComponent = (props) => {
              data-dualMode={dualMode}
              data-download={download}
              data-sources={sources}
+             data-title={title}
              data-most-recent-years={mostRecentYears}
              data-default-country-id={defaultCountryId}
+             data-layout={layout}
+             data-group-mode={groupMode}
+             data-chart-data-source={ApiConfigurations[type]?ApiConfigurations[type].join("|"):undefined}
 
         />
     );
