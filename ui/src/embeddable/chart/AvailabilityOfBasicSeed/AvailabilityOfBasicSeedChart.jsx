@@ -3,18 +3,29 @@ import { Grid } from "semantic-ui-react";
 import './styles.scss';
 import Gauge from "./components/Gauge";
 import { range } from "./components/common";
+import { injectIntl } from "react-intl";
 
-const AvailabilityOfBasicSeedChart = ({ data, yearsToShow }) => {
+const AvailabilityOfBasicSeedChart = ({ data, yearsToShow, intl }) => {
   const averageColumn = Object.keys(data.values).find(v => !data.dimensions.crop.values.includes(v));
   const getCells = (crop) => {
     return yearsToShow.map(y => {
-      const cellValue = data.values[crop][y];
+      if (y == 2017 && crop === 'maize') {
+        debugger
+      }
+      let cellValue = data.values[crop][y];
+      if (cellValue === "") {
+        cellValue = undefined;
+      }
       const r = range.find(r => cellValue >= r.min && cellValue <= r.max);
       let innerColor = "#818181";
       const particularGauge = [...dataGauge].map(i => ({ ...i }));
       if (r) {
         particularGauge[r.position - 1].id = particularGauge[r.position - 1].id + "_S";
         innerColor = r.color;
+      } else {
+        if (cellValue === undefined) {
+          cellValue = 'N/A'
+        }
       }
       return <Grid.Column className={"with-bottom-border"} key={`${crop}__${y}`}>
         <Gauge data={particularGauge}
@@ -46,7 +57,10 @@ const AvailabilityOfBasicSeedChart = ({ data, yearsToShow }) => {
       });
     crops.unshift(<Grid.Column key={'title'} />);
     if (averageColumn) {
-      crops.push(<Grid.Column className={'crop average'}>Average</Grid.Column>);
+      crops.push(<Grid.Column className={'crop average'}>{intl.formatMessage({
+        id: `average-rating`,
+        defaultMessage: 'Average Rating'
+      })}</Grid.Column>);
     }
 
     return <Grid columns={1}>{crops}</Grid>;
@@ -67,4 +81,4 @@ const AvailabilityOfBasicSeedChart = ({ data, yearsToShow }) => {
 
   return <Grid className={'availability-of-basic-seed'}>{getMatrix()}</Grid>;
 }
-export default AvailabilityOfBasicSeedChart;
+export default injectIntl(AvailabilityOfBasicSeedChart);
