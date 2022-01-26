@@ -37,14 +37,6 @@ const fadeColors = {
     pigeon: '#c3c3c2'
 }
 
-const yearColors = {
-    "0": "#83B2DE",
-    "1": "#5B94CA",
-    "2": "#3377B6",
-    "3": "#205384",
-    "4": "#003466"
-}
-
 export const getColor = (item, options) => {
   const options_ = options || {};
   if (options_.fade) {
@@ -52,10 +44,6 @@ export const getColor = (item, options) => {
   } else {
       return baseColors[item.id] || '#000000';
   }
-}
-
-export const getYearColors = (years) => {
-   return years ? Array.apply(null, Array(years.length)).map(function (v, i) { return yearColors[i]; }) : {};
 }
 
 const CountryInfoChart = ({ rawData }) => (

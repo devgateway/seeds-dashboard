@@ -23,7 +23,6 @@ import {
 } from "../reducers/StoreConstants";
 import NumberOfVarietiesReleased from "./NumberOfVarietiesReleased";
 import AvailabilityOfBasicSeed from "./AvailabilityOfBasicSeed";
-import NumberVarietiesSold from "./NumberVarietiesSold";
 import { setFilter } from "../reducers/data";
 import ChartComponent from "./ChartsComponent";
 
@@ -144,13 +143,14 @@ const Chart = (props) => {
             break;
         case VARIETIES_RELEASED_WITH_SPECIAL_FEATURES:
         case NUMBER_OF_ACTIVE_BREEDERS:
-      case NUMBER_OF_ACTIVE_SEED_COMPANIES_PRODUCERS:
-      case AVERAGE_AGE_VARIETIES_SOLD:
-        {
-          const chartComponent = { sources, type, ...chartProps }
-          child = <ChartComponent {...chartComponent} />
-          break;
-        }
+        case NUMBER_OF_ACTIVE_SEED_COMPANIES_PRODUCERS:
+        case NUMBER_VARIETIES_SOLD:
+        case AVERAGE_AGE_VARIETIES_SOLD:
+            {
+              const chartComponent = { sources, type, ...chartProps }
+              child = <ChartComponent {...chartComponent} />
+              break;
+            }
         case COUNTRY_INFO:
             child = <CountryInfo/>
             break;
