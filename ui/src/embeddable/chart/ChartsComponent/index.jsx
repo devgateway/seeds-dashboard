@@ -274,7 +274,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing }) => {
     case MARKET_CONCENTRATION_HHI:
         useCropLegendsRow = false;
         useFilterByCrops = false;
-        title = 'Market Concentration, as Measured by the HHI (Out of 10,000)';
+        // title = 'Market Concentration, as Measured by the HHI (Out of 10,000)';
         maxSelectableYear = 4;
         break;  
   }
