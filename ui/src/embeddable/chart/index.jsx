@@ -149,11 +149,6 @@ const Chart = (props) => {
         case NUMBER_OF_ACTIVE_BREEDERS:
         case NUMBER_OF_ACTIVE_SEED_COMPANIES_PRODUCERS:
         case MARKET_CONCENTRATION_HHI:
-        case AVERAGE_AGE_VARIETIES_SOLD: {
-            const chartComponent = {sources, type, ...chartProps}
-            child = <ChartComponent {...chartComponent} />
-            break;
-        }
         case NUMBER_VARIETIES_SOLD:
         case AVERAGE_AGE_VARIETIES_SOLD: {
             const chartComponent = {sources, type, ...chartProps}

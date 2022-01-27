@@ -97,8 +97,11 @@ class BlockEdit extends BaseBlockEdit {
                                         {
                                             label: 'Number of varieties sold in data collection year',
                                             value: 'numberVarietiesSold'
+                                        },
+                                        {
+                                            label: 'Number of Seed Inspectors and Industry Opinion Rating',
+                                            value: 'efficiencyOfSeedImportProcess'
                                         }
-
                                     ]}
                                 />
                             </PanelRow>

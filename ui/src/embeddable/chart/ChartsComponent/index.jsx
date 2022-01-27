@@ -10,9 +10,9 @@ import Source from "../common/source";
 import { getColor } from "../Countryinfo/CountryInfoChart";
 import {
   AVERAGE_AGE_VARIETIES_SOLD,
-    MARKET_CONCENTRATION_HHI,
+  MARKET_CONCENTRATION_HHI,
   NUMBER_OF_ACTIVE_BREEDERS, NUMBER_OF_ACTIVE_SEED_COMPANIES_PRODUCERS,
-  VARIETIES_RELEASED_WITH_SPECIAL_FEATURES, NUMBER_VARIETIES_SOLD
+  VARIETIES_RELEASED_WITH_SPECIAL_FEATURES, NUMBER_VARIETIES_SOLD, EFFICIENCY_SEED_IMPORT_PROCESS
 } from "../../reducers/StoreConstants";
 import YearLegend from "../common/year";
 import MarketConcentrationHHI from "../MarketConcentrationHHI";
@@ -276,7 +276,12 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing }) => {
         useFilterByCrops = false;
         // title = 'Market Concentration, as Measured by the HHI (Out of 10,000)';
         maxSelectableYear = 4;
-        break;  
+        break;
+    case EFFICIENCY_SEED_IMPORT_PROCESS:
+      useCropLegendsRow = false;
+      useFilterByCrops = false;
+      maxSelectableYear = 4;
+      break;
   }
   return <Grid className={`number-varieties-released`}>
     <Grid.Row className="header-section">
