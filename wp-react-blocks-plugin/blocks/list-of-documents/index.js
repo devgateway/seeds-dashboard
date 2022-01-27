@@ -26,10 +26,6 @@ registerBlockType(process.env.BLOCKS_NS + '/documents-list',
             noDataText: {
                 type: 'string',
                 default: 'No documents available'
-            },
-            documentSlugPostFix: {
-              type: "String",
-              default: ""
             }
         },
         edit: BlockEdit,
