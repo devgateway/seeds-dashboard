@@ -52,8 +52,9 @@ const ResponsiveBarChartImpl = ({
                                   getTooltipText,
                                   getTooltipHeader,
                                   groupMode, customTickWithCrops, 
-                                  containerHeight = 450,
-                                gridTickLines = 6,
+                                  containerHeight = 450, 
+                                  gridTickLines = 6,
+                                  rightLegend,
                                 }) => {
 
   ;
@@ -184,6 +185,12 @@ const ResponsiveBarChartImpl = ({
           legendPosition: 'middle',
           legendOffset: 45,
         }}
+        axisRight={rightLegend ? {tickSize: 0,
+            tickPadding: 5,
+            tickRotation: 0,
+            legend: rightLegend,
+            legendPosition: 'middle',
+            legendOffset: 45,} : null}
         tooltip={(d) => {
           return (<div className="tooltip-container-vrwsf">
             <div className="header-container">

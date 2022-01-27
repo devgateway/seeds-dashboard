@@ -16,6 +16,8 @@ import {
 } from "../../reducers/StoreConstants";
 import YearLegend from "../common/year";
 import MarketConcentrationHHI from "../MarketConcentrationHHI";
+import EfficiencySeedImportProcess from "../BarAndLineChart";
+import BarAndLineChart from "../BarAndLineChart";
 
 const ChartComponent = ({ sources, data, type, title, subTitle, editing }) => {
   const [initialCrops, setInitialCrops] = useState(null);
@@ -31,6 +33,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing }) => {
   let addLighterDiv = true;
   let leftLegend;
   let bottomLegend;
+  let rightLegend;
   let enableGridX = false;
   let enableGridY = true;
   let legend = 'crops';
@@ -281,8 +284,39 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing }) => {
       useCropLegendsRow = false;
       useFilterByCrops = false;
       maxSelectableYear = 4;
+      leftLegend = 'Number of days for import';
+      indexBy = 'year';
+      bottomLegend = 'Year';
+      groupMode = 'stacked';
+      rightLegend = 'Rating out of 100';
       break;
   }
+
+  const insertChart = (type) => {
+    switch (type) {
+      case MARKET_CONCENTRATION_HHI:
+          return <MarketConcentrationHHI data={data} selectedYear={selectedYear}/>
+      case EFFICIENCY_SEED_IMPORT_PROCESS:
+          return <BarAndLineChart data={data} selectedYear={selectedYear} leftLegend={leftLegend}
+                                  indexBy={indexBy} groupMode={groupMode} bottomLegend={bottomLegend}
+                                  rightLegend={rightLegend} />
+      default:
+        return (<Grid.Row className={`chart-section`}>
+          <Grid.Column width={16}>
+            <ResponsiveBarChartImpl sources={sources} data={data} noData={noData} crops={crops}
+                                    selectedYear={selectedYear} colors={colors} max={max} keys={keys}
+                                    processedData={processedData} indexBy={indexBy} layout={layout}
+                                    groupMode={groupMode}
+                                    leftLegend={leftLegend} bottomLegend={bottomLegend}
+                                    enableGridX={enableGridX} enableGridY={enableGridY}
+                                    getTooltipText={getTooltipText} getTooltipHeader={getTooltipHeader}
+                                    customTickWithCrops={customTickWithCrops}
+            />
+          </Grid.Column>
+        </Grid.Row>);
+    }
+  }
+  
   return <Grid className={`number-varieties-released`}>
     <Grid.Row className="header-section">
       <Grid.Column>
@@ -308,20 +342,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing }) => {
         {withCropsWithSpecialFeatures && <CropsWithSpecialFeatures />}
       </Grid.Column>
     </Grid.Row> : null}
-    {type === MARKET_CONCENTRATION_HHI ? <MarketConcentrationHHI data={data} selectedYear={selectedYear}/> : null}
-    {type !== MARKET_CONCENTRATION_HHI ? (<Grid.Row className={`chart-section`}>
-      <Grid.Column width={16}>
-        <ResponsiveBarChartImpl sources={sources} data={data} noData={noData} crops={crops}
-                                selectedYear={selectedYear} colors={colors} max={max} keys={keys}
-                                processedData={processedData} indexBy={indexBy} layout={layout}
-                                groupMode={groupMode}
-                                leftLegend={leftLegend} bottomLegend={bottomLegend}
-                                enableGridX={enableGridX} enableGridY={enableGridY}
-                                getTooltipText={getTooltipText} getTooltipHeader={getTooltipHeader}
-                                customTickWithCrops={customTickWithCrops}
-        />
-      </Grid.Column>
-    </Grid.Row>) : null}
+    {insertChart(type)}
     <Grid.Row className={`source-section`}>
       <Grid.Column>
         <Source title={`Source: ${sources}${editing ? ` *${type}*` : ''}`} />
@@ -329,6 +350,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing }) => {
     </Grid.Row>
   </Grid>
 }
+
 const blueColors = [
   '#3377b6', '#7dafde', '#9fbfdc', '#c2dbf3'
 ];

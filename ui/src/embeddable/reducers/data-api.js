@@ -85,6 +85,7 @@ export const getData = ({ source, app, params }) => {
     || app === NUMBER_OF_ACTIVE_BREEDERS
     || app === VARIETIES_RELEASED_WITH_SPECIAL_FEATURES
     || app === NUMBER_VARIETIES_SOLD
+    || app === EFFICIENCY_SEED_IMPORT_PROCESS  
     || (sources && sources.length > 0 && sources[0] === WP_CHART)
   ) {
     if (params[SELECTED_COUNTRY] || params[DEFAULT_COUNTRY_ID]) {
