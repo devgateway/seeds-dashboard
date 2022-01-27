@@ -10,23 +10,44 @@
   }
 
   .section {
+    &.sub{
+      padding-bottom: 0;
+      padding-top: 0;
+      .section-title{
+        margin-bottom: -($base-unit * 4);
+        margin-top: $base-unit + 5;
+      }
+    }
+    .space{
+      clear: both;
+      height: $base-unit * 2;
+      width: $extend;
+      border:1px dotted pink;
+      flex: none;
+    }
     &.totals {
+      align-items: center;
       background-color: #EBEBEB;
+      justify-content: center;
+      height: $base-unit * 5;
+      margin-bottom: -($base-unit * 5);
+      margin-top: $base-unit * 2.5;
+      padding-bottom: 0;
+      padding-top: 0;
 
       .column {
         align-items: end;
 
         .label {
-          font-size: 14px;
+          font-size: 12px;
           text-transform: uppercase;
         }
 
         .data {
           margin-left: 10px;
-          font-size: 21px;
+          font-size: 16px;
           font-weight: 400;
           color: #84a43a;
-
         }
 
         .label, .data {
@@ -39,6 +60,7 @@
     }
 
     .household-data {
+      margin-top: -30px;
       .label, .data {
         display: flex;
         text-align: left;
@@ -52,8 +74,12 @@
     }
 
     .business-rank {
-      display: flex !important;
-
+      .label{
+        display: block;
+        paddinb-bottom: $base-unit / 2;
+        padding-top: $base-unit / 2;
+        text-align: left;
+      }
       .data {
         font-size: 20px;
         font-weight: 700;
@@ -64,16 +90,20 @@
     .section-title {
       width: 100%;
       display: flex;
-      font-weight: 700;
+      font-weight: 900;
+      text-align: left;
     }
 
     &.border {
       border-top: 1px solid $light-gray;
+      margin-top: -($base-unit * 3);
+      padding-top: $base-unit / 2;
     }
   }
 
   .crop-container {
-    padding: 0.5em;
+    padding-bottom: 0 !important;
+    padding-top: 0.3 !important;
 
     .crop {
       .label, .data {
@@ -83,12 +113,13 @@
 
       .label {
         font-weight: 400;
-        font-size: 17px;
+        font-size: 14px;
+        text-align: left;
       }
 
       .data {
-        font-weight: 800;
-        font-size: 29px;
+        font-weight: 900;
+        font-size: 18px;
         color: $green-link;
       }
     }

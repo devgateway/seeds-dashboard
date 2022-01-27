@@ -63,12 +63,12 @@ const CountryInfo = ({ data, intl }) => {
           <div className="data">{getValue(data.arableLand)}</div>
         </Grid.Column>
       </Grid.Row>
-      <Grid.Row className={`section`}>
+      <Grid.Row className={`section sub`}>
         <Grid.Column width={16}>
           <div className="section-title">Top Harvested Crops and Value</div>
         </Grid.Column>
       </Grid.Row>
-      <Grid.Row className={`section`}>
+      <Grid.Row className={`section sub`}>
         <Grid.Column width={12}>
           <Grid>
             {
@@ -87,12 +87,12 @@ const CountryInfo = ({ data, intl }) => {
           <div style={{ height: '100px' }}><CountryInfoChart rawData={data} /></div>
         </Grid.Column>
       </Grid.Row>
-      <Grid.Row key={`gr-3`} className={`section border`}>
+      <Grid.Row key={`gr-3`} className={`section sub border`}>
         <Grid.Column key={`gc-3-1`} width={16}>
           <div className="section-title">Population vs Farming Households</div>
         </Grid.Column>
       </Grid.Row>
-      <Grid.Row className={`section`}>
+      <Grid.Row className={`section sub`}>
         <Grid.Column width={8}>
           <div className="household-data population">
             <div className="label has-condensed-text">Total<br />Population</div>
@@ -117,10 +117,6 @@ const CountryInfo = ({ data, intl }) => {
           <div className="label">Ease of Doing Business Rank ({data.year ? data.year : '-'})
             <span className="data"> {data.business ? data.business.value : '-'}</span> of 190
           </div>
-        </Grid.Column>
-      </Grid.Row>
-      <Grid.Row className={`section`}>
-        <Grid.Column width={16} className={`business-rank`}>
           <div className="label">Enabling the Business of Agriculture ({data.year ? data.year : '-'})
             <span className="data"> {data.easeAgriculture ? data.easeAgriculture.value : '-'}</span> of 190
           </div>
