@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {Button, Container, Grid, Icon, Segment} from "semantic-ui-react";
 import DataProvider from "../data/DataProvider";
 import {connect} from "react-redux";
@@ -16,7 +16,7 @@ import {
     COUNTRY_INFO,
     NUMBER_OF_VARIETIES_RELEASED,
     VARIETIES_RELEASED_WITH_SPECIAL_FEATURES,
-    NUMBER_VARIETIES_SOLD,
+    NUMBER_VARIETIES_SOLD, PERFORMANCE_SEED_TRADERS,
     AVAILABILITY_OF_BASIC_SEED, DEFAULT_COUNTRY_ID,
     AVERAGE_AGE_VARIETIES_SOLD,
     NUMBER_OF_ACTIVE_BREEDERS, NUMBER_OF_ACTIVE_SEED_COMPANIES_PRODUCERS,
@@ -26,6 +26,7 @@ import NumberOfVarietiesReleased from "./NumberOfVarietiesReleased";
 import AvailabilityOfBasicSeed from "./AvailabilityOfBasicSeed";
 import {setFilter} from "../reducers/data";
 import ChartComponent from "./ChartsComponent";
+import PerformanceSeedTraders from "./PerformanceSeedTraders";
 
 const PieChart = (props) => {
     const {data, legends, colors, height} = props
@@ -149,11 +150,6 @@ const Chart = (props) => {
         case NUMBER_OF_ACTIVE_BREEDERS:
         case NUMBER_OF_ACTIVE_SEED_COMPANIES_PRODUCERS:
         case MARKET_CONCENTRATION_HHI:
-        case AVERAGE_AGE_VARIETIES_SOLD: {
-            const chartComponent = {sources, type, ...chartProps}
-            child = <ChartComponent {...chartComponent} />
-            break;
-        }
         case NUMBER_VARIETIES_SOLD:
         case AVERAGE_AGE_VARIETIES_SOLD: {
             const chartComponent = {sources, type, ...chartProps}
@@ -165,6 +161,9 @@ const Chart = (props) => {
             break;
         case AVAILABILITY_OF_BASIC_SEED:
           child = <AvailabilityOfBasicSeed mostRecentYears={mostRecentYears} sources={sources} {...chartProps} />;
+            break;
+        case PERFORMANCE_SEED_TRADERS:
+            child = <PerformanceSeedTraders sources={sources}/>;
             break;
     }
     return (<div ref={ref}>
