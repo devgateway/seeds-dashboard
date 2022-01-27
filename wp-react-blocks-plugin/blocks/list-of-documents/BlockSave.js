@@ -7,8 +7,7 @@ const SaveComponent = (props) => {
             type,
             showInline,
             category,
-            noDataText,
-          documentSlugPostFix
+            noDataText
         }
     } = props;
     const blockProps = useBlockProps.save({
@@ -23,7 +22,6 @@ const SaveComponent = (props) => {
              data-type={type}
              data-show-inline={showInline}
              data-no-data-text={noDataText}
-             data-document-slug-post-fix={documentSlugPostFix}
              data-category={category}>
         </div>
     );

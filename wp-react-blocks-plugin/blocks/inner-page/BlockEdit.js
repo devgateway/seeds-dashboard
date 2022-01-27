@@ -27,7 +27,6 @@ class BlockEdit extends BaseBlockEdit {
       attributes: {
         height,
         defaultPage,
-        slugPrefix,
         connectFilter,
         valuesFilterStore,
         selectedFilterStore,
@@ -39,7 +38,6 @@ class BlockEdit extends BaseBlockEdit {
     queryString += `&data-connect-filter=${connectFilter}`;
     queryString += `&data-values-filter-store=${valuesFilterStore}`;
     queryString += `&data-selected-filter-store=${selectedFilterStore}`;
-    queryString += `&data-slug-pre-fix=${slugPrefix}`;
     queryString += `&data-height=${height}`;
     const divStyles = { height: height + 'px', width: '100%' }
 
@@ -53,12 +51,6 @@ class BlockEdit extends BaseBlockEdit {
                   label={__('default inner page')}
                   value={defaultPage}
                   onChange={(defaultPage) => setAttributes({ defaultPage })}
-                /></PanelRow>
-              <PanelRow>
-                <TextControl
-                  label={__('Slug prefix')}
-                  value={slugPrefix}
-                  onChange={(slugPrefix) => setAttributes({ slugPrefix })}
                 /></PanelRow>
             </PanelBody>
             <SizeConfig initialOpen={false} setAttributes={setAttributes} height={height} />
