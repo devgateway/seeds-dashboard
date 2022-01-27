@@ -10,10 +10,12 @@ import Source from "../common/source";
 import { getColor } from "../Countryinfo/CountryInfoChart";
 import {
   AVERAGE_AGE_VARIETIES_SOLD,
+    MARKET_CONCENTRATION_HHI,
   NUMBER_OF_ACTIVE_BREEDERS, NUMBER_OF_ACTIVE_SEED_COMPANIES_PRODUCERS,
   VARIETIES_RELEASED_WITH_SPECIAL_FEATURES, NUMBER_VARIETIES_SOLD
 } from "../../reducers/StoreConstants";
 import YearLegend from "../common/year";
+import MarketConcentrationHHI from "../MarketConcentrationHHI";
 
 const ChartComponent = ({ sources, data, type, title, subTitle, editing }) => {
   const [initialCrops, setInitialCrops] = useState(null);
@@ -45,6 +47,9 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing }) => {
   let maxSelectableYear = 1;
   const processedData = [];
   const FAKE_NUMBER = 0.001;
+    let useCropLegendsRow = true;
+    let useFilterByCrops = true;
+    
   if (!data || !data.dimensions || !data.dimensions.crop || data.id === null) {
     noData = true;
   } else {
@@ -266,6 +271,12 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing }) => {
       enableGridY = false;
       numberOfActiveBreeders();
       break;
+    case MARKET_CONCENTRATION_HHI:
+        useCropLegendsRow = false;
+        useFilterByCrops = false;
+        // title = 'Market Concentration, as Measured by the HHI (Out of 10,000)';
+        maxSelectableYear = 4;
+        break;  
   }
   return <Grid className={`number-varieties-released`}>
     <Grid.Row className="header-section">
@@ -274,7 +285,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing }) => {
       </Grid.Column>
     </Grid.Row>
     <Grid.Row className={`filters-section`}>
-      {!noData ? <Grid.Column computer={3} mobile={16}>
+      {!noData && useFilterByCrops ? <Grid.Column computer={3} mobile={16}>
         <CropFilter data={initialCrops} onChange={handleCropFilterChange} />
       </Grid.Column> : null}
       {(!noData && showYearFilter) ? <Grid.Column computer={3} mobile={16}>
@@ -282,7 +293,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing }) => {
                defaultSelected={years.slice(0, maxSelectableYear)} />
       </Grid.Column> : null}
     </Grid.Row>
-    {!noData ? <Grid.Row className={`crops-with-icons`}>
+    {!noData && useCropLegendsRow ? <Grid.Row className={`crops-with-icons`}>
       <Grid.Column width={8}>
         {legend === 'crops' &&
           <CropsLegend data={selectedCrops} title="Crops" titleClass="crops-title" addLighterDiv={addLighterDiv} />}
@@ -292,7 +303,8 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing }) => {
         {withCropsWithSpecialFeatures && <CropsWithSpecialFeatures />}
       </Grid.Column>
     </Grid.Row> : null}
-    <Grid.Row className={`chart-section`}>
+    {type === MARKET_CONCENTRATION_HHI ? <MarketConcentrationHHI data={data} selectedYear={selectedYear}/> : null}
+    {type !== MARKET_CONCENTRATION_HHI ? (<Grid.Row className={`chart-section`}>
       <Grid.Column width={16}>
         <ResponsiveBarChartImpl sources={sources} data={data} noData={noData} crops={crops}
                                 selectedYear={selectedYear} colors={colors} max={max} keys={keys}
@@ -304,7 +316,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing }) => {
                                 customTickWithCrops={customTickWithCrops}
         />
       </Grid.Column>
-    </Grid.Row>
+    </Grid.Row>) : null}
     <Grid.Row className={`source-section`}>
       <Grid.Column>
         <Source title={`Source: ${sources}${editing ? ` *${type}*` : ''}`} />

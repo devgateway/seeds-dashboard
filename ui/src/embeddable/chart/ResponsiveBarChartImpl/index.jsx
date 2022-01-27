@@ -51,7 +51,9 @@ const ResponsiveBarChartImpl = ({
                                   enableGridY,
                                   getTooltipText,
                                   getTooltipHeader,
-                                  groupMode, customTickWithCrops
+                                  groupMode, customTickWithCrops, 
+                                  containerHeight = 450,
+                                gridTickLines = 6,
                                 }) => {
 
   ;
@@ -141,7 +143,7 @@ const ResponsiveBarChartImpl = ({
                       style={{ 'textTransform': 'capitalize', fill: '#adafb2' }} />
   }
   return (
-    <div style={{ height: 450 }}>
+    <div style={{ height: containerHeight }}>
       {!noData ? <ResponsiveBar
         theme={theme}
         layers={["grid", "axes", "bars", groupMode === 'stacked' ? TotalLabels : TotalLabelsGrouped, "markers", "legends"]}
@@ -168,11 +170,11 @@ const ResponsiveBarChartImpl = ({
           legend: leftLegend,
           legendPosition: 'middle',
           legendOffset: -60,
-          tickValues: 6
+          tickValues: gridTickLines
         }}
         layout={layout}
         groupMode={groupMode}
-        gridYValues={6}
+        gridYValues={gridTickLines}
         enableLabel={false}
         axisBottom={customTickWithCrops ? { renderTick: CustomTick } : {
           tickSize: 0,
