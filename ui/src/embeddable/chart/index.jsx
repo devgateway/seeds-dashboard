@@ -26,7 +26,6 @@ import NumberOfVarietiesReleased from "./NumberOfVarietiesReleased";
 import AvailabilityOfBasicSeed from "./AvailabilityOfBasicSeed";
 import {setFilter} from "../reducers/data";
 import ChartComponent from "./ChartsComponent";
-import PerformanceSeedTraders from "./PerformanceSeedTraders";
 
 const PieChart = (props) => {
     const {data, legends, colors, height} = props
@@ -151,6 +150,7 @@ const Chart = (props) => {
         case NUMBER_OF_ACTIVE_SEED_COMPANIES_PRODUCERS:
         case MARKET_CONCENTRATION_HHI:
         case NUMBER_VARIETIES_SOLD:
+        case PERFORMANCE_SEED_TRADERS:
         case AVERAGE_AGE_VARIETIES_SOLD: {
             const chartComponent = {sources, type, ...chartProps}
             child = <ChartComponent {...chartComponent} />
@@ -161,9 +161,6 @@ const Chart = (props) => {
             break;
         case AVAILABILITY_OF_BASIC_SEED:
           child = <AvailabilityOfBasicSeed mostRecentYears={mostRecentYears} sources={sources} {...chartProps} />;
-            break;
-        case PERFORMANCE_SEED_TRADERS:
-            child = <PerformanceSeedTraders sources={sources}/>;
             break;
     }
     return (<div ref={ref}>

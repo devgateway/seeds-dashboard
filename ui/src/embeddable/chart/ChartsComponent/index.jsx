@@ -10,12 +10,13 @@ import Source from "../common/source";
 import { getColor } from "../Countryinfo/CountryInfoChart";
 import {
   AVERAGE_AGE_VARIETIES_SOLD,
-    MARKET_CONCENTRATION_HHI,
+    MARKET_CONCENTRATION_HHI, PERFORMANCE_SEED_TRADERS,
   NUMBER_OF_ACTIVE_BREEDERS, NUMBER_OF_ACTIVE_SEED_COMPANIES_PRODUCERS,
   VARIETIES_RELEASED_WITH_SPECIAL_FEATURES, NUMBER_VARIETIES_SOLD
 } from "../../reducers/StoreConstants";
 import YearLegend from "../common/year";
 import MarketConcentrationHHI from "../MarketConcentrationHHI";
+import ResponsiveRadarChartImpl from "../ResponsiveRadarChartImpl";
 
 const ChartComponent = ({ sources, data, type, title, subTitle, editing }) => {
   const [initialCrops, setInitialCrops] = useState(null);
@@ -47,14 +48,15 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing }) => {
   let maxSelectableYear = 1;
   const processedData = [];
   const FAKE_NUMBER = 0.001;
-    let useCropLegendsRow = true;
-    let useFilterByCrops = true;
-    
-  if (!data || !data.dimensions || !data.dimensions.crop || data.id === null) {
+  let useCropLegendsRow = true;
+  let useFilterByCrops = true;
+  let yearsColors = blueColors;
+
+  if (!data || !data.dimensions || (!data.dimensions.crop && !data.dimensions.year) || data.id === null) {
     noData = true;
   } else {
-    years = data.dimensions.year.values;
-    crops = data.dimensions.crop.values;
+    years = data.dimensions.year ? data.dimensions.year.values : {};
+    crops = data.dimensions.crop ? data.dimensions.crop.values : {};
     if (data !== currentData) {
       setCurrentData(data);
       setSelectedCrops(crops);
@@ -121,7 +123,32 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing }) => {
             keys.push(key);
           }
           if (!colors.get(key)) {
-            colors.set(key, newBlueColors.shift());
+              colors.set(key, newBlueColors.shift());
+          }
+          if (Number(entry[i]) > max) {
+            max = Number(entry[i]);
+          }
+        }
+      });
+      processedData.push(entry);
+    });
+  }
+
+  const processForRadar = (dimensionValues) => {
+    dimensionValues.forEach(d => {
+      const radarColors = [...performanceColors];
+      const entry = {};
+      entry[indexBy] =  d ;
+      Object.keys(data.values[d]).forEach((i, j) => {
+        if (selectedYear && selectedYear.find(k => k === i)) {
+          const key = '' + i;
+          entry[key] = Number(data.values[d][i]) >= 0 ? data.values[d][i] : FAKE_NUMBER;
+
+          if (!keys.find(i => i === key)) {
+            keys.push(key);
+          }
+          if (!colors.get(key)) {
+            colors.set(key, radarColors.shift());
           }
           if (Number(entry[i]) > max) {
             max = Number(entry[i]);
@@ -170,6 +197,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing }) => {
     case NUMBER_VARIETIES_SOLD:
     case AVERAGE_AGE_VARIETIES_SOLD:
     case NUMBER_OF_ACTIVE_SEED_COMPANIES_PRODUCERS: {
+      leftLegend = 'Number of Years';
       if (type === NUMBER_VARIETIES_SOLD) {
         getTooltipText = (d) => {
           return <>
@@ -186,6 +214,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing }) => {
             <div className="crop-name">{d.indexValue}</div>
           </>;
         }
+        leftLegend = 'Number of varieties sold';
       } else if (type === AVERAGE_AGE_VARIETIES_SOLD) {
         getTooltipText = (d) => {
           return <>
@@ -220,7 +249,6 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing }) => {
       }
       legend = 'years';
       groupMode = 'grouped';
-      leftLegend = 'Number of Years';
       withCropsWithSpecialFeatures = false;
       customTickWithCrops = true;
       maxSelectableYear = 4;
@@ -276,7 +304,17 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing }) => {
         useFilterByCrops = false;
         // title = 'Market Concentration, as Measured by the HHI (Out of 10,000)';
         maxSelectableYear = 4;
-        break;  
+        break;
+    case PERFORMANCE_SEED_TRADERS:
+      indexBy = "id";
+      legend = "years";
+      useFilterByCrops = false;
+      showYearFilter = true;
+      maxSelectableYear = 5;
+      withCropsWithSpecialFeatures = false;
+      yearsColors = performanceColors;
+      processForRadar(data.dimensions.performance.values)
+      break;
   }
   return <Grid className={`number-varieties-released`}>
     <Grid.Row className="header-section">
@@ -297,14 +335,25 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing }) => {
       <Grid.Column width={8}>
         {legend === 'crops' &&
           <CropsLegend data={selectedCrops} title="Crops" titleClass="crops-title" addLighterDiv={addLighterDiv} />}
-        {legend === 'years' && <YearLegend colors={blueColors} years={years} />}
+        {legend === 'years' && <YearLegend colors={yearsColors} years={selectedYear} />}
       </Grid.Column>
       <Grid.Column width={8} className="withSeparator">
         {withCropsWithSpecialFeatures && <CropsWithSpecialFeatures />}
       </Grid.Column>
     </Grid.Row> : null}
     {type === MARKET_CONCENTRATION_HHI ? <MarketConcentrationHHI data={data} selectedYear={selectedYear}/> : null}
-    {type !== MARKET_CONCENTRATION_HHI ? (<Grid.Row className={`chart-section`}>
+    {type === PERFORMANCE_SEED_TRADERS ?
+        <Grid.Row className={`chart-section`}><Grid.Column width={16}>
+          <ResponsiveRadarChartImpl
+            noData={noData}
+            selectedYear={selectedYear}
+            processedData={processedData}
+            keys={keys}
+            colors={colors}
+            indexBy={indexBy}
+        /></Grid.Column> </Grid.Row> : null
+    }
+    {type !== MARKET_CONCENTRATION_HHI &&  type !== PERFORMANCE_SEED_TRADERS ? (<Grid.Row className={`chart-section`}>
       <Grid.Column width={16}>
         <ResponsiveBarChartImpl sources={sources} data={data} noData={noData} crops={crops}
                                 selectedYear={selectedYear} colors={colors} max={max} keys={keys}
@@ -326,6 +375,9 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing }) => {
 }
 const blueColors = [
   '#3377b6', '#7dafde', '#9fbfdc', '#c2dbf3'
+];
+const performanceColors = [
+  '#4D843F', '#F39C00', '#FBCC2A', '#E36A6A', '#289DF5'
 ];
 
 export default ChartComponent;
