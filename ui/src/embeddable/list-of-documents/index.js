@@ -44,7 +44,6 @@ const ListOfDocuments = ({
   let filtered;
   // Match country in the media categories with country in the data filter component.
   if (documents && selectedCountryId && countries && category !== '0') {
-    debugger
     const selectedCountry = countries.find(i => i.countryId === selectedCountryId);
     const countryCategory = categoriesWP.find(i => {
 
