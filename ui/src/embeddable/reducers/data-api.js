@@ -3,7 +3,6 @@ import {
   COUNTRY_INFO,
   NUMBER_OF_VARIETIES_RELEASED,
   SELECTED_COUNTRY,
-  MARKET_CONCENTRATION_HHI,
   VARIETIES_RELEASED_WITH_SPECIAL_FEATURES,
   NUMBER_VARIETIES_SOLD,
   AVAILABILITY_OF_BASIC_SEED, DEFAULT_COUNTRY_ID,
@@ -31,13 +30,11 @@ let AVERAGE_AGE_VARIETIES_SOLD_API = `${SURVEY_API}/chart/averageAgeVarietiesSol
 let AVAILABILITY_OF_BASIC_SEED_API = `${SURVEY_API}/chart/availabilityBasicSeed/crop/year/`;
 let NUMBER_VARIETIES_SOLD_API = `${SURVEY_API}/chart/numberVarietiesSold/crop/year/`;
 const NUMBER_OF_ACTIVE_BREEDERS_API = `${SURVEY_API}/chart/numberActiveBreeders/year/crop/`;
-const MARKET_CONCENTRATION_HHI_API = `${SURVEY_API}/chart/marketConcentration/crop/year/`;
 
 const APIS = {
   prevalence: '',
   policy: POLICY_API_ROOT,
   [COUNTRY_INFO]: COUNTRY_INFORMATION_API,
-  [MARKET_CONCENTRATION_HHI]: MARKET_CONCENTRATION_HHI_API,
   [NUMBER_OF_VARIETIES_RELEASED]: NUMBER_OF_VARIETIES_RELEASED_API,
   [VARIETIES_RELEASED_WITH_SPECIAL_FEATURES]: VARIETIES_RELEASED_WITH_SPECIAL_FEATURES_API,
   [AVERAGE_AGE_VARIETIES_SOLD]: AVERAGE_AGE_VARIETIES_SOLD_API,
@@ -77,7 +74,6 @@ export const getData = ({ source, app, params }) => {
     return get(APIS[app] + countryId);
   } else if (app === NUMBER_OF_VARIETIES_RELEASED
     || app === AVAILABILITY_OF_BASIC_SEED
-    || app === MARKET_CONCENTRATION_HHI  
     || app === VARIETIES_RELEASED_WITH_SPECIAL_FEATURES
     || app === AVERAGE_AGE_VARIETIES_SOLD
     || app === NUMBER_OF_ACTIVE_BREEDERS
@@ -117,6 +113,7 @@ export const loadCountrySettings = () => {
 }
 
 export const getDocumentsData = (params) => {
-  return get(WP_DOCUMENTS_API, params)
+  let documentsApi = WP_DOCUMENTS_API + (params ? '?' + queryParams(params) : '')
+  return get(documentsApi, params)
 }
 
