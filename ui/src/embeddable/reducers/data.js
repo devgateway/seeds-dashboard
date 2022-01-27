@@ -67,11 +67,11 @@ export const getCountries = (dataSource) => (dispatch, getState) => {
   })
 }
 
-export const getDocuments = () => (dispatch, getState) => {
+export const getDocuments = ({ params }) => (dispatch, getState) => {
   dispatch({
     type: LOAD_DOCUMENTS
   })
-  api.getDocumentsData().then(data => {
+  api.getDocumentsData(params).then(data => {
     dispatch({
       type: LOAD_DOCUMENTS_DONE,
       data
