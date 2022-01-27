@@ -6,7 +6,8 @@ const SaveComponent = (props) => {
       valuesFilterStore,
       selectedFilterStore,
       connectFilter,
-      height
+      height,
+      slugPrefix
     },
   } = props;
 
@@ -20,6 +21,7 @@ const SaveComponent = (props) => {
            data-selected-filter-store={selectedFilterStore}
            data-connect-filter={connectFilter}
            data-height={height}
+           data-slug-pre-fix={slugPrefix}
            className={"wp-react-lib-component"}
            data-component={"innerPage"}>
       </div>

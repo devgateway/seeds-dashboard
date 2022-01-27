@@ -16,6 +16,7 @@ const innerPage = ({
                      "data-values-filter-store": valuesFilterStore,
                      "data-selected-filter-store": selectedFilterStore,
                      "data-connect-filter": connectFilter, messages,
+                     "data-slug-pre-fix": slugPrefix,
                      filters, filtersData
 
 
@@ -23,17 +24,18 @@ const innerPage = ({
   const isEditing = editing === 'true';
   const contentHeight = isEditing ? height - 30 : height;
   const slug = getSlugFromFilters(filters, filtersData, valuesFilterStore, selectedFilterStore);
+
   return <div style={{ 'height': contentHeight + 'px' }}>
     {slug ? <PageProvider
-      slug={slug}
-      store={slug}
+      slug={slugPrefix + slug}
+      store={slugPrefix + slug}
       messages={messages}
       fallbackComponent={<DefaultPage slug={defaultPage} messages={messages} />}
     >
       <PageConsumer>
         <Page />
       </PageConsumer>
-    </PageProvider> : <PageNotFound />}
+    </PageProvider> : <DefaultPage slug={defaultPage} messages={messages} />}
 
   </div>
 }
