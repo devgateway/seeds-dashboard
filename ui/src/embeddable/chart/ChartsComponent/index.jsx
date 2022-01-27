@@ -17,7 +17,7 @@ import {
 import YearLegend from "../common/year";
 import MarketConcentrationHHI from "../MarketConcentrationHHI";
 
-const ChartComponent = ({ sources, data, type, title }) => {
+const ChartComponent = ({ sources, data, type, title, subTitle, editing }) => {
   const [initialCrops, setInitialCrops] = useState(null);
   const [selectedCrops, setSelectedCrops] = useState(null);
   const [selectedYear, setSelectedYear] = useState(null);
@@ -170,15 +170,13 @@ const ChartComponent = ({ sources, data, type, title }) => {
     case NUMBER_VARIETIES_SOLD:
     case AVERAGE_AGE_VARIETIES_SOLD:
     case NUMBER_OF_ACTIVE_SEED_COMPANIES_PRODUCERS: {
-      title = 'Number of active seed companies/producers';
       if (type === NUMBER_VARIETIES_SOLD) {
-        title = 'Number of varieties sold';
         getTooltipText = (d) => {
           return <>
             <span>Number of varieties sold</span><span
-              className="bold"> {d.data[d.id]}  </span><br />
+            className="bold"> {d.data[d.id]}  </span><br />
             <span>Year</span><span
-              className="bold"> {d.id}  </span>
+            className="bold"> {d.id}  </span>
 
           </>
         }
@@ -283,7 +281,7 @@ const ChartComponent = ({ sources, data, type, title }) => {
   return <Grid className={`number-varieties-released`}>
     <Grid.Row className="header-section">
       <Grid.Column>
-        <Header title={title} subtitle="" />
+        <Header title={`${title}`} subtitle={subTitle} />
       </Grid.Column>
     </Grid.Row>
     <Grid.Row className={`filters-section`}>
@@ -321,7 +319,7 @@ const ChartComponent = ({ sources, data, type, title }) => {
     </Grid.Row>) : null}
     <Grid.Row className={`source-section`}>
       <Grid.Column>
-        <Source title={"Source: " + sources} />
+        <Source title={`Source: ${sources}${editing ? ` *${type}*` : ''}`} />
       </Grid.Column>
     </Grid.Row>
   </Grid>

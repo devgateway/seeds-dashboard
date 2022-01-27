@@ -47,6 +47,10 @@ registerBlockType(process.env.BLOCKS_NS + '/chart',
             type: 'String',
             default: ""
           },
+          subTitle: {
+            type: 'String',
+            default: ""
+          },
           defaultCountryId: {
             type: 'Number',
             default: 23

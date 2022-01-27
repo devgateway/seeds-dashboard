@@ -79,6 +79,7 @@ const Chart = (props) => {
         "data-csv": csv = "",
         "data-sources": sources = "",
         "data-title": title = "",
+        "data-sub-title": subTitle = "",
         "data-most-recent-years": mostRecentYears = 5,
         "data-default-country-id": defaultCountryId = 9
 
@@ -133,14 +134,16 @@ const Chart = (props) => {
 
     const chartProps = {
         groupMode: groupMode,
-        layout: layout,
-        title: title
+        layout:layout,
+        title:title,
+        subTitle:subTitle,
+        editing:editing
     }
 
     const dual = (dualMode === 'true')
     switch (type) {
         case NUMBER_OF_VARIETIES_RELEASED:
-            child = <NumberOfVarietiesReleased sources={sources}/>;
+          child = <NumberOfVarietiesReleased sources={sources} {...chartProps} type={type} />;
             break;
         case VARIETIES_RELEASED_WITH_SPECIAL_FEATURES:
         case NUMBER_OF_ACTIVE_BREEDERS:
@@ -161,7 +164,7 @@ const Chart = (props) => {
             child = <CountryInfo/>
             break;
         case AVAILABILITY_OF_BASIC_SEED:
-            child = <AvailabilityOfBasicSeed mostRecentYears={mostRecentYears} sources={sources}/>;
+          child = <AvailabilityOfBasicSeed mostRecentYears={mostRecentYears} sources={sources} {...chartProps} />;
             break;
     }
     return (<div ref={ref}>
