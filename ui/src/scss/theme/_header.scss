@@ -329,6 +329,13 @@
           }
         }
 
+        &._upcoming-events,
+        &._past-events{
+          a {
+            background-image: url("/static/images/events.svg") !important;;
+          }
+        }
+
         &._data-summary {
           width: 200px;
           flex: 0 0 200px;
