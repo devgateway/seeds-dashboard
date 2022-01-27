@@ -9,7 +9,7 @@ class BlockEdit extends BaseBlockEdit {
         const {
             className, isSelected,
             toggleSelection, setAttributes, attributes: {
-                type, showInline, category, noDataText
+                type, showInline, category, noDataText,documentSlugPostFix
             }
         } = this.props;
 
@@ -17,6 +17,7 @@ class BlockEdit extends BaseBlockEdit {
         queryString += `&data-show-inline=${showInline}`;
         queryString += `&data-category=${category}`;
         queryString += `&data-no-data-text=${noDataText}`;
+        queryString += `&data-document-slug-post-fix=${documentSlugPostFix}`
         queryString += `&editing=true`;
         const divStyles = {}
         return ([isSelected && (<InspectorControls>
@@ -24,6 +25,13 @@ class BlockEdit extends BaseBlockEdit {
                     <PanelBody>
                         <PanelRow>
                             {this.generateCategories(category)}
+                        </PanelRow>
+                        <PanelRow>
+                            <TextControl
+                              label={__('Slug post fix:')}
+                              value={documentSlugPostFix}
+                              onChange={(documentSlugPostFix) => setAttributes({documentSlugPostFix})}
+                            />
                         </PanelRow>
                         <PanelRow>
                             <TextControl
