@@ -4,36 +4,14 @@ import './styles.scss';
 import ResponsiveBarChartImpl from "../ResponsiveBarChartImpl";
 import Legend from "./Legend";
 
-const BarAndLineChart = ({data, sources, selectedYear, leftLegend, indexBy, groupMode, bottomLegend, rightLegend}) => {
+const BarAndLineChart = ({
+                             data, sources, selectedYear, leftLegend, indexBy, groupMode, bottomLegend, rightLegend,
+                             processedData, colors, keys, max, legends
+                         }) => {
 
     if (!data || !data.dimensions || !data.dimensions.crop) {
         return 'No Data';
     }
-
-    const keys = [];
-    const processedData = [];
-    const colors = new Map();
-    let max = 0;
-    // TODO: move to call.
-    Object.keys(data.values.days).forEach(y => {
-        const item = {year: y};
-        if (selectedYear && selectedYear.find(k => k === y)) {
-            item[y] = data.values.days[y].days;
-            if (!keys.find(k => k === y)) {
-                keys.push(y);
-            }
-            if (item[y] > max) {
-                max = item[y];
-            }
-            if (!colors.get(y)) {
-                colors.set(y, baseColors[0])
-            }
-        }
-        processedData.push(item);
-    });
-    console.log(processedData);
-    console.log(keys);
-    console.log(colors);
 
     const noData = false;
     const layout = 'vertical';
@@ -63,7 +41,7 @@ const BarAndLineChart = ({data, sources, selectedYear, leftLegend, indexBy, grou
             <Grid.Row className="chart-section">
                 <Grid.Column width={16}>
                     <ResponsiveBarChartImpl sources={sources} data={data} noData={noData}
-                                            selectedYear={selectedYear} colors={colors} max={max * 1.25} keys={keys}
+                                            selectedYear={selectedYear} colors={colors} max={max * 1.05} keys={keys}
                                             processedData={processedData}
                                             indexBy={indexBy} layout={layout}
                                             groupMode={groupMode}
@@ -78,23 +56,5 @@ const BarAndLineChart = ({data, sources, selectedYear, leftLegend, indexBy, grou
         </>
     )
 }
-
-// TODO: move these as props.
-const baseColors = [
-    '#41a9d9', '#c2db24'
-]
-
-const legends = [
-    {
-        id: 1,
-        'color': baseColors[0],
-        'label': 'Number of days for import',
-    },
-    {
-        id: 2,
-        'color': baseColors[1],
-        'label': 'Industry Rating',
-    }
-];
 
 export default BarAndLineChart
