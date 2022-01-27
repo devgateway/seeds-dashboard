@@ -117,7 +117,6 @@ export const loadCountrySettings = () => {
 }
 
 export const getDocumentsData = (params) => {
-  let documentsApi = WP_DOCUMENTS_API + (params ? '?' + queryParams(params) : '')
-  return get(documentsApi, params)
+  return get(WP_DOCUMENTS_API, params)
 }
 
