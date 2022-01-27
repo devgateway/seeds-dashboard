@@ -16,4 +16,5 @@ export const SELECTED_COUNTRY = 'selected-country';
 export const DEFAULT_COUNTRY_ID = 'default-country-id';
 export const WP_DOCUMENTS = 'wp-documents';
 export const MARKET_CONCENTRATION_HHI = 'marketConcentrationHHI';
+export const NUMBER_VARIETIES_SOLD = 'numberVarietiesSold';
 export const WP_CHART = 'wp-chart';

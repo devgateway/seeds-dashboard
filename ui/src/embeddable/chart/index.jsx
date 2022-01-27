@@ -16,10 +16,11 @@ import {
     COUNTRY_INFO,
     NUMBER_OF_VARIETIES_RELEASED,
     VARIETIES_RELEASED_WITH_SPECIAL_FEATURES,
+    NUMBER_VARIETIES_SOLD,
     AVAILABILITY_OF_BASIC_SEED, DEFAULT_COUNTRY_ID,
     AVERAGE_AGE_VARIETIES_SOLD,
-    NUMBER_OF_ACTIVE_BREEDERS,
-    NUMBER_OF_ACTIVE_SEED_COMPANIES_PRODUCERS, MARKET_CONCENTRATION_HHI,
+    NUMBER_OF_ACTIVE_BREEDERS, NUMBER_OF_ACTIVE_SEED_COMPANIES_PRODUCERS,
+    MARKET_CONCENTRATION_HHI,
 } from "../reducers/StoreConstants";
 import NumberOfVarietiesReleased from "./NumberOfVarietiesReleased";
 import AvailabilityOfBasicSeed from "./AvailabilityOfBasicSeed";
@@ -150,6 +151,12 @@ const Chart = (props) => {
             child = <ChartComponent {...chartComponent} />
             break;
         }
+        case NUMBER_VARIETIES_SOLD:
+        case AVERAGE_AGE_VARIETIES_SOLD: {
+            const chartComponent = {sources, type, ...chartProps}
+            child = <ChartComponent {...chartComponent} />
+            break;
+        }
         case COUNTRY_INFO:
             child = <CountryInfo/>
             break;
@@ -167,7 +174,7 @@ const Chart = (props) => {
                               app={type}
                               source={chartDataSource}
                               csv={csv}
-                              store={[app, unique]}>
+                              store={[type, unique]}>
 
                     {(!dual || (mode == 'chart')) && (
                         <Container style={{"height": `${contentHeight}px`}} className={"body"}

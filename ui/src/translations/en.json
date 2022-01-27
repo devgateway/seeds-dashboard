@@ -72,5 +72,6 @@
   "tooltip-E2": "Concentration of agro-dealer network",
   "tooltip-E3.1": "Availability of seed in small packages",
   "tooltip-E4.1": "Price of seed at planting",
-  "symbol-M": "Millions"
+  "symbol-M": "Millions",
+  "average-rating": "Average Rating"
 }
