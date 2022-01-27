@@ -3,13 +3,12 @@ import {
   COUNTRY_INFO,
   NUMBER_OF_VARIETIES_RELEASED,
   SELECTED_COUNTRY,
-  MARKET_CONCENTRATION_HHI,
   VARIETIES_RELEASED_WITH_SPECIAL_FEATURES,
   NUMBER_VARIETIES_SOLD,
   PERFORMANCE_SEED_TRADERS,
   AVAILABILITY_OF_BASIC_SEED, DEFAULT_COUNTRY_ID,
   AVERAGE_AGE_VARIETIES_SOLD,
-  NUMBER_OF_ACTIVE_BREEDERS, WP_CHART,
+  NUMBER_OF_ACTIVE_BREEDERS, WP_CHART, MARKET_CONCENTRATION_HHI,
 } from "./StoreConstants";
 
 const SURVEY_API = process.env.REACT_APP_SURVEY_API
@@ -80,7 +79,7 @@ export const getData = ({ source, app, params }) => {
     return get(APIS[app] + countryId);
   } else if (app === NUMBER_OF_VARIETIES_RELEASED
     || app === AVAILABILITY_OF_BASIC_SEED
-    || app === MARKET_CONCENTRATION_HHI  
+    || app === MARKET_CONCENTRATION_HHI
     || app === VARIETIES_RELEASED_WITH_SPECIAL_FEATURES
     || app === AVERAGE_AGE_VARIETIES_SOLD
     || app === NUMBER_OF_ACTIVE_BREEDERS
@@ -121,6 +120,7 @@ export const loadCountrySettings = () => {
 }
 
 export const getDocumentsData = (params) => {
-  return get(WP_DOCUMENTS_API, params)
+  let documentsApi = WP_DOCUMENTS_API + (params ? '?' + queryParams(params) : '')
+  return get(documentsApi, params)
 }
 
