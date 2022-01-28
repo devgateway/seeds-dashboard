@@ -64,7 +64,6 @@ const ResponsiveBarChartImpl = ({
   const TotalLabels = ({ bars, yScale, xScale }) => {
     // space between top of stacked bars and total label
     let labelMargin = 20;
-
     const numbers = [];
     bars.forEach(({ data: { data, indexValue }, x, y, width, height }, i) => {
       // sum of all the bar values in a stacked bar
@@ -77,7 +76,7 @@ const ResponsiveBarChartImpl = ({
       let xText = width / 2;
       let yText = labelMargin / 2;
       if (layout === 'horizontal') {
-        labelMargin = 10;
+        labelMargin = -5;
         transform = `translate(${xScale(total) - labelMargin},${y + (height / 3)})`;
         xText = (height / 2) - 20;
         yText = (labelMargin / 2);

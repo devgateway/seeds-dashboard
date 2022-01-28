@@ -17,7 +17,8 @@ const baseColors = {
     "teff": "#20676C",
     "wheat": "#A78D0C",
     millet: '#878786',
-    pigeon: '#878786'
+    pigeon: '#878786',
+    'pigeon-pea': '#878786'
 }
 
 const fadeColors = {
@@ -34,7 +35,8 @@ const fadeColors = {
     "teff": "#90b3b6",
     "wheat": "#d3c686",
     millet: '#c3c3c2',
-    pigeon: '#c3c3c2'
+    pigeon: '#c3c3c2',
+   'pigeon-pea': '#c3c3c2'
 }
 
 export const getColor = (item, options) => {
