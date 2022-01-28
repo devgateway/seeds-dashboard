@@ -5,6 +5,8 @@ import { getDocuments, getWpCategories } from "../reducers/data";
 import { DATA, SELECTED_COUNTRY, WP_CATEGORIES, WP_DOCUMENTS } from "../reducers/StoreConstants";
 import Documents from "./Documents";
 
+const DOCUMENTS_PER_PAGE = 100;
+
 const ListOfDocuments = ({
                            onLoadDocuments,
                            onLoadCategories,
@@ -30,6 +32,7 @@ const ListOfDocuments = ({
     if (categoriesWP) {
       const params = {};
       params.categories = category;
+      params.per_page = DOCUMENTS_PER_PAGE;
       onLoadDocuments({ params })
     }
   }, [categoriesWP, onLoadDocuments]);
