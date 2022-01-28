@@ -319,9 +319,6 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
       bottomLegend = 'Year';
       groupMode = 'grouped';
       rightLegend = 'Rating out of 100';
-      const baseColors = [
-        '#41a9d9', '#c2db24'
-      ]
       keys.push(['value']);
       Object.keys(data.values.days).forEach(y => {
         const item = {year: y};
@@ -337,13 +334,11 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
           processedData.push(item);
         }
       });
-      colors.set('value', baseColors[0])
+      colors.set('value', barPieColor[0])
       getTooltipText = (d) => {
         return <div style={{textAlign: 'center'}}>
-          <span className="bold"> {d.data[d.id]}  </span>
-          <span>Days for Import</span><br/>
-          <span className="bold"> {d.data.rating}  </span>
-          <span>Industry Rating</span>
+          <span>Days for Import</span>
+          <span className="bold"> {d.data[d.id]}</span>
         </div>
       }
       getTooltipHeader = (d) => {
@@ -363,11 +358,11 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
         return <BarAndLineChart data={data} selectedYear={selectedYear} leftLegend={leftLegend}
                                 indexBy={indexBy} groupMode={groupMode} bottomLegend={bottomLegend}
                                 rightLegend={rightLegend} processedData={processedData} colors={colors}
-                                max={max} keys={keys} getTooltipText={getTooltipText}
-                                getTooltipHeader={getTooltipHeader}
-                                legends={[{id: 1, 'color': '#41a9d9', 'label': 'Number of days for import'},
-                                  {id: 2, 'color': '#c2db24', 'label': 'Industry Rating'}
-                                ]}/>
+                                max={max * 1.05} keys={keys} getTooltipText={getTooltipText}
+                                getTooltipHeader={getTooltipHeader} lineColor={barPieColor[1]}
+                                legends={[{id: 1, 'color': barPieColor[0], 'label': 'Number of days for import'},
+                                  {id: 2, 'color': barPieColor[1], 'label': 'Industry Rating'}
+                                ]} lineChartField={'rating'}/>
       case PERFORMANCE_SEED_TRADERS:
         return <Grid.Row className={`chart-section`}>
           <Grid.Column width={16}>
@@ -437,5 +432,8 @@ const blueColors = [
 const performanceColors = [
   '#4D843F', '#F39C00', '#FBCC2A', '#E36A6A', '#289DF5'
 ];
+const barPieColor = [
+  '#41a9d9', '#c2db24'
+]
 
 export default injectIntl(ChartComponent);

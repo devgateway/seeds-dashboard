@@ -8,7 +8,8 @@ import Legend from "./Legend";
 
 const BarAndLineChart = ({
                              data, sources, selectedYear, leftLegend, indexBy, groupMode, bottomLegend, rightLegend,
-                             processedData, colors, keys, max, legends, getTooltipText, getTooltipHeader
+                             processedData, colors, keys, max, legends, getTooltipText, getTooltipHeader, lineColor,
+                             lineChartField
                          }) => {
 
     if (!data || !data.dimensions || !data.dimensions.crop) {
@@ -21,13 +22,12 @@ const BarAndLineChart = ({
     const enableGridY = true;
     const customTickWithCrops = true;
 
-    // TODO: move as props.
     const LineLayer = ({bars, xScale, yScale}) => {
-        const filteredBars = bars.filter(b => b.data.data.rating);
+        const filteredBars = bars.filter(b => b.data.data[lineChartField]);
 
         const lineGenerator = line()
             .x(bar => xScale(bar.data.indexValue) + bar.width / 2)
-            .y(bar => yScale(bar.data.data.rating || 0));
+            .y(bar => yScale(bar.data.data[lineChartField] || 0));
 
         const {showTooltipFromEvent, hideTooltip} = useTooltip();
 
@@ -36,7 +36,7 @@ const BarAndLineChart = ({
                 <path
                     d={lineGenerator(filteredBars)}
                     fill="none"
-                    stroke={'#c2db24'}
+                    stroke={lineColor}
                     strokeWidth={2}
                     style={{pointerEvents: "none"}}
                 />
@@ -45,17 +45,41 @@ const BarAndLineChart = ({
                         return (<circle
                             key={bar.key}
                             cx={xScale(bar.data.indexValue) + bar.width / 2}
-                            cy={yScale(bar.data.data.rating)}
-                            r={4}
-                            fill='#c2db24'
-                            stroke={'#c2db24'}
+                            cy={yScale(bar.data.data[lineChartField])}
+                            r={5}
+                            fill={lineColor}
+                            stroke={lineColor}
                             onMouseEnter={(event) =>
-                                showTooltipFromEvent(<BasicTooltip id="Rating" value={bar.data.data.rating}/>, event)
+                                showTooltipFromEvent(<div>
+                                    <div className="tooltip-container-vrwsf">
+                                        <div className="header-container">
+                                            <div className="header">
+                                                <div className="inner-container">
+                                                    <div className="crop-icon"></div>
+                                                    <div className="crop-name">{bar.data.indexValue}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="amount-container">
+                                            <table width="100%">
+                                                <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <div style={{textAlign: 'center'}}>
+                                                            <span>Industry Rating</span><span
+                                                            className="bold"> {bar.data.data[lineChartField]}</span></div>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>, event)
                             }
                             onMouseLeave={() => hideTooltip()}
-                            onMouseMove={(event) =>
-                                showTooltipFromEvent(<BasicTooltip id="Rating" value={bar.data.data.rating}/>, event)
-                            }
+                            /*onMouseMove={(event) =>
+                                showTooltipFromEvent(<BasicTooltip id="Rating" value={bar.data.data[lineChartField]}/>, event)
+                            }*/
                         />)
                     }
                     return null;
@@ -69,8 +93,8 @@ const BarAndLineChart = ({
         markerLine = [
             {
                 axis: 'y',
-                value: processedData.find(i => i.year === selectedYear[0]).rating,
-                lineStyle: {stroke: '#c2db24', strokeWidth: 2},
+                value: processedData.find(i => i.year === selectedYear[0])[lineChartField],
+                lineStyle: {stroke: lineColor, strokeWidth: 2},
                 legend: '',
                 legendOrientation: 'vertical',
             }
