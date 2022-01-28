@@ -96,7 +96,7 @@ const DataSummaryBody = ({
                          className={"indicator-selected-country"}><IndicatorLabel
               field={field}
               className={'indicator-label'}
-              range={range} displayType={indicator.displayType} selectedCountry />
+              range={range} displayType={isOverview ? f.displayType : indicator.displayType} selectedCountry />
             </Grid.Column>
           </Grid>
         })}
@@ -126,9 +126,10 @@ const DataSummaryBody = ({
                   const field = selectedCountry.find(
                     sc => (sc.fieldId === effectiveF.id && sc.countryId === vc)
                   )
-                  return <Grid.Column key={vc}><IndicatorLabel field={field} className={'indicator-label'}
+                  return <Grid.Column key={vc}><IndicatorLabel field={field}
+                                                               className={'indicator-label'}
                                                                range={range}
-                                                               displayType={indicator.displayType} /></Grid.Column>
+                                                               displayType={isOverview ? f.displayType : indicator.displayType} /></Grid.Column>
                 })
                 }
               </Grid>
