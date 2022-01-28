@@ -9,7 +9,7 @@ import Legend from "./Legend";
 const BarAndLineChart = ({
                              data, sources, selectedYear, leftLegend, indexBy, groupMode, bottomLegend, rightLegend,
                              processedData, colors, keys, max, legends, getTooltipText, getTooltipHeader, lineColor,
-                             lineChartField
+                             lineChartField, lineChartFieldLabel
                          }) => {
 
     if (!data || !data.dimensions || !data.dimensions.crop) {
@@ -66,8 +66,9 @@ const BarAndLineChart = ({
                                                 <tr>
                                                     <td>
                                                         <div style={{textAlign: 'center'}}>
-                                                            <span>Industry Rating</span><span
-                                                            className="bold"> {bar.data.data[lineChartField]}</span></div>
+                                                            <span>{lineChartFieldLabel}</span><span
+                                                            className="bold"> {bar.data.data[lineChartField]}</span>
+                                                        </div>
                                                     </td>
                                                 </tr>
                                                 </tbody>

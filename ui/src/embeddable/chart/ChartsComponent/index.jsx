@@ -362,7 +362,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
                                 getTooltipHeader={getTooltipHeader} lineColor={barPieColor[1]}
                                 legends={[{id: 1, 'color': barPieColor[0], 'label': 'Number of days for import'},
                                   {id: 2, 'color': barPieColor[1], 'label': 'Industry Rating'}
-                                ]} lineChartField={'rating'}/>
+                                ]} lineChartField={'rating'} lineChartFieldLabel={'Industry Rating'}/>
       case PERFORMANCE_SEED_TRADERS:
         return <Grid.Row className={`chart-section`}>
           <Grid.Column width={16}>
