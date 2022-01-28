@@ -291,7 +291,6 @@ p:empty {
 .wp-block-query{
   &.news{
     overflow: hidden;
-    border:2px solid red;
     img{
       border-bottom: 5px solid $yellow;
     }
