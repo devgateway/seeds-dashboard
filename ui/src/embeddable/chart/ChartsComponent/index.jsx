@@ -293,6 +293,7 @@ const ChartComponent = ({sources, data, type, title, subTitle, editing}) => {
                 '#41a9d9', '#c2db24'
             ]
             keys.push(['value']);
+            max = 85; // Because ResponsiveBarChartImpl does (max * 1.25).
             Object.keys(data.values.days).forEach(y => {
                 const item = {year: y};
                 if (selectedYear && selectedYear.find(k => k === y)) {
@@ -301,13 +302,27 @@ const ChartComponent = ({sources, data, type, title, subTitle, editing}) => {
                     if (item[y] > max) {
                         max = item[y];
                     }
-                    if (item.rating > max) {
+                    /*if (item.rating > max) {
                         max = item.rating;
-                    }
+                    }*/
                 }
                 processedData.push(item);
             });
             colors.set('value', baseColors[0])
+            getTooltipText = (d) => {
+                return <div style={{textAlign: 'center'}}>
+                    <span>HHI Value</span><span
+                    className="bold"> {d.data[d.id]}  </span><br/>
+                    <span>Year</span><span
+                    className="bold"> {d.id}  </span>
+                </div>
+            }
+            getTooltipHeader = (d) => {
+                return <>
+                    <div className={d.indexValue + " crop-icon"}/>
+                    <div className="crop-name">{d.indexValue}</div>
+                </>;
+            }
             break;
     }
 
@@ -319,7 +334,8 @@ const ChartComponent = ({sources, data, type, title, subTitle, editing}) => {
                 return <BarAndLineChart data={data} selectedYear={selectedYear} leftLegend={leftLegend}
                                         indexBy={indexBy} groupMode={groupMode} bottomLegend={bottomLegend}
                                         rightLegend={rightLegend} processedData={processedData} colors={colors}
-                                        max={max} keys={keys}
+                                        max={max} keys={keys} getTooltipText={getTooltipText}
+                                        getTooltipHeader={getTooltipHeader}
                                         legends={[{id: 1, 'color': '#41a9d9', 'label': 'Number of days for import'},
                                             {id: 2, 'color': '#c2db24', 'label': 'Industry Rating'}
                                         ]}/>
