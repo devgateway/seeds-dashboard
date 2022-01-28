@@ -12,12 +12,14 @@ import {
   AVERAGE_AGE_VARIETIES_SOLD,
     MARKET_CONCENTRATION_HHI, PERFORMANCE_SEED_TRADERS,
   NUMBER_OF_ACTIVE_BREEDERS, NUMBER_OF_ACTIVE_SEED_COMPANIES_PRODUCERS,
-  VARIETIES_RELEASED_WITH_SPECIAL_FEATURES, NUMBER_VARIETIES_SOLD
+  VARIETIES_RELEASED_WITH_SPECIAL_FEATURES, NUMBER_VARIETIES_SOLD,
+  EFFICIENCY_SEED_IMPORT_PROCESS
 } from "../../reducers/StoreConstants";
 import YearLegend from "../common/year";
 import MarketConcentrationHHI from "../MarketConcentrationHHI";
 import ResponsiveRadarChartImpl from "../ResponsiveRadarChartImpl";
 import { injectIntl } from "react-intl";
+import BarAndLineChart from "../BarAndLineChart";
 
 const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl }) => {
   const [initialCrops, setInitialCrops] = useState(null);
@@ -33,6 +35,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
   let addLighterDiv = true;
   let leftLegend;
   let bottomLegend;
+  let rightLegend;
   let enableGridX = false;
   let enableGridY = true;
   let legend = 'crops';
@@ -112,42 +115,51 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
       });
     }
   }
-
-  const commonProcess = (c, entry, yearColors) => {
-    const newBlueColors = [...yearColors];
-    Object.keys(data.values[c]).forEach((i, j) => {
-      if (selectedYear && selectedYear.find(k => k === i)) {
-        const key = '' + i;
-        entry[key] = Number(data.values[c][i]) >= 0 ? data.values[c][i] : FAKE_NUMBER;
-        if (!keys.find(i => i === key)) {
-          keys.push(key);
-        }
-        if (!colors.get(key)) {
-          colors.set(key, newBlueColors.shift());
-        }
-        if (Number(entry[i]) > max) {
-          max = Number(entry[i]);
-        }
-      }
-    });
-    processedData.push(entry);
-  }
-
   const processByYear = () => {
+    const newBlueColors = [...blueColors];
     crops.forEach(c => {
       const entry = { crop: c };
-      commonProcess(c, entry, blueColors);
+      Object.keys(data.values[c]).forEach((i, j) => {
+        if (selectedYear && selectedYear.find(k => k === i)) {
+          const key = '' + i;
+          entry[key] = Number(data.values[c][i]) >= 0 ? data.values[c][i] : FAKE_NUMBER;
+          if (!keys.find(i => i === key)) {
+            keys.push(key);
+          }
+          if (!colors.get(key)) {
+              colors.set(key, newBlueColors.shift());
+          }
+          if (Number(entry[i]) > max) {
+            max = Number(entry[i]);
+          }
+        }
+      });
+      processedData.push(entry);
     });
   }
 
   const processForRadar = (dimensionValues) => {
     dimensionValues.forEach(d => {
+      const radarColors = [...performanceColors];
       const entry = {};
-      entry[indexBy] =  intl.formatMessage({
-        id: d,
-        defaultMessage: d
+      entry[indexBy] =  d ;
+      Object.keys(data.values[d]).forEach((i, j) => {
+        if (selectedYear && selectedYear.find(k => k === i)) {
+          const key = '' + i;
+          entry[key] = Number(data.values[d][i]) >= 0 ? data.values[d][i] : FAKE_NUMBER;
+
+          if (!keys.find(i => i === key)) {
+            keys.push(key);
+          }
+          if (!colors.get(key)) {
+            colors.set(key, radarColors.shift());
+          }
+          if (Number(entry[i]) > max) {
+            max = Number(entry[i]);
+          }
+        }
       });
-      commonProcess(d, entry, performanceColors);
+      processedData.push(entry);
     });
   }
 
@@ -189,14 +201,15 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
     case NUMBER_VARIETIES_SOLD:
     case AVERAGE_AGE_VARIETIES_SOLD:
     case NUMBER_OF_ACTIVE_SEED_COMPANIES_PRODUCERS: {
-      leftLegend = intl.formatMessage({id: 'number-of-years', defaultMessage: 'Number of Years'});
+      leftLegend = 'Number of Years';
       if (type === NUMBER_VARIETIES_SOLD) {
         getTooltipText = (d) => {
           return <>
-            <span>{intl.formatMessage({id: 'tooltip-number-of-varieties-sold', defaultMessage: 'Number of varieties sold'})}</span>
-            <span className="bold"> {d.data[d.id]}  </span><br />
-            <span>{intl.formatMessage({id: 'tooltip-year', defaultMessage: 'Year'})}</span>
-            <span className="bold"> {d.id}  </span>
+            <span>Number of varieties sold</span><span
+            className="bold"> {d.data[d.id]}  </span><br />
+            <span>Year</span><span
+            className="bold"> {d.id}  </span>
+
           </>
         }
         getTooltipHeader = (d) => {
@@ -205,13 +218,13 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
             <div className="crop-name">{d.indexValue}</div>
           </>;
         }
-        leftLegend = intl.formatMessage({id: 'number-of-varieties-sold', defaultMessage: 'Number of varieties sold'});
+        leftLegend = 'Number of varieties sold';
       } else if (type === AVERAGE_AGE_VARIETIES_SOLD) {
         getTooltipText = (d) => {
           return <>
-            <span>{intl.formatMessage({id: 'tooltip-average-age', defaultMessage: 'Average Age'})}</span><span
+            <span>Average Age</span><span
             className="bold"> {d.data[d.id]}  </span><br />
-            <span>{intl.formatMessage({id: 'tooltip-year', defaultMessage: 'Year'})}</span><span
+            <span>Year</span><span
             className="bold"> {d.id}  </span>
 
           </>
@@ -238,7 +251,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
           </>;
         }
       }
-      legend = intl.formatMessage({id: 'years-legend', defaultMessage: 'Years'});
+      legend = 'years';
       groupMode = 'grouped';
       withCropsWithSpecialFeatures = false;
       customTickWithCrops = true;
@@ -260,8 +273,8 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
           <div className="crop-name">{d.indexValue}</div>
         </>
       }
-      leftLegend = intl.formatMessage({id: 'number-of-varieties-released', defaultMessage: 'Number of Varieties Released'});
-      bottomLegend = intl.formatMessage({id: 'crops-legend', defaultMessage: 'Crops'});
+      leftLegend = 'Number of Varieties Released';
+      bottomLegend = 'Crops';
       processVarietiesReleasedWithSpecialFeatures();
       break;
     case NUMBER_OF_ACTIVE_BREEDERS:
@@ -280,12 +293,12 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
       }
       showYearFilter = false;
       indexBy = 'year';
-      leftLegend = intl.formatMessage({id: 'years-legend', defaultMessage: 'Years'});
+      leftLegend = 'Year'
       layout = 'horizontal';
       addLighterDiv = false;
       withCropsWithSpecialFeatures = false;
       showYearFilter = false;
-      bottomLegend = intl.formatMessage({id: 'number-of-breeders-legend', defaultMessage: 'Number of Breeders'});
+      bottomLegend = 'Number of Breeders';
       enableGridX = true;
       enableGridY = false;
       numberOfActiveBreeders();
@@ -293,6 +306,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
     case MARKET_CONCENTRATION_HHI:
         useCropLegendsRow = false;
         useFilterByCrops = false;
+        // title = 'Market Concentration, as Measured by the HHI (Out of 10,000)';
         maxSelectableYear = 4;
         break;
     case PERFORMANCE_SEED_TRADERS:
@@ -370,4 +384,4 @@ const performanceColors = [
   '#4D843F', '#F39C00', '#FBCC2A', '#E36A6A', '#289DF5'
 ];
 
-export default injectIntl(ChartComponent);
+export default ChartComponent;
