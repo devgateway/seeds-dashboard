@@ -1,8 +1,8 @@
 $border_gray: rgba(229, 229, 229, 1);
 
 .crops-with-icons {
-  padding-top: 10px !important;
-  padding-bottom: 10px !important;
+  padding-top: 15px !important;
+  padding-bottom: 15px !important;
   border-bottom: $border_gray 1px solid;
   border-top: $border_gray 1px solid;
   border-right: $border_gray 1px solid;
@@ -17,16 +17,16 @@ $border_gray: rgba(229, 229, 229, 1);
 }
 
 .source-section {
-  padding-bottom: 7px !important;
+  padding-bottom: 15px !important;
   padding-top: 7px !important;
   border: $border_gray 1px solid;
   border-top: none;
-  background-color: #eef1fa;
+  background-color: #f6f9f5;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
 
   label {
-    color: #14701c;
+    color: #4d843f;
     font-size: 14px;
     font-weight: bold;
     float: left;
