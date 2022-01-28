@@ -1,8 +1,9 @@
 
 .legend-title {
-  margin-left: 20px;
+  color: #354052;
+  margin-left: 8px;
   font-weight: bold;
-  font-size: 12pt;
+  font-size: 14pt;
 }
 
 .years {
@@ -10,10 +11,13 @@
   width: auto;
   display: flex;
   margin-left: 20px;
+  margin-top:2px;
 
   .year {
+    color: #333c48;
     display: flex;
-    width: 80px;
+    font-weight: 700;
+    width: 90px;
     font-size: 12pt;
 
     .circle {
@@ -23,6 +27,7 @@
       -moz-border-radius: 25px;
       border-radius: 25px;
       margin-right: 5px;
+      margin-top: 1px;
     }
   }
 }

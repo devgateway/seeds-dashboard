@@ -2,27 +2,29 @@
 
   .ui.vertical.menu {
     padding: 0;
-    height: 50px;
+    height: 40px;
     border: 1px solid #dbdce0;
-    background-color: #eef1fa;
-
+    background-color: #f4f6f9;
+    box-shadow: none;
     .item {
       border-radius: 0;
       padding: 0;
-      
+
       .filter-selector-title {
-        font-size: 16px;
-        color: black;
+        color: #333c48;
+        font-size: 14pt;
+        font-weight: 400;
         justify-content: left;
         float: left;
         margin-top: 15px;
       }
 
       .filter-selector-numbers {
-        font-size: 12px;
-        color: #939393;
+        font-size: 12pt;
+        color: #808080;
         float: left;
-        margin-top: 19px;
+        font-weight: 400;
+        margin-top: 16px;
         margin-left: 15px;
       }
 
@@ -35,8 +37,9 @@
         padding-left: 25px;
 
         .angle.icon {
-          margin-left: -18px;
-          margin-top: 15px;
+          color: #808080;
+          margin-right: 18px;
+          margin-top: 19px;
           float: right;
         }
 
@@ -48,19 +51,30 @@
       }
 
       .content {
-        background-color: #eef1fa;
+        background-color: #f4f6f9;
         position: relative;
         z-index: 1;
         width: 100%;
         border: 1px solid #e4e1d9;
         padding: 10px;
-        box-shadow: 1px 2px #e4e1d9;
+        box-shadow: none;
         min-height: 115px;
         text-align: left;
         opacity: 0.95;
-        
+
         .checkbox {
           width: 100%;
+          label{
+            line-height:90%;
+            margin-top: 7px;
+          }
+        }
+
+        .ui.checkbox input:checked~.box:after,
+        .ui.checkbox input:checked~label:after{
+          color: #333c48;
+          left: 1px;
+          top: 1px;
         }
 
         .ui.input {
