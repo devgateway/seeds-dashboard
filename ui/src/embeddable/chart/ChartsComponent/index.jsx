@@ -10,7 +10,7 @@ import Source from "../common/source";
 import { getColor } from "../Countryinfo/CountryInfoChart";
 import {
   AVERAGE_AGE_VARIETIES_SOLD,
-    MARKET_CONCENTRATION_HHI, PERFORMANCE_SEED_TRADERS,
+  MARKET_CONCENTRATION_HHI, PERFORMANCE_SEED_TRADERS,
   NUMBER_OF_ACTIVE_BREEDERS, NUMBER_OF_ACTIVE_SEED_COMPANIES_PRODUCERS,
   VARIETIES_RELEASED_WITH_SPECIAL_FEATURES, NUMBER_VARIETIES_SOLD
 } from "../../reducers/StoreConstants";
@@ -96,12 +96,14 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing }) => {
         const yearObject = { year: y };
         let maxByYear = 0;
         crops.forEach(c => {
-          maxByYear += data.values[y][c];
-          const objKey = y + "_" + c;
-          yearObject[objKey] = data.values[y][c];
-          keys.push(objKey);
-          if (!colors.get(objKey)) {
-            colors.set(objKey, getColor({ id: c.toLowerCase() }))
+          if (data.values[y][c]) {
+            maxByYear += data.values[y][c];
+            const objKey = y + "_" + c;
+            yearObject[objKey] = data.values[y][c];
+            keys.push(objKey);
+            if (!colors.get(objKey)) {
+              colors.set(objKey, getColor({ id: c.toLowerCase() }))
+            }
           }
         });
         if (maxByYear > max) {
@@ -123,7 +125,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing }) => {
             keys.push(key);
           }
           if (!colors.get(key)) {
-              colors.set(key, newBlueColors.shift());
+            colors.set(key, newBlueColors.shift());
           }
           if (Number(entry[i]) > max) {
             max = Number(entry[i]);
@@ -138,7 +140,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing }) => {
     dimensionValues.forEach(d => {
       const radarColors = [...performanceColors];
       const entry = {};
-      entry[indexBy] =  d ;
+      entry[indexBy] = d;
       Object.keys(data.values[d]).forEach((i, j) => {
         if (selectedYear && selectedYear.find(k => k === i)) {
           const key = '' + i;
@@ -294,17 +296,17 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing }) => {
       addLighterDiv = false;
       withCropsWithSpecialFeatures = false;
       showYearFilter = false;
-      bottomLegend = 'Number of Breeders';
+      bottomLegend = 'Number of active breeders.';
       enableGridX = true;
       enableGridY = false;
       numberOfActiveBreeders();
       break;
     case MARKET_CONCENTRATION_HHI:
-        useCropLegendsRow = false;
-        useFilterByCrops = false;
-        // title = 'Market Concentration, as Measured by the HHI (Out of 10,000)';
-        maxSelectableYear = 4;
-        break;
+      useCropLegendsRow = false;
+      useFilterByCrops = false;
+      // title = 'Market Concentration, as Measured by the HHI (Out of 10,000)';
+      maxSelectableYear = 4;
+      break;
     case PERFORMANCE_SEED_TRADERS:
       indexBy = "id";
       legend = "years";
@@ -341,19 +343,19 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing }) => {
         {withCropsWithSpecialFeatures && <CropsWithSpecialFeatures />}
       </Grid.Column>
     </Grid.Row> : null}
-    {type === MARKET_CONCENTRATION_HHI ? <MarketConcentrationHHI data={data} selectedYear={selectedYear}/> : null}
+    {type === MARKET_CONCENTRATION_HHI ? <MarketConcentrationHHI data={data} selectedYear={selectedYear} /> : null}
     {type === PERFORMANCE_SEED_TRADERS ?
-        <Grid.Row className={`chart-section`}><Grid.Column width={16}>
-          <ResponsiveRadarChartImpl
-            noData={noData}
-            selectedYear={selectedYear}
-            processedData={processedData}
-            keys={keys}
-            colors={colors}
-            indexBy={indexBy}
+      <Grid.Row className={`chart-section`}><Grid.Column width={16}>
+        <ResponsiveRadarChartImpl
+          noData={noData}
+          selectedYear={selectedYear}
+          processedData={processedData}
+          keys={keys}
+          colors={colors}
+          indexBy={indexBy}
         /></Grid.Column> </Grid.Row> : null
     }
-    {type !== MARKET_CONCENTRATION_HHI &&  type !== PERFORMANCE_SEED_TRADERS ? (<Grid.Row className={`chart-section`}>
+    {type !== MARKET_CONCENTRATION_HHI && type !== PERFORMANCE_SEED_TRADERS ? (<Grid.Row className={`chart-section`}>
       <Grid.Column width={16}>
         <ResponsiveBarChartImpl sources={sources} data={data} noData={noData} crops={crops}
                                 selectedYear={selectedYear} colors={colors} max={max} keys={keys}
