@@ -1,0 +1,37 @@
+$border_gray: rgba(229, 229, 229, 1);
+
+.chart-section {
+  padding-bottom: 0 !important;
+  padding-top: 0 !important;
+  border: $border_gray 1px solid;
+  border-top: none;
+}
+
+.hhi-section {
+  border: $border_gray 1px solid;
+
+  .hhi-title {
+    float: left;
+    padding-right: 50px;
+    font-weight: bold;
+  }
+
+  .hhi-div {
+    float: left;
+    display: flex;
+    width: auto;
+    padding-right: 10px;
+    padding-left: 10px;
+    font-size: 11pt;
+    font-weight: bold;
+    color: gray;
+    padding-top: 2px;
+  }
+
+  .hhi-circle {
+    width: 18px;
+    height: 18px;
+    border-radius: 25px;
+    margin-right: 5px;
+  }
+}
