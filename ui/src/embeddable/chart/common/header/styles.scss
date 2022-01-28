@@ -1,7 +1,9 @@
+@import 'src/scss/vars';
 .titles {
   text-align: left;
   position: relative;
   left: -1rem;
+  font-family: $title-font-family;
 
   .title {
     font-size: 21pt;
