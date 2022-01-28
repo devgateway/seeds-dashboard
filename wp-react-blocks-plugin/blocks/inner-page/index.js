@@ -15,6 +15,10 @@ registerBlockType(process.env.BLOCKS_NS + '/inner-page',
         type: 'string',
         default: "burkina-faso",
       },
+      slugPrefix: {
+        type: 'string',
+        default: "key-industry-",
+      },
       height: { type: "number", default: 650 },
       selectedFilterStore: {
         type: "String",

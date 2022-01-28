@@ -16,13 +16,22 @@ const innerPage = ({
                      "data-values-filter-store": valuesFilterStore,
                      "data-selected-filter-store": selectedFilterStore,
                      "data-connect-filter": connectFilter, messages,
+                     "data-slug-pre-fix": slugPrefix,
                      filters, filtersData
 
 
                    }) => {
   const isEditing = editing === 'true';
   const contentHeight = isEditing ? height - 30 : height;
-  const slug = getSlugFromFilters(filters, filtersData, valuesFilterStore, selectedFilterStore);
+  let slug;
+  if (!isEditing) {
+    slug = getSlugFromFilters(filters, filtersData, valuesFilterStore, selectedFilterStore);
+    if (slug) {
+      slug = slugPrefix + slug;
+    }
+  } else {
+    slug = defaultPage;
+  }
   return <div style={{ 'height': contentHeight + 'px' }}>
     {slug ? <PageProvider
       slug={slug}
