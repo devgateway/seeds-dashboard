@@ -55,7 +55,8 @@ const ResponsiveBarChartImpl = ({
                                   containerHeight = 450, 
                                   gridTickLines = 6,
                                   rightLegend,
-                                  LineLayer
+                                  LineLayer,
+                                  markers  
                                 }) => {
 
   ;
@@ -185,6 +186,7 @@ const ResponsiveBarChartImpl = ({
         groupMode={groupMode}
         gridYValues={gridTickLines}
         enableLabel={false}
+        markers={markers || null}
         axisBottom={customTickWithCrops ? { renderTick: CustomTick } : {
           tickSize: 0,
           tickPadding: 5,
