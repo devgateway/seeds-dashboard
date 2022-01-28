@@ -52,8 +52,10 @@ const ResponsiveBarChartImpl = ({
                                   getTooltipText,
                                   getTooltipHeader,
                                   groupMode, customTickWithCrops, 
-                                  containerHeight = 450,
-                                gridTickLines = 6,
+                                  containerHeight = 450, 
+                                  gridTickLines = 6,
+                                  rightLegend,
+                                  LineLayer
                                 }) => {
 
   ;
@@ -136,17 +138,24 @@ const ResponsiveBarChartImpl = ({
     return numbers;
   };
   const getColors = (item) => {
-    return colors.get(item.id);
+      if (Array.isArray(item.id)) {
+          return colors.get(item.id[0]); 
+      }
+      return colors.get(item.id);
   }
   const CustomTick = tick => {
     return <CropIcons crop={tick.value} text={tick.value} tick={tick}
                       style={{ 'textTransform': 'capitalize', fill: '#adafb2' }} />
   }
+  const layers = ["grid", "axes", "bars", groupMode === 'stacked' ? TotalLabels : TotalLabelsGrouped, "markers", "legends"];
+  if (LineLayer) {
+      layers.push(LineLayer);
+  }
   return (
     <div style={{ height: containerHeight }}>
       {!noData ? <ResponsiveBar
         theme={theme}
-        layers={["grid", "axes", "bars", groupMode === 'stacked' ? TotalLabels : TotalLabelsGrouped, "markers", "legends"]}
+        layers={layers}
         data={processedData}
         keys={keys}
         indexBy={indexBy}
@@ -184,6 +193,13 @@ const ResponsiveBarChartImpl = ({
           legendPosition: 'middle',
           legendOffset: 45,
         }}
+        axisRight={rightLegend ? {tickSize: 0,
+            tickPadding: 5,
+            tickRotation: 0,
+            legend: rightLegend,
+            legendPosition: 'middle',
+            tickValues: gridTickLines,
+            legendOffset: 45,} : null}
         tooltip={(d) => {
           return (<div className="tooltip-container-vrwsf">
             <div className="header-container">
