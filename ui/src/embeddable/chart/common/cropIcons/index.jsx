@@ -123,8 +123,8 @@ const CropIcons = ({crop, text, style, tick}) => {
         }
 
         return (<g transform={`translate(${tick.x - 0},${tick.y + 25})`}>
-            <g transform={`translate(-40, -20)`}>{icon}</g>
-            <text transform={`translate(${width - 20}, 2) rotate(${tickRotation})`}
+            {icon ? <g transform={`translate(-40, -20)`}>{icon}</g> : null}
+            <text transform={`translate(${width - 20 - (!icon ? 15 : 0)}, 2) rotate(${tickRotation})`}
                   textAnchor="middle"
                   dominantBaseline="middle"
                   style={style}>
