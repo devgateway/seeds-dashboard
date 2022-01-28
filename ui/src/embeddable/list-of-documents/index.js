@@ -6,6 +6,7 @@ import { DATA, SELECTED_COUNTRY, WP_CATEGORIES, WP_DOCUMENTS } from "../reducers
 import Documents from "./Documents";
 
 const DOCUMENTS_PER_PAGE = 100;
+const DATA_CATEGORY = 'data-category';
 
 const ListOfDocuments = ({
                            onLoadDocuments,
@@ -23,7 +24,6 @@ const ListOfDocuments = ({
                            "data-document-slug-post-fix": documentSlugPostFix,
                            editing
                          }) => {
-
   useEffect(() => {
     onLoadCategories()
   }, [onLoadCategories]);
@@ -63,11 +63,11 @@ const ListOfDocuments = ({
   return <Container fluid={true} className={classes}>{childComponent}</Container>
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
   return {
-    documents: state.getIn([DATA, WP_DOCUMENTS, 'data']),
-    loading: state.getIn([DATA, WP_DOCUMENTS, 'loading']),
-    error: state.getIn([DATA, WP_DOCUMENTS, 'error']),
+    documents: state.getIn([DATA, ownProps[DATA_CATEGORY], WP_DOCUMENTS, 'data']),
+    loading: state.getIn([DATA, ownProps[DATA_CATEGORY], WP_DOCUMENTS, 'loading']),
+    error: state.getIn([DATA, ownProps[DATA_CATEGORY], WP_DOCUMENTS, 'error']),
     categoriesWP: state.getIn([DATA, WP_CATEGORIES]),
     selectedCountry: state.getIn([DATA, 'filters', SELECTED_COUNTRY]),
     countries: state.getIn([DATA, 'countries'])

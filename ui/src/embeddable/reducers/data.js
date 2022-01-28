@@ -68,17 +68,21 @@ export const getCountries = (dataSource) => (dispatch, getState) => {
 }
 
 export const getDocuments = ({ params }) => (dispatch, getState) => {
+  const store = params.categories;
   dispatch({
-    type: LOAD_DOCUMENTS
+    type: LOAD_DOCUMENTS,
+    store
   })
   api.getDocumentsData(params).then(data => {
     dispatch({
       type: LOAD_DOCUMENTS_DONE,
+      store,
       data
     })
   }).catch(error => {
     dispatch({
       type: LOAD_DOCUMENTS_ERROR,
+      store,
       error: error.message
     })
   })
@@ -267,21 +271,21 @@ const reducer = (state = initialState, action) => {
     }
 
     case LOAD_DOCUMENTS: {
-      return state.deleteIn([WP_DOCUMENTS, 'error'])
-        .setIn([WP_DOCUMENTS, 'loading'], true)
-        .setIn([WP_DOCUMENTS, 'data'], null)
+      return state.deleteIn([action.store, WP_DOCUMENTS, 'error'])
+        .setIn([action.store, WP_DOCUMENTS, 'loading'], true)
+        .setIn([action.store, WP_DOCUMENTS, 'data'], null)
     }
 
     case LOAD_DOCUMENTS_DONE: {
-      return state.setIn([WP_DOCUMENTS, 'data'], action.data)
-        .deleteIn([WP_DOCUMENTS, 'error'])
-        .setIn([WP_DOCUMENTS, 'loading'], false)
+      return state.setIn([action.store, WP_DOCUMENTS, 'data'], action.data)
+        .deleteIn([action.store, WP_DOCUMENTS, 'error'])
+        .setIn([action.store, WP_DOCUMENTS, 'loading'], false)
     }
 
     case LOAD_DOCUMENTS_ERROR: {
-      return state.setIn([WP_DOCUMENTS, 'data'], null)
-        .setIn([WP_DOCUMENTS, 'error'], action.error)
-        .setIn([WP_DOCUMENTS, 'loading'], false)
+      return state.setIn([action.store, WP_DOCUMENTS, 'data'], null)
+        .setIn([action.store, WP_DOCUMENTS, 'error'], action.error)
+        .setIn([action.store, WP_DOCUMENTS, 'loading'], false)
     }
 
     default:
