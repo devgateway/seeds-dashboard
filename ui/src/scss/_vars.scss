@@ -133,6 +133,7 @@ $breakpoint-phone: 480px;
 }
 @mixin button-hover{
   background-color: $text-color;
+  color: #ffffff;
 }
 // Event icons
 @mixin event-icon(){

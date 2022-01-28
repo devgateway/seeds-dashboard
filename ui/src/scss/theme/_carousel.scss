@@ -95,18 +95,13 @@
 // Events carousel
 .event-carousel {
   .link {
-    @include button(3px, $yellow, $white);
+    color: $link-green;
     display: block;
+    font-size: 0.8rem;
+    font-weight: 900;
     margin-left: $base-unit * 7;
-    margin-top: -($base-unit * 11.5);
-    letter-spacing: 1px;
-    padding: $base-unit $base-unit * 2 $base-unit + 2 ;
+    margin-top: -($base-unit * 10.5);
     position: relative;
-    text-align: center;
-    width: $base-unit * 13;
-    &:hover{
-      @include button-hover;
-    }
   }
 
   .carousel {

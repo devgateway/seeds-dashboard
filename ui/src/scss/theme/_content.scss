@@ -9,11 +9,9 @@
   }
 
   .title {
-
     padding: 0px;
     color: $green;
     font-size: 2.5rem;
-
   }
 }
 
@@ -307,13 +305,6 @@ p:empty {
       }
     }
 
-    .wp-block-post-excerpt__more-link{
-      @include button(3px, $yellow, $white);
-      padding: $base-unit $base-unit * 2 $base-unit * 1.3 $base-unit * 2;
-      &:hover{
-        @include button-hover;
-      }
-    }
     h3{
       margin-bottom: 0;
 	    min-height: $base-unit * 9;
@@ -329,6 +320,15 @@ p:empty {
       padding-right: $base-unit * 2.5;
       width: $extend / 3;
     }
+  }
+}
+
+// Read more buttons in post feeds
+.wp-block-post-excerpt__more-link{
+  @include button(3px, $yellow, $white);
+  padding: $base-unit $base-unit * 2 $base-unit * 1.3 $base-unit * 2;
+  &:hover{
+    @include button-hover;
   }
 }
 
