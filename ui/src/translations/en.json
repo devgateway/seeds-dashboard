@@ -73,5 +73,21 @@
   "tooltip-E3.1": "Availability of seed in small packages",
   "tooltip-E4.1": "Price of seed at planting",
   "symbol-M": "Millions",
-  "average-rating": "Average Rating"
+  "average-rating": "Average Rating",
+  "seed-sector-issues": "Activity on important seed sector issues",
+  "value-to-members": "Providing value to members",
+  "ability-mobilize": "Ability to mobilize resources",
+  "democracy": "Democracy in the elections and decision making",
+  "effectiveness": "Effectiveness in advocacy",
+  "managerial-ability": "Managerial ability",
+  "overall-rating": "Overall satisfaction",
+  "number-of-years": "Number of Years",
+  "number-of-varieties-sold": "Number of Varieties Sold",
+  "number-of-varieties-released": "Number of Varieties Released",
+  "crops-legend": "Crops",
+  "years-legend": "Years",
+  "number-of-breeders-legend": "Number of Breeders",
+  "tooltip-number-of-varieties-sold": "Number of varieties sold",
+  "tooltip-average-age": "Average age",
+  "tooltip-year": "Year"
 }
