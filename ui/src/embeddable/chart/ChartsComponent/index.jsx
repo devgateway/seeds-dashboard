@@ -10,7 +10,7 @@ import Source from "../common/source";
 import { getColor } from "../Countryinfo/CountryInfoChart";
 import {
   AVERAGE_AGE_VARIETIES_SOLD,
-    MARKET_CONCENTRATION_HHI, PERFORMANCE_SEED_TRADERS,
+  MARKET_CONCENTRATION_HHI, PERFORMANCE_SEED_TRADERS,
   NUMBER_OF_ACTIVE_BREEDERS, NUMBER_OF_ACTIVE_SEED_COMPANIES_PRODUCERS,
   VARIETIES_RELEASED_WITH_SPECIAL_FEATURES, NUMBER_VARIETIES_SOLD,
   EFFICIENCY_SEED_IMPORT_PROCESS
@@ -99,12 +99,14 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing }) => {
         const yearObject = { year: y };
         let maxByYear = 0;
         crops.forEach(c => {
-          maxByYear += data.values[y][c];
-          const objKey = y + "_" + c;
-          yearObject[objKey] = data.values[y][c];
-          keys.push(objKey);
-          if (!colors.get(objKey)) {
-            colors.set(objKey, getColor({ id: c.toLowerCase() }))
+          if (data.values[y][c]) {
+            maxByYear += data.values[y][c];
+            const objKey = y + "_" + c;
+            yearObject[objKey] = data.values[y][c];
+            keys.push(objKey);
+            if (!colors.get(objKey)) {
+              colors.set(objKey, getColor({ id: c.toLowerCase() }))
+            }
           }
         });
         if (maxByYear > max) {
@@ -126,7 +128,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing }) => {
             keys.push(key);
           }
           if (!colors.get(key)) {
-              colors.set(key, newBlueColors.shift());
+            colors.set(key, newBlueColors.shift());
           }
           if (Number(entry[i]) > max) {
             max = Number(entry[i]);
@@ -141,7 +143,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing }) => {
     dimensionValues.forEach(d => {
       const radarColors = [...performanceColors];
       const entry = {};
-      entry[indexBy] =  d ;
+      entry[indexBy] = d;
       Object.keys(data.values[d]).forEach((i, j) => {
         if (selectedYear && selectedYear.find(k => k === i)) {
           const key = '' + i;
@@ -297,17 +299,17 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing }) => {
       addLighterDiv = false;
       withCropsWithSpecialFeatures = false;
       showYearFilter = false;
-      bottomLegend = 'Number of Breeders';
+      bottomLegend = 'Number of active breeders.';
       enableGridX = true;
       enableGridY = false;
       numberOfActiveBreeders();
       break;
     case MARKET_CONCENTRATION_HHI:
-        useCropLegendsRow = false;
-        useFilterByCrops = false;
-        // title = 'Market Concentration, as Measured by the HHI (Out of 10,000)';
-        maxSelectableYear = 4;
-        break;
+      useCropLegendsRow = false;
+      useFilterByCrops = false;
+      // title = 'Market Concentration, as Measured by the HHI (Out of 10,000)';
+      maxSelectableYear = 4;
+      break;
     case PERFORMANCE_SEED_TRADERS:
       indexBy = "id";
       legend = "years";
@@ -333,7 +335,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing }) => {
       keys.push(['value']);
       max = 85; // Because ResponsiveBarChartImpl does (max * 1.25).
       Object.keys(data.values.days).forEach(y => {
-        const item = {year: y};
+        const item = { year: y };
         if (selectedYear && selectedYear.find(k => k === y)) {
           item.value = data.values.days[y].days;
           item.rating = data.values.rating[y].rating;
@@ -348,16 +350,16 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing }) => {
       });
       colors.set('value', baseColors[0])
       getTooltipText = (d) => {
-        return <div style={{textAlign: 'center'}}>
+        return <div style={{ textAlign: 'center' }}>
           <span>HHI Value</span><span
-            className="bold"> {d.data[d.id]}  </span><br/>
+          className="bold"> {d.data[d.id]}  </span><br />
           <span>Year</span><span
-            className="bold"> {d.id}  </span>
+          className="bold"> {d.id}  </span>
         </div>
       }
       getTooltipHeader = (d) => {
         return <>
-          <div className={d.indexValue + " crop-icon"}/>
+          <div className={d.indexValue + " crop-icon"} />
           <div className="crop-name">{d.indexValue}</div>
         </>;
       }
@@ -367,26 +369,26 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing }) => {
   const insertChart = () => {
     switch (type) {
       case MARKET_CONCENTRATION_HHI:
-        return <MarketConcentrationHHI data={data} selectedYear={selectedYear}/>
+        return <MarketConcentrationHHI data={data} selectedYear={selectedYear} />
       case EFFICIENCY_SEED_IMPORT_PROCESS:
         return <BarAndLineChart data={data} selectedYear={selectedYear} leftLegend={leftLegend}
                                 indexBy={indexBy} groupMode={groupMode} bottomLegend={bottomLegend}
                                 rightLegend={rightLegend} processedData={processedData} colors={colors}
                                 max={max} keys={keys} getTooltipText={getTooltipText}
                                 getTooltipHeader={getTooltipHeader}
-                                legends={[{id: 1, 'color': '#41a9d9', 'label': 'Number of days for import'},
-                                  {id: 2, 'color': '#c2db24', 'label': 'Industry Rating'}
-                                ]}/>
+                                legends={[{ id: 1, 'color': '#41a9d9', 'label': 'Number of days for import' },
+                                  { id: 2, 'color': '#c2db24', 'label': 'Industry Rating' }
+                                ]} />
       case PERFORMANCE_SEED_TRADERS:
         return <Grid.Row className={`chart-section`}>
           <Grid.Column width={16}>
             <ResponsiveRadarChartImpl
-                noData={noData}
-                selectedYear={selectedYear}
-                processedData={processedData}
-                keys={keys}
-                colors={colors}
-                indexBy={indexBy}
+              noData={noData}
+              selectedYear={selectedYear}
+              processedData={processedData}
+              keys={keys}
+              colors={colors}
+              indexBy={indexBy}
             /></Grid.Column>
         </Grid.Row>
       default:
@@ -405,7 +407,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing }) => {
         </Grid.Row>);
     }
   }
-  
+
   return <Grid className={`number-varieties-released`}>
     <Grid.Row className="header-section">
       <Grid.Column>
