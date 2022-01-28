@@ -287,20 +287,22 @@ const ChartComponent = ({sources, data, type, title, subTitle, editing}) => {
             leftLegend = 'Number of days for import';
             indexBy = 'year';
             bottomLegend = 'Year';
-            groupMode = 'stacked';
+            groupMode = 'grouped';
             rightLegend = 'Rating out of 100';
             const baseColors = [
                 '#41a9d9', '#c2db24'
             ]
+            keys.push(['value']);
             Object.keys(data.values.days).forEach(y => {
                 const item = {year: y};
                 if (selectedYear && selectedYear.find(k => k === y)) {
-                    item[y] = data.values.days[y].days;
-                    if (!keys.find(k => k === y)) {
-                        keys.push(y);
-                    }
+                    item.value = data.values.days[y].days;
+                    item.rating = data.values.rating[y].rating;
                     if (item[y] > max) {
                         max = item[y];
+                    }
+                    if (item.rating > max) {
+                        max = item.rating;
                     }
                     if (!colors.get(y)) {
                         colors.set(y, baseColors[0])

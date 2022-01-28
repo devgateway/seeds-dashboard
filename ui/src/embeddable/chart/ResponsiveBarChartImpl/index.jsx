@@ -55,6 +55,7 @@ const ResponsiveBarChartImpl = ({
                                   containerHeight = 450, 
                                   gridTickLines = 6,
                                   rightLegend,
+                                  LineLayer
                                 }) => {
 
   ;
@@ -143,11 +144,15 @@ const ResponsiveBarChartImpl = ({
     return <CropIcons crop={tick.value} text={tick.value} tick={tick}
                       style={{ 'textTransform': 'capitalize', fill: '#adafb2' }} />
   }
+  const layers = ["grid", "axes", "bars", groupMode === 'stacked' ? TotalLabels : TotalLabelsGrouped, "markers", "legends"];
+  if (LineLayer) {
+      layers.push(LineLayer);
+  }
   return (
     <div style={{ height: containerHeight }}>
       {!noData ? <ResponsiveBar
         theme={theme}
-        layers={["grid", "axes", "bars", groupMode === 'stacked' ? TotalLabels : TotalLabelsGrouped, "markers", "legends"]}
+        layers={layers}
         data={processedData}
         keys={keys}
         indexBy={indexBy}
