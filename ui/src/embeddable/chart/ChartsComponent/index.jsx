@@ -10,7 +10,7 @@ import Source from "../common/source";
 import { getColor } from "../Countryinfo/CountryInfoChart";
 import {
   AVERAGE_AGE_VARIETIES_SOLD,
-  MARKET_CONCENTRATION_HHI, PERFORMANCE_SEED_TRADERS,
+    MARKET_CONCENTRATION_HHI, PERFORMANCE_SEED_TRADERS,
   NUMBER_OF_ACTIVE_BREEDERS, NUMBER_OF_ACTIVE_SEED_COMPANIES_PRODUCERS,
   VARIETIES_RELEASED_WITH_SPECIAL_FEATURES, NUMBER_VARIETIES_SOLD,
   EFFICIENCY_SEED_IMPORT_PROCESS
@@ -18,9 +18,10 @@ import {
 import YearLegend from "../common/year";
 import MarketConcentrationHHI from "../MarketConcentrationHHI";
 import ResponsiveRadarChartImpl from "../ResponsiveRadarChartImpl";
+import { injectIntl } from "react-intl";
 import BarAndLineChart from "../BarAndLineChart";
 
-const ChartComponent = ({ sources, data, type, title, subTitle, editing }) => {
+const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl }) => {
   const [initialCrops, setInitialCrops] = useState(null);
   const [selectedCrops, setSelectedCrops] = useState(null);
   const [selectedYear, setSelectedYear] = useState(null);
@@ -116,51 +117,42 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing }) => {
       });
     }
   }
+
+  const commonProcess = (c, entry, yearColors) => {
+    const newBlueColors = [...yearColors];
+    Object.keys(data.values[c]).forEach((i, j) => {
+      if (selectedYear && selectedYear.find(k => k === i)) {
+        const key = '' + i;
+        entry[key] = Number(data.values[c][i]) >= 0 ? data.values[c][i] : FAKE_NUMBER;
+        if (!keys.find(i => i === key)) {
+          keys.push(key);
+        }
+        if (!colors.get(key)) {
+          colors.set(key, newBlueColors.shift());
+        }
+        if (Number(entry[i]) > max) {
+          max = Number(entry[i]);
+        }
+      }
+    });
+    processedData.push(entry);
+  }
+
   const processByYear = () => {
-    const newBlueColors = [...blueColors];
     crops.forEach(c => {
       const entry = { crop: c };
-      Object.keys(data.values[c]).forEach((i, j) => {
-        if (selectedYear && selectedYear.find(k => k === i)) {
-          const key = '' + i;
-          entry[key] = Number(data.values[c][i]) >= 0 ? data.values[c][i] : FAKE_NUMBER;
-          if (!keys.find(i => i === key)) {
-            keys.push(key);
-          }
-          if (!colors.get(key)) {
-            colors.set(key, newBlueColors.shift());
-          }
-          if (Number(entry[i]) > max) {
-            max = Number(entry[i]);
-          }
-        }
-      });
-      processedData.push(entry);
+      commonProcess(c, entry, blueColors);
     });
   }
 
   const processForRadar = (dimensionValues) => {
     dimensionValues.forEach(d => {
-      const radarColors = [...performanceColors];
       const entry = {};
-      entry[indexBy] = d;
-      Object.keys(data.values[d]).forEach((i, j) => {
-        if (selectedYear && selectedYear.find(k => k === i)) {
-          const key = '' + i;
-          entry[key] = Number(data.values[d][i]) >= 0 ? data.values[d][i] : FAKE_NUMBER;
-
-          if (!keys.find(i => i === key)) {
-            keys.push(key);
-          }
-          if (!colors.get(key)) {
-            colors.set(key, radarColors.shift());
-          }
-          if (Number(entry[i]) > max) {
-            max = Number(entry[i]);
-          }
-        }
+      entry[indexBy] =  intl.formatMessage({
+        id: d,
+        defaultMessage: d
       });
-      processedData.push(entry);
+      commonProcess(d, entry, performanceColors);
     });
   }
 
@@ -202,15 +194,14 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing }) => {
     case NUMBER_VARIETIES_SOLD:
     case AVERAGE_AGE_VARIETIES_SOLD:
     case NUMBER_OF_ACTIVE_SEED_COMPANIES_PRODUCERS: {
-      leftLegend = 'Number of Years';
+      leftLegend = intl.formatMessage({id: 'number-of-years', defaultMessage: 'Number of Years'});
       if (type === NUMBER_VARIETIES_SOLD) {
         getTooltipText = (d) => {
           return <>
-            <span>Number of varieties sold</span><span
-            className="bold"> {d.data[d.id]}  </span><br />
-            <span>Year</span><span
-            className="bold"> {d.id}  </span>
-
+            <span>{intl.formatMessage({id: 'tooltip-number-of-varieties-sold', defaultMessage: 'Number of varieties sold'})}</span>
+            <span className="bold"> {d.data[d.id]}  </span><br />
+            <span>{intl.formatMessage({id: 'tooltip-year', defaultMessage: 'Year'})}</span>
+            <span className="bold"> {d.id}  </span>
           </>
         }
         getTooltipHeader = (d) => {
@@ -219,13 +210,13 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing }) => {
             <div className="crop-name">{d.indexValue}</div>
           </>;
         }
-        leftLegend = 'Number of varieties sold';
+        leftLegend = intl.formatMessage({id: 'number-of-varieties-sold', defaultMessage: 'Number of varieties sold'});
       } else if (type === AVERAGE_AGE_VARIETIES_SOLD) {
         getTooltipText = (d) => {
           return <>
-            <span>Average Age</span><span
+            <span>{intl.formatMessage({id: 'tooltip-average-age', defaultMessage: 'Average Age'})}</span><span
             className="bold"> {d.data[d.id]}  </span><br />
-            <span>Year</span><span
+            <span>{intl.formatMessage({id: 'tooltip-year', defaultMessage: 'Year'})}</span><span
             className="bold"> {d.id}  </span>
 
           </>
@@ -252,7 +243,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing }) => {
           </>;
         }
       }
-      legend = 'years';
+      legend = intl.formatMessage({id: 'years-legend', defaultMessage: 'Years'});
       groupMode = 'grouped';
       withCropsWithSpecialFeatures = false;
       customTickWithCrops = true;
@@ -274,8 +265,8 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing }) => {
           <div className="crop-name">{d.indexValue}</div>
         </>
       }
-      leftLegend = 'Number of Varieties Released';
-      bottomLegend = 'Crops';
+      leftLegend = intl.formatMessage({id: 'number-of-varieties-released', defaultMessage: 'Number of Varieties Released'});
+      bottomLegend = intl.formatMessage({id: 'crops-legend', defaultMessage: 'Crops'});
       processVarietiesReleasedWithSpecialFeatures();
       break;
     case NUMBER_OF_ACTIVE_BREEDERS:
@@ -294,22 +285,21 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing }) => {
       }
       showYearFilter = false;
       indexBy = 'year';
-      leftLegend = 'Year'
+      leftLegend = intl.formatMessage({id: 'years-legend', defaultMessage: 'Years'});
       layout = 'horizontal';
       addLighterDiv = false;
       withCropsWithSpecialFeatures = false;
       showYearFilter = false;
-      bottomLegend = 'Number of active breeders.';
+      bottomLegend = intl.formatMessage({id: 'number-of-breeders-legend', defaultMessage: 'Number of Breeders'});
       enableGridX = true;
       enableGridY = false;
       numberOfActiveBreeders();
       break;
     case MARKET_CONCENTRATION_HHI:
-      useCropLegendsRow = false;
-      useFilterByCrops = false;
-      // title = 'Market Concentration, as Measured by the HHI (Out of 10,000)';
-      maxSelectableYear = 4;
-      break;
+        useCropLegendsRow = false;
+        useFilterByCrops = false;
+        maxSelectableYear = 4;
+        break;
     case PERFORMANCE_SEED_TRADERS:
       indexBy = "id";
       legend = "years";
@@ -335,7 +325,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing }) => {
       keys.push(['value']);
       max = 85; // Because ResponsiveBarChartImpl does (max * 1.25).
       Object.keys(data.values.days).forEach(y => {
-        const item = { year: y };
+        const item = {year: y};
         if (selectedYear && selectedYear.find(k => k === y)) {
           item.value = data.values.days[y].days;
           item.rating = data.values.rating[y].rating;
@@ -350,16 +340,16 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing }) => {
       });
       colors.set('value', baseColors[0])
       getTooltipText = (d) => {
-        return <div style={{ textAlign: 'center' }}>
+        return <div style={{textAlign: 'center'}}>
           <span>HHI Value</span><span
-          className="bold"> {d.data[d.id]}  </span><br />
+            className="bold"> {d.data[d.id]}  </span><br/>
           <span>Year</span><span
-          className="bold"> {d.id}  </span>
+            className="bold"> {d.id}  </span>
         </div>
       }
       getTooltipHeader = (d) => {
         return <>
-          <div className={d.indexValue + " crop-icon"} />
+          <div className={d.indexValue + " crop-icon"}/>
           <div className="crop-name">{d.indexValue}</div>
         </>;
       }
@@ -369,26 +359,26 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing }) => {
   const insertChart = () => {
     switch (type) {
       case MARKET_CONCENTRATION_HHI:
-        return <MarketConcentrationHHI data={data} selectedYear={selectedYear} />
+        return <MarketConcentrationHHI data={data} selectedYear={selectedYear}/>
       case EFFICIENCY_SEED_IMPORT_PROCESS:
         return <BarAndLineChart data={data} selectedYear={selectedYear} leftLegend={leftLegend}
                                 indexBy={indexBy} groupMode={groupMode} bottomLegend={bottomLegend}
                                 rightLegend={rightLegend} processedData={processedData} colors={colors}
                                 max={max} keys={keys} getTooltipText={getTooltipText}
                                 getTooltipHeader={getTooltipHeader}
-                                legends={[{ id: 1, 'color': '#41a9d9', 'label': 'Number of days for import' },
-                                  { id: 2, 'color': '#c2db24', 'label': 'Industry Rating' }
-                                ]} />
+                                legends={[{id: 1, 'color': '#41a9d9', 'label': 'Number of days for import'},
+                                  {id: 2, 'color': '#c2db24', 'label': 'Industry Rating'}
+                                ]}/>
       case PERFORMANCE_SEED_TRADERS:
         return <Grid.Row className={`chart-section`}>
           <Grid.Column width={16}>
             <ResponsiveRadarChartImpl
-              noData={noData}
-              selectedYear={selectedYear}
-              processedData={processedData}
-              keys={keys}
-              colors={colors}
-              indexBy={indexBy}
+                noData={noData}
+                selectedYear={selectedYear}
+                processedData={processedData}
+                keys={keys}
+                colors={colors}
+                indexBy={indexBy}
             /></Grid.Column>
         </Grid.Row>
       default:
@@ -407,7 +397,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing }) => {
         </Grid.Row>);
     }
   }
-
+  
   return <Grid className={`number-varieties-released`}>
     <Grid.Row className="header-section">
       <Grid.Column>
@@ -449,4 +439,4 @@ const performanceColors = [
   '#4D843F', '#F39C00', '#FBCC2A', '#E36A6A', '#289DF5'
 ];
 
-export default ChartComponent;
+export default injectIntl(ChartComponent);
