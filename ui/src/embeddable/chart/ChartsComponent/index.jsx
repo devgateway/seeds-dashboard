@@ -304,12 +304,10 @@ const ChartComponent = ({sources, data, type, title, subTitle, editing}) => {
                     if (item.rating > max) {
                         max = item.rating;
                     }
-                    if (!colors.get(y)) {
-                        colors.set(y, baseColors[0])
-                    }
                 }
                 processedData.push(item);
             });
+            colors.set('value', baseColors[0])
             break;
     }
 

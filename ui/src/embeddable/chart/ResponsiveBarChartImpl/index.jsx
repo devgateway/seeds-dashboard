@@ -138,7 +138,10 @@ const ResponsiveBarChartImpl = ({
     return numbers;
   };
   const getColors = (item) => {
-    return colors.get(item.id);
+      if (Array.isArray(item.id)) {
+          return colors.get(item.id[0]); 
+      }
+      return colors.get(item.id);
   }
   const CustomTick = tick => {
     return <CropIcons crop={tick.value} text={tick.value} tick={tick}
@@ -195,6 +198,7 @@ const ResponsiveBarChartImpl = ({
             tickRotation: 0,
             legend: rightLegend,
             legendPosition: 'middle',
+            tickValues: gridTickLines,
             legendOffset: 45,} : null}
         tooltip={(d) => {
           return (<div className="tooltip-container-vrwsf">
