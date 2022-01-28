@@ -9,9 +9,6 @@ const AvailabilityOfBasicSeedChart = ({ data, yearsToShow, intl }) => {
   const averageColumn = Object.keys(data.values).find(v => !data.dimensions.crop.values.includes(v));
   const getCells = (crop) => {
     return yearsToShow.map(y => {
-      if (y == 2017 && crop === 'maize') {
-        debugger
-      }
       let cellValue = data.values[crop][y];
       if (cellValue === "") {
         cellValue = undefined;
