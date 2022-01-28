@@ -323,7 +323,6 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
         '#41a9d9', '#c2db24'
       ]
       keys.push(['value']);
-      max = 85; // Because ResponsiveBarChartImpl does (max * 1.25).
       Object.keys(data.values.days).forEach(y => {
         const item = {year: y};
         if (selectedYear && selectedYear.find(k => k === y)) {
@@ -332,19 +331,19 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
           if (item[y] > max) {
             max = item[y];
           }
-          /*if (item.rating > max) {
+          if (item.rating > max) {
               max = item.rating;
-          }*/
+          }
+          processedData.push(item);
         }
-        processedData.push(item);
       });
       colors.set('value', baseColors[0])
       getTooltipText = (d) => {
         return <div style={{textAlign: 'center'}}>
-          <span>HHI Value</span><span
-            className="bold"> {d.data[d.id]}  </span><br/>
-          <span>Year</span><span
-            className="bold"> {d.id}  </span>
+          <span className="bold"> {d.data[d.id]}  </span>
+          <span>Days for Import</span><br/>
+          <span className="bold"> {d.data.rating}  </span>
+          <span>Industry Rating</span>
         </div>
       }
       getTooltipHeader = (d) => {
