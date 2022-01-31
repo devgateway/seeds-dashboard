@@ -50,7 +50,7 @@ const NumberOfVarietiesReleased = ({ data, sources, title, subTitle, editing, ty
         return null;
     }
 
-    const yearsInValues = Object.keys(data.values);
+    const yearsInValues = Object.keys(data.values).sort();
     const allYears = fillGaps(yearsInValues);
     let max = 0;
 
@@ -156,6 +156,7 @@ const NumberOfVarietiesReleased = ({ data, sources, title, subTitle, editing, ty
                             pointBorderColor={{from: 'serieColor', modifiers: []}}
                             pointLabelYOffset={-12}
                             useMesh={true}
+                            animate={false}
                             tooltip={(d) => {
                                 return (<div className="tooltip-container">
                                     <div className="header-container">
