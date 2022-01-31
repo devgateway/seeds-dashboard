@@ -212,6 +212,8 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
         }
         leftLegend = intl.formatMessage({id: 'number-of-varieties-sold', defaultMessage: 'Number of varieties sold'});
       } else if (type === AVERAGE_AGE_VARIETIES_SOLD) {
+        leftLegend = intl.formatMessage({id: 'average-age', defaultMessage: 'Average age (years)'});
+        bottomLegend = intl.formatMessage({id: 'crops-years', defaultMessage: 'Crops > Years'});
         getTooltipText = (d) => {
           return <>
             <span>{intl.formatMessage({id: 'tooltip-average-age', defaultMessage: 'Average Age'})}</span><span

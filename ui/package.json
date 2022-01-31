@@ -53,6 +53,7 @@
     "react-intl": "^5.18.1",
     "react-intl-redux": "^2.2.0",
     "react-redux": "^7.2.4",
+    "react-resize-detector": "^7.0.0",
     "react-responsive-carousel": "^3.2.22",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2",
