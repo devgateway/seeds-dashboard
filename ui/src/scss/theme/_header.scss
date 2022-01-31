@@ -338,10 +338,14 @@
           }
         }
 
-        &._upcoming-events,
         &._past-events {
           a {
-            background-image: url("/static/images/events.svg") !important;;
+            background-image: url("/static/images/past-events.svg") !important;;
+          }
+        }
+        &._upcoming-events {
+          a {
+            background-image: url("/static/images/upcoming-events.svg") !important;;
           }
         }
 
