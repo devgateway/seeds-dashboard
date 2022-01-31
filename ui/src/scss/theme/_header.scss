@@ -185,6 +185,13 @@
 
     &.home {
       height: $dashboard-menu-height-home;
+
+      ._country-overview {
+          a {
+            background-image: url("/static/images/dashboard.svg") !important;
+          }
+
+      }
     }
 
     &.dashboard {
@@ -310,13 +317,15 @@
         }
 
         /*Custom*/
-        &._country-overview {
-          width: 210px;
-          flex: 0 0 210px;
+        :not(.home) {
+          &._country-overview {
+            width: 210px;
+            flex: 0 0 210px;
 
-          a {
-            width: 180px;
-            background-image: url("/static/images/country_dashboard.svg") !important;
+            a {
+              width: 180px;
+              background-image: url("/static/images/country_dashboard.svg") !important;
+            }
           }
         }
 
@@ -329,10 +338,14 @@
           }
         }
 
-        &._upcoming-events,
-        &._past-events{
+        &._past-events {
           a {
-            background-image: url("/static/images/events.svg") !important;;
+            background-image: url("/static/images/past-events.svg") !important;;
+          }
+        }
+        &._upcoming-events {
+          a {
+            background-image: url("/static/images/upcoming-events.svg") !important;;
           }
         }
 

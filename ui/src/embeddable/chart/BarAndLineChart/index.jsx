@@ -1,14 +1,15 @@
 import React, {Fragment} from "react";
 import {Grid} from "semantic-ui-react";
-import { line } from "d3-shape";
-import { BasicTooltip, useTooltip } from '@nivo/tooltip';
+import {line} from "d3-shape";
+import {BasicTooltip, useTooltip} from '@nivo/tooltip';
 import './styles.scss';
 import ResponsiveBarChartImpl from "../ResponsiveBarChartImpl";
 import Legend from "./Legend";
 
 const BarAndLineChart = ({
                              data, sources, selectedYear, leftLegend, indexBy, groupMode, bottomLegend, rightLegend,
-                             processedData, colors, keys, max, legends, getTooltipText, getTooltipHeader
+                             processedData, colors, keys, max, legends, getTooltipText, getTooltipHeader, lineColor,
+                             lineChartField, lineChartFieldLabel
                          }) => {
 
     if (!data || !data.dimensions || !data.dimensions.crop) {
@@ -20,49 +21,86 @@ const BarAndLineChart = ({
     const enableGridX = false;
     const enableGridY = true;
     const customTickWithCrops = true;
-    
-    // TODO: move as props.
-    const LineLayer = ({ bars, xScale, yScale }) => {
-        console.log(keys);
-        console.log(data);
-        console.log(processedData);
-        console.log(bars);
-        console.log(colors);
-        
+
+    const LineLayer = ({bars, xScale, yScale}) => {
+        const filteredBars = bars.filter(b => b.data.data[lineChartField]);
+
         const lineGenerator = line()
             .x(bar => xScale(bar.data.indexValue) + bar.width / 2)
-            .y(bar => yScale(bar.data.data.rating));
+            .y(bar => yScale(bar.data.data[lineChartField] || 0));
 
-        const { showTooltipFromEvent, hideTooltip } = useTooltip();
-        
+        const {showTooltipFromEvent, hideTooltip} = useTooltip();
+
         return (
             <Fragment>
                 <path
-                    d={lineGenerator(bars)}
+                    d={lineGenerator(filteredBars)}
                     fill="none"
-                    stroke={'#c2db24'}
-                    style={{ pointerEvents: "none" }}
+                    stroke={lineColor}
+                    strokeWidth={2}
+                    style={{pointerEvents: "none"}}
                 />
-                {bars.map(bar => (
-                    <circle
-                        key={bar.key}
-                        cx={xScale(bar.data.indexValue) + bar.width / 2}
-                        cy={yScale(bar.data.data.rating)}
-                        r={4}
-                        fill='#c2db24'
-                        stroke={'#c2db24'}
-                        onMouseEnter={(event) =>
-                            showTooltipFromEvent(<BasicTooltip id="Rating" value={bar.data.data.rating} />, event)
-                        }
-                        onMouseLeave={() => hideTooltip()}
-                        onMouseMove={(event) =>
-                            showTooltipFromEvent(<BasicTooltip id="Rating" value={bar.data.data.rating} />, event)
-                        }
-                    />
-                ))}
+                {selectedYear.length > 0 && bars.map(bar => {
+                    if (selectedYear.find(i => i === bar.data.indexValue)) {
+                        return (<circle
+                            key={bar.key}
+                            cx={xScale(bar.data.indexValue) + bar.width / 2}
+                            cy={yScale(bar.data.data[lineChartField])}
+                            r={5}
+                            fill={lineColor}
+                            stroke={lineColor}
+                            onMouseEnter={(event) =>
+                                showTooltipFromEvent(<div>
+                                    <div className="tooltip-container-vrwsf">
+                                        <div className="header-container">
+                                            <div className="header">
+                                                <div className="inner-container">
+                                                    <div className="crop-icon"></div>
+                                                    <div className="crop-name">{bar.data.indexValue}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="amount-container">
+                                            <table width="100%">
+                                                <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <div style={{textAlign: 'center'}}>
+                                                            <span>{lineChartFieldLabel}</span><span
+                                                            className="bold"> {bar.data.data[lineChartField]}</span>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>, event)
+                            }
+                            onMouseLeave={() => hideTooltip()}
+                            /*onMouseMove={(event) =>
+                                showTooltipFromEvent(<BasicTooltip id="Rating" value={bar.data.data[lineChartField]}/>, event)
+                            }*/
+                        />)
+                    }
+                    return null;
+                })}
             </Fragment>
         );
     };
+
+    let markerLine = null;
+    if (selectedYear.length === 1) {
+        markerLine = [
+            {
+                axis: 'y',
+                value: processedData.find(i => i.year === selectedYear[0])[lineChartField],
+                lineStyle: {stroke: lineColor, strokeWidth: 2},
+                legend: '',
+                legendOrientation: 'vertical',
+            }
+        ];
+    }
 
     return (
         <>
@@ -81,6 +119,7 @@ const BarAndLineChart = ({
                                             getTooltipText={getTooltipText} getTooltipHeader={getTooltipHeader}
                                             customTickWithCrops={customTickWithCrops}
                                             gridTickLines={4} rightLegend={rightLegend} LineLayer={LineLayer}
+                                            markers={markerLine}
                     />
                 </Grid.Column>
             </Grid.Row>

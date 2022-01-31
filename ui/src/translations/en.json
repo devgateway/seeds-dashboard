@@ -86,7 +86,7 @@
   "number-of-varieties-released": "Number of Varieties Released",
   "crops-legend": "Crops",
   "years-legend": "Years",
-  "number-of-breeders-legend": "Number of Breeders",
+  "number-of-breeders-legend": "Number of active breeders.;",
   "tooltip-number-of-varieties-sold": "Number of varieties sold",
   "tooltip-average-age": "Average age",
   "tooltip-year": "Year"
