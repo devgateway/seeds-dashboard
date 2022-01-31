@@ -39,7 +39,7 @@ const NumberOfVarietiesReleased = ({ data, sources, title, subTitle, editing, ty
     const processedData = [];
 
     if (!data || data.id === null) {
-        return null;
+        return <h2 className="no-data">No Data</h2>;
     }
     let crops = data.dimensions.crop.values;
 
@@ -47,6 +47,7 @@ const NumberOfVarietiesReleased = ({ data, sources, title, subTitle, editing, ty
         setCurrentData(data);
         setSelectedCrops(crops);
         setInitialCrops(crops);
+        return null;
     }
 
     const yearsInValues = Object.keys(data.values);
