@@ -143,6 +143,16 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
       const entry = { crop: c };
       commonProcess(c, entry, blueColors);
     });
+    
+    // Fix missing data from the EP (crop without one or more years data).
+    processedData.forEach(p => {
+      years.forEach(y => {
+        if (!p[y]) {
+          processedData.find(i => i.crop === p.crop)[y] = FAKE_NUMBER;
+          data.values[p.crop][y] = 'MD';
+        }
+      });
+    });
   }
 
   const processForRadar = (dimensionValues) => {
