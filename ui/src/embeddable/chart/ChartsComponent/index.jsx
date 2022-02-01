@@ -5,6 +5,7 @@ import Header from "../common/header";
 import CropFilter from "../common/filters/crops";
 import Years from "../common/filters/years";
 import CropsLegend from "../common/crop";
+import Export from "../common/export";
 import CropsWithSpecialFeatures from "../common/cropWithSpecialFeatures";
 import Source from "../common/source";
 import { getColor } from "../Countryinfo/CountryInfoChart";
@@ -403,11 +404,14 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
         </Grid.Row>);
     }
   }
-  
+
   return <Grid className={`number-varieties-released`}>
     <Grid.Row className="header-section">
-      <Grid.Column>
+      <Grid.Column width={12}>
         <Header title={`${title}`} subtitle={subTitle} />
+      </Grid.Column>
+      <Grid.Column width={4}>
+        <Export/>
       </Grid.Column>
     </Grid.Row>
     <Grid.Row className={`filters-section`}>
