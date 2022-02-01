@@ -389,6 +389,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
     switch (type) {
       case MARKET_CONCENTRATION_HHI:
         return <MarketConcentrationHHI data={data} selectedYear={selectedYear} bottomLegend={bottomLegend}/>
+      case NUMBER_SEED_INSPECTORS:
       case EFFICIENCY_SEED_IMPORT_PROCESS:
       case EFFICIENCY_SEED_EXPORT_PROCESS:
         return <BarAndLineChart data={data} selectedYear={selectedYear} leftLegend={leftLegend}
@@ -472,7 +473,7 @@ const performanceColors = [
   '#4D843F', '#F39C00', '#FBCC2A', '#E36A6A', '#289DF5'
 ];
 const barPieColor = [
-  '#41a9d9', '#c2db24'
+  '#c2db24', '#41a9d9', '#43758D'
 ]
 
 export const FAKE_NUMBER = 0.001;

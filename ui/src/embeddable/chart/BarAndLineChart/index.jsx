@@ -17,13 +17,15 @@ const BarAndLineChart = ({
         noData = true;
     }
     let sum = 0
-    Object.keys(data.values).forEach(i => {
-        Object.keys(data.values[i]).forEach(j => {
-            sum += Number(data.values[i][j][i]) || 0;
+    if (groupMode != "stacked") {
+        Object.keys(data.values).forEach(i => {
+            Object.keys(data.values[i]).forEach(j => {
+                sum += Number(data.values[i][j][i]) || 0;
+            });
         });
-    });
-    if (sum === 0) {
-        noData = true;
+        if (sum === 0) {
+            noData = true;
+        }
     }
 
     if (noData) {
