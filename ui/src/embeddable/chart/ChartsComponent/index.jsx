@@ -50,11 +50,16 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
   let colors = new Map();
   const keys = [];
   let max = 0;
-  let maxSelectableYear = 1;
+  let maxSelectableYear = 4;
   const processedData = [];
+  const FAKE_NUMBER = 0.001;
   let useCropLegendsRow = true;
   let useFilterByCrops = true;
   let yearsColors = blueColors;
+
+  if (type == PERFORMANCE_SEED_TRADERS) {
+    maxSelectableYear = 3;
+  }
 
   if (!data || !data.dimensions || (!data.dimensions.crop && !data.dimensions.year) || data.id === null) {
     noData = true;
@@ -66,8 +71,12 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
       setSelectedCrops(crops);
       setInitialCrops(crops);
       //TODO see what to use
+      if (years && years.length > maxSelectableYear) {
+        setSelectedYear(years.slice(years.length - maxSelectableYear, years.length))
+      } else {
+        setSelectedYear(years)
+      }
 
-      setSelectedYear(years.slice(0, 4))
       //setSelectedYear(years[years.length - 1])
 
       // workaround for selectedCrops not being updated.
@@ -259,7 +268,6 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
       groupMode = 'grouped';
       withCropsWithSpecialFeatures = false;
       customTickWithCrops = true;
-      maxSelectableYear = 4;
       processByYear();
       break;
     }
@@ -310,7 +318,6 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
     case MARKET_CONCENTRATION_HHI:
         useCropLegendsRow = false;
         useFilterByCrops = false;
-        maxSelectableYear = 4;
         bottomLegend = intl.formatMessage({id: 'years-legend', defaultMessage: 'Years'});
         break;
     case PERFORMANCE_SEED_TRADERS:
@@ -326,7 +333,6 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
     case EFFICIENCY_SEED_IMPORT_PROCESS:
       useCropLegendsRow = false;
       useFilterByCrops = false;
-      maxSelectableYear = 4;
       leftLegend = 'Number of days for import';
       indexBy = 'year';
       bottomLegend = 'Year';
@@ -420,7 +426,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
       </Grid.Column> : null}
       {(!noData && showYearFilter) ? <Grid.Column computer={3} mobile={16}>
         <Years data={years} onChange={handleYearFilterChange} maxSelectable={maxSelectableYear}
-               defaultSelected={years.slice(0, maxSelectableYear)} />
+               defaultSelected={selectedYear} />
       </Grid.Column> : null}
     </Grid.Row>
     {!noData && useCropLegendsRow ? <Grid.Row className={`crops-with-icons`}>
@@ -451,6 +457,5 @@ const performanceColors = [
 const barPieColor = [
   '#41a9d9', '#c2db24'
 ]
-export const FAKE_NUMBER = 0.001;
 
 export default injectIntl(ChartComponent);
