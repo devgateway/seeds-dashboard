@@ -13,7 +13,7 @@ const BarAndLineChart = ({
                          }) => {
 
     let noData = false;
-    if (!data || !data.dimensions || !data.dimensions.crop || !data.values) {
+    if (!data || !data.dimensions || (!data.dimensions.crop && !data.dimensions.year) || !data.values) {
         noData = true;
     }
     let sum = 0
@@ -42,7 +42,13 @@ const BarAndLineChart = ({
     const customTickWithCrops = true;
 
     const LineLayer = ({bars, xScale, yScale}) => {
-        const filteredBars = bars.filter(b => b.data.data[lineChartField]);
+        const filterIndex = [];
+        const filteredBars = bars.filter(b => {
+                if (!filterIndex.find(k => k === b.data.indexValue)) {
+                    filterIndex.push(b.data.indexValue);
+                    return b.data.data[lineChartField];
+                }
+        });
 
         const lineGenerator = line()
             .x(bar => xScale(bar.data.indexValue) + bar.width / 2)
