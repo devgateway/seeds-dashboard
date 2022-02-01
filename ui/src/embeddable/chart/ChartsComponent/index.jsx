@@ -52,7 +52,6 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
   let max = 0;
   let maxSelectableYear = 4;
   const processedData = [];
-  const FAKE_NUMBER = 0.001;
   let useCropLegendsRow = true;
   let useFilterByCrops = true;
   let yearsColors = blueColors;
@@ -316,6 +315,8 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
     case MARKET_CONCENTRATION_HHI:
         useCropLegendsRow = false;
         useFilterByCrops = false;
+        maxSelectableYear = 4;
+        bottomLegend = intl.formatMessage({id: 'years-legend', defaultMessage: 'Years'});
         break;
     case PERFORMANCE_SEED_TRADERS:
       indexBy = "id";
@@ -374,7 +375,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
   const insertChart = () => {
     switch (type) {
       case MARKET_CONCENTRATION_HHI:
-        return <MarketConcentrationHHI data={data} selectedYear={selectedYear}/>
+        return <MarketConcentrationHHI data={data} selectedYear={selectedYear} bottomLegend={bottomLegend}/>
       case EFFICIENCY_SEED_IMPORT_PROCESS:
         return <BarAndLineChart data={data} selectedYear={selectedYear} leftLegend={leftLegend}
                                 indexBy={indexBy} groupMode={groupMode} bottomLegend={bottomLegend}
@@ -459,5 +460,6 @@ const performanceColors = [
 const barPieColor = [
   '#41a9d9', '#c2db24'
 ]
+export const FAKE_NUMBER = 0.001;
 
 export default injectIntl(ChartComponent);
