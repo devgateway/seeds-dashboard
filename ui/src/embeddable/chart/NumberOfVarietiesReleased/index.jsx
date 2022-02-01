@@ -4,6 +4,7 @@ import {ResponsiveLine} from "@nivo/line";
 import CropsLegend from "../common/crop";
 import './styles.scss';
 import Source from "../common/source";
+import Export from "../common/export";
 import CropFilter from "../common/filters/crops";
 import Header from "../common/header";
 import {getColor} from "../Countryinfo/CountryInfoChart";
@@ -99,8 +100,11 @@ const NumberOfVarietiesReleased = ({ data, sources, title, subTitle, editing, ty
     return (
         <Grid className={`number-varieties-released`}>
             <Grid.Row className="header-section">
-                <Grid.Column>
+                <Grid.Column width={12}>
                     <Header title={`${title}`} subtitle={subTitle} />
+                </Grid.Column>
+                <Grid.Column width={4}>
+                  <Export/>
                 </Grid.Column>
             </Grid.Row>
             <Grid.Row className={`filters-section`}>

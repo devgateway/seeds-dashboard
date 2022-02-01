@@ -1,11 +1,11 @@
 @import 'src/scss/vars';
 
 .availability-of-basic-seed-container {
+
   &.ui.grid {
     color: #626262;
     margin: 0;
-    width: 100%;
-    border-bottom: 1px solid $indicator-border-color;
+    width: $extend;
 
     .row {
       .no-data {
@@ -24,15 +24,10 @@
         font-family: Museo Slab, serif;
         font-weight: 700;
         height: 65px;
-        padding-left: 25px;
         display: flex;
         justify-content: left;
         align-content: center;
         font-size: 21px;
-
-        span {
-          color: $green;
-        }
       }
 
       &.border-left {
@@ -58,7 +53,6 @@
       .seeds-title {
         display: flex;
         align-items: center;
-        padding-left: 30px;
 
         div {
           transform: rotate(-90deg);
@@ -70,8 +64,6 @@
     }
 
     .column {
-      padding: 0;
-
       .ui.column.grid {
         margin: 0;
 
@@ -112,7 +104,7 @@
   }
 
   .chart-heading {
-    height: 65px;
+    height: 60px;
 
     .ui.grid {
       .row {
@@ -121,11 +113,13 @@
         .column {
           background-color: transparent;
           color: #868686;
+          &:last-of-type{
+            margin-left: 5px;
+          }
 
           &.legend-title {
-            font-weight: 900;
-            color: #000000;
-            padding-left: 25px;
+            font-size: 18pt;
+            color: #354052;
           }
         }
       }
