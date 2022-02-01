@@ -40,7 +40,7 @@ const NumberOfVarietiesReleased = ({ data, sources, title, subTitle, editing, ty
     const processedData = [];
 
     if (!data || data.id === null) {
-        return null;
+        return <h2 className="no-data">No Data</h2>;
     }
     let crops = data.dimensions.crop.values;
 
@@ -48,9 +48,10 @@ const NumberOfVarietiesReleased = ({ data, sources, title, subTitle, editing, ty
         setCurrentData(data);
         setSelectedCrops(crops);
         setInitialCrops(crops);
+        return null;
     }
 
-    const yearsInValues = Object.keys(data.values);
+    const yearsInValues = Object.keys(data.values).sort();
     const allYears = fillGaps(yearsInValues);
     let max = 0;
 
@@ -159,6 +160,7 @@ const NumberOfVarietiesReleased = ({ data, sources, title, subTitle, editing, ty
                             pointBorderColor={{from: 'serieColor', modifiers: []}}
                             pointLabelYOffset={-12}
                             useMesh={true}
+                            animate={false}
                             tooltip={(d) => {
                                 return (<div className="tooltip-container">
                                     <div className="header-container">
