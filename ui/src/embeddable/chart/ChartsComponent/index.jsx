@@ -208,6 +208,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
       });
     }
   }
+  let subLabel = '';
   switch (type) {
     case NUMBER_VARIETIES_SOLD:
     case AVERAGE_AGE_VARIETIES_SOLD:
@@ -334,12 +335,17 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
     case EFFICIENCY_SEED_EXPORT_PROCESS:
       useCropLegendsRow = false;
       useFilterByCrops = false;
+      let tooltipSubText = '';
       switch (type) {
         case EFFICIENCY_SEED_IMPORT_PROCESS:
           leftLegend = 'Number of days for import';
+          tooltipSubText = 'Days for Import';
+          subLabel = 'Number of days for import';
           break;
         case EFFICIENCY_SEED_EXPORT_PROCESS:
           leftLegend = 'Number of days for export';
+          tooltipSubText = 'Number of of days';
+          subLabel = 'Number of days for export';
           break;
         default:
           leftLegend = 'insert legend here';
@@ -352,10 +358,10 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
       Object.keys(data.values.days).forEach(y => {
         const item = {year: y};
         if (selectedYear && selectedYear.find(k => k === y)) {
-          item.value = data.values.days[y].days;
-          item.rating = data.values.rating[y].rating;
-          if (item[y] > max) {
-            max = item[y];
+          item.value = Number(data.values.days[y].days) >= 0 ? data.values.days[y].days : null;
+          item.rating = Number(data.values.rating[y].rating) >= 0 ? data.values.rating[y].rating : null;
+          if (item.value > max) {
+            max = item.value;
           }
           if (item.rating > max) {
               max = item.rating;
@@ -366,7 +372,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
       colors.set('value', barPieColor[0])
       getTooltipText = (d) => {
         return <div style={{textAlign: 'center'}}>
-          <span>Days for Import</span>
+          <span>{tooltipSubText}</span>
           <span className="bold"> {d.data[d.id]}</span>
         </div>
       }
@@ -384,13 +390,13 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
       case MARKET_CONCENTRATION_HHI:
         return <MarketConcentrationHHI data={data} selectedYear={selectedYear} bottomLegend={bottomLegend}/>
       case EFFICIENCY_SEED_IMPORT_PROCESS:
-      case EFFICIENCY_SEED_EXPORT_PROCESS:  
+      case EFFICIENCY_SEED_EXPORT_PROCESS:
         return <BarAndLineChart data={data} selectedYear={selectedYear} leftLegend={leftLegend}
                                 indexBy={indexBy} groupMode={groupMode} bottomLegend={bottomLegend}
                                 rightLegend={rightLegend} processedData={processedData} colors={colors}
                                 max={max * 1.05} keys={keys} getTooltipText={getTooltipText}
                                 getTooltipHeader={getTooltipHeader} lineColor={barPieColor[1]}
-                                legends={[{id: 1, 'color': barPieColor[0], 'label': 'Number of days for import'},
+                                legends={[{id: 1, 'color': barPieColor[0], 'label': subLabel},
                                   {id: 2, 'color': barPieColor[1], 'label': 'Industry Rating'}
                                 ]} lineChartField={'rating'} lineChartFieldLabel={'Industry Rating'}/>
       case PERFORMANCE_SEED_TRADERS:

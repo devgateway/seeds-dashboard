@@ -12,11 +12,28 @@ const BarAndLineChart = ({
                              lineChartField, lineChartFieldLabel
                          }) => {
 
-    if (!data || !data.dimensions || !data.dimensions.crop) {
-        return 'No Data';
+    let noData = false;
+    if (!data || !data.dimensions || !data.dimensions.crop || !data.values) {
+        noData = true;
+    }
+    let sum = 0
+    Object.keys(data.values).forEach(i => {
+        Object.keys(data.values[i]).forEach(j => {
+            sum += Number(data.values[i][j][i]) || 0;
+        });
+    });
+    if (sum === 0) {
+        noData = true;
     }
 
-    const noData = false;
+    if (noData) {
+        return (<Grid.Row className="chart-section">
+            <Grid.Column width={16}>
+                <h2 className="no-data">No Data</h2>
+            </Grid.Column>
+        </Grid.Row>);
+    }
+
     const layout = 'vertical';
     const enableGridX = false;
     const enableGridY = true;
@@ -41,7 +58,7 @@ const BarAndLineChart = ({
                     style={{pointerEvents: "none"}}
                 />
                 {selectedYear.length > 0 && bars.map(bar => {
-                    if (selectedYear.find(i => i === bar.data.indexValue)) {
+                    if (selectedYear.find(i => i === bar.data.indexValue) && yScale(bar.data.data[lineChartField])) {
                         return (<circle
                             key={bar.key}
                             cx={xScale(bar.data.indexValue) + bar.width / 2}
@@ -95,6 +112,17 @@ const BarAndLineChart = ({
             {
                 axis: 'y',
                 value: processedData.find(i => i.year === selectedYear[0])[lineChartField],
+                lineStyle: {stroke: lineColor, strokeWidth: 2},
+                legend: '',
+                legendOrientation: 'vertical',
+            }
+        ];
+    } else if (processedData.filter(i => i[lineChartField]).length === 1) { // Also show marker when there is only 1 point with data.
+        debugger
+        markerLine = [
+            {
+                axis: 'y',
+                value: processedData.filter(i => i[lineChartField])[0][lineChartField],
                 lineStyle: {stroke: lineColor, strokeWidth: 2},
                 legend: '',
                 legendOrientation: 'vertical',
