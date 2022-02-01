@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import './styles.scss';
 import {Accordion, Form, Menu} from "semantic-ui-react";
 
@@ -38,6 +38,9 @@ const Years = ({data, onChange, maxSelectable, defaultSelected}) => {
                 auxArray.splice(index, 1);
                 setSelectedYear(auxArray);
             } else {
+                if (auxArray.length == maxSelectable) {
+                    auxArray.shift();
+                }
                 auxArray.push(props.value);
                 auxArray = auxArray.sort();
                 setSelectedYear(auxArray);
@@ -60,7 +63,7 @@ const Years = ({data, onChange, maxSelectable, defaultSelected}) => {
         } else {
             return (data.map((c, i) => {
                 return (<div key={c}>
-                    <Form.Checkbox value={c} checked={selectedYear && selectedYear.find(j => j === c)}
+                    <Form.Checkbox value={c} checked={(selectedYear && selectedYear.find(j => j === c)) ? true : false}
                                    onChange={handleChange}
                                    label={c}/>
                 </div>);

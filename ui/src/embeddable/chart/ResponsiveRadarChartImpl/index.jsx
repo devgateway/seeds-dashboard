@@ -8,24 +8,19 @@ const theme = {
     ticks: {
       text: {
         fontSize: 12,
-        /*fontWeight: 'bold',*/
-        fill: "#adafb2",
-        textTransform: 'capitalize'
-      },
-      line: {
-        stroke: "rgba(255,255,255,0)",
-        strokeWidth: 0
-      }
-    },
-    legend: {
-      text: {
-        fontSize: 12,
-        fill: "black",
         fontWeight: 'bold',
-        /*fontFamily: 'Lato'*/
+        fill: "#474747",
+        textTransform: 'capitalize'
       }
     }
-  }
+  },
+    dots: {
+        text: {
+            fontSize: 11,
+            fontWeight: 'bold',
+            fill: "#fff"
+        }
+    }
 };
 
 const ResponsiveRadarChartImpl = ({
@@ -34,16 +29,16 @@ const ResponsiveRadarChartImpl = ({
                                   keys,
                                   colors,
                                   indexBy,
-                                  containerHeight = 450
+                                  containerHeight = 550
                                 }) => {
 
 
 
   const getLabel = (item) => {
       if (item == FAKE_NUMBER) {
-          return "MD"
+          return "MD";
       } else {
-          return item + "%"
+          return item + "%";
       }
   }
 
@@ -54,11 +49,13 @@ const ResponsiveRadarChartImpl = ({
   return (
     <div style={{ height: containerHeight }}>
       {!noData ? <ResponsiveRadar
-          margin = {{ top: 60, right: 80, bottom: 60, left: 80 }}
+          theme={theme}
+          margin = {{ top: 50, right: 80, bottom: 20, left: 80 }}
+          gridLabelOffset={22}
           data = {processedData}
           indexBy = {indexBy}
           keys = {keys}
-          dotSize = {2}
+          dotSize = {30}
           colors= {(item) => getColors(item)}
           borderWidth = {2}
           fillOpacity = {0}
@@ -68,7 +65,7 @@ const ResponsiveRadarChartImpl = ({
           isInteractive = {true}
           gridShape = "linear"
           enableDotLabel = {true}
-          dotLabelYOffset = {15}
+          dotLabelYOffset = {3}
           dotLabel = {d => getLabel(d.value)}
           valueFormat = {d => getLabel(d)}
       /> : <h2 className="no-data">No Data</h2>}
