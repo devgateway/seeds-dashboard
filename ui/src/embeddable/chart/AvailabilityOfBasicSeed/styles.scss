@@ -9,7 +9,7 @@
 
     .row {
       .no-data {
-        width: 100%;
+        width: $extend;
         height: 400px;
         display: flex;
         justify-content: center;
@@ -129,8 +129,7 @@
   .availability-of-basic-seed {
     &.ui.grid {
       margin: 0;
-
-
+      padding-bottom: $base-unit * 3;
     }
   }
 }

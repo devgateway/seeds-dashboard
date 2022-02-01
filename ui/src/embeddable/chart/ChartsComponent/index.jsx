@@ -151,7 +151,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
       const entry = { crop: c };
       commonProcess(c, entry, blueColors);
     });
-    
+
     // Fix missing data from the EP (crop without one or more years data).
     processedData.forEach(p => {
       years.forEach(y => {
@@ -452,7 +452,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
           <CropsLegend data={selectedCrops} title="Crops" titleClass="crops-title" addLighterDiv={addLighterDiv} />}
         {legend && legend.toLowerCase() === 'years' && <YearLegend colors={yearsColors} years={selectedYear} />}
       </Grid.Column>
-      <Grid.Column width={8} className="withSeparator">
+      <Grid.Column width={8}>
         {withCropsWithSpecialFeatures && <CropsWithSpecialFeatures />}
       </Grid.Column>
     </Grid.Row> : null}
