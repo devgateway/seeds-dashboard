@@ -118,7 +118,6 @@ const BarAndLineChart = ({
             }
         ];
     } else if (processedData.filter(i => i[lineChartField]).length === 1) { // Also show marker when there is only 1 point with data.
-        debugger
         markerLine = [
             {
                 axis: 'y',
