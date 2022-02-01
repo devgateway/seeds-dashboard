@@ -3,8 +3,9 @@ import {Grid} from "semantic-ui-react";
 import './styles.scss';
 import ResponsiveBarChartImpl from "../ResponsiveBarChartImpl";
 import HHILegend from "./HHILegend";
+import {FAKE_NUMBER} from "../ChartsComponent";
 
-const MarketConcentrationHHI = ({data, sources, selectedYear}) => {
+const MarketConcentrationHHI = ({data, sources, selectedYear, bottomLegend}) => {
 
     if (!data) {
         return 'No Data';
@@ -35,12 +36,21 @@ const MarketConcentrationHHI = ({data, sources, selectedYear}) => {
         processedData.push(item);
     });
 
+    // Fix missing data from the EP (crop without one or more years data).
+    const years = data.dimensions.year ? data.dimensions.year.values : {};
+    processedData.forEach(p => {
+        years.forEach(y => {
+            if (!p[y]) {
+                processedData.find(i => i.crop === p.crop)[y] = FAKE_NUMBER;
+            }
+        });
+    });
+
     const noData = false;
     const indexBy = 'crop';
     const layout = 'vertical';
     const groupMode = 'grouped';
     const leftLegend = 'HHI Index';
-    const bottomLegend = undefined;
     const enableGridX = false;
     const enableGridY = true;
     const getTooltipText = (d) => {
