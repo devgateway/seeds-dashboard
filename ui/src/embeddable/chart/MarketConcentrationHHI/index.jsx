@@ -43,6 +43,9 @@ const MarketConcentrationHHI = ({data, sources, selectedYear, bottomLegend}) => 
             if (!p[y]) {
                 processedData.find(i => i.crop === p.crop)[y] = FAKE_NUMBER;
             }
+            if (p[y] === 'MD' || p[y] === null) {
+                processedData.find(i => i.crop === p.crop)[y] = FAKE_NUMBER;
+            }
         });
     });
 
