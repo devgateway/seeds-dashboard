@@ -11,10 +11,10 @@ import Source from "../common/source";
 import { getColor } from "../Countryinfo/CountryInfoChart";
 import {
   AVERAGE_AGE_VARIETIES_SOLD,
-    MARKET_CONCENTRATION_HHI, PERFORMANCE_SEED_TRADERS,
+  MARKET_CONCENTRATION_HHI, PERFORMANCE_SEED_TRADERS,
   NUMBER_OF_ACTIVE_BREEDERS, NUMBER_OF_ACTIVE_SEED_COMPANIES_PRODUCERS,
   VARIETIES_RELEASED_WITH_SPECIAL_FEATURES, NUMBER_VARIETIES_SOLD,
-  EFFICIENCY_SEED_IMPORT_PROCESS
+  EFFICIENCY_SEED_IMPORT_PROCESS, NUMBER_SEED_INSPECTORS
 } from "../../reducers/StoreConstants";
 import YearLegend from "../common/year";
 import MarketConcentrationHHI from "../MarketConcentrationHHI";
@@ -32,6 +32,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
   let showYearFilter = true;
   let layout = 'vertical';
   let groupMode = 'stacked';
+  let legends;
   let withCropsWithSpecialFeatures = true;
   let addLighterDiv = true;
   let leftLegend;
@@ -333,11 +334,11 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
     case EFFICIENCY_SEED_IMPORT_PROCESS:
       useCropLegendsRow = false;
       useFilterByCrops = false;
-      leftLegend = 'Number of days for import';
+      leftLegend = intl.formatMessage({id: 'number-days-import-legend', defaultMessage: 'Number of days for import'});
       indexBy = 'year';
-      bottomLegend = 'Year';
+      bottomLegend = intl.formatMessage({id: 'years-legend', defaultMessage: 'Years'});
       groupMode = 'grouped';
-      rightLegend = 'Rating out of 100';
+      rightLegend = intl.formatMessage({id: 'rating-legend', defaultMessage: 'Rating out of 100'});
       keys.push(['value']);
       Object.keys(data.values.days).forEach(y => {
         const item = {year: y};
@@ -353,7 +354,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
           processedData.push(item);
         }
       });
-      colors.set('value', barPieColor[0])
+      colors.set('value', barPieColor[1])
       getTooltipText = (d) => {
         return <div style={{textAlign: 'center'}}>
           <span>Days for Import</span>
@@ -366,6 +367,55 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
           <div className="crop-name">{d.indexValue}</div>
         </>;
       }
+      legends = [{id: 1, 'color': barPieColor[1], 'label': 'Number of days for import'},
+        {id: 2, 'color': barPieColor[0], 'label': 'Industry Rating'}
+      ];
+      break;
+    case NUMBER_SEED_INSPECTORS:
+      useCropLegendsRow = false;
+      useFilterByCrops = false;
+      leftLegend = intl.formatMessage({id: 'number-seed-inspectors-legend', defaultMessage: 'Number of seed inspectors'});
+      indexBy = 'year';
+      bottomLegend = intl.formatMessage({id: 'years-legend', defaultMessage: 'Years'});;
+      groupMode = 'stacked';
+      rightLegend = intl.formatMessage({id: 'rating-legend', defaultMessage: 'Rating out of 100'});
+      keys.push('public', 'private');
+      Object.keys(data.values).forEach(y => {
+        const item = {year: y};
+        if (selectedYear && selectedYear.find(k => k === y)) {
+          item.public = data.values[y].public;
+          item.private = data.values[y].private;
+          item.rating = data.values[y].rating;
+          if (item[y] > max) {
+            max = item[y];
+          }
+          if (item.rating > max) {
+            max = item.rating;
+          }
+          processedData.push(item);
+        }
+      });
+      colors.set('public', barPieColor[1])
+      colors.set('private', barPieColor[2])
+      getTooltipText = (d) => {
+        return <><div style={{textAlign: 'center'}}>
+          <span>{intl.formatMessage({id: 'public-inspectors-legend', defaultMessage: 'Public inspectors'})} </span>
+          <span className="bold"> {d.data.public ? d.data.public : 0}</span>
+        </div><div style={{textAlign: 'center'}}>
+          <span>{intl.formatMessage({id: 'private-inspectors-legend', defaultMessage: 'Private inspectors'})} </span>
+          <span className="bold"> {d.data.private ? d.data.private : 0}</span>
+        </div></>
+      }
+      getTooltipHeader = (d) => {
+        return <>
+          <div className={d.indexValue + " crop-icon"}/>
+          <div className="crop-name">{d.indexValue}</div>
+        </>;
+      }
+      legends = [{id: 1, 'color': barPieColor[1], 'label': intl.formatMessage({id: 'public-inspectors-legend', defaultMessage: 'Public inspectors'})},
+        {id: 2, 'color': barPieColor[2], 'label': intl.formatMessage({id: 'private-inspectors-legend', defaultMessage: 'Private inspectors'})},
+        {id: 3, 'color': barPieColor[0], 'label': intl.formatMessage({id: 'industry-opinion-legend', defaultMessage: 'Industry opinion rating'})}
+      ];
       break;
   }
 
@@ -373,15 +423,14 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
     switch (type) {
       case MARKET_CONCENTRATION_HHI:
         return <MarketConcentrationHHI data={data} selectedYear={selectedYear} bottomLegend={bottomLegend}/>
+      case NUMBER_SEED_INSPECTORS:
       case EFFICIENCY_SEED_IMPORT_PROCESS:
         return <BarAndLineChart data={data} selectedYear={selectedYear} leftLegend={leftLegend}
                                 indexBy={indexBy} groupMode={groupMode} bottomLegend={bottomLegend}
                                 rightLegend={rightLegend} processedData={processedData} colors={colors}
                                 max={max * 1.05} keys={keys} getTooltipText={getTooltipText}
-                                getTooltipHeader={getTooltipHeader} lineColor={barPieColor[1]}
-                                legends={[{id: 1, 'color': barPieColor[0], 'label': 'Number of days for import'},
-                                  {id: 2, 'color': barPieColor[1], 'label': 'Industry Rating'}
-                                ]} lineChartField={'rating'} lineChartFieldLabel={'Industry Rating'}/>
+                                getTooltipHeader={getTooltipHeader} lineColor={barPieColor[0]}
+                                legends={legends} lineChartField={'rating'} lineChartFieldLabel={'Industry Rating'}/>
       case PERFORMANCE_SEED_TRADERS:
         return <Grid.Row className={`chart-section`}>
           <Grid.Column width={16}>
@@ -455,7 +504,7 @@ const performanceColors = [
   '#4D843F', '#F39C00', '#FBCC2A', '#E36A6A', '#289DF5'
 ];
 const barPieColor = [
-  '#41a9d9', '#c2db24'
+  '#c2db24', '#41a9d9', '#43758D'
 ]
 
 export const FAKE_NUMBER = 0.001;

@@ -105,6 +105,10 @@ class BlockEdit extends BaseBlockEdit {
                                         {
                                             label: 'Member assessment of the performance of the national seed association',
                                             value: 'performanceSeedTraders'
+                                        },
+                                        {
+                                            label: 'Number of seed inspectors',
+                                            value: 'numberSeedInspectors'
                                         }
                                     ]}
                                 />
