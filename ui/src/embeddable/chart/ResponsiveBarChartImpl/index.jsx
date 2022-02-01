@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Grid } from "semantic-ui-react";
 import { ResponsiveBar } from '@nivo/bar'
+import { useResizeDetector } from 'react-resize-detector';
 import CropsLegend from "../common/crop";
 import './styles.scss';
 import Source from "../common/source";
@@ -10,6 +11,7 @@ import { getColor } from "../Countryinfo/CountryInfoChart";
 import Years from "../common/filters/years";
 import CropsWithSpecialFeatures from "../common/cropWithSpecialFeatures";
 import CropIcons from "../common/cropIcons";
+import { getTextWidth } from "../../utils/common";
 
 const FAKE_NUMBER = 0.001;
 const theme = {
@@ -130,7 +132,7 @@ const ResponsiveBarChartImpl = ({
               fontWeight: 'bold',
               fontSize: '14pt'
             }}>
-            {data[id] !== FAKE_NUMBER ? data[id] : data_.values[data.crop][id]}
+            {data[id] !== FAKE_NUMBER ? data[id] : data_.values[data.crop][id] || 'MD'}
           </text>
         </g>);
       }
@@ -143,16 +145,28 @@ const ResponsiveBarChartImpl = ({
       }
       return colors.get(item.id);
   }
+
+  const { width, height, ref } = useResizeDetector();
   const CustomTick = tick => {
-    return <CropIcons crop={tick.value} text={tick.value} tick={tick}
-                      style={{ 'textTransform': 'capitalize', fill: '#adafb2' }} />
+      const bottomLegendWidth = getTextWidth(bottomLegend || '', "12px sans-serif");
+      return (<g>
+          <CropIcons crop={tick.value} text={tick.value} tick={tick}
+                     style={{'textTransform': 'capitalize', fill: '#adafb2'}}/>
+          {bottomLegend && tick.tickIndex === 0 ?
+              <text transform={`translate(${(width - bottomLegendWidth - 130) / 2},${tick.y + 60})`}
+                    style={{fontWeight: 'bold'}}>
+                  {bottomLegend}
+              </text> : null}
+      </g>);
   }
+    
   const layers = ["grid", "axes", "bars", groupMode === 'stacked' ? TotalLabels : TotalLabelsGrouped, "markers", "legends"];
   if (LineLayer) {
       layers.push(LineLayer);
   }
+  
   return (
-    <div style={{ height: containerHeight }}>
+    <div style={{ height: containerHeight }} ref={ref}>
       {!noData ? <ResponsiveBar
         theme={theme}
         layers={layers}

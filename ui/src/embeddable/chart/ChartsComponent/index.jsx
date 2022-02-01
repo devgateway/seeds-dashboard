@@ -144,6 +144,16 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
       const entry = { crop: c };
       commonProcess(c, entry, blueColors);
     });
+    
+    // Fix missing data from the EP (crop without one or more years data).
+    processedData.forEach(p => {
+      years.forEach(y => {
+        if (!p[y]) {
+          processedData.find(i => i.crop === p.crop)[y] = FAKE_NUMBER;
+          // data.values[p.crop][y] = 'MD';
+        }
+      });
+    });
   }
 
   const processForRadar = (dimensionValues) => {
@@ -213,6 +223,8 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
         }
         leftLegend = intl.formatMessage({id: 'number-of-varieties-sold', defaultMessage: 'Number of varieties sold'});
       } else if (type === AVERAGE_AGE_VARIETIES_SOLD) {
+        leftLegend = intl.formatMessage({id: 'average-age', defaultMessage: 'Average age (years)'});
+        bottomLegend = intl.formatMessage({id: 'crops-years', defaultMessage: 'Crops > Years'});
         getTooltipText = (d) => {
           return <>
             <span>{intl.formatMessage({id: 'tooltip-average-age', defaultMessage: 'Average Age'})}</span><span
