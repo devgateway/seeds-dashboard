@@ -5,6 +5,7 @@ import Header from "../common/header";
 import CropFilter from "../common/filters/crops";
 import Years from "../common/filters/years";
 import CropsLegend from "../common/crop";
+import Export from "../common/export";
 import CropsWithSpecialFeatures from "../common/cropWithSpecialFeatures";
 import Source from "../common/source";
 import { getColor } from "../Countryinfo/CountryInfoChart";
@@ -141,6 +142,16 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
       const entry = { crop: c };
       commonProcess(c, entry, blueColors);
     });
+    
+    // Fix missing data from the EP (crop without one or more years data).
+    processedData.forEach(p => {
+      years.forEach(y => {
+        if (!p[y]) {
+          processedData.find(i => i.crop === p.crop)[y] = FAKE_NUMBER;
+          // data.values[p.crop][y] = 'MD';
+        }
+      });
+    });
   }
 
   const processForRadar = (dimensionValues) => {
@@ -210,6 +221,8 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
         }
         leftLegend = intl.formatMessage({id: 'number-of-varieties-sold', defaultMessage: 'Number of varieties sold'});
       } else if (type === AVERAGE_AGE_VARIETIES_SOLD) {
+        leftLegend = intl.formatMessage({id: 'average-age', defaultMessage: 'Average age (years)'});
+        bottomLegend = intl.formatMessage({id: 'crops-years', defaultMessage: 'Crops > Years'});
         getTooltipText = (d) => {
           return <>
             <span>{intl.formatMessage({id: 'tooltip-average-age', defaultMessage: 'Average Age'})}</span><span
@@ -395,11 +408,14 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
         </Grid.Row>);
     }
   }
-  
+
   return <Grid className={`number-varieties-released`}>
     <Grid.Row className="header-section">
-      <Grid.Column>
+      <Grid.Column width={12}>
         <Header title={`${title}`} subtitle={subTitle} />
+      </Grid.Column>
+      <Grid.Column width={4}>
+        <Export/>
       </Grid.Column>
     </Grid.Row>
     <Grid.Row className={`filters-section`}>

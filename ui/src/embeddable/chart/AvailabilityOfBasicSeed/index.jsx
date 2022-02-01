@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import AvailabilityOfBasicSeedChart from "./AvailabilityOfBasicSeedChart";
 import { Grid } from "semantic-ui-react";
+import Export from "../common/export";
+import Header from "../common/header";
+import Source from "../common/source";
 
 import Heading from "../../data-summary/components/Heading";
 import { legends } from "./components/LegendConstant";
@@ -25,16 +28,29 @@ const AvailabilityOfBasicSeed = ({ data, mostRecentYears, sources }) => {
     noData = true;
   }
   return <Grid className={"availability-of-basic-seed-container"}>
-    <Grid.Row className={"with-bottom-border chart-title"}><span>Availability of Basic Seed&nbsp;</span>(seed company
-      rating
-      out of 100)</Grid.Row>
-    <Grid.Row className={"with-bottom-border border-left  border-right"}><Heading legends={legends} /></Grid.Row>
+
+      <Grid.Row className="header-section with-bottom-border chart-title">
+          <Grid.Column wide width={12}>
+          <div className="titles">
+              <div className="title">Availability of Basic Seed <span className="subtitle">(seed company rating out of 100)</span></div>
+          </div>
+          </Grid.Column>
+          <Grid.Column width={4}>
+            <Export/>
+          </Grid.Column>
+      </Grid.Row>
+
+    <Grid.Row className={"with-bottom-border border-left border-right"}><Heading legends={legends} /></Grid.Row>
     <Grid.Row className={"with-bottom-border border-left border-right"}>
       {!noData ?
         <AvailabilityOfBasicSeedChart data={data}
                                       yearsToShow={yearsToShow} /> : <div className={"no-data"}>No data</div>}
     </Grid.Row>
-    <Grid.Row className={"datasource-container border-left border-right"}>Source: {sources}</Grid.Row>
+    <Grid.Row className={`source-section`}>
+        <Grid.Column>
+            <Source title={`Source: ${sources}`} />
+        </Grid.Column>
+    </Grid.Row>
   </Grid>
 }
 export default AvailabilityOfBasicSeed;

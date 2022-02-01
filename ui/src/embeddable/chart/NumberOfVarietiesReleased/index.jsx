@@ -4,6 +4,7 @@ import {ResponsiveLine} from "@nivo/line";
 import CropsLegend from "../common/crop";
 import './styles.scss';
 import Source from "../common/source";
+import Export from "../common/export";
 import CropFilter from "../common/filters/crops";
 import Header from "../common/header";
 import {getColor} from "../Countryinfo/CountryInfoChart";
@@ -39,7 +40,7 @@ const NumberOfVarietiesReleased = ({ data, sources, title, subTitle, editing, ty
     const processedData = [];
 
     if (!data || data.id === null) {
-        return null;
+        return <h2 className="no-data">No Data</h2>;
     }
     let crops = data.dimensions.crop.values;
 
@@ -47,9 +48,10 @@ const NumberOfVarietiesReleased = ({ data, sources, title, subTitle, editing, ty
         setCurrentData(data);
         setSelectedCrops(crops);
         setInitialCrops(crops);
+        return null;
     }
 
-    const yearsInValues = Object.keys(data.values);
+    const yearsInValues = Object.keys(data.values).sort();
     const allYears = fillGaps(yearsInValues);
     let max = 0;
 
@@ -99,8 +101,11 @@ const NumberOfVarietiesReleased = ({ data, sources, title, subTitle, editing, ty
     return (
         <Grid className={`number-varieties-released`}>
             <Grid.Row className="header-section">
-                <Grid.Column>
+                <Grid.Column width={12}>
                     <Header title={`${title}`} subtitle={subTitle} />
+                </Grid.Column>
+                <Grid.Column width={4}>
+                  <Export/>
                 </Grid.Column>
             </Grid.Row>
             <Grid.Row className={`filters-section`}>
@@ -155,6 +160,7 @@ const NumberOfVarietiesReleased = ({ data, sources, title, subTitle, editing, ty
                             pointBorderColor={{from: 'serieColor', modifiers: []}}
                             pointLabelYOffset={-12}
                             useMesh={true}
+                            animate={false}
                             tooltip={(d) => {
                                 return (<div className="tooltip-container">
                                     <div className="header-container">
