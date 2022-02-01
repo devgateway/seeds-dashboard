@@ -52,7 +52,6 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
   let max = 0;
   let maxSelectableYear = 4;
   const processedData = [];
-  const FAKE_NUMBER = 0.001;
   let useCropLegendsRow = true;
   let useFilterByCrops = true;
   let yearsColors = blueColors;
@@ -457,5 +456,7 @@ const performanceColors = [
 const barPieColor = [
   '#41a9d9', '#c2db24'
 ]
+
+export const FAKE_NUMBER = 0.001;
 
 export default injectIntl(ChartComponent);
