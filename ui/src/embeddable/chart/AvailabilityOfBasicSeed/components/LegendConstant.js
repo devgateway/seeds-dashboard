@@ -35,7 +35,7 @@ export const legends = [
         'color': 'green',
         'label': 'Good (60-79.99)',
         order: 4,
-        width: 3,
+        width: 2,
       },
       {
         id: 6,
