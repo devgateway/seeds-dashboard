@@ -12,7 +12,7 @@ const BarAndLineChart = ({
                              lineChartField, lineChartFieldLabel
                          }) => {
 
-    if (!data || !data.dimensions || !data.dimensions.crop) {
+    if (!data || !data.dimensions || (!data.dimensions.crop && !data.dimensions.year)) {
         return 'No Data';
     }
 
@@ -22,8 +22,15 @@ const BarAndLineChart = ({
     const enableGridY = true;
     const customTickWithCrops = true;
 
+
     const LineLayer = ({bars, xScale, yScale}) => {
-        const filteredBars = bars.filter(b => b.data.data[lineChartField]);
+        const filterIndex = [];
+        const filteredBars = bars.filter(b => {
+                if (!filterIndex.find(k => k === b.data.indexValue)) {
+                    filterIndex.push(b.data.indexValue);
+                    return b.data.data[lineChartField];
+                }
+        });
 
         const lineGenerator = line()
             .x(bar => xScale(bar.data.indexValue) + bar.width / 2)

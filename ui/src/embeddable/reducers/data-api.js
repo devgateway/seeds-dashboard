@@ -9,6 +9,7 @@ import {
   PERFORMANCE_SEED_TRADERS,
   AVAILABILITY_OF_BASIC_SEED, DEFAULT_COUNTRY_ID,
   AVERAGE_AGE_VARIETIES_SOLD,
+  NUMBER_SEED_INSPECTORS,
   NUMBER_OF_ACTIVE_BREEDERS, WP_CHART, MARKET_CONCENTRATION_HHI,
 } from "./StoreConstants";
 
@@ -34,7 +35,8 @@ let NUMBER_VARIETIES_SOLD_API = `${SURVEY_API}/chart/numberVarietiesSold/crop/ye
 let PERFORMANCE_SEED_TRADERS_API = `${SURVEY_API}/chart/performanceSeedTraders/performance/year/`;
 const NUMBER_OF_ACTIVE_BREEDERS_API = `${SURVEY_API}/chart/numberActiveBreeders/year/crop/`;
 const MARKET_CONCENTRATION_HHI_API = `${SURVEY_API}/chart/marketConcentration/crop/year/`;
-const EFFICIENCY_SEED_IMPORT_PROCESS_API = `${SURVEY_API}/chart/efficiencyImportProcess/crop/year/`;
+const EFFICIENCY_SEED_IMPORT_PROCESS_API = `${SURVEY_API}/chart/efficiencyImportProcess/crop/year/`
+const NUMBER_SEED_INSPECTORS_API = `${SURVEY_API}/chart/numberSeedInspectors/year/`;
 
 const APIS = {
   prevalence: '',
@@ -49,6 +51,7 @@ const APIS = {
   [NUMBER_VARIETIES_SOLD]: NUMBER_VARIETIES_SOLD_API,
   [EFFICIENCY_SEED_IMPORT_PROCESS]: EFFICIENCY_SEED_IMPORT_PROCESS_API,
   [PERFORMANCE_SEED_TRADERS]: PERFORMANCE_SEED_TRADERS_API,
+  [NUMBER_SEED_INSPECTORS]: NUMBER_SEED_INSPECTORS_API,
 }
 
 function queryParams(params) {
@@ -90,6 +93,7 @@ export const getData = ({ source, app, params }) => {
     || app === NUMBER_VARIETIES_SOLD
     || app === EFFICIENCY_SEED_IMPORT_PROCESS  
     || app === PERFORMANCE_SEED_TRADERS
+    || app === NUMBER_SEED_INSPECTORS
     || (sources && sources.length > 0 && sources[0] === WP_CHART)
   ) {
     if (params[SELECTED_COUNTRY] || params[DEFAULT_COUNTRY_ID]) {

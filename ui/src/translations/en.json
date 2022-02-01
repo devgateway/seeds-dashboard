@@ -91,5 +91,11 @@
   "number-of-breeders-legend": "Number of active breeders.;",
   "tooltip-number-of-varieties-sold": "Number of varieties sold",
   "tooltip-average-age": "Average age",
-  "tooltip-year": "Year"
+  "tooltip-year": "Year",
+  "number-seed-inspectors-legend": "Number of seed inspectors",
+  "rating-legend": "Rating out of 100",
+  "number-days-import-legend": "Number of days for import",
+  "public-inspectors-legend": "Public inspectors",
+  "private-inspectors-legend": "Private inspectors",
+  "industry-opinion-legend": "Industry opinion rating"
 }
