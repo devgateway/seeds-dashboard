@@ -150,7 +150,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
       years.forEach(y => {
         if (!p[y]) {
           processedData.find(i => i.crop === p.crop)[y] = FAKE_NUMBER;
-          data.values[p.crop][y] = 'MD';
+          // data.values[p.crop][y] = 'MD';
         }
       });
     });

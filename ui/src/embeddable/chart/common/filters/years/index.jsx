@@ -69,7 +69,7 @@ const Years = ({data, onChange, maxSelectable, defaultSelected}) => {
     }
 
     const title = (<div><span className="filter-selector-title">Year </span><span
-        className="filter-selector-numbers">1 of {data.length}</span></div>);
+        className="filter-selector-numbers">{selectedYear ? selectedYear.length : 0} of {data.length}</span></div>);
     return (
         <Accordion as={Menu} vertical>
             <Menu.Item>
