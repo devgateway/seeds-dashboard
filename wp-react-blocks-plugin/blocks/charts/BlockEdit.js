@@ -99,13 +99,17 @@ class BlockEdit extends BaseBlockEdit {
                                             value: 'numberVarietiesSold'
                                         },
                                         {
-                                            label: 'Number of Seed Inspectors and Industry Opinion Rating',
+                                            label: 'Efficiency of seed import process',
                                             value: 'efficiencyOfSeedImportProcess'
                                         },
                                         {
                                             label: 'Member assessment of the performance of the national seed association',
                                             value: 'performanceSeedTraders'
-                                        }
+                                        },
+                                        {
+                                            label: 'Efficiency of seed export process',
+                                            value: 'efficiencyOfSeedExportProcess'
+                                        },
                                     ]}
                                 />
                             </PanelRow>

@@ -11,10 +11,10 @@ import Source from "../common/source";
 import { getColor } from "../Countryinfo/CountryInfoChart";
 import {
   AVERAGE_AGE_VARIETIES_SOLD,
-    MARKET_CONCENTRATION_HHI, PERFORMANCE_SEED_TRADERS,
+  MARKET_CONCENTRATION_HHI, PERFORMANCE_SEED_TRADERS,
   NUMBER_OF_ACTIVE_BREEDERS, NUMBER_OF_ACTIVE_SEED_COMPANIES_PRODUCERS,
   VARIETIES_RELEASED_WITH_SPECIAL_FEATURES, NUMBER_VARIETIES_SOLD,
-  EFFICIENCY_SEED_IMPORT_PROCESS
+  EFFICIENCY_SEED_IMPORT_PROCESS, EFFICIENCY_SEED_EXPORT_PROCESS
 } from "../../reducers/StoreConstants";
 import YearLegend from "../common/year";
 import MarketConcentrationHHI from "../MarketConcentrationHHI";
@@ -331,9 +331,19 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
       processForRadar(data.dimensions.performance.values)
       break;
     case EFFICIENCY_SEED_IMPORT_PROCESS:
+    case EFFICIENCY_SEED_EXPORT_PROCESS:
       useCropLegendsRow = false;
       useFilterByCrops = false;
-      leftLegend = 'Number of days for import';
+      switch (type) {
+        case EFFICIENCY_SEED_IMPORT_PROCESS:
+          leftLegend = 'Number of days for import';
+          break;
+        case EFFICIENCY_SEED_EXPORT_PROCESS:
+          leftLegend = 'Number of days for export';
+          break;
+        default:
+          leftLegend = 'insert legend here';
+      }
       indexBy = 'year';
       bottomLegend = 'Year';
       groupMode = 'grouped';
@@ -374,6 +384,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
       case MARKET_CONCENTRATION_HHI:
         return <MarketConcentrationHHI data={data} selectedYear={selectedYear} bottomLegend={bottomLegend}/>
       case EFFICIENCY_SEED_IMPORT_PROCESS:
+      case EFFICIENCY_SEED_EXPORT_PROCESS:  
         return <BarAndLineChart data={data} selectedYear={selectedYear} leftLegend={leftLegend}
                                 indexBy={indexBy} groupMode={groupMode} bottomLegend={bottomLegend}
                                 rightLegend={rightLegend} processedData={processedData} colors={colors}
