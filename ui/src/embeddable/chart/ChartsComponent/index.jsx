@@ -205,6 +205,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
     case AVERAGE_AGE_VARIETIES_SOLD:
     case NUMBER_OF_ACTIVE_SEED_COMPANIES_PRODUCERS: {
       leftLegend = intl.formatMessage({id: 'number-of-years', defaultMessage: 'Number of Years'});
+      bottomLegend = intl.formatMessage({id: 'crops-years', defaultMessage: 'Crops > Years'});
       if (type === NUMBER_VARIETIES_SOLD) {
         getTooltipText = (d) => {
           return <>
@@ -243,7 +244,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
         getTooltipText = (d) => {
           return <>
             <span
-              className="bold"> {d.data[d.id]}  </span>
+              className="bold"> {d.data[d.id]} </span>
             <span>seed companies / producers </span>
 
           </>
@@ -427,7 +428,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
       <Grid.Column width={8}>
         {legend === 'crops' &&
           <CropsLegend data={selectedCrops} title="Crops" titleClass="crops-title" addLighterDiv={addLighterDiv} />}
-        {legend === 'years' && <YearLegend colors={yearsColors} years={selectedYear} />}
+        {legend && legend.toLowerCase() === 'years' && <YearLegend colors={yearsColors} years={selectedYear} />}
       </Grid.Column>
       <Grid.Column width={8} className="withSeparator">
         {withCropsWithSpecialFeatures && <CropsWithSpecialFeatures />}
