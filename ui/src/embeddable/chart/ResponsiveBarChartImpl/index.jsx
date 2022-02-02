@@ -58,7 +58,8 @@ const ResponsiveBarChartImpl = ({
                                   gridTickLines = 6,
                                   rightLegend,
                                   LineLayer,
-                                  markers
+                                  markers,
+                                  dataSuffix  
                                 }) => {
 
   ;
@@ -138,7 +139,7 @@ const ResponsiveBarChartImpl = ({
               fontWeight: 'bold',
               fontSize: '14pt'
             }}>
-            {data[id] !== FAKE_NUMBER ? data[id] : data_.values[data.crop][id] || 'MD'}
+              {data[id] !== FAKE_NUMBER ? data[id] : data_.values[data.crop][id] || 'MD'}{dataSuffix && Number(data[id]) >= 1 ? dataSuffix : ''}
           </text>
         </g>);
       }
