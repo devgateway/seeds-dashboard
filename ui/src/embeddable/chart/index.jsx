@@ -29,7 +29,8 @@ import {
     EFFICIENCY_SEED_EXPORT_PROCESS,
     MARKET_SHARE_TOP_FOUR_SEED_COMPANIES,
     MARKET_SHARE_STATE_OWNED_SEED_COMPANIES,
-    VARIETY_RELEASE_PROCESS
+    VARIETY_RELEASE_PROCESS,
+    QUANTITY_CERTIFIED_SEED_SOLD
 } from "../reducers/StoreConstants";
 import NumberOfVarietiesReleased from "./NumberOfVarietiesReleased";
 import AvailabilityOfBasicSeed from "./AvailabilityOfBasicSeed";
@@ -113,7 +114,7 @@ const Chart = (props) => {
     }
 
     const numberFormat = {style, minimumFractionDigits: parseInt(decimals), maximumFractionDigits: parseInt(decimals)}
-    if (currency != "") {
+    if (currency !== "") {
         numberFormat["currency"] = currency
     }
     const itemWidth = props["data-legends-width"] ? parseInt(props["data-legends-width"]) : 180
@@ -165,6 +166,7 @@ const Chart = (props) => {
         case EFFICIENCY_SEED_EXPORT_PROCESS:
         case PERFORMANCE_SEED_TRADERS:
         case NUMBER_SEED_INSPECTORS:
+        case QUANTITY_CERTIFIED_SEED_SOLD:    
         case VARIETY_RELEASE_PROCESS:
         case AVERAGE_AGE_VARIETIES_SOLD: {
             const chartComponent = {sources, type, ...chartProps}
@@ -190,7 +192,7 @@ const Chart = (props) => {
                               csv={csv}
                               store={[type, unique]}>
 
-                    {(!dual || (mode == 'chart')) && (
+                    {(!dual || (mode === 'chart')) && (
                         <Container style={{"height": `${contentHeight}px`}} className={"body"}
                                    fluid={true}>
                             <DataConsumer>
@@ -200,7 +202,7 @@ const Chart = (props) => {
                     }
                 </DataProvider>
 
-                {dual && childContent && mode == 'info' &&
+                {dual && childContent && mode === 'info' &&
                 <Container fluid={true} style={{"height": contentHeight + 'px'}} className={"body"}>
                     <PostContent post={{content: {rendered: childContent}}}></PostContent>
                 </Container>}

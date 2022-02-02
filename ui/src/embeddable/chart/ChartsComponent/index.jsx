@@ -11,12 +11,19 @@ import Source from "../common/source";
 import { getColor } from "../Countryinfo/CountryInfoChart";
 import {
   AVERAGE_AGE_VARIETIES_SOLD,
-  MARKET_CONCENTRATION_HHI, PERFORMANCE_SEED_TRADERS,
-  NUMBER_OF_ACTIVE_BREEDERS, NUMBER_OF_ACTIVE_SEED_COMPANIES_PRODUCERS,
-  VARIETIES_RELEASED_WITH_SPECIAL_FEATURES, NUMBER_VARIETIES_SOLD,
-  EFFICIENCY_SEED_IMPORT_PROCESS, EFFICIENCY_SEED_EXPORT_PROCESS,
-  NUMBER_SEED_INSPECTORS, MARKET_SHARE_TOP_FOUR_SEED_COMPANIES,
-  MARKET_SHARE_STATE_OWNED_SEED_COMPANIES, VARIETY_RELEASE_PROCESS
+  MARKET_CONCENTRATION_HHI,
+  PERFORMANCE_SEED_TRADERS,
+  NUMBER_OF_ACTIVE_BREEDERS,
+  NUMBER_OF_ACTIVE_SEED_COMPANIES_PRODUCERS,
+  VARIETIES_RELEASED_WITH_SPECIAL_FEATURES,
+  NUMBER_VARIETIES_SOLD,
+  EFFICIENCY_SEED_IMPORT_PROCESS,
+  EFFICIENCY_SEED_EXPORT_PROCESS,
+  NUMBER_SEED_INSPECTORS,
+  MARKET_SHARE_TOP_FOUR_SEED_COMPANIES,
+  MARKET_SHARE_STATE_OWNED_SEED_COMPANIES,
+  QUANTITY_CERTIFIED_SEED_SOLD, 
+  VARIETY_RELEASE_PROCESS
 } from "../../reducers/StoreConstants";
 import YearLegend from "../common/year";
 import MarketConcentrationHHI from "../MarketConcentrationHHI";
@@ -62,7 +69,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
   let yearsColors = blueColors;
   let dataSuffix = null;
 
-  if (type == PERFORMANCE_SEED_TRADERS) {
+  if (type === PERFORMANCE_SEED_TRADERS) {
     maxSelectableYear = 3;
   }
 
@@ -223,6 +230,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
   let subLabel = '';
   switch (type) {
     case NUMBER_VARIETIES_SOLD:
+    case QUANTITY_CERTIFIED_SEED_SOLD:  
     case AVERAGE_AGE_VARIETIES_SOLD:
     case MARKET_SHARE_TOP_FOUR_SEED_COMPANIES:
     case MARKET_SHARE_STATE_OWNED_SEED_COMPANIES:
@@ -296,13 +304,33 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
               id: 'tooltip-market-share-state-owned',
               defaultMessage: 'Market share of state owned companies'
             })}</span>
-            <span className="bold"> {d.data[d.id]}%</span><br />
+            <span className="bold"> {d.data[d.id]}%</span><br/>
+          </>
+        }
+        getTooltipHeader = (d) => {
+          return <>
+            <div className={d.indexValue.toLowerCase() + " crop-icon"}/>
+            <div className="crop-name">{d.indexValue}</div>
+          </>;
+        }
+      } else if (type === QUANTITY_CERTIFIED_SEED_SOLD) {
+        leftLegend = intl.formatMessage({
+          id: 'metric-tons',
+          defaultMessage: 'Metric tons'
+        });
+        getTooltipText = (d) => {
+          return <>
+            <span>{intl.formatMessage({
+              id: 'tooltip-quantity-certified-seed-sold',
+              defaultMessage: 'Quantity of certified seed sold'
+            })}</span>
+            <span className="bold"> {d.data[d.id]} tons</span>
           </>
         }
         getTooltipHeader = (d) => {
           return <>
             <div className={d.indexValue.toLowerCase() + " crop-icon"} />
-            <div className="crop-name">{d.indexValue}</div>
+            <div className="crop-name">{d.indexValue} {d.id}</div>
           </>;
         }
       } else {

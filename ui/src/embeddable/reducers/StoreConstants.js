@@ -8,6 +8,7 @@ export const NUMBER_OF_ACTIVE_BREEDERS = 'numberActiveBreeders';
 export const NUMBER_OF_ACTIVE_SEED_COMPANIES_PRODUCERS = 'numberActiveCompanies'
 export const AVAILABILITY_OF_BASIC_SEED = 'availabilityOfBasicSeed';
 export const AVERAGE_AGE_VARIETIES_SOLD = 'avgAgeVarietiesSold';
+export const QUANTITY_CERTIFIED_SEED_SOLD = 'quantityCertifiedSeedSold';
 export const COUNTRY_SETTINGS = 'country-settings';
 export const COUNTRIES_FILTER = 'countries';
 export const WP_CATEGORIES = 'wp-categories';
