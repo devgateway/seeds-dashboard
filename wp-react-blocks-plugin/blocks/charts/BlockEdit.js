@@ -67,6 +67,10 @@ class BlockEdit extends BaseBlockEdit {
                                     options={[
                                         {label: 'Country Info', value: 'countryInfo'},
                                         {
+                                          label: 'Market share of top four seed companies',
+                                          value: 'marketShareTopFourSeedCompanies'  
+                                        },
+                                        {
                                             label: 'Number of varieties released in last 3 years',
                                             value: 'numberOfVarietiesReleased'
                                         },
