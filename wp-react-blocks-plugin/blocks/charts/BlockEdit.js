@@ -121,6 +121,10 @@ class BlockEdit extends BaseBlockEdit {
                                         {
                                             label: 'Number of seed inspectors',
                                             value: 'numberSeedInspectors'
+                                        },
+                                        {
+                                            label: 'Length of variety release process',
+                                            value: 'varietyReleaseProcess'
                                         }
                                     ]}
                                 />

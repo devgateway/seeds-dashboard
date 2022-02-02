@@ -101,5 +101,11 @@
   "number-days-import-legend": "Number of days for import",
   "public-inspectors-legend": "Public inspectors",
   "private-inspectors-legend": "Private inspectors",
-  "industry-opinion-legend": "Industry opinion rating"
+  "industry-opinion-legend": "Industry opinion rating",
+  "industry-rating-legend": "Industry Rating",
+  "satisfaction-release-legend": "Satisfaction with variety release",
+  "number-months-axis": "Number of months",
+  "number-months-legend": "Length of variety release process",
+  "satisfaction-release-tooltip": "Satisfaction with variety release process",
+  "number-months-tooltip": "Length of variety release process (months)"
 }
