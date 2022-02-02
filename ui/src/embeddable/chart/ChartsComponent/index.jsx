@@ -15,7 +15,7 @@ import {
   NUMBER_OF_ACTIVE_BREEDERS, NUMBER_OF_ACTIVE_SEED_COMPANIES_PRODUCERS,
   VARIETIES_RELEASED_WITH_SPECIAL_FEATURES, NUMBER_VARIETIES_SOLD,
   EFFICIENCY_SEED_IMPORT_PROCESS, EFFICIENCY_SEED_EXPORT_PROCESS,
-  NUMBER_SEED_INSPECTORS
+  NUMBER_SEED_INSPECTORS, MARKET_SHARE_TOP_FOUR_SEED_COMPANIES
 } from "../../reducers/StoreConstants";
 import YearLegend from "../common/year";
 import MarketConcentrationHHI from "../MarketConcentrationHHI";
@@ -57,6 +57,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
   let useCropLegendsRow = true;
   let useFilterByCrops = true;
   let yearsColors = blueColors;
+  let dataSuffix = null;
 
   if (type == PERFORMANCE_SEED_TRADERS) {
     maxSelectableYear = 3;
@@ -134,6 +135,12 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
       if (selectedYear && selectedYear.find(k => k === i)) {
         const key = '' + i;
         entry[key] = Number(data.values[c][i]) >= 0 ? data.values[c][i] : FAKE_NUMBER;
+
+        // Change % to 100 scale.
+        if (type === MARKET_SHARE_TOP_FOUR_SEED_COMPANIES) {
+          entry[key] = Math.round(entry[key] * 100);
+        }
+        
         if (!keys.find(i => i === key)) {
           keys.push(key);
         }
@@ -214,6 +221,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
   switch (type) {
     case NUMBER_VARIETIES_SOLD:
     case AVERAGE_AGE_VARIETIES_SOLD:
+    case MARKET_SHARE_TOP_FOUR_SEED_COMPANIES:  
     case NUMBER_OF_ACTIVE_SEED_COMPANIES_PRODUCERS: {
       leftLegend = intl.formatMessage({id: 'number-of-years', defaultMessage: 'Number of Years'});
       bottomLegend = intl.formatMessage({id: 'crops-years', defaultMessage: 'Crops > Years'});
@@ -239,10 +247,31 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
         getTooltipText = (d) => {
           return <>
             <span>{intl.formatMessage({id: 'tooltip-average-age', defaultMessage: 'Average Age'})}</span><span
-            className="bold"> {d.data[d.id]}  </span><br />
+              className="bold"> {d.data[d.id]}  </span><br/>
             <span>{intl.formatMessage({id: 'tooltip-year', defaultMessage: 'Year'})}</span><span
-            className="bold"> {d.id}  </span>
+              className="bold"> {d.id}  </span>
 
+          </>
+        }
+        getTooltipHeader = (d) => {
+          return <>
+            <div className={d.indexValue.toLowerCase() + " crop-icon"}/>
+            <div className="crop-name">{d.indexValue}</div>
+          </>;
+        }
+      } else if (type === MARKET_SHARE_TOP_FOUR_SEED_COMPANIES) {
+        dataSuffix = '%';
+        leftLegend = intl.formatMessage({
+          id: 'market-share-top-companies',
+          defaultMessage: 'Market share of top four companies (out of 100%)'
+        });
+        getTooltipText = (d) => {
+          return <>
+            <span>{intl.formatMessage({
+              id: 'tooltip-market-share-top-companies',
+              defaultMessage: 'Market share of top four companies'
+            })}</span>
+            <span className="bold"> {d.data[d.id]}%</span><br />
           </>
         }
         getTooltipHeader = (d) => {
@@ -471,7 +500,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
                                     leftLegend={leftLegend} bottomLegend={bottomLegend}
                                     enableGridX={enableGridX} enableGridY={enableGridY}
                                     getTooltipText={getTooltipText} getTooltipHeader={getTooltipHeader}
-                                    customTickWithCrops={customTickWithCrops}
+                                    customTickWithCrops={customTickWithCrops} dataSuffix={dataSuffix}
             />
           </Grid.Column>
         </Grid.Row>);
