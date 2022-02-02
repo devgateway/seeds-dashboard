@@ -114,6 +114,10 @@ class BlockEdit extends BaseBlockEdit {
                                             label: 'Efficiency of seed export process',
                                             value: 'efficiencyOfSeedExportProcess'
                                         },
+                                        {
+                                            label: 'Number of seed inspectors',
+                                            value: 'numberSeedInspectors'
+                                        }
                                     ]}
                                 />
                             </PanelRow>

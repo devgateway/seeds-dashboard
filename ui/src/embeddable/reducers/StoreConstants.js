@@ -20,6 +20,7 @@ export const MARKET_CONCENTRATION_HHI = 'marketConcentrationHHI';
 export const EFFICIENCY_SEED_IMPORT_PROCESS = 'efficiencyOfSeedImportProcess';
 export const NUMBER_VARIETIES_SOLD = 'numberVarietiesSold';
 export const PERFORMANCE_SEED_TRADERS = 'performanceSeedTraders';
+export const NUMBER_SEED_INSPECTORS = 'numberSeedInspectors';
 export const EFFICIENCY_SEED_EXPORT_PROCESS = 'efficiencyOfSeedExportProcess';
 
 export const WP_CHART = 'wp-chart';
