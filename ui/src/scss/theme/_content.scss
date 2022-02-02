@@ -29,6 +29,13 @@
   text-align: center;
 }
 
+// center images and buttons
+.center{
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+}
+
 p{
   &.has-text-color{
     a{
