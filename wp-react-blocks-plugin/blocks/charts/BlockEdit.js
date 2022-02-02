@@ -130,6 +130,10 @@ class BlockEdit extends BaseBlockEdit {
                                             label: 'Length of variety release process',
                                             value: 'varietyReleaseProcess'
                                         },
+                                        {
+                                            label: 'Satisfaction with the enforcement of seed law/ regulations (opinion)',
+                                            value: 'satisfactionEnforcementSeedLaw'
+                                        }
                                     ]}
                                 />
                             </PanelRow>

@@ -30,10 +30,10 @@ import {
     MARKET_SHARE_TOP_FOUR_SEED_COMPANIES,
     MARKET_SHARE_STATE_OWNED_SEED_COMPANIES,
     VARIETY_RELEASE_PROCESS,
-    QUANTITY_CERTIFIED_SEED_SOLD
+    QUANTITY_CERTIFIED_SEED_SOLD, SATISFACTION_ENFORCEMENT_SEED_LAW
 } from "../reducers/StoreConstants";
 import NumberOfVarietiesReleased from "./NumberOfVarietiesReleased";
-import AvailabilityOfBasicSeed from "./AvailabilityOfBasicSeed";
+import GaugesChart from "./GaugesChart";
 import {setFilter} from "../reducers/data";
 import ChartComponent from "./ChartsComponent";
 
@@ -177,7 +177,9 @@ const Chart = (props) => {
             child = <CountryInfo/>
             break;
         case AVAILABILITY_OF_BASIC_SEED:
-          child = <AvailabilityOfBasicSeed mostRecentYears={mostRecentYears} sources={sources} {...chartProps} />;
+        case SATISFACTION_ENFORCEMENT_SEED_LAW:
+            child = <GaugesChart mostRecentYears={mostRecentYears} sources={sources} {...chartProps} type={type}
+                                 title={title} subTitle={subTitle}/>;
             break;
     }
     return (<div ref={ref}>
