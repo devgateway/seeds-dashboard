@@ -2,6 +2,7 @@ export const DATA = 'data';
 export const COUNTRY_INFO = 'countryInfo';
 export const NUMBER_OF_VARIETIES_RELEASED = 'numberOfVarietiesReleased';
 export const MARKET_SHARE_TOP_FOUR_SEED_COMPANIES = 'marketShareTopFourSeedCompanies';
+export const MARKET_SHARE_STATE_OWNED_SEED_COMPANIES = 'marketShareStateOwnedSeedCompanies';
 export const VARIETIES_RELEASED_WITH_SPECIAL_FEATURES = 'varietiesReleasedWithSpecialFeatures';
 export const NUMBER_OF_ACTIVE_BREEDERS = 'numberActiveBreeders';
 export const NUMBER_OF_ACTIVE_SEED_COMPANIES_PRODUCERS = 'numberActiveCompanies'
