@@ -22,7 +22,8 @@ import {
   NUMBER_SEED_INSPECTORS,
   MARKET_SHARE_TOP_FOUR_SEED_COMPANIES,
   MARKET_SHARE_STATE_OWNED_SEED_COMPANIES,
-  QUANTITY_CERTIFIED_SEED_SOLD
+  QUANTITY_CERTIFIED_SEED_SOLD, 
+  VARIETY_RELEASE_PROCESS
 } from "../../reducers/StoreConstants";
 import YearLegend from "../common/year";
 import MarketConcentrationHHI from "../MarketConcentrationHHI";
@@ -40,6 +41,8 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
   let showYearFilter = true;
   let layout = 'vertical';
   let groupMode = 'stacked';
+  let lineChartField = 'rating';
+  let lineChartFieldLabel = intl.formatMessage({id: 'industry-rating-legend', defaultMessage: 'Industry Rating'});
   let legends;
   let withCropsWithSpecialFeatures = true;
   let addLighterDiv = true;
@@ -66,7 +69,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
   let yearsColors = blueColors;
   let dataSuffix = null;
 
-  if (type == PERFORMANCE_SEED_TRADERS) {
+  if (type === PERFORMANCE_SEED_TRADERS) {
     maxSelectableYear = 3;
   }
 
@@ -147,7 +150,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
         if (type === MARKET_SHARE_TOP_FOUR_SEED_COMPANIES || type === MARKET_SHARE_STATE_OWNED_SEED_COMPANIES) {
           entry[key] = Math.round(entry[key] * 100);
         }
-        
+
         if (!keys.find(i => i === key)) {
           keys.push(key);
         }
@@ -230,7 +233,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
     case QUANTITY_CERTIFIED_SEED_SOLD:  
     case AVERAGE_AGE_VARIETIES_SOLD:
     case MARKET_SHARE_TOP_FOUR_SEED_COMPANIES:
-    case MARKET_SHARE_STATE_OWNED_SEED_COMPANIES:  
+    case MARKET_SHARE_STATE_OWNED_SEED_COMPANIES:
     case NUMBER_OF_ACTIVE_SEED_COMPANIES_PRODUCERS: {
       leftLegend = intl.formatMessage({id: 'number-of-years', defaultMessage: 'Number of Years'});
       bottomLegend = intl.formatMessage({id: 'crops-years', defaultMessage: 'Crops > Years'});
@@ -513,6 +516,48 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
         {id: 3, 'color': barPieColor[0], 'label': intl.formatMessage({id: 'industry-opinion-legend', defaultMessage: 'Industry opinion rating'})}
       ];
       break;
+    case VARIETY_RELEASE_PROCESS:
+      useCropLegendsRow = false;
+      useFilterByCrops = false;
+      leftLegend = intl.formatMessage({id: 'number-months-axis', defaultMessage: 'Number of months'});
+      indexBy = 'year';
+      bottomLegend = intl.formatMessage({id: 'years-legend', defaultMessage: 'Years'});;
+      groupMode = 'stacked';
+      rightLegend = intl.formatMessage({id: 'rating-legend', defaultMessage: 'Rating out of 100'});
+      keys.push('time');
+      Object.keys(data.values).forEach(y => {
+        const item = {year: y};
+        if (selectedYear && selectedYear.find(k => k === y)) {
+          item.time = data.values[y].time;
+          item.satisfaction = data.values[y].satisfaction;
+          if (item[y] > max) {
+            max = item[y];
+          }
+          if (item.satisfaction > max) {
+            max = item.satisfaction;
+          }
+          processedData.push(item);
+        }
+      });
+      lineChartField = 'satisfaction';
+      lineChartFieldLabel = intl.formatMessage({id: 'satisfaction-release-tooltip', defaultMessage: 'Satisfaction with variety release'});
+      colors.set('time', barPieColor[1])
+      getTooltipText = (d) => {
+        return <><div style={{textAlign: 'center'}}>
+          <span>{intl.formatMessage({id: 'number-months-tooltip', defaultMessage: 'Length of variety release process (months)'})} </span>
+          <span className="bold"> {d.data.time ? d.data.time : 0}</span>
+        </div></>
+      }
+      getTooltipHeader = (d) => {
+        return <>
+          <div className={d.indexValue + " crop-icon"}/>
+          <div className="crop-name">{d.indexValue}</div>
+        </>;
+      }
+      legends = [{id: 1, 'color': barPieColor[1], 'label': intl.formatMessage({id: 'number-months-legend', defaultMessage: 'Length of variety release process'})},
+        {id: 3, 'color': barPieColor[0], 'label': intl.formatMessage({id: 'satisfaction-release-legend', defaultMessage: 'Satisfaction with variety release'})}
+      ];
+      break;
   }
 
   const insertChart = () => {
@@ -520,6 +565,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
       case MARKET_CONCENTRATION_HHI:
         return <MarketConcentrationHHI data={data} selectedYear={selectedYear} bottomLegend={bottomLegend}/>
       case NUMBER_SEED_INSPECTORS:
+      case VARIETY_RELEASE_PROCESS:
       case EFFICIENCY_SEED_IMPORT_PROCESS:
       case EFFICIENCY_SEED_EXPORT_PROCESS:
         return <BarAndLineChart data={data} selectedYear={selectedYear} leftLegend={leftLegend}
@@ -527,7 +573,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
                                 rightLegend={rightLegend} processedData={processedData} colors={colors}
                                 max={max * 1.05} keys={keys} getTooltipText={getTooltipText}
                                 getTooltipHeader={getTooltipHeader} lineColor={barPieColor[0]}
-                                legends={legends} lineChartField={'rating'} lineChartFieldLabel={'Industry Rating'}/>
+                                legends={legends} lineChartField={lineChartField} lineChartFieldLabel={lineChartFieldLabel}/>
       case PERFORMANCE_SEED_TRADERS:
         return <Grid.Row className={`chart-section`}>
           <Grid.Column width={16}>

@@ -67,8 +67,8 @@ class BlockEdit extends BaseBlockEdit {
                                     options={[
                                         {label: 'Country Info', value: 'countryInfo'},
                                         {
-                                          label: 'Market share of top four seed companies',
-                                          value: 'marketShareTopFourSeedCompanies'  
+                                            label: 'Market share of top four seed companies',
+                                            value: 'marketShareTopFourSeedCompanies'
                                         },
                                         {
                                             label: 'Market share of state-owned seed companies',
@@ -125,7 +125,11 @@ class BlockEdit extends BaseBlockEdit {
                                         {
                                             label: 'Quantity of certified seed sold (metric tons)',
                                             value: 'quantityCertifiedSeedSold'
-                                        }
+                                        },
+                                        {
+                                            label: 'Length of variety release process',
+                                            value: 'varietyReleaseProcess'
+                                        },
                                     ]}
                                 />
                             </PanelRow>
@@ -136,15 +140,15 @@ class BlockEdit extends BaseBlockEdit {
                                     onChange={(download) => setAttributes({download})}
                                 />
                             </PanelRow>
-                            {type==='availabilityOfBasicSeed' && <PanelRow>
+                            {type === 'availabilityOfBasicSeed' && <PanelRow>
                                 <RangeControl
-                                  label={__('Max number years to show')}
-                                  value={mostRecentYears}
-                                  onChange={(mostRecentYears) => setAttributes({ mostRecentYears })}
-                                  min={1}
-                                  max={10}
+                                    label={__('Max number years to show')}
+                                    value={mostRecentYears}
+                                    onChange={(mostRecentYears) => setAttributes({mostRecentYears})}
+                                    min={1}
+                                    max={10}
                                 /></PanelRow>}
-                          {/*TODO commenting out the code since to enable the change in the different charts adjustemnets to the code
+                            {/*TODO commenting out the code since to enable the change in the different charts adjustemnets to the code
                              TODO needs to be done out of the scope of the current stage
                           (type==='numberActiveBreeders' ||type==='varietiesReleasedWithSpecialFeatures' )&&
                             <PanelRow>
@@ -167,7 +171,7 @@ class BlockEdit extends BaseBlockEdit {
                                 ]}
                               />
                           </PanelRow>*/}
-                          {/*TODO commenting out the code since to enable the change in the different charts adjustemnets to the code
+                            {/*TODO commenting out the code since to enable the change in the different charts adjustemnets to the code
                           needs to be done out of the scope of the current stage
                               (type==='numberActiveBreeders' ||type==='varietiesReleasedWithSpecialFeatures' )&&
                             <PanelRow>
@@ -189,14 +193,14 @@ class BlockEdit extends BaseBlockEdit {
 
                               ]}
                             /></PanelRow>*/
-                          }<PanelRow>
-                                <RangeControl
-                                    label={__('Chart Width')}
-                                    value={width}
-                                    onChange={(width) => setAttributes({width})}
-                                    min={1}
-                                    max={1000}
-                                /></PanelRow>
+                            }<PanelRow>
+                            <RangeControl
+                                label={__('Chart Width')}
+                                value={width}
+                                onChange={(width) => setAttributes({width})}
+                                min={1}
+                                max={1000}
+                            /></PanelRow>
                             <PanelRow>
                                 <RangeControl
                                     label={__('Chart height')}
@@ -208,20 +212,20 @@ class BlockEdit extends BaseBlockEdit {
 
                             {type !== 'availabilityOfBasicSeed' && <PanelRow>
                                 <TextControl label={__('Chart title')} value={title}
-                                             onChange={(title) => setAttributes({ title })} />
+                                             onChange={(title) => setAttributes({title})}/>
                             </PanelRow>}
                             {type !== 'availabilityOfBasicSeed' && <PanelRow>
                                 <TextControl label={__('Chart sub title')} value={subTitle}
-                                             onChange={(subTitle) => setAttributes({ subTitle })} />
+                                             onChange={(subTitle) => setAttributes({subTitle})}/>
                             </PanelRow>}
                             <PanelRow>
                                 <TextControl label={__('Source')} value={sources}
                                              onChange={(sources) => setAttributes({sources})}/>
                             </PanelRow>
-                          <PanelRow>
-                            <TextControl label={__('Default country ID')} value={defaultCountryId}
-                                         onChange={(defaultCountryId) => setAttributes({defaultCountryId})}/>
-                          </PanelRow>
+                            <PanelRow>
+                                <TextControl label={__('Default country ID')} value={defaultCountryId}
+                                             onChange={(defaultCountryId) => setAttributes({defaultCountryId})}/>
+                            </PanelRow>
                         </PanelBody>
                     </Panel>
                 </InspectorControls>

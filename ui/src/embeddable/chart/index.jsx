@@ -27,7 +27,10 @@ import {
     MARKET_CONCENTRATION_HHI,
     EFFICIENCY_SEED_IMPORT_PROCESS,
     EFFICIENCY_SEED_EXPORT_PROCESS,
-    MARKET_SHARE_TOP_FOUR_SEED_COMPANIES, MARKET_SHARE_STATE_OWNED_SEED_COMPANIES, QUANTITY_CERTIFIED_SEED_SOLD
+    MARKET_SHARE_TOP_FOUR_SEED_COMPANIES,
+    MARKET_SHARE_STATE_OWNED_SEED_COMPANIES,
+    VARIETY_RELEASE_PROCESS,
+    QUANTITY_CERTIFIED_SEED_SOLD
 } from "../reducers/StoreConstants";
 import NumberOfVarietiesReleased from "./NumberOfVarietiesReleased";
 import AvailabilityOfBasicSeed from "./AvailabilityOfBasicSeed";
@@ -164,6 +167,7 @@ const Chart = (props) => {
         case PERFORMANCE_SEED_TRADERS:
         case NUMBER_SEED_INSPECTORS:
         case QUANTITY_CERTIFIED_SEED_SOLD:    
+        case VARIETY_RELEASE_PROCESS:
         case AVERAGE_AGE_VARIETIES_SOLD: {
             const chartComponent = {sources, type, ...chartProps}
             child = <ChartComponent {...chartComponent} />
