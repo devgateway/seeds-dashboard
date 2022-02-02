@@ -654,7 +654,7 @@ p:empty {
     margin-bottom: $base-unit;
     min-height: $base-unit * 4;
     padding:0;
-    width: $base-unit * 25;
+    width: $base-unit * 28;
     &:hover{
       background-color: $separator-grey;
     }
@@ -682,7 +682,7 @@ p:empty {
     padding-bottom: $base-unit * 2 !important;
     position: absolute;
     top: $base-unit * 4.4;
-    width: $base-unit * 25;
+    width: $base-unit * 28;
     z-index: 1;
     .ui.grid>.column{
       padding: 0 0 $base-unit / 5 $base-unit + 2;
@@ -694,6 +694,7 @@ p:empty {
       }
       label{
         font-size: 0.8rem;
+        margin-top: 0;
       }
       .grouped.fields{
         margin-bottom: $base-unit * 3;
