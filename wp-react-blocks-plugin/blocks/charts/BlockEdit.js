@@ -71,6 +71,10 @@ class BlockEdit extends BaseBlockEdit {
                                           value: 'marketShareTopFourSeedCompanies'  
                                         },
                                         {
+                                            label: 'Market share of state-owned seed companies',
+                                            value: 'marketShareStateOwnedSeedCompanies'
+                                        },
+                                        {
                                             label: 'Number of varieties released in last 3 years',
                                             value: 'numberOfVarietiesReleased'
                                         },

@@ -15,7 +15,7 @@ import {
   NUMBER_OF_ACTIVE_BREEDERS, NUMBER_OF_ACTIVE_SEED_COMPANIES_PRODUCERS,
   VARIETIES_RELEASED_WITH_SPECIAL_FEATURES, NUMBER_VARIETIES_SOLD,
   EFFICIENCY_SEED_IMPORT_PROCESS, EFFICIENCY_SEED_EXPORT_PROCESS,
-  NUMBER_SEED_INSPECTORS, MARKET_SHARE_TOP_FOUR_SEED_COMPANIES
+  NUMBER_SEED_INSPECTORS, MARKET_SHARE_TOP_FOUR_SEED_COMPANIES, MARKET_SHARE_STATE_OWNED_SEED_COMPANIES
 } from "../../reducers/StoreConstants";
 import YearLegend from "../common/year";
 import MarketConcentrationHHI from "../MarketConcentrationHHI";
@@ -137,7 +137,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
         entry[key] = Number(data.values[c][i]) >= 0 ? data.values[c][i] : FAKE_NUMBER;
 
         // Change % to 100 scale.
-        if (type === MARKET_SHARE_TOP_FOUR_SEED_COMPANIES) {
+        if (type === MARKET_SHARE_TOP_FOUR_SEED_COMPANIES || type === MARKET_SHARE_STATE_OWNED_SEED_COMPANIES) {
           entry[key] = Math.round(entry[key] * 100);
         }
         
@@ -221,7 +221,8 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
   switch (type) {
     case NUMBER_VARIETIES_SOLD:
     case AVERAGE_AGE_VARIETIES_SOLD:
-    case MARKET_SHARE_TOP_FOUR_SEED_COMPANIES:  
+    case MARKET_SHARE_TOP_FOUR_SEED_COMPANIES:
+    case MARKET_SHARE_STATE_OWNED_SEED_COMPANIES:  
     case NUMBER_OF_ACTIVE_SEED_COMPANIES_PRODUCERS: {
       leftLegend = intl.formatMessage({id: 'number-of-years', defaultMessage: 'Number of Years'});
       bottomLegend = intl.formatMessage({id: 'crops-years', defaultMessage: 'Crops > Years'});
@@ -270,6 +271,27 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
             <span>{intl.formatMessage({
               id: 'tooltip-market-share-top-companies',
               defaultMessage: 'Market share of top four companies'
+            })}</span>
+            <span className="bold"> {d.data[d.id]}%</span><br />
+          </>
+        }
+        getTooltipHeader = (d) => {
+          return <>
+            <div className={d.indexValue.toLowerCase() + " crop-icon"} />
+            <div className="crop-name">{d.indexValue}</div>
+          </>;
+        }
+      } else if (type === MARKET_SHARE_STATE_OWNED_SEED_COMPANIES) {
+        dataSuffix = '%';
+        leftLegend = intl.formatMessage({
+          id: 'market-share-state-owned',
+          defaultMessage: 'Market share of state-owned seed companies (out of 100%)'
+        });
+        getTooltipText = (d) => {
+          return <>
+            <span>{intl.formatMessage({
+              id: 'tooltip-market-share-state-owned',
+              defaultMessage: 'Market share of state owned companies'
             })}</span>
             <span className="bold"> {d.data[d.id]}%</span><br />
           </>
