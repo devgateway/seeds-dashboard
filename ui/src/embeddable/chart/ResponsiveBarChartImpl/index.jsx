@@ -72,7 +72,13 @@ const ResponsiveBarChartImpl = ({
       const total = Object.keys(data)
         //filter out whatever your indexBy value is
         .filter(key => key !== indexBy)
-        .reduce((a, key) => a + data[key], 0);
+        .reduce((a, key) => {
+            if (keys.find(k => k === key)) {
+                return a + data[key];
+            } else {
+                return a;
+            }
+        }, 0);
 
       let transform = `translate(${x}, ${yScale(total) - labelMargin})`;
       let xText = width / 2;
