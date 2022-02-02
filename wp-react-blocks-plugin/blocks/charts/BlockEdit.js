@@ -121,6 +121,10 @@ class BlockEdit extends BaseBlockEdit {
                                         {
                                             label: 'Number of seed inspectors',
                                             value: 'numberSeedInspectors'
+                                        },
+                                        {
+                                            label: 'Quantity of certified seed sold (metric tons)',
+                                            value: 'quantityCertifiedSeedSold'
                                         }
                                     ]}
                                 />

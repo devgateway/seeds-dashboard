@@ -96,10 +96,12 @@
   "tooltip-average-age": "Average age",
   "tooltip-year": "Year",
   "tooltip-market-share-state-owned": "Market share of state owned companies",
+  "tooltip-quantity-certified-seed-sold": "Quantity of certified seed sold",
   "number-seed-inspectors-legend": "Number of seed inspectors",
   "rating-legend": "Rating out of 100",
   "number-days-import-legend": "Number of days for import",
   "public-inspectors-legend": "Public inspectors",
   "private-inspectors-legend": "Private inspectors",
-  "industry-opinion-legend": "Industry opinion rating"
+  "industry-opinion-legend": "Industry opinion rating",
+  "metric-tons": "Metric tons"
 }
