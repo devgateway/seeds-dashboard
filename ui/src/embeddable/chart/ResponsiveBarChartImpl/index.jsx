@@ -53,12 +53,12 @@ const ResponsiveBarChartImpl = ({
                                   enableGridY,
                                   getTooltipText,
                                   getTooltipHeader,
-                                  groupMode, customTickWithCrops, 
-                                  containerHeight = 450, 
+                                  groupMode, customTickWithCrops,
+                                  containerHeight = 450,
                                   gridTickLines = 6,
                                   rightLegend,
                                   LineLayer,
-                                  markers  
+                                  markers
                                 }) => {
 
   ;
@@ -147,7 +147,7 @@ const ResponsiveBarChartImpl = ({
   };
   const getColors = (item) => {
       if (Array.isArray(item.id)) {
-          return colors.get(item.id[0]); 
+          return colors.get(item.id[0]);
       }
       return colors.get(item.id);
   }
@@ -165,11 +165,12 @@ const ResponsiveBarChartImpl = ({
               </text> : null}
       </g>);
   }
-    
+
   const layers = ["grid", "axes", "bars", groupMode === 'stacked' ? TotalLabels : TotalLabelsGrouped, "markers", "legends"];
   if (LineLayer) {
       layers.push(LineLayer);
   }
+
   return (
     <div style={{ height: containerHeight }} ref={ref}>
       {!noData ? <ResponsiveBar

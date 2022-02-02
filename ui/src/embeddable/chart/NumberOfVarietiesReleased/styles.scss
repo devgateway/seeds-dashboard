@@ -10,7 +10,7 @@ $border_gray: rgba(229, 229, 229, 1);
 }
 
 .chart-section {
-  padding-bottom: 0 !important;
+  padding-bottom: 30px;
   padding-top: 0 !important;
   border: $border_gray 1px solid;
   border-top: none;
@@ -58,8 +58,7 @@ $border_gray: rgba(229, 229, 229, 1);
   .header-container {
     background-color: #eef1fa;
     width: 199px;
-    height: 65px;
-    // border-bottom: 1px solid #dbdce0;
+    height: 70px;
     border-right: 1px solid #dbdce0;
 
     .header {
@@ -90,8 +89,6 @@ $border_gray: rgba(229, 229, 229, 1);
       .inner-container {
         margin: auto;
         width: auto;
-        //border: 1px solid red;
-        //height: 25px;
         display: table;
 
         .crop-icon {
@@ -106,7 +103,7 @@ $border_gray: rgba(229, 229, 229, 1);
           font-weight: bold;
           color: black;
           position: relative;
-          top: 10px;
+          top: 8px;
           left: -20px;
           text-align: center;
           float: left;
@@ -120,13 +117,12 @@ $border_gray: rgba(229, 229, 229, 1);
     table {
       width: 100%;
       padding: 5px;
-      //padding-top: 0px;
       margin: 5px;
       margin-top: 0px;
       padding-right: 15px;
       border: none;
-      font-size: 14px;
-      color: dimgray;
+      font-size: 12pt;
+      color: #555555;
 
       .year {
         text-align: left;

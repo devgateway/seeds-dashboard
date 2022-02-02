@@ -10,7 +10,7 @@ $border_gray: rgba(229, 229, 229, 1);
 }
 
 .chart-section {
-  padding-bottom: 0 !important;
+  padding-bottom: 30px;
   padding-top: 0 !important;
   border: $border_gray 1px solid;
   border-top: none;
@@ -53,20 +53,17 @@ $border_gray: rgba(229, 229, 229, 1);
   .header-container {
     background-color: #eef1fa;
     width: 228px;
-    height: 45px;
-    //border: 1px solid #dbdce0;
+    height: 40px;
 
     .header {
       margin: auto;
       width: 175px;
-      //border: 1px solid green;
       height: 50px;
 
       .inner-container {
         margin: auto;
         width: auto;
-        //border: 1px solid red;
-        height: 45px;
+        height: 40px;
         display: table;
 
         .crop-icon {
@@ -92,7 +89,7 @@ $border_gray: rgba(229, 229, 229, 1);
   }
 
   .amount-container {
-    width: 200px;
+    width: 230px !important;
 
     table {
       width: 100%;
