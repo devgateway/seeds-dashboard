@@ -31,7 +31,7 @@ const theme = {
     }
 };
 
-const NumberOfVarietiesReleased = ({ data, sources, title, subTitle, editing, type }) => {
+const NumberOfVarietiesReleased = ({data, sources, title, subTitle, editing, type}) => {
 
     const [selectedCrops, setSelectedCrops] = useState(null);
     const [initialCrops, setInitialCrops] = useState(null);
@@ -39,54 +39,59 @@ const NumberOfVarietiesReleased = ({ data, sources, title, subTitle, editing, ty
 
     const processedData = [];
 
-    if (!data || data.id === null) {
-        return <h2 className="no-data">No Data</h2>;
-    }
-    let crops = data.dimensions.crop.values;
-
-    if (data !== currentData) {
-        setCurrentData(data);
-        setSelectedCrops(crops);
-        setInitialCrops(crops);
-        return null;
-    }
-
-    const yearsInValues = Object.keys(data.values).sort();
-    const allYears = fillGaps(yearsInValues);
+    let noData = false;
+    let crops = null;
     let max = 0;
-
-    // For initialization only.
-    if (!initialCrops) {
-        setSelectedCrops(crops);
-        setInitialCrops(crops);
-    } else {
-        crops = selectedCrops;
+    if (!data || data.id === null) {
+        noData = true;
     }
 
-    crops.forEach(c => {
-        const header = {
-            id: c,
-            data: [],
-            color: getColor({id: c.toLowerCase()})
-        };
-        yearsInValues.forEach(y => {
-            if (data.values[y]) {
-                header.data.push({
-                    x: y,
-                    y: data.values[y][c]
-                });
-                if (max < data.values[y][c]) {
-                    max = data.values[y][c];
+    if (!noData) {
+        crops = data.dimensions.crop.values;
+
+        if (data !== currentData) {
+            setCurrentData(data);
+            setSelectedCrops(crops);
+            setInitialCrops(crops);
+            return null;
+        }
+
+        const yearsInValues = Object.keys(data.values).sort();
+        const allYears = fillGaps(yearsInValues);
+
+        // For initialization only.
+        if (!initialCrops) {
+            setSelectedCrops(crops);
+            setInitialCrops(crops);
+        } else {
+            crops = selectedCrops;
+        }
+
+        crops.forEach(c => {
+            const header = {
+                id: c,
+                data: [],
+                color: getColor({id: c.toLowerCase()})
+            };
+            yearsInValues.forEach(y => {
+                if (data.values[y]) {
+                    header.data.push({
+                        x: y,
+                        y: data.values[y][c]
+                    });
+                    if (max < data.values[y][c]) {
+                        max = data.values[y][c];
+                    }
+                } else {
+                    header.data.push({
+                        x: y,
+                        y: null
+                    });
                 }
-            } else {
-                header.data.push({
-                    x: y,
-                    y: null
-                });
-            }
+            });
+            processedData.push(header);
         });
-        processedData.push(header);
-    });
+    }
 
     const handleCropFilterChange = (selected) => {
         const currentlySelected = [];
@@ -102,26 +107,26 @@ const NumberOfVarietiesReleased = ({ data, sources, title, subTitle, editing, ty
         <Grid className={`number-varieties-released`}>
             <Grid.Row className="header-section">
                 <Grid.Column width={12}>
-                    <Header title={`${title}`} subtitle={subTitle} />
+                    <Header title={`${title}`} subtitle={subTitle}/>
                 </Grid.Column>
                 <Grid.Column width={4}>
-                  <Export/>
+                    <Export/>
                 </Grid.Column>
             </Grid.Row>
             <Grid.Row className={`filters-section`}>
-                <Grid.Column>
+                {!noData ? <Grid.Column>
                     <CropFilter data={initialCrops} onChange={handleCropFilterChange}/>
-                </Grid.Column>
+                </Grid.Column> : null}
             </Grid.Row>
-            <Grid.Row className={`crops-with-icons`}>
+            {!noData ? <Grid.Row className={`crops-with-icons`}>
                 <Grid.Column width={8}>
                     <CropsLegend data={selectedCrops} title="Crops" titleClass="crops-title"/>
                 </Grid.Column>
-            </Grid.Row>
+            </Grid.Row> : null}
             <Grid.Row className={`chart-section`}>
                 <Grid.Column width={16}>
                     <div style={{height: 450}}>
-                        <ResponsiveLine
+                        {!noData ? <ResponsiveLine
                             theme={theme}
                             data={processedData}
                             /*enableSlices="x"*/
@@ -171,7 +176,8 @@ const NumberOfVarietiesReleased = ({ data, sources, title, subTitle, editing, ty
                                             </div>
                                             <div className="table">
                                                 <label style={{float: 'left'}} className="year">Year</label>
-                                                <label style={{float: 'right'}} className="vr">Varieties Released</label>
+                                                <label style={{float: 'right'}} className="vr">Varieties
+                                                    Released</label>
                                             </div>
                                         </div>
                                     </div>
@@ -186,13 +192,13 @@ const NumberOfVarietiesReleased = ({ data, sources, title, subTitle, editing, ty
                                 </div>)
                             }}
                             /*sliceTooltip={}*/
-                        />
+                        /> : <h2 className="no-data">No Data</h2>}
                     </div>
                 </Grid.Column>
             </Grid.Row>
             <Grid.Row className={`source-section`}>
                 <Grid.Column>
-                    <Source title={`Source: ${sources}${editing ? ` *${type}*` : ''}`} />
+                    <Source title={`Source: ${sources}${editing ? ` *${type}*` : ''}`}/>
                 </Grid.Column>
             </Grid.Row>
         </Grid>

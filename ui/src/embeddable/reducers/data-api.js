@@ -20,6 +20,8 @@ import {
   MARKET_SHARE_STATE_OWNED_SEED_COMPANIES,
   QUANTITY_CERTIFIED_SEED_SOLD,
   SATISFACTION_ENFORCEMENT_SEED_LAW,
+  PRICE_SEED_PLANTING,
+  AVAILABILITY_SEED_SMALL_PACKAGES,
 } from "./StoreConstants";
 
 const SURVEY_API = process.env.REACT_APP_SURVEY_API
@@ -52,6 +54,8 @@ const NUMBER_SEED_INSPECTORS_API = `${SURVEY_API}/chart/numberSeedInspectors/yea
 const SATISFACTION_ENFORCEMENT_SEED_LAW_API = `${SURVEY_API}/chart/satisfactionLawRegulation/year/`;
 const VARIETY_RELEASE_PROCESS_API = `${SURVEY_API}/chart/varietyReleaseProcess/year/`;
 const QUANTITY_CERTIFIED_SEED_SOLD_API = `${SURVEY_API}/chart/quantitySeedSold/crop/year/`;
+const PRICE_SEED_PLANTING_API = `${SURVEY_API}/chart/priceSeedPlanting/crop/year/`;
+const AVAILABILITY_SEED_SMALL_PACKAGES_API = `${SURVEY_API}/chart/availabilitySeedSmallPackages/year/crop/packages`;
 
 const APIS = {
   prevalence: '',
@@ -63,6 +67,7 @@ const APIS = {
   [AVERAGE_AGE_VARIETIES_SOLD]: AVERAGE_AGE_VARIETIES_SOLD_API,
   [AVAILABILITY_OF_BASIC_SEED]: AVAILABILITY_OF_BASIC_SEED_API,
   [NUMBER_OF_ACTIVE_BREEDERS]: NUMBER_OF_ACTIVE_BREEDERS_API,
+  [AVAILABILITY_SEED_SMALL_PACKAGES]: AVAILABILITY_SEED_SMALL_PACKAGES_API,
   [NUMBER_VARIETIES_SOLD]: NUMBER_VARIETIES_SOLD_API,
   [SATISFACTION_ENFORCEMENT_SEED_LAW]: SATISFACTION_ENFORCEMENT_SEED_LAW_API,
   [MARKET_SHARE_TOP_FOUR_SEED_COMPANIES]: MARKET_SHARE_TOP_FOUR_SEED_COMPANIES_API,
@@ -73,6 +78,7 @@ const APIS = {
   [NUMBER_SEED_INSPECTORS]: NUMBER_SEED_INSPECTORS_API,
   [VARIETY_RELEASE_PROCESS]: VARIETY_RELEASE_PROCESS_API,
   [QUANTITY_CERTIFIED_SEED_SOLD]: QUANTITY_CERTIFIED_SEED_SOLD_API,
+  [PRICE_SEED_PLANTING]: PRICE_SEED_PLANTING_API,
 }
 
 function queryParams(params) {
@@ -121,6 +127,8 @@ export const getData = ({ source, app, params }) => {
     || app === EFFICIENCY_SEED_EXPORT_PROCESS
     || app === VARIETY_RELEASE_PROCESS
     || app === QUANTITY_CERTIFIED_SEED_SOLD
+    || app === AVAILABILITY_SEED_SMALL_PACKAGES
+    || app === PRICE_SEED_PLANTING
     || (sources && sources.length > 0 && sources[0] === WP_CHART)
   ) {
     if (params[SELECTED_COUNTRY] || params[DEFAULT_COUNTRY_ID]) {
@@ -158,4 +166,3 @@ export const getDocumentsData = (params) => {
   let documentsApi = WP_DOCUMENTS_API + (params ? '?' + queryParams(params) : '')
   return get(documentsApi, params)
 }
-

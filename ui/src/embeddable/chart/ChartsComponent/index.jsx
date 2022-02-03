@@ -4,6 +4,7 @@ import { Grid } from "semantic-ui-react";
 import Header from "../common/header";
 import CropFilter from "../common/filters/crops";
 import Years from "../common/filters/years";
+import GenericLegend from "../common/generic";
 import CropsLegend from "../common/crop";
 import Export from "../common/export";
 import CropsWithSpecialFeatures from "../common/cropWithSpecialFeatures";
@@ -22,8 +23,10 @@ import {
   NUMBER_SEED_INSPECTORS,
   MARKET_SHARE_TOP_FOUR_SEED_COMPANIES,
   MARKET_SHARE_STATE_OWNED_SEED_COMPANIES,
-  QUANTITY_CERTIFIED_SEED_SOLD, 
-  VARIETY_RELEASE_PROCESS
+  QUANTITY_CERTIFIED_SEED_SOLD,
+  VARIETY_RELEASE_PROCESS,
+  PRICE_SEED_PLANTING,
+  AVAILABILITY_SEED_SMALL_PACKAGES
 } from "../../reducers/StoreConstants";
 import YearLegend from "../common/year";
 import MarketConcentrationHHI from "../MarketConcentrationHHI";
@@ -36,6 +39,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
   const [selectedCrops, setSelectedCrops] = useState(null);
   const [selectedYear, setSelectedYear] = useState(null);
   const [currentData, setCurrentData] = useState(null);
+  const genericLegend = "generic";
   //TODO can be configured in wordpress at a later stage
   let indexBy = 'crop';
   let showYearFilter = true;
@@ -53,6 +57,8 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
   let enableGridY = true;
   let legend = 'crops';
   let customTickWithCrops = false;
+  let showTotalLabel = true;
+  let legendTitle = "";
   //END TODO
   let getTooltipText;
   let getTooltipHeader;
@@ -71,6 +77,8 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
 
   if (type === PERFORMANCE_SEED_TRADERS) {
     maxSelectableYear = 3;
+  } else if (type === AVAILABILITY_SEED_SMALL_PACKAGES) {
+    maxSelectableYear = 1;
   }
 
   if (!data || !data.dimensions || (!data.dimensions.crop && !data.dimensions.year) || data.id === null) {
@@ -136,6 +144,28 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
         }
         processedData.push(yearObject);
       });
+    }
+  }
+
+
+  const availabilitySeedSmallPackages = () => {
+    if (years && crops) {
+      max = 85;
+      keys.push('1-two-or-less', '2-two-to-ten', '3-ten-to-twentyfive', '4-twentyfive-or-more');
+      if (selectedYear) {
+        crops.forEach(c => {
+          const item = {crop: c};
+          if (data.values[selectedYear][c]) {
+            keys.forEach(k =>{
+              item[k] = Number(data.values[selectedYear][c][k]) >= 0 ? Math.round(data.values[selectedYear][c][k] * 1000) / 10 : FAKE_NUMBER;
+              if (!colors.get(k)) {
+                colors.set(k, packageBarColor[keys.indexOf(k)]);
+              }
+            });
+          }
+          processedData.push(item);
+        });
+      }
     }
   }
 
@@ -230,6 +260,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
   let subLabel = '';
   switch (type) {
     case NUMBER_VARIETIES_SOLD:
+    case PRICE_SEED_PLANTING:
     case QUANTITY_CERTIFIED_SEED_SOLD:  
     case AVERAGE_AGE_VARIETIES_SOLD:
     case MARKET_SHARE_TOP_FOUR_SEED_COMPANIES:
@@ -269,6 +300,26 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
           return <>
             <div className={d.indexValue.toLowerCase() + " crop-icon"}/>
             <div className="crop-name">{d.indexValue}</div>
+          </>;
+        }
+      } else if (type === PRICE_SEED_PLANTING) {
+        leftLegend = intl.formatMessage({
+          id: 'price-usd-by-kg',
+          defaultMessage: 'Prices (USD/kg)'
+        });
+        getTooltipText = (d) => {
+          return <>
+            <span className="bold">{d.data[d.id]} </span>
+            <span>{intl.formatMessage({
+              id: 'tooltip-price-usd-by-kg',
+              defaultMessage: '(usd/kg) of variety and year'
+            })}</span>
+          </>
+        }
+        getTooltipHeader = (d) => {
+          return <>
+            <div className={d.indexValue.toLowerCase() + " crop-icon"} />
+            <div className="crop-name">{d.indexValue} {d.id}</div>
           </>;
         }
       } else if (type === MARKET_SHARE_TOP_FOUR_SEED_COMPANIES) {
@@ -334,6 +385,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
           </>;
         }
       } else {
+        leftLegend = intl.formatMessage({id: 'number', defaultMessage: 'Number'});
         getTooltipText = (d) => {
           return <>
             <span
@@ -400,6 +452,38 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
       enableGridY = false;
       numberOfActiveBreeders();
       break;
+    case AVAILABILITY_SEED_SMALL_PACKAGES:
+      getTooltipHeader = (d) => {
+        return <>
+          <div className={`${d.indexValue} crop-icon`} />
+          <div className="crop-name">{d.indexValue}</div>
+        </>
+      }
+      getTooltipText = (d) => {
+        const packageName = d.id.replace(`${d.indexValue}_`, "");
+        return <>
+          <div><span>{intl.formatMessage({id: 'package-size-tooltip', defaultMessage: 'Package size'})}: </span>
+            <span className="bold">{intl.formatMessage({id: packageName + '-tooltip', defaultMessage: packageName})}</span></div>
+          <div><span>{intl.formatMessage({id: 'percentage-legend', defaultMessage: 'Percentage'})}: </span>
+            <span className="bold"> {d.data[d.id]}</span></div>
+        </>
+      }
+      indexBy = 'crop';
+      leftLegend = intl.formatMessage({id: 'crops-legend', defaultMessage: 'Crops'});
+      layout = 'horizontal';
+      addLighterDiv = false;
+      withCropsWithSpecialFeatures = false;
+      showYearFilter = true;
+      useFilterByCrops = false;
+      showTotalLabel = false;
+      bottomLegend = intl.formatMessage({id: 'percentage-legend', defaultMessage: 'Percentage (%)'});
+      enableGridX = true;
+      enableGridY = false;
+      customTickWithCrops = true;
+      legend = genericLegend;
+      legendTitle = intl.formatMessage({id: 'package-size-legend', defaultMessage: 'Package Sizes'});
+      availabilitySeedSmallPackages();
+      break;
     case MARKET_CONCENTRATION_HHI:
         useCropLegendsRow = false;
         useFilterByCrops = false;
@@ -410,7 +494,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
       legend = "years";
       useFilterByCrops = false;
       showYearFilter = true;
-      maxSelectableYear = 5;
+      maxSelectableYear = 3;
       withCropsWithSpecialFeatures = false;
       yearsColors = performanceColors;
       processForRadar(data.dimensions.performance.values)
@@ -525,13 +609,14 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
       groupMode = 'stacked';
       rightLegend = intl.formatMessage({id: 'rating-legend', defaultMessage: 'Rating out of 100'});
       keys.push('time');
+      max = 10;
       Object.keys(data.values).forEach(y => {
         const item = {year: y};
         if (selectedYear && selectedYear.find(k => k === y)) {
-          item.time = data.values[y].time;
-          item.satisfaction = data.values[y].satisfaction;
-          if (item[y] > max) {
-            max = item[y];
+          item.time = Number( data.values[y].time) >= 0 ?  data.values[y].time : FAKE_NUMBER;
+          item.satisfaction = Number( data.values[y].satisfaction) >= 0 ?  data.values[y].satisfaction : FAKE_NUMBER;
+          if (item.time > max) {
+            max = item.time;
           }
           if (item.satisfaction > max) {
             max = item.satisfaction;
@@ -545,7 +630,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
       getTooltipText = (d) => {
         return <><div style={{textAlign: 'center'}}>
           <span>{intl.formatMessage({id: 'number-months-tooltip', defaultMessage: 'Length of variety release process (months)'})} </span>
-          <span className="bold"> {d.data.time ? d.data.time : 0}</span>
+          <span className="bold"> {d.data.time != FAKE_NUMBER ? d.data.time : "MD"}</span>
         </div></>
       }
       getTooltipHeader = (d) => {
@@ -597,6 +682,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
                                     enableGridX={enableGridX} enableGridY={enableGridY}
                                     getTooltipText={getTooltipText} getTooltipHeader={getTooltipHeader}
                                     customTickWithCrops={customTickWithCrops} dataSuffix={dataSuffix}
+                                    showTotalLabel={showTotalLabel}
             />
           </Grid.Column>
         </Grid.Row>);
@@ -626,6 +712,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
         {legend === 'crops' &&
           <CropsLegend data={selectedCrops} title="Crops" titleClass="crops-title" addLighterDiv={addLighterDiv} />}
         {legend && legend.toLowerCase() === 'years' && <YearLegend colors={yearsColors} years={selectedYear} />}
+        {legend && legend === genericLegend && <GenericLegend colors={colors} keys={keys} title={legendTitle}/>}
       </Grid.Column>
       <Grid.Column width={8}>
         {withCropsWithSpecialFeatures && <CropsWithSpecialFeatures />}
@@ -644,11 +731,14 @@ const blueColors = [
   '#3377b6', '#7dafde', '#9fbfdc', '#c2dbf3'
 ];
 const performanceColors = [
-  '#4D843F', '#F39C00', '#FBCC2A', '#E36A6A', '#289DF5'
+  '#4D843F', '#F39C00', '#E36A6A', '#289DF5', '#FBCC2A'
 ];
 const barPieColor = [
   '#c2db24', '#41a9d9', '#43758D'
-]
+];
+const packageBarColor = [
+  '#9D9D9D', '#F2CA05', '#EE912B', '#85AA2B', '#5F92C1'
+];
 
 export const FAKE_NUMBER = 0.001;
 

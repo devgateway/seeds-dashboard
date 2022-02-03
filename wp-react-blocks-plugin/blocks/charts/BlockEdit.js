@@ -133,7 +133,15 @@ class BlockEdit extends BaseBlockEdit {
                                         {
                                             label: 'Satisfaction with the enforcement of seed law/ regulations (opinion)',
                                             value: 'satisfactionEnforcementSeedLaw'
-                                        }
+                                        },
+                                        {
+                                            label: 'Availability of seed in small packages',
+                                            value: 'availabilitySeedSmallPackages'
+                                        },
+                                        {
+                                            label: 'Price of seed at planting',
+                                            value: 'priceSeedPlanting'
+                                        },
                                     ]}
                                 />
                             </PanelRow>
