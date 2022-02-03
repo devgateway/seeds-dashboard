@@ -24,6 +24,8 @@ const CropIcons = ({crop, text, style, tick, tickX = 0, tickY = 25}) => {
 
         switch (crop) {
             case 'maize':
+            case 'hybrid':
+            case 'opv':
                 icon = (<g>
                     <circle className="f7b802a5-8dc8-4ed5-b779-59a7608540e8" cx="20" cy="20" r="16"/>
                     <path className="b97b9221-9b87-47cc-927d-20f3dacb7b3d"
