@@ -26,5 +26,6 @@ export const NUMBER_SEED_INSPECTORS = 'numberSeedInspectors';
 export const EFFICIENCY_SEED_EXPORT_PROCESS = 'efficiencyOfSeedExportProcess';
 export const VARIETY_RELEASE_PROCESS = 'varietyReleaseProcess';
 export const AVAILABILITY_SEED_SMALL_PACKAGES = 'availabilitySeedSmallPackages';
+export const PRICE_SEED_PLANTING = 'priceSeedPlanting';
 
 export const WP_CHART = 'wp-chart';
