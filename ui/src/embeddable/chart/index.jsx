@@ -30,7 +30,8 @@ import {
     MARKET_SHARE_TOP_FOUR_SEED_COMPANIES,
     MARKET_SHARE_STATE_OWNED_SEED_COMPANIES,
     VARIETY_RELEASE_PROCESS,
-    QUANTITY_CERTIFIED_SEED_SOLD
+    QUANTITY_CERTIFIED_SEED_SOLD,
+    AVAILABILITY_SEED_SMALL_PACKAGES
 } from "../reducers/StoreConstants";
 import NumberOfVarietiesReleased from "./NumberOfVarietiesReleased";
 import AvailabilityOfBasicSeed from "./AvailabilityOfBasicSeed";
@@ -168,6 +169,7 @@ const Chart = (props) => {
         case NUMBER_SEED_INSPECTORS:
         case QUANTITY_CERTIFIED_SEED_SOLD:    
         case VARIETY_RELEASE_PROCESS:
+        case AVAILABILITY_SEED_SMALL_PACKAGES:
         case AVERAGE_AGE_VARIETIES_SOLD: {
             const chartComponent = {sources, type, ...chartProps}
             child = <ChartComponent {...chartComponent} />
