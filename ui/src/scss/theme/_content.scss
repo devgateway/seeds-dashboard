@@ -443,6 +443,7 @@ p:empty {
     li{
       border-right: 1px solid $text-color;
       float: left;
+      font-size: 14px;
       margin-right: $base-unit;
       padding-right: $base-unit;
       &:last-child{
@@ -461,7 +462,11 @@ p:empty {
   }
   &.policy{
     li{
-      float: none;
+      border-right: none;
+      float: left;
+      margin-bottom: $base-unit;
+      width: $extend / 2.1;
+
       a{
         &:hover{
           filter: brightness(0);
