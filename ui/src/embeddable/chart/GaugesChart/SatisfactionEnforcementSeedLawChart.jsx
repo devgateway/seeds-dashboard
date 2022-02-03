@@ -6,10 +6,18 @@ import {range} from "./components/common";
 import {injectIntl} from "react-intl";
 
 const SatisfactionEnforcementSeedLawChart = ({data, yearsToShow, intl}) => {
+    const AVERAGE_RATING = "Average Rating";
     const averageColumn = Object.keys(data.values);
+    let avg = 0;
+    yearsToShow.push(AVERAGE_RATING);
     const getCells = () => {
         return yearsToShow.map(y => {
             let cellValue = data.values[y];
+            if (y === AVERAGE_RATING) {
+                Object.keys(data.values).forEach(i => avg += data.values[i]);
+                avg = avg / Object.keys(data.values).length;
+                cellValue = (Math.round(avg * 10) / 10);
+            }
             if (cellValue === "") {
                 cellValue = undefined;
             }
@@ -24,7 +32,7 @@ const SatisfactionEnforcementSeedLawChart = ({data, yearsToShow, intl}) => {
                     cellValue = 'N/A'
                 }
             }
-            return <Grid.Column className={"with-bottom-border"} key={y}>
+            return <Grid.Column key={y}>
                 <Gauge data={particularGauge}
                        height={45}
                        width={105}
@@ -49,10 +57,10 @@ const SatisfactionEnforcementSeedLawChart = ({data, yearsToShow, intl}) => {
 
     const getMatrix = () => {
         return <Grid.Row>
-            <Grid.Column width={2} className={"seeds-title"}>
+            <Grid.Column width={1} className="title">
                 <div>Average Rating</div>
             </Grid.Column>
-            <Grid.Column width={14}>{getData()}</Grid.Column>
+            <Grid.Column width={13}>{getData()}</Grid.Column>
         </Grid.Row>;
     }
 
@@ -64,6 +72,6 @@ const SatisfactionEnforcementSeedLawChart = ({data, yearsToShow, intl}) => {
         {id: "E", value: 20}
     ];
 
-    return <Grid className={'availability-of-basic-seed'}>{getMatrix()}</Grid>;
+    return <Grid className={'satisfaction-enforcement'}>{getMatrix()}</Grid>;
 }
 export default injectIntl(SatisfactionEnforcementSeedLawChart);
