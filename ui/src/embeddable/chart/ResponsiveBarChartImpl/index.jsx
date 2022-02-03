@@ -12,8 +12,9 @@ import Years from "../common/filters/years";
 import CropsWithSpecialFeatures from "../common/cropWithSpecialFeatures";
 import CropIcons from "../common/cropIcons";
 import { getTextWidth } from "../../utils/common";
+import {FAKE_NUMBER} from "../ChartsComponent";
 
-const FAKE_NUMBER = 0.001;
+
 const theme = {
   axis: {
     ticks: {
@@ -59,22 +60,27 @@ const ResponsiveBarChartImpl = ({
                                   rightLegend,
                                   LineLayer,
                                   markers,
-                                  dataSuffix  
+                                  dataSuffix,
+                                  showTotalLabel,
                                 }) => {
 
   ;
   // returns a list of total value labels for stacked bars
+
+
   const TotalLabels = ({ bars, yScale, xScale }) => {
     // space between top of stacked bars and total label
     let labelMargin = 20;
     const numbers = [];
     bars.forEach(({ data: { data, indexValue }, x, y, width, height }, i) => {
       // sum of all the bar values in a stacked bar
+      let isMD = true;
       const total = Object.keys(data)
         //filter out whatever your indexBy value is
         .filter(key => key !== indexBy)
         .reduce((a, key) => {
-            if (keys.find(k => k === key)) {
+            if (keys.find(k => k === key) && data[key] != FAKE_NUMBER) {
+                isMD = false;
                 return a + data[key];
             } else {
                 return a;
@@ -87,8 +93,8 @@ const ResponsiveBarChartImpl = ({
       if (layout === 'horizontal') {
         labelMargin = -5;
         transform = `translate(${xScale(total) - labelMargin},${y + (height / 3)})`;
-        xText = (height / 2) - 20;
-        yText = (labelMargin / 2);
+        xText = (height / 2) - 10;
+        yText = (labelMargin + 40 / 2);
       }
 
       if (!numbers.find(i => i.props.transform === transform)) {
@@ -108,7 +114,7 @@ const ResponsiveBarChartImpl = ({
               fontWeight: 'bold',
               fontSize: '14pt'
             }}>
-            {total}
+            {showTotalLabel ? total : isMD ? "MD" : "" }
           </text>
         </g>);
       }
@@ -156,11 +162,15 @@ const ResponsiveBarChartImpl = ({
   const { width, height, ref } = useResizeDetector();
   const CustomTick = tick => {
       const bottomLegendWidth = getTextWidth(bottomLegend || '', "12px sans-serif");
+      const tickX = customTickWithCrops && leftLegend ? 100 : 0;
+      const tickY = customTickWithCrops && leftLegend ? 5 : 25;
+      const translX = customTickWithCrops && leftLegend ? 330 : 130;
+      const translY = customTickWithCrops && leftLegend ? 90 : 60;
       return (<g>
-          <CropIcons crop={tick.value} text={tick.value} tick={tick}
+          <CropIcons crop={tick.value} text={tick.value} tick={tick} tickX={tickX} tickY={tickY}
                      style={{'textTransform': 'capitalize', fill: '#adafb2'}}/>
-          {bottomLegend && tick.tickIndex === 0 ?
-              <text transform={`translate(${(width - bottomLegendWidth - 130) / 2},${tick.y + 60})`}
+          { bottomLegend && !leftLegend && tick.tickIndex === 0 ?
+              <text transform={`translate(${(width - bottomLegendWidth - translX) / 2},${tick.y + translY})`}
                     style={{fontWeight: 'bold'}}>
                   {bottomLegend}
               </text> : null}
@@ -171,6 +181,7 @@ const ResponsiveBarChartImpl = ({
   if (LineLayer) {
       layers.push(LineLayer);
   }
+  const leftMargin = customTickWithCrops && leftLegend ? 170 : 70;
 
   return (
     <div style={{ height: containerHeight }} ref={ref}>
@@ -180,7 +191,7 @@ const ResponsiveBarChartImpl = ({
         data={processedData}
         keys={keys}
         indexBy={indexBy}
-        margin={{ top: 50, right: 60, bottom: 70, left: 70 }}
+        margin={{ top: 50, right: 60, bottom: 70, left: leftMargin}}
         padding={0.3}
         valueScale={{ type: 'linear', max: max * 1.25 }}
         indexScale={{ type: 'band', round: true }}
@@ -193,7 +204,7 @@ const ResponsiveBarChartImpl = ({
         enableGridX={enableGridX}
         enableGridY={enableGridY}
         innerPadding={groupMode === 'stacked' ? 0 : 8}
-        axisLeft={{
+        axisLeft={customTickWithCrops ? { renderTick: CustomTick } : {
           tickSize: 0,
           tickPadding: 5,
           tickRotation: 0,
@@ -207,7 +218,7 @@ const ResponsiveBarChartImpl = ({
         gridYValues={gridTickLines}
         enableLabel={false}
         markers={markers || null}
-        axisBottom={customTickWithCrops ? { renderTick: CustomTick } : {
+        axisBottom={customTickWithCrops && !leftLegend? { renderTick: CustomTick } : {
           tickSize: 0,
           tickPadding: 5,
           tickRotation: 0,

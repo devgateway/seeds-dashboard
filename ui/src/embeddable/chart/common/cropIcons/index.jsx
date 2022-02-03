@@ -10,7 +10,7 @@ const getTextWidth = (text, font) => {
     return metrics.width;
 }
 
-const CropIcons = ({crop, text, style, tick}) => {
+const CropIcons = ({crop, text, style, tick, tickX = 0, tickY = 25}) => {
 
     const getIcon = tick => {
         const tickRotation = 0;
@@ -122,7 +122,7 @@ const CropIcons = ({crop, text, style, tick}) => {
                 break;
         }
 
-        return (<g transform={`translate(${tick.x - 0},${tick.y + 25})`}>
+        return (<g transform={`translate(${tick.x - tickX},${tick.y + tickY})`}>
             {icon ? <g transform={`translate(-40, -20)`}>{icon}</g> : null}
             <text transform={`translate(${10 - (!icon ? 15 : 0)}, 2) rotate(${tickRotation})`}
                   textAnchor="left"

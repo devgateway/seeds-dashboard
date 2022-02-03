@@ -1,0 +1,33 @@
+
+.legend-title {
+  color: #354052;
+  margin-left: 8px;
+  font-weight: bold;
+  font-size: 14pt;
+}
+
+.keys {
+  text-align: left;
+  width: auto;
+  display: flex;
+  margin-left: 20px;
+  margin-top:2px;
+
+  .key {
+    color: #333c48;
+    display: flex;
+    font-weight: 700;
+    width: 90px;
+    font-size: 12pt;
+
+    .circle {
+      width: 18px;
+      height: 18px;
+      -webkit-border-radius: 25px;
+      -moz-border-radius: 25px;
+      border-radius: 25px;
+      margin-right: 5px;
+      margin-top: 1px;
+    }
+  }
+}
