@@ -40,7 +40,7 @@ const BarAndLineChart = ({
     const layout = 'vertical';
     const enableGridX = false;
     const enableGridY = true;
-    const customTickWithCrops = true;
+    const customTickWithCropsBottom = true;
 
     const LineLayer = ({bars, xScale, yScale}) => {
         const filterIndex = [];
@@ -153,7 +153,7 @@ const BarAndLineChart = ({
                                             leftLegend={leftLegend} bottomLegend={bottomLegend}
                                             enableGridX={enableGridX} enableGridY={enableGridY}
                                             getTooltipText={getTooltipText} getTooltipHeader={getTooltipHeader}
-                                            customTickWithCrops={customTickWithCrops}
+                                            customTickWithCropsBottom={customTickWithCropsBottom}
                                             gridTickLines={4} rightLegend={rightLegend} LineLayer={LineLayer}
                                             markers={markerLine}
                     />
