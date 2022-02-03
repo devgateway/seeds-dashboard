@@ -54,7 +54,9 @@ const ResponsiveBarChartImpl = ({
                                   enableGridY,
                                   getTooltipText,
                                   getTooltipHeader,
-                                  groupMode, customTickWithCrops,
+                                  groupMode,
+                                  customTickWithCropsBottom,
+                                  customTickWithCropsLeft,
                                   containerHeight = 450,
                                   gridTickLines = 6,
                                   rightLegend,
@@ -162,14 +164,14 @@ const ResponsiveBarChartImpl = ({
   const { width, height, ref } = useResizeDetector();
   const CustomTick = tick => {
       const bottomLegendWidth = getTextWidth(bottomLegend || '', "12px sans-serif");
-      const tickX = customTickWithCrops && leftLegend ? 100 : 0;
-      const tickY = customTickWithCrops && leftLegend ? 5 : 25;
-      const translX = customTickWithCrops && leftLegend ? 330 : 130;
-      const translY = customTickWithCrops && leftLegend ? 90 : 60;
+      const tickX = customTickWithCropsLeft ? 100 : 0;
+      const tickY = customTickWithCropsLeft ? 5 : 25;
+      const translX = customTickWithCropsLeft ? 330 : 130;
+      const translY = customTickWithCropsLeft ? 90 : 60;
       return (<g>
           <CropIcons crop={tick.value} text={tick.value} tick={tick} tickX={tickX} tickY={tickY}
                      style={{'textTransform': 'capitalize', fill: '#adafb2'}}/>
-          { bottomLegend && !leftLegend && tick.tickIndex === 0 ?
+          { bottomLegend && customTickWithCropsBottom && tick.tickIndex === 0 ?
               <text transform={`translate(${(width - bottomLegendWidth - translX) / 2},${tick.y + translY})`}
                     style={{fontWeight: 'bold'}}>
                   {bottomLegend}
@@ -181,7 +183,7 @@ const ResponsiveBarChartImpl = ({
   if (LineLayer) {
       layers.push(LineLayer);
   }
-  const leftMargin = customTickWithCrops && leftLegend ? 170 : 70;
+  const leftMargin = customTickWithCropsLeft ? 170 : 70;
 
   return (
     <div style={{ height: containerHeight }} ref={ref}>
@@ -204,7 +206,7 @@ const ResponsiveBarChartImpl = ({
         enableGridX={enableGridX}
         enableGridY={enableGridY}
         innerPadding={groupMode === 'stacked' ? 0 : 8}
-        axisLeft={customTickWithCrops ? { renderTick: CustomTick } : {
+        axisLeft={customTickWithCropsLeft ? { renderTick: CustomTick } : {
           tickSize: 0,
           tickPadding: 5,
           tickRotation: 0,
@@ -218,7 +220,7 @@ const ResponsiveBarChartImpl = ({
         gridYValues={gridTickLines}
         enableLabel={false}
         markers={markers || null}
-        axisBottom={customTickWithCrops && !leftLegend? { renderTick: CustomTick } : {
+        axisBottom={customTickWithCropsBottom? { renderTick: CustomTick } : {
           tickSize: 0,
           tickPadding: 5,
           tickRotation: 0,

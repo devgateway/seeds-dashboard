@@ -56,7 +56,8 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
   let enableGridX = false;
   let enableGridY = true;
   let legend = 'crops';
-  let customTickWithCrops = false;
+  let customTickWithCropsBottom = false;
+  let customTickWithCropsLeft = false;
   let showTotalLabel = true;
   let legendTitle = "";
   //END TODO
@@ -266,6 +267,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
     case MARKET_SHARE_TOP_FOUR_SEED_COMPANIES:
     case MARKET_SHARE_STATE_OWNED_SEED_COMPANIES:
     case NUMBER_OF_ACTIVE_SEED_COMPANIES_PRODUCERS: {
+      customTickWithCropsBottom = true;
       leftLegend = intl.formatMessage({id: 'number-of-years', defaultMessage: 'Number of Years'});
       bottomLegend = intl.formatMessage({id: 'crops-years', defaultMessage: 'Crops > Years'});
       if (type === NUMBER_VARIETIES_SOLD) {
@@ -404,7 +406,6 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
       legend = intl.formatMessage({id: 'years-legend', defaultMessage: 'Years'});
       groupMode = 'grouped';
       withCropsWithSpecialFeatures = false;
-      customTickWithCrops = true;
       processByYear();
       break;
     }
@@ -479,7 +480,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
       bottomLegend = intl.formatMessage({id: 'percentage-legend', defaultMessage: 'Percentage (%)'});
       enableGridX = true;
       enableGridY = false;
-      customTickWithCrops = true;
+      customTickWithCropsLeft = true;
       legend = genericLegend;
       legendTitle = intl.formatMessage({id: 'package-size-legend', defaultMessage: 'Package Sizes'});
       availabilitySeedSmallPackages();
@@ -681,7 +682,9 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
                                     leftLegend={leftLegend} bottomLegend={bottomLegend}
                                     enableGridX={enableGridX} enableGridY={enableGridY}
                                     getTooltipText={getTooltipText} getTooltipHeader={getTooltipHeader}
-                                    customTickWithCrops={customTickWithCrops} dataSuffix={dataSuffix}
+                                    customTickWithCropsBottom={customTickWithCropsBottom}
+                                    customTickWithCropsLeft={customTickWithCropsLeft}
+                                    dataSuffix={dataSuffix}
                                     showTotalLabel={showTotalLabel}
             />
           </Grid.Column>
