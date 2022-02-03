@@ -32,18 +32,19 @@ const SatisfactionEnforcementSeedLawChart = ({data, yearsToShow, intl}) => {
                     cellValue = 'N/A'
                 }
             }
-            return <Grid.Column key={y}>
+            return <Grid.Column key={y} className={"with-bottom-border " + (y === AVERAGE_RATING ? 'avg-cell' : '')}>
                 <Gauge data={particularGauge}
                        height={45}
                        width={105}
                        innerValue={cellValue}
-                       innerColor={innerColor}/></Grid.Column>
+                       innerColor={innerColor}/>
+            </Grid.Column>
         })
     }
 
     const getData = () => {
         const yearCols = yearsToShow.map(y => {
-            return <Grid.Column className="years-title" key={y}>{y}</Grid.Column>
+            return <Grid.Column className={"years-title"} key={y}>{y}</Grid.Column>
         });
         const cropsWithAverage = [];
         if (averageColumn) {
@@ -56,12 +57,15 @@ const SatisfactionEnforcementSeedLawChart = ({data, yearsToShow, intl}) => {
     }
 
     const getMatrix = () => {
-        return <Grid.Row>
-            <Grid.Column width={1} className="title">
-                <div>Average Rating</div>
-            </Grid.Column>
-            <Grid.Column width={13}>{getData()}</Grid.Column>
-        </Grid.Row>;
+        return <>
+            <Grid.Row>
+                <Grid.Column width={1} className="title">
+                    <div>Average Rating</div>
+                </Grid.Column>
+                <Grid.Column width={13}>{getData()}</Grid.Column>
+            </Grid.Row>
+            <Grid.Row>&nbsp;</Grid.Row>
+        </>
     }
 
     const dataGauge = [
@@ -72,6 +76,8 @@ const SatisfactionEnforcementSeedLawChart = ({data, yearsToShow, intl}) => {
         {id: "E", value: 20}
     ];
 
-    return <Grid className={'satisfaction-enforcement'}>{getMatrix()}</Grid>;
+    return <Grid className={'satisfaction-enforcement'}>
+        {getMatrix()}
+    </Grid>
 }
 export default injectIntl(SatisfactionEnforcementSeedLawChart);

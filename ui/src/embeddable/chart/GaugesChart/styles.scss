@@ -158,8 +158,14 @@
     color: #626262;
     margin: 0;
     width: $extend;
+    padding-top: 15px;
 
     .row {
+
+      .avg-cell {
+        background-color: #fafafa;
+      }
+
       .no-data {
         width: $extend;
         height: 400px;
