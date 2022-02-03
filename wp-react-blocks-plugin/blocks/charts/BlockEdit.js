@@ -67,8 +67,8 @@ class BlockEdit extends BaseBlockEdit {
                                     options={[
                                         {label: 'Country Info', value: 'countryInfo'},
                                         {
-                                            label: 'Market share of top four seed companies',
-                                            value: 'marketShareTopFourSeedCompanies'
+                                          label: 'Market share of top four seed companies',
+                                          value: 'marketShareTopFourSeedCompanies'
                                         },
                                         {
                                             label: 'Market share of state-owned seed companies',
@@ -129,6 +129,14 @@ class BlockEdit extends BaseBlockEdit {
                                         {
                                             label: 'Length of variety release process',
                                             value: 'varietyReleaseProcess'
+                                        },
+                                        {
+                                            label: 'Availability of seed in small packages',
+                                            value: 'availabilitySeedSmallPackages'
+                                        },
+                                        {
+                                            label: 'Price of seed at planting',
+                                            value: 'priceSeedPlanting'
                                         },
                                     ]}
                                 />

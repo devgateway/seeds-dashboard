@@ -5,6 +5,7 @@ import {BasicTooltip, useTooltip} from '@nivo/tooltip';
 import './styles.scss';
 import ResponsiveBarChartImpl from "../ResponsiveBarChartImpl";
 import Legend from "./Legend";
+import {FAKE_NUMBER} from "../ChartsComponent";
 
 const BarAndLineChart = ({
                              data, sources, selectedYear, leftLegend, indexBy, groupMode, bottomLegend, rightLegend,
@@ -39,7 +40,7 @@ const BarAndLineChart = ({
     const layout = 'vertical';
     const enableGridX = false;
     const enableGridY = true;
-    const customTickWithCrops = true;
+    const customTickWithCropsBottom = true;
 
     const LineLayer = ({bars, xScale, yScale}) => {
         const filterIndex = [];
@@ -92,7 +93,7 @@ const BarAndLineChart = ({
                                                     <td>
                                                         <div style={{textAlign: 'center'}}>
                                                             <span>{lineChartFieldLabel}</span><span
-                                                            className="bold"> {bar.data.data[lineChartField]}</span>
+                                                            className="bold"> {bar.data.data[lineChartField] != FAKE_NUMBER ? bar.data.data[lineChartField] : "MD"}</span>
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -152,7 +153,7 @@ const BarAndLineChart = ({
                                             leftLegend={leftLegend} bottomLegend={bottomLegend}
                                             enableGridX={enableGridX} enableGridY={enableGridY}
                                             getTooltipText={getTooltipText} getTooltipHeader={getTooltipHeader}
-                                            customTickWithCrops={customTickWithCrops}
+                                            customTickWithCropsBottom={customTickWithCropsBottom}
                                             gridTickLines={4} rightLegend={rightLegend} LineLayer={LineLayer}
                                             markers={markerLine}
                     />

@@ -70,7 +70,7 @@ const MarketConcentrationHHI = ({data, sources, selectedYear, bottomLegend}) => 
             <div className="crop-name">{d.indexValue}</div>
         </>;
     }
-    const customTickWithCrops = true;
+    const customTickWithCropsBottom = true;
 
     return (
         <>
@@ -88,7 +88,7 @@ const MarketConcentrationHHI = ({data, sources, selectedYear, bottomLegend}) => 
                                                 leftLegend={leftLegend} bottomLegend={bottomLegend}
                                                 enableGridX={enableGridX} enableGridY={enableGridY}
                                                 getTooltipText={getTooltipText} getTooltipHeader={getTooltipHeader}
-                                                customTickWithCrops={customTickWithCrops} containerHeight={300}
+                                                customTickWithCropsBottom={customTickWithCropsBottom} containerHeight={300}
                                                 gridTickLines={4}
                         />
                     </Grid.Column>);
