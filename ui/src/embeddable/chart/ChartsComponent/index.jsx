@@ -385,6 +385,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
           </>;
         }
       } else {
+        leftLegend = intl.formatMessage({id: 'number', defaultMessage: 'Number'});
         getTooltipText = (d) => {
           return <>
             <span
