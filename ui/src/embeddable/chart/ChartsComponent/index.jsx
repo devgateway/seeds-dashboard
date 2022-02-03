@@ -22,8 +22,8 @@ import {
   NUMBER_SEED_INSPECTORS,
   MARKET_SHARE_TOP_FOUR_SEED_COMPANIES,
   MARKET_SHARE_STATE_OWNED_SEED_COMPANIES,
-  QUANTITY_CERTIFIED_SEED_SOLD, 
-  VARIETY_RELEASE_PROCESS
+  QUANTITY_CERTIFIED_SEED_SOLD,
+  VARIETY_RELEASE_PROCESS, PRICE_SEED_PLANTING
 } from "../../reducers/StoreConstants";
 import YearLegend from "../common/year";
 import MarketConcentrationHHI from "../MarketConcentrationHHI";
@@ -230,6 +230,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
   let subLabel = '';
   switch (type) {
     case NUMBER_VARIETIES_SOLD:
+    case PRICE_SEED_PLANTING:  
     case QUANTITY_CERTIFIED_SEED_SOLD:  
     case AVERAGE_AGE_VARIETIES_SOLD:
     case MARKET_SHARE_TOP_FOUR_SEED_COMPANIES:
@@ -269,6 +270,26 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
           return <>
             <div className={d.indexValue.toLowerCase() + " crop-icon"}/>
             <div className="crop-name">{d.indexValue}</div>
+          </>;
+        }
+      } else if (type === PRICE_SEED_PLANTING) {
+        leftLegend = intl.formatMessage({
+          id: 'price-usd-by-kg',
+          defaultMessage: 'Prices (USD/kg)'
+        });
+        getTooltipText = (d) => {
+          return <>
+            <span className="bold">{d.data[d.id]} </span>
+            <span>{intl.formatMessage({
+              id: 'tooltip-price-usd-by-kg',
+              defaultMessage: '(usd/kg) of variety and year'
+            })}</span>
+          </>
+        }
+        getTooltipHeader = (d) => {
+          return <>
+            <div className={d.indexValue.toLowerCase() + " crop-icon"} />
+            <div className="crop-name">{d.indexValue} {d.id}</div>
           </>;
         }
       } else if (type === MARKET_SHARE_TOP_FOUR_SEED_COMPANIES) {

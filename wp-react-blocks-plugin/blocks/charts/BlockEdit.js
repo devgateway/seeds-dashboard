@@ -130,6 +130,10 @@ class BlockEdit extends BaseBlockEdit {
                                             label: 'Length of variety release process',
                                             value: 'varietyReleaseProcess'
                                         },
+                                        {
+                                            label: 'Price of seed at planting',
+                                            value: 'priceSeedPlanting'
+                                        },
                                     ]}
                                 />
                             </PanelRow>
