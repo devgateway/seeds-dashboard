@@ -121,5 +121,11 @@
   "2-two-to-ten-tooltip": "> 2kg – 10kg",
   "3-ten-to-twentyfive-tooltip": "> 10kg – 25kg",
   "4-twentyfive-or-more-tooltip": "25kg or more",
-  "package-size-legend": "Package Sizes"
+  "package-size-legend": "Package Sizes",
+  "number-households-legend": "Number of households",
+  "agricultural-households-tooltip": "Agricultural households/agro-dealer",
+  "number-agrodealers-tooltip": "Number of agro-dealers",
+  "concentration-rating-legend": "Rating on concentration of agro-dealer network",
+  "households-per-officer-tooltip": "Households per extension officer",
+  "availability-rating-legend": "Rating on availability of agricultural extension services for smallholder farmers"
 }

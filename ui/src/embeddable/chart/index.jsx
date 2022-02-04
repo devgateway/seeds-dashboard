@@ -32,7 +32,9 @@ import {
     VARIETY_RELEASE_PROCESS,
     QUANTITY_CERTIFIED_SEED_SOLD,
     PRICE_SEED_PLANTING,
-    AVAILABILITY_SEED_SMALL_PACKAGES
+    AVAILABILITY_SEED_SMALL_PACKAGES,
+    AGRODEALER_NETWORK,
+    AGRICULTURAL_EXTENSION_SERVICES
 } from "../reducers/StoreConstants";
 import NumberOfVarietiesReleased from "./NumberOfVarietiesReleased";
 import AvailabilityOfBasicSeed from "./AvailabilityOfBasicSeed";
@@ -172,6 +174,8 @@ const Chart = (props) => {
         case VARIETY_RELEASE_PROCESS:
         case PRICE_SEED_PLANTING:
         case AVAILABILITY_SEED_SMALL_PACKAGES:
+        case AGRODEALER_NETWORK:
+        case AGRICULTURAL_EXTENSION_SERVICES:
         case AVERAGE_AGE_VARIETIES_SOLD: {
             const chartComponent = {sources, type, ...chartProps}
             child = <ChartComponent {...chartComponent} />
