@@ -26,7 +26,7 @@ const CropIcons = ({crop, text, style, tick, tickX = 0, tickY = 25}) => {
             case 'maize':
             case 'hybrid':
             case 'opv':
-                icon = (<g>
+                icon = (<g transform="scale(0.8)">
                     <circle className="f7b802a5-8dc8-4ed5-b779-59a7608540e8" cx="20" cy="20" r="16"/>
                     <path className="b97b9221-9b87-47cc-927d-20f3dacb7b3d"
                           d="M13.08,27c1,1,1.92,3.56,4.61,2.18,5.06-2.61,8.12-4,10-5.47,3.23-2.61,1.91-6.92-1.35-10.14s-7.59-4.48-10.16-1.22c-1.49,1.9-2.79,5-5.33,10.06C9.49,25.11,12.1,26,13.08,27Z"/>
@@ -34,7 +34,7 @@ const CropIcons = ({crop, text, style, tick, tickX = 0, tickY = 25}) => {
                 </g>)
                 break;
             case 'rice':
-                icon = (<g>
+                icon = (<g transform="scale(0.8)">
                     <circle className="a27dd23a-ae68-42c2-9254-e8f5885e4f12" cx="20" cy="20" r="16"/>
                     <path className="a7d6e25c-b002-4dfa-8cba-4bc3f632b392"
                           d="M14.47,27.22s-4.55-2.34-.86-8c5.23-8,13-8.26,13.7-7.82s2,8.24-4.8,15C17.71,31.19,14.47,27.22,14.47,27.22Z"/>
@@ -42,7 +42,7 @@ const CropIcons = ({crop, text, style, tick, tickX = 0, tickY = 25}) => {
                 </g>)
                 break;
             case 'cowpea':
-                icon = (<g>
+                icon = (<g transform="scale(0.8)">
                     <circle className="bf9b314a-3cc5-4de7-9c56-1dcdbbfe5361" cx="20" cy="20" r="16"/>
                     <ellipse className="e636d849-c039-47ee-8a84-0bf4236dd588" cx="20" cy="20" rx="11.27" ry="5.24"
                              transform="translate(-8.21 22.11) rotate(-49.28)"/>
@@ -51,7 +51,7 @@ const CropIcons = ({crop, text, style, tick, tickX = 0, tickY = 25}) => {
                 </g>)
                 break;
             case 'sorghum':
-                icon = (<g>
+                icon = (<g transform="scale(0.8)">
                     <circle className="abc88409-45d9-469b-bf75-443eefae2382" cx="20" cy="20" r="16"/>
                     <path className="afe9d9e9-00d5-42ad-8c46-a31353170dce"
                           d="M25.63,24.93c-5.33,4.79-11.74,3.37-12.47,2.68S11,19.78,15.23,15.09C18.48,11.49,24.14,11,27,13.78S29.25,21.69,25.63,24.93Z"/>
@@ -60,7 +60,7 @@ const CropIcons = ({crop, text, style, tick, tickX = 0, tickY = 25}) => {
                 break;
             case 'bean':
             case 'beans':
-                icon = (<g>
+                icon = (<g transform="scale(0.8)">
                     <circle className="aa6e84dc-188d-4dde-833c-e10c5fccc1f5" cx="20" cy="20" r="16"/>
                     <path className="f4c79124-c3c7-4425-bf35-508e84f2594a"
                           d="M13.05,20.64a16.75,16.75,0,0,0,5-2.91,16.84,16.84,0,0,0,3.57-4.57c1.55-2.34,4.28-2.24,6-.23,3.74,4.28-.58,9.47-3.38,11.93s-8.54,6-12.28,1.73C10.25,24.58,10.52,21.86,13.05,20.64Z"/>
@@ -71,7 +71,7 @@ const CropIcons = ({crop, text, style, tick, tickX = 0, tickY = 25}) => {
                 </g>)
                 break;
             case 'soya-bean':
-                icon = (<g>
+                icon = (<g transform="scale(0.8)">
                     <circle className="accfa199-00cc-4240-808e-88dd557906bd" cx="20" cy="20" r="16"/>
                     <ellipse className="a7e51ff4-de5d-4544-85d3-ff2eda5a64f4" cx="20" cy="20" rx="8.79" ry="7.18"
                              transform="translate(-8.28 20) rotate(-45)"/>
@@ -79,14 +79,14 @@ const CropIcons = ({crop, text, style, tick, tickX = 0, tickY = 25}) => {
                 </g>)
                 break;
             case 'teff':
-                icon = (<g>
+                icon = (<g transform="scale(0.8)">
                     <circle className="efca7a36-c950-4e49-acbf-eb02385e34cd" cx="20" cy="20" r="16"/>
                     <path className="f8b63ccf-56cc-47f5-8ead-ea35b7ba82a3"
                           d="M14.44,28.59a6.68,6.68,0,0,1,0-8.07c3.11-4.25,8.62-10.75,11.28-9.08s.61,9-4.24,14.69C18.25,30,14.44,28.59,14.44,28.59Z"/>
                 </g>)
                 break;
             case 'wheat':
-                icon = (<g>
+                icon = (<g transform="scale(0.8)">
                     <circle className="b367725e-860d-43f5-bc07-af90c6178a91" cx="20" cy="20" r="16"/>
                     <path className="e49649ce-e292-418f-abc8-bfa373a82b7d"
                           d="M25.55,21.54a30.21,30.21,0,0,1-7.89,7.24,3.88,3.88,0,0,1-5.9-1.29c-2.43-3.95,4.58-11.65,5.92-13.12S23.1,8,27.23,11.23C29.65,13.1,28.33,17.94,25.55,21.54Z"/>
@@ -94,7 +94,7 @@ const CropIcons = ({crop, text, style, tick, tickX = 0, tickY = 25}) => {
                 </g>)
                 break;
             case 'groundnut':
-                icon = (<g>
+                icon = (<g transform="scale(0.8)">
                     <circle className="a0221b4d-0622-44c3-9060-374f3f5b534e" cx="20" cy="20" r="16"/>
                     <path className="b3539294-6edd-47c3-a951-3c4d906ca518"
                           d="M24.28,21.21a6.56,6.56,0,0,0,2.15-2.14,5.78,5.78,0,0,0,.45-5.84c-.66-1.15.11-2-.86-2.6s-1.39.46-2.72.36a5.77,5.77,0,0,0-5.05,3,6.66,6.66,0,0,0-1,2.87,3.46,3.46,0,0,1-1.63,2.55,6.58,6.58,0,0,0-2.09,2.11c-1.69,2.7-1.23,6,1,7.45s5.46.37,7.15-2.33a6.64,6.64,0,0,0,1-2.8A3.48,3.48,0,0,1,24.28,21.21Z"/>
@@ -103,7 +103,7 @@ const CropIcons = ({crop, text, style, tick, tickX = 0, tickY = 25}) => {
                 </g>)
                 break;
             case 'sunflower':
-                icon = (<g>
+                icon = (<g transform="scale(0.8)">
                     <circle className="e5c957f3-9b38-46ce-98fd-8bb68722b0d8" cx="20" cy="20" r="16"/>
                     <path className="fe279966-1178-46e2-b480-5f78cc4a8904"
                           d="M26,13.32c-1.29,9.46-5.33,15.32-10.09,13.91"/>
@@ -114,7 +114,7 @@ const CropIcons = ({crop, text, style, tick, tickX = 0, tickY = 25}) => {
                 </g>)
                 break;
             case 'millet':
-                icon = (<g>
+                icon = (<g transform="scale(0.8)">
                     <circle className="f480e5fc-a519-4810-9648-414bd299b193" cx="20" cy="20" r="16"/>
                     <path className="bedfe655-5df4-4688-b8e3-ce3d3b284087"
                           d="M18.2,16.6c1.08-3.16,5.08-3.69,6.55-2.23"/>
@@ -125,8 +125,8 @@ const CropIcons = ({crop, text, style, tick, tickX = 0, tickY = 25}) => {
         }
 
         return (<g transform={`translate(${tick.x - tickX},${tick.y + tickY})`}>
-            {icon ? <g transform={`translate(-40, -20)`}>{icon}</g> : null}
-            <text transform={`translate(${10 - (!icon ? 15 : 0)}, 2) rotate(${tickRotation})`}
+            {icon ? <g transform={`translate(-40, -17)`}>{icon}</g> : null}
+            <text transform={`translate(${-3 - (!icon ? 15 : 0)}, 2) rotate(${tickRotation})`}
                   textAnchor="left"
                   dominantBaseline="middle"
                   style={style}>
