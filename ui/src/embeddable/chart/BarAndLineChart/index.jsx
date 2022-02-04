@@ -10,7 +10,7 @@ import {FAKE_NUMBER} from "../ChartsComponent";
 const BarAndLineChart = ({
                              data, sources, selectedYear, leftLegend, indexBy, groupMode, bottomLegend, rightLegend,
                              processedData, colors, keys, max, legends, getTooltipText, getTooltipHeader, lineColor,
-                             lineChartField, lineChartFieldLabel
+                             lineChartField, lineChartFieldLabel, showTotalLabel
                          }) => {
 
     let noData = false;
@@ -156,6 +156,7 @@ const BarAndLineChart = ({
                                             customTickWithCropsBottom={customTickWithCropsBottom}
                                             gridTickLines={4} rightLegend={rightLegend} LineLayer={LineLayer}
                                             markers={markerLine}
+                                            showTotalLabel={showTotalLabel}
                     />
                 </Grid.Column>
             </Grid.Row>
