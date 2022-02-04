@@ -793,6 +793,14 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
     }
   }
 
+  let initialSelectedCrops = null;
+  if (!noData) {
+      initialSelectedCrops = [];
+      initialCrops.forEach(i => {
+          initialSelectedCrops.push(1);
+      });
+  }
+  
   return <Grid className={`number-varieties-released`}>
     <Grid.Row className="header-section">
       <Grid.Column width={12}>
@@ -804,7 +812,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
     </Grid.Row>
     <Grid.Row className={`filters-section`}>
       {!noData && useFilterByCrops ? <Grid.Column computer={3} mobile={16}>
-        <CropFilter data={initialCrops} onChange={handleCropFilterChange} />
+        <CropFilter data={initialCrops} onChange={handleCropFilterChange} initialSelectedCrops={initialSelectedCrops}/>
       </Grid.Column> : null}
       {(!noData && showYearFilter) ? <Grid.Column computer={3} mobile={16}>
         <Years data={years} onChange={handleYearFilterChange} maxSelectable={maxSelectableYear}

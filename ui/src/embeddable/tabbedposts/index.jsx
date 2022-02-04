@@ -10,7 +10,6 @@ import {
   PostProvider
 } from "@devgateway/wp-react-lib";
 
-debugger
 const ItemMenu = ({ posts, activeItem, setActive, showLabels }) => {
   return posts ? posts.map(post => <Menu.Item key={post.id}
                                               onClick={e => setActive(post.slug)}

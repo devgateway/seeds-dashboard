@@ -31,28 +31,22 @@ import {
     MARKET_SHARE_STATE_OWNED_SEED_COMPANIES,
     VARIETY_RELEASE_PROCESS,
     QUANTITY_CERTIFIED_SEED_SOLD,
+    SATISFACTION_ENFORCEMENT_SEED_LAW,
     PRICE_SEED_PLANTING,
     AVAILABILITY_SEED_SMALL_PACKAGES,
     AGRODEALER_NETWORK,
     AGRICULTURAL_EXTENSION_SERVICES
 } from "../reducers/StoreConstants";
 import NumberOfVarietiesReleased from "./NumberOfVarietiesReleased";
-import AvailabilityOfBasicSeed from "./AvailabilityOfBasicSeed";
+import GaugesChart from "./GaugesChart";
 import {setFilter} from "../reducers/data";
 import ChartComponent from "./ChartsComponent";
-
-const PieChart = (props) => {
-    const {data, legends, colors, height} = props
-    const options = buildPieOptions(data, true)
-    return <HalfPie height={height} legends={legends} colors={colors} options={options}
-                    format={{style: "percent"}}></HalfPie>
-}
 
 const Diverging = (props) => {
     const {data, legends, colors, height} = props
     const options = buildDivergingOptions(data, true)
     return <Diverging height={height} legends={legends} colors={colors} options={options}
-                      format={{style: "percent", currency: "EUR"}}></Diverging>
+                      format={{style: "percent", currency: "EUR"}}/>
 }
 
 
@@ -121,19 +115,9 @@ const Chart = (props) => {
     if (currency !== "") {
         numberFormat["currency"] = currency
     }
-    const itemWidth = props["data-legends-width"] ? parseInt(props["data-legends-width"]) : 180
     const [mode, setMode] = useState(editing ? "chart" : 'info')
 
-    const legends = {
-        left: left,
-        bottom: bottom
-    }
-    const colors = {
-        scheme: scheme,
-        colorBy: colorBy
-    }
     let child = null
-
     let contentHeight;
     const showDataSource = false;
     if (editing) {
@@ -185,14 +169,16 @@ const Chart = (props) => {
             child = <CountryInfo/>
             break;
         case AVAILABILITY_OF_BASIC_SEED:
-          child = <AvailabilityOfBasicSeed mostRecentYears={mostRecentYears} sources={sources} {...chartProps} />;
+        case SATISFACTION_ENFORCEMENT_SEED_LAW:
+            child = <GaugesChart mostRecentYears={mostRecentYears} sources={sources} {...chartProps} type={type}
+                                 title={title} subTitle={subTitle}/>;
             break;
     }
     return (<div ref={ref}>
             <Container className={"chart container"} style={{"minHeight": height + 'px'}} fluid={true}>
                 {download === 'true' && <Button className={"download ignore"} onClick={e => exportPng()}>
                     Download
-                    <Icon name={"download"}></Icon>
+                    <Icon name={"download"}/>
                 </Button>}
                 <DataProvider params={JSON.parse(decodeURIComponent(params))}
                               app={type}
@@ -212,7 +198,7 @@ const Chart = (props) => {
 
                 {dual && childContent && mode === 'info' &&
                 <Container fluid={true} style={{"height": contentHeight + 'px'}} className={"body"}>
-                    <PostContent post={{content: {rendered: childContent}}}></PostContent>
+                    <PostContent post={{content: {rendered: childContent}}}/>
                 </Container>}
 
                 {(!editing && showDataSource) && <Grid columns={2} className={"footnote"}>
