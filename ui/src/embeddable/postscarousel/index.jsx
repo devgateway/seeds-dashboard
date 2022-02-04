@@ -13,6 +13,7 @@ import { getSlugFromFilters } from "../utils/common";
 const Carousel = ({ posts, itemsPerPage, messages, orientation, navigatorStyle, locale, type }) => {
   let i = 0;
   const isAddType = type !== undefined;
+  debugger
   return (<CarouselProvider
     visibleSlides={parseInt(itemsPerPage)}
     totalSlides={posts.length}

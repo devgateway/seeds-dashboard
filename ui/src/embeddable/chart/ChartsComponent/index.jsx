@@ -583,12 +583,14 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
       colors.set('private', barPieColor[2])
       getTooltipText = (d) => {
         return <><div style={{textAlign: 'center'}}>
-          <span>{intl.formatMessage({id: 'public-inspectors-legend', defaultMessage: 'Public inspectors'})} </span>
-          <span className="bold"> {d.data.public ? d.data.public : 0}</span>
-        </div><div style={{textAlign: 'center'}}>
-          <span>{intl.formatMessage({id: 'private-inspectors-legend', defaultMessage: 'Private inspectors'})} </span>
-          <span className="bold"> {d.data.private ? d.data.private : 0}</span>
-        </div></>
+            <span>{intl.formatMessage({id: 'private-inspectors-legend', defaultMessage: 'Private inspectors'})} </span>
+            <span className="bold"> {d.data.private ? d.data.private : 0}</span>
+          </div>
+          <div style={{textAlign: 'center'}}>
+            <span>{intl.formatMessage({id: 'public-inspectors-legend', defaultMessage: 'Public inspectors'})} </span>
+            <span className="bold"> {d.data.public ? d.data.public : 0}</span>
+          </div>
+        </>
       }
       getTooltipHeader = (d) => {
         return <>
@@ -600,6 +602,8 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
         {id: 2, 'color': barPieColor[2], 'label': intl.formatMessage({id: 'private-inspectors-legend', defaultMessage: 'Private inspectors'})},
         {id: 3, 'color': barPieColor[0], 'label': intl.formatMessage({id: 'industry-opinion-legend', defaultMessage: 'Industry opinion rating'})}
       ];
+      showTotalLabel=true;
+      lineChartFieldLabel = intl.formatMessage({id: 'industry-opinion-legend', defaultMessage: 'Industry opinion rating'});
       break;
     case VARIETY_RELEASE_PROCESS:
       useCropLegendsRow = false;
@@ -659,7 +663,10 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
                                 rightLegend={rightLegend} processedData={processedData} colors={colors}
                                 max={max * 1.05} keys={keys} getTooltipText={getTooltipText}
                                 getTooltipHeader={getTooltipHeader} lineColor={barPieColor[0]}
-                                legends={legends} lineChartField={lineChartField} lineChartFieldLabel={lineChartFieldLabel}/>
+                                legends={legends} lineChartField={lineChartField}
+                                lineChartFieldLabel={lineChartFieldLabel}
+                                showTotalLabel={showTotalLabel}
+        />
       case PERFORMANCE_SEED_TRADERS:
         return <Grid.Row className={`chart-section`}>
           <Grid.Column width={16}>
