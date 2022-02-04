@@ -26,7 +26,9 @@ import {
   QUANTITY_CERTIFIED_SEED_SOLD,
   VARIETY_RELEASE_PROCESS,
   PRICE_SEED_PLANTING,
-  AVAILABILITY_SEED_SMALL_PACKAGES
+  AVAILABILITY_SEED_SMALL_PACKAGES,
+  AGRODEALER_NETWORK,
+  AGRICULTURAL_EXTENSION_SERVICES
 } from "../../reducers/StoreConstants";
 import YearLegend from "../common/year";
 import MarketConcentrationHHI from "../MarketConcentrationHHI";
@@ -648,6 +650,96 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
         {id: 3, 'color': barPieColor[0], 'label': intl.formatMessage({id: 'satisfaction-release-legend', defaultMessage: 'Satisfaction with variety release'})}
       ];
       break;
+    case AGRODEALER_NETWORK:
+      useCropLegendsRow = false;
+      useFilterByCrops = false;
+      leftLegend = intl.formatMessage({id: 'number-households-legend', defaultMessage: 'Number of households"'});
+      indexBy = 'year';
+      bottomLegend = intl.formatMessage({id: 'years-legend', defaultMessage: 'Years'});;
+      groupMode = 'stacked';
+      rightLegend = intl.formatMessage({id: 'rating-legend', defaultMessage: 'Rating out of 100'});
+      keys.push('households');
+      max = 10;
+      Object.keys(data.values).forEach(y => {
+        const item = {year: y};
+        if (selectedYear && selectedYear.find(k => k === y)) {
+          item.households = Number( data.values[y].households) >= 0 ?  data.values[y].households : FAKE_NUMBER;
+          item.agrodealers = Number( data.values[y]["agrodealers-number"]) >= 0 ?  data.values[y]["agrodealers-number"] : FAKE_NUMBER;
+          item.rating = Number( data.values[y].rating) >= 0 ?  data.values[y].rating : FAKE_NUMBER;
+          if (item.households > max) {
+            max = item.households;
+          }
+          if (item.rating > max) {
+            max = item.rating;
+          }
+          processedData.push(item);
+        }
+      });
+      lineChartField = 'rating';
+      lineChartFieldLabel = intl.formatMessage({id: 'industry-opinion-rating-legend', defaultMessage: 'Industry opinion rating'});
+      colors.set('households', barPieColor[1])
+      getTooltipText = (d) => {
+        return <><div style={{textAlign: 'center'}}>
+          <span>{intl.formatMessage({id: 'agricultural-households-tooltip', defaultMessage: 'Agricultural households/agro-dealer'})} </span>
+          <span className="bold"> {d.data.households != FAKE_NUMBER ? d.data.households : "MD"}</span>
+        </div><div style={{textAlign: 'center'}}>
+          <span>{intl.formatMessage({id: 'number-agrodealers-tooltip', defaultMessage: 'Number of agro-dealers'})} </span>
+          <span className="bold"> {d.data.agrodealers != FAKE_NUMBER ? d.data.agrodealers : "MD"}</span>
+        </div></>
+      }
+      getTooltipHeader = (d) => {
+        return <>
+          <div className={d.indexValue + " crop-icon"}/>
+          <div className="crop-name">{d.indexValue}</div>
+        </>;
+      }
+      legends = [{id: 1, 'color': barPieColor[1], 'label': intl.formatMessage({id: 'agricultural-households-tooltip', defaultMessage: 'Agricultural households/agro-dealer'})},
+        {id: 2, 'color': barPieColor[0], 'label': intl.formatMessage({id: 'concentration-rating-legend', defaultMessage: 'Rating on concentration of agro-dealer network'})}
+      ];
+      break;
+    case AGRICULTURAL_EXTENSION_SERVICES:
+      useCropLegendsRow = false;
+      useFilterByCrops = false;
+      leftLegend = intl.formatMessage({id: 'number-households-legend', defaultMessage: 'Number of households"'});
+      indexBy = 'year';
+      bottomLegend = intl.formatMessage({id: 'years-legend', defaultMessage: 'Years'});;
+      groupMode = 'stacked';
+      rightLegend = intl.formatMessage({id: 'rating-legend', defaultMessage: 'Rating out of 100'});
+      keys.push('households');
+      max = 10;
+      Object.keys(data.values).forEach(y => {
+        const item = {year: y};
+        if (selectedYear && selectedYear.find(k => k === y)) {
+          item.households = Number( data.values[y].households) >= 0 ?  data.values[y].households : FAKE_NUMBER;
+          item.rating = Number( data.values[y].rating) >= 0 ?  data.values[y].rating : FAKE_NUMBER;
+          if (item.households > max) {
+            max = item.households;
+          }
+          if (item.rating > max) {
+            max = item.rating;
+          }
+          processedData.push(item);
+        }
+      });
+      lineChartField = 'rating';
+      lineChartFieldLabel = intl.formatMessage({id: 'industry-opinion-rating-legend', defaultMessage: 'Industry opinion rating'});
+      colors.set('households', barPieColor[1])
+      getTooltipText = (d) => {
+        return <><div style={{textAlign: 'center'}}>
+          <span>{intl.formatMessage({id: 'households-per-officer-tooltip', defaultMessage: 'Households per extension officer'})} </span>
+          <span className="bold"> {d.data.households != FAKE_NUMBER ? d.data.households : "MD"}</span>
+        </div></>
+      }
+      getTooltipHeader = (d) => {
+        return <>
+          <div className={d.indexValue + " crop-icon"}/>
+          <div className="crop-name">{d.indexValue}</div>
+        </>;
+      }
+      legends = [{id: 1, 'color': barPieColor[1], 'label': intl.formatMessage({id: 'households-per-officer-tooltip', defaultMessage: 'Households per extension officer'})},
+        {id: 2, 'color': barPieColor[0], 'label': intl.formatMessage({id: 'availability-rating-legend', defaultMessage: 'Rating on availability of agricultural extension services for smallholder farmers'})}
+      ];
+      break;
   }
 
   const insertChart = () => {
@@ -656,6 +748,8 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
         return <MarketConcentrationHHI data={data} selectedYear={selectedYear} bottomLegend={bottomLegend}/>
       case NUMBER_SEED_INSPECTORS:
       case VARIETY_RELEASE_PROCESS:
+      case AGRODEALER_NETWORK:
+      case AGRICULTURAL_EXTENSION_SERVICES:
       case EFFICIENCY_SEED_IMPORT_PROCESS:
       case EFFICIENCY_SEED_EXPORT_PROCESS:
         return <BarAndLineChart data={data} selectedYear={selectedYear} leftLegend={leftLegend}

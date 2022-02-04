@@ -142,6 +142,14 @@ class BlockEdit extends BaseBlockEdit {
                                             label: 'Price of seed at planting',
                                             value: 'priceSeedPlanting'
                                         },
+                                        {
+                                            label: 'Concentration of agro-dealer network',
+                                            value: 'agrodealerNetwork'
+                                        },
+                                        {
+                                            label: 'Availability of agricultural extension services for smallholder farmers',
+                                            value: 'agriculturalExtensionServices'
+                                        },
                                     ]}
                                 />
                             </PanelRow>

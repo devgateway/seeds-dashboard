@@ -22,6 +22,8 @@ import {
   SATISFACTION_ENFORCEMENT_SEED_LAW,
   PRICE_SEED_PLANTING,
   AVAILABILITY_SEED_SMALL_PACKAGES,
+  AGRODEALER_NETWORK,
+  AGRICULTURAL_EXTENSION_SERVICES
 } from "./StoreConstants";
 
 const SURVEY_API = process.env.REACT_APP_SURVEY_API
@@ -56,6 +58,8 @@ const VARIETY_RELEASE_PROCESS_API = `${SURVEY_API}/chart/varietyReleaseProcess/y
 const QUANTITY_CERTIFIED_SEED_SOLD_API = `${SURVEY_API}/chart/quantitySeedSold/crop/year/`;
 const PRICE_SEED_PLANTING_API = `${SURVEY_API}/chart/priceSeedPlanting/crop/year/`;
 const AVAILABILITY_SEED_SMALL_PACKAGES_API = `${SURVEY_API}/chart/availabilitySeedSmallPackages/year/crop/packages`;
+const AGRODEALER_NETWORK_API = `${SURVEY_API}/chart/agrodealerNetwork/year/`;
+const AGRICULTURAL_EXTENSION_SERVICES_API = `${SURVEY_API}/chart/agriculturalExtensionServices/year/`;
 
 const APIS = {
   prevalence: '',
@@ -79,6 +83,8 @@ const APIS = {
   [VARIETY_RELEASE_PROCESS]: VARIETY_RELEASE_PROCESS_API,
   [QUANTITY_CERTIFIED_SEED_SOLD]: QUANTITY_CERTIFIED_SEED_SOLD_API,
   [PRICE_SEED_PLANTING]: PRICE_SEED_PLANTING_API,
+  [AGRODEALER_NETWORK]: AGRODEALER_NETWORK_API,
+  [AGRICULTURAL_EXTENSION_SERVICES]: AGRICULTURAL_EXTENSION_SERVICES_API,
 }
 
 function queryParams(params) {
@@ -129,6 +135,8 @@ export const getData = ({ source, app, params }) => {
     || app === QUANTITY_CERTIFIED_SEED_SOLD
     || app === AVAILABILITY_SEED_SMALL_PACKAGES
     || app === PRICE_SEED_PLANTING
+    || app === AGRODEALER_NETWORK
+    || app === AGRICULTURAL_EXTENSION_SERVICES
     || (sources && sources.length > 0 && sources[0] === WP_CHART)
   ) {
     if (params[SELECTED_COUNTRY] || params[DEFAULT_COUNTRY_ID]) {
@@ -166,3 +174,4 @@ export const getDocumentsData = (params) => {
   let documentsApi = WP_DOCUMENTS_API + (params ? '?' + queryParams(params) : '')
   return get(documentsApi, params)
 }
+
