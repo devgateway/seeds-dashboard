@@ -11,7 +11,6 @@ import {
     PostTitle
 } from "@devgateway/wp-react-lib";
 
-debugger
 
 const FeaturedPost = ({post, onClick, active, moreLabel}) => {
     const media = post['_embedded'] ? post['_embedded']["wp:featuredmedia"] : null
