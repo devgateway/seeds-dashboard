@@ -7,6 +7,24 @@ $border_gray: rgba(229, 229, 229, 1);
   border-top: $border_gray 1px solid;
   border-right: $border_gray 1px solid;
   border-left: $border_gray 1px solid;
+
+  .crop{
+    background-size: 30px;
+    margin-right: 10px;
+    padding-left: 35px;
+    label{
+      color: #7d7d7d;
+      font-size: 12pt;
+    }
+    &.legend{
+      .crops-title {
+        font-size: 16pt;
+        color: #354052;
+        font-weight: bold;
+        margin-top: 11px;
+      }
+    }
+  }
 }
 
 .chart-section {
@@ -33,11 +51,6 @@ $border_gray: rgba(229, 229, 229, 1);
   }
 }
 
-.crops-title {
-  font-size: 1.2rem;
-  color: black;
-  font-weight: bold;
-}
 
 .filters-section {
   //padding-bottom: 7px !important;
