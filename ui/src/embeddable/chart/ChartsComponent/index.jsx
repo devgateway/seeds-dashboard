@@ -794,7 +794,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
   }
 
   let initialSelectedCrops = null;
-  if (!noData) {
+  if (!noData && Array.from(initialCrops).length > 0) {
       initialSelectedCrops = [];
       initialCrops.forEach(i => {
           initialSelectedCrops.push(1);
