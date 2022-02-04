@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import './styles.scss';
 import {Accordion, Form, Menu} from "semantic-ui-react";
 
-const CropFilter = ({data, onChange}) => {
+const CropFilter = ({data, onChange, initialSelectedCrops = [1, 1, 1, 1]}) => {
 
     const [activeIndex, setActiveIndex] = useState([0]);
     const [numberOfSelectedCrops, setNumberOfSelectedCrops] = useState([1, 1, 1, 1]);
@@ -10,7 +10,7 @@ const CropFilter = ({data, onChange}) => {
 
     if (data !== currentData) {
         setCurrentData(data);
-        setNumberOfSelectedCrops([1, 1, 1, 1]);
+        setNumberOfSelectedCrops(initialSelectedCrops);
         setActiveIndex([0]);
     }
 
@@ -37,7 +37,7 @@ const CropFilter = ({data, onChange}) => {
 
     const sum = numberOfSelectedCrops.reduce((acc, a) => acc + a, 0);
     const title = (<div><span className="filter-selector-title">Crop(s) </span><span
-        className="filter-selector-numbers">{sum} of 4</span></div>);
+        className="filter-selector-numbers">{sum} of {currentData ? currentData.length : 0}</span></div>);
     return (
         <Accordion as={Menu} vertical>
             <Menu.Item>
