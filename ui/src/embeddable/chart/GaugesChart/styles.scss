@@ -50,7 +50,7 @@
 
       padding: 0;
 
-      .seeds-list{
+      .seeds-list {
         padding-left: 0;
         padding-right: 0;
       }
@@ -118,18 +118,21 @@
       .row {
         height: 65px;
 
-        .legend-item{
+        .legend-item {
           margin-right: $base-unit + 5;
           width: auto;
-          &:last-of-type{
+
+          &:last-of-type {
             margin-left: 0;
             margin-right: 0;
           }
         }
+
         .column {
           background-color: transparent;
           color: #868686;
-          &:last-of-type{
+
+          &:last-of-type {
             margin-left: 5px;
           }
 
@@ -146,6 +149,82 @@
     &.ui.grid {
       margin: 0;
       padding-bottom: $base-unit * 3;
+    }
+  }
+}
+
+.satisfaction-enforcement {
+  &.ui.grid {
+    color: #626262;
+    margin: 0;
+    width: $extend;
+    padding-top: 15px;
+
+    .row {
+
+      .avg-cell {
+        background-color: #fafafa;
+      }
+
+      .no-data {
+        width: $extend;
+        height: 400px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      &.with-bottom-border {
+        border-bottom: 1px solid $indicator-border-color;
+      }
+
+      &.chart-title {
+        font-family: Museo Slab, serif;
+        font-weight: 700;
+        height: 65px;
+        display: flex;
+        justify-content: left;
+        align-content: center;
+        font-size: 21px;
+      }
+
+      &.border-left {
+        border-left: 1px solid $indicator-border-color;
+      }
+
+      &.border-right {
+        border-right: 1px solid $indicator-border-color;
+      }
+
+      &.datasource-container {
+        height: 30px;
+        color: $green;
+        background-color: #f6f9f5;
+        font-weight: 900;
+        padding-left: 20px;
+        @include display-flex(left);
+      }
+
+      padding: 0;
+
+      .seeds-list {
+        padding-left: 0;
+        padding-right: 0;
+      }
+
+      .title {
+        display: flex;
+        align-items: center;
+        color: black;
+
+        div {
+          transform: rotate(-90deg);
+          width: fit-content;
+          font-size: 16px;
+          font-weight: 600;
+          white-space: nowrap;
+        }
+      }
     }
   }
 }
