@@ -29,7 +29,8 @@ const ResponsiveRadarChartImpl = ({
                                   keys,
                                   colors,
                                   indexBy,
-                                  containerHeight = 550
+                                  containerHeight = 550,
+                                  maxValue = "100"
                                 }) => {
 
 
@@ -55,6 +56,7 @@ const ResponsiveRadarChartImpl = ({
           data = {processedData}
           indexBy = {indexBy}
           keys = {keys}
+          maxValue = {maxValue}
           dotSize = {30}
           colors= {(item) => getColors(item)}
           borderWidth = {2}
