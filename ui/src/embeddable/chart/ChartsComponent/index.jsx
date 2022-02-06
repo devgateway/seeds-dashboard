@@ -585,11 +585,11 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
       colors.set('private', barPieColor[2])
       getTooltipText = (d) => {
         return <><div style={{textAlign: 'center'}}>
-            <span>{intl.formatMessage({id: 'private-inspectors-legend', defaultMessage: 'Private inspectors'})} </span>
+            <span>{intl.formatMessage({id: 'tooltip-private-inspectors-legend', defaultMessage: 'Private Seed inspectors'})} </span>
             <span className="bold"> {d.data.private ? d.data.private : 0}</span>
           </div>
           <div style={{textAlign: 'center'}}>
-            <span>{intl.formatMessage({id: 'public-inspectors-legend', defaultMessage: 'Public inspectors'})} </span>
+            <span>{intl.formatMessage({id: 'tooltip-public-inspectors-legend', defaultMessage: 'Public Seed inspectors'})} </span>
             <span className="bold"> {d.data.public ? d.data.public : 0}</span>
           </div>
         </>
