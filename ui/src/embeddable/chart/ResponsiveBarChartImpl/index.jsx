@@ -147,7 +147,10 @@ const ResponsiveBarChartImpl = ({
               fontWeight: 'bold',
               fontSize: '14pt'
             }}>
-              {data[id] !== FAKE_NUMBER ? data[id] : data_.values[data.crop][id] || 'MD'}{dataSuffix && Number(data[id]) >= 1 ? dataSuffix : ''}
+              {data[id] !== FAKE_NUMBER
+                  ? data[id]
+                  : data_.values[data.crop] ? data_.values[data.crop][id] || 'MD' : 'MD'}
+              {dataSuffix && Number(data[id]) >= 1 ? dataSuffix : ''}
           </text>
         </g>);
       }

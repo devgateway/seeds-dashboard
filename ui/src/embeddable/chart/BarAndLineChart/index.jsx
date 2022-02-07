@@ -18,7 +18,7 @@ const BarAndLineChart = ({
         noData = true;
     }
     let sum = 0
-    if (groupMode != "stacked") {
+    if (groupMode !== "stacked") {
         Object.keys(data.values).forEach(i => {
             Object.keys(data.values[i]).forEach(j => {
                 sum += Number(data.values[i][j][i]) || 0;
@@ -45,10 +45,13 @@ const BarAndLineChart = ({
     const LineLayer = ({bars, xScale, yScale}) => {
         const filterIndex = [];
         const filteredBars = bars.filter(b => {
+            if (b.data.data[lineChartField] !== FAKE_NUMBER) {
                 if (!filterIndex.find(k => k === b.data.indexValue)) {
                     filterIndex.push(b.data.indexValue);
                     return b.data.data[lineChartField];
                 }
+            }
+            return null;
         });
 
         const lineGenerator = line()
@@ -67,7 +70,9 @@ const BarAndLineChart = ({
                     style={{pointerEvents: "none"}}
                 />
                 {selectedYear.length > 0 && bars.map(bar => {
-                    if (selectedYear.find(i => i === bar.data.indexValue) && yScale(bar.data.data[lineChartField])) {
+                    if (selectedYear.find(i => i === bar.data.indexValue)
+                        && yScale(bar.data.data[lineChartField])
+                        && bar.data.data[lineChartField] !== FAKE_NUMBER) {
                         return (<circle
                             key={bar.key}
                             cx={xScale(bar.data.indexValue) + bar.width / 2}
@@ -81,7 +86,7 @@ const BarAndLineChart = ({
                                         <div className="header-container">
                                             <div className="header">
                                                 <div className="inner-container">
-                                                    <div className="crop-icon"></div>
+                                                    <div className="crop-icon"/>
                                                     <div className="crop-name">{bar.data.indexValue}</div>
                                                 </div>
                                             </div>
@@ -93,7 +98,7 @@ const BarAndLineChart = ({
                                                     <td>
                                                         <div style={{textAlign: 'center'}}>
                                                             <span>{lineChartFieldLabel}</span><span
-                                                            className="bold"> {bar.data.data[lineChartField] != FAKE_NUMBER ? bar.data.data[lineChartField] : "MD"}</span>
+                                                            className="bold"> {bar.data.data[lineChartField] !== FAKE_NUMBER ? bar.data.data[lineChartField] : "MD"}</span>
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -117,20 +122,24 @@ const BarAndLineChart = ({
 
     let markerLine = null;
     if (selectedYear.length === 1) {
+        if (processedData.filter(i => i[lineChartField] !== FAKE_NUMBER).length !== 0) {
+            markerLine = [
+                {
+                    axis: 'y',
+                    value: processedData.find(i => i.year === selectedYear[0])[lineChartField],
+                    lineStyle: {stroke: lineColor, strokeWidth: 2},
+                    legend: '',
+                    legendOrientation: 'vertical',
+                }
+            ];
+        }
+    } else if (processedData.filter(i => i[lineChartField]).length === 1
+        || processedData.filter(i => i[lineChartField] !== FAKE_NUMBER).length === 1) { // Also show marker when there is only 1 point with data.
+        const processedDataWithoutMD = processedData.filter(i => i[lineChartField] !== FAKE_NUMBER);
         markerLine = [
             {
                 axis: 'y',
-                value: processedData.find(i => i.year === selectedYear[0])[lineChartField],
-                lineStyle: {stroke: lineColor, strokeWidth: 2},
-                legend: '',
-                legendOrientation: 'vertical',
-            }
-        ];
-    } else if (processedData.filter(i => i[lineChartField]).length === 1) { // Also show marker when there is only 1 point with data.
-        markerLine = [
-            {
-                axis: 'y',
-                value: processedData.filter(i => i[lineChartField])[0][lineChartField],
+                value: processedDataWithoutMD.filter(i => i[lineChartField])[0][lineChartField],
                 lineStyle: {stroke: lineColor, strokeWidth: 2},
                 legend: '',
                 legendOrientation: 'vertical',

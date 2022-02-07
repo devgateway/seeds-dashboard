@@ -535,8 +535,8 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
       Object.keys(data.values.days).forEach(y => {
         const item = {year: y};
         if (selectedYear && selectedYear.find(k => k === y)) {
-          item.value = Number(data.values.days[y].days) >= 0 ? data.values.days[y].days : null;
-          item.rating = Number(data.values.rating[y].rating) >= 0 ? data.values.rating[y].rating : null;
+          item.value = Number(data.values.days[y].days) >= 0 ? data.values.days[y].days : FAKE_NUMBER;
+          item.rating = Number(data.values.rating[y].rating) >= 0 ? data.values.rating[y].rating : FAKE_NUMBER;
           if (item.value > max) {
             max = item.value;
           }
@@ -550,7 +550,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
       getTooltipText = (d) => {
         return <div style={{textAlign: 'center'}}>
           <span>{tooltipSubText}</span>
-          <span className="bold"> {d.data[d.id]}</span>
+          <span className="bold"> {d.data[d.id] !== FAKE_NUMBER ? d.data[d.id] : 'MD'}</span>
         </div>
       }
       getTooltipHeader = (d) => {
