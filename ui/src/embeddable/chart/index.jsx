@@ -154,7 +154,8 @@ const Chart = (props) => {
 
     const generateSourcesText = () => {
         const currentLanguage = locale || 'en';
-        let ret = sources || '';
+        const separator = '||';
+        let ret = sources || separator;
         if (categoriesWP && filters && countries) {
             const selectedCountry = filters.getIn([SELECTED_COUNTRY]);
             const defaultCountry = Number(filters.getIn([DEFAULT_COUNTRY_ID]));
@@ -179,8 +180,8 @@ const Chart = (props) => {
             if (!texts || texts.length === 0) {
                 return ret;
             }
-            if (texts.find(i => i.name.indexOf(currentLanguage + '||') === 0)) {
-                ret += texts.find(i => i.name.indexOf(currentLanguage + '||') === 0).name.substring(4);
+            if (texts.find(i => i.name.indexOf(currentLanguage + separator) === 0)) {
+                ret += texts.find(i => i.name.indexOf(currentLanguage + separator) === 0).name.substring(4);
             } else {
                 ret += texts[0].name.substring(4);
             }
