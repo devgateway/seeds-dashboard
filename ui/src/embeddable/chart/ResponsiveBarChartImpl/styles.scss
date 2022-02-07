@@ -93,14 +93,14 @@ $border_gray: rgba(229, 229, 229, 1);
 
     table {
       width: 100%;
+      font-weight: normal;
       padding: 5px;
-      //padding-top: 0px;
       margin: 5px;
       margin-top: 0px;
       padding-right: 15px;
       border: none;
       font-size: 14px;
-      color: dimgray;
+      color: #555555;
       text-align: left;
 
       .year {
@@ -120,6 +120,7 @@ $border_gray: rgba(229, 229, 229, 1);
 }
 
 .no-data {
+  padding-bottom: 15%;
   padding-top: 15%;
   text-align: center;
 }
