@@ -18,7 +18,7 @@ const baseColors = {
     "wheat": "#A78D0C",
     millet: '#878786',
     pigeon: '#878786',
-    'pigeon-pea': '#878786'
+    'pigeon-pea': '#a78d0c'
 }
 
 const fadeColors = {
