@@ -512,11 +512,17 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
           leftLegend = 'Number of days for import';
           tooltipSubText = 'Days for Import';
           subLabel = 'Number of days for import';
+          legends = [{id: 1, 'color': barPieColor[1], 'label': 'Number of days for import'},
+            {id: 2, 'color': barPieColor[0], 'label': 'Industry Rating'}
+          ];
           break;
         case EFFICIENCY_SEED_EXPORT_PROCESS:
           leftLegend = 'Number of days for export';
-          tooltipSubText = 'Number of of days';
+          tooltipSubText = 'Number of days';
           subLabel = 'Number of days for export';
+          legends = [{id: 1, 'color': barPieColor[1], 'label': 'Number of days for export'},
+            {id: 2, 'color': barPieColor[0], 'label': 'Industry Rating'}
+          ];
           break;
         default:
           leftLegend = 'insert legend here';
@@ -553,9 +559,6 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
           <div className="crop-name">{d.indexValue}</div>
         </>;
       }
-      legends = [{id: 1, 'color': barPieColor[1], 'label': 'Number of days for import'},
-        {id: 2, 'color': barPieColor[0], 'label': 'Industry Rating'}
-      ];
       break;
     case NUMBER_SEED_INSPECTORS:
       useCropLegendsRow = false;
