@@ -154,7 +154,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
   const availabilitySeedSmallPackages = () => {
     if (years && crops) {
       max = 85;
-      keys.push('1-two-or-less', '2-two-to-ten', '3-ten-to-twentyfive', '4-twentyfive-or-more');
+      data.dimensions.packages.values.forEach(x => keys.push(x));
       if (selectedYear) {
         crops.forEach(c => {
           const item = {crop: c};
@@ -512,11 +512,17 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
           leftLegend = 'Number of days for import';
           tooltipSubText = 'Days for Import';
           subLabel = 'Number of days for import';
+          legends = [{id: 1, 'color': barPieColor[1], 'label': 'Number of days for import'},
+            {id: 2, 'color': barPieColor[0], 'label': 'Industry Rating'}
+          ];
           break;
         case EFFICIENCY_SEED_EXPORT_PROCESS:
           leftLegend = 'Number of days for export';
-          tooltipSubText = 'Number of of days';
+          tooltipSubText = 'Number of days';
           subLabel = 'Number of days for export';
+          legends = [{id: 1, 'color': barPieColor[1], 'label': 'Number of days for export'},
+            {id: 2, 'color': barPieColor[0], 'label': 'Industry Rating'}
+          ];
           break;
         default:
           leftLegend = 'insert legend here';
@@ -529,8 +535,8 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
       Object.keys(data.values.days).forEach(y => {
         const item = {year: y};
         if (selectedYear && selectedYear.find(k => k === y)) {
-          item.value = Number(data.values.days[y].days) >= 0 ? data.values.days[y].days : null;
-          item.rating = Number(data.values.rating[y].rating) >= 0 ? data.values.rating[y].rating : null;
+          item.value = Number(data.values.days[y].days) >= 0 ? data.values.days[y].days : FAKE_NUMBER;
+          item.rating = Number(data.values.rating[y].rating) >= 0 ? data.values.rating[y].rating : FAKE_NUMBER;
           if (item.value > max) {
             max = item.value;
           }
@@ -540,11 +546,15 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
           processedData.push(item);
         }
       });
+      if (processedData.filter(i => i.value !== FAKE_NUMBER).length === 0
+          && processedData.filter(i => i.rating !== FAKE_NUMBER).length === 0) {
+        noData = true;
+      }
       colors.set('value', barPieColor[1])
       getTooltipText = (d) => {
         return <div style={{textAlign: 'center'}}>
           <span>{tooltipSubText}</span>
-          <span className="bold"> {d.data[d.id]}</span>
+          <span className="bold"> {d.data[d.id] !== FAKE_NUMBER ? d.data[d.id] : 'MD'}</span>
         </div>
       }
       getTooltipHeader = (d) => {
@@ -553,9 +563,6 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
           <div className="crop-name">{d.indexValue}</div>
         </>;
       }
-      legends = [{id: 1, 'color': barPieColor[1], 'label': 'Number of days for import'},
-        {id: 2, 'color': barPieColor[0], 'label': 'Industry Rating'}
-      ];
       break;
     case NUMBER_SEED_INSPECTORS:
       useCropLegendsRow = false;
