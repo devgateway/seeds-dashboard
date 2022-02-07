@@ -770,7 +770,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
         />
       case PERFORMANCE_SEED_TRADERS:
         return <Grid.Row className={`chart-section`}>
-          <Grid.Column width={16}>
+          <Grid.Column width={16} className={`radar`}>
             <ResponsiveRadarChartImpl
                 noData={noData}
                 selectedYear={selectedYear}
