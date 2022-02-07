@@ -2,11 +2,10 @@ import React, { useEffect } from "react";
 import { Container } from "semantic-ui-react";
 import { connect } from "react-redux";
 import { getDocuments, getWpCategories } from "../reducers/data";
-import { DATA, SELECTED_COUNTRY, WP_CATEGORIES, WP_DOCUMENTS } from "../reducers/StoreConstants";
+import { DATA, SELECTED_COUNTRY, WP_CATEGORIES, WP_DOCUMENTS, DATA_CATEGORY } from "../reducers/StoreConstants";
 import Documents from "./Documents";
 
 const DOCUMENTS_PER_PAGE = 100;
-const DATA_CATEGORY = 'data-category';
 
 const ListOfDocuments = ({
                            onLoadDocuments,

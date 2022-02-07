@@ -35,11 +35,17 @@ import {
     PRICE_SEED_PLANTING,
     AVAILABILITY_SEED_SMALL_PACKAGES,
     AGRODEALER_NETWORK,
-    AGRICULTURAL_EXTENSION_SERVICES
+    AGRICULTURAL_EXTENSION_SERVICES,
+    DATA,
+    WP_DOCUMENTS,
+    DATA_CATEGORY,
+    WP_CATEGORIES,
+    COUNTRIES_FILTER,
+    SOURCE_CATEGORIES, SELECTED_COUNTRY
 } from "../reducers/StoreConstants";
 import NumberOfVarietiesReleased from "./NumberOfVarietiesReleased";
 import GaugesChart from "./GaugesChart";
-import {setFilter} from "../reducers/data";
+import {getDocuments, getWpCategories, setFilter} from "../reducers/data";
 import ChartComponent from "./ChartsComponent";
 
 const Diverging = (props) => {
@@ -58,6 +64,10 @@ const Chart = (props) => {
         unique,
         childContent,
         setDefaultFilter,
+        onLoadCategories,
+        categoriesWP,
+        countries,
+        locale,
         "data-app": app,
         "data-download": download,
         "data-height": height = 500,
@@ -96,6 +106,10 @@ const Chart = (props) => {
     useEffect(() => {
         setDefaultFilter(DEFAULT_COUNTRY_ID, defaultCountryId)
     }, []);
+
+    useEffect(() => {
+        onLoadCategories()
+    }, [onLoadCategories]);
 
     function filter(node) {
         if (node.classList) {
@@ -138,10 +152,50 @@ const Chart = (props) => {
         editing:editing
     }
 
+    const generateSourcesText = () => {
+        const currentLanguage = locale || 'en';
+        const separator = '||';
+        let ret = sources || separator;
+        if (categoriesWP && filters && countries) {
+            const selectedCountry = filters.getIn([SELECTED_COUNTRY]);
+            const defaultCountry = Number(filters.getIn([DEFAULT_COUNTRY_ID]));
+            const country = countries.find(i => {
+                if (selectedCountry) {
+                    return selectedCountry === i.countryId;
+                } else if (defaultCountry) {
+                    return defaultCountry === i.countryId;
+                }
+                return null;
+            });
+            const category = categoriesWP.find(i => i.name === SOURCE_CATEGORIES);
+            if (!category) {
+                return ret;
+            }
+            const mainCountryCategory = categoriesWP.find(i => i.parent === category.id
+                && i.name.toLowerCase() === country.country.toLowerCase());
+            if (!mainCountryCategory) {
+                return ret;
+            }
+            const texts = categoriesWP.filter(i => i.parent === mainCountryCategory.id);
+            if (!texts || texts.length === 0) {
+                return ret;
+            }
+            if (texts.find(i => i.name.indexOf(currentLanguage + separator) === 0)) {
+                ret += texts.find(i => i.name.indexOf(currentLanguage + separator) === 0).name.substring(4);
+            } else {
+                ret += texts[0].name.substring(4);
+            }
+            return ret;
+        } else {
+            return ret;
+        }
+    }
+    let dynamicSources = generateSourcesText();
+
     const dual = (dualMode === 'true')
     switch (type) {
         case NUMBER_OF_VARIETIES_RELEASED:
-          child = <NumberOfVarietiesReleased sources={sources} {...chartProps} type={type} />;
+          child = <NumberOfVarietiesReleased sources={dynamicSources} {...chartProps} type={type} />;
             break;
         case VARIETIES_RELEASED_WITH_SPECIAL_FEATURES:
         case NUMBER_OF_ACTIVE_BREEDERS:
@@ -161,8 +215,8 @@ const Chart = (props) => {
         case AGRODEALER_NETWORK:
         case AGRICULTURAL_EXTENSION_SERVICES:
         case AVERAGE_AGE_VARIETIES_SOLD: {
-            const chartComponent = {sources, type, ...chartProps}
-            child = <ChartComponent {...chartComponent} />
+            const chartComponent = {type, ...chartProps}
+            child = <ChartComponent {...chartComponent} sources={dynamicSources}/>
             break;
         }
         case COUNTRY_INFO:
@@ -170,7 +224,7 @@ const Chart = (props) => {
             break;
         case AVAILABILITY_OF_BASIC_SEED:
         case SATISFACTION_ENFORCEMENT_SEED_LAW:
-            child = <GaugesChart mostRecentYears={mostRecentYears} sources={sources} {...chartProps} type={type}
+            child = <GaugesChart mostRecentYears={mostRecentYears} sources={dynamicSources} {...chartProps} type={type}
                                  title={title} subTitle={subTitle}/>;
             break;
     }
@@ -223,13 +277,20 @@ const Chart = (props) => {
             </Container>
         </div>
     )
-
 }
 
 const mapStateToProps = (state, ownProps) => {
-    return {}
+    return {
+        categoriesWP: state.getIn([DATA, WP_CATEGORIES]),
+        countries: state.getIn([DATA, COUNTRIES_FILTER]),
+        filters: state.getIn([DATA, 'filters']),
+        locale: state.getIn(['intl', 'locale']),
+    }
 }
 
-const mapActionCreators = {setDefaultFilter: setFilter};
+const mapActionCreators = {
+    setDefaultFilter: setFilter,
+    onLoadCategories: getWpCategories
+};
 
 export default connect(mapStateToProps, mapActionCreators)(Chart)
