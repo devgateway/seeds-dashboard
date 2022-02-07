@@ -126,3 +126,26 @@ $border_gray: rgba(229, 229, 229, 1);
   padding-top: 15%;
   text-align: center;
 }
+
+
+//tooltip
+.radar{
+  > div{
+    > div {
+      > div {
+        > div{
+          color: #555555;
+          font-weight: normal;
+          font-size: 14px;
+          > div{
+            padding: 25px !important;
+            strong{
+              display: block;
+              margin-bottom:10px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
