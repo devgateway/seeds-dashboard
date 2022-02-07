@@ -24,8 +24,9 @@ const theme = {
         legend: {
             text: {
                 fontSize: 12,
-                fill: "black",
-                fontWeight: 'bold',
+                fill: "#354052",
+                fontWeight: '400',
+                fontFamily: 'Lato',
             }
         }
     }

@@ -32,9 +32,9 @@ const theme = {
     legend: {
       text: {
         fontSize: 12,
-        fill: "black",
-        fontWeight: 'bold',
-        /*fontFamily: 'Lato'*/
+        fill: "#354052",
+        fontWeight: 'normal',
+        fontFamily: 'Lato',
       }
     }
   }
@@ -114,7 +114,8 @@ const ResponsiveBarChartImpl = ({
             // add any style to the label here
             style={{
               fontWeight: 'bold',
-              fontSize: '14pt'
+              fontSize: '14pt',
+              fill:'#354052',
             }}>
             {showTotalLabel ? total : isMD ? "MD" : "" }
           </text>
@@ -139,13 +140,14 @@ const ResponsiveBarChartImpl = ({
             // add any class to the label here
             className="bar-total-label"
             x={width / 2}
-            y={labelMargin / 2}
+            y={labelMargin - 15}
             textAnchor="middle"
             alignmentBaseline="central"
             // add any style to the label here
             style={{
               fontWeight: 'bold',
-              fontSize: '14pt'
+              fontSize: '14pt',
+              fill:'#354052',
             }}>
               {data[id] !== FAKE_NUMBER
                   ? data[id]
@@ -176,7 +178,7 @@ const ResponsiveBarChartImpl = ({
                      style={{'textTransform': 'capitalize', fill: '#adafb2'}}/>
           { bottomLegend && customTickWithCropsBottom && tick.tickIndex === 0 ?
               <text transform={`translate(${(width - bottomLegendWidth - translX) / 2},${tick.y + translY})`}
-                    style={{fontWeight: 'bold'}}>
+                    style={{fontWeight: 'normal', fill: '#354052'}}>
                   {bottomLegend}
               </text> : null}
       </g>);

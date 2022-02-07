@@ -5,7 +5,7 @@
   margin-right: 25px;
 
   .crops-title {
-    font-size: 16pt;
+    font-size: 21px;
   }
 
   label {
@@ -31,9 +31,9 @@
 
 .lighter-crop {
   height: 50px;
-  width: 25px;
+  width: 20px;
   top: 2px;
-  left: -27px;
+  left: -20px;
   filter: brightness(109%);
   z-index: 999999;
   background-color: white;

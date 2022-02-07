@@ -264,7 +264,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
   switch (type) {
     case NUMBER_VARIETIES_SOLD:
     case PRICE_SEED_PLANTING:
-    case QUANTITY_CERTIFIED_SEED_SOLD:  
+    case QUANTITY_CERTIFIED_SEED_SOLD:
     case AVERAGE_AGE_VARIETIES_SOLD:
     case MARKET_SHARE_TOP_FOUR_SEED_COMPANIES:
     case MARKET_SHARE_STATE_OWNED_SEED_COMPANIES:
@@ -468,7 +468,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
           <div><span>{intl.formatMessage({id: 'package-size-tooltip', defaultMessage: 'Package size'})}: </span>
             <span className="bold">{intl.formatMessage({id: packageName + '-tooltip', defaultMessage: packageName})}</span></div>
           <div><span>{intl.formatMessage({id: 'percentage-legend', defaultMessage: 'Percentage'})}: </span>
-            <span className="bold"> {d.data[d.id]}</span></div>
+            <span className="normal"> {d.data[d.id]}</span></div>
         </>
       }
       indexBy = 'crop';
@@ -807,7 +807,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
           initialSelectedCrops.push(1);
       });
   }
-  
+
   return <Grid className={`number-varieties-released`}>
     <Grid.Row className="header-section">
       <Grid.Column width={12}>
