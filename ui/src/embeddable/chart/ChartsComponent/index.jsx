@@ -154,7 +154,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
   const availabilitySeedSmallPackages = () => {
     if (years && crops) {
       max = 85;
-      keys.push('1-two-or-less', '2-two-to-ten', '3-ten-to-twentyfive', '4-twentyfive-or-more');
+      data.dimensions.packages.values.forEach(x => keys.push(x));
       if (selectedYear) {
         crops.forEach(c => {
           const item = {crop: c};
