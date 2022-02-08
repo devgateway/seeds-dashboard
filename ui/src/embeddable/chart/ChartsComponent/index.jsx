@@ -782,7 +782,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
       getTooltipText = (d) => {
         return <><div style={{textAlign: 'center'}}>
           <span>{intl.formatMessage({id: 'households-per-officer-tooltip', defaultMessage: 'Households per extension officer'})} </span>
-          <span className="bold"> {d.data.households != FAKE_NUMBER ? d.data.households : "MD"}</span>
+          <span className="bold"> {d.data.households !== FAKE_NUMBER ? d.data.households : "MD"}</span>
         </div></>
       }
       getTooltipHeader = (d) => {

@@ -79,22 +79,19 @@ const ResponsiveBarChartImpl = ({
             }
         }, 0);
 
+      const finalText = showTotalLabel ? total : isMD ? "MD" : "";
       let transform = `translate(${x}, ${yScale(total) - labelMargin})`;
       let xText = width / 2;
       let yText = labelMargin / 2;
       const textHeight = 13; // TODO: add function to calculate height.
       if (layout === 'horizontal') {
-          console.log(height);
-          console.log(y);
-          
         labelMargin = -5;
         transform = `translate(${xScale(total) - labelMargin},${y})`;
-        xText = (height / 2) - 10;
+        xText = (getTextWidth(finalText, '14pt sans-serif') /2 ) + 5;
         yText = height - ((height - textHeight) / 2);
       }
 
       if (!numbers.find(i => i.props.transform === transform)) {
-
         numbers.push(<g
           transform={transform}
           key={`${indexValue}-${i}`}>
@@ -111,7 +108,7 @@ const ResponsiveBarChartImpl = ({
               fontSize: '14pt',
               fill:'#354052',
             }}>
-            {showTotalLabel ? total : isMD ? "MD" : "" }
+            {finalText}
           </text>
         </g>);
       }
