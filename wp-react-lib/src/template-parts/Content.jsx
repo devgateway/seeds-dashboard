@@ -51,11 +51,9 @@ class Content extends React.Component {
       const content = contentParts.length > 1 ? contentParts[1] : contentParts[0]
       const pages = content ? content.split("<!--nextpage-->") : '';
 
-      let body = ''
+      let body = content;
       if (pageNumber && pages.length > 0) {
         body = pages[pageNumber]
-      } else {
-        body = content
       }
 
       return <EmbeddedGateway locale={locale} messages={messages} parent={preview ? post.parent : post.id}>
