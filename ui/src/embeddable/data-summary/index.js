@@ -16,7 +16,7 @@ const DataSummary = ({ onLoadIndicators, summary_indicators }) => {
   }, [summary_indicators, onLoadIndicators])
   const contextRef = useRef(null);
   return (<div ref={contextRef}>
-    <Container fluid={true} className={"data-summary"}>
+    <Container className={"data-summary"}>
       <Heading legends={legends} title={"Data Summary: Country comparison"} />
     </Container>
     <Sticky context={contextRef}>
