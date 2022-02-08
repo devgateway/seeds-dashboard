@@ -77,6 +77,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
   let useFilterByCrops = true;
   let yearsColors = blueColors;
   let dataSuffix = null;
+  let containerHeight = null;
 
   if (type === PERFORMANCE_SEED_TRADERS) {
     maxSelectableYear = 3;
@@ -203,7 +204,16 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
       const entry = {country: i, public: data.values[i].public, private: data.values[i].private}
       processedData.push(entry);
       noData = false;
+
+      if (entry.private > max) {
+        max = entry.private;
+      }
+      if (entry.public > max) {
+        max = entry.public;
+      }
     });
+    colors.set('private', barPieColor[1]);
+    colors.set('public', barPieColor[2]);
   }
 
   const processByYear = () => {
@@ -458,15 +468,15 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
       enableGridX = true;
       enableGridY = false;
       groupMode='stacked';
-      keys.push('private');
-      keys.push('public');
+      keys.push('private', 'public');
       useFilterByCrops = false;
       showYearFilter = false;
       addLighterDiv = false;
       withCropsWithSpecialFeatures = false;
       useCropLegendsRow = false;
+      containerHeight = 650;
       processInspectorsByCountry();
-      break;    
+      break;
     case NUMBER_OF_ACTIVE_BREEDERS:
       getTooltipHeader = (d) => {
         const cropName = d.id.replace(`${d.indexValue}_`, "");
@@ -831,7 +841,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
                                     customTickWithCropsBottom={customTickWithCropsBottom}
                                     customTickWithCropsLeft={customTickWithCropsLeft}
                                     dataSuffix={dataSuffix}
-                                    showTotalLabel={showTotalLabel}
+                                    showTotalLabel={showTotalLabel} containerHeight={containerHeight || 450}
             />
           </Grid.Column>
         </Grid.Row>);

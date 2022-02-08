@@ -1,15 +1,7 @@
 import React, { useState } from "react";
-import { Grid } from "semantic-ui-react";
 import { ResponsiveBar } from '@nivo/bar'
 import { useResizeDetector } from 'react-resize-detector';
-import CropsLegend from "../common/crop";
 import './styles.scss';
-import Source from "../common/source";
-import CropFilter from "../common/filters/crops";
-import Header from "../common/header";
-import { getColor } from "../Countryinfo/CountryInfoChart";
-import Years from "../common/filters/years";
-import CropsWithSpecialFeatures from "../common/cropWithSpecialFeatures";
 import CropIcons from "../common/cropIcons";
 import { getTextWidth } from "../../utils/common";
 import {FAKE_NUMBER} from "../ChartsComponent";
@@ -68,8 +60,6 @@ const ResponsiveBarChartImpl = ({
 
   ;
   // returns a list of total value labels for stacked bars
-
-
   const TotalLabels = ({ bars, yScale, xScale }) => {
     // space between top of stacked bars and total label
     let labelMargin = 20;
@@ -81,7 +71,7 @@ const ResponsiveBarChartImpl = ({
         //filter out whatever your indexBy value is
         .filter(key => key !== indexBy)
         .reduce((a, key) => {
-            if (keys.find(k => k === key) && data[key] != FAKE_NUMBER) {
+            if (keys.find(k => k === key) && data[key] !== FAKE_NUMBER) {
                 isMD = false;
                 return a + data[key];
             } else {
@@ -92,11 +82,15 @@ const ResponsiveBarChartImpl = ({
       let transform = `translate(${x}, ${yScale(total) - labelMargin})`;
       let xText = width / 2;
       let yText = labelMargin / 2;
+      const textHeight = 13; // TODO: add function to calculate height.
       if (layout === 'horizontal') {
+          console.log(height);
+          console.log(y);
+          
         labelMargin = -5;
-        transform = `translate(${xScale(total) - labelMargin},${y + (height / 3)})`;
+        transform = `translate(${xScale(total) - labelMargin},${y})`;
         xText = (height / 2) - 10;
-        yText = (labelMargin + 40 / 2);
+        yText = height - ((height - textHeight) / 2);
       }
 
       if (!numbers.find(i => i.props.transform === transform)) {
