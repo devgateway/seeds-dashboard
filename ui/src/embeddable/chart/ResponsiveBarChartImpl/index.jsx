@@ -146,7 +146,7 @@ const ResponsiveBarChartImpl = ({
             // add any style to the label here
             style={{
               fontWeight: 'bold',
-              fontSize: String(data[id]).length < 5 ? '14pt' : '10pt',
+              fontSize: getTextWidth(String(data[id]), '14pt sans-serif') <= width ? '14pt' : '10pt',
               fill:'#354052',
             }}>
               {data[id] !== FAKE_NUMBER
