@@ -115,6 +115,7 @@ const ResponsiveBarChartImpl = ({
     });
     return numbers;
   };
+  
   const TotalLabelsGrouped = ({ bars, yScale }) => {
     const data_ = data;
     // space between top of stacked bars and total label
@@ -150,6 +151,7 @@ const ResponsiveBarChartImpl = ({
     });
     return numbers;
   };
+  
   const getColors = (item) => {
       if (Array.isArray(item.id)) {
           return colors.get(item.id[0]);
@@ -158,6 +160,7 @@ const ResponsiveBarChartImpl = ({
   }
 
   const { width, height, ref } = useResizeDetector();
+  
   const CustomTick = tick => {
       const bottomLegendWidth = getTextWidth(bottomLegend || '', "12px sans-serif");
       const tickX = customTickWithCropsLeft ? 100 : 0;
@@ -179,7 +182,15 @@ const ResponsiveBarChartImpl = ({
   if (LineLayer) {
       layers.push(LineLayer);
   }
-  const leftMargin = customTickWithCropsLeft ? 170 : 70;
+  let leftMargin = customTickWithCropsLeft ? 170 : 70;
+  if (layout === 'horizontal') {
+      processedData.forEach(i => {
+          if (getTextWidth(i[indexBy]) > leftMargin) {
+              leftMargin = getTextWidth(i[indexBy], '12px sans-serif');
+          }
+      });
+      leftMargin += 40;
+  }
 
   return (
     <div style={{ height: containerHeight }} ref={ref}>
@@ -208,7 +219,7 @@ const ResponsiveBarChartImpl = ({
           tickRotation: 0,
           legend: leftLegend,
           legendPosition: 'middle',
-          legendOffset: -60,
+          legendOffset: layout === 'horizontal' ? (-leftMargin+10) : -60,
           tickValues: gridTickLines
         }}
         layout={layout}

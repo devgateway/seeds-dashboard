@@ -35,6 +35,7 @@ import MarketConcentrationHHI from "../MarketConcentrationHHI";
 import ResponsiveRadarChartImpl from "../ResponsiveRadarChartImpl";
 import { injectIntl } from "react-intl";
 import BarAndLineChart from "../BarAndLineChart";
+import {COUNTRY_OPTIONS} from "../../../countries";
 
 const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl }) => {
   const [initialCrops, setInitialCrops] = useState(null);
@@ -200,9 +201,15 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
   }
 
   const processInspectorsByCountry = () => {
+    let auxData = [];
     Object.keys(data.values).forEach(i => {
-      const entry = {country: i, public: data.values[i].public, private: data.values[i].private}
-      processedData.push(entry);
+      const entry = {
+        country: COUNTRY_OPTIONS.find(j => j.flag.toLowerCase() === i.toLowerCase()).text,
+        public: data.values[i].public,
+        private: data.values[i].private,
+        year: data.values[i].year
+      }
+      auxData.push(entry);
       noData = false;
 
       if (entry.private > max) {
@@ -211,6 +218,10 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
       if (entry.public > max) {
         max = entry.public;
       }
+    });
+    auxData.sort((a, b) => (a.country < b.country));
+    auxData.forEach(i => {
+      processedData.push(i);
     });
     colors.set('private', barPieColor[1]);
     colors.set('public', barPieColor[2]);
@@ -462,9 +473,12 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
         </>
       }
       indexBy = 'country';
-      leftLegend = intl.formatMessage({id: 'years-legend', defaultMessage: 'Years'});
+      leftLegend = intl.formatMessage({id: 'countries', defaultMessage: 'Countries'});
       layout = 'horizontal';
-      bottomLegend = intl.formatMessage({id: 'number-of-breeders-legend', defaultMessage: 'Number of Breeders'});
+      bottomLegend = intl.formatMessage({
+        id: 'number-seed-inspectors-legend',
+        defaultMessage: 'Number of seed inspectors'
+      });
       enableGridX = true;
       enableGridY = false;
       groupMode='stacked';
@@ -473,7 +487,9 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
       showYearFilter = false;
       addLighterDiv = false;
       withCropsWithSpecialFeatures = false;
-      useCropLegendsRow = false;
+      useCropLegendsRow = true;
+      legend = genericLegend;
+      legendTitle = '';
       containerHeight = 650;
       processInspectorsByCountry();
       break;
