@@ -28,7 +28,7 @@ import {
   PRICE_SEED_PLANTING,
   AVAILABILITY_SEED_SMALL_PACKAGES,
   AGRODEALER_NETWORK,
-  AGRICULTURAL_EXTENSION_SERVICES
+  AGRICULTURAL_EXTENSION_SERVICES, NUMBER_SEED_INSPECTORS_BY_COUNTRY
 } from "../../reducers/StoreConstants";
 import YearLegend from "../common/year";
 import MarketConcentrationHHI from "../MarketConcentrationHHI";
@@ -196,6 +196,14 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
       }
     });
     processedData.push(entry);
+  }
+
+  const processInspectorsByCountry = () => {
+    Object.keys(data.values).forEach(i => {
+      const entry = {country: i, public: data.values[i].public, private: data.values[i].private}
+      processedData.push(entry);
+      noData = false;
+    });
   }
 
   const processByYear = () => {
@@ -429,6 +437,36 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
       bottomLegend = intl.formatMessage({id: 'crops-legend', defaultMessage: 'Crops'});
       processVarietiesReleasedWithSpecialFeatures();
       break;
+    case NUMBER_SEED_INSPECTORS_BY_COUNTRY:
+      getTooltipHeader = (d) => {
+        const cropName = d.id.replace(`${d.indexValue}_`, "");
+        return <>
+          <div className={`${cropName} crop-icon`} />
+          <div className="crop-name">{`${cropName} ${d.indexValue}`}</div>
+        </>
+      }
+      getTooltipText = (d) => {
+        return <><span
+            className="bold"> {d.data[d.id]}  </span>
+          <span>active breeders.</span>
+        </>
+      }
+      indexBy = 'country';
+      leftLegend = intl.formatMessage({id: 'years-legend', defaultMessage: 'Years'});
+      layout = 'horizontal';
+      bottomLegend = intl.formatMessage({id: 'number-of-breeders-legend', defaultMessage: 'Number of Breeders'});
+      enableGridX = true;
+      enableGridY = false;
+      groupMode='stacked';
+      keys.push('private');
+      keys.push('public');
+      useFilterByCrops = false;
+      showYearFilter = false;
+      addLighterDiv = false;
+      withCropsWithSpecialFeatures = false;
+      useCropLegendsRow = false;
+      processInspectorsByCountry();
+      break;    
     case NUMBER_OF_ACTIVE_BREEDERS:
       getTooltipHeader = (d) => {
         const cropName = d.id.replace(`${d.indexValue}_`, "");
@@ -801,7 +839,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
   }
 
   let initialSelectedCrops = null;
-  if (!noData && Array.from(initialCrops).length > 0) {
+  if (!noData && initialCrops && Array.from(initialCrops).length > 0) {
       initialSelectedCrops = [];
       initialCrops.forEach(i => {
           initialSelectedCrops.push(1);
