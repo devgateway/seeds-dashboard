@@ -224,8 +224,8 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
     auxData.forEach(i => {
       processedData.push(i);
     });
-    colors.set('privateSeedInspectors', barPieColor[1]);
-    colors.set('publicSeedInspectors', barPieColor[2]);
+    colors.set('privateSeedInspectors', barPieColor[2]);
+    colors.set('publicSeedInspectors', barPieColor[1]);
   }
 
   const processByYear = () => {
