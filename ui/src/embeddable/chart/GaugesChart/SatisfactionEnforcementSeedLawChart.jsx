@@ -32,7 +32,8 @@ const SatisfactionEnforcementSeedLawChart = ({data, yearsToShow, intl}) => {
                     cellValue = 'N/A'
                 }
             }
-            return <Grid.Column key={y} className={"with-bottom-border " + (y === AVERAGE_RATING ? 'avg-cell' : '')}>
+            return <Grid.Column key={y + Math.random()}
+                                className={"with-bottom-border " + (y === AVERAGE_RATING ? 'avg-cell' : '')}>
                 <Gauge data={particularGauge}
                        height={45}
                        width={105}
@@ -44,7 +45,7 @@ const SatisfactionEnforcementSeedLawChart = ({data, yearsToShow, intl}) => {
 
     const getData = () => {
         const yearCols = yearsToShow.map(y => {
-            return <Grid.Column className={"years-title"} key={y}>{y}</Grid.Column>
+            return <Grid.Column className={"years-title"} key={y + Math.random()}>{y}</Grid.Column>
         });
         const cropsWithAverage = [];
         if (averageColumn) {
@@ -60,9 +61,9 @@ const SatisfactionEnforcementSeedLawChart = ({data, yearsToShow, intl}) => {
         return <>
             <Grid.Row>
                 <Grid.Column width={1} className="title">
-                    <div>Average Rating</div>
+                    <div>{AVERAGE_RATING}</div>
                 </Grid.Column>
-                <Grid.Column width={13}>{getData()}</Grid.Column>
+                <Grid.Column width={15}>{getData()}</Grid.Column>
             </Grid.Row>
             <Grid.Row>&nbsp;</Grid.Row>
         </>

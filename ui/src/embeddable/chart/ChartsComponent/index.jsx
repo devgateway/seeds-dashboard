@@ -28,13 +28,14 @@ import {
   PRICE_SEED_PLANTING,
   AVAILABILITY_SEED_SMALL_PACKAGES,
   AGRODEALER_NETWORK,
-  AGRICULTURAL_EXTENSION_SERVICES
+  AGRICULTURAL_EXTENSION_SERVICES, NUMBER_SEED_INSPECTORS_BY_COUNTRY
 } from "../../reducers/StoreConstants";
 import YearLegend from "../common/year";
 import MarketConcentrationHHI from "../MarketConcentrationHHI";
 import ResponsiveRadarChartImpl from "../ResponsiveRadarChartImpl";
 import { injectIntl } from "react-intl";
 import BarAndLineChart from "../BarAndLineChart";
+import {COUNTRY_OPTIONS} from "../../../countries";
 
 const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl }) => {
   const [initialCrops, setInitialCrops] = useState(null);
@@ -77,6 +78,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
   let useFilterByCrops = true;
   let yearsColors = blueColors;
   let dataSuffix = null;
+  let containerHeight = null;
 
   if (type === PERFORMANCE_SEED_TRADERS) {
     maxSelectableYear = 3;
@@ -196,6 +198,34 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
       }
     });
     processedData.push(entry);
+  }
+
+  const processInspectorsByCountry = () => {
+    let auxData = [];
+    Object.keys(data.values).forEach(i => {
+      const entry = {
+        country: COUNTRY_OPTIONS.find(j => j.flag.toLowerCase() === i.toLowerCase()).text,
+        publicSeedInspectors: data.values[i].public,
+        privateSeedInspectors: data.values[i].private,
+        year: data.values[i].year,
+        total: data.values[i].total,
+      }
+      auxData.push(entry);
+      noData = false;
+
+      if (entry.privateSeedInspectors > max) {
+        max = entry.privateSeedInspectors;
+      }
+      if (entry.publicSeedInspectors > max) {
+        max = entry.publicSeedInspectors;
+      }
+    });
+    auxData.sort((a, b) => (a.country < b.country));
+    auxData.forEach(i => {
+      processedData.push(i);
+    });
+    colors.set('privateSeedInspectors', barPieColor[1]);
+    colors.set('publicSeedInspectors', barPieColor[2]);
   }
 
   const processByYear = () => {
@@ -429,6 +459,43 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
       bottomLegend = intl.formatMessage({id: 'crops-legend', defaultMessage: 'Crops'});
       processVarietiesReleasedWithSpecialFeatures();
       break;
+    case NUMBER_SEED_INSPECTORS_BY_COUNTRY:
+      getTooltipHeader = (d) => {
+        return <div className="country-header">{`${d.data.country} - ${d.data.year}`}</div>
+      }
+      getTooltipText = (d) => {
+        return (<>
+          <span>{intl.formatMessage({id: 'tooltip-public-inspectors-legend', defaultMessage: 'Public seed inspectors'})} </span>
+          <span className="bold"> {d.data.publicSeedInspectors || 0}</span>
+          <br/>
+          <span>{intl.formatMessage({id: 'tooltip-private-inspectors-legend', defaultMessage: 'Private seed inspectors'})} </span>
+          <span className="bold"> {d.data.privateSeedInspectors || 0}</span>
+          <br/>
+          <span>{intl.formatMessage({id: 'tooltip-total-inspectors-legend', defaultMessage: 'Total seed inspectors'})} </span>
+          <span className="bold"> {d.data.total || 0}</span>  
+        </>);
+      }
+      indexBy = 'country';
+      leftLegend = intl.formatMessage({id: 'countries', defaultMessage: 'Countries'});
+      layout = 'horizontal';
+      bottomLegend = intl.formatMessage({
+        id: 'number-seed-inspectors-legend',
+        defaultMessage: 'Number of seed inspectors'
+      });
+      enableGridX = true;
+      enableGridY = false;
+      groupMode='stacked';
+      keys.push('publicSeedInspectors', 'privateSeedInspectors');
+      useFilterByCrops = false;
+      showYearFilter = false;
+      addLighterDiv = false;
+      withCropsWithSpecialFeatures = false;
+      useCropLegendsRow = true;
+      legend = genericLegend;
+      legendTitle = '';
+      containerHeight = 650;
+      processInspectorsByCountry();
+      break;
     case NUMBER_OF_ACTIVE_BREEDERS:
       getTooltipHeader = (d) => {
         const cropName = d.id.replace(`${d.indexValue}_`, "");
@@ -468,7 +535,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
           <div><span>{intl.formatMessage({id: 'package-size-tooltip', defaultMessage: 'Package size'})}: </span>
             <span className="bold">{intl.formatMessage({id: packageName + '-tooltip', defaultMessage: packageName})}</span></div>
           <div><span>{intl.formatMessage({id: 'percentage-legend', defaultMessage: 'Percentage'})}: </span>
-            <span className="normal"> {d.data[d.id]}</span></div>
+            <span className="bold"> {d.data[d.id]}</span></div>
         </>
       }
       indexBy = 'crop';
@@ -734,7 +801,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
       getTooltipText = (d) => {
         return <><div style={{textAlign: 'center'}}>
           <span>{intl.formatMessage({id: 'households-per-officer-tooltip', defaultMessage: 'Households per extension officer'})} </span>
-          <span className="bold"> {d.data.households != FAKE_NUMBER ? d.data.households : "MD"}</span>
+          <span className="bold"> {d.data.households !== FAKE_NUMBER ? d.data.households : "MD"}</span>
         </div></>
       }
       getTooltipHeader = (d) => {
@@ -793,7 +860,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
                                     customTickWithCropsBottom={customTickWithCropsBottom}
                                     customTickWithCropsLeft={customTickWithCropsLeft}
                                     dataSuffix={dataSuffix}
-                                    showTotalLabel={showTotalLabel}
+                                    showTotalLabel={showTotalLabel} containerHeight={containerHeight || 450}
             />
           </Grid.Column>
         </Grid.Row>);
@@ -801,7 +868,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
   }
 
   let initialSelectedCrops = null;
-  if (!noData && Array.from(initialCrops).length > 0) {
+  if (!noData && initialCrops && Array.from(initialCrops).length > 0) {
       initialSelectedCrops = [];
       initialCrops.forEach(i => {
           initialSelectedCrops.push(1);
@@ -817,7 +884,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
         <Export/>
       </Grid.Column>
     </Grid.Row>
-    <Grid.Row className={`filters-section`}>
+    {useFilterByCrops || showYearFilter ? <Grid.Row className={`filters-section`}>
       {!noData && useFilterByCrops ? <Grid.Column computer={3} mobile={16}>
         <CropFilter data={initialCrops} onChange={handleCropFilterChange} initialSelectedCrops={initialSelectedCrops}/>
       </Grid.Column> : null}
@@ -825,7 +892,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
         <Years data={years} onChange={handleYearFilterChange} maxSelectable={maxSelectableYear}
                defaultSelected={selectedYear} />
       </Grid.Column> : null}
-    </Grid.Row>
+    </Grid.Row> : null}
     {!noData && useCropLegendsRow ? <Grid.Row className={`crops-with-icons`}>
       <Grid.Column width={8}>
         {legend === 'crops' &&

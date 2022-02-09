@@ -150,6 +150,10 @@ class BlockEdit extends BaseBlockEdit {
                                             label: 'Availability of agricultural extension services for smallholder farmers',
                                             value: 'agriculturalExtensionServices'
                                         },
+                                        {
+                                            label: 'Number of seed inspectors in most recent data collection year',
+                                            value: 'seedInspectorsByCountry',
+                                        }
                                     ]}
                                 />
                             </PanelRow>

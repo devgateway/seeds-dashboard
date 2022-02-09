@@ -23,7 +23,7 @@ import {
   PRICE_SEED_PLANTING,
   AVAILABILITY_SEED_SMALL_PACKAGES,
   AGRODEALER_NETWORK,
-  AGRICULTURAL_EXTENSION_SERVICES
+  AGRICULTURAL_EXTENSION_SERVICES, NUMBER_SEED_INSPECTORS_BY_COUNTRY
 } from "./StoreConstants";
 
 const SURVEY_API = process.env.REACT_APP_SURVEY_API
@@ -60,6 +60,7 @@ const PRICE_SEED_PLANTING_API = `${SURVEY_API}/chart/priceSeedPlanting/crop/year
 const AVAILABILITY_SEED_SMALL_PACKAGES_API = `${SURVEY_API}/chart/availabilitySeedSmallPackages/year/crop/packages`;
 const AGRODEALER_NETWORK_API = `${SURVEY_API}/chart/agrodealerNetwork/year/`;
 const AGRICULTURAL_EXTENSION_SERVICES_API = `${SURVEY_API}/chart/agriculturalExtensionServices/year/`;
+const NUMBER_SEED_INSPECTORS_BY_COUNTRY_API = `${SURVEY_API}/chart/cc/numberSeedInspectors/`;
 
 const APIS = {
   prevalence: '',
@@ -85,6 +86,7 @@ const APIS = {
   [PRICE_SEED_PLANTING]: PRICE_SEED_PLANTING_API,
   [AGRODEALER_NETWORK]: AGRODEALER_NETWORK_API,
   [AGRICULTURAL_EXTENSION_SERVICES]: AGRICULTURAL_EXTENSION_SERVICES_API,
+  [NUMBER_SEED_INSPECTORS_BY_COUNTRY]: NUMBER_SEED_INSPECTORS_BY_COUNTRY_API,
 }
 
 function queryParams(params) {
@@ -137,6 +139,7 @@ export const getData = ({ source, app, params }) => {
     || app === PRICE_SEED_PLANTING
     || app === AGRODEALER_NETWORK
     || app === AGRICULTURAL_EXTENSION_SERVICES
+    || app === NUMBER_SEED_INSPECTORS_BY_COUNTRY  
     || (sources && sources.length > 0 && sources[0] === WP_CHART)
   ) {
     if (params[SELECTED_COUNTRY] || params[DEFAULT_COUNTRY_ID]) {

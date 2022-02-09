@@ -1,15 +1,7 @@
 import React, { useState } from "react";
-import { Grid } from "semantic-ui-react";
 import { ResponsiveBar } from '@nivo/bar'
 import { useResizeDetector } from 'react-resize-detector';
-import CropsLegend from "../common/crop";
 import './styles.scss';
-import Source from "../common/source";
-import CropFilter from "../common/filters/crops";
-import Header from "../common/header";
-import { getColor } from "../Countryinfo/CountryInfoChart";
-import Years from "../common/filters/years";
-import CropsWithSpecialFeatures from "../common/cropWithSpecialFeatures";
 import CropIcons from "../common/cropIcons";
 import { getTextWidth } from "../../utils/common";
 import {FAKE_NUMBER} from "../ChartsComponent";
@@ -68,8 +60,6 @@ const ResponsiveBarChartImpl = ({
 
   ;
   // returns a list of total value labels for stacked bars
-
-
   const TotalLabels = ({ bars, yScale, xScale }) => {
     // space between top of stacked bars and total label
     let labelMargin = 20;
@@ -81,7 +71,7 @@ const ResponsiveBarChartImpl = ({
         //filter out whatever your indexBy value is
         .filter(key => key !== indexBy)
         .reduce((a, key) => {
-            if (keys.find(k => k === key) && data[key] != FAKE_NUMBER) {
+            if (keys.find(k => k === key) && data[key] !== FAKE_NUMBER) {
                 isMD = false;
                 return a + data[key];
             } else {
@@ -89,18 +79,19 @@ const ResponsiveBarChartImpl = ({
             }
         }, 0);
 
+      const finalText = showTotalLabel ? total : isMD ? "MD" : "";
       let transform = `translate(${x}, ${yScale(total) - labelMargin})`;
       let xText = width / 2;
       let yText = labelMargin / 2;
+      const textHeight = 13; // TODO: add function to calculate height.
       if (layout === 'horizontal') {
         labelMargin = -5;
-        transform = `translate(${xScale(total) - labelMargin},${y + (height / 3)})`;
-        xText = (height / 2) - 10;
-        yText = (labelMargin + 40 / 2);
+        transform = `translate(${xScale(total) - labelMargin},${y})`;
+        xText = (getTextWidth(finalText, '14pt sans-serif') /2 ) + 5;
+        yText = height - ((height - textHeight) / 2);
       }
 
       if (!numbers.find(i => i.props.transform === transform)) {
-
         numbers.push(<g
           transform={transform}
           key={`${indexValue}-${i}`}>
@@ -117,13 +108,14 @@ const ResponsiveBarChartImpl = ({
               fontSize: '14pt',
               fill:'#354052',
             }}>
-            {showTotalLabel ? total : isMD ? "MD" : "" }
+            {finalText}
           </text>
         </g>);
       }
     });
     return numbers;
   };
+  
   const TotalLabelsGrouped = ({ bars, yScale }) => {
     const data_ = data;
     // space between top of stacked bars and total label
@@ -159,6 +151,7 @@ const ResponsiveBarChartImpl = ({
     });
     return numbers;
   };
+  
   const getColors = (item) => {
       if (Array.isArray(item.id)) {
           return colors.get(item.id[0]);
@@ -167,6 +160,7 @@ const ResponsiveBarChartImpl = ({
   }
 
   const { width, height, ref } = useResizeDetector();
+  
   const CustomTick = tick => {
       const bottomLegendWidth = getTextWidth(bottomLegend || '', "12px sans-serif");
       const tickX = customTickWithCropsLeft ? 100 : 0;
@@ -188,7 +182,15 @@ const ResponsiveBarChartImpl = ({
   if (LineLayer) {
       layers.push(LineLayer);
   }
-  const leftMargin = customTickWithCropsLeft ? 170 : 70;
+  let leftMargin = customTickWithCropsLeft ? 170 : 70;
+  if (layout === 'horizontal') {
+      processedData.forEach(i => {
+          if (getTextWidth(i[indexBy]) > leftMargin) {
+              leftMargin = getTextWidth(i[indexBy], '12px sans-serif');
+          }
+      });
+      leftMargin += 40;
+  }
 
   return (
     <div style={{ height: containerHeight }} ref={ref}>
@@ -217,7 +219,7 @@ const ResponsiveBarChartImpl = ({
           tickRotation: 0,
           legend: leftLegend,
           legendPosition: 'middle',
-          legendOffset: -60,
+          legendOffset: layout === 'horizontal' ? (-leftMargin+10) : -60,
           tickValues: gridTickLines
         }}
         layout={layout}
