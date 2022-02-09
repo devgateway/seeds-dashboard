@@ -82,7 +82,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
 
   if (type === PERFORMANCE_SEED_TRADERS) {
     maxSelectableYear = 3;
-  } else if (type === AVAILABILITY_SEED_SMALL_PACKAGES) {
+  } else if (type === AVAILABILITY_SEED_SMALL_PACKAGES || type === VARIETIES_RELEASED_WITH_SPECIAL_FEATURES) {
     maxSelectableYear = 1;
   }
 
@@ -263,8 +263,8 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
         let sumWOF = 0;
         if (selectedYear && selectedYear.length > 0) {
           //selected year is expected to be 1
-          sumWF = data.values[c][selectedYear[0]].withspecialfeature || 0;
-          sumWOF = data.values[c][selectedYear[0]].withoutspecialfeature || 0;
+          sumWF = data.values[c][selectedYear].withspecialfeature || 0;
+          sumWOF = data.values[c][selectedYear].withoutspecialfeature || 0;
         } else {
           Object.keys(data.values[c]).forEach(i => {
             sumWF += data.values[c][i].withspecialfeature || 0;
@@ -290,6 +290,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
       });
     }
   }
+  
   let subLabel = '';
   switch (type) {
     case NUMBER_VARIETIES_SOLD:
