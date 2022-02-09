@@ -75,8 +75,8 @@ $border_gray: rgba(229, 229, 229, 1);
 
         .crop-name {
           font-size: 14px !important;
-          font-weight: bold;
-          color: black;
+          font-weight: 900;
+          color: #555555;
           position: relative;
           top: 10px;
           left: -20px;
@@ -124,7 +124,7 @@ $border_gray: rgba(229, 229, 229, 1);
 
 .bold {
   font-weight: bold;
-  color: black;
+  color: #555555;
 }
 
 .withSeparator {
