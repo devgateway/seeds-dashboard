@@ -468,7 +468,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
           <div><span>{intl.formatMessage({id: 'package-size-tooltip', defaultMessage: 'Package size'})}: </span>
             <span className="bold">{intl.formatMessage({id: packageName + '-tooltip', defaultMessage: packageName})}</span></div>
           <div><span>{intl.formatMessage({id: 'percentage-legend', defaultMessage: 'Percentage'})}: </span>
-            <span className="normal"> {d.data[d.id]}</span></div>
+            <span className="bold"> {d.data[d.id]}</span></div>
         </>
       }
       indexBy = 'crop';
