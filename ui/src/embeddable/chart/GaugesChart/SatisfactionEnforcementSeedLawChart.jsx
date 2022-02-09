@@ -63,7 +63,7 @@ const SatisfactionEnforcementSeedLawChart = ({data, yearsToShow, intl}) => {
                 <Grid.Column width={1} className="title">
                     <div>{AVERAGE_RATING}</div>
                 </Grid.Column>
-                <Grid.Column width={13}>{getData()}</Grid.Column>
+                <Grid.Column width={15}>{getData()}</Grid.Column>
             </Grid.Row>
             <Grid.Row>&nbsp;</Grid.Row>
         </>
