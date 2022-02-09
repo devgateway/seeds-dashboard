@@ -694,8 +694,8 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
       Object.keys(data.values).forEach(y => {
         const item = {year: y};
         if (selectedYear && selectedYear.find(k => k === y)) {
-          item.time = Number( data.values[y].time) >= 0 ?  data.values[y].time : FAKE_NUMBER;
-          item.satisfaction = Number( data.values[y].satisfaction) >= 0 ?  data.values[y].satisfaction : FAKE_NUMBER;
+          item.time = Number(data.values[y].time) >= 0 ? data.values[y].time : FAKE_NUMBER;
+          item.satisfaction = Number(data.values[y].satisfaction) >= 0 ? data.values[y].satisfaction : FAKE_NUMBER;
           if (item.time > max) {
             max = item.time;
           }
@@ -711,7 +711,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
       getTooltipText = (d) => {
         return <><div style={{textAlign: 'center'}}>
           <span>{intl.formatMessage({id: 'number-months-tooltip', defaultMessage: 'Length of variety release process (months)'})} </span>
-          <span className="bold"> {d.data.time != FAKE_NUMBER ? d.data.time : "MD"}</span>
+          <span className="bold"> {d.data.time !== FAKE_NUMBER ? d.data.time : "MD"}</span>
         </div></>
       }
       getTooltipHeader = (d) => {
@@ -755,10 +755,10 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
       getTooltipText = (d) => {
         return <><div style={{textAlign: 'center'}}>
           <span>{intl.formatMessage({id: 'agricultural-households-tooltip', defaultMessage: 'Agricultural households/agro-dealer'})} </span>
-          <span className="bold"> {d.data.households != FAKE_NUMBER ? d.data.households : "MD"}</span>
+          <span className="bold"> {d.data.households !== FAKE_NUMBER ? d.data.households : "MD"}</span>
         </div><div style={{textAlign: 'center'}}>
           <span>{intl.formatMessage({id: 'number-agrodealers-tooltip', defaultMessage: 'Number of agro-dealers'})} </span>
-          <span className="bold"> {d.data.agrodealers != FAKE_NUMBER ? d.data.agrodealers : "MD"}</span>
+          <span className="bold"> {d.data.agrodealers !== FAKE_NUMBER ? d.data.agrodealers : "MD"}</span>
         </div></>
       }
       getTooltipHeader = (d) => {

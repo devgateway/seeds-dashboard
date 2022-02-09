@@ -79,7 +79,17 @@ const ResponsiveBarChartImpl = ({
             }
         }, 0);
 
-      const finalText = showTotalLabel ? total : isMD ? "MD" : "";
+      let finalText = '';
+      if (showTotalLabel) {
+          if (total > 0) {
+              finalText = total;
+          } else {
+              if (isMD) {
+                  finalText = 'MD';
+              }
+          }
+      }
+      // let finalText = showTotalLabel ? total : (isMD ? "MD" : "");
       let transform = `translate(${x}, ${yScale(total) - labelMargin})`;
       let xText = width / 2;
       let yText = labelMargin / 2;
