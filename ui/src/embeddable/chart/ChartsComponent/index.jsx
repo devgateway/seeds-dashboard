@@ -884,7 +884,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
         <Export/>
       </Grid.Column>
     </Grid.Row>
-    <Grid.Row className={`filters-section`}>
+    {useFilterByCrops || showYearFilter ? <Grid.Row className={`filters-section`}>
       {!noData && useFilterByCrops ? <Grid.Column computer={3} mobile={16}>
         <CropFilter data={initialCrops} onChange={handleCropFilterChange} initialSelectedCrops={initialSelectedCrops}/>
       </Grid.Column> : null}
@@ -892,7 +892,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
         <Years data={years} onChange={handleYearFilterChange} maxSelectable={maxSelectableYear}
                defaultSelected={selectedYear} />
       </Grid.Column> : null}
-    </Grid.Row>
+    </Grid.Row> : null}
     {!noData && useCropLegendsRow ? <Grid.Row className={`crops-with-icons`}>
       <Grid.Column width={8}>
         {legend === 'crops' &&
