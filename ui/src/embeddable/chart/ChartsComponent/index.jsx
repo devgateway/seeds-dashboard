@@ -45,7 +45,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
   const genericLegend = "generic";
   //TODO can be configured in wordpress at a later stage
   let indexBy = 'crop';
-  let showYearFilter = true;
+  let useFilterByYear = true;
   let layout = 'vertical';
   let groupMode = 'stacked';
   let lineChartField = 'rating';
@@ -487,7 +487,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
       groupMode='stacked';
       keys.push('publicSeedInspectors', 'privateSeedInspectors');
       useFilterByCrops = false;
-      showYearFilter = false;
+      useFilterByYear = false;
       addLighterDiv = false;
       withCropsWithSpecialFeatures = false;
       useCropLegendsRow = true;
@@ -510,13 +510,12 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
           <span>active breeders.</span>
         </>
       }
-      showYearFilter = false;
+      useFilterByYear = false;
       indexBy = 'year';
       leftLegend = intl.formatMessage({id: 'years-legend', defaultMessage: 'Years'});
       layout = 'horizontal';
       addLighterDiv = false;
       withCropsWithSpecialFeatures = false;
-      showYearFilter = false;
       bottomLegend = intl.formatMessage({id: 'number-of-breeders-legend', defaultMessage: 'Number of Breeders'});
       enableGridX = true;
       enableGridY = false;
@@ -543,7 +542,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
       layout = 'horizontal';
       addLighterDiv = false;
       withCropsWithSpecialFeatures = false;
-      showYearFilter = true;
+      useFilterByYear = true;
       useFilterByCrops = false;
       showTotalLabel = false;
       bottomLegend = intl.formatMessage({id: 'percentage-legend', defaultMessage: 'Percentage (%)'});
@@ -563,7 +562,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
       indexBy = "id";
       legend = "years";
       useFilterByCrops = false;
-      showYearFilter = true;
+      useFilterByYear = true;
       maxSelectableYear = 3;
       withCropsWithSpecialFeatures = false;
       yearsColors = performanceColors;
@@ -684,6 +683,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
     case VARIETY_RELEASE_PROCESS:
       useCropLegendsRow = false;
       useFilterByCrops = false;
+      useFilterByYear = false;
       leftLegend = intl.formatMessage({id: 'number-months-axis', defaultMessage: 'Number of months'});
       indexBy = 'year';
       bottomLegend = intl.formatMessage({id: 'years-legend', defaultMessage: 'Years'});;
@@ -694,8 +694,8 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
       Object.keys(data.values).forEach(y => {
         const item = {year: y};
         if (selectedYear && selectedYear.find(k => k === y)) {
-          item.time = Number( data.values[y].time) >= 0 ?  data.values[y].time : FAKE_NUMBER;
-          item.satisfaction = Number( data.values[y].satisfaction) >= 0 ?  data.values[y].satisfaction : FAKE_NUMBER;
+          item.time = Number(data.values[y].time) >= 0 ? data.values[y].time : FAKE_NUMBER;
+          item.satisfaction = Number(data.values[y].satisfaction) >= 0 ? data.values[y].satisfaction : FAKE_NUMBER;
           if (item.time > max) {
             max = item.time;
           }
@@ -711,7 +711,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
       getTooltipText = (d) => {
         return <><div style={{textAlign: 'center'}}>
           <span>{intl.formatMessage({id: 'number-months-tooltip', defaultMessage: 'Length of variety release process (months)'})} </span>
-          <span className="bold"> {d.data.time != FAKE_NUMBER ? d.data.time : "MD"}</span>
+          <span className="bold"> {d.data.time !== FAKE_NUMBER ? d.data.time : "MD"}</span>
         </div></>
       }
       getTooltipHeader = (d) => {
@@ -755,10 +755,10 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
       getTooltipText = (d) => {
         return <><div style={{textAlign: 'center'}}>
           <span>{intl.formatMessage({id: 'agricultural-households-tooltip', defaultMessage: 'Agricultural households/agro-dealer'})} </span>
-          <span className="bold"> {d.data.households != FAKE_NUMBER ? d.data.households : "MD"}</span>
+          <span className="bold"> {d.data.households !== FAKE_NUMBER ? d.data.households : "MD"}</span>
         </div><div style={{textAlign: 'center'}}>
           <span>{intl.formatMessage({id: 'number-agrodealers-tooltip', defaultMessage: 'Number of agro-dealers'})} </span>
-          <span className="bold"> {d.data.agrodealers != FAKE_NUMBER ? d.data.agrodealers : "MD"}</span>
+          <span className="bold"> {d.data.agrodealers !== FAKE_NUMBER ? d.data.agrodealers : "MD"}</span>
         </div></>
       }
       getTooltipHeader = (d) => {
@@ -884,11 +884,11 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
         <Export/>
       </Grid.Column>
     </Grid.Row>
-    {useFilterByCrops || showYearFilter ? <Grid.Row className={`filters-section`}>
+    {useFilterByCrops || useFilterByYear ? <Grid.Row className={`filters-section`}>
       {!noData && useFilterByCrops ? <Grid.Column computer={3} mobile={16}>
         <CropFilter data={initialCrops} onChange={handleCropFilterChange} initialSelectedCrops={initialSelectedCrops}/>
       </Grid.Column> : null}
-      {(!noData && showYearFilter) ? <Grid.Column computer={3} mobile={16}>
+      {(!noData && useFilterByYear) ? <Grid.Column computer={3} mobile={16}>
         <Years data={years} onChange={handleYearFilterChange} maxSelectable={maxSelectableYear}
                defaultSelected={selectedYear} />
       </Grid.Column> : null}
