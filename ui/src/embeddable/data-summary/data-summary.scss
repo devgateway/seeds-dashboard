@@ -13,14 +13,16 @@
 }
 
 .ui.container.fluid .desktop {
-  max-width: 100% !important;
+  // max-width: 100% !important;
 
   .ui.container.entry-content {
-    width: 100% !important;
+    // width: 100% !important;
   }
 }
 
 .data-summary {
+  width:100% !important;
+
   .ui.placeholder {
     margin-left: 5px;
     margin-right: 5px;
