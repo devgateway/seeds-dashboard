@@ -1,3 +1,5 @@
+@import 'src/scss/vars';
+
 $border_gray: rgba(229, 229, 229, 1);
 
 .crops-with-icons {
@@ -54,18 +56,15 @@ $border_gray: rgba(229, 229, 229, 1);
     background-color: #eef1fa;
     width: 198px;
     height: 45px;
-    //border: 1px solid #dbdce0;
 
     .header {
       margin: auto;
       width: 150px;
-      //border: 1px solid green;
       height: 50px;
 
       .inner-container {
         margin: auto;
         width: auto;
-        //border: 1px solid red;
         height: 45px;
         display: table;
 
@@ -79,7 +78,7 @@ $border_gray: rgba(229, 229, 229, 1);
         .crop-name {
           font-size: 14px !important;
           font-weight: bold;
-          color: black;
+          color: #555555;
           position: relative;
           top: 10px;
           left: -20px;
@@ -115,7 +114,7 @@ $border_gray: rgba(229, 229, 229, 1);
 
 .bold {
   font-weight: bold;
-  color: black;
+  color: #555555;
 }
 
 .withSeparator {
@@ -134,14 +133,26 @@ $border_gray: rgba(229, 229, 229, 1);
     > div {
       > div {
         > div{
+          border: 1px solid $border_gray;
           color: #555555;
           font-weight: normal;
           font-size: 14px;
+          width: 250px;
           > div{
-            padding: 25px !important;
+            padding: 25px 30px !important;
             strong{
+              background-color: #eef1fa;
               display: block;
-              margin-bottom:10px;
+              font-weight: 900;
+              margin: -25px auto 15px -30px;
+              padding: 15px 0;
+              text-align: center;
+              width: 250px;
+            }
+            td{
+              &:last-child{
+                font-weight: 900;
+              }
             }
           }
         }
