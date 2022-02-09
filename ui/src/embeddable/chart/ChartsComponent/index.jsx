@@ -220,12 +220,13 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
         max = entry.publicSeedInspectors;
       }
     });
+    max = max * 0.95;
     auxData.sort((a, b) => b.country.localeCompare(a.country));
     auxData.forEach(i => {
       processedData.push(i);
     });
-    colors.set('privateSeedInspectors', barPieColor[1]);
-    colors.set('publicSeedInspectors', barPieColor[2]);
+    colors.set('privateSeedInspectors', barPieColor[2]);
+    colors.set('publicSeedInspectors', barPieColor[1]);
   }
 
   const processByYear = () => {

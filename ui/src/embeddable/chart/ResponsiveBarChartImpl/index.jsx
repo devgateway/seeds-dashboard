@@ -111,7 +111,6 @@ const ResponsiveBarChartImpl = ({
             x={xText}
             y={yText}
             textAnchor="middle"
-            alignmentBaseline="central"
             // add any style to the label here
             style={{
               fontWeight: 'bold',
