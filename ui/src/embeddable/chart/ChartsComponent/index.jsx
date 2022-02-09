@@ -220,7 +220,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
         max = entry.publicSeedInspectors;
       }
     });
-    auxData.sort((a, b) => (a.country < b.country));
+    auxData.sort((a, b) => b.country.localeCompare(a.country));
     auxData.forEach(i => {
       processedData.push(i);
     });
