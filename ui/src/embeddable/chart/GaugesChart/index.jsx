@@ -2,7 +2,6 @@ import React, {useState} from "react";
 import AvailabilityOfBasicSeedChart from "./AvailabilityOfBasicSeedChart";
 import {Grid} from "semantic-ui-react";
 import Export from "../common/export";
-import Header from "../common/header";
 import Source from "../common/source";
 
 import Heading from "../../data-summary/components/Heading";

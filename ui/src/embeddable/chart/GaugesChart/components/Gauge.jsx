@@ -27,7 +27,7 @@ const CenteredMetric = ({dataWithArc, centerX, centerY, innerValue, innerColor})
             y={centerY - 10}
             textAnchor="middle"
             dominantBaseline="central"
-            font-weight="900"
+            fontWeight="900"
             style={{
                 fontSize: '22px',
                 fill: innerColor
