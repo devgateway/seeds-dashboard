@@ -220,6 +220,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
         max = entry.publicSeedInspectors;
       }
     });
+    max = max * 0.95;
     auxData.sort((a, b) => (a.country < b.country));
     auxData.forEach(i => {
       processedData.push(i);

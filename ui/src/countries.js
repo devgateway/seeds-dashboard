@@ -129,7 +129,7 @@ export const COUNTRY_OPTIONS = [{"text": "Afghanistan", "key": "AF", "value": "A
     "value": "KM",
     "flag": "km"
 }, {"text": "Congo", "key": "CG", "value": "CG", "flag": "cg"}, {
-    "text": "Congo, the Democratic Republic of the",
+    "text": "DR-Congo",
     "key": "CD",
     "value": "CD",
     "flag": "cd"
@@ -568,7 +568,7 @@ export const COUNTRY_OPTIONS = [{"text": "Afghanistan", "key": "AF", "value": "A
     "key": "TJ",
     "value": "TJ",
     "flag": "tj"
-}, {"text": "Tanzania, United Republic of", "key": "TZ", "value": "TZ", "flag": "tz"}, {
+}, {"text": "Tanzania", "key": "TZ", "value": "TZ", "flag": "tz"}, {
     "text": "Thailand",
     "key": "TH",
     "value": "TH",
