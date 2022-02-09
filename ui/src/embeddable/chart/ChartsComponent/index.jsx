@@ -207,7 +207,8 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
         country: COUNTRY_OPTIONS.find(j => j.flag.toLowerCase() === i.toLowerCase()).text,
         public: data.values[i].public,
         private: data.values[i].private,
-        year: data.values[i].year
+        year: data.values[i].year,
+        total: data.values[i].total,
       }
       auxData.push(entry);
       noData = false;
@@ -460,17 +461,19 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
       break;
     case NUMBER_SEED_INSPECTORS_BY_COUNTRY:
       getTooltipHeader = (d) => {
-        const cropName = d.id.replace(`${d.indexValue}_`, "");
-        return <>
-          <div className={`${cropName} crop-icon`} />
-          <div className="crop-name">{`${cropName} ${d.indexValue}`}</div>
-        </>
+        return <div className="country-header">{`${d.data.country} - ${d.data.year}`}</div>
       }
       getTooltipText = (d) => {
-        return <><span
-            className="bold"> {d.data[d.id]}  </span>
-          <span>active breeders.</span>
-        </>
+        return (<>
+          <span>{intl.formatMessage({id: 'tooltip-public-inspectors-legend', defaultMessage: 'Public seed inspectors'})} </span>
+          <span className="bold"> {d.data.public || 0}</span>
+          <br/>
+          <span>{intl.formatMessage({id: 'tooltip-private-inspectors-legend', defaultMessage: 'Private seed inspectors'})} </span>
+          <span className="bold"> {d.data.private || 0}</span>
+          <br/>
+          <span>{intl.formatMessage({id: 'tooltip-total-inspectors-legend', defaultMessage: 'Total seed inspectors'})} </span>
+          <span className="bold"> {d.data.total || 0}</span>  
+        </>);
       }
       indexBy = 'country';
       leftLegend = intl.formatMessage({id: 'countries', defaultMessage: 'Countries'});

@@ -156,6 +156,10 @@ const Chart = (props) => {
         const currentLanguage = locale || 'en';
         const separator = '||';
         let ret = sources || separator;
+        if (type === NUMBER_SEED_INSPECTORS_BY_COUNTRY) {
+            ret = sources;
+            return ret;
+        }
         if (categoriesWP && filters && countries) {
             const selectedCountry = filters.getIn([SELECTED_COUNTRY]);
             const defaultCountry = Number(filters.getIn([DEFAULT_COUNTRY_ID]));

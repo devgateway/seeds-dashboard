@@ -84,6 +84,18 @@ $border_gray: rgba(229, 229, 229, 1);
           float: left;
           text-transform: capitalize;
         }
+
+        .country-header {
+          font-size: 14px !important;
+          font-weight: bold;
+          color: black;
+          position: relative;
+          top: 10px;
+          left: -20px;
+          text-align: center;
+          float: left;
+          text-transform: capitalize;
+        }
       }
     }
   }
