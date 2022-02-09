@@ -128,6 +128,9 @@
   "concentration-rating-legend": "Rating on concentration of agro-dealer network",
   "households-per-officer-tooltip": "Households per extension officer",
   "availability-rating-legend": "Rating on availability of agricultural extension services for smallholder farmers",
-  "tooltip-private-inspectors-legend": "Private Seed inspectors",
-  "tooltip-public-inspectors-legend": "Public Seed inspectors"
+  "tooltip-private-inspectors-legend": "Private seed inspectors",
+  "tooltip-public-inspectors-legend": "Public seed inspectors",
+  "tooltip-total-inspectors-legend": "Total seed inspectors",
+  "privateSeedInspectors-tooltip": "Private seed inspectors",
+  "publicSeedInspectors-tooltip": "Public seed inspectors"
 }

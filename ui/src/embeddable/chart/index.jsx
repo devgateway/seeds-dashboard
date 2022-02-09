@@ -41,7 +41,7 @@ import {
     DATA_CATEGORY,
     WP_CATEGORIES,
     COUNTRIES_FILTER,
-    SOURCE_CATEGORIES, SELECTED_COUNTRY
+    SOURCE_CATEGORIES, SELECTED_COUNTRY, NUMBER_SEED_INSPECTORS_BY_COUNTRY
 } from "../reducers/StoreConstants";
 import NumberOfVarietiesReleased from "./NumberOfVarietiesReleased";
 import GaugesChart from "./GaugesChart";
@@ -156,6 +156,10 @@ const Chart = (props) => {
         const currentLanguage = locale || 'en';
         const separator = '||';
         let ret = sources || separator;
+        if (type === NUMBER_SEED_INSPECTORS_BY_COUNTRY) {
+            ret = sources;
+            return ret;
+        }
         if (categoriesWP && filters && countries) {
             const selectedCountry = filters.getIn([SELECTED_COUNTRY]);
             const defaultCountry = Number(filters.getIn([DEFAULT_COUNTRY_ID]));
@@ -196,7 +200,7 @@ const Chart = (props) => {
     switch (type) {
         case NUMBER_OF_VARIETIES_RELEASED:
           child = <NumberOfVarietiesReleased sources={dynamicSources} {...chartProps} type={type} />;
-            break;
+          break;
         case VARIETIES_RELEASED_WITH_SPECIAL_FEATURES:
         case NUMBER_OF_ACTIVE_BREEDERS:
         case NUMBER_OF_ACTIVE_SEED_COMPANIES_PRODUCERS:
@@ -214,6 +218,7 @@ const Chart = (props) => {
         case AVAILABILITY_SEED_SMALL_PACKAGES:
         case AGRODEALER_NETWORK:
         case AGRICULTURAL_EXTENSION_SERVICES:
+        case NUMBER_SEED_INSPECTORS_BY_COUNTRY:    
         case AVERAGE_AGE_VARIETIES_SOLD: {
             const chartComponent = {type, ...chartProps}
             child = <ChartComponent {...chartComponent} sources={dynamicSources}/>
