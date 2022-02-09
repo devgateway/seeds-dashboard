@@ -130,5 +130,7 @@
   "availability-rating-legend": "Rating on availability of agricultural extension services for smallholder farmers",
   "tooltip-private-inspectors-legend": "Private seed inspectors",
   "tooltip-public-inspectors-legend": "Public seed inspectors",
-  "tooltip-total-inspectors-legend": "Total seed inspectors"
+  "tooltip-total-inspectors-legend": "Total seed inspectors",
+  "privateSeedInspectors-tooltip": "Private seed inspectors",
+  "publicSeedInspectors-tooltip": "Public seed inspectors"
 }

@@ -205,27 +205,27 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
     Object.keys(data.values).forEach(i => {
       const entry = {
         country: COUNTRY_OPTIONS.find(j => j.flag.toLowerCase() === i.toLowerCase()).text,
-        public: data.values[i].public,
-        private: data.values[i].private,
+        publicSeedInspectors: data.values[i].public,
+        privateSeedInspectors: data.values[i].private,
         year: data.values[i].year,
         total: data.values[i].total,
       }
       auxData.push(entry);
       noData = false;
 
-      if (entry.private > max) {
-        max = entry.private;
+      if (entry.privateSeedInspectors > max) {
+        max = entry.privateSeedInspectors;
       }
-      if (entry.public > max) {
-        max = entry.public;
+      if (entry.publicSeedInspectors > max) {
+        max = entry.publicSeedInspectors;
       }
     });
     auxData.sort((a, b) => (a.country < b.country));
     auxData.forEach(i => {
       processedData.push(i);
     });
-    colors.set('private', barPieColor[1]);
-    colors.set('public', barPieColor[2]);
+    colors.set('privateSeedInspectors', barPieColor[1]);
+    colors.set('publicSeedInspectors', barPieColor[2]);
   }
 
   const processByYear = () => {
@@ -466,10 +466,10 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
       getTooltipText = (d) => {
         return (<>
           <span>{intl.formatMessage({id: 'tooltip-public-inspectors-legend', defaultMessage: 'Public seed inspectors'})} </span>
-          <span className="bold"> {d.data.public || 0}</span>
+          <span className="bold"> {d.data.publicSeedInspectors || 0}</span>
           <br/>
           <span>{intl.formatMessage({id: 'tooltip-private-inspectors-legend', defaultMessage: 'Private seed inspectors'})} </span>
-          <span className="bold"> {d.data.private || 0}</span>
+          <span className="bold"> {d.data.privateSeedInspectors || 0}</span>
           <br/>
           <span>{intl.formatMessage({id: 'tooltip-total-inspectors-legend', defaultMessage: 'Total seed inspectors'})} </span>
           <span className="bold"> {d.data.total || 0}</span>  
@@ -485,7 +485,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
       enableGridX = true;
       enableGridY = false;
       groupMode='stacked';
-      keys.push('private', 'public');
+      keys.push('publicSeedInspectors', 'privateSeedInspectors');
       useFilterByCrops = false;
       showYearFilter = false;
       addLighterDiv = false;
