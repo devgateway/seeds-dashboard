@@ -10,7 +10,7 @@ const SatisfactionEnforcementSeedLawChart = ({data, yearsToShow, intl}) => {
     const averageColumn = Object.keys(data.values);
     let avg = 0;
 
-    if (!yearsToShow.find(i => i === AVERAGE_RATING)) {
+    if (!yearsToShow.find(i => i === AVERAGE_RATING) && yearsToShow.length > 1) {
         yearsToShow.push(AVERAGE_RATING);
     }
 
