@@ -119,7 +119,7 @@ services:
       - frontend
       - backend
     ports:
-      - 8070:80
+      - 8060:80
   mysql:
     image: mariadb
     volumes:
