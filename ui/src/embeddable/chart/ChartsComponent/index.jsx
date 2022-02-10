@@ -291,7 +291,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
       });
     }
   }
-  
+
   let subLabel = '';
   switch (type) {
     case NUMBER_VARIETIES_SOLD:
@@ -425,7 +425,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
         getTooltipText = (d) => {
           return <>
             <span
-              className="bold"> {d.data[d.id]} </span>
+                className="bold"> {d.data[d.id]} </span>
             <span>seed companies / producers </span>
 
           </>
@@ -446,8 +446,8 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
     case VARIETIES_RELEASED_WITH_SPECIAL_FEATURES:
       getTooltipText = (d) => {
         return <><span
-          className="bold"> {d.data[d.id]} out of {(d.data['withSpecialFeature_' + d.indexValue.toLowerCase()] || 0)
-          + (d.data['withoutSpecialFeature_' + d.indexValue.toLowerCase()] || 0)} </span>
+            className="bold"> {d.data[d.id]} out of {(d.data['withSpecialFeature_' + d.indexValue.toLowerCase()] || 0)
+        + (d.data['withoutSpecialFeature_' + d.indexValue.toLowerCase()] || 0)} </span>
           <span>varieties released.</span>
         </>
       }
@@ -474,7 +474,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
           <span className="bold"> {d.data.privateSeedInspectors || 0}</span>
           <br/>
           <span>{intl.formatMessage({id: 'tooltip-total-inspectors-legend', defaultMessage: 'Total seed inspectors'})} </span>
-          <span className="bold"> {d.data.total || 0}</span>  
+          <span className="bold"> {d.data.total || 0}</span>
         </>);
       }
       indexBy = 'country';
@@ -508,7 +508,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
       }
       getTooltipText = (d) => {
         return <><span
-          className="bold"> {d.data[d.id]}  </span>
+            className="bold"> {d.data[d.id]}  </span>
           <span>active breeders.</span>
         </>
       }
@@ -556,10 +556,10 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
       availabilitySeedSmallPackages();
       break;
     case MARKET_CONCENTRATION_HHI:
-        useCropLegendsRow = false;
-        useFilterByCrops = false;
-        bottomLegend = intl.formatMessage({id: 'years-legend', defaultMessage: 'Years'});
-        break;
+      useCropLegendsRow = false;
+      useFilterByCrops = false;
+      bottomLegend = intl.formatMessage({id: 'years-legend', defaultMessage: 'Years'});
+      break;
     case PERFORMANCE_SEED_TRADERS:
       indexBy = "id";
       legend = "years";
@@ -609,7 +609,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
             max = item.value;
           }
           if (item.rating > max) {
-              max = item.rating;
+            max = item.rating;
           }
           processedData.push(item);
         }
@@ -644,11 +644,12 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
       Object.keys(data.values).forEach(y => {
         const item = {year: y};
         if (selectedYear && selectedYear.find(k => k === y)) {
-          item.public = data.values[y].public;
-          item.private = data.values[y].private;
-          item.rating = data.values[y].rating;
-          if (item[y] > max) {
-            max = item[y];
+          item.public = Number(data.values[y].public) >= 0 ? data.values[y].public : FAKE_NUMBER;
+          item.private = Number(data.values[y].private) >= 0 ? data.values[y].private : FAKE_NUMBER;
+          item.rating = Number(data.values[y].rating) >= 0 ? data.values[y].rating : FAKE_NUMBER;
+          item.total = Number(data.values[y].total) || 0;
+          if (item.total > max) {
+            max = item.total;
           }
           if (item.rating > max) {
             max = item.rating;
@@ -659,13 +660,15 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
       colors.set('public', barPieColor[1])
       colors.set('private', barPieColor[2])
       getTooltipText = (d) => {
+        const private_ = processedData.find(i => Number(i.year) === Number(d.data.year)).private;
+        const public_ = processedData.find(i => Number(i.year) === Number(d.data.year)).public;
         return <><div style={{textAlign: 'center'}}>
-            <span>{intl.formatMessage({id: 'tooltip-private-inspectors-legend', defaultMessage: 'Private Seed inspectors'})} </span>
-            <span className="bold"> {d.data.private ? d.data.private : 0}</span>
-          </div>
+          <span>{intl.formatMessage({id: 'tooltip-private-inspectors-legend', defaultMessage: 'Private seed inspectors'})} </span>
+          <span className="bold"> {private_ !== FAKE_NUMBER ? private_ : 'MD'}</span>
+        </div>
           <div style={{textAlign: 'center'}}>
-            <span>{intl.formatMessage({id: 'tooltip-public-inspectors-legend', defaultMessage: 'Public Seed inspectors'})} </span>
-            <span className="bold"> {d.data.public ? d.data.public : 0}</span>
+            <span>{intl.formatMessage({id: 'tooltip-public-inspectors-legend', defaultMessage: 'Public seed inspectors'})} </span>
+            <span className="bold"> {public_ !== FAKE_NUMBER ? public_ : 'MD'}</span>
           </div>
         </>
       }
@@ -871,10 +874,10 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
 
   let initialSelectedCrops = null;
   if (!noData && initialCrops && Array.from(initialCrops).length > 0) {
-      initialSelectedCrops = [];
-      initialCrops.forEach(i => {
-          initialSelectedCrops.push(1);
-      });
+    initialSelectedCrops = [];
+    initialCrops.forEach(i => {
+      initialSelectedCrops.push(1);
+    });
   }
 
   return <Grid className={`number-varieties-released`}>
@@ -898,7 +901,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
     {!noData && useCropLegendsRow ? <Grid.Row className={`crops-with-icons`}>
       <Grid.Column width={8}>
         {legend === 'crops' &&
-          <CropsLegend data={selectedCrops} title="Crops" titleClass="crops-title" addLighterDiv={addLighterDiv} />}
+        <CropsLegend data={selectedCrops} title="Crops" titleClass="crops-title" addLighterDiv={addLighterDiv} />}
         {legend && legend.toLowerCase() === 'years' && <YearLegend colors={yearsColors} years={selectedYear} />}
         {legend && legend === genericLegend && <GenericLegend colors={colors} keys={keys} title={legendTitle}/>}
       </Grid.Column>
