@@ -103,7 +103,7 @@ const Chart = (props) => {
         "data-use-source-by-category": useSourceByCategory,
         "data-methodology": methodology,
     } = props;
-    const ref = useRef(null);
+    
     useEffect(() => {
         setDefaultFilter(DEFAULT_COUNTRY_ID, defaultCountryId)
     }, []);
@@ -119,10 +119,43 @@ const Chart = (props) => {
         return true;
     }
 
-    const exportPng = () => {
-        toBlob(ref.current, {filter, "backgroundColor": "#FFF", style: {"padding": "0px", "margin": "0px"}})
+    const exportPng = (ref, type) => {
+        let style = null;
+        let width = 0;
+        let height = 0;
+        switch (type) {
+            case 'gauge':
+                style = {
+                    padding: "0px",
+                    marginTop: "10px",
+                    marginBottom: "0px",
+                    marginLeft: '10px',
+                    marginRight: '0px',
+                };
+                width = ref.current.childNodes[0].offsetWidth + 20;
+                height = ref.current.childNodes[0].offsetHeight + 20;
+                break;
+            default:
+                style = {
+                    padding: "0px",
+                    marginTop: "10px",
+                    marginBottom: "0px",
+                    marginLeft: '25px',
+                    marginRight: '0px',
+                };
+                width = ref.current.childNodes[0].offsetWidth + 15;
+                height = ref.current.childNodes[0].offsetHeight;
+        }
+        
+        toBlob(ref.current, {
+            filter,
+            "backgroundColor": "#FFF",
+            width: width,
+            height: height,
+            style: style
+        })
             .then(function (blob) {
-                saveAs(blob, 'export.png');
+                saveAs(blob, title + ' export.png');
             });
     }
 
@@ -153,7 +186,7 @@ const Chart = (props) => {
         editing: editing,
         methodology: methodology,
         download: download,
-        exportPng: exportPng
+        exportPng: exportPng,
     }
 
     const generateSourcesText = () => {
@@ -239,7 +272,7 @@ const Chart = (props) => {
                                  title={title} subTitle={subTitle}/>;
             break;
     }
-    return (<div ref={ref}>
+    return (<div>
             <Container className={"chart container"} style={{"minHeight": height + 'px'}} fluid={true}>
                 <DataProvider params={JSON.parse(decodeURIComponent(params))}
                               app={type}
