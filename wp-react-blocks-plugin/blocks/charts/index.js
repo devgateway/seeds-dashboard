@@ -33,7 +33,7 @@ registerBlockType(process.env.BLOCKS_NS + '/chart',
             },
             download: {
                 type: "Boolean",
-                default: false
+                default: true
             },
             mode: {
                 type: 'String',
