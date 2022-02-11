@@ -9,7 +9,7 @@ import {legends} from "./components/LegendConstant";
 import {AVAILABILITY_OF_BASIC_SEED, SATISFACTION_ENFORCEMENT_SEED_LAW} from "../../reducers/StoreConstants";
 import SatisfactionEnforcementSeedLawChart from "./SatisfactionEnforcementSeedLawChart";
 
-const GaugesChart = ({data, mostRecentYears, sources, type, title, subTitle, methodology}) => {
+const GaugesChart = ({data, mostRecentYears, sources, type, title, subTitle, methodology, download, exportPng}) => {
     let yearsToShow;
     let noData = false;
     if (data && data.id) {
@@ -52,7 +52,7 @@ const GaugesChart = ({data, mostRecentYears, sources, type, title, subTitle, met
                 </div>
             </Grid.Column>
             <Grid.Column width={4}>
-                <Export methodology={methodology}/>
+                <Export methodology={methodology} exportPng={exportPng} download={download}/>
             </Grid.Column>
         </Grid.Row>
         <Grid.Row className={"with-bottom-border border-left border-right"}>

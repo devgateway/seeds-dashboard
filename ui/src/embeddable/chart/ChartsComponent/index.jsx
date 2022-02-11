@@ -37,7 +37,7 @@ import { injectIntl } from "react-intl";
 import BarAndLineChart from "../BarAndLineChart";
 import {COUNTRY_OPTIONS} from "../../../countries";
 
-const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, methodology }) => {
+const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, methodology, download, exportPng }) => {
   const [initialCrops, setInitialCrops] = useState(null);
   const [selectedCrops, setSelectedCrops] = useState(null);
   const [selectedYear, setSelectedYear] = useState(null);
@@ -886,7 +886,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
         <Header title={`${title}`} subtitle={subTitle} />
       </Grid.Column>
       <Grid.Column width={4}>
-        <Export methodology={methodology}/>
+        <Export methodology={methodology} exportPng={exportPng} download={download}/>
       </Grid.Column>
     </Grid.Row>
     {useFilterByCrops || useFilterByYear ? <Grid.Row className={`filters-section`}>

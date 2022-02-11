@@ -151,7 +151,9 @@ const Chart = (props) => {
         title: title,
         subTitle: subTitle,
         editing: editing,
-        methodology: methodology
+        methodology: methodology,
+        download: download,
+        exportPng: exportPng
     }
 
     const generateSourcesText = () => {
@@ -239,10 +241,6 @@ const Chart = (props) => {
     }
     return (<div ref={ref}>
             <Container className={"chart container"} style={{"minHeight": height + 'px'}} fluid={true}>
-                {download === 'true' && <Button className={"download ignore"} onClick={e => exportPng()}>
-                    Download
-                    <Icon name={"download"}/>
-                </Button>}
                 <DataProvider params={JSON.parse(decodeURIComponent(params))}
                               app={type}
                               source={chartDataSource}
