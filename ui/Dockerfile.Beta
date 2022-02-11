@@ -9,7 +9,7 @@ RUN npm install &&  npm run dist
 
 FROM node:12.16.3 AS compiler
 WORKDIR /tmp/ui
-COPY ./ui/.env.stage ./.env
+COPY ./ui/.env.beta ./.env
 COPY ./ui/package*.json ./
 COPY ./ui/public ./public/
 COPY ./ui/src ./src/
