@@ -99,8 +99,8 @@ const Chart = (props) => {
         "data-title": title = "",
         "data-sub-title": subTitle = "",
         "data-most-recent-years": mostRecentYears = 5,
-        "data-default-country-id": defaultCountryId = 9
-
+        "data-default-country-id": defaultCountryId = 9,
+        "data-use-source-by-category": useSourceByCategory,
     } = props;
     const ref = useRef(null);
     useEffect(() => {
@@ -156,10 +156,12 @@ const Chart = (props) => {
         const currentLanguage = locale || 'en';
         const separator = '||';
         let ret = sources || separator;
-        if (type === NUMBER_SEED_INSPECTORS_BY_COUNTRY) {
+        
+        if (useSourceByCategory !== "true") {
             ret = sources;
             return ret;
         }
+        
         if (categoriesWP && filters && countries) {
             const selectedCountry = filters.getIn([SELECTED_COUNTRY]);
             const defaultCountry = Number(filters.getIn([DEFAULT_COUNTRY_ID]));

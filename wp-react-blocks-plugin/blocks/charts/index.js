@@ -19,10 +19,10 @@ registerBlockType(process.env.BLOCKS_NS + '/chart',
                 type: 'number',
                 default: 900,
             },
-          mostRecentYears: {
-            type: 'number',
-            default: 5,
-          },
+            mostRecentYears: {
+                type: 'number',
+                default: 5,
+            },
             type: {
                 type: 'string',
                 default: "countryInfo",
@@ -43,26 +43,30 @@ registerBlockType(process.env.BLOCKS_NS + '/chart',
                 type: 'String',
                 default: ""
             },
-          title: {
-            type: 'String',
-            default: ""
-          },
-          subTitle: {
-            type: 'String',
-            default: ""
-          },
-          defaultCountryId: {
-            type: 'Number',
-            default: 23
-          },
-          layout:{
-            type: 'String',
-            default: "vertical"
-          },
-          groupMode:{
-            type: 'String',
-            default: "stacked"
-          }
+            useSourceByCategory: {
+                type: 'Boolean',
+                default: false
+            },
+            title: {
+                type: 'String',
+                default: ""
+            },
+            subTitle: {
+                type: 'String',
+                default: ""
+            },
+            defaultCountryId: {
+                type: 'Number',
+                default: 23
+            },
+            layout: {
+                type: 'String',
+                default: "vertical"
+            },
+            groupMode: {
+                type: 'String',
+                default: "stacked"
+            }
         },
         edit: BlockEdit,
         save: BlockSave,

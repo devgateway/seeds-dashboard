@@ -16,7 +16,8 @@ const SaveComponent = (props) => {
             layout,
             groupMode,
             title,
-            subTitle
+            subTitle,
+            useSourceByCategory
         }
     } = props;
     const blockProps = useBlockProps.save({
@@ -39,7 +40,8 @@ const SaveComponent = (props) => {
              data-default-country-id={defaultCountryId}
              data-layout={layout}
              data-group-mode={groupMode}
-             data-chart-data-source={ApiConfigurations[type]?ApiConfigurations[type].join("|"):undefined}
+             data-chart-data-source={ApiConfigurations[type] ? ApiConfigurations[type].join("|") : undefined}
+             data-use-source-by-category={useSourceByCategory}
 
         />
     );

@@ -33,7 +33,8 @@ class BlockEdit extends BaseBlockEdit {
                 mostRecentYears,
                 defaultCountryId,
                 layout,
-                groupMode
+                groupMode,
+                useSourceByCategory,
             }
         } = this.props;
         let queryString = `data-height=${height}`;
@@ -47,6 +48,7 @@ class BlockEdit extends BaseBlockEdit {
         queryString += `&data-default-country-id=${defaultCountryId}`;
         queryString += `&data-layout=${layout}`;
         queryString += `&data-group-mode=${groupMode}`;
+        queryString += `&data-use-source-by-category=${useSourceByCategory}`;
         if (ApiConfigurations[type]) {
             queryString += `&data-chart-data-source=${ApiConfigurations[type].join("|")}`;
         }
@@ -245,6 +247,13 @@ class BlockEdit extends BaseBlockEdit {
                             <PanelRow>
                                 <TextControl label={__('Source')} value={sources}
                                              onChange={(sources) => setAttributes({sources})}/>
+                            </PanelRow>
+                            <PanelRow>
+                                <ToggleControl
+                                    label={__("Add category as source")}
+                                    checked={useSourceByCategory}
+                                    onChange={(useSourceByCategory) => setAttributes({useSourceByCategory})}
+                                />
                             </PanelRow>
                             <PanelRow>
                                 <TextControl label={__('Default country ID')} value={defaultCountryId}
