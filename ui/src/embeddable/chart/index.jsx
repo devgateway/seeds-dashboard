@@ -101,6 +101,7 @@ const Chart = (props) => {
         "data-most-recent-years": mostRecentYears = 5,
         "data-default-country-id": defaultCountryId = 9,
         "data-use-source-by-category": useSourceByCategory,
+        "data-methodology": methodology,
     } = props;
     const ref = useRef(null);
     useEffect(() => {
@@ -146,10 +147,11 @@ const Chart = (props) => {
 
     const chartProps = {
         groupMode: groupMode,
-        layout:layout,
-        title:title,
-        subTitle:subTitle,
-        editing:editing
+        layout: layout,
+        title: title,
+        subTitle: subTitle,
+        editing: editing,
+        methodology: methodology
     }
 
     const generateSourcesText = () => {

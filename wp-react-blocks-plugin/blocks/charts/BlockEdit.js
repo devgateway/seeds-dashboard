@@ -35,6 +35,7 @@ class BlockEdit extends BaseBlockEdit {
                 layout,
                 groupMode,
                 useSourceByCategory,
+                methodology,
             }
         } = this.props;
         let queryString = `data-height=${height}`;
@@ -49,6 +50,7 @@ class BlockEdit extends BaseBlockEdit {
         queryString += `&data-layout=${layout}`;
         queryString += `&data-group-mode=${groupMode}`;
         queryString += `&data-use-source-by-category=${useSourceByCategory}`;
+        queryString += `&data-methodology=${methodology}`;
         if (ApiConfigurations[type]) {
             queryString += `&data-chart-data-source=${ApiConfigurations[type].join("|")}`;
         }
@@ -254,6 +256,10 @@ class BlockEdit extends BaseBlockEdit {
                                     checked={useSourceByCategory}
                                     onChange={(useSourceByCategory) => setAttributes({useSourceByCategory})}
                                 />
+                            </PanelRow>
+                            <PanelRow>
+                                <TextControl label={__('Methodology')} value={methodology}
+                                             onChange={(methodology) => setAttributes({methodology})}/>
                             </PanelRow>
                             <PanelRow>
                                 <TextControl label={__('Default country ID')} value={defaultCountryId}

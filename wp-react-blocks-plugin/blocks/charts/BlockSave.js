@@ -17,7 +17,8 @@ const SaveComponent = (props) => {
             groupMode,
             title,
             subTitle,
-            useSourceByCategory
+            useSourceByCategory,
+            methodology
         }
     } = props;
     const blockProps = useBlockProps.save({
@@ -42,7 +43,7 @@ const SaveComponent = (props) => {
              data-group-mode={groupMode}
              data-chart-data-source={ApiConfigurations[type] ? ApiConfigurations[type].join("|") : undefined}
              data-use-source-by-category={useSourceByCategory}
-
+             data-methodology={methodology}
         />
     );
 }

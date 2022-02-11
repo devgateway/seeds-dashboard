@@ -32,7 +32,7 @@ const theme = {
     }
 };
 
-const NumberOfVarietiesReleased = ({data, sources, title, subTitle, editing, type}) => {
+const NumberOfVarietiesReleased = ({data, sources, title, subTitle, editing, type, methodology}) => {
 
     const [selectedCrops, setSelectedCrops] = useState(null);
     const [initialCrops, setInitialCrops] = useState(null);
@@ -111,7 +111,7 @@ const NumberOfVarietiesReleased = ({data, sources, title, subTitle, editing, typ
                     <Header title={`${title}`} subtitle={subTitle}/>
                 </Grid.Column>
                 <Grid.Column width={4}>
-                    <Export/>
+                    <Export methodology={methodology}/>
                 </Grid.Column>
             </Grid.Row>
             <Grid.Row className={`filters-section`}>

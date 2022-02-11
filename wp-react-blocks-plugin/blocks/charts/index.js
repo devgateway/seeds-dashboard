@@ -66,6 +66,10 @@ registerBlockType(process.env.BLOCKS_NS + '/chart',
             groupMode: {
                 type: 'String',
                 default: "stacked"
+            },
+            methodology: {
+                type: 'String',
+                default: "Methodology not yet defined."
             }
         },
         edit: BlockEdit,
