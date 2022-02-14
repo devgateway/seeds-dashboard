@@ -152,26 +152,40 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
     }
   }
 
-
   const availabilitySeedSmallPackages = () => {
     if (years && crops) {
       max = 85;
       data.dimensions.packages.values.forEach(x => keys.push(x));
       if (selectedYear) {
         crops.forEach(c => {
+          let sum = 0;
           const item = {crop: c};
           if (data.values[selectedYear][c]) {
-            keys.forEach(k =>{
-              item[k] = Number(data.values[selectedYear][c][k]) >= 0 ? Math.round(data.values[selectedYear][c][k] * 1000) / 10 : FAKE_NUMBER;
+            keys.forEach(k => {
+              item[k] = Number(data.values[selectedYear][c][k]) > 0 
+                  ? Math.round(data.values[selectedYear][c][k] * 1000) / 10 
+                  : FAKE_NUMBER;
+              sum += item[k];
               if (!colors.get(k)) {
                 colors.set(k, packageBarColor[keys.indexOf(k)]);
               }
             });
           }
-          processedData.push(item);
+          // Set a minimum value to show a bar. 
+          if (sum >= 10) {
+            processedData.push(item);
+          } else {
+            Object.keys(item).forEach(i => {
+              if (i !== 'crop') {
+                item[i] = FAKE_NUMBER;
+              }
+            });
+            processedData.push(item);
+          }
         });
       }
     }
+    console.log(processedData);
   }
 
   const commonProcess = (c, entry, yearColors) => {
@@ -546,13 +560,14 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
       withCropsWithSpecialFeatures = false;
       useFilterByYear = true;
       useFilterByCrops = false;
-      showTotalLabel = false;
+      showTotalLabel = true;
       bottomLegend = intl.formatMessage({id: 'percentage-legend', defaultMessage: 'Percentage (%)'});
       enableGridX = true;
       enableGridY = false;
       customTickWithCropsLeft = true;
       legend = genericLegend;
       legendTitle = intl.formatMessage({id: 'package-size-legend', defaultMessage: 'Package Sizes'});
+      groupMode = 'stacked';
       availabilitySeedSmallPackages();
       break;
     case MARKET_CONCENTRATION_HHI:
