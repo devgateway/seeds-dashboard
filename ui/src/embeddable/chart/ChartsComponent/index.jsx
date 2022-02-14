@@ -1,6 +1,8 @@
 import ResponsiveBarChartImpl from "../ResponsiveBarChartImpl";
-import React, { useState } from "react";
+import React, {useRef, useState, useEffect} from "react";
 import { Grid } from "semantic-ui-react";
+import {toBlob} from 'html-to-image';
+import {saveAs} from 'file-saver';
 import Header from "../common/header";
 import CropFilter from "../common/filters/crops";
 import Years from "../common/filters/years";
@@ -37,11 +39,12 @@ import { injectIntl } from "react-intl";
 import BarAndLineChart from "../BarAndLineChart";
 import {COUNTRY_OPTIONS} from "../../../countries";
 
-const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl }) => {
+const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, methodology, download, exportPng }) => {
   const [initialCrops, setInitialCrops] = useState(null);
   const [selectedCrops, setSelectedCrops] = useState(null);
   const [selectedYear, setSelectedYear] = useState(null);
   const [currentData, setCurrentData] = useState(null);
+  const ref = useRef(null);
   const genericLegend = "generic";
   //TODO can be configured in wordpress at a later stage
   let indexBy = 'crop';
@@ -895,42 +898,45 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl })
     });
   }
 
-  return <Grid className={`number-varieties-released`}>
-    <Grid.Row className="header-section">
-      <Grid.Column width={12}>
-        <Header title={`${title}`} subtitle={subTitle} />
-      </Grid.Column>
-      <Grid.Column width={4}>
-        <Export/>
-      </Grid.Column>
-    </Grid.Row>
-    {useFilterByCrops || useFilterByYear ? <Grid.Row className={`filters-section`}>
-      {!noData && useFilterByCrops ? <Grid.Column computer={3} mobile={16}>
-        <CropFilter data={initialCrops} onChange={handleCropFilterChange} initialSelectedCrops={initialSelectedCrops}/>
-      </Grid.Column> : null}
-      {(!noData && useFilterByYear) ? <Grid.Column computer={3} mobile={16}>
-        <Years data={years} onChange={handleYearFilterChange} maxSelectable={maxSelectableYear}
-               defaultSelected={selectedYear} />
-      </Grid.Column> : null}
-    </Grid.Row> : null}
-    {!noData && useCropLegendsRow ? <Grid.Row className={`crops-with-icons`}>
-      <Grid.Column width={8}>
-        {legend === 'crops' &&
-        <CropsLegend data={selectedCrops} title="Crops" titleClass="crops-title" addLighterDiv={addLighterDiv} />}
-        {legend && legend.toLowerCase() === 'years' && <YearLegend colors={yearsColors} years={selectedYear} />}
-        {legend && legend === genericLegend && <GenericLegend colors={colors} keys={keys} title={legendTitle}/>}
-      </Grid.Column>
-      <Grid.Column width={8}>
-        {withCropsWithSpecialFeatures && <CropsWithSpecialFeatures />}
-      </Grid.Column>
-    </Grid.Row> : null}
-    {insertChart()}
-    <Grid.Row className={`source-section`}>
-      <Grid.Column>
-        <Source title={`Source: ${sources}${editing ? ` *${type}*` : ''}`} />
-      </Grid.Column>
-    </Grid.Row>
-  </Grid>
+  return (<div ref={ref}>
+    <Grid className={`number-varieties-released`}>
+      <Grid.Row className="header-section">
+        <Grid.Column width={12}>
+          <Header title={`${title}`} subtitle={subTitle}/>
+        </Grid.Column>
+        <Grid.Column width={4}>
+          <Export methodology={methodology} exportPng={exportPng} download={download} containerRef={ref} type={'bar'}/>
+        </Grid.Column>
+      </Grid.Row>
+      {useFilterByCrops || useFilterByYear ? <Grid.Row className={`filters-section`}>
+        {!noData && useFilterByCrops ? <Grid.Column computer={3} mobile={16}>
+          <CropFilter data={initialCrops} onChange={handleCropFilterChange}
+                      initialSelectedCrops={initialSelectedCrops}/>
+        </Grid.Column> : null}
+        {(!noData && useFilterByYear) ? <Grid.Column computer={3} mobile={16}>
+          <Years data={years} onChange={handleYearFilterChange} maxSelectable={maxSelectableYear}
+                 defaultSelected={selectedYear}/>
+        </Grid.Column> : null}
+      </Grid.Row> : null}
+      {!noData && useCropLegendsRow ? <Grid.Row className={`crops-with-icons`}>
+        <Grid.Column width={8}>
+          {legend === 'crops' &&
+          <CropsLegend data={selectedCrops} title="Crops" titleClass="crops-title" addLighterDiv={addLighterDiv}/>}
+          {legend && legend.toLowerCase() === 'years' && <YearLegend colors={yearsColors} years={selectedYear}/>}
+          {legend && legend === genericLegend && <GenericLegend colors={colors} keys={keys} title={legendTitle}/>}
+        </Grid.Column>
+        <Grid.Column width={8}>
+          {withCropsWithSpecialFeatures && <CropsWithSpecialFeatures/>}
+        </Grid.Column>
+      </Grid.Row> : null}
+      {insertChart()}
+      <Grid.Row className={`source-section`}>
+        <Grid.Column>
+          <Source title={`Source: ${sources}${editing ? ` *${type}*` : ''}`}/>
+        </Grid.Column>
+      </Grid.Row>
+    </Grid>
+  </div>);
 }
 
 const blueColors = [

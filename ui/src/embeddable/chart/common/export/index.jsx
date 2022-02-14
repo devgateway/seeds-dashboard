@@ -1,18 +1,20 @@
 import React from "react";
-import { Popup } from 'semantic-ui-react'
+import {Popup} from 'semantic-ui-react'
 import './styles.scss';
 
-const Export = ({methodology}) => {
+const Export = ({methodology, download, exportPng, containerRef, type}) => {
     return (
         <div className="export-wrapper">
-
-        <div className="export-buttons">
-          <div className="export download"></div>
-          <div className="export share"></div>
-        </div>
-
-        <Popup content='Methodology text' trigger={<div className="tooltip">Methodology</div>} position='bottom right' />
-
+            <div className="export-buttons">
+                {download === 'true'
+                    ? <div className="export download" onClick={e => exportPng(containerRef, type)}/>
+                    : null}
+                <div className="export share"/>
+            </div>
+            {methodology
+                ? <Popup content={methodology} trigger={<div className="tooltip">Methodology</div>}
+                         position='bottom right'/>
+                : null}
         </div>
     )
 }
