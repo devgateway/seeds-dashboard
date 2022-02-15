@@ -51,12 +51,10 @@ const ResponsiveBarChartImpl = ({
                                     customTickWithCropsLeft,
                                     containerHeight = 450,
                                     gridTickLines = 6,
-                                    rightLegend,
                                     LineLayer,
                                     markers,
                                     dataSuffix,
                                     showTotalLabel,
-                                    leftTickColor,
                                     fixedIntervals
                                 }) => {
 
@@ -230,8 +228,7 @@ const ResponsiveBarChartImpl = ({
                     legend: leftLegend,
                     legendPosition: 'middle',
                     legendOffset: layout === 'horizontal' ? (-leftMargin + 10) : -60,
-                    tickValues: fixedIntervals || gridTickLines,
-                    tickColor: leftTickColor
+                    tickValues: fixedIntervals || gridTickLines
                 }}
                 layout={layout}
                 groupMode={groupMode}

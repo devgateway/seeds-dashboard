@@ -202,9 +202,9 @@ const BarAndLineChart = ({
                                             enableGridX={enableGridX} enableGridY={enableGridY}
                                             getTooltipText={getTooltipText} getTooltipHeader={getTooltipHeader}
                                             customTickWithCropsBottom={customTickWithCropsBottom}
-                                            gridTickLines={TICK_NUMBER} rightLegend={rightLegend} LineLayer={LineLayer}
+                                            gridTickLines={TICK_NUMBER} LineLayer={LineLayer}
                                             markers={markerLine} fixedIntervals={fixedIntervals}
-                                            showTotalLabel={showTotalLabel} leftTickColor={'#41a9d9'}
+                                            showTotalLabel={showTotalLabel}
                     />
                 </Grid.Column>
             </Grid.Row>
