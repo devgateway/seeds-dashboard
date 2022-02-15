@@ -22,6 +22,9 @@
 
 .data-summary {
   width:100% !important;
+  @media only screen and (max-width: 1366px){
+    padding: 0 $base-unit * 3;
+  }
 
   .ui.placeholder {
     margin-left: 5px;

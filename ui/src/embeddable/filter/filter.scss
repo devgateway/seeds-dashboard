@@ -12,6 +12,9 @@
 
   .country-filter-container {
     width: $screen-width !important;
+    @media only screen and (max-width: 1366px){
+      padding: 0 $base-unit * 2.8;
+    }
 
     .select-country-grid {
       .column {

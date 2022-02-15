@@ -780,7 +780,6 @@ p:empty {
   &.compact{
     p{
       margin-bottom: -$base-unit;
-      border: 1px dotted red;
     }
   }
 }
@@ -833,6 +832,9 @@ p:empty {
           font-weight: bold;
           background-color: #f9f9f9;
           color: #868686;
+          @media only screen and (max-width: 1366px){
+            font-size: 15px;
+          }
 
           i.fitted.icon {
             padding-right: $base-unit;
