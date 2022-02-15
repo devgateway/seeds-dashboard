@@ -15,7 +15,7 @@ const BarAndLineChart = ({
                              lineChartField, lineChartFieldLabel, showTotalLabel
                          }) => {
 
-    const TICK_NUMBER = 6;
+    const TICK_NUMBER = 4;
     let noData = false;
     if (!data || !data.dimensions || (!data.dimensions.crop && !data.dimensions.year) || !data.values) {
         noData = true;
@@ -119,15 +119,15 @@ const BarAndLineChart = ({
                     }
                     return null;
                 })}
-                {newYScale.ticks(TICK_NUMBER).map(t => {
+                {newYScale.ticks(TICK_NUMBER - 1).map(t => {
                     return (<text key={t} transform={`translate(${innerWidth + 25}, ${newYScale(t)})`}
                                   style={{
                                       dominantBaseline: 'central',
                                       fontSize: '12px',
-                                      fill: 'rgb(173, 175, 178)',
+                                      fill: '#c2db24',
                                       textAnchor: 'end',
                                       fontFamily: 'sans-serif'
-                                  }}>--{t}</text>);
+                                  }}>{t}</text>);
                 })}
                 <text
                     transform={`translate(${innerWidth + 50}, ${chartHeight - ((chartHeight - getTextWidth(rightLegend, '12px sans-serif')) / 2)}) rotate(-90)`}
@@ -165,6 +165,13 @@ const BarAndLineChart = ({
         ];
     }
 
+    let fixedIntervals = [];
+    const interval = max / TICK_NUMBER;
+    for (let i = 0; i <= TICK_NUMBER; i++) {
+        fixedIntervals.push(Math.round(interval * i));
+    }
+    fixedIntervals = fixedIntervals.sort();
+
     return (
         <>
             <Grid.Row className={`hhi-section`}>
@@ -182,8 +189,8 @@ const BarAndLineChart = ({
                                             getTooltipText={getTooltipText} getTooltipHeader={getTooltipHeader}
                                             customTickWithCropsBottom={customTickWithCropsBottom}
                                             gridTickLines={TICK_NUMBER} rightLegend={rightLegend} LineLayer={LineLayer}
-                                            markers={markerLine}
-                                            showTotalLabel={showTotalLabel}
+                                            markers={markerLine} fixedIntervals={fixedIntervals}
+                                            showTotalLabel={showTotalLabel} leftTickColor={'#41a9d9'}
                     />
                 </Grid.Column>
             </Grid.Row>

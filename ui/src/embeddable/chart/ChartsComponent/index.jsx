@@ -837,7 +837,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
         return <BarAndLineChart data={data} selectedYear={selectedYear} leftLegend={leftLegend}
                                 indexBy={indexBy} groupMode={groupMode} bottomLegend={bottomLegend}
                                 rightLegend={rightLegend} processedData={processedData} colors={colors}
-                                max={max * 1.05} keys={keys} getTooltipText={getTooltipText}
+                                max={max} keys={keys} getTooltipText={getTooltipText}
                                 getTooltipHeader={getTooltipHeader} lineColor={barPieColor[0]}
                                 legends={legends} lineChartField={lineChartField}
                                 lineChartFieldLabel={lineChartFieldLabel}
