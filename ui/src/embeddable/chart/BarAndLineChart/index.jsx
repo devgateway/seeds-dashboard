@@ -124,8 +124,9 @@ const BarAndLineChart = ({
                                       fill: 'rgb(173, 175, 178)',
                                       textAnchor: 'end',
                                       fontFamily: 'sans-serif'
-                                  }}>{t}</text>);
+                                  }}>--{t}</text>);
                 })}
+                <text transform={`translate(${innerWidth + 50}, ${newYScale(50)}) rotate(-90)`}>{rightLegend}</text>
             </Fragment>
         );
     };
