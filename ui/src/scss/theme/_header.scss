@@ -168,7 +168,8 @@
         font-weight: 800;
         opacity: 1;
         padding-right: $base-unit-md + 10;
-
+        // prevent clicking
+        pointer-events: none; 
         &:hover {
           opacity: 0.6;
         }
