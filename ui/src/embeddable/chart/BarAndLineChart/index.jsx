@@ -2,6 +2,7 @@ import React, {Fragment} from "react";
 import {Grid} from "semantic-ui-react";
 import {line} from "d3-shape";
 import {BasicTooltip, useTooltip} from '@nivo/tooltip';
+import * as d3 from 'd3';
 import './styles.scss';
 import ResponsiveBarChartImpl from "../ResponsiveBarChartImpl";
 import Legend from "./Legend";
@@ -54,9 +55,10 @@ const BarAndLineChart = ({
             return null;
         });
 
+        const newYScale = d3.scaleLinear().domain([0, 100]).range(yScale.range());
         const lineGenerator = line()
             .x(bar => xScale(bar.data.indexValue) + bar.width / 2)
-            .y(bar => yScale(bar.data.data[lineChartField] || 0));
+            .y(bar => newYScale(bar.data.data[lineChartField] || 0));
 
         const {showTooltipFromEvent, hideTooltip} = useTooltip();
 
@@ -71,12 +73,12 @@ const BarAndLineChart = ({
                 />
                 {selectedYear.length > 0 && bars.map(bar => {
                     if (selectedYear.find(i => i === bar.data.indexValue)
-                        && yScale(bar.data.data[lineChartField])
+                        && newYScale(bar.data.data[lineChartField])
                         && bar.data.data[lineChartField] !== FAKE_NUMBER) {
                         return (<circle
                             key={bar.key}
                             cx={xScale(bar.data.indexValue) + bar.width / 2}
-                            cy={yScale(bar.data.data[lineChartField])}
+                            cy={newYScale(bar.data.data[lineChartField])}
                             r={5}
                             fill={lineColor}
                             stroke={lineColor}
