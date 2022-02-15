@@ -13,6 +13,10 @@ const round = (x, y) => {
     return Math.ceil(x / y) * y;
 }
 
+/**
+ * IMPORTANT: For the line chart we assume the range will ALWAYS be [0 - 100]. If that changes we need to
+ * do some extra processing.
+ */
 const BarAndLineChart = ({
                              data, sources, selectedYear, leftLegend, indexBy, groupMode, bottomLegend, rightLegend,
                              processedData, colors, keys, max, legends, getTooltipText, getTooltipHeader, lineColor,
@@ -48,7 +52,7 @@ const BarAndLineChart = ({
     const enableGridX = false;
     const enableGridY = true;
     const customTickWithCropsBottom = true;
-    
+
     // Round to nearest number that is a factor of 10, 100, 1000, etc.
     const incrementalFactor = Number('1' + ''.padStart(String(max).length - 1, '0'));
     const newMax = round(max, incrementalFactor);
@@ -73,7 +77,7 @@ const BarAndLineChart = ({
 
         const {showTooltipFromEvent, hideTooltip} = useTooltip();
         const chartHeight = yScale.range()[0];
-        const lineChartIntervals = [0]
+
         return (
             <Fragment>
                 <path
@@ -149,10 +153,11 @@ const BarAndLineChart = ({
     let markerLine = null;
     if (selectedYear.length === 1) {
         if (processedData.filter(i => i[lineChartField] !== FAKE_NUMBER).length !== 0) {
+            const percent = processedData.find(i => i.year === selectedYear[0])[lineChartField]; // we assume max is 100.
             markerLine = [
                 {
                     axis: 'y',
-                    value: processedData.find(i => i.year === selectedYear[0])[lineChartField],
+                    value: percent * newMax / 100,
                     lineStyle: {stroke: lineColor, strokeWidth: 2},
                     legend: '',
                     legendOrientation: 'vertical',
@@ -162,10 +167,11 @@ const BarAndLineChart = ({
     } else if (processedData.filter(i => i[lineChartField]).length === 1
         || processedData.filter(i => i[lineChartField] !== FAKE_NUMBER).length === 1) { // Also show marker when there is only 1 point with data.
         const processedDataWithoutMD = processedData.filter(i => i[lineChartField] !== FAKE_NUMBER);
+        const percent = processedDataWithoutMD.filter(i => i[lineChartField])[0][lineChartField]; // we assume max is 100.
         markerLine = [
             {
                 axis: 'y',
-                value: processedDataWithoutMD.filter(i => i[lineChartField])[0][lineChartField],
+                value: percent * max / 100,
                 lineStyle: {stroke: lineColor, strokeWidth: 2},
                 legend: '',
                 legendOrientation: 'vertical',
