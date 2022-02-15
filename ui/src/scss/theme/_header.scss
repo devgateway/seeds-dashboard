@@ -169,7 +169,7 @@
         opacity: 1;
         padding-right: $base-unit-md + 10;
         // prevent clicking
-        pointer-events: none; 
+        pointer-events: none;
         &:hover {
           opacity: 0.6;
         }
@@ -314,6 +314,11 @@
         &._country-info {
           a {
             background-image: url("/static/images/country_info.svg") !important;
+          }
+        }
+        &._country-overview {
+          a {
+            background-image: url("/static/images/dashboard.svg");
           }
         }
 
