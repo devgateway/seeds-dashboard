@@ -700,9 +700,6 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
           if (item.time > max) {
             max = item.time;
           }
-          if (item.satisfaction > max) {
-            max = item.satisfaction;
-          }
           processedData.push(item);
         }
       });
