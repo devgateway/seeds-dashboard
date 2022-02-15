@@ -9,6 +9,10 @@ import Legend from "./Legend";
 import {FAKE_NUMBER} from "../ChartsComponent";
 import {getTextWidth} from "../../utils/common";
 
+const round = (x, y) => {
+    return Math.ceil(x / y) * y;
+}
+
 const BarAndLineChart = ({
                              data, sources, selectedYear, leftLegend, indexBy, groupMode, bottomLegend, rightLegend,
                              processedData, colors, keys, max, legends, getTooltipText, getTooltipHeader, lineColor,
@@ -44,6 +48,10 @@ const BarAndLineChart = ({
     const enableGridX = false;
     const enableGridY = true;
     const customTickWithCropsBottom = true;
+    
+    // Round to nearest number that is a factor of 10, 100, 1000, etc.
+    const incrementalFactor = Number('1' + ''.padStart(String(max).length - 1, '0'));
+    const newMax = round(max, incrementalFactor);
 
     const LineLayer = ({bars, xScale, yScale, innerWidth}) => {
         const filterIndex = [];
@@ -64,8 +72,8 @@ const BarAndLineChart = ({
             .y(bar => newYScale(bar.data.data[lineChartField] || 0));
 
         const {showTooltipFromEvent, hideTooltip} = useTooltip();
-
         const chartHeight = yScale.range()[0];
+        const lineChartIntervals = [0]
         return (
             <Fragment>
                 <path
@@ -124,14 +132,14 @@ const BarAndLineChart = ({
                                   style={{
                                       dominantBaseline: 'central',
                                       fontSize: '12px',
-                                      fill: '#c2db24',
+                                      fill: lineColor,
                                       textAnchor: 'end',
                                       fontFamily: 'sans-serif'
                                   }}>{t}</text>);
                 })}
                 <text
-                    transform={`translate(${innerWidth + 50}, ${chartHeight - ((chartHeight - getTextWidth(rightLegend, '12px sans-serif')) / 2)}) rotate(-90)`}
-                    style={{fontFamily: 'Lato', fontSize: '12px'}}>
+                    transform={`translate(${innerWidth + 50}, ${chartHeight - ((chartHeight - getTextWidth(rightLegend, '16px sans-serif')) / 2)}) rotate(-90)`}
+                    style={{fontFamily: 'Lato', fontSize: '16px'}}>
                     {rightLegend}
                 </text>
             </Fragment>
@@ -166,7 +174,7 @@ const BarAndLineChart = ({
     }
 
     let fixedIntervals = [];
-    const interval = max / TICK_NUMBER;
+    const interval = newMax / TICK_NUMBER;
     for (let i = 0; i <= TICK_NUMBER; i++) {
         fixedIntervals.push(Math.round(interval * i));
     }
@@ -180,7 +188,7 @@ const BarAndLineChart = ({
             <Grid.Row className="chart-section">
                 <Grid.Column width={16}>
                     <ResponsiveBarChartImpl sources={sources} data={data} noData={noData}
-                                            selectedYear={selectedYear} colors={colors} max={max} keys={keys}
+                                            selectedYear={selectedYear} colors={colors} max={newMax} keys={keys}
                                             processedData={processedData}
                                             indexBy={indexBy} layout={layout}
                                             groupMode={groupMode}
