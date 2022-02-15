@@ -611,9 +611,6 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
           if (item.value > max) {
             max = item.value;
           }
-          if (item.rating > max) {
-            max = item.rating;
-          }
           processedData.push(item);
         }
       });
@@ -653,9 +650,6 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
           item.total = Number(data.values[y].total) || 0;
           if (item.total > max) {
             max = item.total;
-          }
-          if (item.rating > max) {
-            max = item.rating;
           }
           processedData.push(item);
         }
@@ -698,7 +692,6 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
       groupMode = 'stacked';
       rightLegend = intl.formatMessage({id: 'rating-legend', defaultMessage: 'Rating out of 100'});
       keys.push('time');
-      max = 10;
       Object.keys(data.values).forEach(y => {
         const item = {year: y};
         if (selectedYear && selectedYear.find(k => k === y)) {
@@ -741,7 +734,6 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
       groupMode = 'stacked';
       rightLegend = intl.formatMessage({id: 'rating-legend', defaultMessage: 'Rating out of 100'});
       keys.push('households');
-      max = 10;
       Object.keys(data.values).forEach(y => {
         const item = {year: y};
         if (selectedYear && selectedYear.find(k => k === y)) {
@@ -750,9 +742,6 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
           item.rating = Number( data.values[y].rating) >= 0 ?  data.values[y].rating : FAKE_NUMBER;
           if (item.households > max) {
             max = item.households;
-          }
-          if (item.rating > max) {
-            max = item.rating;
           }
           processedData.push(item);
         }
@@ -788,7 +777,6 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
       groupMode = 'stacked';
       rightLegend = intl.formatMessage({id: 'rating-legend', defaultMessage: 'Rating out of 100'});
       keys.push('households');
-      max = 10;
       Object.keys(data.values).forEach(y => {
         const item = {year: y};
         if (selectedYear && selectedYear.find(k => k === y)) {
@@ -796,9 +784,6 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
           item.rating = Number( data.values[y].rating) >= 0 ?  data.values[y].rating : FAKE_NUMBER;
           if (item.households > max) {
             max = item.households;
-          }
-          if (item.rating > max) {
-            max = item.rating;
           }
           processedData.push(item);
         }
@@ -859,7 +844,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
         return (<Grid.Row className={`chart-section`}>
           <Grid.Column width={16}>
             <ResponsiveBarChartImpl sources={sources} data={data} noData={noData} crops={crops}
-                                    selectedYear={selectedYear} colors={colors} max={max} keys={keys}
+                                    selectedYear={selectedYear} colors={colors} max={max * 1.1} keys={keys}
                                     processedData={processedData} indexBy={indexBy} layout={layout}
                                     groupMode={groupMode}
                                     leftLegend={leftLegend} bottomLegend={bottomLegend}
