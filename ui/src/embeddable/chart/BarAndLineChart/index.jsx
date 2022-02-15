@@ -7,6 +7,7 @@ import './styles.scss';
 import ResponsiveBarChartImpl from "../ResponsiveBarChartImpl";
 import Legend from "./Legend";
 import {FAKE_NUMBER} from "../ChartsComponent";
+import {getTextWidth} from "../../utils/common";
 
 const BarAndLineChart = ({
                              data, sources, selectedYear, leftLegend, indexBy, groupMode, bottomLegend, rightLegend,
@@ -14,6 +15,7 @@ const BarAndLineChart = ({
                              lineChartField, lineChartFieldLabel, showTotalLabel
                          }) => {
 
+    const TICK_NUMBER = 6;
     let noData = false;
     if (!data || !data.dimensions || (!data.dimensions.crop && !data.dimensions.year) || !data.values) {
         noData = true;
@@ -63,6 +65,7 @@ const BarAndLineChart = ({
 
         const {showTooltipFromEvent, hideTooltip} = useTooltip();
 
+        const chartHeight = yScale.range()[0];
         return (
             <Fragment>
                 <path
@@ -116,7 +119,7 @@ const BarAndLineChart = ({
                     }
                     return null;
                 })}
-                {newYScale.ticks(5).map(t => {
+                {newYScale.ticks(TICK_NUMBER).map(t => {
                     return (<text key={t} transform={`translate(${innerWidth + 25}, ${newYScale(t)})`}
                                   style={{
                                       dominantBaseline: 'central',
@@ -126,7 +129,11 @@ const BarAndLineChart = ({
                                       fontFamily: 'sans-serif'
                                   }}>--{t}</text>);
                 })}
-                <text transform={`translate(${innerWidth + 50}, ${newYScale(50)}) rotate(-90)`}>{rightLegend}</text>
+                <text
+                    transform={`translate(${innerWidth + 50}, ${chartHeight - ((chartHeight - getTextWidth(rightLegend, '12px sans-serif')) / 2)}) rotate(-90)`}
+                    style={{fontFamily: 'Lato', fontSize: '12px'}}>
+                    {rightLegend}
+                </text>
             </Fragment>
         );
     };
@@ -174,7 +181,7 @@ const BarAndLineChart = ({
                                             enableGridX={enableGridX} enableGridY={enableGridY}
                                             getTooltipText={getTooltipText} getTooltipHeader={getTooltipHeader}
                                             customTickWithCropsBottom={customTickWithCropsBottom}
-                                            gridTickLines={4} rightLegend={rightLegend} LineLayer={LineLayer}
+                                            gridTickLines={TICK_NUMBER} rightLegend={rightLegend} LineLayer={LineLayer}
                                             markers={markerLine}
                                             showTotalLabel={showTotalLabel}
                     />

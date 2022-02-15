@@ -218,7 +218,6 @@ const ResponsiveBarChartImpl = ({
         borderRadius={0}
         borderColor={{ from: 'color', modifiers: [['darker', 0.4]] }}
         axisTop={null}
-        axisRight={null}
         enableGridX={enableGridX}
         enableGridY={enableGridY}
         innerPadding={groupMode === 'stacked' ? 0 : 8}
