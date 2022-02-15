@@ -43,7 +43,7 @@ const BarAndLineChart = ({
     const enableGridY = true;
     const customTickWithCropsBottom = true;
 
-    const LineLayer = ({bars, xScale, yScale}) => {
+    const LineLayer = ({bars, xScale, yScale, innerWidth}) => {
         const filterIndex = [];
         const filteredBars = bars.filter(b => {
             if (b.data.data[lineChartField] !== FAKE_NUMBER) {
@@ -56,6 +56,7 @@ const BarAndLineChart = ({
         });
 
         const newYScale = d3.scaleLinear().domain([0, 100]).range(yScale.range());
+
         const lineGenerator = line()
             .x(bar => xScale(bar.data.indexValue) + bar.width / 2)
             .y(bar => newYScale(bar.data.data[lineChartField] || 0));
@@ -111,12 +112,19 @@ const BarAndLineChart = ({
                                 </div>, event)
                             }
                             onMouseLeave={() => hideTooltip()}
-                            /*onMouseMove={(event) =>
-                                showTooltipFromEvent(<BasicTooltip id="Rating" value={bar.data.data[lineChartField]}/>, event)
-                            }*/
                         />)
                     }
                     return null;
+                })}
+                {newYScale.ticks(5).map(t => {
+                    return (<text key={t} transform={`translate(${innerWidth + 25}, ${newYScale(t)})`}
+                                  style={{
+                                      dominantBaseline: 'central',
+                                      fontSize: '12px',
+                                      fill: 'rgb(173, 175, 178)',
+                                      textAnchor: 'end',
+                                      fontFamily: 'sans-serif'
+                                  }}>{t}</text>);
                 })}
             </Fragment>
         );
