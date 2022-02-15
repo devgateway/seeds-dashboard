@@ -23,7 +23,7 @@ const theme = {
         },
         legend: {
             text: {
-                fontSize: 12,
+                fontSize: 16,
                 fill: "#354052",
                 fontWeight: 'normal',
                 fontFamily: 'Lato',
