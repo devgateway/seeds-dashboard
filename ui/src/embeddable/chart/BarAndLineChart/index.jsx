@@ -171,7 +171,7 @@ const BarAndLineChart = ({
         markerLine = [
             {
                 axis: 'y',
-                value: max > FAKE_NUMBER ? percent * max / 100 : percent * 10000 / 100,
+                value: max > FAKE_NUMBER ? percent * newMax / 100 : percent * 10000 / 100,
                 lineStyle: {stroke: lineColor, strokeWidth: 2},
                 legend: '',
                 legendOrientation: 'vertical',
