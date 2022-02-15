@@ -1,5 +1,6 @@
 import { Container, Menu } from "semantic-ui-react";
 import React, { useEffect, useState } from "react";
+import {Popup} from 'semantic-ui-react'
 import { MenuConsumer, MenuProvider, utils } from "@devgateway/wp-react-lib";
 import { injectIntl } from "react-intl";
 import { useHistory, withRouter } from "react-router";
@@ -79,8 +80,8 @@ const MyMenuItems = injectIntl(withRouter(({
     {menu.items.map((i, index) => (
       <><Menu.Item
         key={i.ID}
-        className={`divided ${i.child_items ? 'has-child-items' : ''} 
-                 ${selected && selected.ID === i.ID ? 'selected' : ''}  ${active === i.slug ? "active" : ""} 
+        className={`divided ${i.child_items ? 'has-child-items' : ''}
+                 ${selected && selected.ID === i.ID ? 'selected' : ''}  ${active === i.slug ? "active" : ""}
                  ${addClass && i.slug ? `_${i.slug.replace(/\s+/g, '-').toLowerCase()}` : ''}`}
 
       >
@@ -138,10 +139,18 @@ const Header = ({ intl: { locale }, match, firstChildLink }) => {
             </Container>}
           </div>
           <div className="lang-container align-content">
+
+          <Popup
+            trigger={
             <div className="lang">
               {locale === 'en' && <a onClick={() => gotoLanguage('fr')}>français</a>}
               {locale === 'fr' && <a onClick={() => gotoLanguage('en')}>english</a>}
             </div>
+          }
+          content="Coming soon"
+          position='bottom right'
+          />
+
           </div>
         </Menu>
       </Container>
