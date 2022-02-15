@@ -23,7 +23,7 @@ const theme = {
     },
     legend: {
       text: {
-        fontSize: 12,
+        fontSize: 16,
         fill: "#354052",
         fontWeight: 'normal',
         fontFamily: 'Lato',
@@ -79,7 +79,17 @@ const ResponsiveBarChartImpl = ({
             }
         }, 0);
 
-      const finalText = showTotalLabel ? total : isMD ? "MD" : "";
+      let finalText = '';
+      if (showTotalLabel) {
+          if (total > 0) {
+              finalText = total;
+          } else {
+              if (isMD) {
+                  finalText = 'MD';
+              }
+          }
+      }
+      // let finalText = showTotalLabel ? total : (isMD ? "MD" : "");
       let transform = `translate(${x}, ${yScale(total) - labelMargin})`;
       let xText = width / 2;
       let yText = labelMargin / 2;
@@ -101,7 +111,6 @@ const ResponsiveBarChartImpl = ({
             x={xText}
             y={yText}
             textAnchor="middle"
-            alignmentBaseline="central"
             // add any style to the label here
             style={{
               fontWeight: 'bold',
@@ -115,7 +124,7 @@ const ResponsiveBarChartImpl = ({
     });
     return numbers;
   };
-  
+
   const TotalLabelsGrouped = ({ bars, yScale }) => {
     const data_ = data;
     // space between top of stacked bars and total label
@@ -151,7 +160,7 @@ const ResponsiveBarChartImpl = ({
     });
     return numbers;
   };
-  
+
   const getColors = (item) => {
       if (Array.isArray(item.id)) {
           return colors.get(item.id[0]);
@@ -160,7 +169,7 @@ const ResponsiveBarChartImpl = ({
   }
 
   const { width, height, ref } = useResizeDetector();
-  
+
   const CustomTick = tick => {
       const bottomLegendWidth = getTextWidth(bottomLegend || '', "12px sans-serif");
       const tickX = customTickWithCropsLeft ? 100 : 0;

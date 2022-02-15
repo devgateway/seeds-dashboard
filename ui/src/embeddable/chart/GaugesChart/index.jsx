@@ -1,8 +1,7 @@
-import React, {useState} from "react";
+import React, {useRef, useState} from "react";
 import AvailabilityOfBasicSeedChart from "./AvailabilityOfBasicSeedChart";
 import {Grid} from "semantic-ui-react";
 import Export from "../common/export";
-import Header from "../common/header";
 import Source from "../common/source";
 
 import Heading from "../../data-summary/components/Heading";
@@ -10,7 +9,8 @@ import {legends} from "./components/LegendConstant";
 import {AVAILABILITY_OF_BASIC_SEED, SATISFACTION_ENFORCEMENT_SEED_LAW} from "../../reducers/StoreConstants";
 import SatisfactionEnforcementSeedLawChart from "./SatisfactionEnforcementSeedLawChart";
 
-const GaugesChart = ({data, mostRecentYears, sources, type, title, subTitle}) => {
+const GaugesChart = ({data, mostRecentYears, sources, type, title, subTitle, methodology, download, exportPng}) => {
+    const ref = useRef(null);
     let yearsToShow;
     let noData = false;
     if (data && data.id) {
@@ -44,29 +44,32 @@ const GaugesChart = ({data, mostRecentYears, sources, type, title, subTitle}) =>
         }
     }
 
-    return (<Grid className={"availability-of-basic-seed-container"}>
-        <Grid.Row className="header-section with-bottom-border chart-title">
-            <Grid.Column wide width={12}>
-                <div className="titles">
-                    <div className="title">{title}<span className="subtitle">{subTitle}</span>
+    return (<div ref={ref}>
+        <Grid className={"availability-of-basic-seed-container"}>
+            <Grid.Row className="header-section with-bottom-border">
+                <Grid.Column wide width={12}>
+                    <div className="titles">
+                        <div className="title">{title}<span className="subtitle">{subTitle}</span>
+                        </div>
                     </div>
-                </div>
-            </Grid.Column>
-            <Grid.Column width={4}>
-                <Export/>
-            </Grid.Column>
-        </Grid.Row>
-        <Grid.Row className={"with-bottom-border border-left border-right"}>
-            <Heading legends={legends}/>
-        </Grid.Row>
-        <Grid.Row className={"with-bottom-border border-left border-right"}>
-            {getChart()}
-        </Grid.Row>
-        <Grid.Row className={`source-section`}>
-            <Grid.Column>
-                <Source title={`Source: ${sources}`}/>
-            </Grid.Column>
-        </Grid.Row>
-    </Grid>);
+                </Grid.Column>
+                <Grid.Column width={4}>
+                    <Export methodology={methodology} exportPng={exportPng} download={download} containerRef={ref}
+                            type={'gauge'}/>
+                </Grid.Column>
+            </Grid.Row>
+            <Grid.Row className={"with-bottom-border border-left border-right"}>
+                <Heading legends={legends}/>
+            </Grid.Row>
+            <Grid.Row className={"with-bottom-border border-left border-right"}>
+                {getChart()}
+            </Grid.Row>
+            <Grid.Row className={`source-section`}>
+                <Grid.Column>
+                    <Source title={`Source: ${sources}`}/>
+                </Grid.Column>
+            </Grid.Row>
+        </Grid>
+    </div>);
 }
 export default GaugesChart;
