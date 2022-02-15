@@ -23,7 +23,7 @@ const theme = {
     },
     legend: {
       text: {
-        fontSize: 12,
+        fontSize: 16,
         fill: "#354052",
         fontWeight: 'normal',
         fontFamily: 'Lato',
@@ -124,7 +124,7 @@ const ResponsiveBarChartImpl = ({
     });
     return numbers;
   };
-  
+
   const TotalLabelsGrouped = ({ bars, yScale }) => {
     const data_ = data;
     // space between top of stacked bars and total label
@@ -160,7 +160,7 @@ const ResponsiveBarChartImpl = ({
     });
     return numbers;
   };
-  
+
   const getColors = (item) => {
       if (Array.isArray(item.id)) {
           return colors.get(item.id[0]);
@@ -169,7 +169,7 @@ const ResponsiveBarChartImpl = ({
   }
 
   const { width, height, ref } = useResizeDetector();
-  
+
   const CustomTick = tick => {
       const bottomLegendWidth = getTextWidth(bottomLegend || '', "12px sans-serif");
       const tickX = customTickWithCropsLeft ? 100 : 0;
