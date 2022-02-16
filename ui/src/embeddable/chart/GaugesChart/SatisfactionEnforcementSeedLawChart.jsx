@@ -6,7 +6,7 @@ import {range} from "./components/common";
 import {injectIntl} from "react-intl";
 
 const SatisfactionEnforcementSeedLawChart = ({data, yearsToShow, intl}) => {
-    const AVERAGE_RATING = "Average Rating";
+    const AVERAGE_RATING = "Overall satisfaction rating";
     const averageColumn = Object.keys(data.values);
     let avg = 0;
 

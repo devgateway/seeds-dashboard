@@ -56,7 +56,7 @@ const AvailabilityOfBasicSeedChart = ({ data, yearsToShow, intl }) => {
     if (averageColumn) {
       crops.push(<Grid.Column className={'crop average'}>{intl.formatMessage({
         id: `average-rating`,
-        defaultMessage: 'Average Rating'
+        defaultMessage: 'Overall average rating'
       })}</Grid.Column>);
     }
 

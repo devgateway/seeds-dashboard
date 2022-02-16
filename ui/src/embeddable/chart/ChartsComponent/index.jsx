@@ -386,7 +386,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
         dataSuffix = '%';
         leftLegend = intl.formatMessage({
           id: 'market-share-state-owned',
-          defaultMessage: 'Market share of state-owned seed companies (out of 100%)'
+          defaultMessage: 'Market share (out of 100%)'
         });
         getTooltipText = (d) => {
           return <>
@@ -424,7 +424,10 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
           </>;
         }
       } else {
-        leftLegend = intl.formatMessage({id: 'number', defaultMessage: 'Number'});
+        leftLegend = intl.formatMessage({
+          id: 'number-company-producers',
+          defaultMessage: 'Number of companies / producers'
+        });
         getTooltipText = (d) => {
           return <>
             <span
@@ -581,17 +584,17 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
       let tooltipSubText = '';
       switch (type) {
         case EFFICIENCY_SEED_IMPORT_PROCESS:
-          leftLegend = 'Number of days for import';
+          leftLegend = 'Length of import process (days)';
           tooltipSubText = 'Days for Import';
-          subLabel = 'Number of days for import';
+          subLabel = 'Length of import process (days)';
           legends = [{id: 1, 'color': barPieColor[1], 'label': 'Number of days for import'},
             {id: 2, 'color': barPieColor[0], 'label': 'Industry Rating'}
           ];
           break;
         case EFFICIENCY_SEED_EXPORT_PROCESS:
-          leftLegend = 'Number of days for export';
+          leftLegend = 'Length of export process (days)';
           tooltipSubText = 'Number of days';
-          subLabel = 'Number of days for export';
+          subLabel = 'Length of export process (days)';
           legends = [{id: 1, 'color': barPieColor[1], 'label': 'Number of days for export'},
             {id: 2, 'color': barPieColor[0], 'label': 'Industry Rating'}
           ];
@@ -683,7 +686,10 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
       useCropLegendsRow = false;
       useFilterByCrops = false;
       useFilterByYear = false;
-      leftLegend = intl.formatMessage({id: 'number-months-axis', defaultMessage: 'Number of months'});
+      leftLegend = intl.formatMessage({
+        id: 'number-months-axis',
+        defaultMessage: 'Length of variety release process (months)'
+      });
       indexBy = 'year';
       bottomLegend = intl.formatMessage({id: 'years-legend', defaultMessage: 'Year'});
       groupMode = 'stacked';
