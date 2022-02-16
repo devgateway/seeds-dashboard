@@ -448,16 +448,17 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
     }
     case VARIETIES_RELEASED_WITH_SPECIAL_FEATURES:
       getTooltipText = (d) => {
-        return <><span
-            className="bold"> {d.data[d.id]} out of {(d.data['withSpecialFeature_' + d.indexValue.toLowerCase()] || 0)
-        + (d.data['withoutSpecialFeature_' + d.indexValue.toLowerCase()] || 0)} </span>
-          <span>varieties released.</span>
+        return <>
+          <span
+              className="bold"> {d.data[d.id]} out of {(d.data['withSpecialFeature_' + d.indexValue.toLowerCase()] || 0)
+          + (d.data['withoutSpecialFeature_' + d.indexValue.toLowerCase()] || 0)} </span>
+          <span>varieties released {d.id.startsWith('withSpecial') ? 'with special features' : 'without special features'}</span>
         </>
       }
       getTooltipHeader = (d) => {
         return <>
           <div className={d.indexValue.toLowerCase() + " crop-icon"} />
-          <div className="crop-name">{d.indexValue}</div>
+          <div className="crop-name">{d.indexValue} {selectedYear}</div>
         </>
       }
       leftLegend = intl.formatMessage({id: 'number-of-varieties-released', defaultMessage: 'Number of Varieties Released'});
