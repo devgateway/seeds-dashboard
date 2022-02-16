@@ -4,11 +4,11 @@ import './styles.scss';
 const CropsWithSpecialFeatures = ({}) => {
     return (
         <div>
-            <label>With Special Climate Features</label>
+            <label>With special features</label>
             <div className="crop black-circle crop-icon">
                 <div className="lighter-crop2"/>
             </div>
-            <label style={{left: -25, position: 'relative'}}>Without Special Climate Features</label>
+            <label style={{left: -25, position: 'relative'}}>Without special features</label>
         </div>
     )
 }
