@@ -86,11 +86,11 @@
   "market-share-top-companies": "Market share of top four companies (out of 100%)",
   "market-share-state-owned": "Market share of state-owned seed companies (out of 100%)",
   "average-age": "Average age (years)",
-  "crops-years": "Crops > Years",
+  "crops-years": "Crop > Year",
   "number-of-varieties-sold": "Number of Varieties Sold",
   "number-of-varieties-released": "Number of Varieties Released",
-  "crops-legend": "Crops",
-  "years-legend": "Years",
+  "crops-legend": "Crop",
+  "years-legend": "Year",
   "number-of-breeders-legend": "Number of active breeders",
   "tooltip-number-of-varieties-sold": "Number of varieties sold",
   "tooltip-market-share-top-companies": "Market share of top four companies",
@@ -113,7 +113,7 @@
   "number-months-legend": "Length of variety release process",
   "satisfaction-release-tooltip": "Satisfaction with variety release process",
   "number-months-tooltip": "Length of variety release process (months)",
-  "price-usd-by-kg": "Prices (USD/kg)",
+  "price-usd-by-kg": "Average price (USD/kg)",
   "package-size-tooltip": "Package size",
   "percentage-legend": "Percentage (%)",
   "1-two-or-less-tooltip": "2kg or less",
@@ -132,5 +132,6 @@
   "tooltip-public-inspectors-legend": "Public seed inspectors",
   "tooltip-total-inspectors-legend": "Total seed inspectors",
   "privateSeedInspectors-tooltip": "Private seed inspectors",
-  "publicSeedInspectors-tooltip": "Public seed inspectors"
+  "publicSeedInspectors-tooltip": "Public seed inspectors",
+  "number-company-producers": "Number of companies / producers"
 }

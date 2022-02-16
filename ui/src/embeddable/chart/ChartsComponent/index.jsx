@@ -306,7 +306,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
     case NUMBER_OF_ACTIVE_SEED_COMPANIES_PRODUCERS: {
       customTickWithCropsBottom = true;
       leftLegend = intl.formatMessage({id: 'number-of-years', defaultMessage: 'Number of Years'});
-      bottomLegend = intl.formatMessage({id: 'crops-years', defaultMessage: 'Crops > Years'});
+      bottomLegend = intl.formatMessage({id: 'crops-years', defaultMessage: 'Crop > Year'});
       if (type === NUMBER_VARIETIES_SOLD) {
         getTooltipText = (d) => {
           return <>
@@ -325,7 +325,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
         leftLegend = intl.formatMessage({id: 'number-of-varieties-sold', defaultMessage: 'Number of varieties sold'});
       } else if (type === AVERAGE_AGE_VARIETIES_SOLD) {
         leftLegend = intl.formatMessage({id: 'average-age', defaultMessage: 'Average age (years)'});
-        bottomLegend = intl.formatMessage({id: 'crops-years', defaultMessage: 'Crops > Years'});
+        bottomLegend = intl.formatMessage({id: 'crops-years', defaultMessage: 'Crop > Year'});
         getTooltipText = (d) => {
           return <>
             <span>{intl.formatMessage({id: 'tooltip-average-age', defaultMessage: 'Average Age'})}</span><span
@@ -344,7 +344,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
       } else if (type === PRICE_SEED_PLANTING) {
         leftLegend = intl.formatMessage({
           id: 'price-usd-by-kg',
-          defaultMessage: 'Prices (USD/kg)'
+          defaultMessage: 'Average price (USD/kg)'
         });
         getTooltipText = (d) => {
           return <>
@@ -440,7 +440,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
           </>;
         }
       }
-      legend = intl.formatMessage({id: 'years-legend', defaultMessage: 'Years'});
+      legend = intl.formatMessage({id: 'years-legend', defaultMessage: 'Year'});
       groupMode = 'grouped';
       withCropsWithSpecialFeatures = false;
       processByYear();
@@ -462,7 +462,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
         </>
       }
       leftLegend = intl.formatMessage({id: 'number-of-varieties-released', defaultMessage: 'Number of Varieties Released'});
-      bottomLegend = intl.formatMessage({id: 'crops-legend', defaultMessage: 'Crops'});
+      bottomLegend = intl.formatMessage({id: 'crops-legend', defaultMessage: 'Crop'});
       processVarietiesReleasedWithSpecialFeatures();
       break;
     case NUMBER_SEED_INSPECTORS_BY_COUNTRY:
@@ -518,7 +518,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
       }
       useFilterByYear = false;
       indexBy = 'year';
-      leftLegend = intl.formatMessage({id: 'years-legend', defaultMessage: 'Years'});
+      leftLegend = intl.formatMessage({id: 'years-legend', defaultMessage: 'Year'});
       layout = 'horizontal';
       addLighterDiv = false;
       withCropsWithSpecialFeatures = false;
@@ -544,7 +544,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
         </>
       }
       indexBy = 'crop';
-      leftLegend = intl.formatMessage({id: 'crops-legend', defaultMessage: 'Crops'});
+      leftLegend = intl.formatMessage({id: 'crops-legend', defaultMessage: 'Crop'});
       layout = 'horizontal';
       addLighterDiv = false;
       withCropsWithSpecialFeatures = false;
@@ -562,11 +562,11 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
     case MARKET_CONCENTRATION_HHI:
       useCropLegendsRow = false;
       useFilterByCrops = false;
-      bottomLegend = intl.formatMessage({id: 'years-legend', defaultMessage: 'Years'});
+      bottomLegend = intl.formatMessage({id: 'years-legend', defaultMessage: 'Year'});
       break;
     case PERFORMANCE_SEED_TRADERS:
       indexBy = "id";
-      legend = "years";
+      legend = "year";
       useFilterByCrops = false;
       useFilterByYear = true;
       maxSelectableYear = 3;
@@ -634,7 +634,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
       useFilterByCrops = false;
       leftLegend = intl.formatMessage({id: 'number-seed-inspectors-legend', defaultMessage: 'Number of seed inspectors'});
       indexBy = 'year';
-      bottomLegend = intl.formatMessage({id: 'years-legend', defaultMessage: 'Years'});;
+      bottomLegend = intl.formatMessage({id: 'years-legend', defaultMessage: 'Year'});
       groupMode = 'stacked';
       rightLegend = intl.formatMessage({id: 'rating-legend', defaultMessage: 'Rating out of 100'});
       keys.push('public', 'private');
@@ -685,7 +685,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
       useFilterByYear = false;
       leftLegend = intl.formatMessage({id: 'number-months-axis', defaultMessage: 'Number of months'});
       indexBy = 'year';
-      bottomLegend = intl.formatMessage({id: 'years-legend', defaultMessage: 'Years'});;
+      bottomLegend = intl.formatMessage({id: 'years-legend', defaultMessage: 'Year'});
       groupMode = 'stacked';
       rightLegend = intl.formatMessage({id: 'rating-legend', defaultMessage: 'Rating out of 100'});
       keys.push('time');
@@ -724,7 +724,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
       useFilterByCrops = false;
       leftLegend = intl.formatMessage({id: 'number-households-legend', defaultMessage: 'Number of households"'});
       indexBy = 'year';
-      bottomLegend = intl.formatMessage({id: 'years-legend', defaultMessage: 'Years'});;
+      bottomLegend = intl.formatMessage({id: 'years-legend', defaultMessage: 'Year'});
       groupMode = 'stacked';
       rightLegend = intl.formatMessage({id: 'rating-legend', defaultMessage: 'Rating out of 100'});
       keys.push('households');
@@ -767,7 +767,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
       useFilterByCrops = false;
       leftLegend = intl.formatMessage({id: 'number-households-legend', defaultMessage: 'Number of households"'});
       indexBy = 'year';
-      bottomLegend = intl.formatMessage({id: 'years-legend', defaultMessage: 'Years'});;
+      bottomLegend = intl.formatMessage({id: 'years-legend', defaultMessage: 'Year'});
       groupMode = 'stacked';
       rightLegend = intl.formatMessage({id: 'rating-legend', defaultMessage: 'Rating out of 100'});
       keys.push('households');
@@ -886,7 +886,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
         <Grid.Column width={8}>
           {legend === 'crops' &&
           <CropsLegend data={selectedCrops} title="Crops" titleClass="crops-title" addLighterDiv={addLighterDiv}/>}
-          {legend && legend.toLowerCase() === 'years' && <YearLegend colors={yearsColors} years={selectedYear}/>}
+          {legend && legend.toLowerCase() === 'year' && <YearLegend colors={yearsColors} years={selectedYear}/>}
           {legend && legend === genericLegend && <GenericLegend colors={colors} keys={keys} title={legendTitle}/>}
         </Grid.Column>
         <Grid.Column width={8}>

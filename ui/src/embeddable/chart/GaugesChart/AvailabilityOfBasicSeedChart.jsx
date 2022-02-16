@@ -64,7 +64,7 @@ const AvailabilityOfBasicSeedChart = ({ data, yearsToShow, intl }) => {
   }
   const getMatrix = () => {
     return <Grid.Row><Grid.Column width={1} className={"seeds-title"}>
-      <div>Seeds</div>
+      <div>Seed</div>
     </Grid.Column><Grid.Column width={2} className={"seeds-list"}>{getCrops()}</Grid.Column><Grid.Column
       width={13}>{getData()}</Grid.Column></Grid.Row>;
   }
