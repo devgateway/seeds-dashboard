@@ -466,7 +466,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
       break;
     case NUMBER_SEED_INSPECTORS_BY_COUNTRY:
       getTooltipHeader = (d) => {
-        return <div className="country-header">{`${d.data.country} - ${d.data.year}`}</div>
+        return <div className="country-header">{`${d.data.country} ${d.data.year}`}</div>
       }
       getTooltipText = (d) => {
         return (<>
