@@ -9,65 +9,67 @@ import CountryFilter from "./CountryFilter";
 import CountrySelector from "./countrySelector/CountrySelector";
 
 const Filter = ({
-                  onApply, countries, onLoadCountries, country_settings, filters,
-                  "data-type": dataType,
-                  "data-selected-country-first": selectedCountryFirst = false,
-                  "data-add-year": addYear = true,
-                  "data-selected-country-label": selectedCountryLabel = undefined,
-                  "data-country-columns": countryColumns = 3,
-                  "data-data-source": dataSource = "latestCountryStudies"
+                    onApply, countries, onLoadCountries, country_settings, filters,
+                    "data-type": dataType,
+                    "data-selected-country-first": selectedCountryFirst = false,
+                    "data-add-year": addYear = true,
+                    "data-selected-country-label": selectedCountryLabel = undefined,
+                    "data-country-columns": countryColumns = 3,
+                    "data-additional-classes": additionalClasses,
+                    "data-data-source": dataSource = "latestCountryStudies"
                 }) => {
-  useEffect(() => {
-    onLoadCountries(dataSource)
-  }, []);
+    useEffect(() => {
+        onLoadCountries(dataSource)
+    }, []);
 
-  useEffect(() => {
-    if (getFirstSelectedCountry()) {
-      onApply(SELECTED_COUNTRY, getFirstSelectedCountry());
-    }
-  }, [countries]);
-
-  const getFirstSelectedCountry = () => {
-    const pNavigationCountry = country_settings ? country_settings.country : undefined;
-    let firstSelectedCountry = undefined;
-    if (countries) {
-      firstSelectedCountry = countries[0].countryId;
-      if (pNavigationCountry) {
-        const tempFirstSelectedCountry = countries.find(c => c.isoCode === pNavigationCountry);
-        if (tempFirstSelectedCountry) {
-          firstSelectedCountry = tempFirstSelectedCountry.countryId;
+    useEffect(() => {
+        if (getFirstSelectedCountry()) {
+            onApply(SELECTED_COUNTRY, getFirstSelectedCountry());
         }
-      }
-    }
-    return firstSelectedCountry;
-  }
-  let classes = 'filters'
-  const isAddYear = addYear === true || addYear === "true";
-  const isSelectedCountryFirst = selectedCountryFirst === true || selectedCountryFirst === 'true';
-  let childComponent = <CountryFilter
-    countries={countries} onApply={onApply} filters={filters} addYear={isAddYear}
-    selectedCountryLabel={selectedCountryLabel} countryColumns={countryColumns}
-  />;
-  if (dataType === "Country") {
-    childComponent = <CountrySelector countries={countries} onApply={onApply} filters={filters}
-                                      selectedCountryFirst={isSelectedCountryFirst} addYear={isAddYear}
-                                      selectedCountryLabel={selectedCountryLabel} countryColumns={countryColumns} />
-    classes = "country-selector";
-  }
+    }, [countries]);
 
-  return <Container fluid={true} className={classes}>{childComponent}</Container>
+    const getFirstSelectedCountry = () => {
+        const pNavigationCountry = country_settings ? country_settings.country : undefined;
+        let firstSelectedCountry = undefined;
+        if (countries) {
+            firstSelectedCountry = countries[0].countryId;
+            if (pNavigationCountry) {
+                const tempFirstSelectedCountry = countries.find(c => c.isoCode === pNavigationCountry);
+                if (tempFirstSelectedCountry) {
+                    firstSelectedCountry = tempFirstSelectedCountry.countryId;
+                }
+            }
+        }
+        return firstSelectedCountry;
+    }
+    let classes = 'filters'
+    const isAddYear = addYear === true || addYear === "true";
+    const isSelectedCountryFirst = selectedCountryFirst === true || selectedCountryFirst === 'true';
+    let childComponent = <CountryFilter
+        countries={countries} onApply={onApply} filters={filters} addYear={isAddYear}
+        selectedCountryLabel={selectedCountryLabel} countryColumns={countryColumns}
+    />;
+    if (dataType === "Country") {
+        childComponent = <CountrySelector countries={countries} onApply={onApply} filters={filters}
+                                          selectedCountryFirst={isSelectedCountryFirst} addYear={isAddYear}
+                                          selectedCountryLabel={selectedCountryLabel} countryColumns={countryColumns} />
+
+        classes = "country-selector " + (additionalClasses ? additionalClasses : '');
+    }
+
+    return <Container fluid={true} className={classes}>{childComponent}</Container>
 }
 
 const mapStateToProps = (state, ownProps) => {
-  return {
-    filters: state.getIn(['data', 'filters']),
-    countries: state.getIn(['data', COUNTRIES_FILTER]),
-    country_settings: state.getIn(['data', COUNTRY_SETTINGS, 'data'])
-  }
+    return {
+        filters: state.getIn(['data', 'filters']),
+        countries: state.getIn(['data', COUNTRIES_FILTER]),
+        country_settings: state.getIn(['data', COUNTRY_SETTINGS, 'data'])
+    }
 }
 
 const mapActionCreators = {
-  onApply: setFilter,
-  onLoadCountries: getCountries
+    onApply: setFilter,
+    onLoadCountries: getCountries
 };
 export default connect(mapStateToProps, mapActionCreators)(Filter)
