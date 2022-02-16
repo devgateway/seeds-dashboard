@@ -615,10 +615,6 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
           processedData.push(item);
         }
       });
-      if (processedData.filter(i => i.value !== FAKE_NUMBER).length === 0
-          && processedData.filter(i => i.rating !== FAKE_NUMBER).length === 0) {
-        noData = true;
-      }
       colors.set('value', barPieColor[1])
       getTooltipText = (d) => {
         return <div style={{textAlign: 'center'}}>

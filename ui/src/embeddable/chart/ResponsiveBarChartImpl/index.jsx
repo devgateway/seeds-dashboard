@@ -55,7 +55,9 @@ const ResponsiveBarChartImpl = ({
                                     markers,
                                     dataSuffix,
                                     showTotalLabel,
-                                    fixedIntervals
+                                    fixedIntervals,
+                                    margins,
+                                    padding
                                 }) => {
 
     ;
@@ -209,8 +211,8 @@ const ResponsiveBarChartImpl = ({
                 data={processedData}
                 keys={keys}
                 indexBy={indexBy}
-                margin={{top: 50, right: 60, bottom: 70, left: leftMargin}}
-                padding={0.3}
+                margin={margins ? margins : {top: 50, right: 60, bottom: 70, left: leftMargin}}
+                padding={padding || 0.3}
                 valueScale={{type: 'linear', max: max}}
                 indexScale={{type: 'band', round: true}}
                 colors={(item) => getColors(item)}
