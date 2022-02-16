@@ -178,7 +178,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
   }
 
   const commonProcess = (c, entry, yearColors) => {
-    const newBlueColors = [...yearColors];
+    const newBlueColors = yearColors ? [...yearColors] : null;
     Object.keys(data.values[c]).forEach((i, j) => {
       if (selectedYear && selectedYear.find(k => k === i)) {
         const key = '' + i;
@@ -192,8 +192,10 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
         if (!keys.find(i => i === key)) {
           keys.push(key);
         }
-        if (!colors.get(key)) {
-          colors.set(key, newBlueColors.shift());
+        if (yearColors && newBlueColors) {
+          if (!colors.get(key)) {
+            colors.set(key, newBlueColors.shift());
+          }
         }
         if (Number(entry[i]) > max) {
           max = Number(entry[i]);
@@ -235,15 +237,20 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
   const processByYear = () => {
     crops.forEach(c => {
       const entry = { crop: c };
-      commonProcess(c, entry, blueColors);
+      commonProcess(c, entry);
     });
 
     // Fix missing data from the EP (crop without one or more years data).
+    const newBlueColors = [...blueColors];
     processedData.forEach(p => {
       years.forEach(y => {
         if (!p[y]) {
           processedData.find(i => i.crop === p.crop)[y] = FAKE_NUMBER;
           // data.values[p.crop][y] = 'MD';
+        }
+        // Process color here to prevent SEEDSDT-583
+        if (!colors.get(y)) {
+          colors.set(y, newBlueColors.shift());
         }
       });
     });
