@@ -81,7 +81,7 @@ const MarketConcentrationHHI = ({data, sources, selectedYear, bottomLegend}) => 
                 {[0, 1, 2, 3].map(i => {
                     return (<Grid.Column key={i} computer={8} mobile={16}>
                         <ResponsiveBarChartImpl sources={sources} data={data} noData={noData} crops={crops}
-                                                selectedYear={selectedYear} colors={colors[i]} max={max * 1.1}
+                                                selectedYear={selectedYear} colors={colors[i]} max={max * 1.25}
                                                 keys={keys}
                                                 processedData={processedData.filter(j => j.crop === crops[i])}
                                                 indexBy={indexBy} layout={layout}
@@ -91,7 +91,8 @@ const MarketConcentrationHHI = ({data, sources, selectedYear, bottomLegend}) => 
                                                 getTooltipText={getTooltipText} getTooltipHeader={getTooltipHeader}
                                                 customTickWithCropsBottom={customTickWithCropsBottom}
                                                 containerHeight={300}
-                                                gridTickLines={4}
+                                                gridTickLines={4} margins={{top: 30, right: 10, bottom: 70, left: 70}}
+                                                padding={0.15}
                         />
                     </Grid.Column>);
                 })}
