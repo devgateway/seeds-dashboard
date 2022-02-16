@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {Button, Container, Grid, Icon, Segment} from "semantic-ui-react";
 import DataProvider from "../data/DataProvider";
 import {connect} from "react-redux";
@@ -103,7 +103,7 @@ const Chart = (props) => {
         "data-use-source-by-category": useSourceByCategory,
         "data-methodology": methodology,
     } = props;
-    
+
     useEffect(() => {
         setDefaultFilter(DEFAULT_COUNTRY_ID, defaultCountryId)
     }, []);
@@ -146,7 +146,7 @@ const Chart = (props) => {
                 width = ref.current.childNodes[0].offsetWidth + 15;
                 height = ref.current.childNodes[0].offsetHeight;
         }
-        
+
         toBlob(ref.current, {
             filter,
             "backgroundColor": "#FFF",
@@ -193,12 +193,12 @@ const Chart = (props) => {
         const currentLanguage = locale || 'en';
         const separator = '||';
         let ret = sources || separator;
-        
+
         if (useSourceByCategory !== "true") {
             ret = sources;
             return ret;
         }
-        
+
         if (categoriesWP && filters && countries) {
             const selectedCountry = filters.getIn([SELECTED_COUNTRY]);
             const defaultCountry = Number(filters.getIn([DEFAULT_COUNTRY_ID]));
@@ -238,8 +238,8 @@ const Chart = (props) => {
     const dual = (dualMode === 'true')
     switch (type) {
         case NUMBER_OF_VARIETIES_RELEASED:
-          child = <NumberOfVarietiesReleased sources={dynamicSources} {...chartProps} type={type} />;
-          break;
+            child = <NumberOfVarietiesReleased sources={dynamicSources} {...chartProps} type={type}/>;
+            break;
         case VARIETIES_RELEASED_WITH_SPECIAL_FEATURES:
         case NUMBER_OF_ACTIVE_BREEDERS:
         case NUMBER_OF_ACTIVE_SEED_COMPANIES_PRODUCERS:
@@ -251,13 +251,13 @@ const Chart = (props) => {
         case EFFICIENCY_SEED_EXPORT_PROCESS:
         case PERFORMANCE_SEED_TRADERS:
         case NUMBER_SEED_INSPECTORS:
-        case QUANTITY_CERTIFIED_SEED_SOLD:    
+        case QUANTITY_CERTIFIED_SEED_SOLD:
         case VARIETY_RELEASE_PROCESS:
         case PRICE_SEED_PLANTING:
         case AVAILABILITY_SEED_SMALL_PACKAGES:
         case AGRODEALER_NETWORK:
         case AGRICULTURAL_EXTENSION_SERVICES:
-        case NUMBER_SEED_INSPECTORS_BY_COUNTRY:    
+        case NUMBER_SEED_INSPECTORS_BY_COUNTRY:
         case AVERAGE_AGE_VARIETIES_SOLD: {
             const chartComponent = {type, ...chartProps}
             child = <ChartComponent {...chartComponent} sources={dynamicSources}/>
