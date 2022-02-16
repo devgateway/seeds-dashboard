@@ -427,6 +427,9 @@ p:empty {
 // Country Pages
 
 .stakeholders{
+  .wp-block-columns{
+	   margin-bottom: 0;
+  }
   p{
     a{
       color: $link-green;
@@ -438,6 +441,10 @@ p:empty {
 }
 
 .reports{
+  padding-top: 0;
+  .wp-block-columns{
+	   margin-bottom: 0;
+  }
   ul{
     @include list-unstyled();
     li{
