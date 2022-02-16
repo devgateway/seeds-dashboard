@@ -15,7 +15,7 @@ const MarketConcentrationHHI = ({data, sources, selectedYear, bottomLegend}) => 
     const keys = [];
     const processedData = [];
     const colors = [null, null, null, null];
-    const max = [0, 0, 0, 0];
+    let max = 0;
     crops.forEach((crop, i) => {
         colors[i] = new Map();
         const item = {crop: crop};
@@ -25,8 +25,8 @@ const MarketConcentrationHHI = ({data, sources, selectedYear, bottomLegend}) => 
                 if (!keys.find(k => k === y)) {
                     keys.push(y);
                 }
-                if (item[y] > max[i]) {
-                    max[i] = item[y];
+                if (item[y] > max) {
+                    max = item[y];
                 }
                 if (!colors[i].get(y)) {
                     colors[i].set(y, getColor(item[y]))
@@ -81,14 +81,16 @@ const MarketConcentrationHHI = ({data, sources, selectedYear, bottomLegend}) => 
                 {[0, 1, 2, 3].map(i => {
                     return (<Grid.Column key={i} computer={8} mobile={16}>
                         <ResponsiveBarChartImpl sources={sources} data={data} noData={noData} crops={crops}
-                                                selectedYear={selectedYear} colors={colors[i]} max={max[i]} keys={keys}
+                                                selectedYear={selectedYear} colors={colors[i]} max={max * 1.1}
+                                                keys={keys}
                                                 processedData={processedData.filter(j => j.crop === crops[i])}
                                                 indexBy={indexBy} layout={layout}
                                                 groupMode={groupMode}
                                                 leftLegend={leftLegend} bottomLegend={bottomLegend}
                                                 enableGridX={enableGridX} enableGridY={enableGridY}
                                                 getTooltipText={getTooltipText} getTooltipHeader={getTooltipHeader}
-                                                customTickWithCropsBottom={customTickWithCropsBottom} containerHeight={300}
+                                                customTickWithCropsBottom={customTickWithCropsBottom}
+                                                containerHeight={300}
                                                 gridTickLines={4}
                         />
                     </Grid.Column>);
