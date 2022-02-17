@@ -90,6 +90,16 @@ $border_gray: rgba(229, 229, 229, 1);
     }
   }
 
+  .circle {
+    width: 18px;
+    height: 18px;
+    -webkit-border-radius: 25px;
+    -moz-border-radius: 25px;
+    border-radius: 25px;
+    margin-right: 5px;
+    margin-top: 1px;
+  }
+
   .amount-container {
     width: 200px;
 
