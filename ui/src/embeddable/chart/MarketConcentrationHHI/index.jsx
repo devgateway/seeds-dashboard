@@ -53,7 +53,7 @@ const MarketConcentrationHHI = ({data, sources, selectedYear, bottomLegend}) => 
     const indexBy = 'crop';
     const layout = 'vertical';
     const groupMode = 'grouped';
-    const leftLegend = 'HHI Index';
+    const leftLegend = 'HHI value';
     const enableGridX = false;
     const enableGridY = true;
     const getTooltipText = (d) => {
