@@ -550,7 +550,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
       getTooltipHeader = (d) => {
         return <>
           <div className={`${d.indexValue} crop-icon`} />
-          <div className="crop-name">{d.indexValue}</div>
+          <div className="crop-name">{d.indexValue} {selectedYear}</div>
         </>
       }
       getTooltipText = (d) => {
