@@ -69,7 +69,7 @@ export const legends = [
       {
         id: 10,
         'color': 'yellow',
-        'label': 'Fair (2,000-2,999)',
+        'label': 'Moderate (2,000-2,999)',
         order: 3,
         width: 2,
       },
