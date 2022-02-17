@@ -238,14 +238,14 @@ class BlockEdit extends BaseBlockEdit {
                                     max={1000}
                                 /></PanelRow>
 
-                            {type !== 'availabilityOfBasicSeed' && <PanelRow>
+                            <PanelRow>
                                 <TextControl label={__('Chart title')} value={title}
                                              onChange={(title) => setAttributes({title})}/>
-                            </PanelRow>}
-                            {type !== 'availabilityOfBasicSeed' && <PanelRow>
+                            </PanelRow>
+                            <PanelRow>
                                 <TextControl label={__('Chart sub title')} value={subTitle}
                                              onChange={(subTitle) => setAttributes({subTitle})}/>
-                            </PanelRow>}
+                            </PanelRow>
                             <PanelRow>
                                 <TextControl label={__('Source')} value={sources}
                                              onChange={(sources) => setAttributes({sources})}/>
