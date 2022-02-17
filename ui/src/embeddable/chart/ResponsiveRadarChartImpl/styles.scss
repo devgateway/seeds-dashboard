@@ -50,66 +50,52 @@ $border_gray: rgba(229, 229, 229, 1);
   height: auto;
   box-shadow: 0 3px 10px #dbdce0;
   border: 1px solid #dbdce0;
-  width: 200px;
+  width: 250px;
+  padding: 0px;
+  color: #555555;
+  font-weight: normal;
+  font-size: 14px;
 
   .header-container {
     background-color: #eef1fa;
-    width: 198px;
+    width: 249px;
     height: 45px;
+    padding: 5px;
 
     .header {
       margin: auto;
-      width: 150px;
+      width: 240px;
       height: 50px;
 
-      .inner-container {
+      .name {
         margin: auto;
         width: auto;
         height: 45px;
         display: table;
-
-        .crop-icon {
-          width: 30px;
-          height: 30px;
-          background-size: 30px;
-          margin: 5px !important;
-        }
-
-        .crop-name {
-          font-size: 14px !important;
-          font-weight: bold;
-          color: #555555;
-          position: relative;
-          top: 10px;
-          left: -20px;
-          text-align: center;
-          float: left;
-          text-transform: capitalize;
-        }
+        font-size: 14px !important;
+        position: relative;
+        top: 10px;
+        font-weight: 900;
+        color: rgb(85, 85, 85);
+        text-align: center;
+        text-transform: capitalize;
       }
     }
   }
 
-  .amount-container {
-    width: 200px;
-
-    table {
-      width: 100%;
-      padding: 5px;
-      //padding-top: 0px;
-      margin: 5px;
-      margin-top: 0px;
-      padding-right: 15px;
-      border: none;
-      font-size: 14px;
-      color: dimgray;
-      text-align: left;
-
-      .year {
-        text-align: left;
-      }
-    }
+  .content {
+    padding: 5px 20px;
   }
+}
+
+.circle {
+  width: 15px;
+  height: 15px;
+  -webkit-border-radius: 25px;
+  -moz-border-radius: 25px;
+  border-radius: 25px;
+  margin-right: 5px;
+  margin-top: 1px;
 }
 
 .bold {
@@ -128,19 +114,21 @@ $border_gray: rgba(229, 229, 229, 1);
 
 
 //tooltip
-.radar{
-  > div{
+/*.radar {
+  > div {
     > div {
       > div {
-        > div{
+        > div {
           border: 1px solid $border_gray;
           color: #555555;
           font-weight: normal;
           font-size: 14px;
           width: 250px;
-          > div{
+
+          > div {
             padding: 25px 30px !important;
-            strong{
+
+            strong {
               background-color: #eef1fa;
               display: block;
               font-weight: 900;
@@ -149,8 +137,9 @@ $border_gray: rgba(229, 229, 229, 1);
               text-align: center;
               width: 250px;
             }
-            td{
-              &:last-child{
+
+            td {
+              &:last-child {
                 font-weight: 900;
               }
             }
@@ -159,4 +148,4 @@ $border_gray: rgba(229, 229, 229, 1);
       }
     }
   }
-}
+}*/
