@@ -695,10 +695,10 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
       }
       legends = [{id: 1, 'color': barPieColor[1], 'label': intl.formatMessage({id: 'public-inspectors-legend', defaultMessage: 'Public inspectors'})},
         {id: 2, 'color': barPieColor[2], 'label': intl.formatMessage({id: 'private-inspectors-legend', defaultMessage: 'Private inspectors'})},
-        {id: 3, 'color': barPieColor[0], 'label': intl.formatMessage({id: 'industry-opinion-legend', defaultMessage: 'Industry opinion rating'})}
+        {id: 3, 'color': barPieColor[0], 'label': intl.formatMessage({id: 'industry-opinion-legend', defaultMessage: 'Industry opinion rating (adequacy) (out of 100%)'})}
       ];
       showTotalLabel=true;
-      lineChartFieldLabel = intl.formatMessage({id: 'industry-opinion-legend', defaultMessage: 'Industry opinion rating'});
+      lineChartFieldLabel = intl.formatMessage({id: 'industry-opinion-legend-tooltip', defaultMessage: 'Industry opinion rating'});
       break;
     case VARIETY_RELEASE_PROCESS:
       useCropLegendsRow = false;
@@ -739,8 +739,19 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
           <div className="crop-name">{d.indexValue}</div>
         </>;
       }
-      legends = [{id: 1, 'color': barPieColor[1], 'label': intl.formatMessage({id: 'number-months-legend', defaultMessage: 'Length of variety release process'})},
-        {id: 3, 'color': barPieColor[0], 'label': intl.formatMessage({id: 'satisfaction-release-legend', defaultMessage: 'Satisfaction with variety release'})}
+      legends = [{
+        id: 1,
+        'color': barPieColor[1],
+        'label': intl.formatMessage({id: 'number-months-legend', defaultMessage: 'Length of variety release process'})
+      },
+        {
+          id: 3,
+          'color': barPieColor[0],
+          'label': intl.formatMessage({
+            id: 'satisfaction-release-legend',
+            defaultMessage: 'Satisfaction with variety release (out of 100%)'
+          })
+        }
       ];
       break;
     case AGRODEALER_NETWORK:
@@ -782,8 +793,22 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
           <div className="crop-name">{d.indexValue}</div>
         </>;
       }
-      legends = [{id: 1, 'color': barPieColor[1], 'label': intl.formatMessage({id: 'agricultural-households-tooltip', defaultMessage: 'Agricultural households/agro-dealer'})},
-        {id: 2, 'color': barPieColor[0], 'label': intl.formatMessage({id: 'concentration-rating-legend', defaultMessage: 'Rating on concentration of agro-dealer network'})}
+      legends = [{
+        id: 1,
+        'color': barPieColor[1],
+        'label': intl.formatMessage({
+          id: 'agricultural-households-tooltip',
+          defaultMessage: 'Agricultural households/agro-dealer'
+        })
+      },
+        {
+          id: 2,
+          'color': barPieColor[0],
+          'label': intl.formatMessage({
+            id: 'concentration-rating-legend',
+            defaultMessage: 'Industry opinion rating (adequacy) (out of 100%)'
+          })
+        }
       ];
       break;
     case AGRICULTURAL_EXTENSION_SERVICES:
@@ -821,8 +846,22 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
           <div className="crop-name">{d.indexValue}</div>
         </>;
       }
-      legends = [{id: 1, 'color': barPieColor[1], 'label': intl.formatMessage({id: 'households-per-officer-tooltip', defaultMessage: 'Households per extension officer'})},
-        {id: 2, 'color': barPieColor[0], 'label': intl.formatMessage({id: 'availability-rating-legend', defaultMessage: 'Rating on availability of agricultural extension services for smallholder farmers'})}
+      legends = [{
+        id: 1,
+        'color': barPieColor[1],
+        'label': intl.formatMessage({
+          id: 'households-per-officer-tooltip',
+          defaultMessage: 'Households per extension officer'
+        })
+      },
+        {
+          id: 2,
+          'color': barPieColor[0],
+          'label': intl.formatMessage({
+            id: 'availability-rating-legend',
+            defaultMessage: 'Industry opinion rating (adequacy) (out of 100%)'
+          })
+        }
       ];
       break;
   }

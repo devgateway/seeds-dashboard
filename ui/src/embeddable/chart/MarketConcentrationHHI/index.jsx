@@ -141,7 +141,7 @@ const legends = [
     {
         id: 10,
         'color': hhiColors[2].color,
-        'label': 'Fair (2,000-2,999)',
+        'label': 'Moderate (2,000-2,999)',
     },
     {
         id: 11,
