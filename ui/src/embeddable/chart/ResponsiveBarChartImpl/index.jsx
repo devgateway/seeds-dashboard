@@ -58,7 +58,8 @@ const ResponsiveBarChartImpl = ({
                                     showTotalMD,
                                     fixedIntervals,
                                     margins,
-                                    padding
+                                    padding,
+                                    extraTooltipClass
                                 }) => {
 
     ;
@@ -255,7 +256,7 @@ const ResponsiveBarChartImpl = ({
                     legendOffset: 45,
                 }}
                 tooltip={(d) => {
-                    return (<div className="tooltip-container-vrwsf">
+                    return (<div className={"tooltip-container-vrwsf " + extraTooltipClass || ''}>
                         <div className="header-container">
                             <div className="header">
                                 <div className="inner-container">

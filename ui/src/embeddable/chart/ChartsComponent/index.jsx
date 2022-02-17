@@ -84,6 +84,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
   let yearsColors = blueColors;
   let dataSuffix = null;
   let containerHeight = null;
+  let extraTooltipClass = null;
 
   if (type === PERFORMANCE_SEED_TRADERS) {
     maxSelectableYear = 3;
@@ -863,6 +864,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
           })
         }
       ];
+      extraTooltipClass = 'AGRICULTURAL_EXTENSION_SERVICES';
       break;
   }
 
@@ -883,7 +885,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
                                 getTooltipHeader={getTooltipHeader} lineColor={barPieColor[0]}
                                 legends={legends} lineChartField={lineChartField}
                                 lineChartFieldLabel={lineChartFieldLabel}
-                                showTotalLabel={showTotalLabel}
+                                showTotalLabel={showTotalLabel} extraTooltipClass={extraTooltipClass}
         />
       case PERFORMANCE_SEED_TRADERS:
         return <Grid.Row className={`chart-section`}>
