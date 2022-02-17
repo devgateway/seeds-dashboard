@@ -7,7 +7,7 @@
   height: 60px;
 
   .ui {
-    font-family: "Proxima Nova", Lato;
+    font-family: $font-family;
   }
 
   .country-filter-container {
@@ -19,6 +19,7 @@
     .select-country-grid {
       .column {
         border-left: 1px solid white;
+        margin-bottom: 4px;
       }
     }
 
@@ -63,9 +64,8 @@
           z-index: 1;
           width: 160%;
           border: 1px solid #e4e1d9;
-          padding: 10px;
+          padding: 10px 10px 20px 10px;
           box-shadow: 1px 2px #e4e1d9;
-          min-height: 250px;
 
           .ui.input {
             width: 85%;
@@ -90,7 +90,7 @@
 
               .ui.radio.checkbox {
                 label {
-                  font-size: 10px;
+                  font-size: 14px;
                 }
               }
             }
