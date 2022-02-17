@@ -606,7 +606,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
           tooltipSubText = 'Days for Import';
           subLabel = 'Length of import process (days)';
           legends = [{id: 1, 'color': barPieColor[1], 'label': 'Number of days for import'},
-            {id: 2, 'color': barPieColor[0], 'label': 'Industry Rating'}
+            {id: 2, 'color': barPieColor[0], 'label': 'Industry rating'}
           ];
           break;
         case EFFICIENCY_SEED_EXPORT_PROCESS:
@@ -614,7 +614,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
           tooltipSubText = 'Number of days';
           subLabel = 'Length of export process (days)';
           legends = [{id: 1, 'color': barPieColor[1], 'label': 'Number of days for export'},
-            {id: 2, 'color': barPieColor[0], 'label': 'Industry Rating'}
+            {id: 2, 'color': barPieColor[0], 'label': 'Industry rating'}
           ];
           break;
         default:
