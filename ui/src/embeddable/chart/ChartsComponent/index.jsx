@@ -159,6 +159,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
 
 
   const availabilitySeedSmallPackages = () => {
+    let hasData = false;
     if (years && crops) {
       max = 85;
       data.dimensions.packages.values.forEach(x => keys.push(x));
@@ -170,16 +171,19 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
               item[k] = Number(data.values[selectedYear][c][k]) >= 0 
                   ? Math.round(data.values[selectedYear][c][k] * 1000) / 10 
                   : FAKE_NUMBER;
+              if (item[k] !== FAKE_NUMBER) {
+                hasData = true;
+              }
               if (!colors.get(k)) {
                 colors.set(k, packageBarColor[keys.indexOf(k)]);
               }
             });
           }
           processedData.push(item);
+          noData = !hasData;
         });
       }
     }
-    console.log(processedData);
   }
 
   const commonProcess = (c, entry, yearColors) => {
