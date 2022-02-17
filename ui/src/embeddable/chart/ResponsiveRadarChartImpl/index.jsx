@@ -36,7 +36,7 @@ const ResponsiveRadarChartImpl = ({
 
 
   const getLabel = (item) => {
-      if (item == FAKE_NUMBER) {
+      if (item === FAKE_NUMBER) {
           return "MD";
       } else {
           return item + "%";
@@ -70,6 +70,33 @@ const ResponsiveRadarChartImpl = ({
           dotLabelYOffset = {3}
           dotLabel = {d => getLabel(d.value)}
           valueFormat = {d => getLabel(d)}
+          sliceTooltip={(d) => {
+              return (<div className="tooltip-container-radar">
+                  <div className="header-container">
+                      <div className="header">
+                          {d.index}
+                      </div>
+                  </div>
+                  <div className="">
+                      <table width="100%">
+                          <tbody>
+                          {d.data.sort((a, b) => Number(a.id) < Number(b.id) ? -1 : 1)
+                              .map(i => {
+                                  return (
+                                      <tr key={i.id}>
+                                          <td>
+                                              <div className={'circle'} style={{background: i.color}}/>
+                                          </td>
+                                          <td><span>{i.id}</span></td>
+                                          <td><span>{i.value}%</span></td>
+                                      </tr>
+                                  );
+                              })}
+                          </tbody>
+                      </table>
+                  </div>
+              </div>)
+          }}
       /> : <h2 className="no-data">No Data</h2>}
     </div>
   )
