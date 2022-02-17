@@ -65,7 +65,9 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
   let customTickWithCropsBottom = false;
   let customTickWithCropsLeft = false;
   let showTotalLabel = true;
+  let showTotalMD = true;
   let legendTitle = "";
+  let margins = null;
   //END TODO
   let getTooltipText;
   let getTooltipHeader;
@@ -165,7 +167,9 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
           const item = {crop: c};
           if (data.values[selectedYear][c]) {
             keys.forEach(k =>{
-              item[k] = Number(data.values[selectedYear][c][k]) >= 0 ? Math.round(data.values[selectedYear][c][k] * 1000) / 10 : FAKE_NUMBER;
+              item[k] = Number(data.values[selectedYear][c][k]) >= 0 
+                  ? Math.round(data.values[selectedYear][c][k] * 1000) / 10 
+                  : FAKE_NUMBER;
               if (!colors.get(k)) {
                 colors.set(k, packageBarColor[keys.indexOf(k)]);
               }
@@ -175,6 +179,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
         });
       }
     }
+    console.log(processedData);
   }
 
   const commonProcess = (c, entry, yearColors) => {
@@ -561,12 +566,14 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
       useFilterByYear = true;
       useFilterByCrops = false;
       showTotalLabel = false;
+      showTotalMD = true;
       bottomLegend = intl.formatMessage({id: 'percentage-legend', defaultMessage: 'Percentage (%)'});
       enableGridX = true;
       enableGridY = false;
       customTickWithCropsLeft = true;
       legend = genericLegend;
       legendTitle = intl.formatMessage({id: 'package-size-legend', defaultMessage: 'Package Sizes'});
+      margins = {top: 50, right: 60, bottom: 70, left: 160}
       availabilitySeedSmallPackages();
       break;
     case MARKET_CONCENTRATION_HHI:
@@ -861,6 +868,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
                                     customTickWithCropsLeft={customTickWithCropsLeft}
                                     dataSuffix={dataSuffix}
                                     showTotalLabel={showTotalLabel} containerHeight={containerHeight || 450}
+                                    showTotalMD={showTotalMD} margins={margins}
             />
           </Grid.Column>
         </Grid.Row>);

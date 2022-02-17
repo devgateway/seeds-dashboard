@@ -55,6 +55,7 @@ const ResponsiveBarChartImpl = ({
                                     markers,
                                     dataSuffix,
                                     showTotalLabel,
+                                    showTotalMD,
                                     fixedIntervals,
                                     margins,
                                     padding
@@ -91,6 +92,14 @@ const ResponsiveBarChartImpl = ({
                     }
                 }
             }
+            if (showTotalMD) {
+                if (isMD) {
+                    finalText = 'MD';
+                }
+            } else {
+                finalText = '';
+            }
+
             // let finalText = showTotalLabel ? total : (isMD ? "MD" : "");
             let transform = `translate(${x}, ${yScale(total) - labelMargin})`;
             let xText = width / 2;
