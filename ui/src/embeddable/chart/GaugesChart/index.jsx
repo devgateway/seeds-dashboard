@@ -9,7 +9,18 @@ import {legends} from "./components/LegendConstant";
 import {AVAILABILITY_OF_BASIC_SEED, SATISFACTION_ENFORCEMENT_SEED_LAW} from "../../reducers/StoreConstants";
 import SatisfactionEnforcementSeedLawChart from "./SatisfactionEnforcementSeedLawChart";
 
-const GaugesChart = ({data, mostRecentYears, sources, type, title, subTitle, methodology, download, exportPng}) => {
+const GaugesChart = ({
+                         data,
+                         mostRecentYears,
+                         sources,
+                         type,
+                         title,
+                         subTitle,
+                         methodology,
+                         download,
+                         exportPng,
+                         tooltip
+                     }) => {
     const ref = useRef(null);
     let yearsToShow;
     let noData = false;
@@ -36,9 +47,9 @@ const GaugesChart = ({data, mostRecentYears, sources, type, title, subTitle, met
         }
         switch (type) {
             case AVAILABILITY_OF_BASIC_SEED:
-                return <AvailabilityOfBasicSeedChart data={data} yearsToShow={yearsToShow}/>;
+                return <AvailabilityOfBasicSeedChart data={data} yearsToShow={yearsToShow} tooltip={tooltip}/>;
             case SATISFACTION_ENFORCEMENT_SEED_LAW:
-                return <SatisfactionEnforcementSeedLawChart data={data} yearsToShow={yearsToShow}/>;
+                return <SatisfactionEnforcementSeedLawChart data={data} yearsToShow={yearsToShow} tooltip={tooltip}/>;
             default:
                 return null;
         }

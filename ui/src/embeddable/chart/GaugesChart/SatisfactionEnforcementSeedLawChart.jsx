@@ -5,7 +5,7 @@ import Gauge from "./components/Gauge";
 import {range} from "./components/common";
 import {injectIntl} from "react-intl";
 
-const SatisfactionEnforcementSeedLawChart = ({data, yearsToShow, intl}) => {
+const SatisfactionEnforcementSeedLawChart = ({data, yearsToShow, intl, tooltip}) => {
     const AVERAGE_RATING = "Overall satisfaction rating";
     const averageColumn = Object.keys(data.values);
     let avg = 0;
@@ -42,7 +42,8 @@ const SatisfactionEnforcementSeedLawChart = ({data, yearsToShow, intl}) => {
                        height={45}
                        width={105}
                        innerValue={cellValue}
-                       innerColor={innerColor}/>
+                       innerColor={innerColor}
+                       tooltip={tooltip}/>
             </Grid.Column>
         })
     }

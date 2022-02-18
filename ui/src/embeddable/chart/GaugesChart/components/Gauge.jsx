@@ -36,7 +36,7 @@ const CenteredMetric = ({dataWithArc, centerX, centerY, innerValue, innerColor})
         </text>
     )
 }
-const Gauge = ({data, height, width, innerValue, innerColor}) =>
+const Gauge = ({data, height, width, innerValue, innerColor, tooltip}) =>
     <div style={{height}}><Pie
         layers={['arcs', 'arcLabels', 'arcLinkLabels', 'legends',
             ({dataWithArc, centerX, centerY}) =>
@@ -59,6 +59,7 @@ const Gauge = ({data, height, width, innerValue, innerColor}) =>
         animate={true}
         motionStiffness={90}
         motionDamping={15}
+        tooltip={tooltip}
     /></div>
 
 export default Gauge;

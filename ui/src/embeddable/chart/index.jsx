@@ -269,7 +269,7 @@ const Chart = (props) => {
         case AVAILABILITY_OF_BASIC_SEED:
         case SATISFACTION_ENFORCEMENT_SEED_LAW:
             child = <GaugesChart mostRecentYears={mostRecentYears} sources={dynamicSources} {...chartProps} type={type}
-                                 title={title} subTitle={subTitle}/>;
+                                 title={title} subTitle={subTitle} tooltip={() => (null)}/>;
             break;
     }
     return (<div>
