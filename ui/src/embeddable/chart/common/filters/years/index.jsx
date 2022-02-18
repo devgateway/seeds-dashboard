@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import './styles.scss';
 import {Accordion, Form, Menu} from "semantic-ui-react";
 
-const Years = ({data, onChange, maxSelectable, defaultSelected}) => {
+const YearsFilter = ({data, onChange, maxSelectable, defaultSelected, showMaxYearsMessage = false}) => {
 
     const [activeIndex, setActiveIndex] = useState([0]);
     const [selectedYear, setSelectedYear] = useState(null);
@@ -38,7 +38,7 @@ const Years = ({data, onChange, maxSelectable, defaultSelected}) => {
                 auxArray.splice(index, 1);
                 setSelectedYear(auxArray);
             } else {
-                if (auxArray.length == maxSelectable) {
+                if (auxArray.length === maxSelectable) {
                     auxArray.shift();
                 }
                 auxArray.push(props.value);
@@ -61,13 +61,17 @@ const Years = ({data, onChange, maxSelectable, defaultSelected}) => {
                 </div>);
             }));
         } else {
-            return (data.map((c, i) => {
-                return (<div key={c}>
-                    <Form.Checkbox value={c} checked={(selectedYear && selectedYear.find(j => j === c)) ? true : false}
-                                   onChange={handleChange}
-                                   label={c}/>
-                </div>);
-            }));
+            return (<>
+                {showMaxYearsMessage && data.length > maxSelectable ?
+                    <div className="max-years-msg">Select Three Years Maximum</div> : null}
+                {data.map((c, i) => {
+                    return (<div key={c}>
+                        <Form.Checkbox value={c}
+                                       checked={(selectedYear && selectedYear.find(j => j === c)) ? true : false}
+                                       onChange={handleChange}
+                                       label={c}/>
+                    </div>);
+                })}</>);
         }
     }
 
@@ -89,4 +93,4 @@ const Years = ({data, onChange, maxSelectable, defaultSelected}) => {
     )
 }
 
-export default Years
+export default YearsFilter
