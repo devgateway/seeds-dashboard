@@ -222,7 +222,7 @@
       padding: 0;
 
       .item {
-        width: 160px;
+        width: 200px;
         height: 80px;
         font-size: $menu-font-size;
         cursor: pointer;
@@ -356,9 +356,6 @@
         }
 
         &._data-summary {
-          width: 200px;
-          flex: 0 0 200px;
-
           a {
             background-image: url("/static/images/data_summary_country_comparisons.svg") !important;;
           }
