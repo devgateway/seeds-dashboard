@@ -48,7 +48,7 @@ const CropFilter = ({data, onChange, initialSelectedCrops = [1, 1, 1, 1]}) => {
                     index={0}
                     onClick={handleClick}
                 />
-                <Accordion.Content active={activeIndex === 0} content={generateContent()}/>
+                <Accordion.Content className="ignore" active={activeIndex === 0} content={generateContent()}/>
             </Menu.Item>
         </Accordion>
     )

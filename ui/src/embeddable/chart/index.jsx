@@ -114,7 +114,7 @@ const Chart = (props) => {
 
     function filter(node) {
         if (node.classList) {
-            return !node.classList.contains("ignore")
+            return !node.classList.contains("ignore") && !node.classList.contains("angle") 
         }
         return true;
     }
