@@ -12,7 +12,7 @@ const Export = ({methodology, download, exportPng, containerRef, type}) => {
                 <div className="export share"/>
             </div>
             {methodology
-                ? <Popup content={methodology} trigger={<div className="tooltip">Methods</div>}
+                ? <Popup className="methods-popup" content={methodology} trigger={<div className="tooltip">Methods</div>}
                          position='bottom right'/>
                 : null}
         </div>
