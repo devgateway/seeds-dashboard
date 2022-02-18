@@ -187,6 +187,7 @@
               padding-right: 10px;
               @include display-flex(right);
               text-align: right;
+              -webkit-justify-content: flex-end; // fix for safari.
 
               i.circular.icon {
                 -webkit-box-shadow: 0 0 0 0.1em rgba(0, 0, 0, 1) inset;
