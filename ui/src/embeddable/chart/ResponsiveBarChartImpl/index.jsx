@@ -146,6 +146,12 @@ const ResponsiveBarChartImpl = ({
         bars.forEach(({data: {data, indexValue, id}, x, width}, i) => {
             const transform = `translate(${x}, ${yScale(data[id]) - labelMargin})`;
             if (!numbers.find(i => i.props.transform === transform)) {
+                let text = data[id] !== FAKE_NUMBER
+                    ? data[id]
+                    : data_.values[data.crop] ? data_.values[data.crop][id] || 'MD' : 'MD'
+                if (dataSuffix && Number(data[id]) >= 1) {
+                    text += dataSuffix
+                }
                 numbers.push(<g
                     transform={transform}
                     key={`${indexValue}-${i}`}>
@@ -159,13 +165,10 @@ const ResponsiveBarChartImpl = ({
                         // add any style to the label here
                         style={{
                             fontWeight: 'bold',
-                            fontSize: getTextWidth(String(data[id]), '14pt sans-serif') <= width ? '14pt' : '10pt',
+                            fontSize: getTextWidth(text, '14pt sans-serif') <= width ? '14pt' : '10pt',
                             fill: '#354052',
                         }}>
-                        {data[id] !== FAKE_NUMBER
-                            ? data[id]
-                            : data_.values[data.crop] ? data_.values[data.crop][id] || 'MD' : 'MD'}
-                        {dataSuffix && Number(data[id]) >= 1 ? dataSuffix : ''}
+                        {text}
                     </text>
                 </g>);
             }
