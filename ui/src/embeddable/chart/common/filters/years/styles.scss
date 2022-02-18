@@ -6,6 +6,7 @@
     border: 1px solid #dbdce0;
     background-color: #f4f6f9;
     box-shadow: none;
+
     .item {
       border-radius: 0;
       padding: 0;
@@ -61,16 +62,24 @@
         text-align: left;
         opacity: 0.95;
 
+        .max-years-msg {
+          font-size: 12pt;
+          color: #808080;
+          margin-bottom: 5px;
+        }
+
         .checkbox {
           width: 100%;
-          label{
-            line-height:90%;
+
+          label {
+            line-height: 90%;
             margin-top: 7px;
+            font-size: 16px;
           }
         }
 
-        .ui.checkbox input:checked~.box:after,
-        .ui.checkbox input:checked~label:after{
+        .ui.checkbox input:checked ~ .box:after,
+        .ui.checkbox input:checked ~ label:after {
           color: #333c48;
           left: 1px;
           top: 1px;

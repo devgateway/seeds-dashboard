@@ -5,7 +5,7 @@ import {toBlob} from 'html-to-image';
 import {saveAs} from 'file-saver';
 import Header from "../common/header";
 import CropFilter from "../common/filters/crops";
-import Years from "../common/filters/years";
+import YearsFilter from "../common/filters/years";
 import GenericLegend from "../common/generic";
 import CropsLegend from "../common/crop";
 import Export from "../common/export";
@@ -85,9 +85,11 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
   let dataSuffix = null;
   let containerHeight = null;
   let extraTooltipClass = null;
+  let showMaxYearsMessage = false;
 
   if (type === PERFORMANCE_SEED_TRADERS) {
     maxSelectableYear = 3;
+    showMaxYearsMessage = true
   } else if (type === AVAILABILITY_SEED_SMALL_PACKAGES || type === VARIETIES_RELEASED_WITH_SPECIAL_FEATURES) {
     maxSelectableYear = 1;
   }
@@ -944,8 +946,8 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
                       initialSelectedCrops={initialSelectedCrops}/>
         </Grid.Column> : null}
         {(!noData && useFilterByYear) ? <Grid.Column computer={3} mobile={16}>
-          <Years data={years} onChange={handleYearFilterChange} maxSelectable={maxSelectableYear}
-                 defaultSelected={selectedYear}/>
+          <YearsFilter data={years} onChange={handleYearFilterChange} maxSelectable={maxSelectableYear}
+                 defaultSelected={selectedYear} showMaxYearsMessage={showMaxYearsMessage}/>
         </Grid.Column> : null}
       </Grid.Row> : null}
       {!noData && useCropLegendsRow ? <Grid.Row className={`crops-with-icons`}>
