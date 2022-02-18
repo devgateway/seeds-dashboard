@@ -21,8 +21,9 @@
 }
 
 .data-summary {
-  width:100% !important;
-  @media only screen and (max-width: 1366px){
+  color: #000000;
+  width: 100% !important;
+  @media only screen and (max-width: 1366px) {
     padding: 0 $base-unit * 3;
   }
 
