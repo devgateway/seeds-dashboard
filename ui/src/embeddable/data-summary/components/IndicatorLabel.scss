@@ -61,6 +61,7 @@
         height: 100%;
         @include display-flex(right);
         padding-right: 5px;
+        -webkit-justify-content: flex-end; // fix for safari.
       }
     }
   }
