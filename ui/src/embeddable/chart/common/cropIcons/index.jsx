@@ -123,7 +123,7 @@ const CropIcons = ({crop, style, tick, tickX = 0, tickY = 25, intl}) => {
                 break;
         }
 
-        return (<g transform={`translate(${tick.x - tickX},${tick.y + tickY})`}>
+        return (<g transform={`translate(${tickX},${tick.y + tickY})`}>
             {icon ? <g transform={`translate(-40, -17)`}>{icon}</g> : null}
             <text transform={`translate(${-3 - (!icon ? 15 : 0)}, 2) rotate(${tickRotation})`}
                   textAnchor="left"

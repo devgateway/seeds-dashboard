@@ -188,13 +188,36 @@ const ResponsiveBarChartImpl = ({
 
     const CustomTick = tick => {
         const bottomLegendWidth = getTextWidth(bottomLegend || '', "12px sans-serif");
-        const tickX = customTickWithCropsLeft ? 100 : 0;
-        const tickY = customTickWithCropsLeft ? 5 : 25;
-        const translX = customTickWithCropsLeft ? 330 : 130;
-        const translY = customTickWithCropsLeft ? 90 : 60;
+        let tickX = null;
+        let tickY = null;
+        let translX = null;
+        let translY = null;
+        let posX = null;
+        if (customTickWithCropsLeft) {
+            tickX = 100;
+            tickY = 5;
+            translX = 330;
+            translY = 90;
+            posX = tick.x - tickX
+        } else {
+            tickX = 0;
+            tickY = 25;
+            translX = 130;
+            translY = 60;
+            const ICON_WIDTH = 26.5;
+            const ICON_SPACE = 8;
+            const translated = intl.formatMessage({id: tick.value, defaultMessage: tick.value});
+            const tickWidthWithIcon = ICON_WIDTH + ICON_SPACE + getTextWidth(translated, "16px 'Lato'");
+            posX = tickWidthWithIcon >= 70 ? tick.x - (tickWidthWithIcon / 6) : tick.x;
+
+            console.log(tick.x);
+            console.log(tickWidthWithIcon);
+            console.log(posX);
+            console.log('---')
+        }
+
         return (<g>
-            <CropIcons crop={tick.value} tick={tick} tickX={tickX} tickY={tickY}
-                       style={{fill: '#adafb2'}} intl={intl}/>
+            <CropIcons crop={tick.value} tick={tick} tickX={posX} tickY={tickY} style={{fill: '#adafb2'}} intl={intl}/>
             {bottomLegend && customTickWithCropsBottom && tick.tickIndex === 0 ?
                 <text transform={`translate(${(width - bottomLegendWidth - translX) / 2},${tick.y + translY})`}
                       style={{fontWeight: 'normal', fill: '#354052'}}>
