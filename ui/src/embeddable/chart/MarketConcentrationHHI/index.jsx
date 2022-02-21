@@ -5,7 +5,7 @@ import ResponsiveBarChartImpl from "../ResponsiveBarChartImpl";
 import HHILegend from "./HHILegend";
 import {FAKE_NUMBER} from "../ChartsComponent";
 
-const MarketConcentrationHHI = ({data, sources, selectedYear, bottomLegend}) => {
+const MarketConcentrationHHI = ({data, sources, selectedYear, bottomLegend, intl}) => {
 
     if (!data) {
         return 'No Data';
@@ -92,7 +92,7 @@ const MarketConcentrationHHI = ({data, sources, selectedYear, bottomLegend}) => 
                                                 customTickWithCropsBottom={customTickWithCropsBottom}
                                                 containerHeight={300}
                                                 gridTickLines={4} margins={{top: 30, right: 10, bottom: 70, left: 70}}
-                                                padding={0.15}
+                                                padding={0.15} intl={intl}
                         />
                     </Grid.Column>);
                 })}

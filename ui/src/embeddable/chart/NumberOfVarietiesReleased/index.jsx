@@ -1,6 +1,7 @@
 import React, {useRef, useState} from "react";
 import {Grid} from "semantic-ui-react";
 import {ResponsiveLine} from "@nivo/line";
+import {injectIntl} from "react-intl";
 import CropsLegend from "../common/crop";
 import './styles.scss';
 import Source from "../common/source";
@@ -41,7 +42,8 @@ const NumberOfVarietiesReleased = ({
                                        type,
                                        methodology,
                                        download,
-                                       exportPng
+                                       exportPng,
+                                       intl
                                    }) => {
 
     const [selectedCrops, setSelectedCrops] = useState(null);
@@ -127,12 +129,12 @@ const NumberOfVarietiesReleased = ({
                 </Grid.Row>
                 <Grid.Row className={`filters-section`}>
                     {!noData ? <Grid.Column>
-                        <CropFilter data={initialCrops} onChange={handleCropFilterChange}/>
+                        <CropFilter data={initialCrops} onChange={handleCropFilterChange} intl={intl}/>
                     </Grid.Column> : null}
                 </Grid.Row>
                 {!noData ? <Grid.Row className={`crops-with-icons`}>
                     <Grid.Column width={8}>
-                        <CropsLegend data={selectedCrops} title="Crops" titleClass="crops-title"/>
+                        <CropsLegend data={selectedCrops} title="Crops" titleClass="crops-title" intl={intl}/>
                     </Grid.Column>
                 </Grid.Row> : null}
                 <Grid.Row className={`chart-section`}>
@@ -229,4 +231,4 @@ function fillGaps(data) {
     return all;
 }
 
-export default NumberOfVarietiesReleased
+export default injectIntl(NumberOfVarietiesReleased)

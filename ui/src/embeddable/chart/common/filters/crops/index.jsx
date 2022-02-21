@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import './styles.scss';
 import {Accordion, Form, Menu} from "semantic-ui-react";
 
-const CropFilter = ({data, onChange, initialSelectedCrops = [1, 1, 1, 1]}) => {
+const CropFilter = ({data, onChange, initialSelectedCrops = [1, 1, 1, 1], intl}) => {
 
     const [activeIndex, setActiveIndex] = useState([0]);
     const [numberOfSelectedCrops, setNumberOfSelectedCrops] = useState([1, 1, 1, 1]);
@@ -30,7 +30,8 @@ const CropFilter = ({data, onChange, initialSelectedCrops = [1, 1, 1, 1]}) => {
     const generateContent = () => {
         return (data.map((c, i) => {
             return (<div key={c}>
-                <Form.Checkbox value={c} checked={numberOfSelectedCrops[i] === 1} onChange={handleChange} label={c}/>
+                <Form.Checkbox value={c} checked={numberOfSelectedCrops[i] === 1} onChange={handleChange}
+                               label={intl.formatMessage({id: c, defaultMessage: c})}/>
             </div>);
         }));
     }

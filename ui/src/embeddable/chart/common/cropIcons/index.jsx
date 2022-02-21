@@ -1,25 +1,11 @@
 import React, {useState} from "react";
 import './styles.scss';
 
-const getTextWidth = (text, font) => {
-    // re-use canvas object for better performance
-    const canvas = document.createElement("canvas");
-    const context = canvas.getContext("2d");
-    context.font = font;
-    const metrics = context.measureText(text);
-    return metrics.width;
-}
-
-const CropIcons = ({crop, text, style, tick, tickX = 0, tickY = 25}) => {
+const CropIcons = ({crop, style, tick, tickX = 0, tickY = 25, intl}) => {
 
     const getIcon = tick => {
         const tickRotation = 0;
-        const tickConfig = {
-            color: '#FFFFFF',
-            fontColor: '#000000',
-            fontSize: 10
-        };
-        const width = getTextWidth(tick.value, `${tickConfig.fontSize}px Roboto`) + 15;
+        const translated = intl.formatMessage({id: crop, defaultMessage: crop});
         let icon = null;
 
         switch (crop) {
@@ -143,7 +129,7 @@ const CropIcons = ({crop, text, style, tick, tickX = 0, tickY = 25}) => {
                   textAnchor="left"
                   dominantBaseline="middle"
                   style={style}>
-                {text}
+                {translated}
             </text>
         </g>)
     }

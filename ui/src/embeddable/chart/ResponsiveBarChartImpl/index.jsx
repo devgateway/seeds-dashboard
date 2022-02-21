@@ -59,7 +59,8 @@ const ResponsiveBarChartImpl = ({
                                     fixedIntervals,
                                     margins,
                                     padding,
-                                    extraTooltipClass
+                                    extraTooltipClass,
+                                    intl
                                 }) => {
 
     ;
@@ -192,8 +193,8 @@ const ResponsiveBarChartImpl = ({
         const translX = customTickWithCropsLeft ? 330 : 130;
         const translY = customTickWithCropsLeft ? 90 : 60;
         return (<g>
-            <CropIcons crop={tick.value} text={tick.value} tick={tick} tickX={tickX} tickY={tickY}
-                       style={{'textTransform': 'capitalize', fill: '#adafb2'}}/>
+            <CropIcons crop={tick.value} tick={tick} tickX={tickX} tickY={tickY}
+                       style={{'textTransform': 'capitalize', fill: '#adafb2'}} intl={intl}/>
             {bottomLegend && customTickWithCropsBottom && tick.tickIndex === 0 ?
                 <text transform={`translate(${(width - bottomLegendWidth - translX) / 2},${tick.y + translY})`}
                       style={{fontWeight: 'normal', fill: '#354052'}}>
