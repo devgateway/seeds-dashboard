@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import {APPLICATION_PDF} from "./Constants";
+import {Popup} from 'semantic-ui-react';
 
 const Documents = ({type, showInline, list, loading, error, noDataText}) => {
 
@@ -15,7 +16,7 @@ const Documents = ({type, showInline, list, loading, error, noDataText}) => {
         return <ul> {
             data.map(i => {
                 return <li key={i.id}>
-                    <a href={i.guid.rendered} key={i.id} dangerouslySetInnerHTML={escapeTitle(i.title.rendered)}/>
+                    <Popup content={"View file"} className="doc-popup" data-variation="large" trigger={<a href={i.guid.rendered} key={i.id} dangerouslySetInnerHTML={escapeTitle(i.title.rendered)}/>} position='top left'/>
                 </li>;
             })
         }</ul>;
