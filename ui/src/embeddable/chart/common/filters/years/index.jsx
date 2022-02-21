@@ -87,7 +87,7 @@ const YearsFilter = ({data, onChange, maxSelectable, defaultSelected, showMaxYea
                     index={0}
                     onClick={handleClick}
                 />
-                <Accordion.Content active={activeIndex === 0} content={generateContent()}/>
+                <Accordion.Content className="ignore" active={activeIndex === 0} content={generateContent()}/>
             </Menu.Item>
         </Accordion>
     )
