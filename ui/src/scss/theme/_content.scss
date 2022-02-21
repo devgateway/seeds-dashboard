@@ -452,6 +452,7 @@ p:empty {
   }
   ul{
     @include list-unstyled();
+    margin-left: $base-unit * 2;
     li{
       border-right: 1px solid $text-color;
       float: left;
