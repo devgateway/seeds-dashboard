@@ -200,20 +200,14 @@ const ResponsiveBarChartImpl = ({
             translY = 90;
             posX = tick.x - tickX
         } else {
-            tickX = 0;
             tickY = 25;
             translX = 130;
             translY = 60;
-            const ICON_WIDTH = 26.5;
+            const ICON_WIDTH = 30;
             const ICON_SPACE = 8;
             const translated = intl.formatMessage({id: tick.value, defaultMessage: tick.value});
-            const tickWidthWithIcon = ICON_WIDTH + ICON_SPACE + getTextWidth(translated, "16px 'Lato'");
-            posX = tickWidthWithIcon >= 70 ? tick.x - (tickWidthWithIcon / 6) : tick.x;
-
-            console.log(tick.x);
-            console.log(tickWidthWithIcon);
-            console.log(posX);
-            console.log('---')
+            const tickWidthWithIcon = (getTextWidth(translated, "16px sans-serif") - ICON_SPACE - ICON_WIDTH) / 2;
+            posX = tick.x - tickWidthWithIcon;
         }
 
         return (<g>
