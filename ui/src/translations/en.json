@@ -134,5 +134,17 @@
   "tooltip-total-inspectors-legend": "Total seed inspectors",
   "privateSeedInspectors-tooltip": "Private seed inspectors",
   "publicSeedInspectors-tooltip": "Public seed inspectors",
-  "number-company-producers": "Number of companies / producers"
+  "number-company-producers": "Number of companies / producers",
+  "maize": "Maize",
+  "beans": "Beans",
+  "sorghum": "Sorghum",
+  "soya-bean": "Soya bean",
+  "cowpea": "Cowpea",
+  "rice": "Rice",
+  "teff": "Teff",
+  "wheat": "Wheat",
+  "groundnut": "Groundnut",
+  "millet": "Millet",
+  "sunflower": "Sunflower",
+  "pigeon-pea": "Pigeon pea"
 }
