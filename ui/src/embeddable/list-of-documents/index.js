@@ -28,7 +28,7 @@ const ListOfDocuments = ({
   }, [onLoadCategories]);
 
   useEffect(() => {
-    if (categoriesWP) {
+    if (categoriesWP && !loading) {
       const params = {};
       params.categories = category;
       params.per_page = DOCUMENTS_PER_PAGE;
