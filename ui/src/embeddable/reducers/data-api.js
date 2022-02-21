@@ -126,7 +126,6 @@ export const getData = ({ source, app, params }) => {
     || app === AVERAGE_AGE_VARIETIES_SOLD
     || app === SATISFACTION_ENFORCEMENT_SEED_LAW
     || app === NUMBER_OF_ACTIVE_BREEDERS
-    || app === VARIETIES_RELEASED_WITH_SPECIAL_FEATURES
     || app === NUMBER_VARIETIES_SOLD
     || app === EFFICIENCY_SEED_IMPORT_PROCESS  
     || app === PERFORMANCE_SEED_TRADERS

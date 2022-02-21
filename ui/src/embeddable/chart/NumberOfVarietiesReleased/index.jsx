@@ -186,7 +186,10 @@ const NumberOfVarietiesReleased = ({
                                             <div className="header">
                                                 <div className="inner-container">
                                                     <div className={d.point.serieId.toLowerCase() + " crop-icon"}/>
-                                                    <div className="crop-name">{d.point.serieId}</div>
+                                                    <div className="crop-name">{intl.formatMessage({
+                                                        id: d.point.serieId,
+                                                        defaultMessage: d.point.serieId
+                                                    })}</div>
                                                 </div>
                                                 <div className="table">
                                                     <label style={{float: 'left'}} className="year">Year</label>

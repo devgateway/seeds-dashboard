@@ -67,7 +67,7 @@ const MarketConcentrationHHI = ({data, sources, selectedYear, bottomLegend, intl
     const getTooltipHeader = (d) => {
         return <>
             <div className={d.indexValue.toLowerCase() + " crop-icon"}/>
-            <div className="crop-name">{d.indexValue}</div>
+            <div className="crop-name">{intl.formatMessage({id: d.indexValue, defaultMessage: d.indexValue})}</div>
         </>;
     }
     const customTickWithCropsBottom = true;
