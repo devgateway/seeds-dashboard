@@ -298,7 +298,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
         const key1 = 'withSpecialFeature_' + c;
         const key2 = 'withoutSpecialFeature_' + c;
         const header = {
-          crop: c,
+          crop: intl.formatMessage({id: c, defaultMessage: c}),
           [key1]: sumWF,
           [key2]: sumWOF,
         };
@@ -338,7 +338,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
         getTooltipHeader = (d) => {
           return <>
             <div className={d.indexValue.toLowerCase() + " crop-icon"} />
-            <div className="crop-name">{d.indexValue}</div>
+            <div className="crop-name">{intl.formatMessage({id: d.indexValue, defaultMessage: d.indexValue})}</div>
           </>;
         }
         leftLegend = intl.formatMessage({id: 'number-of-varieties-sold', defaultMessage: 'Number of varieties sold'});
@@ -357,7 +357,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
         getTooltipHeader = (d) => {
           return <>
             <div className={d.indexValue.toLowerCase() + " crop-icon"}/>
-            <div className="crop-name">{d.indexValue}</div>
+            <div className="crop-name">{intl.formatMessage({id: d.indexValue, defaultMessage: d.indexValue})}</div>
           </>;
         }
       } else if (type === PRICE_SEED_PLANTING) {
@@ -377,7 +377,10 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
         getTooltipHeader = (d) => {
           return <>
             <div className={d.indexValue.toLowerCase() + " crop-icon"} />
-            <div className="crop-name">{d.indexValue} {d.id}</div>
+            <div className="crop-name">{intl.formatMessage({
+              id: d.indexValue,
+              defaultMessage: d.indexValue
+            })} {d.id}</div>
           </>;
         }
       } else if (type === MARKET_SHARE_TOP_FOUR_SEED_COMPANIES) {
@@ -398,7 +401,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
         getTooltipHeader = (d) => {
           return <>
             <div className={d.indexValue.toLowerCase() + " crop-icon"} />
-            <div className="crop-name">{d.indexValue}</div>
+            <div className="crop-name">{intl.formatMessage({id: d.indexValue, defaultMessage: d.indexValue})}</div>
           </>;
         }
       } else if (type === MARKET_SHARE_STATE_OWNED_SEED_COMPANIES) {
@@ -419,7 +422,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
         getTooltipHeader = (d) => {
           return <>
             <div className={d.indexValue.toLowerCase() + " crop-icon"}/>
-            <div className="crop-name">{d.indexValue}</div>
+            <div className="crop-name">{intl.formatMessage({id: d.indexValue, defaultMessage: d.indexValue})}</div>
           </>;
         }
       } else if (type === QUANTITY_CERTIFIED_SEED_SOLD) {
@@ -439,7 +442,10 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
         getTooltipHeader = (d) => {
           return <>
             <div className={d.indexValue.toLowerCase() + " crop-icon"} />
-            <div className="crop-name">{d.indexValue} {d.id}</div>
+            <div className="crop-name">{intl.formatMessage({
+              id: d.indexValue,
+              defaultMessage: d.indexValue
+            })} {d.id}</div>
           </>;
         }
       } else {
@@ -458,7 +464,10 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
         getTooltipHeader = (d) => {
           return <>
             <div className={d.indexValue.toLowerCase() + " crop-icon"} />
-            <div className="crop-name">{d.indexValue} {d.id}</div>
+            <div className="crop-name">{intl.formatMessage({
+              id: d.indexValue,
+              defaultMessage: d.indexValue
+            })} {d.id}</div>
           </>;
         }
       }
@@ -480,7 +489,10 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
       getTooltipHeader = (d) => {
         return <>
           <div className={d.indexValue.toLowerCase() + " crop-icon"} />
-          <div className="crop-name">{d.indexValue} {selectedYear}</div>
+          <div className="crop-name">{intl.formatMessage({
+            id: d.indexValue,
+            defaultMessage: d.indexValue
+          })} {selectedYear}</div>
         </>
       }
       leftLegend = intl.formatMessage({id: 'number-of-varieties-released', defaultMessage: 'Number of Varieties Released'});
@@ -529,7 +541,10 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
         const cropName = d.id.replace(`${d.indexValue}_`, "");
         return <>
           <div className={`${cropName} crop-icon`} />
-          <div className="crop-name">{`${cropName} ${d.indexValue}`}</div>
+          <div className="crop-name">{`${intl.formatMessage({
+            id: cropName,
+            defaultMessage: cropName
+          })} ${d.indexValue}`}</div>
         </>
       }
       getTooltipText = (d) => {
@@ -553,7 +568,10 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
       getTooltipHeader = (d) => {
         return <>
           <div className={`${d.indexValue} crop-icon`} />
-          <div className="crop-name">{d.indexValue} {selectedYear}</div>
+          <div className="crop-name">{intl.formatMessage({
+            id: d.indexValue,
+            defaultMessage: d.indexValue
+          })} {selectedYear}</div>
         </>
       }
       getTooltipText = (d) => {
@@ -649,7 +667,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
       getTooltipHeader = (d) => {
         return <>
           <div className={d.indexValue + " crop-icon"}/>
-          <div className="crop-name">{d.indexValue}</div>
+          <div className="crop-name">{intl.formatMessage({id: d.indexValue, defaultMessage: d.indexValue})}</div>
         </>;
       }
       break;
@@ -693,7 +711,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
       getTooltipHeader = (d) => {
         return <>
           <div className={d.indexValue + " crop-icon"}/>
-          <div className="crop-name">{d.indexValue}</div>
+          <div className="crop-name">{intl.formatMessage({id: d.indexValue, defaultMessage: d.indexValue})}</div>
         </>;
       }
       legends = [{id: 1, 'color': barPieColor[1], 'label': intl.formatMessage({id: 'public-inspectors-legend', defaultMessage: 'Public inspectors'})},
@@ -739,7 +757,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
       getTooltipHeader = (d) => {
         return <>
           <div className={d.indexValue + " crop-icon"}/>
-          <div className="crop-name">{d.indexValue}</div>
+          <div className="crop-name">{intl.formatMessage({id: d.indexValue, defaultMessage: d.indexValue})}</div>
         </>;
       }
       legends = [{
@@ -793,7 +811,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
       getTooltipHeader = (d) => {
         return <>
           <div className={d.indexValue + " crop-icon"}/>
-          <div className="crop-name">{d.indexValue}</div>
+          <div className="crop-name">{intl.formatMessage({id: d.indexValue, defaultMessage: d.indexValue})}</div>
         </>;
       }
       legends = [{
@@ -846,7 +864,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
       getTooltipHeader = (d) => {
         return <>
           <div className={d.indexValue + " crop-icon"}/>
-          <div className="crop-name">{d.indexValue}</div>
+          <div className="crop-name">{intl.formatMessage({id: d.indexValue, defaultMessage: d.indexValue})}</div>
         </>;
       }
       legends = [{
@@ -873,7 +891,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
   const insertChart = () => {
     switch (type) {
       case MARKET_CONCENTRATION_HHI:
-        return <MarketConcentrationHHI data={data} selectedYear={selectedYear} bottomLegend={bottomLegend}/>
+        return <MarketConcentrationHHI data={data} selectedYear={selectedYear} bottomLegend={bottomLegend} intl={intl}/>
       case NUMBER_SEED_INSPECTORS:
       case VARIETY_RELEASE_PROCESS:
       case AGRODEALER_NETWORK:
@@ -887,7 +905,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
                                 getTooltipHeader={getTooltipHeader} lineColor={barPieColor[0]}
                                 legends={legends} lineChartField={lineChartField}
                                 lineChartFieldLabel={lineChartFieldLabel}
-                                showTotalLabel={showTotalLabel} extraTooltipClass={extraTooltipClass}
+                                showTotalLabel={showTotalLabel} extraTooltipClass={extraTooltipClass} intl={intl}
         />
       case PERFORMANCE_SEED_TRADERS:
         return <Grid.Row className={`chart-section`}>
@@ -899,6 +917,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
                 keys={keys}
                 colors={colors}
                 indexBy={indexBy}
+                intl={intl}
             /></Grid.Column>
         </Grid.Row>
       default:
@@ -916,6 +935,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
                                     dataSuffix={dataSuffix}
                                     showTotalLabel={showTotalLabel} containerHeight={containerHeight || 450}
                                     showTotalMD={showTotalMD} margins={margins}
+                                    intl={intl}
             />
           </Grid.Column>
         </Grid.Row>);
@@ -943,7 +963,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
       {useFilterByCrops || useFilterByYear ? <Grid.Row className={`filters-section`}>
         {!noData && useFilterByCrops ? <Grid.Column computer={3} mobile={16}>
           <CropFilter data={initialCrops} onChange={handleCropFilterChange}
-                      initialSelectedCrops={initialSelectedCrops}/>
+                      initialSelectedCrops={initialSelectedCrops} intl={intl}/>
         </Grid.Column> : null}
         {(!noData && useFilterByYear) ? <Grid.Column computer={3} mobile={16}>
           <YearsFilter data={years} onChange={handleYearFilterChange} maxSelectable={maxSelectableYear}
@@ -953,7 +973,8 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
       {!noData && useCropLegendsRow ? <Grid.Row className={`crops-with-icons`}>
         <Grid.Column width={8}>
           {legend === 'crops' &&
-          <CropsLegend data={selectedCrops} title="Crops" titleClass="crops-title" addLighterDiv={addLighterDiv}/>}
+          <CropsLegend data={selectedCrops} title="Crops" titleClass="crops-title" addLighterDiv={addLighterDiv}
+                       intl={intl}/>}
           {legend && legend.toLowerCase() === 'year' && <YearLegend colors={yearsColors} years={selectedYear}/>}
           {legend && legend === genericLegend && <GenericLegend colors={colors} keys={keys} title={legendTitle}/>}
         </Grid.Column>

@@ -49,7 +49,7 @@ const AvailabilityOfBasicSeedChart = ({data, yearsToShow, intl, tooltip}) => {
         const crops =
             data.dimensions.crop.values.map(c => {
                 return <Grid.Column key={c} className={"crop-container"}>
-                    <div className={`crop ${c}`}>{c}</div>
+                    <div className={`crop ${c}`}>{intl.formatMessage({id: c, defaultMessage: c})}</div>
                 </Grid.Column>
             });
         crops.unshift(<Grid.Column key={'title'}/>);

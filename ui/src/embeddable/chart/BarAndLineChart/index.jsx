@@ -20,7 +20,7 @@ const round = (x, y) => {
 const BarAndLineChart = ({
                              data, sources, selectedYear, leftLegend, indexBy, groupMode, bottomLegend, rightLegend,
                              processedData, colors, keys, max, legends, getTooltipText, getTooltipHeader, lineColor,
-                             lineChartField, lineChartFieldLabel, showTotalLabel, extraTooltipClass
+                             lineChartField, lineChartFieldLabel, showTotalLabel, extraTooltipClass, intl
                          }) => {
 
     const TICK_NUMBER = 4;
@@ -205,6 +205,7 @@ const BarAndLineChart = ({
                                             gridTickLines={TICK_NUMBER} LineLayer={LineLayer}
                                             markers={markerLine} fixedIntervals={fixedIntervals}
                                             showTotalLabel={showTotalLabel} extraTooltipClass={extraTooltipClass}
+                                            intl={intl}
                     />
                 </Grid.Column>
             </Grid.Row>
