@@ -117,7 +117,8 @@ const Header = ({ intl: { locale }, match, firstChildLink }) => {
     routerHistory.push(`/${lang}${slugUrl}`);
   }
 
-  const logoUrl = process.env.REACT_APP_USE_HASH_LINKS ? `/#/${locale}` : `/${locale}`
+    let logoUrl = process.env.REACT_APP_USE_HASH_LINKS ? `/#/${locale}` : `/${locale}`
+    logoUrl += '/dashboard/country-overview/';
 
   return <MenuProvider slug={isCustom ? MENU_DASHBOARD : MENU_MAIN} locale={locale}>
     <Container fluid={true} className={`header ${!bannerClass ? ' home' : ''}`}>
