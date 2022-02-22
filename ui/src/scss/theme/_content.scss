@@ -1,3 +1,8 @@
+::selection{
+	background-color: $link-green;
+	color: #ffffff;
+}
+
 .entry-content {
   margin: 0;
   display: block;
@@ -447,6 +452,7 @@ p:empty {
   }
   ul{
     @include list-unstyled();
+    margin-left: $base-unit * 2;
     li{
       border-right: 1px solid $text-color;
       float: left;
@@ -462,7 +468,7 @@ p:empty {
         background-repeat: no-repeat;
         padding-left: $base-unit * 2.5;
         &:hover{
-          filter: brightness(650%);
+          color: #000000;
         }
       }
     }
@@ -476,7 +482,8 @@ p:empty {
 
       a{
         &:hover{
-          filter: brightness(0);
+          color: $link-green;
+          filter: brightness(100%);
         }
       }
     }
