@@ -436,7 +436,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
               id: 'tooltip-quantity-certified-seed-sold',
               defaultMessage: 'Quantity of certified seed sold'
             })}</span>
-            <span className="bold"> {d.data[d.id]} metric tons</span>
+            <span className="bold"> {d.data[d.id]}</span><span> metric tons</span>
           </>
         }
         getTooltipHeader = (d) => {
