@@ -21,7 +21,7 @@ const IndicatorLabel = ({ field, className, range, displayType, intl, selectedCo
     }
     const getGridColumns = () => {
       if (!field.label && isNaN(field.value) && displayType !== LEGEND) {
-        return <div className={isNaN(field.value) ? ' letter centered' : ''}>{field.value}</div>;
+        return <div className={isNaN(field.value) ? ' letter right' : ''}>{field.value}</div>;
       } else {
         return <><Grid.Column width={selectedCountry ? 9 : 10} className="label">{field.label}</Grid.Column>
           <Grid.Column width={selectedCountry ? 7 : 6} className="value" style={style}>

@@ -38,6 +38,17 @@
     border-right: 1px solid $indicator-border-color;
   }
 
+  .letter.right {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-right: 1px solid $indicator-border-color;
+    text-align: right;
+    -webkit-justify-content: flex-end; // fix for safari.
+    padding-right: 5px;
+  }
+
   &.grid {
     height: 100%;
   }
