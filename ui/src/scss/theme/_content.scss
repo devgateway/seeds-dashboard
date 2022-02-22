@@ -710,7 +710,7 @@ p:empty {
     position: absolute;
     top: $base-unit * 4.4;
     width: $base-unit * 28;
-    z-index: 1;
+    z-index: 21; //never smaller than .export-wrapper.tooltip
     .ui.grid>.column{
       padding: 0 0 $base-unit / 5 $base-unit + 2;
     }
