@@ -483,7 +483,9 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
           <span
               className="bold"> {d.data[d.id]} out of {(d.data['withSpecialFeature_' + d.indexValue.toLowerCase()] || 0)
           + (d.data['withoutSpecialFeature_' + d.indexValue.toLowerCase()] || 0)} </span>
-          <span>varieties released {d.id.startsWith('withSpecial') ? 'with special features' : 'without special features'}</span>
+          <span>varieties released {d.id.startsWith('withSpecial')
+              ? (<>with <span className="bold">special features</span></>)
+              : <>without <span className="bold">special features</span></>}</span>
         </>
       }
       getTooltipHeader = (d) => {
