@@ -3,8 +3,8 @@ import { Grid, Placeholder, Popup } from "semantic-ui-react";
 import './IndicatorLabel.scss';
 import { injectIntl } from "react-intl";
 import { LEGEND } from "../Constants";
-import { COUNTRY_SETTINGS, SUMMARY_INDICATORS, SUMMARY_INDICATORS_INFORMATION } from "../../reducers/StoreConstants";
-import { getIndicatorsInformation } from "../../reducers/data";
+import { SUMMARY_INDICATORS_INFORMATION } from "../../reducers/StoreConstants";
+
 import { connect } from "react-redux";
 
 const IndicatorLabel = ({ field, className, range, displayType, intl, selectedCountry, loading }) => {
@@ -54,10 +54,10 @@ const IndicatorLabel = ({ field, className, range, displayType, intl, selectedCo
 
 const formatValue = (value, displayType, intl) => {
   let formattedValue = value;
-  if (value != 'number' && value != 'rating') {
+  if (value !== 'number' && value !== 'rating') {
     const style = 'decimal';
-    let decimals = value.indexOf('.') > 0 ? 1 : 0;
-    const format = {style, minimumFractionDigits: decimals, maximumFractionDigits: decimals}
+    let decimals = 1;
+    const format = {style, minimumFractionDigits: 0, maximumFractionDigits: decimals}
     if (displayType !== LEGEND && !isNaN(value)) {
       if (displayType === "Percentage") {
         formattedValue = `${intl.formatNumber(value * 100, format)} %`;
