@@ -114,11 +114,11 @@ const CountryInfo = ({ data, intl }) => {
             </Grid.Row>
             <Grid.Row className={`section border`}>
                 <Grid.Column width={16} className={`business-rank`}>
-                    {data.business && <div className="label">Ease of Doing Business Rank ({data.year ? data.year : '-'})
-                        <span className="data"> {data.business ? data.business.value : '-'}</span> of 190
+                    {data.business && <div className="label">Ease of Doing Business Rank (2020) :
+                        <span className="data"> {data.business ? data.business.value : '-'}</span> of 100
                     </div>}
-                    <div className="label">Enabling the Business of Agriculture ({data.year ? data.year : '-'})
-                        <span className="data"> {data.easeAgriculture ? data.easeAgriculture.value : '-'}</span> of 190
+                    <div className="label">Enabling the Business of Agriculture (2019) :
+                        <span className="data"> {data.easeAgriculture ? data.easeAgriculture.value : '-'}</span> of 100
                     </div>
                 </Grid.Column>
             </Grid.Row>
