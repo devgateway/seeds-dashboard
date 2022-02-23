@@ -205,7 +205,7 @@ const DataSummaryBody = ({
                     >
                         <div className="indicator summary-common">
                             <Icon name='chevron circle down' />
-                            <div>{indicator.name}</div>
+                            <div>{indicator.key} {indicator.name}</div>
                             <Tooltip item={indicator} />
                         </div>
                     </Accordion.Title>
