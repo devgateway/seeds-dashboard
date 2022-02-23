@@ -4,7 +4,7 @@ import React from "react";
 const Heading = ({legends, title, showMDNALegends}) => {
     return (
         <>
-            <Container fluid={true} className={"chart-heading"}>
+            <Container fluid={true} className={"chart-heading"} style={showMDNALegends ? {height: '250px'} : {}}>
                 <Grid columns={16} stretched>
                     {title && <Grid.Row className="title">
                         <div>{title}</div>
