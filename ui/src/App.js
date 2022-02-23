@@ -4,6 +4,7 @@ import { Redirect, Route, Switch } from 'react-router' // react-router v4/v5
 import { ConnectedRouter } from 'connected-react-router/immutable'
 import getStore, { history } from './redux/store'
 import messages_en from "./translations/en.json";
+import messages_fr from "./translations/fr.json";
 import { updateIntl } from 'react-intl-redux'
 import { injectIntl, IntlProvider } from "react-intl";
 import smoothscroll from 'smoothscroll-polyfill';
@@ -32,7 +33,8 @@ const store = getStore()
 smoothscroll.polyfill();
 
 const messages = {
-  'en': messages_en
+    'en': messages_en,
+    'fr': messages_fr
 };
 
 const PAGE_404_SLUG="error-404";
