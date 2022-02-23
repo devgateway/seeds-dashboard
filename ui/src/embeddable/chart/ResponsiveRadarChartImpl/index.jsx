@@ -9,8 +9,7 @@ const theme = {
             text: {
                 fontSize: 12,
                 fontWeight: 'bold',
-                fill: "#474747",
-                textTransform: 'capitalize'
+                fill: "#474747"
             }
         }
     },
