@@ -193,8 +193,8 @@ const NumberOfVarietiesReleased = ({
                                                 </div>
                                                 <div className="table">
                                                     <label style={{float: 'left'}} className="year">Year</label>
-                                                    <label style={{float: 'right'}} className="vr">Varieties
-                                                        Released</label>
+                                                    <label style={{float: 'right'}} className="vr">Avg # of
+                                                        varieties</label>
                                                 </div>
                                             </div>
                                         </div>
