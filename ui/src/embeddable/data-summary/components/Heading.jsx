@@ -22,8 +22,6 @@ const Heading = ({legends, title}) => {
                         </Grid.Row>
                     })}
                     <Grid.Row className="legends" style={{backgroundColor: '#f9f9f9'}}>
-                        <Grid.Column width={10}>
-                        </Grid.Column>
                         <Grid.Column width={3}>
                             <div>MD: Indicator data missing</div>
                         </Grid.Column>
