@@ -1,7 +1,7 @@
 import {Container, Grid, Icon} from "semantic-ui-react";
 import React from "react";
 
-const Heading = ({legends, title}) => {
+const Heading = ({legends, title, showMDNALegends}) => {
     return (
         <>
             <Container fluid={true} className={"chart-heading"}>
@@ -21,14 +21,14 @@ const Heading = ({legends, title}) => {
                             })}
                         </Grid.Row>
                     })}
-                    <Grid.Row className="legends" style={{backgroundColor: '#f9f9f9'}}>
+                    {showMDNALegends ? <Grid.Row className="legends" style={{backgroundColor: '#f9f9f9'}}>
                         <Grid.Column width={3}>
                             <div>MD: Indicator data missing</div>
                         </Grid.Column>
                         <Grid.Column width={3}>
                             <div>NA: Indicator not applicable</div>
                         </Grid.Column>
-                    </Grid.Row>
+                    </Grid.Row> : null}
                 </Grid>
             </Container>
         </>
