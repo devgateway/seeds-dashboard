@@ -7,6 +7,8 @@ import { COUNTRY_SETTINGS, SUMMARY_INDICATORS, SUMMARY_INDICATORS_INFORMATION } 
 import { getIndicatorsInformation } from "../../reducers/data";
 import { connect } from "react-redux";
 
+const MIN_WIDTH = 1000;
+
 const IndicatorLabel = ({ field, className, range, displayType, intl, selectedCountry, loading }) => {
   if (field) {
     const style = {}
@@ -19,22 +21,29 @@ const IndicatorLabel = ({ field, className, range, displayType, intl, selectedCo
         style['color'] = '#FFFFFF';
       }
     }
+    if (window.innerWidth <= MIN_WIDTH) {
+      style['fontSize'] = '11px';
+    }
     const getGridColumns = () => {
       if (!field.label && isNaN(field.value) && displayType !== LEGEND) {
         return <div className={isNaN(field.value) ? ' letter centered' : ''}>{field.value}</div>;
       } else {
-        return <><Grid.Column width={selectedCountry ? 9 : 10} className="label">{field.label}</Grid.Column>
+        return <>
+          <Grid.Column style={window.innerWidth <= MIN_WIDTH ? {fontSize: '11px'} : {}}
+                       width={selectedCountry ? 9 : 10}
+                       className="label">{field.label}</Grid.Column>
           <Grid.Column width={selectedCountry ? 7 : 6} className="value" style={style}>
             {r && <Popup
-              trigger={<div
-                className={isNaN(field.value) ? ' letter' : ''}>{formatValue(field.value, displayType, intl)}</div>}
-              className="indicator-popup"
-              position="right center">
-              <Legend val={r.legend} color={r.color} />
+                trigger={<div
+                    className={isNaN(field.value) ? ' letter' : ''}>{formatValue(field.value, displayType, intl)}</div>}
+                className="indicator-popup"
+                position="right center">
+              <Legend val={r.legend} color={r.color}/>
             </Popup>}
             {!r &&
-              <div className={isNaN(field.value) ? ' letter' : ''}>{formatValue(field.value, displayType, intl)}</div>}
-          </Grid.Column></>
+            <div className={isNaN(field.value) ? ' letter' : ''}>{formatValue(field.value, displayType, intl)}</div>}
+          </Grid.Column>
+        </>
       }
     }
 
