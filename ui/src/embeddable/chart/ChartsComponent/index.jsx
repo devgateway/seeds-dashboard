@@ -77,7 +77,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
   let noData = false;
   let years = null;
   let colors = new Map();
-  let keys = [];
+  const keys = [];
   let max = 0;
   let maxSelectableYear = 4;
   let processedData = [];
@@ -484,7 +484,6 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
       if (type === PRICE_SEED_PLANTING && selectedYear.length > 3) {
         switchToLineChart = true;
         const newProcessedData = [];
-        keys = [];
         processedData.forEach((i, index) => {
           const item = {id: i.crop, color: getColor({id: i.crop}), data: []};
           Object.keys(processedData[index]).filter(k => k !== indexBy).forEach(j => {
@@ -492,9 +491,6 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
               x: j,
               y: processedData[index][j]
             });
-            if (!keys.find(k => k === j)) {
-              keys.push(j);
-            }
           });
           newProcessedData.push(item);
         });

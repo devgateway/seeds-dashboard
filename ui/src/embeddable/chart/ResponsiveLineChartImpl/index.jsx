@@ -29,41 +29,17 @@ const theme = {
 };
 
 const ResponsiveLineChartImpl = ({
-                                     data,
                                      noData,
                                      processedData,
-                                     keys,
                                      max,
-                                     colors,
-                                     indexBy = 'crop',
-                                     layout,
                                      leftLegend,
                                      bottomLegend,
                                      enableGridX,
                                      enableGridY,
-                                     customTickWithCropsBottom,
-                                     customTickWithCropsLeft,
                                      containerHeight = 450,
-                                     gridTickLines = 6,
-                                     LineLayer,
-                                     markers,
-                                     dataSuffix,
-                                     showTotalLabel,
-                                     showTotalMD,
-                                     fixedIntervals,
                                      margins,
-                                     padding,
-                                     extraTooltipClass,
-                                     intl,
                                      tooltip
                                  }) => {
-
-    const getColors = (item) => {
-        if (Array.isArray(item.id)) {
-            return colors.get(item.id[0]);
-        }
-        return colors.get(item.id);
-    }
 
     const {width, height, ref} = useResizeDetector();
 
