@@ -5,6 +5,7 @@ import './styles.scss';
 import CropIcons from "../common/cropIcons";
 import {getTextWidth} from "../../utils/common";
 import {FAKE_NUMBER} from "../ChartsComponent";
+import NoData from "../common/noData";
 
 
 const theme = {
@@ -297,7 +298,7 @@ const ResponsiveBarChartImpl = ({
                         </div>
                     </div>)
                 }}
-            /> : <h2 className="no-data">No Data</h2>}
+            /> : <NoData/>}
         </div>
     )
 }
