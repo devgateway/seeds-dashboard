@@ -65,13 +65,16 @@ const ResponsiveBarChartImpl = ({
 
     let max = pMax;
     let allFake = true;
-    processedData.forEach(d => {
-        Object.keys(d).forEach(k => {
-            if (k !== indexBy && d[k] !== FAKE_NUMBER) {
-                allFake = false;
-            }
+    if (processedData && processedData.length > 0) {
+
+        processedData.forEach(d => {
+            Object.keys(d).forEach(k => {
+                if (k !== indexBy && d[k] !== FAKE_NUMBER) {
+                    allFake = false;
+                }
+            })
         })
-    })
+    }
     if (allFake) {
         max = ALL_FAKE_MAX;
     }
