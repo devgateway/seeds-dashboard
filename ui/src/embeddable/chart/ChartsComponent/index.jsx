@@ -171,8 +171,8 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
           const item = {crop: c};
           if (data.values[selectedYear][c]) {
             keys.forEach(k =>{
-              item[k] = Number(data.values[selectedYear][c][k]) >= 0 
-                  ? Math.round(data.values[selectedYear][c][k] * 1000) / 10 
+              item[k] = Number(data.values[selectedYear][c][k]) >= 0
+                  ? Math.round(data.values[selectedYear][c][k] * 1000) / 10
                   : FAKE_NUMBER;
               if (item[k] !== FAKE_NUMBER) {
                 hasData = true;
@@ -259,6 +259,10 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
         if (!p[y]) {
           processedData.find(i => i.crop === p.crop)[y] = FAKE_NUMBER;
           // data.values[p.crop][y] = 'MD';
+        }else{
+            if (roundNumbers) {
+                p[y] = Math.round(p[y]);
+            }
         }
         // Process color here to prevent SEEDSDT-583
         if (!colors.get(y)) {
@@ -315,6 +319,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
   }
 
   let subLabel = '';
+  let roundNumbers;
   switch (type) {
     case NUMBER_VARIETIES_SOLD:
     case PRICE_SEED_PLANTING:
@@ -343,6 +348,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
         }
         leftLegend = intl.formatMessage({id: 'number-of-varieties-sold', defaultMessage: 'Number of varieties sold'});
       } else if (type === AVERAGE_AGE_VARIETIES_SOLD) {
+          roundNumbers = true;
         leftLegend = intl.formatMessage({id: 'average-age', defaultMessage: 'Average age (years)'});
         bottomLegend = intl.formatMessage({id: 'crops-years', defaultMessage: 'Crop > Year'});
         getTooltipText = (d) => {
@@ -938,6 +944,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
                                     showTotalLabel={showTotalLabel} containerHeight={containerHeight || 450}
                                     showTotalMD={showTotalMD} margins={margins}
                                     intl={intl}
+                                    barLabelFormat={roundNumbers}
             />
           </Grid.Column>
         </Grid.Row>);
