@@ -85,7 +85,7 @@ const ResponsiveLineChartImpl = ({
                     tickSize: 5,
                     tickPadding: 5,
                     tickRotation: 0,
-                    legend: 'Year',
+                    legend: bottomLegend,
                     legendOffset: 45,
                     legendPosition: 'middle'
                 }}
@@ -94,7 +94,7 @@ const ResponsiveLineChartImpl = ({
                     tickSize: 5,
                     tickPadding: 5,
                     tickRotation: 0,
-                    legend: 'Number of varieties released',
+                    legend: leftLegend,
                     legendOffset: -60,
                     legendPosition: 'middle',
                     format: e => Math.floor(e) === e && e,

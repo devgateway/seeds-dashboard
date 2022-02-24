@@ -59,6 +59,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
   let addLighterDiv = true;
   let leftLegend;
   let bottomLegend;
+  let lineTooltip;
   let rightLegend;
   let enableGridX = false;
   let enableGridY = true;
@@ -499,6 +500,25 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
           newProcessedData.push(item);
         });
         processedData = newProcessedData;
+        bottomLegend = intl.formatMessage({id: 'years-legend', defaultMessage: 'Year'});
+        lineTooltip = (d) => {
+          return (<div className="tooltip-container">
+            <div className="header-container">
+              <div className="header">
+                <div className="inner-container">
+                  <div className={d.point.serieId.toLowerCase() + " crop-icon"}/>
+                  <div className="crop-name">{intl.formatMessage({
+                    id: d.point.serieId,
+                    defaultMessage: d.point.serieId
+                  })} {d.point.data.x}</div>
+                </div>
+              </div>
+            </div>
+            <div className="amount-container">
+              <span>{d.point.data.y !== FAKE_NUMBER ? d.point.data.y : 'MD'}</span>
+            </div>
+          </div>)
+        }
         console.log(processedData);
       }
       break;
@@ -990,6 +1010,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
                                           showTotalMD={showTotalMD} 
                                           margins={margins}
                                           intl={intl}
+                                          tooltip={lineTooltip}
             />}
           </Grid.Column>
         </Grid.Row>);
