@@ -38,6 +38,7 @@ import ResponsiveRadarChartImpl from "../ResponsiveRadarChartImpl";
 import { injectIntl } from "react-intl";
 import BarAndLineChart from "../BarAndLineChart";
 import {COUNTRY_OPTIONS} from "../../../countries";
+import ResponsiveLineChartImpl from "../ResponsiveLineChartImpl";
 
 const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, methodology, download, exportPng }) => {
   const [initialCrops, setInitialCrops] = useState(null);
@@ -75,10 +76,10 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
   let noData = false;
   let years = null;
   let colors = new Map();
-  const keys = [];
+  let keys = [];
   let max = 0;
   let maxSelectableYear = 4;
-  const processedData = [];
+  let processedData = [];
   let useCropLegendsRow = true;
   let useFilterByCrops = true;
   let yearsColors = blueColors;
@@ -86,6 +87,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
   let containerHeight = null;
   let extraTooltipClass = null;
   let showMaxYearsMessage = false;
+  let switchToLineChart = false;
 
   if (type === PERFORMANCE_SEED_TRADERS) {
     maxSelectableYear = 3;
@@ -475,6 +477,30 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
       groupMode = 'grouped';
       withCropsWithSpecialFeatures = false;
       processByYear();
+      
+      // Reprocess data and change to line chart.
+      // TODO: move this code to a common function like processByYear().
+      if (type === PRICE_SEED_PLANTING && selectedYear.length > 3) {
+        console.log(processedData);
+        switchToLineChart = true;
+        const newProcessedData = [];
+        keys = [];
+        processedData.forEach((i, index) => {
+          const item = {id: i.crop, color: getColor({id: i.crop}), data: []};
+          Object.keys(processedData[index]).filter(k => k !== indexBy).forEach(j => {
+            item.data.push({
+              x: j,
+              y: processedData[index][j]
+            });
+            if (!keys.find(k => k === j)) {
+              keys.push(j);
+            }
+          });
+          newProcessedData.push(item);
+        });
+        processedData = newProcessedData;
+        console.log(processedData);
+      }
       break;
     }
     case VARIETIES_RELEASED_WITH_SPECIAL_FEATURES:
@@ -925,7 +951,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
       default:
         return (<Grid.Row className={`chart-section`}>
           <Grid.Column width={16}>
-            <ResponsiveBarChartImpl sources={sources} data={data} noData={noData} crops={crops}
+            {!switchToLineChart ? <ResponsiveBarChartImpl sources={sources} data={data} noData={noData} crops={crops}
                                     selectedYear={selectedYear} colors={colors} max={max * 1.1} keys={keys}
                                     processedData={processedData} indexBy={indexBy} layout={layout}
                                     groupMode={groupMode}
@@ -938,7 +964,33 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
                                     showTotalLabel={showTotalLabel} containerHeight={containerHeight || 450}
                                     showTotalMD={showTotalMD} margins={margins}
                                     intl={intl}
-            />
+            /> : <ResponsiveLineChartImpl sources={sources} 
+                                          data={data} 
+                                          noData={noData} 
+                                          crops={crops}
+                                          selectedYear={selectedYear} 
+                                          colors={colors} 
+                                          max={max * 1.1} 
+                                          keys={keys}
+                                          processedData={processedData}
+                                          indexBy={indexBy} 
+                                          layout={layout}
+                                          groupMode={groupMode}
+                                          leftLegend={leftLegend} 
+                                          bottomLegend={bottomLegend}
+                                          enableGridX={enableGridX} 
+                                          enableGridY={enableGridY}
+                                          getTooltipText={getTooltipText} 
+                                          getTooltipHeader={getTooltipHeader}
+                                          customTickWithCropsBottom={customTickWithCropsBottom}
+                                          customTickWithCropsLeft={customTickWithCropsLeft}
+                                          dataSuffix={dataSuffix}
+                                          showTotalLabel={showTotalLabel} 
+                                          containerHeight={containerHeight || 450}
+                                          showTotalMD={showTotalMD} 
+                                          margins={margins}
+                                          intl={intl}
+            />}
           </Grid.Column>
         </Grid.Row>);
     }
