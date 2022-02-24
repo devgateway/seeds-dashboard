@@ -319,7 +319,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
   }
 
   let subLabel = '';
-  let roundNumbers;
+  let roundNumbers = false;
   switch (type) {
     case NUMBER_VARIETIES_SOLD:
     case PRICE_SEED_PLANTING:
