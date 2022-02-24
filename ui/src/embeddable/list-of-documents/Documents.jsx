@@ -21,7 +21,7 @@ const Documents = ({type, showInline, list, loading, error, noDataText}) => {
             })
         }</ul>;
     } else {
-        return <div>{noDataText}</div>
+        return <div className="no-documents">{noDataText}</div>
     }
 
     function escapeTitle(title) {
