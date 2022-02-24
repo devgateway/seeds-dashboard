@@ -144,7 +144,7 @@ const BarAndLineChart = ({
                 })}
                 <text
                     transform={`translate(${innerWidth + 50}, ${chartHeight - ((chartHeight - getTextWidth(rightLegend, '16px sans-serif')) / 2)}) rotate(-90)`}
-                    style={{fontFamily: 'Lato', fontSize: '16px'}}>
+                    style={{fontFamily: 'Lato', fontSize: '16px', fill: '#354052', fontWeight: 400}}>
                     {rightLegend}
                 </text>
             </Fragment>
