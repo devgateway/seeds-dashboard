@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import {ResponsiveRadar} from '@nivo/radar'
 import './styles.scss';
+import NoData from "../common/noData";
 
 const FAKE_NUMBER = 0.001;
 const theme = {
@@ -99,7 +100,7 @@ const ResponsiveRadarChartImpl = ({
                         </div>
                     </div>)
                 }}
-            /> : <h2 className="no-data">No Data</h2>}
+            /> : <NoData/>}
         </div>
     )
 }

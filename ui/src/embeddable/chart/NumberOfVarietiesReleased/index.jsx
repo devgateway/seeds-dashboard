@@ -9,6 +9,7 @@ import Export from "../common/export";
 import CropFilter from "../common/filters/crops";
 import Header from "../common/header";
 import {getColor} from "../Countryinfo/CountryInfoChart";
+import NoData from "../common/noData";
 
 const theme = {
     axis: {
@@ -209,7 +210,7 @@ const NumberOfVarietiesReleased = ({
                                     </div>)
                                 }}
                                 /*sliceTooltip={}*/
-                            /> : <h2 className="no-data">No Data</h2>}
+                            /> : <NoData/>}
                         </div>
                     </Grid.Column>
                 </Grid.Row>

@@ -148,5 +148,6 @@
   "sunflower": "Sunflower",
   "pigeon-pea": "Pigeon pea",
   "opv": "Maize: OPV",
-  "hybrid": "Maize: hybrid"
+  "hybrid": "Maize: hybrid",
+  "no-data": "No Data Available"
 }

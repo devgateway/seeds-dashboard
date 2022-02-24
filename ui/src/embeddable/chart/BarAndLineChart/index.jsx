@@ -8,6 +8,7 @@ import ResponsiveBarChartImpl from "../ResponsiveBarChartImpl";
 import Legend from "./Legend";
 import {FAKE_NUMBER} from "../ChartsComponent";
 import {getTextWidth} from "../../utils/common";
+import NoData from "../common/noData";
 
 const round = (x, y) => {
     return Math.ceil(x / y) * y;
@@ -43,7 +44,7 @@ const BarAndLineChart = ({
     if (noData) {
         return (<Grid.Row className="chart-section">
             <Grid.Column width={16}>
-                <h2 className="no-data">No Data</h2>
+                <NoData/>
             </Grid.Column>
         </Grid.Row>);
     }
