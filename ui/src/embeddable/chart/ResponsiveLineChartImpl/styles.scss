@@ -8,15 +8,17 @@ $border_gray: rgba(229, 229, 229, 1);
   border-right: $border_gray 1px solid;
   border-left: $border_gray 1px solid;
 
-  .crop{
+  .crop {
     background-size: 30px;
     margin-right: 10px;
     padding-left: 35px;
-    label{
+
+    label {
       color: #7d7d7d;
       font-size: 12pt;
     }
-    &.legend{
+
+    &.legend {
       .crops-title {
         font-size: 21px;
         color: #354052;
@@ -63,7 +65,7 @@ $border_gray: rgba(229, 229, 229, 1);
   border-top-right-radius: 5px;
 }
 
-.tooltip-container {
+.tooltip-container-line {
   background-color: #ffffff;
   height: auto;
   box-shadow: 0 3px 10px #dbdce0;
@@ -71,14 +73,12 @@ $border_gray: rgba(229, 229, 229, 1);
 
   .header-container {
     background-color: #eef1fa;
-    width: 199px;
-    height: 70px;
-    border-right: 1px solid #dbdce0;
+    width: 249px;
+    height: 45px;
 
     .header {
       margin: auto;
-      width: 150px;
-      //border: 1px solid green;
+      width: 250px;
       height: 35px;
 
       .table {
@@ -127,19 +127,13 @@ $border_gray: rgba(229, 229, 229, 1);
   }
 
   .amount-container {
-    table {
-      width: 100%;
-      padding: 5px;
-      margin: 5px;
-      margin-top: 0px;
-      padding-right: 15px;
-      border: none;
-      font-size: 12pt;
-      color: #555555;
-
-      .year {
-        text-align: left;
-      }
-    }
+    font-family: Lato, sans-serif;
+    padding: 5px;
+    margin: 5px;
+    margin-top: 0px;
+    text-align: center;
+    border: none;
+    font-size: 14px;
+    color: #555555;
   }
 }

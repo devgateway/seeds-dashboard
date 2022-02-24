@@ -482,7 +482,6 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
       // Reprocess data and change to line chart.
       // TODO: move this code to a common function like processByYear().
       if (type === PRICE_SEED_PLANTING && selectedYear.length > 3) {
-        console.log(processedData);
         switchToLineChart = true;
         const newProcessedData = [];
         keys = [];
@@ -502,9 +501,10 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
         processedData = newProcessedData;
         bottomLegend = intl.formatMessage({id: 'years-legend', defaultMessage: 'Year'});
         legend = 'crops';
-        addLighterDiv= false;
+        addLighterDiv = false;
+        useFilterByYear = false;
         lineTooltip = (d) => {
-          return (<div className="tooltip-container">
+          return (<div className="tooltip-container-line">
             <div className="header-container">
               <div className="header">
                 <div className="inner-container">
@@ -512,16 +512,19 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
                   <div className="crop-name">{intl.formatMessage({
                     id: d.point.serieId,
                     defaultMessage: d.point.serieId
-                  })} {d.point.data.x}</div>
+                  })}</div>
                 </div>
               </div>
             </div>
             <div className="amount-container">
-              <span>{d.point.data.y !== FAKE_NUMBER ? d.point.data.y : 'MD'}</span>
+              <span className="bold">{d.point.data.y !== FAKE_NUMBER ? d.point.data.y : 'MD'} </span>
+              <span>{intl.formatMessage({
+                id: 'tooltip-price-usd-by-kg',
+                defaultMessage: '(usd/kg) of variety and year'
+              })}</span>
             </div>
           </div>)
         }
-        console.log(processedData);
       }
       break;
     }
