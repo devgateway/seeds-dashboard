@@ -100,16 +100,18 @@ const DataSummaryBody = ({
         return value;
     }
     const getIndicatorGrid = (selectedCountry, indicator, range, isOverview) => {
+        const selectedTitle = getTitleDisplayType(indicator, isOverview);
         return <Grid className={`table-container accordion ${isOverview ? ' overview' : ''}`}>
             <Grid.Column width={7} className="selected-countries">
-                <Grid className="indicator-title">
-                    <Grid.Column width={10}>
-                    </Grid.Column>
-                    <Grid.Column width={6}><IndicatorLabel
-                        field={{ value: getTitleDisplayType(indicator, isOverview) }}
-                        className={'indicator-sub-title'} displayType={LEGEND} selectedCountry />
-                    </Grid.Column>
-                </Grid>
+                {selectedTitle &&
+                    <Grid className="indicator-title">
+                        <Grid.Column width={10}>
+                        </Grid.Column>
+                        <Grid.Column width={6}><IndicatorLabel
+                            field={{ value: selectedTitle }}
+                            className={'indicator-sub-title'} displayType={LEGEND} selectedCountry />
+                        </Grid.Column>
+                    </Grid>}
                 {indicator.childs.sort((a, b) => a.position > b.position).map((f, index) => {
                     let field;
                     let effectiveF = f;
@@ -144,7 +146,7 @@ const DataSummaryBody = ({
 
             </Grid.Column>
             <Grid.Column width={9} className="other-countries">
-                <Grid.Row className="indicator-title">
+                {selectedTitle && <Grid.Row className="indicator-title">
                     <Grid columns={3}>
                         {[...Array(3)].map((value, key) =>
                             <Grid.Column key={key}><IndicatorLabel
@@ -153,7 +155,7 @@ const DataSummaryBody = ({
                                 }}
                                 className={'indicator-sub-title'} displayType={LEGEND} /></Grid.Column>)}
                     </Grid>
-                </Grid.Row>
+                </Grid.Row>}
                 {indicator.childs.sort((a, b) => a.position > b.position).map((f, index) => {
                     let effectiveF = f;
                     if (isOverview || f.type === SUB_INDICATOR) {
