@@ -32,12 +32,12 @@ const theme = {
         }
     }
 };
-
+const ALL_FAKE_MAX = 1000;
 const ResponsiveBarChartImpl = ({
                                     data,
                                     noData, processedData,
                                     keys,
-                                    max,
+                                    pMax,
                                     colors,
                                     indexBy = 'crop',
                                     layout,
@@ -64,7 +64,21 @@ const ResponsiveBarChartImpl = ({
                                     intl
                                 }) => {
 
-    ;
+    let max = pMax;
+    let allFake = true;
+    if (processedData && processedData.length > 0) {
+
+        processedData.forEach(d => {
+            Object.keys(d).forEach(k => {
+                if (k !== indexBy && d[k] !== FAKE_NUMBER) {
+                    allFake = false;
+                }
+            })
+        })
+    }
+    if (allFake) {
+        max = ALL_FAKE_MAX;
+    };
     // returns a list of total value labels for stacked bars
     const TotalLabels = ({bars, yScale, xScale}) => {
         // space between top of stacked bars and total label
