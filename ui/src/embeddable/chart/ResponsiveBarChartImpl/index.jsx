@@ -109,6 +109,9 @@ const ResponsiveBarChartImpl = ({
                     }
                 }
             }
+            if (showTotalMD && isMD) {
+                finalText = 'MD';
+            }
 
             // let finalText = showTotalLabel ? total : (isMD ? "MD" : "");
             let transform = `translate(${x}, ${yScale(total) - labelMargin})`;
