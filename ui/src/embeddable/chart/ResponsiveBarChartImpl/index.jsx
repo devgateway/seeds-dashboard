@@ -7,7 +7,6 @@ import {getTextWidth} from "../../utils/common";
 import {FAKE_NUMBER} from "../ChartsComponent";
 import NoData from "../common/noData";
 
-
 const theme = {
     axis: {
         ticks: {
@@ -33,11 +32,12 @@ const theme = {
     }
 };
 const ALL_FAKE_MAX = 1000;
+
 const ResponsiveBarChartImpl = ({
                                     data,
                                     noData, processedData,
                                     keys,
-                                    pMax,
+                                    max,
                                     colors,
                                     indexBy = 'crop',
                                     layout,
@@ -64,10 +64,9 @@ const ResponsiveBarChartImpl = ({
                                     intl
                                 }) => {
 
-    let max = pMax;
+    let pMax = max;
     let allFake = true;
     if (processedData && processedData.length > 0) {
-
         processedData.forEach(d => {
             Object.keys(d).forEach(k => {
                 if (k !== indexBy && d[k] !== FAKE_NUMBER) {
@@ -77,8 +76,9 @@ const ResponsiveBarChartImpl = ({
         })
     }
     if (allFake) {
-        max = ALL_FAKE_MAX;
-    };
+        pMax = ALL_FAKE_MAX;
+    }
+
     // returns a list of total value labels for stacked bars
     const TotalLabels = ({bars, yScale, xScale}) => {
         // space between top of stacked bars and total label
@@ -104,17 +104,13 @@ const ResponsiveBarChartImpl = ({
                 if (total > 0) {
                     finalText = total;
                 } else {
-                    if (isMD) {
+                    if (isMD && showTotalMD) {
                         finalText = 'MD';
                     }
                 }
             }
-            if (showTotalMD) {
-                if (isMD) {
-                    finalText = 'MD';
-                }
-            } else {
-                finalText = '';
+            if (showTotalMD && isMD) {
+                finalText = 'MD';
             }
 
             // let finalText = showTotalLabel ? total : (isMD ? "MD" : "");
@@ -226,7 +222,8 @@ const ResponsiveBarChartImpl = ({
         }
 
         return (<g>
-            <CropIcons crop={tick.value} tick={tick} tickX={posX} tickY={tickY} style={{fill: '#adafb2'}} intl={intl}/>
+            <CropIcons crop={tick.value} tick={tick} tickX={posX} tickY={tickY} style={{fill: '#adafb2'}}
+                       intl={intl}/>
             {bottomLegend && customTickWithCropsBottom && tick.tickIndex === 0 ?
                 <text transform={`translate(${(width - bottomLegendWidth - translX) / 2},${tick.y + translY})`}
                       style={{fontWeight: 'normal', fill: '#354052'}}>
@@ -259,7 +256,7 @@ const ResponsiveBarChartImpl = ({
                 indexBy={indexBy}
                 margin={margins ? margins : {top: 50, right: 60, bottom: 70, left: leftMargin}}
                 padding={padding || 0.3}
-                valueScale={{type: 'linear', max: max}}
+                valueScale={{type: 'linear', max: pMax}}
                 indexScale={{type: 'band', round: true}}
                 colors={(item) => getColors(item)}
                 borderWidth={0}

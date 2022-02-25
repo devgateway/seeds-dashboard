@@ -262,7 +262,8 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
           processedData.find(i => i.crop === p.crop)[y] = FAKE_NUMBER;
           // data.values[p.crop][y] = 'MD';
         } else {
-          if (roundNumbers) {
+          if (roundNumbers && p[y] !== FAKE_NUMBER) {
+            // Notice we check for p[y] !== FAKE_NUMBER or 0.001 will be converted in 0 thus hiding the MD total.
             p[y] = Math.round(p[y]);
           }
         }
