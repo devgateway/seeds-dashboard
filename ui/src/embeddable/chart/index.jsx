@@ -274,7 +274,7 @@ const Chart = (props) => {
     }
     
     // This is necessary charts that become very long in small resolutions like HHI.
-    const styleHeight = window.innerHeight <= 1024 ? {} : {height: contentHeight + 'px'};
+    const styleHeight = window.innerWidth <= 1024 ? {} : {height: contentHeight + 'px'};
     
     return (<div>
             <Container className={"chart container"} style={{"minHeight": height + 'px'}} fluid={true}>
