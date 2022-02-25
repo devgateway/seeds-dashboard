@@ -174,8 +174,8 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
           const item = {crop: c};
           if (data.values[selectedYear][c]) {
             keys.forEach(k =>{
-              item[k] = Number(data.values[selectedYear][c][k]) >= 0 
-                  ? Math.round(data.values[selectedYear][c][k] * 1000) / 10 
+              item[k] = Number(data.values[selectedYear][c][k]) >= 0
+                  ? Math.round(data.values[selectedYear][c][k] * 1000) / 10
                   : FAKE_NUMBER;
               if (item[k] !== FAKE_NUMBER) {
                 hasData = true;
@@ -201,7 +201,9 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
 
         // Change % to 100 scale.
         if (type === MARKET_SHARE_TOP_FOUR_SEED_COMPANIES || type === MARKET_SHARE_STATE_OWNED_SEED_COMPANIES) {
-          entry[key] = Math.round(entry[key] * 100);
+          if (entry[key] !== FAKE_NUMBER) {
+            entry[key] = Math.round(entry[key] * 100);
+          }
         }
 
         if (!keys.find(i => i === key)) {
@@ -259,9 +261,14 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
     const newBlueColors = [...blueColors];
     processedData.forEach(p => {
       years.forEach(y => {
-        if (!p[y]) {
+        if (isNaN(Number(p[y]))) {
           processedData.find(i => i.crop === p.crop)[y] = FAKE_NUMBER;
           // data.values[p.crop][y] = 'MD';
+        } else {
+          if (roundNumbers && p[y] !== FAKE_NUMBER) {
+            // Notice we check for p[y] !== FAKE_NUMBER or 0.001 will be converted in 0 thus hiding the MD total.
+            p[y] = Math.round(p[y]);
+          }
         }
         // Process color here to prevent SEEDSDT-583
         if (!colors.get(y)) {
@@ -318,6 +325,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
   }
 
   let subLabel = '';
+  let roundNumbers = false;
   switch (type) {
     case NUMBER_VARIETIES_SOLD:
     case PRICE_SEED_PLANTING:
@@ -346,6 +354,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
         }
         leftLegend = intl.formatMessage({id: 'number-of-varieties-sold', defaultMessage: 'Number of varieties sold'});
       } else if (type === AVERAGE_AGE_VARIETIES_SOLD) {
+          roundNumbers = true;
         leftLegend = intl.formatMessage({id: 'average-age', defaultMessage: 'Average age (years)'});
         bottomLegend = intl.formatMessage({id: 'crops-years', defaultMessage: 'Crop > Year'});
         getTooltipText = (d) => {
@@ -984,7 +993,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
                                     dataSuffix={dataSuffix}
                                     showTotalLabel={showTotalLabel} containerHeight={containerHeight || 450}
                                     showTotalMD={showTotalMD} margins={margins}
-                                    intl={intl}
+                                    intl={intl} barLabelFormat={roundNumbers}
             /> : <ResponsiveLineChartImpl sources={sources} 
                                           data={data} 
                                           noData={noData} 

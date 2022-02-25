@@ -144,7 +144,7 @@ const BarAndLineChart = ({
                 })}
                 <text
                     transform={`translate(${innerWidth + 50}, ${chartHeight - ((chartHeight - getTextWidth(rightLegend, '16px sans-serif')) / 2)}) rotate(-90)`}
-                    style={{fontFamily: 'Lato', fontSize: '16px'}}>
+                    style={{fontFamily: 'Lato', fontSize: '16px', fill: '#354052', fontWeight: 400}}>
                     {rightLegend}
                 </text>
             </Fragment>
@@ -186,7 +186,7 @@ const BarAndLineChart = ({
         fixedIntervals.push(Math.round(interval * i));
     }
     fixedIntervals = fixedIntervals.sort();
-
+    
     return (
         <>
             <Grid.Row className={`hhi-section`}>
@@ -206,7 +206,7 @@ const BarAndLineChart = ({
                                             gridTickLines={TICK_NUMBER} LineLayer={LineLayer}
                                             markers={markerLine} fixedIntervals={fixedIntervals}
                                             showTotalLabel={showTotalLabel} extraTooltipClass={extraTooltipClass}
-                                            intl={intl}
+                                            intl={intl} showTotalMD={true}
                     />
                 </Grid.Column>
             </Grid.Row>

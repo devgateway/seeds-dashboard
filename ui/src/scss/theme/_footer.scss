@@ -6,8 +6,8 @@
 
   .wp-block-columns.footer-table {
     > div:nth-child(1) {
-
       border-right: 1px solid $text-color-dark;
+      padding-left: 10%;
     }
     margin: 0;
   }
