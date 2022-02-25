@@ -198,7 +198,9 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
 
         // Change % to 100 scale.
         if (type === MARKET_SHARE_TOP_FOUR_SEED_COMPANIES || type === MARKET_SHARE_STATE_OWNED_SEED_COMPANIES) {
-          entry[key] = Math.round(entry[key] * 100);
+          if (entry[key] !== FAKE_NUMBER) {
+            entry[key] = Math.round(entry[key] * 100);
+          }
         }
 
         if (!keys.find(i => i === key)) {
@@ -256,13 +258,13 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
     const newBlueColors = [...blueColors];
     processedData.forEach(p => {
       years.forEach(y => {
-        if (!p[y]) {
+        if (isNaN(Number(p[y]))) {
           processedData.find(i => i.crop === p.crop)[y] = FAKE_NUMBER;
           // data.values[p.crop][y] = 'MD';
-        }else{
-            if (roundNumbers) {
-                p[y] = Math.round(p[y]);
-            }
+        } else {
+          if (roundNumbers) {
+            p[y] = Math.round(p[y]);
+          }
         }
         // Process color here to prevent SEEDSDT-583
         if (!colors.get(y)) {
