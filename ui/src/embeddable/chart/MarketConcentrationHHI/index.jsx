@@ -4,11 +4,12 @@ import './styles.scss';
 import ResponsiveBarChartImpl from "../ResponsiveBarChartImpl";
 import HHILegend from "./HHILegend";
 import {FAKE_NUMBER} from "../ChartsComponent";
+import NoData from "../common/noData";
 
 const MarketConcentrationHHI = ({data, sources, selectedYear, bottomLegend, intl}) => {
 
     if (!data) {
-        return 'No Data';
+        return <NoData/>;
     }
 
     const crops = data.dimensions.crop.values;
