@@ -185,7 +185,7 @@ const BarAndLineChart = ({
         fixedIntervals.push(Math.round(interval * i));
     }
     fixedIntervals = fixedIntervals.sort();
-
+    
     return (
         <>
             <Grid.Row className={`hhi-section`}>
@@ -205,7 +205,7 @@ const BarAndLineChart = ({
                                             gridTickLines={TICK_NUMBER} LineLayer={LineLayer}
                                             markers={markerLine} fixedIntervals={fixedIntervals}
                                             showTotalLabel={showTotalLabel} extraTooltipClass={extraTooltipClass}
-                                            intl={intl}
+                                            intl={intl} showTotalMD={true}
                     />
                 </Grid.Column>
             </Grid.Row>
