@@ -272,6 +272,10 @@ const Chart = (props) => {
                                  title={title} subTitle={subTitle} tooltip={() => (null)}/>;
             break;
     }
+    
+    // This is necessary charts that become very long in small resolutions like HHI.
+    const styleHeight = window.innerWidth <= 1024 ? {} : {height: contentHeight + 'px'};
+    
     return (<div>
             <Container className={"chart container"} style={{"minHeight": height + 'px'}} fluid={true}>
                 <DataProvider params={JSON.parse(decodeURIComponent(params))}
@@ -281,7 +285,7 @@ const Chart = (props) => {
                               store={[type, unique]}>
 
                     {(!dual || (mode === 'chart')) && (
-                        <Container style={{"height": `${contentHeight}px`}} className={"body"}
+                        <Container style={styleHeight} className={"body"}
                                    fluid={true}>
                             <DataConsumer>
                                 {child}
