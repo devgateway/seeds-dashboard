@@ -74,7 +74,7 @@ const DataSummaryBody = ({
     const getEffectiveDisplayAndRange = (range, isOverview, f, indicator) => {
         const display = {};
         display.effectiveRange = range;
-        if (isOverview) {
+        if (isOverview || f.displayType != null) {
             display.displayType = f.displayType;
         } else {
             if (indicator.type === SUB_INDICATOR) {
@@ -158,10 +158,11 @@ const DataSummaryBody = ({
                 </Grid.Row>}
                 {indicator.childs.sort((a, b) => a.position > b.position).map((f, index) => {
                     let effectiveF = f;
-                    if (isOverview || f.type === SUB_INDICATOR) {
+                    if (f.childs.length > 0 && (isOverview || f.type === SUB_INDICATOR)) {
                         effectiveF = f.childs[0];
                     }
                     const display = getEffectiveDisplayAndRange(range, isOverview, f, indicator);
+
                     return (
                         <Grid.Row className={index % 2 === 0 ? 'even' : 'odd'} key={effectiveF.id}>
                             <Grid columns={3}>
