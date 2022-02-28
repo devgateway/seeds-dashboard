@@ -74,7 +74,7 @@ const DataSummaryBody = ({
     const getEffectiveDisplayAndRange = (range, isOverview, f, indicator) => {
         const display = {};
         display.effectiveRange = range;
-        if (isOverview || f.displayType != null) {
+        if (isOverview || f.displayType !== null) {
             display.displayType = f.displayType;
         } else {
             if (indicator.type === SUB_INDICATOR) {
