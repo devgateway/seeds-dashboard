@@ -534,6 +534,8 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
           }
         } else if (selectedYear.length === 1) {
           // TODO: make this part common for other charts.
+          legend = 'crops';
+          addLighterDiv = false;
           getColors = (item) => {
             return baseColors[item.indexValue];
           }
