@@ -11,7 +11,7 @@ import CropsLegend from "../common/crop";
 import Export from "../common/export";
 import CropsWithSpecialFeatures from "../common/cropWithSpecialFeatures";
 import Source from "../common/source";
-import { getColor } from "../Countryinfo/CountryInfoChart";
+import {baseColors, getColor} from "../Countryinfo/CountryInfoChart";
 import {
   AVERAGE_AGE_VARIETIES_SOLD,
   MARKET_CONCENTRATION_HHI,
@@ -77,6 +77,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
   let noData = false;
   let years = null;
   let colors = new Map();
+  let getColors = null;
   const keys = [];
   let max = 0;
   let maxSelectableYear = 4;
@@ -490,45 +491,52 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
       
       // Reprocess data and change to line chart.
       // TODO: move this code to a common function like processByYear().
-      if (type === PRICE_SEED_PLANTING && selectedYear.length > 3) {
-        switchToLineChart = true;
-        const newProcessedData = [];
-        processedData.forEach((i, index) => {
-          const item = {id: i.crop, color: getColor({id: i.crop}), data: []};
-          Object.keys(processedData[index]).filter(k => k !== indexBy).forEach(j => {
-            item.data.push({
-              x: j,
-              y: processedData[index][j]
+      if (type === PRICE_SEED_PLANTING) {
+        if (selectedYear.length > 3) {
+          switchToLineChart = true;
+          const newProcessedData = [];
+          processedData.forEach((i, index) => {
+            const item = {id: i.crop, color: getColor({id: i.crop}), data: []};
+            Object.keys(processedData[index]).filter(k => k !== indexBy).forEach(j => {
+              item.data.push({
+                x: j,
+                y: processedData[index][j]
+              });
             });
+            newProcessedData.push(item);
           });
-          newProcessedData.push(item);
-        });
-        processedData = newProcessedData;
-        bottomLegend = intl.formatMessage({id: 'years-legend', defaultMessage: 'Year'});
-        legend = 'crops';
-        addLighterDiv = false;
-        useFilterByYear = false;
-        lineTooltip = (d) => {
-          return (<div className="tooltip-container-line">
-            <div className="header-container">
-              <div className="header">
-                <div className="inner-container">
-                  <div className={d.point.serieId.toLowerCase() + " crop-icon"}/>
-                  <div className="crop-name">{intl.formatMessage({
-                    id: d.point.serieId,
-                    defaultMessage: d.point.serieId
-                  })}</div>
+          processedData = newProcessedData;
+          bottomLegend = intl.formatMessage({id: 'years-legend', defaultMessage: 'Year'});
+          legend = 'crops';
+          addLighterDiv = false;
+          useFilterByYear = false;
+          lineTooltip = (d) => {
+            return (<div className="tooltip-container-line">
+              <div className="header-container">
+                <div className="header">
+                  <div className="inner-container">
+                    <div className={d.point.serieId.toLowerCase() + " crop-icon"}/>
+                    <div className="crop-name">{intl.formatMessage({
+                      id: d.point.serieId,
+                      defaultMessage: d.point.serieId
+                    })}</div>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="amount-container">
-              <span className="bold">{d.point.data.y !== FAKE_NUMBER ? d.point.data.y : 'MD'} </span>
-              <span>{intl.formatMessage({
-                id: 'tooltip-price-usd-by-kg',
-                defaultMessage: '(usd/kg) of variety and year'
-              })}</span>
-            </div>
-          </div>)
+              <div className="amount-container">
+                <span className="bold">{d.point.data.y !== FAKE_NUMBER ? d.point.data.y : 'MD'} </span>
+                <span>{intl.formatMessage({
+                  id: 'tooltip-price-usd-by-kg',
+                  defaultMessage: '(usd/kg) of variety and year'
+                })}</span>
+              </div>
+            </div>)
+          }
+        } else if (selectedYear.length === 1) {
+          // TODO: make this part common for other charts.
+          getColors = (item) => {
+            return baseColors[item.indexValue];
+          }
         }
       }
       break;
@@ -992,8 +1000,9 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
                                     customTickWithCropsLeft={customTickWithCropsLeft}
                                     dataSuffix={dataSuffix}
                                     showTotalLabel={showTotalLabel} containerHeight={containerHeight || 450}
-                                    showTotalMD={showTotalMD} margins={margins}
+                                    showTotalMD={showTotalMD} margins={margins} 
                                     intl={intl} barLabelFormat={roundNumbers}
+                                    getColorsCustom={getColors}
             /> : <ResponsiveLineChartImpl sources={sources} 
                                           data={data} 
                                           noData={noData} 
