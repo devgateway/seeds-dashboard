@@ -186,7 +186,7 @@ const BarAndLineChart = ({
         fixedIntervals.push(Math.round(interval * i));
     }
     fixedIntervals = fixedIntervals.sort();
-    
+
     return (
         <>
             <Grid.Row className={`hhi-section`}>
