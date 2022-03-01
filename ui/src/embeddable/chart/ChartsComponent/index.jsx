@@ -11,7 +11,7 @@ import CropsLegend from "../common/crop";
 import Export from "../common/export";
 import CropsWithSpecialFeatures from "../common/cropWithSpecialFeatures";
 import Source from "../common/source";
-import { getColor } from "../Countryinfo/CountryInfoChart";
+import {baseColors, getColor} from "../Countryinfo/CountryInfoChart";
 import {
   AVERAGE_AGE_VARIETIES_SOLD,
   MARKET_CONCENTRATION_HHI,
@@ -38,6 +38,7 @@ import ResponsiveRadarChartImpl from "../ResponsiveRadarChartImpl";
 import { injectIntl } from "react-intl";
 import BarAndLineChart from "../BarAndLineChart";
 import {COUNTRY_OPTIONS} from "../../../countries";
+import ResponsiveLineChartImpl from "../ResponsiveLineChartImpl";
 
 const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, methodology, download, exportPng }) => {
   const [initialCrops, setInitialCrops] = useState(null);
@@ -58,6 +59,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
   let addLighterDiv = true;
   let leftLegend;
   let bottomLegend;
+  let lineTooltip;
   let rightLegend;
   let enableGridX = false;
   let enableGridY = true;
@@ -75,10 +77,11 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
   let noData = false;
   let years = null;
   let colors = new Map();
+  let getColors = null;
   const keys = [];
   let max = 0;
   let maxSelectableYear = 4;
-  const processedData = [];
+  let processedData = [];
   let useCropLegendsRow = true;
   let useFilterByCrops = true;
   let yearsColors = blueColors;
@@ -86,6 +89,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
   let containerHeight = null;
   let extraTooltipClass = null;
   let showMaxYearsMessage = false;
+  let switchToLineChart = false;
 
   if (type === PERFORMANCE_SEED_TRADERS) {
     maxSelectableYear = 3;
@@ -484,6 +488,59 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
       groupMode = 'grouped';
       withCropsWithSpecialFeatures = false;
       processByYear();
+      
+      // Reprocess data and change to line chart.
+      // TODO: move this code to a common function like processByYear().
+      if (type === PRICE_SEED_PLANTING) {
+        if (selectedYear.length > 3) {
+          switchToLineChart = true;
+          const newProcessedData = [];
+          processedData.forEach((i, index) => {
+            const item = {id: i.crop, color: getColor({id: i.crop}), data: []};
+            Object.keys(processedData[index]).filter(k => k !== indexBy).forEach(j => {
+              item.data.push({
+                x: j,
+                y: processedData[index][j]
+              });
+            });
+            newProcessedData.push(item);
+          });
+          processedData = newProcessedData;
+          bottomLegend = intl.formatMessage({id: 'years-legend', defaultMessage: 'Year'});
+          legend = 'crops';
+          addLighterDiv = false;
+          useFilterByYear = false;
+          lineTooltip = (d) => {
+            return (<div className="tooltip-container-line">
+              <div className="header-container">
+                <div className="header">
+                  <div className="inner-container">
+                    <div className={d.point.serieId.toLowerCase() + " crop-icon"}/>
+                    <div className="crop-name">{intl.formatMessage({
+                      id: d.point.serieId,
+                      defaultMessage: d.point.serieId
+                    })}</div>
+                  </div>
+                </div>
+              </div>
+              <div className="amount-container">
+                <span className="bold">{d.point.data.y !== FAKE_NUMBER ? d.point.data.y : 'MD'} </span>
+                <span>{intl.formatMessage({
+                  id: 'tooltip-price-usd-by-kg',
+                  defaultMessage: '(usd/kg) of variety and year'
+                })}</span>
+              </div>
+            </div>)
+          }
+        } else if (selectedYear.length === 1) {
+          // TODO: make this part common for other charts.
+          legend = 'crops';
+          addLighterDiv = false;
+          getColors = (item) => {
+            return baseColors[item.indexValue];
+          }
+        }
+      }
       break;
     }
     case VARIETIES_RELEASED_WITH_SPECIAL_FEATURES:
@@ -934,7 +991,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
       default:
         return (<Grid.Row className={`chart-section`}>
           <Grid.Column width={16}>
-            <ResponsiveBarChartImpl sources={sources} data={data} noData={noData} crops={crops}
+            {!switchToLineChart ? <ResponsiveBarChartImpl sources={sources} data={data} noData={noData} crops={crops}
                                     selectedYear={selectedYear} colors={colors} max={max * 1.1} keys={keys}
                                     processedData={processedData} indexBy={indexBy} layout={layout}
                                     groupMode={groupMode}
@@ -945,10 +1002,37 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
                                     customTickWithCropsLeft={customTickWithCropsLeft}
                                     dataSuffix={dataSuffix}
                                     showTotalLabel={showTotalLabel} containerHeight={containerHeight || 450}
-                                    showTotalMD={showTotalMD} margins={margins}
-                                    intl={intl}
-                                    barLabelFormat={roundNumbers}
-            />
+                                    showTotalMD={showTotalMD} margins={margins} 
+                                    intl={intl} barLabelFormat={roundNumbers}
+                                    getColorsCustom={getColors}
+            /> : <ResponsiveLineChartImpl sources={sources} 
+                                          data={data} 
+                                          noData={noData} 
+                                          crops={crops}
+                                          selectedYear={selectedYear} 
+                                          colors={colors} 
+                                          max={max * 1.1} 
+                                          keys={keys}
+                                          processedData={processedData}
+                                          indexBy={indexBy} 
+                                          layout={layout}
+                                          groupMode={groupMode}
+                                          leftLegend={leftLegend} 
+                                          bottomLegend={bottomLegend}
+                                          enableGridX={enableGridX} 
+                                          enableGridY={enableGridY}
+                                          getTooltipText={getTooltipText} 
+                                          getTooltipHeader={getTooltipHeader}
+                                          customTickWithCropsBottom={customTickWithCropsBottom}
+                                          customTickWithCropsLeft={customTickWithCropsLeft}
+                                          dataSuffix={dataSuffix}
+                                          showTotalLabel={showTotalLabel} 
+                                          containerHeight={containerHeight || 450}
+                                          showTotalMD={showTotalMD} 
+                                          margins={margins}
+                                          intl={intl}
+                                          tooltip={lineTooltip}
+            />}
           </Grid.Column>
         </Grid.Row>);
     }
@@ -983,14 +1067,14 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
         </Grid.Column> : null}
       </Grid.Row> : null}
       {!noData && useCropLegendsRow ? <Grid.Row className={`crops-with-icons`}>
-        <Grid.Column width={8}>
+        <Grid.Column width={9}>
           {legend === 'crops' &&
           <CropsLegend data={selectedCrops} title="Crops" titleClass="crops-title" addLighterDiv={addLighterDiv}
                        intl={intl}/>}
           {legend && legend.toLowerCase() === 'year' && <YearLegend colors={yearsColors} years={selectedYear}/>}
           {legend && legend === genericLegend && <GenericLegend colors={colors} keys={keys} title={legendTitle}/>}
         </Grid.Column>
-        <Grid.Column width={8}>
+        <Grid.Column width={7}>
           {withCropsWithSpecialFeatures && <CropsWithSpecialFeatures/>}
         </Grid.Column>
       </Grid.Row> : null}

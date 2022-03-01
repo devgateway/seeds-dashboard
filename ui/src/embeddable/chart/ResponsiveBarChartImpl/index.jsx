@@ -61,7 +61,8 @@ const ResponsiveBarChartImpl = ({
                                     margins,
                                     padding,
                                     extraTooltipClass,
-                                    intl
+                                    intl,
+                                    getColorsCustom,
                                 }) => {
 
     let pMax = max;
@@ -258,7 +259,7 @@ const ResponsiveBarChartImpl = ({
                 padding={padding || 0.3}
                 valueScale={{type: 'linear', max: pMax}}
                 indexScale={{type: 'band', round: true}}
-                colors={(item) => getColors(item)}
+                colors={getColorsCustom ? item => getColorsCustom(item) : (item) => getColors(item)}
                 borderWidth={0}
                 borderRadius={0}
                 borderColor={{from: 'color', modifiers: [['darker', 0.4]]}}

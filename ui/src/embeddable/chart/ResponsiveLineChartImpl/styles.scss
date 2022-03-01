@@ -7,6 +7,27 @@ $border_gray: rgba(229, 229, 229, 1);
   border-top: $border_gray 1px solid;
   border-right: $border_gray 1px solid;
   border-left: $border_gray 1px solid;
+
+  .crop {
+    background-size: 30px;
+    margin-right: 10px;
+    padding-left: 35px;
+
+    label {
+      color: #7d7d7d;
+      font-size: 12pt;
+    }
+
+    &.legend {
+      .crops-title {
+        font-size: 21px;
+        color: #354052;
+        font-weight: bold;
+        margin-top: 11px;
+        margin-left: -30px;
+      }
+    }
+  }
 }
 
 .chart-section {
@@ -33,6 +54,7 @@ $border_gray: rgba(229, 229, 229, 1);
   }
 }
 
+
 .filters-section {
   //padding-bottom: 7px !important;
   //padding-top: 7px !important;
@@ -43,27 +65,44 @@ $border_gray: rgba(229, 229, 229, 1);
   border-top-right-radius: 5px;
 }
 
-.tooltip-container-vrwsf {
+.tooltip-container-line {
   background-color: #ffffff;
   height: auto;
   box-shadow: 0 3px 10px #dbdce0;
   border: 1px solid #dbdce0;
-  width: 240px;
 
   .header-container {
     background-color: #eef1fa;
-    width: 238px;
-    height: 40px;
+    width: 249px;
+    height: 45px;
 
     .header {
       margin: auto;
-      width: 185px;
-      height: 50px;
+      width: 250px;
+      height: 35px;
+
+      .table {
+        width: 100%;
+
+        label {
+          font-size: 9pt;
+          margin-top: 7px;
+        }
+
+        .year {
+          position: relative;
+          left: -12px;
+        }
+
+        .vr {
+          position: relative;
+          right: -22px;
+        }
+      }
 
       .inner-container {
         margin: auto;
         width: auto;
-        height: 40px;
         display: table;
 
         .crop-icon {
@@ -74,76 +113,27 @@ $border_gray: rgba(229, 229, 229, 1);
         }
 
         .crop-name {
-          font-size: 14px !important;
-          font-weight: 900;
-          color: #555555;
-          position: relative;
-          top: 10px;
-          left: -20px;
-          text-align: center;
-          float: left;
-        }
-
-        .country-header {
-          font-size: 14px !important;
+          font-size: 18px !important;
           font-weight: bold;
           color: black;
           position: relative;
-          top: 10px;
+          top: 8px;
           left: -20px;
           text-align: center;
           float: left;
-          text-transform: capitalize;
         }
       }
     }
   }
 
   .amount-container {
-    width: 230px !important;
-
-    table {
-      width: 100%;
-      font-weight: normal;
-      padding: 5px;
-      margin: 5px;
-      margin-top: 0px;
-      padding-right: 15px;
-      border: none;
-      font-size: 14px;
-      color: #555555;
-      text-align: left;
-
-      .year {
-        text-align: left;
-      }
-    }
-  }
-}
-
-.bold {
-  font-weight: bold;
-  color: #555555;
-}
-
-.withSeparator {
-  border-left: 1px solid #eeeeee;
-}
-
-.no-data {
-  padding-bottom: 15%;
-  padding-top: 15%;
-  text-align: center;
-}
-
-.AGRICULTURAL_EXTENSION_SERVICES {
-  width: 300px;
-
-  .header-container {
-    width: 298px;
-  }
-
-  .amount-container {
-    width: 298px !important;
+    font-family: Lato, sans-serif;
+    padding: 5px;
+    margin: 5px;
+    margin-top: 0px;
+    text-align: center;
+    border: none;
+    font-size: 14px;
+    color: #555555;
   }
 }
