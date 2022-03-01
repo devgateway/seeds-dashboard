@@ -439,6 +439,28 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
             <div className="crop-name">{intl.formatMessage({id: d.indexValue, defaultMessage: d.indexValue})}</div>
           </>;
         }
+        lineTooltip = (d) => {
+          return (<div className="tooltip-container-line">
+            <div className="header-container">
+              <div className="header">
+                <div className="inner-container">
+                  <div className={d.point.serieId.toLowerCase() + " crop-icon"}/>
+                  <div className="crop-name">{intl.formatMessage({
+                    id: d.point.serieId,
+                    defaultMessage: d.point.serieId
+                  })}</div>
+                </div>
+              </div>
+            </div>
+            <div className="amount-container" style={{width: '200px', textAlign: "left"}}>
+              <span style={{wordWrap: "break-word", maxWidth: '190px'}}>{intl.formatMessage({
+                id: 'tooltip-market-share-top-companies',
+                defaultMessage: 'Market share of top four companies'
+              })}</span>
+              <span className="bold"> {d.point.data.y !== FAKE_NUMBER ? d.point.data.y + '%' : 'MD'}</span>
+            </div>
+          </div>)
+        }
       } else if (type === MARKET_SHARE_STATE_OWNED_SEED_COMPANIES) {
         dataSuffix = '%';
         leftLegend = intl.formatMessage({
@@ -531,7 +553,9 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
       
       // Reprocess data and change to line chart.
       // TODO: move this code to a common function like processByYear().
-      if (type === PRICE_SEED_PLANTING || type === NUMBER_OF_ACTIVE_SEED_COMPANIES_PRODUCERS) {
+      if (type === PRICE_SEED_PLANTING 
+          || type === NUMBER_OF_ACTIVE_SEED_COMPANIES_PRODUCERS 
+          || type === MARKET_SHARE_TOP_FOUR_SEED_COMPANIES) {
         if (years.length > 3) {
           switchToLineChart = true;
           const newProcessedData = [];
