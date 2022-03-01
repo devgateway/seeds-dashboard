@@ -354,6 +354,27 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
           </>;
         }
         leftLegend = intl.formatMessage({id: 'number-of-varieties-sold', defaultMessage: 'Number of varieties sold'});
+        lineTooltip = (d) => {
+          return (<div className="tooltip-container-line">
+            <div className="header-container">
+              <div className="header">
+                <div className="inner-container">
+                  <div className={d.point.serieId.toLowerCase() + " crop-icon"}/>
+                  <div className="crop-name">{intl.formatMessage({
+                    id: d.point.serieId,
+                    defaultMessage: d.point.serieId
+                  })}</div>
+                </div>
+              </div>
+            </div>
+            <div className="amount-container">
+              <span>{intl.formatMessage({id: 'tooltip-number-of-varieties-sold', defaultMessage: 'Number of varieties sold'})}</span>
+              <span className="bold"> {d.point.data.y !== FAKE_NUMBER ? d.point.data.y : 'MD'}  </span><br />
+              <span>{intl.formatMessage({id: 'tooltip-year', defaultMessage: 'Year'})}</span>
+              <span className="bold"> {d.point.data.x}  </span>
+            </div>
+          </div>)
+        }
       } else if (type === AVERAGE_AGE_VARIETIES_SOLD) {
           roundNumbers = true;
         leftLegend = intl.formatMessage({id: 'average-age', defaultMessage: 'Average age (years)'});
@@ -555,7 +576,8 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
       // TODO: move this code to a common function like processByYear().
       if (type === PRICE_SEED_PLANTING 
           || type === NUMBER_OF_ACTIVE_SEED_COMPANIES_PRODUCERS 
-          || type === MARKET_SHARE_TOP_FOUR_SEED_COMPANIES) {
+          || type === MARKET_SHARE_TOP_FOUR_SEED_COMPANIES
+          || type === NUMBER_VARIETIES_SOLD) {
         if (years.length > 3) {
           switchToLineChart = true;
           const newProcessedData = [];
