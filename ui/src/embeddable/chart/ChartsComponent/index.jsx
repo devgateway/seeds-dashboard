@@ -394,6 +394,30 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
             <div className="crop-name">{intl.formatMessage({id: d.indexValue, defaultMessage: d.indexValue})}</div>
           </>;
         }
+        lineTooltip = (d) => {
+          return (<div className="tooltip-container-line">
+            <div className="header-container">
+              <div className="header">
+                <div className="inner-container">
+                  <div className={d.point.serieId.toLowerCase() + " crop-icon"}/>
+                  <div className="crop-name">{intl.formatMessage({
+                    id: d.point.serieId,
+                    defaultMessage: d.point.serieId
+                  })}</div>
+                </div>
+              </div>
+            </div>
+            <div className="amount-container">
+              <span className="normal">{intl.formatMessage({
+                id: 'tooltip-average-age',
+                defaultMessage: 'Average Age'
+              })}</span>
+              <span className="bold"> {d.point.data.y !== FAKE_NUMBER ? d.point.data.y : 'MD'}  </span><br/>
+              <span className="normal">{intl.formatMessage({id: 'tooltip-year', defaultMessage: 'Year'})}</span>
+              <span className="bold"> {d.point.data.x}  </span>
+            </div>
+          </div>)
+        }
       } else if (type === PRICE_SEED_PLANTING) {
         leftLegend = intl.formatMessage({
           id: 'price-usd-by-kg',
@@ -600,7 +624,8 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
           || type === NUMBER_OF_ACTIVE_SEED_COMPANIES_PRODUCERS 
           || type === MARKET_SHARE_TOP_FOUR_SEED_COMPANIES
           || type === NUMBER_VARIETIES_SOLD
-          || type === MARKET_SHARE_STATE_OWNED_SEED_COMPANIES) {
+          || type === MARKET_SHARE_STATE_OWNED_SEED_COMPANIES
+          || type === AVERAGE_AGE_VARIETIES_SOLD) {
         if (years.length > 3) {
           switchToLineChart = true;
           const newProcessedData = [];
