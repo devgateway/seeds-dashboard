@@ -1,26 +1,31 @@
 const useHash = process.env.REACT_APP_USE_HASH_LINKS.toLowerCase() === "true"
 
+const getRegExp = (locale) => {
+    const replacementTarget = process.env.REACT_APP_WP_HOSTS.split(",")
+    let additionalRegExp = '';
+    if (locale !== undefined && locale.length > 0) {
+        additionalRegExp = `/${locale}/`;
+    }
+    return new RegExp("^(http|https)://(" + replacementTarget.join(additionalRegExp + '|') + ")", "ig");
 
+}
 export const replaceLink = (url, locale, isAddTypeToLink) => {
-  const replacementTarget = process.env.REACT_APP_WP_HOSTS.split(",")
-  let all = new RegExp("^(http|https)://(" + replacementTarget.join('|') + ")", "ig");
-  let type = "";
-  if (isAddTypeToLink) {
-    type = "/type";
-  }
-  let finalUrl;
-  if (useHash) {
-    finalUrl = url.replaceAll(all, "#" + locale + type)
-  } else {
-    finalUrl = url.replaceAll(all, "" + locale + type)
-  }
-  return finalUrl;
+    let all = getRegExp(locale);
+    let type = "";
+    if (isAddTypeToLink) {
+        type = "/type";
+    }
+    let finalUrl;
+    if (useHash) {
+        finalUrl = url.replaceAll(all, `#/${locale}/${type}`);
+    } else {
+        finalUrl = url.replaceAll(all, "" + locale + type)
+    }
+    return finalUrl;
 }
 
 export const replaceHTMLinks = (html, locale) => {
-    const replacementTarget = process.env.REACT_APP_WP_HOSTS.split(",")
-    let all = new RegExp("^(http|https)://(" + replacementTarget.join('|') + ")", "ig");
-
+    let all = getRegExp(locale);
     let link;
     let regex = /href\s*=\s*(['"])(https?:\/\/.+?)\1/ig;
 
@@ -29,7 +34,7 @@ export const replaceHTMLinks = (html, locale) => {
         let href = link[2]
         let newLink
         if (useHash) {
-            newLink = href.replace(all, '#' + locale) //TODO:fix it!
+            newLink = href.replace(all, `#/${locale}/`) //TODO:fix it!
         } else {
             newLink = href.replace(all, '' + locale) //TODO:fix it!
         }
@@ -48,4 +53,4 @@ export const replaceHTMLinks = (html, locale) => {
 }
 
 
-export default {replaceHTMLinks, replaceLink}
+export default { replaceHTMLinks, replaceLink }
