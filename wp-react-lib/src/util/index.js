@@ -6,7 +6,7 @@ const getRegExp = (locale) => {
     if (locale !== undefined && locale.length > 0) {
         additionalRegExp = `/${locale}/`;
     }
-    return new RegExp("^(http|https)://(" + replacementTarget.join(additionalRegExp + '|') + ")", "ig");
+    return new RegExp(`^(http|https)://(${replacementTarget.join(additionalRegExp + '|')}${additionalRegExp})`, "ig");
 
 }
 export const replaceLink = (url, locale, isAddTypeToLink) => {
