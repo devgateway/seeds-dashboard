@@ -572,6 +572,29 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
             })} {d.id}</div>
           </>;
         }
+        lineTooltip = (d) => {
+          return (<div className="tooltip-container-line">
+            <div className="header-container">
+              <div className="header">
+                <div className="inner-container">
+                  <div className={d.point.serieId.toLowerCase() + " crop-icon"}/>
+                  <div className="crop-name">{intl.formatMessage({
+                    id: d.point.serieId,
+                    defaultMessage: d.point.serieId
+                  })}</div>
+                </div>
+              </div>
+            </div>
+            <div className="amount-container" style={{width: '200px', textAlign: "left"}}>
+              <span className="normal">{intl.formatMessage({
+                id: 'tooltip-quantity-certified-seed-sold',
+                defaultMessage: 'Quantity of certified seed sold'
+              })}</span>
+              <span className="bold"> {d.point.data.y !== FAKE_NUMBER ? d.point.data.y : 'MD'}</span>
+              <span className="normal"> metric tons</span>
+            </div>
+          </div>)
+        }
       } else {
         leftLegend = intl.formatMessage({
           id: 'number-company-producers',
@@ -625,7 +648,8 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
           || type === MARKET_SHARE_TOP_FOUR_SEED_COMPANIES
           || type === NUMBER_VARIETIES_SOLD
           || type === MARKET_SHARE_STATE_OWNED_SEED_COMPANIES
-          || type === AVERAGE_AGE_VARIETIES_SOLD) {
+          || type === AVERAGE_AGE_VARIETIES_SOLD
+          || type === QUANTITY_CERTIFIED_SEED_SOLD) {
         if (years.length > 3) {
           switchToLineChart = true;
           const newProcessedData = [];
