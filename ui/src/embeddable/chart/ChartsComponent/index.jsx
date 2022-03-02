@@ -632,10 +632,17 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
           processedData.forEach((i, index) => {
             const item = {id: i.crop, color: getColor({id: i.crop}), data: []};
             Object.keys(processedData[index]).filter(k => k !== indexBy).forEach(j => {
-              item.data.push({
-                x: j,
-                y: processedData[index][j]
-              });
+              if (processedData[index][j] !== FAKE_NUMBER) {
+                item.data.push({
+                  x: j,
+                  y: processedData[index][j]
+                });
+              } else {
+                item.data.push({
+                  x: j,
+                  y: null
+                });
+              }
             });
             newProcessedData.push(item);
           });
