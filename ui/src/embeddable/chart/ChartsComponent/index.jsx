@@ -368,9 +368,9 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
               </div>
             </div>
             <div className="amount-container">
-              <span>{intl.formatMessage({id: 'tooltip-number-of-varieties-sold', defaultMessage: 'Number of varieties sold'})}</span>
+              <span className="normal">{intl.formatMessage({id: 'tooltip-number-of-varieties-sold', defaultMessage: 'Number of varieties sold'})}</span>
               <span className="bold"> {d.point.data.y !== FAKE_NUMBER ? d.point.data.y : 'MD'}  </span><br />
-              <span>{intl.formatMessage({id: 'tooltip-year', defaultMessage: 'Year'})}</span>
+              <span className="normal">{intl.formatMessage({id: 'tooltip-year', defaultMessage: 'Year'})}</span>
               <span className="bold"> {d.point.data.x}  </span>
             </div>
           </div>)
@@ -432,7 +432,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
             </div>
             <div className="amount-container">
               <span className="bold">{d.point.data.y !== FAKE_NUMBER ? d.point.data.y : 'MD'} </span>
-              <span>{intl.formatMessage({
+              <span className="normal">{intl.formatMessage({
                 id: 'tooltip-price-usd-by-kg',
                 defaultMessage: '(usd/kg) of variety and year'
               })}</span>
@@ -474,7 +474,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
               </div>
             </div>
             <div className="amount-container" style={{width: '200px', textAlign: "left"}}>
-              <span style={{wordWrap: "break-word", maxWidth: '190px'}}>{intl.formatMessage({
+              <span className="normal" style={{wordWrap: "break-word", maxWidth: '190px'}}>{intl.formatMessage({
                 id: 'tooltip-market-share-top-companies',
                 defaultMessage: 'Market share of top four companies'
               })}</span>
@@ -517,7 +517,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
               </div>
             </div>
             <div className="amount-container" style={{width: '200px', textAlign: "left"}}>
-              <span>{intl.formatMessage({
+              <span className="normal">{intl.formatMessage({
                 id: 'tooltip-market-share-state-owned',
                 defaultMessage: 'Market share of state owned companies'
               })}</span>
@@ -584,7 +584,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
             </div>
             <div className="amount-container">
               <span className="bold"> {d.point.data.y !== FAKE_NUMBER ? d.point.data.y : 'MD'} </span>
-              <span>seed companies / producers </span>
+              <span className="normal">seed companies / producers </span>
             </div>
           </div>)
         }
