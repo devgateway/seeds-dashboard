@@ -2,22 +2,18 @@ const useHash = process.env.REACT_APP_USE_HASH_LINKS.toLowerCase() === "true"
 
 const getRegExp = (locale) => {
     const replacementTarget = process.env.REACT_APP_WP_HOSTS.split(",")
-    let additionalRegExp = '';
-    if (locale !== undefined && locale.length > 0) {
-        additionalRegExp = `/${locale}/`;
-    }
-    return new RegExp(`^(http|https)://(${replacementTarget.join(additionalRegExp + '|')}${additionalRegExp})`, "ig");
+    return new RegExp(`^(http|https)://(${replacementTarget.join('|')})`, "ig");
 
 }
 export const replaceLink = (url, locale, isAddTypeToLink) => {
     let all = getRegExp(locale);
     let type = "";
     if (isAddTypeToLink) {
-        type = "/type";
+        type = "type/";
     }
     let finalUrl;
     if (useHash) {
-        finalUrl = url.replaceAll(all, `#/${locale}/${type}`);
+        finalUrl = url.replaceAll(all, `/#/${locale}${type}`);
     } else {
         finalUrl = url.replaceAll(all, "" + locale + type)
     }
