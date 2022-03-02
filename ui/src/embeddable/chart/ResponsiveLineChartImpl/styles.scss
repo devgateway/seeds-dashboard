@@ -135,5 +135,9 @@ $border_gray: rgba(229, 229, 229, 1);
     border: none;
     font-size: 14px;
     color: #555555;
+
+    .normal {
+      font-weight: normal;
+    }
   }
 }

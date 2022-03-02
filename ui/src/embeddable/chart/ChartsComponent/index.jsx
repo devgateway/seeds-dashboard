@@ -368,9 +368,9 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
               </div>
             </div>
             <div className="amount-container">
-              <span>{intl.formatMessage({id: 'tooltip-number-of-varieties-sold', defaultMessage: 'Number of varieties sold'})}</span>
+              <span className="normal">{intl.formatMessage({id: 'tooltip-number-of-varieties-sold', defaultMessage: 'Number of varieties sold'})}</span>
               <span className="bold"> {d.point.data.y !== FAKE_NUMBER ? d.point.data.y : 'MD'}  </span><br />
-              <span>{intl.formatMessage({id: 'tooltip-year', defaultMessage: 'Year'})}</span>
+              <span className="normal">{intl.formatMessage({id: 'tooltip-year', defaultMessage: 'Year'})}</span>
               <span className="bold"> {d.point.data.x}  </span>
             </div>
           </div>)
@@ -393,6 +393,30 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
             <div className={d.indexValue.toLowerCase() + " crop-icon"}/>
             <div className="crop-name">{intl.formatMessage({id: d.indexValue, defaultMessage: d.indexValue})}</div>
           </>;
+        }
+        lineTooltip = (d) => {
+          return (<div className="tooltip-container-line">
+            <div className="header-container">
+              <div className="header">
+                <div className="inner-container">
+                  <div className={d.point.serieId.toLowerCase() + " crop-icon"}/>
+                  <div className="crop-name">{intl.formatMessage({
+                    id: d.point.serieId,
+                    defaultMessage: d.point.serieId
+                  })}</div>
+                </div>
+              </div>
+            </div>
+            <div className="amount-container">
+              <span className="normal">{intl.formatMessage({
+                id: 'tooltip-average-age',
+                defaultMessage: 'Average Age'
+              })}</span>
+              <span className="bold"> {d.point.data.y !== FAKE_NUMBER ? d.point.data.y : 'MD'}  </span><br/>
+              <span className="normal">{intl.formatMessage({id: 'tooltip-year', defaultMessage: 'Year'})}</span>
+              <span className="bold"> {d.point.data.x}  </span>
+            </div>
+          </div>)
         }
       } else if (type === PRICE_SEED_PLANTING) {
         leftLegend = intl.formatMessage({
@@ -432,7 +456,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
             </div>
             <div className="amount-container">
               <span className="bold">{d.point.data.y !== FAKE_NUMBER ? d.point.data.y : 'MD'} </span>
-              <span>{intl.formatMessage({
+              <span className="normal">{intl.formatMessage({
                 id: 'tooltip-price-usd-by-kg',
                 defaultMessage: '(usd/kg) of variety and year'
               })}</span>
@@ -474,7 +498,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
               </div>
             </div>
             <div className="amount-container" style={{width: '200px', textAlign: "left"}}>
-              <span style={{wordWrap: "break-word", maxWidth: '190px'}}>{intl.formatMessage({
+              <span className="normal" style={{wordWrap: "break-word", maxWidth: '190px'}}>{intl.formatMessage({
                 id: 'tooltip-market-share-top-companies',
                 defaultMessage: 'Market share of top four companies'
               })}</span>
@@ -517,7 +541,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
               </div>
             </div>
             <div className="amount-container" style={{width: '200px', textAlign: "left"}}>
-              <span>{intl.formatMessage({
+              <span className="normal">{intl.formatMessage({
                 id: 'tooltip-market-share-state-owned',
                 defaultMessage: 'Market share of state owned companies'
               })}</span>
@@ -584,7 +608,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
             </div>
             <div className="amount-container">
               <span className="bold"> {d.point.data.y !== FAKE_NUMBER ? d.point.data.y : 'MD'} </span>
-              <span>seed companies / producers </span>
+              <span className="normal">seed companies / producers </span>
             </div>
           </div>)
         }
@@ -600,17 +624,25 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
           || type === NUMBER_OF_ACTIVE_SEED_COMPANIES_PRODUCERS 
           || type === MARKET_SHARE_TOP_FOUR_SEED_COMPANIES
           || type === NUMBER_VARIETIES_SOLD
-          || type === MARKET_SHARE_STATE_OWNED_SEED_COMPANIES) {
+          || type === MARKET_SHARE_STATE_OWNED_SEED_COMPANIES
+          || type === AVERAGE_AGE_VARIETIES_SOLD) {
         if (years.length > 3) {
           switchToLineChart = true;
           const newProcessedData = [];
           processedData.forEach((i, index) => {
             const item = {id: i.crop, color: getColor({id: i.crop}), data: []};
             Object.keys(processedData[index]).filter(k => k !== indexBy).forEach(j => {
-              item.data.push({
-                x: j,
-                y: processedData[index][j]
-              });
+              if (processedData[index][j] !== FAKE_NUMBER) {
+                item.data.push({
+                  x: j,
+                  y: processedData[index][j]
+                });
+              } else {
+                item.data.push({
+                  x: j,
+                  y: null
+                });
+              }
             });
             newProcessedData.push(item);
           });
