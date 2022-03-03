@@ -129,9 +129,7 @@ const DataSummaryBody = ({
                     return <Grid className={`${index % 2 === 0 ? EVEN : ODD}`} key={f.id}>
                         <Grid.Column width={10}
                                      className="crop-title " data-indicator-key={f.key}>
-                            {(f.type === SUB_INDICATOR || f.isTotal) &&
-                                <Tooltip item={f} tiny />
-                            }
+                            <Tooltip item={f} tiny/>
                             {f.name}
                         </Grid.Column>
                         <Grid.Column width={6}
