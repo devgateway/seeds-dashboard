@@ -8,8 +8,6 @@ import { COUNTRIES_FILTER, COUNTRY_SETTINGS, SELECTED_COUNTRY } from "../reducer
 import CountryFilter from "./CountryFilter";
 import CountrySelector from "./countrySelector/CountrySelector";
 
-const ISO_DEFAULT_COUNTRY = 'KE';
-
 const Filter = ({
                     onApply, countries, onLoadCountries, country_settings, filters,
                     "data-type": dataType,
@@ -34,7 +32,7 @@ const Filter = ({
         const pNavigationCountry = country_settings ? country_settings.country : undefined;
         let firstSelectedCountry = undefined;
         if (countries) {
-            const defaultCountry = countries.find(c => c.isoCode === ISO_DEFAULT_COUNTRY);
+            const defaultCountry = countries.find(c => c.isoCode === process.env.REACT_APP_DEFAULT_COUNTRY);
             if (defaultCountry) {
                 firstSelectedCountry = defaultCountry.countryId;
             } else {
