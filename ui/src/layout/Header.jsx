@@ -163,7 +163,7 @@ const Header = ({ intl: { locale }, match, firstChildLink }) => {
                            onSetSelected={setSelected} addClass addSeparator />
             </MenuConsumer>
           }
-          {selected && selected.child_items &&
+          {!isCustom && selected && selected.child_items &&
             <MyMenuItems active={slug} locale={locale} onSetSelected={e => null}
                          addSeparator addClass menu={{ items: selected.child_items }}>}</MyMenuItems>
           }
