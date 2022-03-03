@@ -32,7 +32,17 @@ const CountrySelector = ({
   }
   const generateCountries = () => {
     return countries && countries.filter(c => {
-      return searchKeyword ? c.country.toLowerCase().includes(searchKeyword.toLowerCase()) : true
+      if (searchKeyword) {
+        let ret = true;
+        const searchArray = searchKeyword.toLowerCase().trim().split(' ').filter(i => i !== '');
+        searchArray.forEach(i => {
+          if (!c.country.toLowerCase().includes(i) && !c.year.toString().includes(i)) {
+            ret = false;
+          }
+        });
+        return ret;
+      }
+      return true;
     }).map(c => {
       const checked = filters && c.countryId === filters.get(SELECTED_COUNTRY);
       return <Grid.Column key={c.countryId}><Form.Radio
