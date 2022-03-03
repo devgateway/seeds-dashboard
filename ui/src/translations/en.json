@@ -9,7 +9,7 @@
   "tooltip-B7.3": "Level of satisfaction with the import process, as reported by seed importing companies. We also track the opinion of government agencies involved in seed importation that are not registered as seed companies.",
   "tooltip-B7.7": "Level of satisfaction with the export process, as reported by seed exporting companies.",
   "tooltip-B7.1": "Efficiency of import/export processes as measured by length of process, import/export volumes, tariffs, and company satisfaction. ",
-  "tooltip-B7.5": "Length of import process in days. Includes number of days spent to obtain import documentation (import permit, phyto-sanitary certificates and international orange certificate, if applicable), and number of days to clear seed at border.  \nExcludes transportation time.",
+  "tooltip-B7.5": "Length of export process in days. Includes no. of days to obtain export documentation and no. of days to clear seed at the border.\nExcludes transportation time.",
   "tooltip-C1.3": "Level of satisfaction with variety release process, as reported by seed companies/breeders. \nTracks opinion about (i) length, (ii) cost, and (iii) clarity of process.",
   "tooltip-C1.1": "Length (in months) of variety release process, measured from date a variety is submitted for testing in National Performance Trials (NPTs) to when it is approved for release by the Variety Release Committee (VRC). \nNote: Question pertains to varieties released in last 3 years, not just data collection year.",
   "tooltip-C2.3": "Level of satisfaction with enforcement of the Seed Law and Regulations, as reported by seed companies.",
