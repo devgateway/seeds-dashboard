@@ -1210,14 +1210,14 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
         </Grid.Column> : null}
       </Grid.Row> : null}
       {!noData && useCropLegendsRow ? <Grid.Row className={`crops-with-icons`}>
-        <Grid.Column width={9}>
+        <Grid.Column width={10}>
           {legend === 'crops' &&
           <CropsLegend data={selectedCrops} title="Crops" titleClass="crops-title" addLighterDiv={addLighterDiv}
                        intl={intl}/>}
           {legend && legend.toLowerCase() === 'year' && <YearLegend colors={yearsColors} years={selectedYear}/>}
           {legend && legend === genericLegend && <GenericLegend colors={colors} keys={keys} title={legendTitle}/>}
         </Grid.Column>
-        <Grid.Column width={7}>
+        <Grid.Column width={6}>
           {withCropsWithSpecialFeatures && <CropsWithSpecialFeatures/>}
         </Grid.Column>
       </Grid.Row> : null}
