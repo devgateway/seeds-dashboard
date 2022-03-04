@@ -1,12 +1,14 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import './styles.scss';
 import {Accordion, Form, Menu} from "semantic-ui-react";
 
 const YearsFilter = ({data, onChange, maxSelectable, defaultSelected, showMaxYearsMessage = false}) => {
 
-    const [activeIndex, setActiveIndex] = useState([0]);
+    const [isOpen, setIsOpen] = useState(false);
     const [selectedYear, setSelectedYear] = useState(null);
     const [currentData, setCurrentData] = useState(null);
+
+    const ref = useRef(null);
 
     if (data !== currentData) {
         setCurrentData(data);
@@ -19,13 +21,28 @@ const YearsFilter = ({data, onChange, maxSelectable, defaultSelected, showMaxYea
                 setSelectedYear(data[data.length - 1]);
             }
         }
-        setActiveIndex([0]);
+        setIsOpen(false);
     }
 
     const handleClick = (e, titleProps) => {
-        const {index} = titleProps
-        setActiveIndex(activeIndex === index ? -1 : index);
+        setIsOpen(!isOpen);
     }
+
+    const onClickOutside = () => {
+        setIsOpen(false);
+    }
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (ref.current && !ref.current.contains(event.target)) {
+                onClickOutside && onClickOutside();
+            }
+        };
+        document.addEventListener('mouseout', handleClickOutside, true);
+        return () => {
+            document.removeEventListener('mouseout', handleClickOutside, true);
+        };
+    }, [onClickOutside]);
 
     const handleChange = (e, props) => {
         if (maxSelectable === 1) {
@@ -78,18 +95,20 @@ const YearsFilter = ({data, onChange, maxSelectable, defaultSelected, showMaxYea
     const title = (<div><span className="filter-selector-title">Year </span><span
         className="filter-selector-numbers">{selectedYear ? selectedYear.length : 0} of {data.length}</span></div>);
     return (
-        <Accordion as={Menu} vertical>
-            <Menu.Item>
-                <Accordion.Title
-                    active={activeIndex === 0}
-                    content={title}
-                    icon="angle right"
-                    index={0}
-                    onClick={handleClick}
-                />
-                <Accordion.Content className="ignore" active={activeIndex === 0} content={generateContent()}/>
-            </Menu.Item>
-        </Accordion>
+        <div ref={ref}>
+            <Accordion as={Menu} vertical>
+                <Menu.Item>
+                    <Accordion.Title
+                        active={isOpen}
+                        content={title}
+                        icon="angle right"
+                        index={1}
+                        onClick={handleClick}
+                    />
+                    <Accordion.Content className="ignore" active={isOpen} content={generateContent()}/>
+                </Menu.Item>
+            </Accordion>
+        </div>
     )
 }
 
