@@ -153,5 +153,6 @@
   "pigeon-pea": "Pigeon pea",
   "opv": "Maize: OPV",
   "hybrid": "Maize: hybrid",
-  "no-data": "No Data Available"
+  "no-data": "No Data Available",
+  "select-country": "Sélectionnez un autre pays"
 }

@@ -1,6 +1,7 @@
 import { Accordion, Form, Grid, Icon, Input, Menu } from "semantic-ui-react";
 import React, { useState } from "react";
 import { SELECTED_COUNTRY } from "../../reducers/StoreConstants";
+import { injectIntl } from "react-intl";
 
 const CountrySelector = ({
                            countries,
@@ -9,7 +10,8 @@ const CountrySelector = ({
                            selectedCountryFirst,
                            addYear,
                            selectedCountryLabel,
-                           countryColumns
+                           countryColumns,
+                           intl
                          }) => {
   const [activeIndex, setActiveIndex] = useState([0]);
   const [searchKeyword, setSearchKeyword] = useState(undefined);
@@ -82,7 +84,7 @@ const CountrySelector = ({
         <Menu.Item>
           <Accordion.Title
             active={activeIndex === 0}
-            content='Select a country'
+            content='Select another country'
             icon="angle right"
             index={0}
             onClick={handleClick}
