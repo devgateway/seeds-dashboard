@@ -13,24 +13,24 @@ import CropsWithSpecialFeatures from "../common/cropWithSpecialFeatures";
 import Source from "../common/source";
 import {baseColors, getColor} from "../Countryinfo/CountryInfoChart";
 import {
-  AVERAGE_AGE_VARIETIES_SOLD,
-  MARKET_CONCENTRATION_HHI,
-  PERFORMANCE_SEED_TRADERS,
-  NUMBER_OF_ACTIVE_BREEDERS,
-  NUMBER_OF_ACTIVE_SEED_COMPANIES_PRODUCERS,
-  VARIETIES_RELEASED_WITH_SPECIAL_FEATURES,
-  NUMBER_VARIETIES_SOLD,
-  EFFICIENCY_SEED_IMPORT_PROCESS,
-  EFFICIENCY_SEED_EXPORT_PROCESS,
-  NUMBER_SEED_INSPECTORS,
-  MARKET_SHARE_TOP_FOUR_SEED_COMPANIES,
-  MARKET_SHARE_STATE_OWNED_SEED_COMPANIES,
-  QUANTITY_CERTIFIED_SEED_SOLD,
-  VARIETY_RELEASE_PROCESS,
-  PRICE_SEED_PLANTING,
-  AVAILABILITY_SEED_SMALL_PACKAGES,
-  AGRODEALER_NETWORK,
-  AGRICULTURAL_EXTENSION_SERVICES, NUMBER_SEED_INSPECTORS_BY_COUNTRY
+    AVERAGE_AGE_VARIETIES_SOLD,
+    MARKET_CONCENTRATION_HHI,
+    PERFORMANCE_SEED_TRADERS,
+    NUMBER_OF_ACTIVE_BREEDERS,
+    NUMBER_OF_ACTIVE_SEED_COMPANIES_PRODUCERS,
+    VARIETIES_RELEASED_WITH_SPECIAL_FEATURES,
+    NUMBER_VARIETIES_SOLD,
+    EFFICIENCY_SEED_IMPORT_PROCESS,
+    EFFICIENCY_SEED_EXPORT_PROCESS,
+    NUMBER_SEED_INSPECTORS,
+    MARKET_SHARE_TOP_FOUR_SEED_COMPANIES,
+    MARKET_SHARE_STATE_OWNED_SEED_COMPANIES,
+    QUANTITY_CERTIFIED_SEED_SOLD,
+    VARIETY_RELEASE_PROCESS,
+    PRICE_SEED_PLANTING,
+    AVAILABILITY_SEED_SMALL_PACKAGES,
+    AGRODEALER_NETWORK,
+    AGRICULTURAL_EXTENSION_SERVICES, NUMBER_SEED_INSPECTORS_BY_COUNTRY, NUMBER_OF_VARIETIES_RELEASED
 } from "../../reducers/StoreConstants";
 import YearLegend from "../common/year";
 import MarketConcentrationHHI from "../MarketConcentrationHHI";
@@ -138,6 +138,35 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
   }
   const handleYearFilterChange = (selected) => {
     setSelectedYear(selected);
+  }
+
+  const processNumberVarietiesSold = () => {
+    debugger
+    const yearsInValues = Object.keys(data.values).sort();
+    crops.forEach(c => {
+      const header = {
+        id: c,
+        data: [],
+        color: getColor({ id: c.toLowerCase() })
+      };
+      yearsInValues.forEach(y => {
+        if (data.values[y]) {
+          header.data.push({
+            x: y,
+            y: data.values[y][c]
+          });
+          if (max < data.values[y][c]) {
+            max = data.values[y][c];
+          }
+        } else {
+          header.data.push({
+            x: y,
+            y: null
+          });
+        }
+      });
+      processedData.push(header);
+    });
   }
   const numberOfActiveBreeders = () => {
 
@@ -1097,10 +1126,82 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
       ];
       extraTooltipClass = 'AGRICULTURAL_EXTENSION_SERVICES';
       break;
+    case NUMBER_OF_VARIETIES_RELEASED: {
+      withCropsWithSpecialFeatures = false;
+      useFilterByYear = false;
+      addLighterDiv = false;
+      bottomLegend = intl.formatMessage({ id: 'years-legend', defaultMessage: 'Year' });
+      leftLegend = intl.formatMessage({
+        id: 'number-of-varieties-released',
+        defaultMessage: 'Number of varieties released'
+      });
+      lineTooltip = (d) => {
+        return (<div className="tooltip-container-var-release">
+          <div className="header-container">
+            <div className="header">
+              <div className="inner-container">
+                <div className={d.point.serieId.toLowerCase() + " crop-icon"} />
+                <div className="crop-name">{intl.formatMessage({
+                  id: d.point.serieId,
+                  defaultMessage: d.point.serieId
+                })}</div>
+              </div>
+              <div className="table">
+                <label style={{ float: 'left' }} className="year">Year</label>
+                <label style={{ float: 'right' }} className="vr">Avg # of
+                  varieties</label>
+              </div>
+            </div>
+          </div>
+          <div className="amount-container">
+            <table width="100%">
+              <tr>
+                <td className="year">{d.point.data.x}</td>
+                <td style={{ fontWeight: 'bold' }}>{d.point.data.y}</td>
+              </tr>
+            </table>
+          </div>
+        </div>)
+      }
+      processNumberVarietiesSold();
+      break;
+    }
   }
 
   const insertChart = () => {
     switch (type) {
+        case NUMBER_OF_VARIETIES_RELEASED:
+            return <Grid.Row className={`chart-section`}>
+                <Grid.Column width={16}><ResponsiveLineChartImpl
+                    sources={sources}
+                    data={data}
+                    noData={noData}
+                    crops={crops}
+                    selectedYear={selectedYear}
+                    colors={colors}
+                    max={max * 1.1}
+                    keys={keys}
+                    processedData={processedData}
+                    indexBy={indexBy}
+                    layout={layout}
+                    groupMode={groupMode}
+                    leftLegend={leftLegend}
+                    bottomLegend={bottomLegend}
+                    enableGridX={enableGridX}
+                    enableGridY={enableGridY}
+                    getTooltipText={getTooltipText}
+                    getTooltipHeader={getTooltipHeader}
+                    customTickWithCropsBottom={customTickWithCropsBottom}
+                    customTickWithCropsLeft={customTickWithCropsLeft}
+                    dataSuffix={dataSuffix}
+                    showTotalLabel={showTotalLabel}
+                    containerHeight={containerHeight || 450}
+                    showTotalMD={showTotalMD}
+                    margins={margins}
+                    intl={intl}
+                    tooltip={lineTooltip}
+                /></Grid.Column></Grid.Row>
+        break;
       case MARKET_CONCENTRATION_HHI:
         return <MarketConcentrationHHI data={data} selectedYear={selectedYear} bottomLegend={bottomLegend} intl={intl}/>
       case NUMBER_SEED_INSPECTORS:

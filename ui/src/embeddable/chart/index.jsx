@@ -1,15 +1,13 @@
-import React, {useEffect, useRef, useState} from "react";
-import {Button, Container, Grid, Icon, Segment} from "semantic-ui-react";
+import React, { useEffect, useRef, useState } from "react";
+import { Button, Container, Grid, Icon, Segment } from "semantic-ui-react";
 import DataProvider from "../data/DataProvider";
-import {connect} from "react-redux";
-import {toBlob} from 'html-to-image';
-import {saveAs} from 'file-saver';
+import { connect } from "react-redux";
+import { toBlob } from 'html-to-image';
+import { saveAs } from 'file-saver';
 import DataConsumer from "../data/DataConsumer";
-import {buildDivergingOptions, buildPieOptions} from './prevalenceBuilder'
+import { buildDivergingOptions, buildPieOptions } from './prevalenceBuilder'
 
-import HalfPie from "./HalfPie";
-
-import {PostContent} from "@devgateway/wp-react-lib";
+import { PostContent } from "@devgateway/wp-react-lib";
 
 import CountryInfo from "./Countryinfo";
 import {
@@ -37,27 +35,24 @@ import {
     AGRODEALER_NETWORK,
     AGRICULTURAL_EXTENSION_SERVICES,
     DATA,
-    WP_DOCUMENTS,
-    DATA_CATEGORY,
     WP_CATEGORIES,
     COUNTRIES_FILTER,
     SOURCE_CATEGORIES, SELECTED_COUNTRY, NUMBER_SEED_INSPECTORS_BY_COUNTRY
 } from "../reducers/StoreConstants";
-import NumberOfVarietiesReleased from "./NumberOfVarietiesReleased";
 import GaugesChart from "./GaugesChart";
-import {getDocuments, getWpCategories, setFilter} from "../reducers/data";
+import { getWpCategories, setFilter } from "../reducers/data";
 import ChartComponent from "./ChartsComponent";
 
 const Diverging = (props) => {
-    const {data, legends, colors, height} = props
+    const { data, legends, colors, height } = props
     const options = buildDivergingOptions(data, true)
     return <Diverging height={height} legends={legends} colors={colors} options={options}
-                      format={{style: "percent", currency: "EUR"}}/>
+                      format={{ style: "percent", currency: "EUR" }} />
 }
 
 
 const Chart = (props) => {
-    const {filters} = props
+    const { filters } = props
     const {
         parent,
         editing = false,
@@ -114,7 +109,7 @@ const Chart = (props) => {
 
     function filter(node) {
         if (node.classList) {
-            return !node.classList.contains("ignore") && !node.classList.contains("angle") 
+            return !node.classList.contains("ignore") && !node.classList.contains("angle")
         }
         return true;
     }
@@ -159,7 +154,7 @@ const Chart = (props) => {
             });
     }
 
-    const numberFormat = {style, minimumFractionDigits: parseInt(decimals), maximumFractionDigits: parseInt(decimals)}
+    const numberFormat = { style, minimumFractionDigits: parseInt(decimals), maximumFractionDigits: parseInt(decimals) }
     if (currency !== "") {
         numberFormat["currency"] = currency
     }
@@ -238,8 +233,6 @@ const Chart = (props) => {
     const dual = (dualMode === 'true')
     switch (type) {
         case NUMBER_OF_VARIETIES_RELEASED:
-            child = <NumberOfVarietiesReleased sources={dynamicSources} {...chartProps} type={type}/>;
-            break;
         case VARIETIES_RELEASED_WITH_SPECIAL_FEATURES:
         case NUMBER_OF_ACTIVE_BREEDERS:
         case NUMBER_OF_ACTIVE_SEED_COMPANIES_PRODUCERS:
@@ -259,25 +252,25 @@ const Chart = (props) => {
         case AGRICULTURAL_EXTENSION_SERVICES:
         case NUMBER_SEED_INSPECTORS_BY_COUNTRY:
         case AVERAGE_AGE_VARIETIES_SOLD: {
-            const chartComponent = {type, ...chartProps}
-            child = <ChartComponent {...chartComponent} sources={dynamicSources}/>
+            const chartComponent = { type, ...chartProps }
+            child = <ChartComponent {...chartComponent} sources={dynamicSources} />
             break;
         }
         case COUNTRY_INFO:
-            child = <CountryInfo/>
+            child = <CountryInfo />
             break;
         case AVAILABILITY_OF_BASIC_SEED:
         case SATISFACTION_ENFORCEMENT_SEED_LAW:
             child = <GaugesChart mostRecentYears={mostRecentYears} sources={dynamicSources} {...chartProps} type={type}
-                                 title={title} subTitle={subTitle} tooltip={() => (null)}/>;
+                                 title={title} subTitle={subTitle} tooltip={() => (null)} />;
             break;
     }
-    
+
     // This is necessary charts that become very long in small resolutions like HHI.
-    const styleHeight = window.innerWidth <= 1024 ? {} : {height: contentHeight + 'px'};
-    
+    const styleHeight = window.innerWidth <= 1024 ? {} : { height: contentHeight + 'px' };
+
     return (<div>
-            <Container className={"chart container"} style={{"minHeight": height + 'px'}} fluid={true}>
+            <Container className={"chart container"} style={{ "minHeight": height + 'px' }} fluid={true}>
                 <DataProvider params={JSON.parse(decodeURIComponent(params))}
                               app={type}
                               source={chartDataSource}
@@ -295,22 +288,22 @@ const Chart = (props) => {
                 </DataProvider>
 
                 {dual && childContent && mode === 'info' &&
-                <Container fluid={true} style={{"height": contentHeight + 'px'}} className={"body"}>
-                    <PostContent post={{content: {rendered: childContent}}}/>
-                </Container>}
+                    <Container fluid={true} style={{ "height": contentHeight + 'px' }} className={"body"}>
+                        <PostContent post={{ content: { rendered: childContent } }} />
+                    </Container>}
 
                 {(!editing && showDataSource) && <Grid columns={2} className={"footnote"}>
 
                     <Grid.Column>
                         {dual &&
-                        <p className={"ignore"}>
-                            <Button className={(mode === 'info') ? "active" : ""}
-                                    onClick={e => setMode('info')}>{toggleInfoLabel}</Button>
-                            |
-                            <Button className={(mode === 'chart') ? "active" : ""}
-                                    onClick={e => setMode('chart')}>{toggleChartLabel}
-                            </Button>
-                        </p>
+                            <p className={"ignore"}>
+                                <Button className={(mode === 'info') ? "active" : ""}
+                                        onClick={e => setMode('info')}>{toggleInfoLabel}</Button>
+                                |
+                                <Button className={(mode === 'chart') ? "active" : ""}
+                                        onClick={e => setMode('chart')}>{toggleChartLabel}
+                                </Button>
+                            </p>
                         }
                     </Grid.Column>
 
