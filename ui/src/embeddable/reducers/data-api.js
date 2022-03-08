@@ -61,6 +61,7 @@ const AVAILABILITY_SEED_SMALL_PACKAGES_API = `${SURVEY_API}/chart/availabilitySe
 const AGRODEALER_NETWORK_API = `${SURVEY_API}/chart/agrodealerNetwork/year/`;
 const AGRICULTURAL_EXTENSION_SERVICES_API = `${SURVEY_API}/chart/agriculturalExtensionServices/year/`;
 const NUMBER_SEED_INSPECTORS_BY_COUNTRY_API = `${SURVEY_API}/chart/cc/numberSeedInspectors/`;
+const CROPS_BY_COUNTRY_YEAR_API = `${SURVEY_API}/filter/countryCrops/`;
 
 const APIS = {
   prevalence: '',
@@ -175,5 +176,16 @@ export const loadCountrySettings = () => {
 export const getDocumentsData = (params) => {
   let documentsApi = WP_DOCUMENTS_API + (params ? '?' + queryParams(params) : '')
   return get(documentsApi, params)
+}
+
+export const getCropsData = (country, year) => {
+    let api = CROPS_BY_COUNTRY_YEAR_API;
+    // TODO: re-enable filter by country+year after making the EP ignore cases.  
+    /* if (country && year) {
+      api += country + '/' + year;
+    } */
+    return get(api, null).then(data => {
+        return data.find(i => i.country.toLowerCase() === country.toLowerCase() && i.year === year);
+    });
 }
 

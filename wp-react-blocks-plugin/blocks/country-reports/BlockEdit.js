@@ -71,7 +71,7 @@ class BlockEdit extends BaseBlockEdit {
 
     getImages = (image) => {
         const list = [];
-        list.push({label: '', value: -1});
+        list.push({label: '', value: ''});
         return (<SelectControl
             label={__('Images')}
             value={image}
@@ -82,11 +82,10 @@ class BlockEdit extends BaseBlockEdit {
     }
 
     getCategoryValues = (category, title, val, key) => {
-        console.log(val);
         const {setAttributes} = this.props;
         const {categories} = this.state;
         let list = [];
-        list.push({label: '', value: -1});
+        list.push({label: '', value: ''});
         if (categories) {
             const parent = categories.find(i => i.slug === category);
             categories.filter(i => i.parent === parent.id)
@@ -101,7 +100,6 @@ class BlockEdit extends BaseBlockEdit {
             label={__(title)}
             value={val} // e.g: value = [ 'a', 'c' ]
             onChange={(value) => {
-                console.log(value);
                 setAttributes({[key]: value})
             }}
             options={list}

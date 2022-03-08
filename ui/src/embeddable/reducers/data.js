@@ -6,7 +6,7 @@ import {
   COUNTRIES_FILTER,
   COUNTRY_SETTINGS,
   SUMMARY_INDICATORS,
-  SUMMARY_INDICATORS_INFORMATION, WP_CATEGORIES, WP_DOCUMENTS, WP_IMAGES
+  SUMMARY_INDICATORS_INFORMATION, WP_CATEGORIES, WP_DOCUMENTS, WP_IMAGES, WP_CROPS
 } from "./StoreConstants";
 import { getCategoriesWP } from "./data-api";
 
@@ -37,6 +37,10 @@ const LOAD_COUNTRY_SETTINGS_ERROR = 'LOAD_COUNTRY_SETTINGS_ERROR'
 const LOAD_DOCUMENTS = 'LOAD_DOCUMENTS';
 const LOAD_DOCUMENTS_DONE = 'LOAD_DOCUMENTS_DONE';
 const LOAD_DOCUMENTS_ERROR = 'LOAD_DOCUMENTS_ERROR';
+
+const LOAD_CROPS = 'LOAD_CROPS';
+const LOAD_CROPS_DONE = 'LOAD_CROPS_DONE';
+const LOAD_CROPS_ERROR = 'LOAD_CROPS_ERROR';
 
 const LOAD_IMAGES = 'LOAD_IMAGES';
 const LOAD_IMAGES_DONE = 'LOAD_IMAGES_DONE';
@@ -87,6 +91,25 @@ export const getDocuments = ({ params }) => (dispatch, getState) => {
     dispatch({
       type: LOAD_DOCUMENTS_ERROR,
       store,
+      error: error.message
+    })
+  })
+}
+
+export const getCrops = ({params}) => (dispatch, getState) => {
+  console.log('2');
+  dispatch({
+    type: LOAD_CROPS,
+  })
+  api.getCropsData(params.country, params.year).then(data => {
+    console.log('5');
+    dispatch({
+      type: LOAD_CROPS_DONE,
+      data
+    })
+  }).catch(error => {
+    dispatch({
+      type: LOAD_CROPS_ERROR,
       error: error.message
     })
   })
@@ -306,6 +329,24 @@ const reducer = (state = initialState, action) => {
       return state.setIn([action.store, WP_DOCUMENTS, 'data'], null)
         .setIn([action.store, WP_DOCUMENTS, 'error'], action.error)
         .setIn([action.store, WP_DOCUMENTS, 'loading'], false)
+    }
+
+    case LOAD_CROPS: {
+      return state.deleteIn([action.store, WP_CROPS, 'error'])
+          .setIn([action.store, WP_CROPS, 'loading'], true)
+          .setIn([action.store, WP_CROPS, 'data'], null)
+    }
+
+    case LOAD_CROPS_DONE: {
+      return state.setIn([action.store, WP_CROPS, 'data'], action.data)
+          .deleteIn([action.store, WP_CROPS, 'error'])
+          .setIn([action.store, WP_CROPS, 'loading'], false)
+    }
+
+    case LOAD_CROPS_ERROR: {
+      return state.setIn([action.store, WP_CROPS, 'data'], null)
+          .setIn([action.store, WP_CROPS, 'error'], action.error)
+          .setIn([action.store, WP_CROPS, 'loading'], false)
     }
 
     case LOAD_IMAGES: {

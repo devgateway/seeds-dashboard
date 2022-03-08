@@ -1,9 +1,9 @@
 import React, {useEffect} from "react";
 import {Container, Grid, GridColumn, GridRow} from "semantic-ui-react";
 import {connect} from "react-redux";
-import {getDocuments, getImages, getWpCategories} from "../reducers/data";
+import {getDocuments, getImages, getWpCategories, getCrops} from "../reducers/data";
 import {
-    DATA, SELECTED_COUNTRY, WP_CATEGORIES, WP_DOCUMENTS, DATA_CATEGORY, WP_IMAGES
+    DATA, SELECTED_COUNTRY, WP_CATEGORIES, WP_DOCUMENTS, DATA_CATEGORY, WP_IMAGES, WP_CROPS
 } from "../reducers/StoreConstants";
 import './styles.scss';
 import CropsLegend from "../chart/common/crop";
@@ -14,6 +14,8 @@ const CountryReports = ({
                             onLoadDocuments,
                             onLoadCategories,
                             onLoadImages,
+                            onLoadCrops,
+                            crops,
                             documents,
                             loading,
                             error,
@@ -41,15 +43,40 @@ const CountryReports = ({
     }, [categoriesWP, onLoadDocuments]);
 
     useEffect(() => {
+        if (categoriesWP && country && year) {
+            const year_ = categoriesWP.find(i => i.id === Number(year)).name;
+            const country_ = categoriesWP.find(i => i.id === Number(country)).name;
+            const params = {country: country_, year: year_};
+            onLoadCrops({params});
+        }
+    }, [onLoadCrops, categoriesWP, country, year]);
+
+    useEffect(() => {
         const params = {};
         params.per_page = DOCUMENTS_PER_PAGE;
         onLoadImages({params})
     }, [onLoadImages]);
 
+    const generateLinks = () => {
+        return 'View Report';
+    }
+
+    const getCrops = () => {
+        if (crops) {
+            if (crops.crop1 || crops.crop2 || crops.crop3 || crops.crop4) {
+                const data = [crops.crop1 || '', crops.crop2 || '', crops.crop3 || '', crops.crop4 || ''];
+                return <CropsLegend data={data}/>;
+            }
+        }
+        return <span>No crops data</span>;
+    }
+
     const classes = 'styles reports';
     let childComponent = null;
 
-    if (!loading && categoriesWP && year && country && language) {
+    if (loading || !categoriesWP) {
+        childComponent = (<div>Loading...</div>);
+    } else if (year && country && language) {
         const year_ = categoriesWP.find(i => i.id === Number(year));
         const country_ = categoriesWP.find(i => i.id === Number(country));
         const language_ = categoriesWP.find(i => i.id === Number(language));
@@ -67,11 +94,12 @@ const CountryReports = ({
                     <GridColumn width={11}>
                         <div>
                             <div className="crops">
-                                <CropsLegend data={['maize', 'bean', 'rice', 'sorghum']}/>
+                                {getCrops()}
                             </div>
                             <div className="report-container">
                                 <span className="title">{country_.name + ' ' + year_.name + ' Report'}</span>
                                 <span className="description">{description}</span>
+                                <span className="links">{generateLinks()}</span>
                             </div>
                         </div>
                     </GridColumn>
@@ -79,8 +107,9 @@ const CountryReports = ({
             </Grid>
         </div>);
     } else {
-        childComponent = (<div>Loading...</div>);
+        childComponent = (<div>Please select Country, Year and Language to show the component preview.</div>);
     }
+
     return <Container fluid={true} className={classes}>{childComponent}</Container>
 }
 
@@ -92,11 +121,12 @@ const mapStateToProps = (state, ownProps) => {
         categoriesWP: state.getIn([DATA, WP_CATEGORIES]),
         selectedCountry: state.getIn([DATA, 'filters', SELECTED_COUNTRY]),
         images: state.getIn([DATA, ownProps[DATA_CATEGORY], WP_IMAGES, 'data']),
+        crops: state.getIn([DATA, ownProps[DATA_CATEGORY], WP_CROPS, 'data']),
     }
 }
 
 const mapActionCreators = {
-    onLoadDocuments: getDocuments, onLoadCategories: getWpCategories, onLoadImages: getImages
+    onLoadDocuments: getDocuments, onLoadCategories: getWpCategories, onLoadImages: getImages, onLoadCrops: getCrops,
 };
 
 export default connect(mapStateToProps, mapActionCreators)(CountryReports)

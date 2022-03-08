@@ -1,5 +1,6 @@
 .box {
   border: 1px solid #ececec;
+  border-radius: 5px;
   padding: 10px;
   margin: 5px;
 
@@ -18,6 +19,7 @@
       label {
         margin-top: 5px;
         font-weight: 800;
+        color: #555555;
       }
     }
   }
@@ -28,15 +30,23 @@
       text-transform: capitalize;
       width: 100%;
       float: left;
-      font-size: 14pt;
+      font-size: 16pt;
       font-weight: 800;
-      color: black;
+      color: #555555;
+      margin-bottom: 10px;
     }
 
     .description {
       overflow-y: auto;
       max-height: 200px;
       display: inline-block;
+      color: #7d7d7d;
+    }
+    
+    .links {
+      font-size: 13px;
+      color: #555555;
+      font-weight: 600;
     }
   }
 }
