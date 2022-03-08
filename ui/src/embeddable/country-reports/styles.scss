@@ -1,0 +1,25 @@
+.box {
+  border: 1px solid gray;
+  padding: 5px;
+  margin: 5px;
+
+  .crops {
+    float: left;
+    width: 100%;
+  }
+
+  .report-container {
+
+    .title {
+      text-transform: capitalize;
+      width: 100%;
+      float: left;
+    }
+
+    .description {
+      overflow-y: auto;
+      max-height: 200px;
+      display: inline-block;
+    }
+  }
+}

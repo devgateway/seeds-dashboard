@@ -68,6 +68,11 @@ export class BaseBlockEdit extends Component {
         categories: data
       });
     });
+    apiFetch({ path: '/wp/v2/media?per_page=100' }).then((data) => {
+      this.setState({
+        images: data
+      });
+    });
   }
 }
 

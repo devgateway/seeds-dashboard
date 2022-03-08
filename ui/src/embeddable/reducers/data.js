@@ -6,7 +6,7 @@ import {
   COUNTRIES_FILTER,
   COUNTRY_SETTINGS,
   SUMMARY_INDICATORS,
-  SUMMARY_INDICATORS_INFORMATION, WP_CATEGORIES, WP_DOCUMENTS
+  SUMMARY_INDICATORS_INFORMATION, WP_CATEGORIES, WP_DOCUMENTS, WP_IMAGES
 } from "./StoreConstants";
 import { getCategoriesWP } from "./data-api";
 
@@ -37,6 +37,10 @@ const LOAD_COUNTRY_SETTINGS_ERROR = 'LOAD_COUNTRY_SETTINGS_ERROR'
 const LOAD_DOCUMENTS = 'LOAD_DOCUMENTS';
 const LOAD_DOCUMENTS_DONE = 'LOAD_DOCUMENTS_DONE';
 const LOAD_DOCUMENTS_ERROR = 'LOAD_DOCUMENTS_ERROR';
+
+const LOAD_IMAGES = 'LOAD_IMAGES';
+const LOAD_IMAGES_DONE = 'LOAD_IMAGES_DONE';
+const LOAD_IMAGES_ERROR = 'LOAD_IMAGES_ERROR';
 
 const SET_FILTER = 'SET_FILTER'
 
@@ -83,6 +87,23 @@ export const getDocuments = ({ params }) => (dispatch, getState) => {
     dispatch({
       type: LOAD_DOCUMENTS_ERROR,
       store,
+      error: error.message
+    })
+  })
+}
+
+export const getImages = () => (dispatch, getState) => {
+  dispatch({
+    type: LOAD_IMAGES,
+  })
+  api.getDocumentsData().then(data => {
+    dispatch({
+      type: LOAD_IMAGES_DONE,
+      data
+    })
+  }).catch(error => {
+    dispatch({
+      type: LOAD_IMAGES_ERROR,
       error: error.message
     })
   })
@@ -261,9 +282,8 @@ const reducer = (state = initialState, action) => {
         .setIn([COUNTRY_SETTINGS, 'loading'], false)
         .setIn([COUNTRY_SETTINGS, 'error'], action.error)
     }
+    
     case LOAD_COUNTRY_SETTINGS_DONE: {
-
-
       return state
         .setIn([COUNTRY_SETTINGS, 'loading'], false)
         .deleteIn([COUNTRY_SETTINGS, 'error'])
@@ -286,6 +306,24 @@ const reducer = (state = initialState, action) => {
       return state.setIn([action.store, WP_DOCUMENTS, 'data'], null)
         .setIn([action.store, WP_DOCUMENTS, 'error'], action.error)
         .setIn([action.store, WP_DOCUMENTS, 'loading'], false)
+    }
+
+    case LOAD_IMAGES: {
+      return state.deleteIn([action.store, WP_IMAGES, 'error'])
+          .setIn([action.store, WP_IMAGES, 'loading'], true)
+          .setIn([action.store, WP_IMAGES, 'data'], null)
+    }
+
+    case LOAD_IMAGES_DONE: {
+      return state.setIn([action.store, WP_IMAGES, 'data'], action.data)
+          .deleteIn([action.store, WP_IMAGES, 'error'])
+          .setIn([action.store, WP_IMAGES, 'loading'], false)
+    }
+
+    case LOAD_IMAGES_ERROR: {
+      return state.setIn([action.store, WP_IMAGES, 'data'], null)
+          .setIn([action.store, WP_IMAGES, 'error'], action.error)
+          .setIn([action.store, WP_IMAGES, 'loading'], false)
     }
 
     default:

@@ -30,7 +30,15 @@ registerBlockType(process.env.BLOCKS_NS + '/country-reports',
             language: {
                 type: "String",
                 default: ""
-            }
+            },
+            height: {
+                type: 'number',
+                default: 500,
+            },
+            width: {
+                type: 'number',
+                default: 900,
+            },
         },
         edit: BlockEdit,
         save: BlockSave,
