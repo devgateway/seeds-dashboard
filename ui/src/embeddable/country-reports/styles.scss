@@ -1,11 +1,25 @@
 .box {
-  border: 1px solid gray;
-  padding: 5px;
+  border: 1px solid #ececec;
+  padding: 10px;
   margin: 5px;
 
   .crops {
     float: left;
     width: 100%;
+    border-bottom: 1px solid #ececec;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+
+    .crop-icon {
+      background-size: 25px;
+      height: 30px;
+      padding-left: 30px;
+
+      label {
+        margin-top: 5px;
+        font-weight: 800;
+      }
+    }
   }
 
   .report-container {
@@ -14,6 +28,9 @@
       text-transform: capitalize;
       width: 100%;
       float: left;
+      font-size: 14pt;
+      font-weight: 800;
+      color: black;
     }
 
     .description {
