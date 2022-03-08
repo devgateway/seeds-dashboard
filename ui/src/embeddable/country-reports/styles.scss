@@ -42,11 +42,22 @@
       display: inline-block;
       color: #7d7d7d;
     }
-    
+
     .links {
       font-size: 13px;
       color: #555555;
       font-weight: 600;
+
+      .links-container {
+        
+        span {
+          margin-right: 5px;
+        }
+
+        a {
+          color: #84a43a;
+        }
+      }
     }
   }
 }

@@ -4,7 +4,7 @@ const SaveComponent = (props) => {
 
     const {
         attributes: {
-            description, country, year, image, language, height, width
+            description, country, year, image, height, width
         }
     } = props;
     const blockProps = useBlockProps.save({
@@ -15,7 +15,6 @@ const SaveComponent = (props) => {
                  data-component={"countryReports"}
                  data-description={description}
                  data-country={country}
-                 data-language={language}
                  data-image={image}
                  data-height={height}
                  data-width={width}

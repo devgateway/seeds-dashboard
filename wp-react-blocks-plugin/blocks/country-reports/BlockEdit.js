@@ -8,13 +8,12 @@ class BlockEdit extends BaseBlockEdit {
     render() {
         const {
             className, isSelected, toggleSelection, setAttributes, attributes: {
-                description, country, year, image, language, width, height
+                description, country, year, image, width, height
             }
         } = this.props;
 
         let queryString = `data-description=${description}`;
         queryString += `&data-country=${country}`;
-        queryString += `&data-language=${language}`;
         queryString += `&data-year=${year}`;
         queryString += `&data-image=${image}`
         queryString += `&data-height=${height}`
@@ -23,9 +22,6 @@ class BlockEdit extends BaseBlockEdit {
         return ([isSelected && (<InspectorControls>
             <Panel header={__("Country Report Configuration")}>
                 <PanelBody>
-                    <PanelRow>
-                        {this.getCategoryValues('languages', 'Language', language, 'language')}
-                    </PanelRow>
                     <PanelRow>
                         {this.getCategoryValues('country-report', 'Countries', country, 'country')}
                     </PanelRow>

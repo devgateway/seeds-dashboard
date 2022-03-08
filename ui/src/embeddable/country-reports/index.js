@@ -23,7 +23,6 @@ const CountryReports = ({
                             "data-country": country,
                             categoriesWP,
                             selectedCountry: selectedCountryId,
-                            "data-language": language,
                             "data-year": year,
                             "data-image": image,
                             editing,
@@ -58,7 +57,35 @@ const CountryReports = ({
     }, [onLoadImages]);
 
     const generateLinks = () => {
-        return 'View Report';
+        if (documents && categoriesWP) {
+            const docs = documents.filter(d => d.mime_type === 'application/pdf' && d.categories.find(i => i === Number(year)) && d.categories.find(i => i === Number(country)));
+            if (docs.length === 0) {
+                return null;
+            }
+            const langsCat = categoriesWP.find(i => i.name === 'languages');
+            const enLang = categoriesWP.find(i => i.name === 'en' && i.parent === langsCat.id);
+            const frLang = categoriesWP.find(i => i.name === 'fr' && i.parent === langsCat.id);
+            const links = [];
+            docs.filter(i => i.categories.find(j => j === enLang.id)).forEach(i => {
+                links.push({lang: 'English', link: i.source_url});
+            });
+            docs.filter(i => i.categories.find(j => j === frLang.id)).forEach(i => {
+                links.push({lang: 'French', link: i.source_url});
+            });
+            if (links.length === 1) {
+                return (<div className="links-container">
+                    <a href={links[0].link}>View Report</a>
+                </div>);
+            } else {
+                return (<div className="links-container">
+                    <span>View Report -</span>
+                    {links.map((i, index) => {
+                        return <a key={i.link} href={i.link}>{i.lang}{index === 0 ? '  /  ' : ''}</a>
+                    })}
+                </div>);
+            }
+        }
+        return null;
     }
 
     const getCrops = () => {
@@ -76,10 +103,9 @@ const CountryReports = ({
 
     if (loading || !categoriesWP) {
         childComponent = (<div>Loading...</div>);
-    } else if (year && country && language) {
+    } else if (year && country) {
         const year_ = categoriesWP.find(i => i.id === Number(year));
         const country_ = categoriesWP.find(i => i.id === Number(country));
-        const language_ = categoriesWP.find(i => i.id === Number(language));
         childComponent = (<div className="box" style={{width: width + 'px', height: height + 'px'}}>
             <Grid>
                 <GridRow>

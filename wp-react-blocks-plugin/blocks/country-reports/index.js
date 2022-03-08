@@ -27,10 +27,6 @@ registerBlockType(process.env.BLOCKS_NS + '/country-reports',
                 type: "String",
                 default: ""
             },
-            language: {
-                type: "String",
-                default: ""
-            },
             height: {
                 type: 'number',
                 default: 500,
