@@ -141,3 +141,84 @@ $border_gray: rgba(229, 229, 229, 1);
     }
   }
 }
+
+.tooltip-container-var-release {
+  background-color: #ffffff;
+  height: auto;
+  box-shadow: 0 3px 10px #dbdce0;
+  border: 1px solid #dbdce0;
+
+  .header-container {
+    background-color: #eef1fa;
+    width: 199px;
+    height: 70px;
+    border-right: 1px solid #dbdce0;
+
+    .header {
+      margin: auto;
+      width: 150px;
+      //border: 1px solid green;
+      height: 35px;
+
+      .table {
+        width: 100%;
+
+        label {
+          font-size: 9pt;
+          margin-top: 7px;
+        }
+
+        .year {
+          position: relative;
+          left: -12px;
+        }
+
+        .vr {
+          position: relative;
+          right: -22px;
+        }
+      }
+
+      .inner-container {
+        margin: auto;
+        width: auto;
+        display: table;
+
+        .crop-icon {
+          width: 30px;
+          height: 30px;
+          background-size: 30px;
+          margin: 5px !important;
+        }
+
+        .crop-name {
+          font-size: 18px !important;
+          font-weight: bold;
+          color: black;
+          position: relative;
+          top: 8px;
+          left: -20px;
+          text-align: center;
+          float: left;
+        }
+      }
+    }
+  }
+
+  .amount-container {
+    table {
+      width: 100%;
+      padding: 5px;
+      margin: 5px;
+      margin-top: 0px;
+      padding-right: 15px;
+      border: none;
+      font-size: 12pt;
+      color: #555555;
+
+      .year {
+        text-align: left;
+      }
+    }
+  }
+}
