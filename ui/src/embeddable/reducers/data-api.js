@@ -179,13 +179,11 @@ export const getDocumentsData = (params) => {
 }
 
 export const getCropsData = (country, year) => {
-    let api = CROPS_BY_COUNTRY_YEAR_API;
-    // TODO: re-enable filter by country+year after making the EP ignore cases.  
-    /* if (country && year) {
-      api += country + '/' + year;
-    } */
-    return get(api, null).then(data => {
-        return data.find(i => i.country.toLowerCase() === country.toLowerCase() && i.year === year);
-    });
+  let api = CROPS_BY_COUNTRY_YEAR_API;
+  // TODO: re-enable filter by country+year after making the EP ignore cases.  
+  /* if (country && year) {
+    api += country + '/' + year;
+  } */
+  return get(api, null);
 }
 

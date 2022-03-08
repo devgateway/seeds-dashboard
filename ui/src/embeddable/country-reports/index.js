@@ -88,10 +88,13 @@ const CountryReports = ({
         return null;
     }
 
-    const getCrops = () => {
-        if (crops) {
-            if (crops.crop1 || crops.crop2 || crops.crop3 || crops.crop4) {
-                const data = [crops.crop1 || '', crops.crop2 || '', crops.crop3 || '', crops.crop4 || ''];
+    const generateCrops = () => {
+        if (crops && categoriesWP) {
+            const year_ = categoriesWP.find(i => i.id === Number(year)).name;
+            const country_ = categoriesWP.find(i => i.id === Number(country)).name;
+            const crops_ = crops.find(i => i.country.toLowerCase() === country_.toLowerCase() && i.year === year_);
+            if (crops_ && (crops_.crop1 || crops_.crop2 || crops_.crop3 || crops_.crop4)) {
+                const data = [crops_.crop1 || '', crops_.crop2 || '', crops_.crop3 || '', crops_.crop4 || ''];
                 return <CropsLegend data={data}/>;
             }
         }
@@ -120,7 +123,7 @@ const CountryReports = ({
                     <GridColumn width={11}>
                         <div>
                             <div className="crops">
-                                {getCrops()}
+                                {generateCrops()}
                             </div>
                             <div className="report-container">
                                 <span className="title">{country_.name + ' ' + year_.name + ' Report'}</span>
