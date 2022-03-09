@@ -66,8 +66,15 @@ class BlockEdit extends BaseBlockEdit {
     }
 
     getImages = (image) => {
+        const {categories, images} = this.state;
+        const {setAttributes} = this.props;
         const list = [];
         list.push({label: '', value: ''});
+        images.filter(i => i.categories.find(j => j === categories.find(i => i.name === 'country-report').id))
+            .filter(i => i.mime_type.indexOf('image/') > -1)
+            .map(i => {
+                list.push({label: i.title.rendered + '(' + i.media_details.file + ')', value: i.id});
+            });
         return (<SelectControl
             label={__('Images')}
             value={image}

@@ -97,12 +97,10 @@ export const getDocuments = ({ params }) => (dispatch, getState) => {
 }
 
 export const getCrops = ({params}) => (dispatch, getState) => {
-  console.log('2');
   dispatch({
     type: LOAD_CROPS,
   })
   api.getCropsData(params.country, params.year).then(data => {
-    console.log('5');
     dispatch({
       type: LOAD_CROPS_DONE,
       data
