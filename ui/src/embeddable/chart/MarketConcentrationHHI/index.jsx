@@ -71,7 +71,7 @@ const MarketConcentrationHHI = ({data, sources, selectedYear, bottomLegend, intl
             <div className="crop-name">{intl.formatMessage({id: d.indexValue, defaultMessage: d.indexValue})}</div>
         </>;
     }
-    const customTickWithCropsBottom = true;
+    const customTickWithCropsBottom = false;
 
     return (
         <>
@@ -94,6 +94,7 @@ const MarketConcentrationHHI = ({data, sources, selectedYear, bottomLegend, intl
                                                 containerHeight={300}
                                                 gridTickLines={4} margins={{top: 30, right: 10, bottom: 70, left: 70}}
                                                 padding={0.15} intl={intl}
+                                                axisBottom={false}
                         />
                     </Grid.Column>);
                 })}

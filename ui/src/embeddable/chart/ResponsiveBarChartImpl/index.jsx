@@ -63,6 +63,7 @@ const ResponsiveBarChartImpl = ({
                                     extraTooltipClass,
                                     intl,
                                     getColorsCustom,
+                                    axisBottom = true
                                 }) => {
 
     let pMax = max;
@@ -281,14 +282,14 @@ const ResponsiveBarChartImpl = ({
                 gridYValues={fixedIntervals || gridTickLines}
                 enableLabel={false}
                 markers={markers || null}
-                axisBottom={customTickWithCropsBottom ? {renderTick: CustomTick} : {
+                axisBottom={axisBottom ? (customTickWithCropsBottom ? {renderTick: CustomTick} : {
                     tickSize: 0,
                     tickPadding: 5,
                     tickRotation: 0,
                     legend: bottomLegend,
                     legendPosition: 'middle',
                     legendOffset: 45,
-                }}
+                }) : false}
                 tooltip={(d) => {
                     return (<div className={"tooltip-container-vrwsf " + extraTooltipClass || ''}>
                         <div className="header-container">
