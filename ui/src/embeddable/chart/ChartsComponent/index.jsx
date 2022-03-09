@@ -843,7 +843,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
     case MARKET_CONCENTRATION_HHI:
       useCropLegendsRow = false;
       useFilterByCrops = false;
-      bottomLegend = intl.formatMessage({id: 'years-legend', defaultMessage: 'Year'});
+      bottomLegend = '';
       break;
     case PERFORMANCE_SEED_TRADERS:
       indexBy = "id";

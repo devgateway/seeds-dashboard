@@ -5,6 +5,24 @@ $border_gray: rgba(229, 229, 229, 1);
   padding-top: 0 !important;
   border: $border_gray 1px solid;
   border-top: none;
+
+  .hhi-crops {
+    
+    position: relative;
+    top: 10px;
+    left: 30px;
+    
+    .crop-icon {
+      background-size: 25px;
+      height: 30px;
+      padding-left: 30px;
+
+      label {
+        margin-top: 5px;
+        text-transform: capitalize;
+      }
+    }
+  }
 }
 
 .hhi-section {
