@@ -220,6 +220,10 @@ p:empty {
     width: 100vw;
     margin-left: calc(-50vw + 50%);
   }
+	&.post{
+		margin-top: -100px;
+		padding-top: $base-unit * 6;
+	}
   img.wp-block-cover__image-background{
     width: 100vw;
     margin-left: calc(-50vw + 50%);
