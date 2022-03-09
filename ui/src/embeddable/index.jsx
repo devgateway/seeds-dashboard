@@ -21,6 +21,7 @@ const Events = asyncComponent(() => import("./events/"));
 const ListOfDocuments = asyncComponent(() => import("./list-of-documents/"));
 const InnerPage = asyncComponent(() => import("./innerPage/"));
 const ImageMap = asyncComponent(() => import("./image-map/"));
+const CountryReports = asyncComponent(() => import("./country-reports/"));
 export const reducers = {
   data,
   embeddable
@@ -44,7 +45,8 @@ const components = {
   events: Events,
   listOfDocuments: ListOfDocuments,
   innerPage: InnerPage,
-  imageMap: ImageMap
+  imageMap: ImageMap,
+  countryReports: CountryReports,
 }
 
 export const getComponentByNameIgnoreCase = (name) => {
