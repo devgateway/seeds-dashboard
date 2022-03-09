@@ -837,7 +837,7 @@ p:empty {
 
       &.legends {
         margin-bottom: 10px;
-
+        background-color: #f9f9f9;
         .column {
           div {
             padding-left: 5px;
@@ -848,7 +848,7 @@ p:empty {
           padding: 0;
           font-size: 16px;
           font-weight: bold;
-          background-color: #f9f9f9;
+
           color: #868686;
           @media only screen and (max-width: 1366px){
             font-size: 15px;
@@ -885,6 +885,15 @@ p:empty {
         }
       }
 
+      .legend-item {
+        margin-right: $base-unit + 5;
+        width: auto;
+
+        &:last-of-type {
+          margin-left: 0;
+          margin-right: 0;
+        }
+      }
     }
   }
 }
