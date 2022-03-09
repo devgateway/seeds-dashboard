@@ -141,7 +141,6 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
   }
 
   const processNumberVarietiesSold = () => {
-    debugger
     const yearsInValues = Object.keys(data.values).sort();
     crops.forEach(c => {
       const header = {
