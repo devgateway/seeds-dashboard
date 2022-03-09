@@ -5,6 +5,7 @@ import ResponsiveBarChartImpl from "../ResponsiveBarChartImpl";
 import HHILegend from "./HHILegend";
 import {FAKE_NUMBER} from "../ChartsComponent";
 import NoData from "../common/noData";
+import CropsLegend from "../common/crop";
 
 const MarketConcentrationHHI = ({data, sources, selectedYear, bottomLegend, intl}) => {
 
@@ -81,6 +82,9 @@ const MarketConcentrationHHI = ({data, sources, selectedYear, bottomLegend, intl
             <Grid.Row className="chart-section">
                 {[0, 1, 2, 3].map(i => {
                     return (<Grid.Column key={i} computer={8} mobile={16}>
+                        <div className="hhi-crops">
+                            <CropsLegend data={[crops[i]]}/>
+                        </div>
                         <ResponsiveBarChartImpl sources={sources} data={data} noData={noData} crops={crops}
                                                 selectedYear={selectedYear} colors={colors[i]} max={max * 1.25}
                                                 keys={keys}
@@ -92,7 +96,7 @@ const MarketConcentrationHHI = ({data, sources, selectedYear, bottomLegend, intl
                                                 getTooltipText={getTooltipText} getTooltipHeader={getTooltipHeader}
                                                 customTickWithCropsBottom={customTickWithCropsBottom}
                                                 containerHeight={300}
-                                                gridTickLines={4} margins={{top: 30, right: 10, bottom: 70, left: 70}}
+                                                gridTickLines={4} margins={{top: 40, right: 10, bottom: 60, left: 70}}
                                                 padding={0.15} intl={intl}
                                                 axisBottom={false}
                         />
