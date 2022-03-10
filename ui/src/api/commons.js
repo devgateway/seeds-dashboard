@@ -30,7 +30,6 @@ export const post = (url, params, isBlob) => {
 }
 export const get = (url, params = {}) => {
     return new Promise((resolve, reject) => {
-
         fetch(url,)
             .then(
                 function (response) {
@@ -46,6 +45,35 @@ export const get = (url, params = {}) => {
                 reject(err)
             })
     })
+}
+
+export const getAll = (url) => {
+    const pageSize = 100;
+    let page = 1;
+    let data = [];
+    return new Promise((resolve, reject) => {
+        return getNextPage(url, page, data, pageSize).then(() => {
+            resolve(data)
+        }).catch(err => {
+            console.error(err);
+            reject(err);
+        });
+    });
+}
+
+const getNextPage = (url, page, data, pageSize) => {
+    return fetch(url + '?per_page=' + pageSize + '&page=' + page).then((response) => {
+        if (response.status !== 200) {
+            throw response.toString();
+        }
+        return response.json().then(function (data_) {
+            data.push(...data_);
+            if (data_.length === pageSize) {
+                return getNextPage(url, page + 1, data, pageSize);
+            }
+            return;
+        })
+    });
 }
 
 export const queryParams = (params) => {

@@ -1,4 +1,4 @@
-import { get } from '../../api/commons'
+import {get, getAll} from '../../api/commons'
 import {
   COUNTRY_INFO,
   NUMBER_OF_VARIETIES_RELEASED,
@@ -30,7 +30,7 @@ const SURVEY_API = process.env.REACT_APP_SURVEY_API
 const IP_INFO_URL = 'https://ipinfo.io/json?token=145d05e17c7c25';
 const APP_WP_API = process.env.REACT_APP_WP_API;
 //TODO add parameters as config
-const WP_CATEGORIES = APP_WP_API + '/wp/v2/categories?per_page=100&_locale=user';
+const WP_CATEGORIES = APP_WP_API + '/wp/v2/categories';
 const POLICY_API_ROOT = process.env.REACT_APP_POLICY_API
 const SURVEY_FILTER_API = 'filter';
 const DATA_SUMMARY = 'dataSummary';
@@ -100,7 +100,8 @@ export const getCountriesData = (dataSource, params) => {
   return get(SURVEY_COUNTRIES_API + dataSource, params)
 }
 export const getCategoriesWP = (params) => {
-  return get(WP_CATEGORIES, params)
+  //return get(WP_CATEGORIES, params)
+  return getAll(WP_CATEGORIES);
 }
 export const getIndicatorsData = (params) => {
   return get(SURVEY_INDICATORS_API, params)
