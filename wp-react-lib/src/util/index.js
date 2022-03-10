@@ -38,7 +38,7 @@ export const replaceHTMLinks = (html, locale) => {
             if (href.includes(`/${locale}/`)) {
                 newLink = href.replace(all, `#`) //TODO:fix it!
             } else {
-                newLink = href.replace(all, `#/${locale}/`) //TODO:fix it!
+                newLink = href.replace(all, `#/${locale}`) //TODO:fix it!
             }
         } else {
             newLink = href.replace(all, '' + locale) //TODO:fix it!
