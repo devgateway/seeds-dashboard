@@ -13,7 +13,12 @@ export const replaceLink = (url, locale, isAddTypeToLink) => {
     }
     let finalUrl;
     if (useHash) {
-        finalUrl = url.replaceAll(all, `/#/${locale}${type}`);
+        if (url.includes(`/${locale}/`)) {
+            finalUrl = url.replaceAll(all, `/#${type}`);
+        } else {
+            finalUrl = url.replaceAll(all, `/#/${locale}${type}`);
+        }
+
     } else {
         finalUrl = url.replaceAll(all, "" + locale + type)
     }
@@ -30,7 +35,11 @@ export const replaceHTMLinks = (html, locale) => {
         let href = link[2]
         let newLink
         if (useHash) {
-            newLink = href.replace(all, `#/${locale}/`) //TODO:fix it!
+            if (href.includes(`/${locale}/`)) {
+                newLink = href.replace(all, `#`) //TODO:fix it!
+            } else {
+                newLink = href.replace(all, `#/${locale}/`) //TODO:fix it!
+            }
         } else {
             newLink = href.replace(all, '' + locale) //TODO:fix it!
         }
