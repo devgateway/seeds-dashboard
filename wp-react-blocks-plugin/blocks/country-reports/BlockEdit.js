@@ -90,7 +90,7 @@ class BlockEdit extends BaseBlockEdit {
         let list = [];
         list.push({label: '', value: ''});
         if (categories) {
-            const parent = categories.find(i => i.slug === category);
+            const parent = categories.find(i => i.name === category);
             categories.filter(i => i.parent === parent.id)
                 .sort(i => i.name.toLowerCase())
                 .map(i => {
