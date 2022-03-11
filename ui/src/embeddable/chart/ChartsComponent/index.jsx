@@ -72,6 +72,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
   let showTotalMD = true;
   let legendTitle = "";
   let margins = null;
+  let noDataLabelId = "no-data";
   //END TODO
   let getTooltipText;
   let getTooltipHeader;
@@ -892,6 +893,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
           legends = [{id: 1, 'color': barPieColor[1], 'label': 'Number of days for import'},
             {id: 2, 'color': barPieColor[0], 'label': 'Industry rating'}
           ];
+          noDataLabelId = "no-data-reported-import";
           break;
         case EFFICIENCY_SEED_EXPORT_PROCESS:
           leftLegend = 'Length of export process (days)';
@@ -900,6 +902,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
           legends = [{id: 1, 'color': barPieColor[1], 'label': 'Number of days for export'},
             {id: 2, 'color': barPieColor[0], 'label': 'Industry rating'}
           ];
+          noDataLabelId = "no-data-reported-export";
           break;
         default:
           leftLegend = 'insert legend here';
@@ -1241,6 +1244,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
                                 legends={legends} lineChartField={lineChartField}
                                 lineChartFieldLabel={lineChartFieldLabel}
                                 showTotalLabel={showTotalLabel} extraTooltipClass={extraTooltipClass} intl={intl}
+                                noDataLabelId={noDataLabelId}
         />
       case PERFORMANCE_SEED_TRADERS:
         return <Grid.Row className={`chart-section`}>
