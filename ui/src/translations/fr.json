@@ -154,5 +154,7 @@
   "opv": "Maize: OPV",
   "hybrid": "Maize: hybrid",
   "no-data": "No Data Available",
+  "no-data-reported-import": "No reported imports",
+  "no-data-reported-export": "No reported exports",
   "select-country": "Sélectionnez un autre pays"
 }

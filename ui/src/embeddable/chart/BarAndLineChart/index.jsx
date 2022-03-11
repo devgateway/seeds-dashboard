@@ -21,7 +21,7 @@ const round = (x, y) => {
 const BarAndLineChart = ({
                              data, sources, selectedYear, leftLegend, indexBy, groupMode, bottomLegend, rightLegend,
                              processedData, colors, keys, max, legends, getTooltipText, getTooltipHeader, lineColor,
-                             lineChartField, lineChartFieldLabel, showTotalLabel, extraTooltipClass, intl
+                             lineChartField, lineChartFieldLabel, showTotalLabel, extraTooltipClass, intl, noDataLabelId
                          }) => {
 
     const TICK_NUMBER = 4;
@@ -44,7 +44,7 @@ const BarAndLineChart = ({
     if (noData) {
         return (<Grid.Row className="chart-section">
             <Grid.Column width={16}>
-                <NoData/>
+                <NoData noDataLabelId={noDataLabelId}/>
             </Grid.Column>
         </Grid.Row>);
     }
