@@ -39,6 +39,8 @@ import { injectIntl } from "react-intl";
 import BarAndLineChart from "../BarAndLineChart";
 import {COUNTRY_OPTIONS} from "../../../countries";
 import ResponsiveLineChartImpl from "../ResponsiveLineChartImpl";
+import Gauge from "../GaugesChart/components/Gauge";
+import {range} from "../GaugesChart/components/common";
 
 const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, methodology, download, exportPng }) => {
   const [initialCrops, setInitialCrops] = useState(null);
@@ -779,19 +781,41 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
       getTooltipHeader = (d) => {
         const cropName = d.id.replace(`${d.indexValue}_`, "");
         return <>
-          <div className={`${cropName} crop-icon`} />
-          <div className="crop-name">{`${intl.formatMessage({
-            id: cropName,
-            defaultMessage: cropName
-          })} ${d.indexValue}`}</div>
+          <div className="header-top">
+            <div className={`${cropName} crop-icon`}/>
+            <div className="crop-name">{`${intl.formatMessage({
+              id: cropName,
+              defaultMessage: cropName
+            })} ${d.indexValue}`}</div>
+          </div>
+          <div className="sub-header">
+            <span className="bold"> {d.data[d.id]}  </span><span>active breeders</span>
+          </div>
         </>
       }
       getTooltipText = (d) => {
-        return <><span
-            className="bold"> {d.data[d.id]}  </span>
-          <span>active breeders.</span>
+        const cropName = d.id.replace(`${d.indexValue}_`, "");
+        const gaugeValue = data.otherValues[d.indexValue][cropName];
+        const dataGauge = [
+          {id: "EP", value: 20},
+          {id: "P", value: 20},
+          {id: "F", value: 20},
+          {id: "G", value: 20},
+          {id: "E", value: 20}
+        ];
+        const r = range.find(r => gaugeValue >= r.min && gaugeValue <= r.max);
+        let innerColor = "#818181";
+        const particularGauge = [...dataGauge].map(i => ({...i}));
+        if (r) {
+          particularGauge[r.position - 1].id = particularGauge[r.position - 1].id + "_S";
+          innerColor = r.color;
+        }
+        return <>
+          <div><span>Industry opinion on adequacy of breeders</span></div>
+          <Gauge data={particularGauge} height={45} width={105} innerValue={gaugeValue} innerColor={innerColor}/>
         </>
       }
+      extraTooltipClass = "NUMBER_OF_ACTIVE_BREEDERS";
       useFilterByYear = false;
       indexBy = 'year';
       leftLegend = intl.formatMessage({id: 'years-legend', defaultMessage: 'Year'});
@@ -1247,7 +1271,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
                                     showTotalLabel={showTotalLabel} containerHeight={containerHeight || 450}
                                     showTotalMD={showTotalMD} margins={margins} 
                                     intl={intl} barLabelFormat={roundNumbers}
-                                    getColorsCustom={getColors}
+                                    getColorsCustom={getColors} extraTooltipClass={extraTooltipClass}
             /> : <ResponsiveLineChartImpl sources={sources} 
                                           data={data} 
                                           noData={noData} 
