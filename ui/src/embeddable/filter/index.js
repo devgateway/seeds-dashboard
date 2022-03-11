@@ -14,9 +14,11 @@ const Filter = ({
                     "data-selected-country-first": selectedCountryFirst = false,
                     "data-add-year": addYear = true,
                     "data-selected-country-label": selectedCountryLabel = undefined,
+                    "data-selected-country-post-label": selectedCountryPostLabel = undefined,
                     "data-country-columns": countryColumns = 3,
                     "data-additional-classes": additionalClasses,
-                    "data-data-source": dataSource = "latestCountryStudies"
+                    "data-data-source": dataSource = "latestCountryStudies",
+                    "data-show-selector": showSelector = "true"
                 }) => {
     useEffect(() => {
         onLoadCountries(dataSource)
@@ -49,15 +51,19 @@ const Filter = ({
     }
     let classes = 'filters'
     const isAddYear = addYear === true || addYear === "true";
+    const isShowSelector = showSelector === 'true';
     const isSelectedCountryFirst = selectedCountryFirst === true || selectedCountryFirst === 'true';
     let childComponent = <CountryFilter
         countries={countries} onApply={onApply} filters={filters} addYear={isAddYear}
-        selectedCountryLabel={selectedCountryLabel} countryColumns={countryColumns}
+        selectedCountryLabel={selectedCountryLabel} countryColumns={countryColumns} isShowSelector={isShowSelector}
+        selectedCountryPostLabel={selectedCountryPostLabel}
     />;
     if (dataType === "Country") {
         childComponent = <CountrySelector countries={countries} onApply={onApply} filters={filters}
                                           selectedCountryFirst={isSelectedCountryFirst} addYear={isAddYear}
-                                          selectedCountryLabel={selectedCountryLabel} countryColumns={countryColumns} />
+                                          selectedCountryLabel={selectedCountryLabel} countryColumns={countryColumns}
+                                          isShowSelector={isShowSelector}
+                                          selectedCountryPostLabel={selectedCountryPostLabel} />
 
         classes = "country-selector " + (additionalClasses ? additionalClasses : '');
     }

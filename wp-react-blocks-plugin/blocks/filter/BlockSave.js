@@ -10,7 +10,9 @@ const SaveComponent = (props) => {
             selectedCountryLabel,
             countryColumns,
             dataSource,
-            additionalClasses
+            additionalClasses,
+            showSelector,
+            selectedCountryPostLabel
         }
     } = props;
     const blockProps = useBlockProps.save({
@@ -29,6 +31,8 @@ const SaveComponent = (props) => {
              data-country-columns={countryColumns}
              data-data-source={dataSource}
              data-additional-classes={additionalClasses}
+             data-show-selector={showSelector}
+             data-selected-country-post-label={selectedCountryPostLabel}
         >
         </div>
 
