@@ -117,6 +117,10 @@ $border_gray: rgba(229, 229, 229, 1);
       .year {
         text-align: left;
       }
+
+      .sub-header {
+        background-color: #eef1fa;
+      }
     }
   }
 }
@@ -145,5 +149,54 @@ $border_gray: rgba(229, 229, 229, 1);
 
   .amount-container {
     width: 298px !important;
+  }
+}
+
+.NUMBER_OF_ACTIVE_BREEDERS {
+
+  .header-container {
+    height: 60px;
+
+    .header {
+      height: 59px !important;
+
+      .inner-container {
+        margin: auto;
+        position: relative;
+        left: 0;
+        width: 220px;
+
+        .header-top {
+          margin: auto;
+          width: auto;
+          height: 40px;
+          display: table;
+        }
+
+        .sub-header {
+          font-size: 13px;
+          color: #555555;
+          position: relative;
+          text-align: center;
+          width: 220px;
+          top: 0px;
+          left: -4px;
+          float: left;
+        }
+      }
+    }
+  }
+
+  .amount-container {
+    td {
+      text-align: center;
+
+      span {
+        position: relative;
+        top: -5px;
+        margin-bottom: 10px;
+        padding-bottom: 10px;
+      }
+    }
   }
 }
