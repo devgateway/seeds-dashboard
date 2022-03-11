@@ -6,7 +6,7 @@ const NoData = ({text, intl, noDataLabelId = 'no-data'}) => {
     return (
         <h2 className={'no-data'}>{text ? text : intl.formatMessage({
             id: noDataLabelId,
-            defaultMessage: 'No Data Available2'
+            defaultMessage: 'No Data Available'
         })}</h2>
     )
 }
