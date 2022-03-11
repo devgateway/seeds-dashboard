@@ -52,6 +52,8 @@ const ResponsiveLineChartImpl = ({
                 xScale={{type: 'point'}}
                 yScale={{type: 'linear', min: 0, max: max * 1.15, stacked: false, reverse: false}}
                 yFormat=" >-.0r"
+
+                curve='natural'
                 axisTop={null}
                 axisRight={null}
                 enableGridX={enableGridX}

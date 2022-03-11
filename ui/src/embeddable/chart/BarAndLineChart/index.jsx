@@ -74,7 +74,7 @@ const BarAndLineChart = ({
 
         const lineGenerator = line()
             .x(bar => xScale(bar.data.indexValue) + bar.width / 2)
-            .y(bar => newYScale(bar.data.data[lineChartField] || 0));
+            .y(bar => newYScale(bar.data.data[lineChartField] || 0)).curve(d3.curveNatural);
 
         const {showTooltipFromEvent, hideTooltip} = useTooltip();
         const chartHeight = yScale.range()[0];
