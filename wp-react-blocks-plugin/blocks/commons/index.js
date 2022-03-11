@@ -63,19 +63,31 @@ export class BaseBlockEdit extends Component {
         current_language: new URLSearchParams(document.location.search).get("edit_lang")
       });
     });
-    apiFetch({ path: '/wp/v2/categories?per_page=100&_locale=user' }).then((data) => {
-      this.setState({
-        categories: data
-      });
-    });
-    apiFetch({ path: '/wp/v2/media?per_page=100' }).then((data) => {
-      this.setState({
-        images: data
-      });
-    });
+    
+    fetchAll('/wp/v2/categories', 'categories', this);
+    fetchAll('/wp/v2/media', 'images', this);
   }
 }
 
+const fetchAll = (url, field, this_) => {
+    let data = [];
+    const pageSize = 100;
+    let page = 1;
+    fetch(url, page, data, pageSize).then(() => {
+        this_.setState({
+            [field]: data
+        });
+    });
+}
+
+const fetch = (url, page, data, pageSize) => {
+    return apiFetch({path: url + '?per_page=' + pageSize + '&page=' + page}).then((d) => {
+        data.push(...d);
+        if (d.length === pageSize) {
+            return fetch(url, page + 1, data, pageSize);
+        }
+    });
+}
 
 export class BlockEditWithFilters extends BaseBlockEdit {
 
@@ -217,7 +229,7 @@ export class BlockEditWithFilters extends BaseBlockEdit {
     const { types, taxonomies, taxonomyValues } = this.state
     const typeOptions = types ? Object.keys(types)
       .filter(k => ['page', 'attachment', 'wp_block']
-        .indexOf(k) == -1).map(k => ({
+        .indexOf(k) === -1).map(k => ({
         slug: types[k].slug,
         label: types[k].name,
         value: types[k].rest_base
@@ -281,7 +293,7 @@ export class BlockEditWithFilters extends BaseBlockEdit {
                        onChange={this.onTaxonomyChanged}
         />
       </PanelRow>
-      {taxonomy != 'none' && this.categoriesOptions().map(o => {
+      {taxonomy !== 'none' && this.categoriesOptions().map(o => {
         return <PanelRow><CheckboxControl
           label={o.label}
           onChange={(checked) => this.onCategoryChanged(checked, o.value)}
