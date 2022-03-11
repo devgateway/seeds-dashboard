@@ -4,9 +4,9 @@ import BlockSave from "./BlockSave";
 import BlockEdit from "./BlockEdit";
 import Generic from "../icons";
 
-registerBlockType(process.env.BLOCKS_NS + '/sticky',
+registerBlockType(process.env.BLOCKS_NS + '/documents-list',
     {
-        title: __('sticky'),
+        title: __('List of Documents'),
         icon: Generic,
         category: process.env.BLOCKS_CATEGORY,
         apiVersion: 2,
