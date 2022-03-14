@@ -1298,10 +1298,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
             useFilterByYear = false;
             addLighterDiv = false;
             bottomLegend = intl.formatMessage({ id: 'years-legend', defaultMessage: 'Year' });
-            leftLegend = intl.formatMessage({
-                id: 'number-of-varieties-released',
-                defaultMessage: 'Number of varieties released'
-            });
+            leftLegend = intl.formatMessage({ id: 'number-of-varieties-released', defaultMessage: 'Number of varieties released'});
             lineTooltip = (d) => {
                 return (<div className="tooltip-container-var-release">
                     <div className="header-container">
