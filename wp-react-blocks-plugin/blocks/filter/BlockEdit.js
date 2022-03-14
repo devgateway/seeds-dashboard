@@ -18,7 +18,7 @@ class BlockEdit extends BaseBlockEdit {
             className, isSelected,
             toggleSelection, setAttributes, attributes: {
                 type, selectedCountryFirst, addYear, selectedCountryLabel, countryColumns,
-                dataSource, additionalClasses
+                dataSource, additionalClasses, showSelector,selectedCountryPostLabel
             }
         } = this.props;
 
@@ -26,9 +26,12 @@ class BlockEdit extends BaseBlockEdit {
         queryString += `&data-selected-country-first=${selectedCountryFirst}`;
         queryString += `&data-add-year=${addYear}`;
         queryString += `&data-selected-country-label=${selectedCountryLabel}`;
+        queryString += `&data-selected-country-post-label=${selectedCountryPostLabel}`;
         queryString += `&data-country-columns=${countryColumns}`;
         queryString += `&data-data-source=${dataSource}`;
         queryString += `&data-additional-classes=${additionalClasses}`;
+        queryString += `&data-show-selector=${showSelector}`;
+
         queryString += `&editing=true`
         const divStyles = {}
         return ([isSelected && (<InspectorControls>
@@ -62,21 +65,34 @@ class BlockEdit extends BaseBlockEdit {
                         </PanelRow>
                         <PanelRow>
                             <CheckboxControl
-                                label={__('Selected country first:')}
+                                label={__('Selected country first')}
                                 checked={selectedCountryFirst}
                                 onChange={() => setAttributes({ selectedCountryFirst: !selectedCountryFirst })} />
                         </PanelRow>
                         <PanelRow>
                             <CheckboxControl
-                                label={__('Add year:')}
+                                label={__('Add year')}
                                 checked={addYear}
                                 onChange={() => setAttributes({ addYear: !addYear })} />
                         </PanelRow>
+                        <PanelRow>
+                            <CheckboxControl
+                                label={__('Show country selector')}
+                                checked={showSelector}
+                                onChange={() => setAttributes({ showSelector: !showSelector })} />
+                        </PanelRow>
+
                         <PanelRow>
                             <TextControl
                                 label={__('Selected country label')}
                                 value={selectedCountryLabel}
                                 onChange={(selectedCountryLabel) => setAttributes({ selectedCountryLabel })}
+                            /></PanelRow>
+                        <PanelRow>
+                            <TextControl
+                                label={__('Selected country post label')}
+                                value={selectedCountryPostLabel}
+                                onChange={(selectedCountryPostLabel) => setAttributes({ selectedCountryPostLabel })}
                             /></PanelRow>
                         <PanelRow>
                             <TextControl
