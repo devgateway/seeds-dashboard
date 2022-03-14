@@ -23,7 +23,7 @@ const Carousel = ({ posts, itemsPerPage, messages, orientation, navigatorStyle, 
       <ButtonBack><Icon name="chevron left" /></ButtonBack>
     </div>}
     <div className={navigatorStyle === BUTTONS ? "carousel-container" : ''}>
-      <Slider className="test" dragEnabled={false}>
+      <Slider dragEnabled={false}>
         {posts.map(p => {
           return <Slide index={i++} key={p.id}>
             <PostIntro post={p} fluid showLink messages={messages} locale={locale} isAddTypeToLink={isAddType} />
