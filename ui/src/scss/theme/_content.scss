@@ -415,7 +415,14 @@ p:empty {
 // Testiomanials
 .testimonial{
   min-height: $base-unit * 35;
+	position: relative;
+	.testimonial-author{
+		position: absolute;
+		top: $extend - 40;
+		width: $extend - 20;
+	}
 }
+
 
 // Custom icon images
 .events{
