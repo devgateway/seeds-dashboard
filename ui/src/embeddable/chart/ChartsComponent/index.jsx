@@ -41,8 +41,21 @@ import { COUNTRY_OPTIONS } from "../../../countries";
 import ResponsiveLineChartImpl from "../ResponsiveLineChartImpl";
 import Gauge from "../GaugesChart/components/Gauge";
 import { range } from "../GaugesChart/components/common";
+import './styles.scss';
 
-const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, methodology, download, exportPng }) => {
+const ChartComponent = ({
+                            sources,
+                            data,
+                            type,
+                            title,
+                            subTitle,
+                            editing,
+                            intl,
+                            methodology,
+                            download,
+                            exportPng,
+                            height
+                        }) => {
     const [initialCrops, setInitialCrops] = useState(null);
     const [selectedCrops, setSelectedCrops] = useState(null);
     const [selectedYear, setSelectedYear] = useState(null);
@@ -1464,7 +1477,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
     }
 
     return (<div ref={ref}>
-        <Grid className={`number-varieties-released`}>
+        <Grid className={`main-chart-container`} style={{ "minHeight": height + 'px' }}>
             <Grid.Row className="header-section">
                 <Grid.Column width={12}>
                     <Header title={`${title}`} subtitle={subTitle} />

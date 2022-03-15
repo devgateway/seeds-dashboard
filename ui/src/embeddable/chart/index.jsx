@@ -182,6 +182,7 @@ const Chart = (props) => {
         methodology: methodology,
         download: download,
         exportPng: exportPng,
+        height: height,
     }
 
     const generateSourcesText = () => {
@@ -266,7 +267,7 @@ const Chart = (props) => {
             break;
     }
 
-    // This is necessary charts that become very long in small resolutions like HHI.
+    // This is necessary for charts that become very long in small resolutions like HHI.
     const styleHeight = window.innerWidth <= 1024 ? {} : { height: contentHeight + 'px' };
 
     return (<div>
