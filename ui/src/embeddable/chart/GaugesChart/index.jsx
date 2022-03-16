@@ -69,7 +69,7 @@ const GaugesChart = ({
                             type={'gauge'}/>
                 </Grid.Column>
             </Grid.Row>
-            <Grid.Row className={"with-bottom-border border-left border-right"}>
+            <Grid.Row className={"with-bottom-border border-left border-right gauge-heading"}>
                 <Heading legends={legends}/>
             </Grid.Row>
             <Grid.Row className={"with-bottom-border border-left border-right"}>

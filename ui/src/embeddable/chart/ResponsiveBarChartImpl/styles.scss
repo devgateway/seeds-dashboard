@@ -1,12 +1,17 @@
 $border_gray: rgba(229, 229, 229, 1);
 
 .crops-with-icons {
-  padding-top: 10px !important;
-  padding-bottom: 10px !important;
+  padding-top: 9px !important;
+  padding-bottom: 9px !important;
   border-bottom: $border_gray 1px solid;
   border-top: $border_gray 1px solid;
   border-right: $border_gray 1px solid;
   border-left: $border_gray 1px solid;
+  height: 60px;
+  margin: auto;
+  width: 50%;
+  border: 3px solid yellow;
+  padding: 10px;
 }
 
 .chart-section {
@@ -24,6 +29,7 @@ $border_gray: rgba(229, 229, 229, 1);
   background-color: #eef1fa;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
+  max-height: 45px;
 
   label {
     color: #14701c;

@@ -112,13 +112,17 @@
       }
     }
   }
+  
+  .gauge-heading {
+    background-color: #f9f9f9;
+  }
 
   .chart-heading {
     height: 60px;
 
     .ui.grid {
       .row {
-        height: 65px;
+        height: 60px;
 
         .legend-item {
           margin-right: $base-unit + 5;

@@ -27,6 +27,11 @@ $border_gray: rgba(229, 229, 229, 1);
 
 .hhi-section {
   border: $border_gray 1px solid;
+  height: 60px;
+  margin: auto;
+  width: 50%;
+  border: 3px solid red;
+  padding: 10px;
 
   .hhi-title {
     float: left;
