@@ -26,7 +26,6 @@ export const replaceLink = (url, locale, isAddTypeToLink) => {
             finalUrl = url.replaceAll(all, `/${locale}${type}`)
         }
     }
-    debugger
     return finalUrl;
 }
 
