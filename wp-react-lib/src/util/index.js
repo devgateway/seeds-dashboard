@@ -21,9 +21,9 @@ export const replaceLink = (url, locale, isAddTypeToLink) => {
 
     } else {
         if (url.includes(`/${locale}/`)) {
-            finalUrl = url.replaceAll(all, `${type}`)
+            finalUrl = url.replaceAll(all, `/${type}`)
         } else {
-            finalUrl = url.replaceAll(all, `${locale}${type}`)
+            finalUrl = url.replaceAll(all, `/${locale}${type}`)
         }
     }
     return finalUrl;
@@ -40,15 +40,15 @@ export const replaceHTMLinks = (html, locale) => {
         let newLink
         if (useHash) {
             if (href.includes(`/${locale}/`)) {
-                newLink = href.replace(all, `#`) //TODO:fix it!
+                newLink = href.replace(all, `#`);
             } else {
-                newLink = href.replace(all, `#/${locale}`) //TODO:fix it!
+                newLink = href.replace(all, `#/${locale}`);
             }
         } else {
             if (href.includes(`/${locale}/`)) {
-                newLink = href.replace(all, '') //TODO:fix it!
+                newLink = href.replace(all, '');
             } else {
-                newLink = href.replace(all, '' + locale) //TODO:fix it!
+                newLink = href.replace(all, '/' + locale);
             }
         }
         newHtml = newHtml.replaceAll(link[2], newLink)
