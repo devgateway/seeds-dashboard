@@ -12,7 +12,6 @@ export const replaceLink = (url, locale, isAddTypeToLink) => {
         type = "type/";
     }
     let finalUrl;
-    debugger
     if (useHash) {
         if (url.includes(`/${locale}/`)) {
             finalUrl = url.replaceAll(all, `/#${type}`);
