@@ -21,11 +21,12 @@ export const replaceLink = (url, locale, isAddTypeToLink) => {
 
     } else {
         if (url.includes(`/${locale}/`)) {
-            finalUrl = url.replaceAll(all, `${type}`)
+            finalUrl = url.replaceAll(all, `/${type}`)
         } else {
-            finalUrl = url.replaceAll(all, `${locale}${type}`)
+            finalUrl = url.replaceAll(all, `/${locale}${type}`)
         }
     }
+    debugger
     return finalUrl;
 }
 
@@ -48,7 +49,7 @@ export const replaceHTMLinks = (html, locale) => {
             if (href.includes(`/${locale}/`)) {
                 newLink = href.replace(all, '') //TODO:fix it!
             } else {
-                newLink = href.replace(all, '' + locale) //TODO:fix it!
+                newLink = href.replace(all, '/' + locale) //TODO:fix it!
             }
         }
         newHtml = newHtml.replaceAll(link[2], newLink)
