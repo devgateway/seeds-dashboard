@@ -1298,10 +1298,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
             useFilterByYear = false;
             addLighterDiv = false;
             bottomLegend = intl.formatMessage({ id: 'years-legend', defaultMessage: 'Year' });
-            leftLegend = intl.formatMessage({
-                id: 'number-of-varieties-released',
-                defaultMessage: 'Number of varieties released'
-            });
+            leftLegend = intl.formatMessage({ id: 'number-of-varieties-released', defaultMessage: 'Number of varieties released'});
             lineTooltip = (d) => {
                 return (<div className="tooltip-container-var-release">
                     <div className="header-container">
@@ -1314,9 +1311,8 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
                                 })}</div>
                             </div>
                             <div className="table">
-                                <label style={{ float: 'left' }} className="year">Year</label>
-                                <label style={{ float: 'right' }} className="vr">Avg # of
-                                    varieties</label>
+                                <label style={{ float: 'left' }} className="year">{intl.formatMessage({ id: 'tooltip-year', defaultMessage: 'Year'})}</label>
+                                <label style={{ float: 'right' }} className="vr">{intl.formatMessage({ id: 'tooltip-varieties-released', defaultMessage: 'Varieties released'})}</label>
                             </div>
                         </div>
                     </div>
@@ -1324,6 +1320,18 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
                         <table width="100%">
                             <tr>
                                 <td className="year">{d.point.data.x}</td>
+                                <td style={{ fontWeight: 'bold' }}>{data.otherValues[d.point.data.x][d.point.serieId]}</td>
+                            </tr>
+                            <tr>
+                                <td className="year">{d.point.data.x - 1}</td>
+                                <td style={{ fontWeight: 'bold' }}>{data.otherValues[d.point.data.x - 1][d.point.serieId]}</td>
+                            </tr>
+                            <tr>
+                                <td className="year">{d.point.data.x - 2}</td>
+                                <td style={{ fontWeight: 'bold' }}>{data.otherValues[d.point.data.x - 2][d.point.serieId]}</td>
+                            </tr>
+                            <tr>
+                                <td className="year">{intl.formatMessage({ id: 'tooltip-average', defaultMessage: 'Average'})}</td>
                                 <td style={{ fontWeight: 'bold' }}>{d.point.data.y}</td>
                             </tr>
                         </table>
