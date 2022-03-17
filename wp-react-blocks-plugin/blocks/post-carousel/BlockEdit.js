@@ -34,11 +34,12 @@ class BlockEdit extends BlockEditWithFilters {
         connectFilter,
         valuesFilterStore,
         selectedFilterStore,
+        scheduledFilter,
+        scheduledFilterStore,
         fieldOrientation,
         navigatorStyle
       },
     } = this.props;
-
 
     let queryString = `editing=true&data-type=${type}`
     queryString += `&data-taxonomy=${taxonomy}`;
@@ -50,7 +51,8 @@ class BlockEdit extends BlockEditWithFilters {
     queryString += `&data-values-filter-store=${valuesFilterStore}`;
     queryString += `&data-selected-filter-store=${selectedFilterStore}`;
     queryString += `&data-orientation=${fieldOrientation}`;
-    queryString += `&data-navigator-style=${navigatorStyle}`;
+    queryString += `&data-scheduled-filter=${scheduledFilter}`;
+    queryString += `&data-scheduled-filter-store=${scheduledFilterStore}`;
     const divStyles = { height: height + 'px', width: '100%' }
 
     return (
@@ -119,6 +121,26 @@ class BlockEdit extends BlockEditWithFilters {
                 value={selectedFilterStore}
                 onChange={(selectedFilterStore) => setAttributes({ selectedFilterStore })}
               /></PanelRow>}
+          </PanelBody>
+          <PanelBody title={__("Scheduled event filter")}>
+            <PanelRow>
+              <CheckboxControl
+                  label={__('Filter by scheduled date')}
+                  checked={scheduledFilter}
+                  onChange={() => setAttributes({ scheduledFilter: !scheduledFilter })} />
+            </PanelRow>
+            {scheduledFilter &&
+              <SelectControl
+                  label={__('Filter past/upcoming posts:')}
+                  value={[scheduledFilterStore]}
+                  onChange={(scheduledFilterStore) => {
+                    setAttributes({ scheduledFilterStore })
+                  }}
+                  options={[
+                    { label: 'Past posts', value: 'past' },
+                    { label: 'Upcoming posts', value: 'upcoming' }
+                  ]}
+              />}
           </PanelBody>
         </InspectorControls>
 

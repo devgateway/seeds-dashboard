@@ -49,6 +49,8 @@ class PostProvider extends React.Component {
             search,
             postType,
             id,
+            isScheduledFilter,
+            scheduledFilterStore,
             slug404
         } = this.props
 
@@ -74,15 +76,33 @@ class PostProvider extends React.Component {
     }
 
     render() {
-        const {posts, meta, loading, error, locale} = this.props;
+        const {posts, meta, loading, error, locale, isScheduledFilter, scheduledFilterStore} = this.props;
         if (posts && (posts.length > 0 || posts.id)) {
-          let postsArray = posts;
-          if (!Array.isArray(postsArray)) {
-            postsArray = [];
-            postsArray.push(posts);
-          }
-          return <PostContext.Provider
-            value={{ posts: postsArray, locale, meta }}>{this.props.children}</PostContext.Provider>
+            let postsArray = posts;
+            if (!Array.isArray(postsArray)) {
+                postsArray = [];
+                postsArray.push(posts);
+            }
+            if (isScheduledFilter) {
+                let now = new Date().getTime();
+                let isPast = scheduledFilterStore === 'past';
+                postsArray = postsArray.filter(post => {
+                    if (post['meta_fields']['event_end']) {
+                        let end = new Date(post['meta_fields']['event_end']).getTime();
+                        if ((end < now && isPast) || (end > now && !isPast)) {
+                            return true;
+                        }
+                    } else if (post['meta_fields']['event_begin']) {
+                        let start = new Date(post['meta_fields']['event_begin']).getTime();
+                        if ((start < now && isPast) || (start > now && !isPast)) {
+                            return true;
+                        }
+                    }
+                    return false;
+                });
+            }
+
+            return <PostContext.Provider value={{ posts: postsArray, locale, meta }}>{this.props.children}</PostContext.Provider>
         } else if (error) {
             return <Segment color={"red"}>
                 <h1>500</h1>
