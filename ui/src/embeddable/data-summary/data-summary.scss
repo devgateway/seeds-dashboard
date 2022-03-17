@@ -229,6 +229,7 @@
         &.active {
           .summary-theme {
             color: $green;
+            line-height: 100%;
           }
 
           .icon {
@@ -245,6 +246,7 @@
           align-items: center;
           font-size: 14px;
           font-weight: 600;
+          line-height: 100%;
           padding-left: 10px;
 
           &.indicator {
