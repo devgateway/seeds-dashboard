@@ -175,6 +175,7 @@
       }
     }
   }
+
   .carousel__slider--vertical{
     li{
       display: block;
@@ -193,6 +194,21 @@
       position: relative;
     }
   }
+
+  // Events grid
+  &.events-feed{
+    .carousel__slider--vertical{
+      padding-left: $base-unit + 2;
+      li{
+        float: left;
+        height: $base-unit * 45;
+        padding: 5px;
+        position: relative;
+        width: 33% !important;
+      }
+    }
+  }
+
 }
 
 // Carousel without read more
