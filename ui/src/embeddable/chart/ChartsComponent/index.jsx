@@ -67,6 +67,7 @@ const ChartComponent = ({
     const ref = useRef(null);
     const genericLegend = "generic";
     //TODO can be configured in wordpress at a later stage
+    let defaultFormat = { style: 'decimal', minimumFractionDigits: 0, maximumFractionDigits: 1 };
     let indexBy = 'crop';
     let useFilterByYear = true;
     let layout = 'vertical';
@@ -85,7 +86,7 @@ const ChartComponent = ({
     let legend = 'crops';
     let customTickWithCropsBottom = false;
     let customTickWithCropsLeft = false;
-    let showTotalLabel = true;
+    let totalLabel = { show: true, format: defaultFormat };
     let showTotalMD = true;
     let legendTitle = "";
     let margins = null;
@@ -946,7 +947,7 @@ const ChartComponent = ({
             withCropsWithSpecialFeatures = false;
             useFilterByYear = true;
             useFilterByCrops = false;
-            showTotalLabel = false;
+            totalLabel.show = false;
             showTotalMD = true;
             bottomLegend = intl.formatMessage({ id: 'percentage-legend', defaultMessage: 'Percentage (%)' });
             enableGridX = true;
@@ -1110,7 +1111,7 @@ const ChartComponent = ({
                     })
                 }
             ];
-            showTotalLabel = true;
+            totalLabel.show = true;
             lineChartFieldLabel = intl.formatMessage({
                 id: 'industry-opinion-legend-tooltip',
                 defaultMessage: 'Industry opinion rating'
@@ -1221,7 +1222,8 @@ const ChartComponent = ({
                             id: 'agricultural-households-tooltip',
                             defaultMessage: 'Agricultural households/agro-dealer'
                         })} </span>
-                        <span className="bold"> {d.data.households !== FAKE_NUMBER ? d.data.households : "MD"}</span>
+                        <span
+                            className="bold"> {d.data.households !== FAKE_NUMBER ? `${intl.formatNumber(d.data.households, defaultFormat)} ` : "MD"}</span>
                     </div>
                     <div style={{ textAlign: 'center' }}>
                         <span>{intl.formatMessage({
@@ -1295,7 +1297,8 @@ const ChartComponent = ({
                             id: 'households-per-officer-tooltip',
                             defaultMessage: 'Households per extension officer'
                         })} </span>
-                        <span className="bold"> {d.data.households !== FAKE_NUMBER ? d.data.households : "MD"}</span>
+                        <span
+                            className="bold"> {d.data.households !== FAKE_NUMBER ? `${intl.formatNumber(d.data.households, defaultFormat)} ` : "MD"}</span>
                     </div>
                 </>
             }
@@ -1415,7 +1418,7 @@ const ChartComponent = ({
                         customTickWithCropsBottom={customTickWithCropsBottom}
                         customTickWithCropsLeft={customTickWithCropsLeft}
                         dataSuffix={dataSuffix}
-                        showTotalLabel={showTotalLabel}
+                        showTotalLabel={totalLabel.show}
                         containerHeight={containerHeight || 450}
                         showTotalMD={showTotalMD}
                         margins={margins}
@@ -1439,7 +1442,7 @@ const ChartComponent = ({
                                         getTooltipHeader={getTooltipHeader} lineColor={barPieColor[0]}
                                         legends={legends} lineChartField={lineChartField}
                                         lineChartFieldLabel={lineChartFieldLabel}
-                                        showTotalLabel={showTotalLabel} extraTooltipClass={extraTooltipClass}
+                                        totalLabel={totalLabel} extraTooltipClass={extraTooltipClass}
                                         intl={intl}
                                         noDataLabelId={noDataLabelId}
                 />
@@ -1471,7 +1474,7 @@ const ChartComponent = ({
                                                     customTickWithCropsBottom={customTickWithCropsBottom}
                                                     customTickWithCropsLeft={customTickWithCropsLeft}
                                                     dataSuffix={dataSuffix}
-                                                    showTotalLabel={showTotalLabel}
+                                                    totalLabel={totalLabel}
                                                     containerHeight={containerHeight || 450}
                                                     showTotalMD={showTotalMD} margins={margins}
                                                     intl={intl} barLabelFormat={roundNumbers}
@@ -1497,7 +1500,7 @@ const ChartComponent = ({
                                                           customTickWithCropsBottom={customTickWithCropsBottom}
                                                           customTickWithCropsLeft={customTickWithCropsLeft}
                                                           dataSuffix={dataSuffix}
-                                                          showTotalLabel={showTotalLabel}
+                                                          totalLabel={totalLabel}
                                                           containerHeight={containerHeight || 450}
                                                           showTotalMD={showTotalMD}
                                                           margins={margins}

@@ -55,9 +55,7 @@ const IndicatorLabel = ({ field, className, range, displayType, intl, selectedCo
 const formatValue = (value, displayType, intl) => {
   let formattedValue = value;
   if (value !== 'number' && value !== 'rating') {
-    const style = 'decimal';
-    let decimals = 1;
-    const format = {style, minimumFractionDigits: 0, maximumFractionDigits: decimals}
+    const format = {style:'decimal', minimumFractionDigits: 0, maximumFractionDigits: 1}
     if (displayType !== LEGEND && !isNaN(value)) {
       if (displayType === "Percentage") {
         formattedValue = `${intl.formatNumber(value * 100, format)} %`;
