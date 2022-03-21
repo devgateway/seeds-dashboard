@@ -360,8 +360,8 @@ const ChartComponent = ({
                 let sumWOF = 0;
                 if (selectedYear && selectedYear.length > 0) {
                     //selected year is expected to be 1
-                    sumWF = data.values[c][selectedYear].withspecialfeature || 0;
-                    sumWOF = data.values[c][selectedYear].withoutspecialfeature || 0;
+                    sumWF = data.values[c] && data.values[c][selectedYear] && data.values[c][selectedYear].withspecialfeature || 0;
+                    sumWOF = data.values[c] && data.values[c][selectedYear] && data.values[c][selectedYear].withoutspecialfeature || 0;
                 } else {
                     Object.keys(data.values[c]).forEach(i => {
                         sumWF += data.values[c][i].withspecialfeature || 0;
