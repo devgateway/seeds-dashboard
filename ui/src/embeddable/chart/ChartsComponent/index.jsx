@@ -289,8 +289,8 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
         crops.forEach(c => {
             const entry = { crop: c };
             commonProcess(c, entry);
+            keys.sort();
         });
-
         // Fix missing data from the EP (crop without one or more years data).
         const newBlueColors = [...blueColors];
         processedData.forEach(p => {
