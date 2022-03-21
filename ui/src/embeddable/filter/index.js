@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { setFilter } from "../reducers/data";
 import './filter.scss'
 import { getCountries } from "../reducers/data";
-import { COUNTRIES_FILTER, COUNTRY_SETTINGS, SELECTED_COUNTRY } from "../reducers/StoreConstants";
+import { COUNTRIES_FILTER, COUNTRY_SETTINGS, SELECTED_COUNTRY, SHARE_COUNTRY } from "../reducers/StoreConstants";
 import CountryFilter from "./CountryFilter";
 import CountrySelector from "./countrySelector/CountrySelector";
 
@@ -33,17 +33,21 @@ const Filter = ({
     const getFirstSelectedCountry = () => {
         const pNavigationCountry = country_settings ? country_settings.country : undefined;
         let firstSelectedCountry = undefined;
-        if (countries) {
-            const defaultCountry = countries.find(c => c.isoCode === process.env.REACT_APP_DEFAULT_COUNTRY);
-            if (defaultCountry) {
-                firstSelectedCountry = defaultCountry.countryId;
-            } else {
-                firstSelectedCountry = countries[0].countryId;
-            }
-            if (pNavigationCountry) {
-                const tempFirstSelectedCountry = countries.find(c => c.isoCode === pNavigationCountry);
-                if (tempFirstSelectedCountry) {
-                    firstSelectedCountry = tempFirstSelectedCountry.countryId;
+        if (filters && filters.get(SHARE_COUNTRY)) {
+            firstSelectedCountry = parseInt(filters.get(SHARE_COUNTRY));
+        } else {
+            if (countries) {
+                const defaultCountry = countries.find(c => c.isoCode === process.env.REACT_APP_DEFAULT_COUNTRY);
+                if (defaultCountry) {
+                    firstSelectedCountry = defaultCountry.countryId;
+                } else {
+                    firstSelectedCountry = countries[0].countryId;
+                }
+                if (pNavigationCountry) {
+                    const tempFirstSelectedCountry = countries.find(c => c.isoCode === pNavigationCountry);
+                    if (tempFirstSelectedCountry) {
+                        firstSelectedCountry = tempFirstSelectedCountry.countryId;
+                    }
                 }
             }
         }

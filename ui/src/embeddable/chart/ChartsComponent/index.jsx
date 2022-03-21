@@ -30,7 +30,11 @@ import {
     PRICE_SEED_PLANTING,
     AVAILABILITY_SEED_SMALL_PACKAGES,
     AGRODEALER_NETWORK,
-    AGRICULTURAL_EXTENSION_SERVICES, NUMBER_SEED_INSPECTORS_BY_COUNTRY, NUMBER_OF_VARIETIES_RELEASED
+    AGRICULTURAL_EXTENSION_SERVICES,
+    NUMBER_SEED_INSPECTORS_BY_COUNTRY,
+    NUMBER_OF_VARIETIES_RELEASED,
+    SHARE_CROPS,
+    SHARE_CHART, SHARE_YEARS
 } from "../../reducers/StoreConstants";
 import YearLegend from "../common/year";
 import MarketConcentrationHHI from "../MarketConcentrationHHI";
@@ -41,8 +45,21 @@ import { COUNTRY_OPTIONS } from "../../../countries";
 import ResponsiveLineChartImpl from "../ResponsiveLineChartImpl";
 import Gauge from "../GaugesChart/components/Gauge";
 import { range } from "../GaugesChart/components/common";
+import { connect } from "react-redux";
 
-const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, methodology, download, exportPng }) => {
+const ChartComponent = ({
+                            sources,
+                            data,
+                            type,
+                            title,
+                            subTitle,
+                            editing,
+                            intl,
+                            methodology,
+                            download,
+                            exportPng,
+                            filters
+                        }) => {
     const [initialCrops, setInitialCrops] = useState(null);
     const [selectedCrops, setSelectedCrops] = useState(null);
     const [selectedYear, setSelectedYear] = useState(null);
@@ -93,7 +110,16 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
     let extraTooltipClass = null;
     let showMaxYearsMessage = false;
     let switchToLineChart = false;
-
+    let sharedCrops;
+    let sharedYears;
+    if (filters && filters.get(SHARE_CHART) === type) {
+        if (filters.get(SHARE_CROPS)) {
+            sharedCrops = filters.get(SHARE_CROPS).split(",");
+        }
+        if (filters.get(SHARE_YEARS)) {
+            sharedYears = filters.get(SHARE_YEARS).split(",");
+        }
+    }
     if (type === PERFORMANCE_SEED_TRADERS) {
         maxSelectableYear = 3;
         showMaxYearsMessage = true
@@ -108,18 +134,22 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
         crops = data.dimensions.crop ? data.dimensions.crop.values : {};
         if (data !== currentData) {
             setCurrentData(data);
-            setSelectedCrops(crops);
-            setInitialCrops(crops);
-            //TODO see what to use
-            if (years && years.length > maxSelectableYear) {
-                setSelectedYear(years.slice(years.length - maxSelectableYear, years.length))
+            if (sharedCrops) {
+                setSelectedCrops(sharedCrops);
             } else {
-                setSelectedYear(years)
+                setSelectedCrops(crops);
+            }
+            setInitialCrops(crops);
+            if (sharedYears) {
+                setSelectedYear(sharedYears)
+            } else {
+                if (years && years.length > maxSelectableYear) {
+                    setSelectedYear(years.slice(years.length - maxSelectableYear, years.length))
+                } else {
+                    setSelectedYear(years)
+                }
             }
 
-            //setSelectedYear(years[years.length - 1])
-
-            // workaround for selectedCrops not being updated.
             return null;
         }
         if (!initialCrops) {
@@ -1298,7 +1328,10 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
             useFilterByYear = false;
             addLighterDiv = false;
             bottomLegend = intl.formatMessage({ id: 'years-legend', defaultMessage: 'Year' });
-            leftLegend = intl.formatMessage({ id: 'number-of-varieties-released', defaultMessage: 'Number of varieties released'});
+            leftLegend = intl.formatMessage({
+                id: 'number-of-varieties-released',
+                defaultMessage: 'Number of varieties released'
+            });
             lineTooltip = (d) => {
                 return (<div className="tooltip-container-var-release">
                     <div className="header-container">
@@ -1311,8 +1344,14 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
                                 })}</div>
                             </div>
                             <div className="table">
-                                <label style={{ float: 'left' }} className="year">{intl.formatMessage({ id: 'tooltip-year', defaultMessage: 'Year'})}</label>
-                                <label style={{ float: 'right' }} className="vr">{intl.formatMessage({ id: 'tooltip-varieties-released', defaultMessage: 'Varieties released'})}</label>
+                                <label style={{ float: 'left' }} className="year">{intl.formatMessage({
+                                    id: 'tooltip-year',
+                                    defaultMessage: 'Year'
+                                })}</label>
+                                <label style={{ float: 'right' }} className="vr">{intl.formatMessage({
+                                    id: 'tooltip-varieties-released',
+                                    defaultMessage: 'Varieties released'
+                                })}</label>
                             </div>
                         </div>
                     </div>
@@ -1331,7 +1370,10 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
                                 <td style={{ fontWeight: 'bold' }}>{data.otherValues[d.point.data.x - 2][d.point.serieId]}</td>
                             </tr>
                             <tr>
-                                <td className="year">{intl.formatMessage({ id: 'tooltip-average', defaultMessage: 'Average'})}</td>
+                                <td className="year">{intl.formatMessage({
+                                    id: 'tooltip-average',
+                                    defaultMessage: 'Average'
+                                })}</td>
                                 <td style={{ fontWeight: 'bold' }}>{d.point.data.y}</td>
                             </tr>
                         </table>
@@ -1464,13 +1506,23 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
     }
 
     let initialSelectedCrops = null;
-    if (!noData && initialCrops && Array.from(initialCrops).length > 0) {
+    if (sharedCrops) {
         initialSelectedCrops = [];
         initialCrops.forEach(i => {
-            initialSelectedCrops.push(1);
+            if (sharedCrops.includes(i)) {
+                initialSelectedCrops.push(1);
+            } else {
+                initialSelectedCrops.push(0);
+            }
         });
+    } else {
+        if (!noData && initialCrops && Array.from(initialCrops).length > 0) {
+            initialSelectedCrops = [];
+            initialCrops.forEach(i => {
+                initialSelectedCrops.push(1);
+            });
+        }
     }
-
     return (<div ref={ref}>
         <Grid className={`number-varieties-released`}>
             <Grid.Row className="header-section">
@@ -1479,7 +1531,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
                 </Grid.Column>
                 <Grid.Column width={4}>
                     <Export methodology={methodology} exportPng={exportPng} download={download} containerRef={ref}
-                            type={'bar'} />
+                            type={'bar'} chartType={type} selectedCrops={selectedCrops} selectedYear={selectedYear} />
                 </Grid.Column>
             </Grid.Row>
             {useFilterByCrops || useFilterByYear ? <Grid.Row className={`filters-section`}>
@@ -1532,4 +1584,8 @@ const packageBarColor = [
 
 export const FAKE_NUMBER = 0.001;
 
-export default injectIntl(ChartComponent);
+const mapStateToProps = (state) => {
+    return { filters: state.getIn(['data', 'filters']), }
+}
+const mapActionCreators = {}
+export default connect(mapStateToProps, mapActionCreators)(injectIntl(ChartComponent))

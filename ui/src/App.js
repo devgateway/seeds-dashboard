@@ -22,7 +22,7 @@ import {
 } from "@devgateway/wp-react-lib";
 import queryString from "query-string";
 import { Container, Segment } from "semantic-ui-react";
-import { detectClientCountry } from "./embeddable/reducers/data";
+import { detectClientCountry, setFilter } from "./embeddable/reducers/data";
 import withTracker from "./withTracker";
 
 const store = getStore()
@@ -52,6 +52,7 @@ class IntlRoutes extends Component {
     const locale = this.props.match.params.lan
     store.dispatch(updateIntl({ locale, messages: messages[this.props.match.params.lan] }))
     store.dispatch(detectClientCountry());
+    this.processSharedInfo();
   }
 
   componentDidUpdate() {
@@ -59,6 +60,16 @@ class IntlRoutes extends Component {
     store.dispatch(updateIntl({ locale, messages: messages[locale] }))
     store.dispatch(detectClientCountry());
   }
+
+    processSharedInfo() {
+        if (this.props.location.hash) {
+            const sharedInformation = this.props.location.hash.substring(1, this.props.location.hash.length);
+            sharedInformation.split("/").forEach(si => {
+                const filterOption = si.split("=");
+                store.dispatch(setFilter('share_' + filterOption[0], filterOption[1]));
+            })
+        }
+    }
 
   render() {
     const locale = this.props.match.params.lan
