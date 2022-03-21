@@ -97,7 +97,7 @@ const MarketConcentrationHHI = ({data, sources, selectedYear, bottomLegend, intl
                                                 customTickWithCropsBottom={customTickWithCropsBottom}
                                                 containerHeight={300}
                                                 gridTickLines={4} margins={{top: 40, right: 10, bottom: 60, left: 70}}
-                                                padding={0.15} intl={intl}
+                                                padding={0.05} intl={intl}
                                                 axisBottom={false}
                         />
                     </Grid.Column>);
