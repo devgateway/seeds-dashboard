@@ -29,7 +29,8 @@ class PageProvider extends React.Component {
         //TODO previous update condition
         /*(prevProps.parent !== parent || prevProps.slug !== slug || locale !== prevProps.locale ||
             previewId !== prevProps.previewId | search !== prevProps.search ) && */
-        if ( (locale !== prevProps.locale|| pages === undefined || pages[0].slug !== slug) && !loading) {
+        debugger
+        if ((locale !== prevProps.locale || pages === undefined || pages.length === 0 || pages[0].slug !== slug) && !loading) {
             this.props.onLoad({
                 before,
                 perPage,
