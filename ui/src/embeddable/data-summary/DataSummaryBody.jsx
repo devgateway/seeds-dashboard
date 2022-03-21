@@ -129,7 +129,7 @@ const DataSummaryBody = ({
                     return <Grid className={`${index % 2 === 0 ? EVEN : ODD}`} key={f.id}>
                         <Grid.Column width={10}
                                      className="crop-title " data-indicator-key={f.key}>
-                            <Tooltip item={f} tiny/>
+                            <Tooltip item={f} tiny />
                             {f.name}
                         </Grid.Column>
                         <Grid.Column width={6}
@@ -163,7 +163,7 @@ const DataSummaryBody = ({
                     return (
                         <Grid.Row className={index % 2 === 0 ? 'even' : 'odd'} key={effectiveF.id}>
                             <Grid columns={3}>
-                                {filters && filters.get(VISIBLE_COUNTRIES).map(vc => {
+                                {filters && filters.get(VISIBLE_COUNTRIES) && filters.get(VISIBLE_COUNTRIES).map(vc => {
                                     const field = selectedCountry.find(
                                         sc => (sc.fieldId === effectiveF.id && sc.countryId === vc)
                                     )

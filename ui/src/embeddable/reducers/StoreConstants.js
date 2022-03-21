@@ -35,5 +35,12 @@ export const AVAILABILITY_SEED_SMALL_PACKAGES = 'availabilitySeedSmallPackages';
 export const PRICE_SEED_PLANTING = 'priceSeedPlanting';
 export const AGRODEALER_NETWORK = 'agrodealerNetwork';
 export const AGRICULTURAL_EXTENSION_SERVICES = 'agriculturalExtensionServices';
+export const SHARE_TAB = 'share_tab'
+export const SHARE_COUNTRY = 'share_country'
+export const SHARE_CHART = 'share_chart'
+export const CURRENT_TAB = 'current-tab';
+export const SHARE_CROPS = 'share_crops';
+export const SHARE_YEARS = 'share_years';
+
 
 export const WP_CHART = 'wp-chart';
