@@ -87,7 +87,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
     let processedData = [];
     let useCropLegendsRow = true;
     let useFilterByCrops = true;
-    let yearsColors = blueColors;
+    let yearsColors = barColors;
     let dataSuffix = null;
     let containerHeight = null;
     let extraTooltipClass = null;
@@ -227,7 +227,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
     }
 
     const commonProcess = (c, entry, yearColors) => {
-        const newBlueColors = yearColors ? [...yearColors] : null;
+        const newBarColors = yearColors ? [...yearColors] : null;
         Object.keys(data.values[c]).forEach((i, j) => {
             if (selectedYear && selectedYear.find(k => k === i)) {
                 const key = '' + i;
@@ -243,9 +243,9 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
                 if (!keys.find(i => i === key)) {
                     keys.push(key);
                 }
-                if (yearColors && newBlueColors) {
+                if (yearColors && newBarColors) {
                     if (!colors.get(key)) {
-                        colors.set(key, newBlueColors.shift());
+                        colors.set(key, newBarColors.shift());
                     }
                 }
                 if (Number(entry[i]) > max) {
@@ -292,7 +292,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
         });
 
         // Fix missing data from the EP (crop without one or more years data).
-        const newBlueColors = [...blueColors];
+        const newBarColors = [...barColors];
         processedData.forEach(p => {
             years.forEach(y => {
                 if (isNaN(Number(p[y]))) {
@@ -306,7 +306,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
                 }
                 // Process color here to prevent SEEDSDT-583
                 if (!colors.get(y)) {
-                    colors.set(y, newBlueColors.shift());
+                    colors.set(y, newBarColors.shift());
                 }
             });
         });
@@ -1517,8 +1517,8 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
     </div>);
 }
 
-const blueColors = [
-    '#3377b6', '#7dafde', '#9fbfdc', '#c2dbf3'
+const barColors = [
+    '#DE9F68', '#81B769', '#6C9964', '#8368B5'
 ];
 const performanceColors = [
     '#4D843F', '#F39C00', '#E36A6A', '#289DF5', '#FBCC2A'
