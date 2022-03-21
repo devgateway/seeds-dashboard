@@ -369,6 +369,9 @@ const ChartComponent = ({
                     });
                 }
 
+                sumWF = sumWF === 'MD' ? 0 : sumWF;
+                sumWOF = sumWOF === 'MD' ? 0 : sumWOF;
+
                 const key1 = 'withSpecialFeature_' + c;
                 const key2 = 'withoutSpecialFeature_' + c;
                 const header = {
@@ -386,6 +389,7 @@ const ChartComponent = ({
                 }
             });
         }
+        noData = max === 0;
     }
 
     let subLabel = '';
@@ -1539,7 +1543,7 @@ const ChartComponent = ({
                     <CropFilter data={initialCrops} onChange={handleCropFilterChange}
                                 initialSelectedCrops={initialSelectedCrops} intl={intl} />
                 </Grid.Column> : null}
-                {(!noData && useFilterByYear) ? <Grid.Column computer={3} mobile={16}>
+                {(useFilterByYear) ? <Grid.Column computer={3} mobile={16}>
                     <YearsFilter data={years} onChange={handleYearFilterChange} maxSelectable={maxSelectableYear}
                                  defaultSelected={selectedYear} showMaxYearsMessage={showMaxYearsMessage} />
                 </Grid.Column> : null}
