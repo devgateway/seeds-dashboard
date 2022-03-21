@@ -62,7 +62,7 @@ export const legends = [
             {
                 id: 9,
                 'color': 'red',
-                'label': 'Poor (2,000-2,999)',
+                'label': 'Poor (3,000-3,999)',
                 order: 2,
                 className: 'legend-item'
             },
