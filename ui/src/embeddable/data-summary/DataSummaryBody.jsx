@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { createRef, useEffect, useMemo, useState } from "react";
 import { Accordion, Container, Grid, Icon } from "semantic-ui-react";
+
 import {
     COUNTRY_SETTINGS,
     SELECTED_COUNTRY,
@@ -38,18 +39,22 @@ const DataSummaryBody = ({
         }
 
     }, [summary_indicators, onLoadIndicatorsInformation])
-    const handleThemeClick = (e, titleProps, categoryId) => {
-
+    const handleThemeClick = (e, titleProps, categoryId, refIndex) => {
         const { index } = titleProps
         const newIndex = activeThemeIndex === index ? -1 : index
+        //
         if (newIndex === -1) {
             setActiveIndicatorIndexes([]);
         } else {
             onLoadIndicatorsInformation(categoryId)
+            refs[refIndex].current.scrollIntoView();
+
+
             if (indicatorsIds.get(newIndex)) {
                 setActiveIndicatorIndexes([...indicatorsIds.get(newIndex)]);
             }
         }
+
         setActiveThemeIndex(newIndex);
     }
     const handleIndicatorClick = (e, titleProps) => {
@@ -235,8 +240,15 @@ const DataSummaryBody = ({
     }
 
     const index = { i: 0 };
-    return <Container className="summary-container"><Accordion>
-        {summary_indicators && summary_indicators.map((theme) => {
+    let refs;
+
+    const SummaryIndicatorsHeader = () => {
+        refs = useMemo(
+            () => Array.from({ length: summary_indicators.length }).map(() => createRef()),
+            []
+        );
+        return summary_indicators.map((theme, themIndex) => {
+
             index.i = index.i + 1;
             const isIndicator = theme.key === 'ZC1';
             return <>
@@ -244,9 +256,9 @@ const DataSummaryBody = ({
                     active={activeThemeIndex === index.i}
                     index={index.i}
                     onClick={
-                        (e, titleProps) => handleThemeClick(e, titleProps, theme.id)}
+                        (e, titleProps) => handleThemeClick(e, titleProps, theme.id, themIndex)}
                     key={theme.id} className={`theme-title ${isIndicator ? " theme-overview" : ''}`}>
-                    <div className="summary-theme summary-common">
+                    <div className="summary-theme summary-common" ref={refs[themIndex]}>
                         <Icon name='chevron circle down' />
                         {theme.name}
                     </div>
@@ -257,7 +269,9 @@ const DataSummaryBody = ({
                 </Accordion.Content>
             </>
         })
-        }
+    }
+    return <Container className="summary-container"><Accordion>
+        {summary_indicators && <SummaryIndicatorsHeader summaryIndicators={summary_indicators} />}
     </Accordion></Container>
 }
 
