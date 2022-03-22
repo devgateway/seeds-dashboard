@@ -53,4 +53,15 @@
     padding-top: $base-unit * 2.8;
     width: $base-unit * 36;
   }
+  .input>input{
+    padding-left: $base-unit !important;
+  }
+  .ui.button{
+    @include border-radius(3px);
+    background-color: $green-link;
+    color: #ffffff;
+    font-size: 14px;
+    margin-top: $base-unit;
+    padding: $base-unit $base-unit + 6;
+  }
 }

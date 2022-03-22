@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Input, Popup, Form, Button } from 'semantic-ui-react'
 import './styles.scss';
 import { injectIntl } from "react-intl";
@@ -14,8 +14,10 @@ const Export = ({
                     filters,
                     chartType,
                     selectedCrops,
-                    selectedYear
+                    selectedYear,
+                    intl
                 }) => {
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
     const indexOfHash = window.location.href.indexOf("#");
     let url = window.location.href;
     if (indexOfHash > 0) {
@@ -40,11 +42,21 @@ const Export = ({
         if (selectedYear && selectedYear.length > 0) {
             finalUrl = finalUrl + `/years=${selectedYear.join(",")}`;
         }
+        const clipboardMessage = intl.formatMessage({
+            id: 'text-to-clipboard',
+            defaultMessage: 'text copied to clipboard'
+        });
         return (<Form.Group grouped>
-            <Input key="search_input" type="text" icon='search' iconPosition='left'
-                   placeholder="Search..." value={finalUrl} style={{ width: '500px' }} />
-            <Popup on={"click"} content={"text copied to clipboard"} closeOnTriggerClick={true}
-                   trigger={<Button onClick={() => navigator.clipboard.writeText(finalUrl)}>Share</Button>} />
+            <Input key="search_input" type="text" iconPosition='left'
+                   value={finalUrl} style={{ width: '500px' }} />
+            <Popup on={"click"} content={clipboardMessage} closeOnTriggerClick={true}
+                   trigger={<Button onClick={() => {
+                       navigator.clipboard.writeText(finalUrl);
+                       setTimeout(() => {
+                           setIsPopupOpen(false)
+                       }, 2000);
+
+                   }}>Share</Button>} />
 
         </Form.Group>)
     }
@@ -56,6 +68,10 @@ const Export = ({
                     : null}
                 <Popup className="methods-popup" content={<GenerateUrlForm />}
                        on={"click"}
+                       open={isPopupOpen}
+                       onOpen={e => {
+                           setIsPopupOpen(true)
+                       }}
                        trigger={<div className="export share tooltip" />}
                        position='top right' />
             </div>
@@ -73,4 +89,4 @@ const mapStateToProps = (state) => {
     return { filters: state.getIn(['data', 'filters']), }
 }
 const mapActionCreators = {}
-export default connect(mapStateToProps, mapActionCreators)(Export)
+export default connect(mapStateToProps, mapActionCreators)(injectIntl(Export))
