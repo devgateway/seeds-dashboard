@@ -41,7 +41,7 @@ const Export = ({
             finalUrl = finalUrl + `/years=${selectedYear.join(",")}`;
         }
         return (<Form.Group grouped>
-            <Input key="search_input" type="text" icon='search' iconPosition='left'
+            <Input key="search_input" type="text" iconPosition='left'
                    placeholder="Search..." value={finalUrl} style={{ width: '500px' }} />
             <Popup on={"click"} content={"text copied to clipboard"} closeOnTriggerClick={true}
                    trigger={<Button onClick={() => navigator.clipboard.writeText(finalUrl)}>Share</Button>} />
