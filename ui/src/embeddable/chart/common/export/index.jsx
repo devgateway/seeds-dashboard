@@ -48,7 +48,7 @@ const Export = ({
         });
         return (<Form.Group grouped>
             <Input key="search_input" type="text" iconPosition='left'
-                   placeholder="Search..." value={finalUrl} style={{ width: '500px' }} />
+                   value={finalUrl} style={{ width: '500px' }} />
             <Popup on={"click"} content={clipboardMessage} closeOnTriggerClick={true}
                    trigger={<Button onClick={() => {
                        navigator.clipboard.writeText(finalUrl);
