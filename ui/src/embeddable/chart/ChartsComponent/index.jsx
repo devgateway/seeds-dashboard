@@ -1377,11 +1377,11 @@ const ChartComponent = ({
                                 <td style={{ fontWeight: 'bold' }}>{data.otherValues[d.point.data.x - 2][d.point.serieId]}</td>
                             </tr>
                             <tr>
-                                <td className="year">{intl.formatMessage({
+                                <td className="average">{intl.formatMessage({
                                     id: 'tooltip-average',
                                     defaultMessage: 'Average'
                                 })}</td>
-                                <td style={{ fontWeight: 'bold' }}>{d.point.data.y}</td>
+                                <td className="total">{d.point.data.y}</td>
                             </tr>
                         </table>
                     </div>
