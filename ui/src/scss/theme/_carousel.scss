@@ -17,20 +17,6 @@
 
   .wp-block-cover {
     padding: 0px;
-
-  }
-
-  .wp-block-group {
-    min-height: 555px;
-    padding: 1rem 2rem;
-  }
-
-  .wp-block-columns {
-    .wp-block-column {
-      // padding: 0px;
-      // margin: 0px;
-    }
-
   }
 
   padding: 0px;
@@ -99,11 +85,27 @@
     display: block;
     font-size: 0.8rem;
     font-weight: 900;
-    margin-left: $base-unit * 5.5;
+    margin-left: $base-unit * 3;
     margin-top: -($base-unit * 8.5);
     position: relative;
   }
 
+  .carousel__inner-slide{
+    padding: $base-unit * 3;
+  }
+
+  .event-wrapper{
+    background-color: #ffffff;
+    min-height: 510px;
+    p{
+      color: #555555 !important;
+      font-size: 18px !important;
+    }
+  }
+
+  .event-details{
+    padding: 5px 30px;
+  }
   .carousel {
     li {
       min-height: $base-unit * 55;
@@ -144,6 +146,12 @@
       color: #ffffff;
       padding-bottom: $base-unit;
       padding-top: $base-unit;
+
+      i.icon.chevron.right{
+        &:before{
+          margin-right: -5px;
+        }
+      }
 
       &:hover {
         background-color: darken($green-link, 10%);
@@ -201,7 +209,7 @@
       padding-left: $base-unit + 2;
       li{
         float: left;
-        height: $base-unit * 45;
+        height: $base-unit * 62;
         padding: 5px;
         position: relative;
         width: 33% !important;
