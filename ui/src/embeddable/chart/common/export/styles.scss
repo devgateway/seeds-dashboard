@@ -44,6 +44,12 @@
   z-index: 10;
   margin-right: -20px !important;
   margin-top: -40px;
+  // Safari
+  @media not all and (min-resolution:.001dpcm)
+  { @supports (-webkit-appearance:none) {
+    margin-right: 127px !important;
+    width: 300px;
+  }}
   &:before{
     content: none;
   }
@@ -64,4 +70,14 @@
     margin-top: $base-unit;
     padding: $base-unit $base-unit + 6;
   }
+}
+
+.ui.popup.url-popup{
+  @extend .methods-popup;
+  // Safari
+  @media not all and (min-resolution:.001dpcm)
+  { @supports (-webkit-appearance:none) {
+    margin-right: 250px !important;
+    width: 500px;
+  }}
 }

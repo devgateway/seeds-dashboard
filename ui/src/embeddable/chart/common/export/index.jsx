@@ -66,7 +66,7 @@ const Export = ({
                 {download === 'true'
                     ? <div className="export download" onClick={e => exportPng(containerRef, type)} />
                     : null}
-                <Popup className="methods-popup" content={<GenerateUrlForm />}
+                <Popup className="url-popup" content={<GenerateUrlForm />}
                        on={"click"}
                        open={isPopupOpen}
                        onOpen={e => {
