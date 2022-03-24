@@ -773,6 +773,41 @@ p:empty {
   }
 }
 
+// Publications filter
+.green-filter{
+		height: $base-unit * 8;
+		.country-selector{
+			margin-top: $base-unit * 4;
+			.ui.vertical.menu{
+				background: none;
+				border: none;
+				width: $base-unit * 25;
+				.item{
+					.title{
+						color: #ffffff;
+					}
+					.icon{
+						color: #ffffff;
+						float: right;
+					}
+				}
+			}
+		}
+		.selected-country{
+			font-size: 21px;
+			font-weight: 900;
+			color: #ffffff;
+			margin-top: $base-unit;
+			> span{
+				color: $text-color;
+				margin-right: $base-unit - 5;
+			}
+		}
+}
+
+
+
+
 .country-filter{
   &.has-separator{
     border-bottom: 1px solid $separator-grey;
