@@ -37,7 +37,7 @@ import {
     DATA,
     WP_CATEGORIES,
     COUNTRIES_FILTER,
-    SOURCE_CATEGORIES, SELECTED_COUNTRY, NUMBER_SEED_INSPECTORS_BY_COUNTRY
+    SOURCE_CATEGORIES, SELECTED_COUNTRY, NUMBER_SEED_INSPECTORS_BY_COUNTRY, SHARE_CHART, SHARE_CROPS
 } from "../reducers/StoreConstants";
 import GaugesChart from "./GaugesChart";
 import { getWpCategories, setFilter } from "../reducers/data";
@@ -100,7 +100,10 @@ const Chart = (props) => {
     } = props;
 
     useEffect(() => {
-        setDefaultFilter(DEFAULT_COUNTRY_ID, defaultCountryId)
+        setDefaultFilter(DEFAULT_COUNTRY_ID, defaultCountryId);
+        if (filters && filters.get(SHARE_CHART) && type === filters.get(SHARE_CHART)) {
+            wrapper.current.scrollIntoView({ block: 'end', behavior: 'smooth' });
+        }
     }, []);
 
     useEffect(() => {
@@ -269,8 +272,8 @@ const Chart = (props) => {
 
     // This is necessary for charts that become very long in small resolutions like HHI.
     const styleHeight = window.innerWidth <= 1024 ? {} : { height: contentHeight + 'px' };
-
-    return (<div>
+    const wrapper = useRef(null);
+    return (<div ref={wrapper}>
             <Container className={"chart container"} style={{ "minHeight": height + 'px' }} fluid={true}>
                 <DataProvider params={JSON.parse(decodeURIComponent(params))}
                               app={type}

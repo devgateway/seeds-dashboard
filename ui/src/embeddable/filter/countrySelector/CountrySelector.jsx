@@ -1,5 +1,5 @@
 import { Accordion, Form, Grid, Icon, Input, Menu } from "semantic-ui-react";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { SELECTED_COUNTRY } from "../../reducers/StoreConstants";
 import { injectIntl } from "react-intl";
 
@@ -17,6 +17,18 @@ const CountrySelector = ({
                          }) => {
     const [activeIndex, setActiveIndex] = useState([0]);
     const [searchKeyword, setSearchKeyword] = useState(undefined);
+    const ref = useRef(null);
+    useEffect(() => {
+        const hoverOutside = (event) => {
+            if (ref.current && !ref.current.contains(event.target)) {
+                setActiveIndex(-1);
+            }
+        };
+        document.addEventListener('mouseout', hoverOutside, true);
+        return () => {
+            document.removeEventListener('mouseout', hoverOutside, true);
+        };
+    }, []);
     const handleSelectedCountry = (event, { value }) => {
         setActiveIndex(undefined);
         setSearchKeyword(undefined);
@@ -110,10 +122,10 @@ const CountrySelector = ({
             return grids;
         }
     }
-    return (<Grid className={"select-country-grid"}>
+    return (<div ref={ref}><Grid className={"select-country-grid"}>
         {getSelectedCountryGrids()}
 
-    </Grid>);
+    </Grid></div>);
 }
 
 export default CountrySelector;

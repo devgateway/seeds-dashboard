@@ -1,5 +1,6 @@
 import ResponsiveBarChartImpl from "../ResponsiveBarChartImpl";
 import React, { useRef, useState, useEffect } from "react";
+import { connect } from "react-redux";
 import { Grid } from "semantic-ui-react";
 import { toBlob } from 'html-to-image';
 import { saveAs } from 'file-saver';
@@ -30,7 +31,11 @@ import {
     PRICE_SEED_PLANTING,
     AVAILABILITY_SEED_SMALL_PACKAGES,
     AGRODEALER_NETWORK,
-    AGRICULTURAL_EXTENSION_SERVICES, NUMBER_SEED_INSPECTORS_BY_COUNTRY, NUMBER_OF_VARIETIES_RELEASED
+    AGRICULTURAL_EXTENSION_SERVICES,
+    NUMBER_SEED_INSPECTORS_BY_COUNTRY,
+    NUMBER_OF_VARIETIES_RELEASED,
+    SHARE_CROPS,
+    SHARE_CHART, SHARE_YEARS
 } from "../../reducers/StoreConstants";
 import YearLegend from "../common/year";
 import MarketConcentrationHHI from "../MarketConcentrationHHI";
@@ -54,7 +59,8 @@ const ChartComponent = ({
                             methodology,
                             download,
                             exportPng,
-                            height
+                            height,
+                            filters,
                         }) => {
     const [initialCrops, setInitialCrops] = useState(null);
     const [selectedCrops, setSelectedCrops] = useState(null);
@@ -63,6 +69,7 @@ const ChartComponent = ({
     const ref = useRef(null);
     const genericLegend = "generic";
     //TODO can be configured in wordpress at a later stage
+    let defaultFormat = { style: 'decimal', minimumFractionDigits: 0, maximumFractionDigits: 1 };
     let indexBy = 'crop';
     let useFilterByYear = true;
     let layout = 'vertical';
@@ -81,7 +88,7 @@ const ChartComponent = ({
     let legend = 'crops';
     let customTickWithCropsBottom = false;
     let customTickWithCropsLeft = false;
-    let showTotalLabel = true;
+    let totalLabel = { show: true, format: defaultFormat };
     let showTotalMD = true;
     let legendTitle = "";
     let margins = null;
@@ -100,13 +107,22 @@ const ChartComponent = ({
     let processedData = [];
     let useCropLegendsRow = true;
     let useFilterByCrops = true;
-    let yearsColors = blueColors;
+    let yearsColors = barColors;
     let dataSuffix = null;
     let containerHeight = null;
     let extraTooltipClass = null;
     let showMaxYearsMessage = false;
     let switchToLineChart = false;
-
+    let sharedCrops;
+    let sharedYears;
+    if (filters && filters.get(SHARE_CHART) === type) {
+        if (filters.get(SHARE_CROPS)) {
+            sharedCrops = filters.get(SHARE_CROPS).split(",");
+        }
+        if (filters.get(SHARE_YEARS)) {
+            sharedYears = filters.get(SHARE_YEARS).split(",");
+        }
+    }
     if (type === PERFORMANCE_SEED_TRADERS) {
         maxSelectableYear = 3;
         showMaxYearsMessage = true
@@ -121,18 +137,22 @@ const ChartComponent = ({
         crops = data.dimensions.crop ? data.dimensions.crop.values : {};
         if (data !== currentData) {
             setCurrentData(data);
-            setSelectedCrops(crops);
-            setInitialCrops(crops);
-            //TODO see what to use
-            if (years && years.length > maxSelectableYear) {
-                setSelectedYear(years.slice(years.length - maxSelectableYear, years.length))
+            if (sharedCrops) {
+                setSelectedCrops(sharedCrops);
             } else {
-                setSelectedYear(years)
+                setSelectedCrops(crops);
+            }
+            setInitialCrops(crops);
+            if (sharedYears) {
+                setSelectedYear(sharedYears)
+            } else {
+                if (years && years.length > maxSelectableYear) {
+                    setSelectedYear(years.slice(years.length - maxSelectableYear, years.length))
+                } else {
+                    setSelectedYear(years)
+                }
             }
 
-            //setSelectedYear(years[years.length - 1])
-
-            // workaround for selectedCrops not being updated.
             return null;
         }
         if (!initialCrops) {
@@ -240,7 +260,7 @@ const ChartComponent = ({
     }
 
     const commonProcess = (c, entry, yearColors) => {
-        const newBlueColors = yearColors ? [...yearColors] : null;
+        const newBarColors = yearColors ? [...yearColors] : null;
         Object.keys(data.values[c]).forEach((i, j) => {
             if (selectedYear && selectedYear.find(k => k === i)) {
                 const key = '' + i;
@@ -256,9 +276,9 @@ const ChartComponent = ({
                 if (!keys.find(i => i === key)) {
                     keys.push(key);
                 }
-                if (yearColors && newBlueColors) {
+                if (yearColors && newBarColors) {
                     if (!colors.get(key)) {
-                        colors.set(key, newBlueColors.shift());
+                        colors.set(key, newBarColors.shift());
                     }
                 }
                 if (Number(entry[i]) > max) {
@@ -302,10 +322,10 @@ const ChartComponent = ({
         crops.forEach(c => {
             const entry = { crop: c };
             commonProcess(c, entry);
+            keys.sort();
         });
-
         // Fix missing data from the EP (crop without one or more years data).
-        const newBlueColors = [...blueColors];
+        const newBarColors = [...barColors];
         processedData.forEach(p => {
             years.forEach(y => {
                 if (isNaN(Number(p[y]))) {
@@ -319,7 +339,7 @@ const ChartComponent = ({
                 }
                 // Process color here to prevent SEEDSDT-583
                 if (!colors.get(y)) {
-                    colors.set(y, newBlueColors.shift());
+                    colors.set(y, newBarColors.shift());
                 }
             });
         });
@@ -343,14 +363,17 @@ const ChartComponent = ({
                 let sumWOF = 0;
                 if (selectedYear && selectedYear.length > 0) {
                     //selected year is expected to be 1
-                    sumWF = data.values[c][selectedYear].withspecialfeature || 0;
-                    sumWOF = data.values[c][selectedYear].withoutspecialfeature || 0;
+                    sumWF = data.values[c] && data.values[c][selectedYear] && data.values[c][selectedYear].withspecialfeature || 0;
+                    sumWOF = data.values[c] && data.values[c][selectedYear] && data.values[c][selectedYear].withoutspecialfeature || 0;
                 } else {
                     Object.keys(data.values[c]).forEach(i => {
                         sumWF += data.values[c][i].withspecialfeature || 0;
                         sumWOF += data.values[c][i].withoutspecialfeature || 0;
                     });
                 }
+
+                sumWF = sumWF === 'MD' ? 0 : sumWF;
+                sumWOF = sumWOF === 'MD' ? 0 : sumWOF;
 
                 const key1 = 'withSpecialFeature_' + c;
                 const key2 = 'withoutSpecialFeature_' + c;
@@ -369,6 +392,7 @@ const ChartComponent = ({
                 }
             });
         }
+        noData = max === 0;
     }
 
     let subLabel = '';
@@ -857,7 +881,10 @@ const ChartComponent = ({
             }
             getTooltipText = (d) => {
                 const cropName = d.id.replace(`${d.indexValue}_`, "");
-                const gaugeValue = data.otherValues[d.indexValue][cropName];
+                let gaugeValue = data.otherValues[d.indexValue][cropName];
+                if (!Number(gaugeValue) || gaugeValue === '') {
+                    gaugeValue = 'MD';
+                }
                 const dataGauge = [
                     { id: "EP", value: 20 },
                     { id: "P", value: 20 },
@@ -925,7 +952,7 @@ const ChartComponent = ({
             withCropsWithSpecialFeatures = false;
             useFilterByYear = true;
             useFilterByCrops = false;
-            showTotalLabel = false;
+            totalLabel.show = false;
             showTotalMD = true;
             bottomLegend = intl.formatMessage({ id: 'percentage-legend', defaultMessage: 'Percentage (%)' });
             enableGridX = true;
@@ -1089,7 +1116,7 @@ const ChartComponent = ({
                     })
                 }
             ];
-            showTotalLabel = true;
+            totalLabel.show = true;
             lineChartFieldLabel = intl.formatMessage({
                 id: 'industry-opinion-legend-tooltip',
                 defaultMessage: 'Industry opinion rating'
@@ -1200,7 +1227,8 @@ const ChartComponent = ({
                             id: 'agricultural-households-tooltip',
                             defaultMessage: 'Agricultural households/agro-dealer'
                         })} </span>
-                        <span className="bold"> {d.data.households !== FAKE_NUMBER ? d.data.households : "MD"}</span>
+                        <span
+                            className="bold"> {d.data.households !== FAKE_NUMBER ? `${intl.formatNumber(d.data.households, defaultFormat)} ` : "MD"}</span>
                     </div>
                     <div style={{ textAlign: 'center' }}>
                         <span>{intl.formatMessage({
@@ -1274,7 +1302,8 @@ const ChartComponent = ({
                             id: 'households-per-officer-tooltip',
                             defaultMessage: 'Households per extension officer'
                         })} </span>
-                        <span className="bold"> {d.data.households !== FAKE_NUMBER ? d.data.households : "MD"}</span>
+                        <span
+                            className="bold"> {d.data.households !== FAKE_NUMBER ? `${intl.formatNumber(d.data.households, defaultFormat)} ` : "MD"}</span>
                     </div>
                 </>
             }
@@ -1311,7 +1340,10 @@ const ChartComponent = ({
             useFilterByYear = false;
             addLighterDiv = false;
             bottomLegend = intl.formatMessage({ id: 'years-legend', defaultMessage: 'Year' });
-            leftLegend = intl.formatMessage({ id: 'number-of-varieties-released', defaultMessage: 'Number of varieties released'});
+            leftLegend = intl.formatMessage({
+                id: 'number-of-varieties-released',
+                defaultMessage: 'Number of varieties released'
+            });
             lineTooltip = (d) => {
                 return (<div className="tooltip-container-var-release">
                     <div className="header-container">
@@ -1324,8 +1356,14 @@ const ChartComponent = ({
                                 })}</div>
                             </div>
                             <div className="table">
-                                <label style={{ float: 'left' }} className="year">{intl.formatMessage({ id: 'tooltip-year', defaultMessage: 'Year'})}</label>
-                                <label style={{ float: 'right' }} className="vr">{intl.formatMessage({ id: 'tooltip-varieties-released', defaultMessage: 'Varieties released'})}</label>
+                                <label style={{ float: 'left' }} className="year">{intl.formatMessage({
+                                    id: 'tooltip-year',
+                                    defaultMessage: 'Year'
+                                })}</label>
+                                <label style={{ float: 'right' }} className="vr">{intl.formatMessage({
+                                    id: 'tooltip-varieties-released',
+                                    defaultMessage: 'Varieties released'
+                                })}</label>
                             </div>
                         </div>
                     </div>
@@ -1344,8 +1382,11 @@ const ChartComponent = ({
                                 <td style={{ fontWeight: 'bold' }}>{data.otherValues[d.point.data.x - 2][d.point.serieId]}</td>
                             </tr>
                             <tr>
-                                <td className="year">{intl.formatMessage({ id: 'tooltip-average', defaultMessage: 'Average'})}</td>
-                                <td style={{ fontWeight: 'bold' }}>{d.point.data.y}</td>
+                                <td className="average">{intl.formatMessage({
+                                    id: 'tooltip-average',
+                                    defaultMessage: 'Average'
+                                })}</td>
+                                <td className="total">{d.point.data.y}</td>
                             </tr>
                         </table>
                     </div>
@@ -1382,7 +1423,7 @@ const ChartComponent = ({
                         customTickWithCropsBottom={customTickWithCropsBottom}
                         customTickWithCropsLeft={customTickWithCropsLeft}
                         dataSuffix={dataSuffix}
-                        showTotalLabel={showTotalLabel}
+                        showTotalLabel={totalLabel.show}
                         containerHeight={containerHeight || 450}
                         showTotalMD={showTotalMD}
                         margins={margins}
@@ -1406,7 +1447,7 @@ const ChartComponent = ({
                                         getTooltipHeader={getTooltipHeader} lineColor={barPieColor[0]}
                                         legends={legends} lineChartField={lineChartField}
                                         lineChartFieldLabel={lineChartFieldLabel}
-                                        showTotalLabel={showTotalLabel} extraTooltipClass={extraTooltipClass}
+                                        totalLabel={totalLabel} extraTooltipClass={extraTooltipClass}
                                         intl={intl}
                                         noDataLabelId={noDataLabelId}
                 />
@@ -1438,7 +1479,7 @@ const ChartComponent = ({
                                                     customTickWithCropsBottom={customTickWithCropsBottom}
                                                     customTickWithCropsLeft={customTickWithCropsLeft}
                                                     dataSuffix={dataSuffix}
-                                                    showTotalLabel={showTotalLabel}
+                                                    totalLabel={totalLabel}
                                                     containerHeight={containerHeight || 450}
                                                     showTotalMD={showTotalMD} margins={margins}
                                                     intl={intl} barLabelFormat={roundNumbers}
@@ -1464,7 +1505,7 @@ const ChartComponent = ({
                                                           customTickWithCropsBottom={customTickWithCropsBottom}
                                                           customTickWithCropsLeft={customTickWithCropsLeft}
                                                           dataSuffix={dataSuffix}
-                                                          showTotalLabel={showTotalLabel}
+                                                          totalLabel={totalLabel}
                                                           containerHeight={containerHeight || 450}
                                                           showTotalMD={showTotalMD}
                                                           margins={margins}
@@ -1477,13 +1518,23 @@ const ChartComponent = ({
     }
 
     let initialSelectedCrops = null;
-    if (!noData && initialCrops && Array.from(initialCrops).length > 0) {
+    if (sharedCrops) {
         initialSelectedCrops = [];
         initialCrops.forEach(i => {
-            initialSelectedCrops.push(1);
+            if (sharedCrops.includes(i)) {
+                initialSelectedCrops.push(1);
+            } else {
+                initialSelectedCrops.push(0);
+            }
         });
+    } else {
+        if (!noData && initialCrops && Array.from(initialCrops).length > 0) {
+            initialSelectedCrops = [];
+            initialCrops.forEach(i => {
+                initialSelectedCrops.push(1);
+            });
+        }
     }
-
     return (<div ref={ref}>
         <Grid className={`main-chart-container`} style={{ "minHeight": height + 'px' }}>
             <Grid.Row className="header-section">
@@ -1492,7 +1543,7 @@ const ChartComponent = ({
                 </Grid.Column>
                 <Grid.Column width={4}>
                     <Export methodology={methodology} exportPng={exportPng} download={download} containerRef={ref}
-                            type={'bar'} />
+                            type={'bar'} chartType={type} selectedCrops={selectedCrops} selectedYear={selectedYear} />
                 </Grid.Column>
             </Grid.Row>
             {useFilterByCrops || useFilterByYear ? <Grid.Row className={`filters-section`}>
@@ -1500,7 +1551,7 @@ const ChartComponent = ({
                     <CropFilter data={initialCrops} onChange={handleCropFilterChange}
                                 initialSelectedCrops={initialSelectedCrops} intl={intl} />
                 </Grid.Column> : null}
-                {(!noData && useFilterByYear) ? <Grid.Column computer={3} mobile={16}>
+                {(useFilterByYear) ? <Grid.Column computer={3} mobile={16}>
                     <YearsFilter data={years} onChange={handleYearFilterChange} maxSelectable={maxSelectableYear}
                                  defaultSelected={selectedYear} showMaxYearsMessage={showMaxYearsMessage} />
                 </Grid.Column> : null}
@@ -1530,8 +1581,8 @@ const ChartComponent = ({
     </div>);
 }
 
-const blueColors = [
-    '#3377b6', '#7dafde', '#9fbfdc', '#c2dbf3'
+const barColors = [
+    '#DE9F68', '#81B769', '#6C9964', '#8368B5'
 ];
 const performanceColors = [
     '#4D843F', '#F39C00', '#E36A6A', '#289DF5', '#FBCC2A'
@@ -1545,4 +1596,8 @@ const packageBarColor = [
 
 export const FAKE_NUMBER = 0.001;
 
-export default injectIntl(ChartComponent);
+const mapStateToProps = (state) => {
+    return { filters: state.getIn(['data', 'filters']), }
+}
+const mapActionCreators = {}
+export default connect(mapStateToProps, mapActionCreators)(injectIntl(ChartComponent))

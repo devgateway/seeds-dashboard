@@ -54,6 +54,8 @@ const PostCarousel = ({
                         "data-values-filter-store": valuesFilterStore,
                         "data-selected-filter-store": selectedFilterStore,
                         "data-navigator-style": navigatorStyle = DOTS,
+                        "data-scheduled-filter": scheduledFilter,
+                        "data-scheduled-filter-store": scheduledFilterStore = 'past',
                         filters, filtersData, categoriesWP, onLoadWPCategories
                       }) => {
   const isConnectFilter = connectFilter === 'true';
@@ -78,7 +80,7 @@ const PostCarousel = ({
                     style={{ "height": height + 'px' }}>
     <PostProvider type={type} taxonomy={taxonomy} categories={categoryWP ? categoryWP.id : categories}
                   store={"carousel_" + parent + "_" + unique} page={1}
-                  perPage={items}>
+                  perPage={items} isScheduledFilter={scheduledFilter === 'true'} scheduledFilterStore={scheduledFilterStore}>
       <PostConsumer>
         <Carousel itemsPerPage={itemsPerPage} messages={messages} orientation={orientation}
                   navigatorStyle={navigatorStyle} type={type} />
