@@ -939,3 +939,58 @@ p:empty {
 .no-documents{
 	color: $text-color;
 }
+
+// Fix image alignments
+.wp-block-image .alignleft img{
+	display: block;
+	float: left;
+}
+.wp-block-image .aligncenter img{
+	display: block;
+	margin: auto;
+}
+
+// Country Report
+.country-reports-content{
+	>.wp-block-column{
+		border: 1px solid #e2e2e2;
+		padding: 10px;
+	}
+	.wp-block-columns{
+		margin-bottom: 0;
+	}
+	.wp-block-image{
+		margin-bottom: 0;
+	}
+}
+.report-descripton{
+	padding-top: 5px;
+	// seed icons section
+	.wp-block-image{
+		float: left;
+		margin-bottom: 0;
+		margin-top: -7px;
+		height: $base-unit * 3;
+		img{
+			margin-top: -5px;
+		}
+	}
+	figcaption{
+		float: left;
+		font-size: 15px;
+		font-weight: 900;
+		margin: -5px 0 0 $base-unit - 5;
+	}
+	h3{
+		border-top: 1px solid #e2e2e2;
+		clear: both;
+		display:block;
+		font-size: 22px !important;
+		line-height: 100%;
+		margin: 0;
+		padding-top: 5px;
+	}
+	p{
+		margin-top: 5px;
+	}
+}
