@@ -879,7 +879,10 @@ const ChartComponent = ({
             }
             getTooltipText = (d) => {
                 const cropName = d.id.replace(`${d.indexValue}_`, "");
-                const gaugeValue = data.otherValues[d.indexValue][cropName];
+                let gaugeValue = data.otherValues[d.indexValue][cropName];
+                if (!Number(gaugeValue) || gaugeValue === '') {
+                    gaugeValue = 'MD';
+                }
                 const dataGauge = [
                     { id: "EP", value: 20 },
                     { id: "P", value: 20 },
