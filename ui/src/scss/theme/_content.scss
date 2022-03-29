@@ -997,9 +997,9 @@ p:empty {
 
 // Country Report
 .country-reports-content{
-	>.wp-block-column{
+	>.wp-block-column.bordered{
 		border: 1px solid #e2e2e2;
-		padding: 10px;
+		padding: $base-unit;
 	}
 	.wp-block-columns{
 		margin-bottom: 0;
@@ -1038,4 +1038,17 @@ p:empty {
 	p{
 		margin-top: 5px;
 	}
+}
+
+// Country reports content
+.country-reports-wrapper{
+	.wp-block-wp-react-lib-components-inner-page{
+		.wp-react-lib-component{
+			> div{
+				height: auto !important;
+				min-height: 500px;
+			}
+		}
+	}
+
 }
