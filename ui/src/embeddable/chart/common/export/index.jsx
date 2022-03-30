@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Input, Popup, Form, Button } from 'semantic-ui-react'
 import './styles.scss';
 import { injectIntl } from "react-intl";
@@ -18,6 +18,7 @@ const Export = ({
                     intl
                 }) => {
     const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const [hoveredOnce, setHoveredOnce] = useState(false);
     const indexOfHash = window.location.href.indexOf("#");
     let url = window.location.href;
     if (indexOfHash > 0) {
@@ -46,7 +47,27 @@ const Export = ({
             id: 'text-to-clipboard',
             defaultMessage: 'text copied to clipboard'
         });
-        return (<Form.Group grouped>
+        const ref = useRef(null);
+        const onHoverOutsideRef = () => {
+            setIsPopupOpen(false)
+        }
+        useEffect(() => {
+            const hoverOutside = (event) => {
+                if (ref.current && !ref.current.contains(event.target)) {
+                    if (hoveredOnce) {
+                        onHoverOutsideRef();
+                        setHoveredOnce(!hoveredOnce);
+                    }
+                } else {
+                    setHoveredOnce(!hoveredOnce);
+                }
+            };
+            document.addEventListener('mouseout', hoverOutside, true);
+            return () => {
+                document.removeEventListener('mouseout', hoverOutside, true);
+            };
+        }, []);
+        return (<div ref={ref}><Form.Group grouped>
             <Input key="search_input" type="text" iconPosition='left'
                    value={finalUrl} style={{ width: '500px' }} />
             <Popup on={"click"} content={clipboardMessage} closeOnTriggerClick={true}
@@ -58,7 +79,7 @@ const Export = ({
 
                    }}>Share</Button>} />
 
-        </Form.Group>)
+        </Form.Group></div>)
     }
     return (
         <div className="export-wrapper">
