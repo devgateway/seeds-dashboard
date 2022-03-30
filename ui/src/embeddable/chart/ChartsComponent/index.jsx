@@ -1431,7 +1431,7 @@ const ChartComponent = ({
                 break;
             case MARKET_CONCENTRATION_HHI:
                 return <MarketConcentrationHHI data={data} selectedYear={selectedYear} bottomLegend={bottomLegend}
-                                               intl={intl} />
+                                               intl={intl} totalLabel={totalLabel}/>
             case NUMBER_SEED_INSPECTORS:
             case VARIETY_RELEASE_PROCESS:
             case AGRODEALER_NETWORK:

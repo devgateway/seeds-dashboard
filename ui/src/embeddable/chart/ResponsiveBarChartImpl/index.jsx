@@ -156,6 +156,7 @@ const ResponsiveBarChartImpl = ({
     };
 
     const TotalLabelsGrouped = ({ bars, yScale }) => {
+
         const data_ = data;
         // space between top of stacked bars and total label
         const labelMargin = 30;
@@ -186,7 +187,7 @@ const ResponsiveBarChartImpl = ({
                             fontSize: getTextWidth(text, '14pt sans-serif') <= width ? '14pt' : '10pt',
                             fill: '#354052',
                         }}>
-                        {text}
+                        {totalLabel.format ? intl.formatNumber(text, totalLabel.format) : text}
                     </text>
                 </g>);
             }
