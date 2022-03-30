@@ -1,16 +1,16 @@
-import React, {useState} from "react";
-import {Grid} from "semantic-ui-react";
+import React, { useState } from "react";
+import { Grid } from "semantic-ui-react";
 import './styles.scss';
 import ResponsiveBarChartImpl from "../ResponsiveBarChartImpl";
 import HHILegend from "./HHILegend";
-import {FAKE_NUMBER} from "../ChartsComponent";
+import { FAKE_NUMBER } from "../ChartsComponent";
 import NoData from "../common/noData";
 import CropsLegend from "../common/crop";
 
-const MarketConcentrationHHI = ({data, sources, selectedYear, bottomLegend, intl}) => {
+const MarketConcentrationHHI = ({ data, sources, selectedYear, bottomLegend, intl, totalLabel }) => {
 
     if (!data) {
-        return <NoData/>;
+        return <NoData />;
     }
 
     const crops = data.dimensions.crop.values;
@@ -20,7 +20,7 @@ const MarketConcentrationHHI = ({data, sources, selectedYear, bottomLegend, intl
     let max = 0;
     crops.forEach((crop, i) => {
         colors[i] = new Map();
-        const item = {crop: crop};
+        const item = { crop: crop };
         Object.keys(data.values[crop]).forEach(y => {
             if (selectedYear && selectedYear.find(k => k === y)) {
                 item[y] = data.values[crop][y];
@@ -59,17 +59,18 @@ const MarketConcentrationHHI = ({data, sources, selectedYear, bottomLegend, intl
     const enableGridX = false;
     const enableGridY = true;
     const getTooltipText = (d) => {
-        return <div style={{textAlign: 'center'}}>
+        return <div style={{ textAlign: 'center' }}>
             <span>HHI Value</span><span
-            className="bold"> {d.data[d.id]}  </span><br/>
+            className="bold">
+            {totalLabel.format ? intl.formatNumber(d.data[d.id], totalLabel.format) : d.data[d.id]}</span><br />
             <span>Year</span><span
             className="bold"> {d.id}  </span>
         </div>
     }
     const getTooltipHeader = (d) => {
         return <>
-            <div className={d.indexValue.toLowerCase() + " crop-icon"}/>
-            <div className="crop-name">{intl.formatMessage({id: d.indexValue, defaultMessage: d.indexValue})}</div>
+            <div className={d.indexValue.toLowerCase() + " crop-icon"} />
+            <div className="crop-name">{intl.formatMessage({ id: d.indexValue, defaultMessage: d.indexValue })}</div>
         </>;
     }
     const customTickWithCropsBottom = false;
@@ -77,13 +78,13 @@ const MarketConcentrationHHI = ({data, sources, selectedYear, bottomLegend, intl
     return (
         <>
             <Grid.Row className={`hhi-section`}>
-                <HHILegend legends={legends} title={'HHI Value'}/>
+                <HHILegend legends={legends} title={'HHI Value'} />
             </Grid.Row>
             <Grid.Row className="chart-section">
                 {[0, 1, 2, 3].map(i => {
                     return (<Grid.Column key={i} computer={8} mobile={16}>
                         <div className="hhi-crops">
-                            <CropsLegend data={[crops[i]]}/>
+                            <CropsLegend data={[crops[i]]} />
                         </div>
                         <ResponsiveBarChartImpl sources={sources} data={data} noData={noData} crops={crops}
                                                 selectedYear={selectedYear} colors={colors[i]} max={max * 1.25}
@@ -96,9 +97,9 @@ const MarketConcentrationHHI = ({data, sources, selectedYear, bottomLegend, intl
                                                 getTooltipText={getTooltipText} getTooltipHeader={getTooltipHeader}
                                                 customTickWithCropsBottom={customTickWithCropsBottom}
                                                 containerHeight={300}
-                                                gridTickLines={4} margins={{top: 40, right: 10, bottom: 60, left: 70}}
+                                                gridTickLines={4} margins={{ top: 40, right: 10, bottom: 60, left: 70 }}
                                                 padding={0.05} intl={intl}
-                                                axisBottom={false}
+                                                axisBottom={false} totalLabel={totalLabel}
                         />
                     </Grid.Column>);
                 })}
@@ -108,11 +109,11 @@ const MarketConcentrationHHI = ({data, sources, selectedYear, bottomLegend, intl
 }
 
 const hhiColors = [
-    {upTo: 1000, color: '#276700'},
-    {upTo: 1999, color: '#7dc646'},
-    {upTo: 2999, color: '#ffc000'},
-    {upTo: 3999, color: '#ff4f4f'},
-    {upTo: 10000, color: '#c00000'}
+    { upTo: 1000, color: '#276700' },
+    { upTo: 1999, color: '#7dc646' },
+    { upTo: 2999, color: '#ffc000' },
+    { upTo: 3999, color: '#ff4f4f' },
+    { upTo: 10000, color: '#c00000' }
 ];
 
 const getColor = (value) => {
