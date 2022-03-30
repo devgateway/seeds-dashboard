@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Input, Popup, Form, Button } from 'semantic-ui-react'
+import { Input, Popup, Form, Button, Icon } from 'semantic-ui-react'
 import './styles.scss';
 import { injectIntl } from "react-intl";
 import { connect } from "react-redux";
@@ -67,19 +67,25 @@ const Export = ({
                 document.removeEventListener('mouseout', hoverOutside, true);
             };
         }, []);
-        return (<div ref={ref}><Form.Group grouped>
-            <Input key="search_input" type="text" iconPosition='left'
-                   value={finalUrl} style={{ width: '500px' }} />
-            <Popup on={"click"} content={clipboardMessage} closeOnTriggerClick={true}
-                   trigger={<Button onClick={() => {
-                       navigator.clipboard.writeText(finalUrl);
-                       setTimeout(() => {
-                           setIsPopupOpen(false)
-                       }, 2000);
+        return (<div ref={ref}>
+            <Icon.Group>
+                <Icon name='circle outline' />
+                <Icon name='delete' size='tiny' link onClick={() => onHoverOutsideRef()} />
+            </Icon.Group>
+            <Form.Group grouped>
+                <Input key="search_input" type="text" iconPosition='left'
+                       value={finalUrl} style={{ width: '500px' }} />
+                <Popup on={"click"} content={clipboardMessage} closeOnTriggerClick={true}
+                       trigger={<Button onClick={() => {
+                           navigator.clipboard.writeText(finalUrl);
+                           setTimeout(() => {
+                               setIsPopupOpen(false)
+                           }, 2000);
 
-                   }}>Share</Button>} />
+                       }}>Share</Button>} />
 
-        </Form.Group></div>)
+            </Form.Group>
+        </div>)
     }
     return (
         <div className="export-wrapper">
