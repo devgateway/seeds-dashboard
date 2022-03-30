@@ -1,8 +1,8 @@
-import {__} from '@wordpress/i18n';
-import {registerBlockType} from '@wordpress/blocks';
+import { __ } from '@wordpress/i18n';
+import { registerBlockType } from '@wordpress/blocks';
 import BlockSave from "./BlockSave";
 import BlockEdit from "./BlockEdit";
-import {Chart} from '../icons/index.js'
+import { Chart } from '../icons/index.js'
 
 registerBlockType(process.env.BLOCKS_NS + '/chart',
     {
@@ -70,7 +70,42 @@ registerBlockType(process.env.BLOCKS_NS + '/chart',
             methodology: {
                 type: 'String',
                 default: "Methodology not yet defined."
+            },
+            totalLandArea: {
+                type: "String",
+                default: "Total land area"
+            },
+            totalLandAreaUnit: {
+                type: "String",
+                default: "Hectares"
+            },
+
+            arableLand: {
+                type: "string",
+                default: "Arable land"
+            },
+            topHarvestedCropsAndValue: {
+                type: "string",
+                default: "Top Harvested Crops and Value"
+            },
+            topHarvestedCropsAndValueUnit: {
+                type: "string",
+                default: "hectares"
+            },
+            populationVsFarmingHouseholds: {
+                type: "string",
+                default: "Population vs Farming Households"
+            },
+            easeOfDoingBusinessAgriculture: {
+                type: "string",
+                default: "Enabling the Business of Agriculture (2019) : "
+            },
+            easeOfDoingBusinessAgricultureOf: {
+                type: "string",
+                default: "of 100"
             }
+
+
         },
         edit: BlockEdit,
         save: BlockSave,

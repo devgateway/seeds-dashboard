@@ -5,7 +5,7 @@ import './CountryInfo.scss';
 import CountryInfoChart from "./CountryInfoChart";
 import { injectIntl } from "react-intl";
 
-const CountryInfo = ({ data, intl }) => {
+const CountryInfo = ({ data, intl, labels }) => {
     const config = {
         precision: 2,
         lowercase: true,
@@ -54,18 +54,18 @@ const CountryInfo = ({ data, intl }) => {
         <Grid className={`country-info`}>
             <Grid.Row className={`section totals`}>
                 <Grid.Column width={10}>
-                    <div className="label">Total Land Area</div>
+                    <div className="label">{labels.totalLandArea}</div>
                     <div
-                        className="data">{getValue(data.agricLandArea) + " Hectares"}</div>
+                        className="data">{getValue(data.agricLandArea) + ` ${labels.totalLandAreaUnit}`}</div>
                 </Grid.Column>
                 <Grid.Column width={6}>
-                    <div className="label">Arable Land</div>
+                    <div className="label">{labels.arableLand}</div>
                     <div className="data">{getValue(data.arableLand)}</div>
                 </Grid.Column>
             </Grid.Row>
             <Grid.Row className={`section sub`}>
                 <Grid.Column width={16}>
-                    <div className="section-title">Top Harvested Crops and Value</div>
+                    <div className="section-title">{labels.topHarvestedCropsAndValue}</div>
                 </Grid.Column>
             </Grid.Row>
             <Grid.Row className={`section sub`}>
@@ -75,7 +75,8 @@ const CountryInfo = ({ data, intl }) => {
                             getOrderedCrops().map((crop) => {
                                 return <Grid.Column key={`${crop.label}`} width={8} className={'crop-container'}>
                                     <div className={`crop ${(crop.label).toLowerCase().replaceAll(" ", "-")}`}>
-                                        <div className="label has-condensed-text">{crop.label} / in hectares</div>
+                                        <div className="label has-condensed-text">{crop.label} /
+                                            in {labels.topHarvestedCropsAndValueUnit}</div>
                                         <div className="data">{crop.value.toLocaleString()}</div>
                                     </div>
                                 </Grid.Column>
@@ -89,7 +90,7 @@ const CountryInfo = ({ data, intl }) => {
             </Grid.Row>
             <Grid.Row key={`gr-3`} className={`section sub border`}>
                 <Grid.Column key={`gc-3-1`} width={16}>
-                    <div className="section-title">Population vs Farming Households</div>
+                    <div className="section-title">{labels.populationVsFarmingHouseholds}</div>
                 </Grid.Column>
             </Grid.Row>
             <Grid.Row className={`section sub`}>
@@ -117,8 +118,9 @@ const CountryInfo = ({ data, intl }) => {
                     {data.business && <div className="label">Ease of Doing Business Rank (2020) :
                         <span className="data"> {data.business ? data.business.value : '-'}</span> of 100
                     </div>}
-                    <div className="label">Enabling the Business of Agriculture (2019) :
-                        <span className="data"> {data.easeAgriculture ? data.easeAgriculture.value : '-'}</span> of 100
+                    <div className="label">{labels.easeOfDoingBusinessAgriculture}
+                        <span
+                            className="data"> {data.easeAgriculture ? data.easeAgriculture.value : '-'}</span> {labels.easeOfDoingBusinessAgricultureOf}
                     </div>
                 </Grid.Column>
             </Grid.Row>
