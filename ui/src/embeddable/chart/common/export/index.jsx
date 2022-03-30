@@ -40,7 +40,7 @@ const Export = ({
             finalUrl = finalUrl + `/crops=${selectedCrops.join(",")}`;
         }
         if (selectedYear && selectedYear.length > 0) {
-            finalUrl = finalUrl + `/years=${selectedYear.join(",")}`;
+            finalUrl = finalUrl + `/years=${Array.isArray(selectedYear) ? selectedYear.join(",") : selectedYear}`;
         }
         const clipboardMessage = intl.formatMessage({
             id: 'text-to-clipboard',
