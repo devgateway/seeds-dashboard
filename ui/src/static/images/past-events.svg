@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 26.0.2, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!-- Generator: Adobe Illustrator 26.0.3, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <svg version="1.1" id="af4180df-12a2-43fc-a0b2-ff7852b3102a"
 	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 64 64"
 	 style="enable-background:new 0 0 64 64;" xml:space="preserve">
@@ -7,18 +7,21 @@
 	.st0{fill:none;stroke:#FFFFFF;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
 </style>
 <g>
-	<path class="st0" d="M25.2,18.2c0-1.2,1-2.3,2.3-2.3s2.3,1,2.3,2.3c0,1.2-1,2.3-2.3,2.3"/>
-	<path class="st0" d="M30.8,20.5c1.2,0,2.3-1,2.3-2.3c0-1.2-1-2.3-2.3-2.3"/>
-	<path class="st0" d="M34.2,20.5c1.2,0,2.3-1,2.3-2.3c0-1.2-1-2.3-2.3-2.3"/>
-	<path class="st0" d="M37.6,20.5c1.2,0,2.3-1,2.3-2.3c0-1.2-1-2.3-2.3-2.3"/>
-	<line class="st0" x1="26.9" y1="18.2" x2="25.2" y2="18.2"/>
-	<polyline class="st0" points="39.8,18.2 46.6,18.2 46.6,41.3 39.8,48.1 18.4,48.1 18.4,18.2 25.2,18.2 	"/>
-	<line class="st0" x1="18.4" y1="25" x2="46.6" y2="25"/>
-	<line class="st0" x1="18.4" y1="30.6" x2="46.6" y2="30.6"/>
-	<line class="st0" x1="18.4" y1="36.2" x2="46.6" y2="36.2"/>
-	<line class="st0" x1="18.4" y1="41.9" x2="37" y2="41.9"/>
-	<line class="st0" x1="22.4" y1="22.1" x2="22.4" y2="45.2"/>
-	<path class="st0" d="M39.8,47.7v-6.4h6.4c0.1,0,0.2,0.2,0.1,0.3l-6.2,6.2C40,47.9,39.8,47.8,39.8,47.7z"/>
-	<rect x="39.8" y="41.3" class="st0" width="6.8" height="6.8"/>
+	<polyline class="st0" points="33.5,47.2 33.5,43 37.7,43 	"/>
+	<path class="st0" d="M35.9,37.1c1.3-1.5,3.2-2.4,5.4-2.4c4,0,7.2,3.2,7.2,7.2S45.2,49,41.2,49c-3.5,0-6.6-2.6-7.2-6"/>
+	<rect x="19.2" y="15" class="st0" width="4.2" height="4.8"/>
+	<rect x="37.7" y="15" class="st0" width="4.2" height="4.8"/>
+	<polygon class="st0" points="41.8,17.4 41.8,19.8 37.7,19.8 37.7,17.4 23.4,17.4 23.4,19.8 19.2,19.8 19.2,17.4 15.6,17.4 
+		15.6,23.4 45.4,23.4 45.4,17.4 	"/>
+	<rect x="19.8" y="27.5" class="st0" width="5.4" height="5.4"/>
+	<rect x="19.8" y="32.9" class="st0" width="5.4" height="5.4"/>
+	<rect x="19.8" y="38.3" class="st0" width="5.4" height="5.4"/>
+	<rect x="25.1" y="27.5" class="st0" width="5.4" height="5.4"/>
+	<rect x="25.1" y="32.9" class="st0" width="5.4" height="5.4"/>
+	<rect x="25.1" y="38.3" class="st0" width="5.4" height="5.4"/>
+	<rect x="30.5" y="27.5" class="st0" width="5.4" height="5.4"/>
+	<rect x="35.9" y="27.5" class="st0" width="5.4" height="5.4"/>
+	<polyline class="st0" points="45.4,31.7 45.4,17.4 41.8,17.4 41.8,19.8 37.7,19.8 37.7,17.4 23.4,17.4 23.4,19.8 19.2,19.8 
+		19.2,17.4 15.6,17.4 15.6,47.8 29.3,47.8 	"/>
 </g>
 </svg>
