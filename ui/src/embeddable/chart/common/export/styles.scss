@@ -89,11 +89,16 @@
 }
 
 .ui.popup.url-popup {
+  &.bottom{
+    margin-top: $base-unit;
+  }
   .icons {
-    left: 20px;
-    bottom: 12px;
+    bottom: auto;
+    left: auto;
+    right: -12px;
+    top: -10px;
     .icon {
-      left: 42%;
+      left: 40%;
     }
   }
 
