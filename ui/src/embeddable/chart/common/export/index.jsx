@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Input, Popup, Form, Button } from 'semantic-ui-react'
+import React, { useEffect, useRef, useState } from "react";
+import { Input, Popup, Form, Button, Icon } from 'semantic-ui-react'
 import './styles.scss';
 import { injectIntl } from "react-intl";
 import { connect } from "react-redux";
@@ -18,6 +18,7 @@ const Export = ({
                     intl
                 }) => {
     const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const [hoveredOnce, setHoveredOnce] = useState(false);
     const indexOfHash = window.location.href.indexOf("#");
     let url = window.location.href;
     if (indexOfHash > 0) {
@@ -40,25 +41,51 @@ const Export = ({
             finalUrl = finalUrl + `/crops=${selectedCrops.join(",")}`;
         }
         if (selectedYear && selectedYear.length > 0) {
-            finalUrl = finalUrl + `/years=${selectedYear.join(",")}`;
+            finalUrl = finalUrl + `/years=${Array.isArray(selectedYear) ? selectedYear.join(",") : selectedYear}`;
         }
         const clipboardMessage = intl.formatMessage({
             id: 'text-to-clipboard',
             defaultMessage: 'text copied to clipboard'
         });
-        return (<Form.Group grouped>
-            <Input key="search_input" type="text" iconPosition='left'
-                   value={finalUrl} style={{ width: '500px' }} />
-            <Popup on={"click"} content={clipboardMessage} closeOnTriggerClick={true}
-                   trigger={<Button onClick={() => {
-                       navigator.clipboard.writeText(finalUrl);
-                       setTimeout(() => {
-                           setIsPopupOpen(false)
-                       }, 2000);
+        const ref = useRef(null);
+        const onHoverOutsideRef = () => {
+            setIsPopupOpen(false)
+        }
+        useEffect(() => {
+            const hoverOutside = (event) => {
+                if (ref.current && !ref.current.contains(event.target)) {
+                    if (hoveredOnce) {
+                        onHoverOutsideRef();
+                        setHoveredOnce(!hoveredOnce);
+                    }
+                } else {
+                    setHoveredOnce(!hoveredOnce);
+                }
+            };
+            document.addEventListener('mouseout', hoverOutside, true);
+            return () => {
+                document.removeEventListener('mouseout', hoverOutside, true);
+            };
+        }, []);
+        return (<div ref={ref}>
+            <Icon.Group>
+                <Icon name='circle outline' />
+                <Icon name='delete' size='tiny' link onClick={() => onHoverOutsideRef()} />
+            </Icon.Group>
+            <Form.Group grouped>
+                <Input key="search_input" type="text" iconPosition='left'
+                       value={finalUrl} style={{ width: '500px' }} />
+                <Popup on={"click"} content={clipboardMessage} closeOnTriggerClick={true}
+                       trigger={<Button onClick={() => {
+                           navigator.clipboard.writeText(finalUrl);
+                           setTimeout(() => {
+                               setIsPopupOpen(false)
+                           }, 2000);
 
-                   }}>Share</Button>} />
+                       }}>Share</Button>} />
 
-        </Form.Group>)
+            </Form.Group>
+        </div>)
     }
     return (
         <div className="export-wrapper">

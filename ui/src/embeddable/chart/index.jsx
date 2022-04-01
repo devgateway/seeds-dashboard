@@ -97,6 +97,14 @@ const Chart = (props) => {
         "data-default-country-id": defaultCountryId = 9,
         "data-use-source-by-category": useSourceByCategory,
         "data-methodology": methodology,
+        "data-total-land-area-label": totalLandArea = "Total area land",
+        "data-total-land-area-unit": totalLandAreaUnit = "Hectares",
+        "data-total-arable-land-label": arableLand = "Arable land",
+        "data-top-harvested-crops-and-value": topHarvestedCropsAndValue = "Top Harvested Crops and Value",
+        "data-top-harvested-crops-and-value-unit": topHarvestedCropsAndValueUnit = "hectares",
+        "data-population-vs-farming-households": populationVsFarmingHouseholds = "Population vs Farming Households",
+        "data-ease-of-doing-business-agriculture": easeOfDoingBusinessAgriculture = "Enabling the Business of Agriculture (2019) :",
+        "data-ease-of-doing-business-agriculture-of": easeOfDoingBusinessAgricultureOf="of 100"
     } = props;
 
     useEffect(() => {
@@ -261,7 +269,17 @@ const Chart = (props) => {
             break;
         }
         case COUNTRY_INFO:
-            child = <CountryInfo />
+            const labels = {
+                totalLandArea,
+                arableLand,
+                totalLandAreaUnit,
+                topHarvestedCropsAndValue,
+                topHarvestedCropsAndValueUnit,
+                populationVsFarmingHouseholds,
+                easeOfDoingBusinessAgriculture,
+                easeOfDoingBusinessAgricultureOf
+            };
+            child = <CountryInfo labels={labels} />
             break;
         case AVAILABILITY_OF_BASIC_SEED:
         case SATISFACTION_ENFORCEMENT_SEED_LAW:

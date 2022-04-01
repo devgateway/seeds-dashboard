@@ -212,7 +212,7 @@ const ChartComponent = ({
                 const yearObject = { year: y };
                 let maxByYear = 0;
                 crops.forEach(c => {
-                    if (data.values[y][c]) {
+                    if (data.values[y][c] && !isNaN(data.values[y][c])) {
                         maxByYear += data.values[y][c];
                         const objKey = y + "_" + c;
                         yearObject[objKey] = data.values[y][c];
@@ -1433,7 +1433,7 @@ const ChartComponent = ({
                 break;
             case MARKET_CONCENTRATION_HHI:
                 return <MarketConcentrationHHI data={data} selectedYear={selectedYear} bottomLegend={bottomLegend}
-                                               intl={intl} />
+                                               intl={intl} totalLabel={totalLabel}/>
             case NUMBER_SEED_INSPECTORS:
             case VARIETY_RELEASE_PROCESS:
             case AGRODEALER_NETWORK:

@@ -1,5 +1,5 @@
-import {InspectorControls, useBlockProps} from '@wordpress/block-editor';
-import {InnerBlocks} from '@wordpress/editor';
+import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
+import { InnerBlocks } from '@wordpress/editor';
 import ApiConfigurations from "./ApiConfiguration.json";
 
 const SaveComponent = (props) => {
@@ -18,7 +18,15 @@ const SaveComponent = (props) => {
             title,
             subTitle,
             useSourceByCategory,
-            methodology
+            methodology,
+            totalLandArea,
+            totalLandAreaUnit,
+            arableLand,
+            topHarvestedCropsAndValue,
+            topHarvestedCropsAndValueUnit,
+            populationVsFarmingHouseholds,
+            easeOfDoingBusinessAgriculture,
+            easeOfDoingBusinessAgricultureOf
         }
     } = props;
     const blockProps = useBlockProps.save({
@@ -44,6 +52,16 @@ const SaveComponent = (props) => {
              data-chart-data-source={ApiConfigurations[type] ? ApiConfigurations[type].join("|") : undefined}
              data-use-source-by-category={useSourceByCategory}
              data-methodology={methodology}
+             data-total-land-area-label={totalLandArea}
+             data-total-land-area-unit={totalLandAreaUnit}
+             data-total-arable-land-label={arableLand}
+             data-top-harvested-crops-and-value={topHarvestedCropsAndValue}
+             data-top-harvested-crops-and-value-unit={topHarvestedCropsAndValueUnit}
+             data-population-vs-farming-households={populationVsFarmingHouseholds}
+             data-ease-of-doing-business-agriculture={easeOfDoingBusinessAgriculture}
+             data-ease-of-doing-business-agriculture-of={easeOfDoingBusinessAgricultureOf}
+
+
         />
     );
 }

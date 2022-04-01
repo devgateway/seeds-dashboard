@@ -1,5 +1,5 @@
-import {Component} from '@wordpress/element'
-import {InspectorControls, useBlockProps} from '@wordpress/block-editor';
+import { Component } from '@wordpress/element'
+import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
 import {
     Panel,
     PanelBody,
@@ -10,10 +10,10 @@ import {
     TextControl,
     ToggleControl
 } from '@wordpress/components';
-import {InnerBlocks} from '@wordpress/editor'; // or wp.editor
-import {__} from '@wordpress/i18n';
-import {Checkbox} from 'semantic-ui-react'
-import {BaseBlockEdit} from "../commons";
+import { InnerBlocks } from '@wordpress/editor'; // or wp.editor
+import { __ } from '@wordpress/i18n';
+import { Checkbox } from 'semantic-ui-react'
+import { BaseBlockEdit } from "../commons";
 import ApiConfigurations from './ApiConfiguration.json';
 
 class BlockEdit extends BaseBlockEdit {
@@ -36,6 +36,14 @@ class BlockEdit extends BaseBlockEdit {
                 groupMode,
                 useSourceByCategory,
                 methodology,
+                totalLandArea,
+                arableLand,
+                totalLandAreaUnit,
+                topHarvestedCropsAndValue,
+                topHarvestedCropsAndValueUnit,
+                populationVsFarmingHouseholds,
+                easeOfDoingBusinessAgriculture,
+                easeOfDoingBusinessAgricultureOf
             }
         } = this.props;
         let queryString = `data-height=${height}`;
@@ -51,11 +59,23 @@ class BlockEdit extends BaseBlockEdit {
         queryString += `&data-group-mode=${groupMode}`;
         queryString += `&data-use-source-by-category=${useSourceByCategory}`;
         queryString += `&data-methodology=${methodology}`;
+
+        queryString += `&data-total-land-area-label=${totalLandArea}`;
+        queryString += `&data-total-land-area-unit=${totalLandAreaUnit}`;
+
+        queryString += `&data-total-arable-land-label=${arableLand}`;
+        queryString += `&data-top-harvested-crops-and-value=${topHarvestedCropsAndValue}`;
+        queryString += `&data-top-harvested-crops-and-value-unit=${topHarvestedCropsAndValueUnit}`;
+        queryString += `&data-population-vs-farming-households=${populationVsFarmingHouseholds}`;
+        queryString += `&data-ease-of-doing-business-agriculture=${easeOfDoingBusinessAgriculture}`;
+        queryString += `&data-ease-of-doing-business-agriculture-of=${easeOfDoingBusinessAgricultureOf}`;
+
+
         if (ApiConfigurations[type]) {
-            queryString += `&data-chart-data-source=${ApiConfigurations[type].join("|")}`;
+            queryString += ` & data - chart - data - source =${ApiConfigurations[type].join("|")}`;
         }
-        queryString += `&editing=true`
-        const divStyles = {height: height + 'px', width: '100%'}
+        queryString += ` & editing = true`
+        const divStyles = { height: height + 'px', width: '100%' }
         return (
             [isSelected && (
                 <InspectorControls>
@@ -66,10 +86,10 @@ class BlockEdit extends BaseBlockEdit {
                                     label={__('Indicator:')}
                                     value={[type]}
                                     onChange={(type) => {
-                                        setAttributes({type})
+                                        setAttributes({ type })
                                     }}
                                     options={[
-                                        {label: 'Country Info', value: 'countryInfo'},
+                                        { label: 'Country Info', value: 'countryInfo' },
                                         {
                                             label: 'Market share of top four seed companies',
                                             value: 'marketShareTopFourSeedCompanies'
@@ -165,14 +185,14 @@ class BlockEdit extends BaseBlockEdit {
                                 <ToggleControl
                                     label={__("Download chart")}
                                     checked={download}
-                                    onChange={(download) => setAttributes({download})}
+                                    onChange={(download) => setAttributes({ download })}
                                 />
                             </PanelRow>
                             {type === 'availabilityOfBasicSeed' && <PanelRow>
                                 <RangeControl
                                     label={__('Max number years to show')}
                                     value={mostRecentYears}
-                                    onChange={(mostRecentYears) => setAttributes({mostRecentYears})}
+                                    onChange={(mostRecentYears) => setAttributes({ mostRecentYears })}
                                     min={1}
                                     max={10}
                                 /></PanelRow>}
@@ -225,7 +245,7 @@ class BlockEdit extends BaseBlockEdit {
                             <RangeControl
                                 label={__('Chart Width')}
                                 value={width}
-                                onChange={(width) => setAttributes({width})}
+                                onChange={(width) => setAttributes({ width })}
                                 min={1}
                                 max={1000}
                             /></PanelRow>
@@ -233,45 +253,36 @@ class BlockEdit extends BaseBlockEdit {
                                 <RangeControl
                                     label={__('Chart height')}
                                     value={height}
-                                    onChange={(height) => setAttributes({height})}
+                                    onChange={(height) => setAttributes({ height })}
                                     min={1}
                                     max={1000}
                                 /></PanelRow>
-
-                            <PanelRow>
-                                <TextControl label={__('Chart title')} value={title}
-                                             onChange={(title) => setAttributes({title})}/>
-                            </PanelRow>
-                            <PanelRow>
-                                <TextControl label={__('Chart sub title')} value={subTitle}
-                                             onChange={(subTitle) => setAttributes({subTitle})}/>
-                            </PanelRow>
-                            <PanelRow>
-                                <TextControl label={__('Source')} value={sources}
-                                             onChange={(sources) => setAttributes({sources})}/>
-                            </PanelRow>
-                            <PanelRow>
-                                <ToggleControl
-                                    label={__("Add category as source")}
-                                    checked={useSourceByCategory}
-                                    onChange={(useSourceByCategory) => setAttributes({useSourceByCategory})}
-                                />
-                            </PanelRow>
-                            <PanelRow>
-                                <TextControl label={__('Methodology')} value={methodology}
-                                             onChange={(methodology) => setAttributes({methodology})}/>
-                            </PanelRow>
                             <PanelRow>
                                 <TextControl label={__('Default country ID')} value={defaultCountryId}
-                                             onChange={(defaultCountryId) => setAttributes({defaultCountryId})}/>
+                                             onChange={(defaultCountryId) => setAttributes({ defaultCountryId })} />
                             </PanelRow>
                         </PanelBody>
+                        {type !== 'countryInfo' &&
+                            <GeneralChartsLabels bodyTitle={__('Chart labels configuration')} title={title}
+                                                 setAttributes={setAttributes} subTitle={subTitle} sources={sources}
+                                                 useSourceByCategory={useSourceByCategory} methodology={methodology} />}
+                        {type === 'countryInfo' &&
+                            <CountryInfoChartsLabels bodyTitle={__('Country information labels configuration')}
+                                                     totalLandArea={totalLandArea} arableLand={arableLand}
+                                                     setAttributes={setAttributes}
+                                                     totalLandAreaUnit={totalLandAreaUnit}
+                                                     topHarvestedCropsAndValue={topHarvestedCropsAndValue}
+                                                     topHarvestedCropsAndValueUnit={topHarvestedCropsAndValueUnit}
+                                                     populationVsFarmingHouseholds={populationVsFarmingHouseholds}
+                                                     easeOfDoingBusinessAgriculture={easeOfDoingBusinessAgriculture}
+                                                     easeOfDoingBusinessAgricultureOf={easeOfDoingBusinessAgricultureOf}
+                            />}
                     </Panel>
                 </InspectorControls>
             ), (
                 <ResizableBox
-                    size={{height, width}}
-                    style={{"margin": "auto"}}
+                    size={{ height, width }}
+                    style={{ "margin": "auto" }}
                     minHeight="50"
                     minWidth="50"
                     enable={{
@@ -302,7 +313,7 @@ class BlockEdit extends BaseBlockEdit {
                                 <Checkbox
                                     toggle
                                     defaultChecked={true}
-                                    onChange={e => setAttributes({mode: (mode == 'chart' ? 'info' : 'chart')})}
+                                    onChange={e => setAttributes({ mode: (mode == 'chart' ? 'info' : 'chart') })}
                                 />
                             }
                         </div>
@@ -311,13 +322,13 @@ class BlockEdit extends BaseBlockEdit {
                             <div>
                                 <iframe id={"id_description_iframe"} scrolling={"no"}
                                         style={divStyles}
-                                        src={this.state.react_ui_url + "/en/embeddable/chart?" + queryString}/>
+                                        src={this.state.react_ui_url + "/en/embeddable/chart?" + queryString} />
                             </div>
                         }
                         {
                             mode == "info" &&
                             <div className={"inner block"}>
-                                <InnerBlocks/>
+                                <InnerBlocks />
                             </div>
                         }
                     </div>
@@ -329,6 +340,94 @@ class BlockEdit extends BaseBlockEdit {
 const Edit = (props) => {
     const blockProps = useBlockProps();
     return <div {...blockProps}><BlockEdit {...props} /></div>;
+}
+const CountryInfoChartsLabels = ({
+                                     bodyTitle,
+                                     totalLandArea,
+                                     setAttributes,
+                                     arableLand,
+                                     totalLandAreaUnit,
+                                     topHarvestedCropsAndValue,
+                                     topHarvestedCropsAndValueUnit,
+                                     populationVsFarmingHouseholds,
+                                     easeOfDoingBusinessAgriculture,
+                                     easeOfDoingBusinessAgricultureOf
+                                 }) => {
+    return (<PanelBody title={__(bodyTitle)}>
+        <PanelRow>
+            <TextControl label={__('Total land area label')} value={totalLandArea}
+                         onChange={(totalLandArea) => setAttributes({ totalLandArea })} />
+        </PanelRow>
+        <PanelRow>
+            <TextControl label={__('Total land area unit')} value={totalLandAreaUnit}
+                         onChange={(totalLandAreaUnit) => setAttributes({ totalLandAreaUnit })} />
+        </PanelRow>
+        <PanelRow>
+            <TextControl label={__('Arable land label')} value={arableLand}
+                         onChange={(arableLand) => setAttributes({ arableLand })} />
+        </PanelRow>
+        <PanelRow>
+            <TextControl label={__('Top Harvested Crops and Value label')} value={topHarvestedCropsAndValue}
+                         onChange={(topHarvestedCropsAndValue) => setAttributes({ topHarvestedCropsAndValue })} />
+        </PanelRow>
+        <PanelRow>
+            <TextControl label={__('Top Harvested Crops and Value unit')} value={topHarvestedCropsAndValueUnit}
+                         onChange={(topHarvestedCropsAndValueUnit) => setAttributes({ topHarvestedCropsAndValueUnit })} />
+        </PanelRow>
+        <PanelRow>
+            <TextControl label={__('Population vs Farming Households label')} value={populationVsFarmingHouseholds}
+                         onChange={(populationVsFarmingHouseholds) => setAttributes({ populationVsFarmingHouseholds })} />
+        </PanelRow>
+        <PanelRow>
+            <TextControl label={__('Enabling the Business of Agriculture label')} value={easeOfDoingBusinessAgriculture}
+                         onChange={(easeOfDoingBusinessAgriculture) => setAttributes({ easeOfDoingBusinessAgriculture })} />
+        </PanelRow>
+        <PanelRow>
+            <TextControl label={__('Enabling the Business of Agriculture \'OF\' label')}
+                         value={easeOfDoingBusinessAgricultureOf}
+                         onChange={(easeOfDoingBusinessAgricultureOf) => setAttributes({ easeOfDoingBusinessAgricultureOf })} />
+        </PanelRow>
+
+
+    </PanelBody>)
+}
+const GeneralChartsLabels = ({
+                                 bodyTitle,
+                                 title,
+                                 setAttributes,
+                                 subTitle,
+                                 sources,
+                                 useSourceByCategory,
+                                 methodology
+                             }) => {
+
+    return <PanelBody title={__(bodyTitle)}>
+        <PanelRow>
+            <TextControl label={__('Chart title')} value={title}
+                         onChange={(title) => setAttributes({ title })} />
+        </PanelRow>
+
+        <PanelRow>
+            <TextControl label={__('Chart sub title')} value={subTitle}
+                         onChange={(subTitle) => setAttributes({ subTitle })} />
+        </PanelRow>
+        <PanelRow>
+            <TextControl label={__('Source')} value={sources}
+                         onChange={(sources) => setAttributes({ sources })} />
+        </PanelRow>
+        <PanelRow>
+            <ToggleControl
+                label={__("Add category as source")}
+                checked={useSourceByCategory}
+                onChange={(useSourceByCategory) => setAttributes({ useSourceByCategory })}
+            />
+        </PanelRow>
+        <PanelRow>
+            <TextControl label={__('Methodology')} value={methodology}
+                         onChange={(methodology) => setAttributes({ methodology })} />
+        </PanelRow>
+    </PanelBody>
+
 }
 
 export default Edit;

@@ -1,6 +1,5 @@
 import { Container, Menu } from "semantic-ui-react";
 import React, { useEffect, useState } from "react";
-import { Popup } from 'semantic-ui-react'
 import { MenuConsumer, MenuProvider, utils } from "@devgateway/wp-react-lib";
 import { injectIntl } from "react-intl";
 import { useHistory, withRouter } from "react-router";
@@ -144,18 +143,10 @@ const Header = ({ intl: { locale }, match, firstChildLink }) => {
                         </Container>}
                     </div>
                     <div className="lang-container align-content">
-
-                        <Popup
-                            trigger={
                                 <div className="lang">
                                     {locale === 'en' && <a onClick={() => gotoLanguage('fr')}>français</a>}
                                     {locale === 'fr' && <a onClick={() => gotoLanguage('en')}>english</a>}
                                 </div>
-                            }
-                            content="Coming soon"
-                            position='bottom right'
-                        />
-
                     </div>
                 </Menu>
             </Container>
