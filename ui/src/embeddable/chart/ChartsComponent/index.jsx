@@ -142,7 +142,7 @@ const ChartComponent = ({ sources, data, type, title, subTitle, editing, intl, m
         const yearObject = { year: y };
         let maxByYear = 0;
         crops.forEach(c => {
-          if (data.values[y][c]) {
+          if (data.values[y][c] && !isNaN(data.values[y][c])) {
             maxByYear += data.values[y][c];
             const objKey = y + "_" + c;
             yearObject[objKey] = data.values[y][c];
