@@ -103,7 +103,7 @@ const ResponsiveBarChartImpl = ({
 
             let finalText = '';
             if (totalLabel.show) {
-                if (total > 0) {
+                if (total >= 0) {
                     if (totalLabel.format) {
                         finalText = `${intl.formatNumber(total, totalLabel.format)} `;
                     } else {

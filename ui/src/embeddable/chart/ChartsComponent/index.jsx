@@ -370,8 +370,8 @@ const ChartComponent = ({
                     });
                 }
 
-                sumWF = sumWF === 'MD' ? 0 : sumWF;
-                sumWOF = sumWOF === 'MD' ? 0 : sumWOF;
+                sumWF = sumWF === 'MD' ? FAKE_NUMBER : sumWF;
+                sumWOF = sumWOF === 'MD' ? FAKE_NUMBER : sumWOF;
 
                 const key1 = 'withSpecialFeature_' + c;
                 const key2 = 'withoutSpecialFeature_' + c;
@@ -390,7 +390,7 @@ const ChartComponent = ({
                 }
             });
         }
-        noData = max === 0;
+        noData = max === FAKE_NUMBER;
     }
 
     let subLabel = '';
@@ -814,6 +814,7 @@ const ChartComponent = ({
             });
             bottomLegend = intl.formatMessage({ id: 'crops-legend', defaultMessage: 'Crop' });
             processVarietiesReleasedWithSpecialFeatures();
+            showTotalMD = false;
             break;
         case NUMBER_SEED_INSPECTORS_BY_COUNTRY:
             getTooltipHeader = (d) => {
