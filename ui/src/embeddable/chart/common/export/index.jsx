@@ -24,6 +24,7 @@ const Export = ({
     if (indexOfHash > 0) {
         url = url.substring(0, indexOfHash);
     }
+    const buttonRef = useRef(null);
     const GenerateUrlForm = () => {
         let selectedCountry;
         let selectedTab;
@@ -52,6 +53,12 @@ const Export = ({
             setIsPopupOpen(false)
         }
         useEffect(() => {
+            const handleClickOutside = (event) => {
+                if (ref.current && !ref.current.contains(event.target) && buttonRef.current
+                    && !buttonRef.current.contains(event.target)) {
+                    onHoverOutsideRef();
+                }
+            }
             const hoverOutside = (event) => {
                 if (ref.current && !ref.current.contains(event.target)) {
                     if (hoveredOnce) {
@@ -63,8 +70,11 @@ const Export = ({
                 }
             };
             document.addEventListener('mouseout', hoverOutside, true);
+            document.addEventListener("click", handleClickOutside, false);
             return () => {
+                debugger
                 document.removeEventListener('mouseout', hoverOutside, true);
+                document.removeEventListener("click", handleClickOutside, true);
             };
         }, []);
         return (<div ref={ref}>
@@ -99,7 +109,7 @@ const Export = ({
                        onOpen={e => {
                            setIsPopupOpen(true)
                        }}
-                       trigger={<div className="export share tooltip" />}
+                       trigger={<div className="export share tooltip" ref={buttonRef} />}
                        position='top right' />
             </div>
             {methodology
