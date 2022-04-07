@@ -1,5 +1,5 @@
-import React from "react";
-import { Input, Popup, Form, Button } from 'semantic-ui-react'
+import React, { useEffect, useRef, useState } from "react";
+import { Input, Popup, Form, Button, Icon } from 'semantic-ui-react'
 import './styles.scss';
 import { injectIntl } from "react-intl";
 import { connect } from "react-redux";
@@ -14,13 +14,17 @@ const Export = ({
                     filters,
                     chartType,
                     selectedCrops,
-                    selectedYear
+                    selectedYear,
+                    intl
                 }) => {
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const [hoveredOnce, setHoveredOnce] = useState(false);
     const indexOfHash = window.location.href.indexOf("#");
     let url = window.location.href;
     if (indexOfHash > 0) {
         url = url.substring(0, indexOfHash);
     }
+    const buttonRef = useRef(null);
     const GenerateUrlForm = () => {
         let selectedCountry;
         let selectedTab;
@@ -38,15 +42,60 @@ const Export = ({
             finalUrl = finalUrl + `/crops=${selectedCrops.join(",")}`;
         }
         if (selectedYear && selectedYear.length > 0) {
-            finalUrl = finalUrl + `/years=${selectedYear.join(",")}`;
+            finalUrl = finalUrl + `/years=${Array.isArray(selectedYear) ? selectedYear.join(",") : selectedYear}`;
         }
-        return (<Form.Group grouped>
-            <Input key="search_input" type="text" icon='search' iconPosition='left'
-                   placeholder="Search..." value={finalUrl} style={{ width: '500px' }} />
-            <Popup on={"click"} content={"text copied to clipboard"} closeOnTriggerClick={true}
-                   trigger={<Button onClick={() => navigator.clipboard.writeText(finalUrl)}>Share</Button>} />
+        const clipboardMessage = intl.formatMessage({
+            id: 'text-to-clipboard',
+            defaultMessage: 'text copied to clipboard'
+        });
+        const ref = useRef(null);
+        const onHoverOutsideRef = () => {
+            setIsPopupOpen(false)
+        }
+        useEffect(() => {
+            const handleClickOutside = (event) => {
+                if (ref.current && !ref.current.contains(event.target) && buttonRef.current
+                    && !buttonRef.current.contains(event.target)) {
+                    onHoverOutsideRef();
+                }
+            }
+            const hoverOutside = (event) => {
+                if (ref.current && !ref.current.contains(event.target)) {
+                    if (hoveredOnce) {
+                        onHoverOutsideRef();
+                        setHoveredOnce(!hoveredOnce);
+                    }
+                } else {
+                    setHoveredOnce(!hoveredOnce);
+                }
+            };
+            document.addEventListener('mouseout', hoverOutside, true);
+            document.addEventListener("click", handleClickOutside, false);
+            return () => {
+                debugger
+                document.removeEventListener('mouseout', hoverOutside, true);
+                document.removeEventListener("click", handleClickOutside, true);
+            };
+        }, []);
+        return (<div ref={ref}>
+            <Icon.Group>
+                <Icon name='circle outline' />
+                <Icon name='delete' size='tiny' link onClick={() => onHoverOutsideRef()} />
+            </Icon.Group>
+            <Form.Group grouped>
+                <Input key="search_input" type="text" iconPosition='left'
+                       value={finalUrl} style={{ width: '500px' }} />
+                <Popup on={"click"} content={clipboardMessage} closeOnTriggerClick={true}
+                       trigger={<Button onClick={() => {
+                           navigator.clipboard.writeText(finalUrl);
+                           setTimeout(() => {
+                               setIsPopupOpen(false)
+                           }, 2000);
 
-        </Form.Group>)
+                       }}>Share</Button>} />
+
+            </Form.Group>
+        </div>)
     }
     return (
         <div className="export-wrapper">
@@ -54,9 +103,13 @@ const Export = ({
                 {download === 'true'
                     ? <div className="export download" onClick={e => exportPng(containerRef, type)} />
                     : null}
-                <Popup className="methods-popup" content={<GenerateUrlForm />}
+                <Popup className="url-popup" content={<GenerateUrlForm />}
                        on={"click"}
-                       trigger={<div className="export share tooltip" />}
+                       open={isPopupOpen}
+                       onOpen={e => {
+                           setIsPopupOpen(true)
+                       }}
+                       trigger={<div className="export share tooltip" ref={buttonRef} />}
                        position='top right' />
             </div>
             {methodology
@@ -73,4 +126,4 @@ const mapStateToProps = (state) => {
     return { filters: state.getIn(['data', 'filters']), }
 }
 const mapActionCreators = {}
-export default connect(mapStateToProps, mapActionCreators)(Export)
+export default connect(mapStateToProps, mapActionCreators)(injectIntl(Export))

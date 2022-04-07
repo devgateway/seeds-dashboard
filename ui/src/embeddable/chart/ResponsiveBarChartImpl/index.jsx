@@ -1,10 +1,10 @@
-import React, {useState} from "react";
-import {ResponsiveBar} from '@nivo/bar'
-import {useResizeDetector} from 'react-resize-detector';
+import React, { useState } from "react";
+import { ResponsiveBar } from '@nivo/bar'
+import { useResizeDetector } from 'react-resize-detector';
 import './styles.scss';
 import CropIcons from "../common/cropIcons";
-import {getTextWidth} from "../../utils/common";
-import {FAKE_NUMBER} from "../ChartsComponent";
+import { getTextWidth } from "../../utils/common";
+import { FAKE_NUMBER } from "../ChartsComponent";
 import NoData from "../common/noData";
 
 const theme = {
@@ -55,7 +55,7 @@ const ResponsiveBarChartImpl = ({
                                     LineLayer,
                                     markers,
                                     dataSuffix,
-                                    showTotalLabel,
+                                    totalLabel,
                                     showTotalMD,
                                     fixedIntervals,
                                     margins,
@@ -82,11 +82,11 @@ const ResponsiveBarChartImpl = ({
     }
 
     // returns a list of total value labels for stacked bars
-    const TotalLabels = ({bars, yScale, xScale}) => {
+    const TotalLabels = ({ bars, yScale, xScale }) => {
         // space between top of stacked bars and total label
         let labelMargin = 20;
         const numbers = [];
-        bars.forEach(({data: {data, indexValue}, x, y, width, height}, i) => {
+        bars.forEach(({ data: { data, indexValue }, x, y, width, height }, i) => {
             // sum of all the bar values in a stacked bar
             let isMD = true;
             const total = Object.keys(data)
@@ -102,9 +102,13 @@ const ResponsiveBarChartImpl = ({
                 }, 0);
 
             let finalText = '';
-            if (showTotalLabel) {
-                if (total > 0) {
-                    finalText = total;
+            if (totalLabel.show) {
+                if (total >= 0) {
+                    if (totalLabel.format) {
+                        finalText = `${intl.formatNumber(total, totalLabel.format)} `;
+                    } else {
+                        finalText = total;
+                    }
                 } else {
                     if (isMD && showTotalMD) {
                         finalText = 'MD';
@@ -151,13 +155,14 @@ const ResponsiveBarChartImpl = ({
         return numbers;
     };
 
-    const TotalLabelsGrouped = ({bars, yScale}) => {
+    const TotalLabelsGrouped = ({ bars, yScale }) => {
+
         const data_ = data;
         // space between top of stacked bars and total label
         const labelMargin = 30;
 
         const numbers = [];
-        bars.forEach(({data: {data, indexValue, id}, x, width}, i) => {
+        bars.forEach(({ data: { data, indexValue, id }, x, width }, i) => {
             const transform = `translate(${x}, ${yScale(data[id]) - labelMargin})`;
             if (!numbers.find(i => i.props.transform === transform)) {
                 let text = data[id] !== FAKE_NUMBER
@@ -182,7 +187,7 @@ const ResponsiveBarChartImpl = ({
                             fontSize: getTextWidth(text, '14pt sans-serif') <= width ? '14pt' : '10pt',
                             fill: '#354052',
                         }}>
-                        {text}
+                        {totalLabel.format ? intl.formatNumber(text, totalLabel.format) : text}
                     </text>
                 </g>);
             }
@@ -197,7 +202,7 @@ const ResponsiveBarChartImpl = ({
         return colors.get(item.id);
     }
 
-    const {width, height, ref} = useResizeDetector();
+    const { width, height, ref } = useResizeDetector();
 
     const CustomTick = tick => {
         const bottomLegendWidth = getTextWidth(bottomLegend || '', "12px sans-serif");
@@ -218,17 +223,17 @@ const ResponsiveBarChartImpl = ({
             translY = 60;
             const ICON_WIDTH = 30;
             const ICON_SPACE = 8;
-            const translated = intl.formatMessage({id: tick.value, defaultMessage: tick.value});
+            const translated = intl.formatMessage({ id: tick.value, defaultMessage: tick.value });
             const tickWidthWithIcon = (getTextWidth(translated, "16px sans-serif") - ICON_SPACE - ICON_WIDTH) / 2;
             posX = tick.x - tickWidthWithIcon;
         }
 
         return (<g>
-            <CropIcons crop={tick.value} tick={tick} tickX={posX} tickY={tickY} style={{fill: '#adafb2'}}
-                       intl={intl}/>
+            <CropIcons crop={tick.value} tick={tick} tickX={posX} tickY={tickY} style={{ fill: '#adafb2' }}
+                       intl={intl} />
             {bottomLegend && customTickWithCropsBottom && tick.tickIndex === 0 ?
                 <text transform={`translate(${(width - bottomLegendWidth - translX) / 2},${tick.y + translY})`}
-                      style={{fontWeight: 'normal', fill: '#354052'}}>
+                      style={{ fontWeight: 'normal', fill: '#354052' }}>
                     {bottomLegend}
                 </text> : null}
         </g>);
@@ -249,26 +254,26 @@ const ResponsiveBarChartImpl = ({
     }
 
     return (
-        <div style={{height: containerHeight}} ref={ref}>
+        <div style={{ height: containerHeight }} ref={ref}>
             {!noData ? <ResponsiveBar
                 theme={theme}
                 layers={layers}
                 data={processedData}
                 keys={keys}
                 indexBy={indexBy}
-                margin={margins ? margins : {top: 50, right: 60, bottom: 70, left: leftMargin}}
+                margin={margins ? margins : { top: 50, right: 60, bottom: 70, left: leftMargin }}
                 padding={padding || 0.3}
-                valueScale={{type: 'linear', max: pMax}}
-                indexScale={{type: 'band', round: true}}
+                valueScale={{ type: 'linear', max: pMax }}
+                indexScale={{ type: 'band', round: true }}
                 colors={getColorsCustom ? item => getColorsCustom(item) : (item) => getColors(item)}
                 borderWidth={0}
                 borderRadius={0}
-                borderColor={{from: 'color', modifiers: [['darker', 0.4]]}}
+                borderColor={{ from: 'color', modifiers: [['darker', 0.4]] }}
                 axisTop={null}
                 enableGridX={enableGridX}
                 enableGridY={enableGridY}
                 innerPadding={groupMode === 'stacked' ? 0 : 8}
-                axisLeft={customTickWithCropsLeft ? {renderTick: CustomTick} : {
+                axisLeft={customTickWithCropsLeft ? { renderTick: CustomTick } : {
                     tickSize: 0,
                     tickPadding: 5,
                     tickRotation: 0,
@@ -282,7 +287,7 @@ const ResponsiveBarChartImpl = ({
                 gridYValues={fixedIntervals || gridTickLines}
                 enableLabel={false}
                 markers={markers || null}
-                axisBottom={axisBottom ? (customTickWithCropsBottom ? {renderTick: CustomTick} : {
+                axisBottom={axisBottom ? (customTickWithCropsBottom ? { renderTick: CustomTick } : {
                     tickSize: 0,
                     tickPadding: 5,
                     tickRotation: 0,
@@ -311,7 +316,7 @@ const ResponsiveBarChartImpl = ({
                         </div>
                     </div>)
                 }}
-            /> : <NoData/>}
+            /> : <NoData />}
         </div>
     )
 }

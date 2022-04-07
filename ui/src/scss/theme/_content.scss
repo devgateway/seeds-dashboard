@@ -773,6 +773,51 @@ p:empty {
   }
 }
 
+// Publications filter
+.green-filter{
+		height: $base-unit * 8;
+		margin-left: calc(-50vw + 50%);
+		margin-top: -($base-unit * 2);
+	  min-height: $base-unit * 18;
+		padding-top: $base-unit * 5.5;
+	  width: 100vw;
+		.country-selector{
+			.ui.vertical.menu{
+				background: none;
+				border: none;
+				width: $base-unit * 25;
+				.item{
+					.title{
+						color: #ffffff;
+						.icon{
+							color: #ffffff;
+						}
+					}
+				}
+			}
+			.content{
+				.icon{
+					&.circle-outline{
+						float: right;
+					}
+				}
+			}
+		}
+		.selected-country{
+			font-size: 21px;
+			font-weight: 900;
+			color: #ffffff;
+			margin-top: $base-unit;
+			> span{
+				color: $text-color;
+				margin-right: $base-unit - 5;
+			}
+		}
+}
+
+
+
+
 .country-filter{
   &.has-separator{
     border-bottom: 1px solid $separator-grey;
@@ -938,4 +983,95 @@ p:empty {
 
 .no-documents{
 	color: $text-color;
+}
+
+// Fix image alignments
+.wp-block-image .alignleft img{
+	display: block;
+	float: left;
+}
+.wp-block-image .aligncenter img{
+	display: block;
+	margin: auto;
+}
+
+// Country Report
+.country-reports-content{
+	>.wp-block-column.bordered{
+		border: 1px solid #e2e2e2;
+		padding: $base-unit;
+	}
+	.wp-block-columns{
+		margin-bottom: 0;
+	}
+	.wp-block-image{
+		margin-bottom: 0;
+	}
+}
+.report-descripton{
+	padding-top: 5px;
+	// seed icons section
+	.wp-block-image{
+		float: left;
+		margin-bottom: 0;
+		margin-top: -7px;
+		height: $base-unit * 3;
+		img{
+			margin-top: -5px;
+		}
+	}
+	figcaption{
+		float: left;
+		font-size: 15px;
+		font-weight: 900;
+		margin: -5px 0 0 $base-unit - 5;
+	}
+	h3{
+		border-top: 1px solid #e2e2e2;
+		clear: both;
+		display:block;
+		font-size: 22px !important;
+		line-height: 100%;
+		margin: 0;
+		padding-top: 5px;
+	}
+	p{
+		margin-top: 5px;
+	}
+}
+
+// Country reports content
+.country-reports-wrapper{
+	.wp-block-wp-react-lib-components-inner-page{
+		.wp-react-lib-component{
+			> div{
+				height: auto !important;
+				min-height: 500px;
+			}
+		}
+	}
+}
+
+// Info Portals
+
+.info-portals{
+	h2{
+		margin-bottom: 0;
+	}
+	ul{
+		list-style: disc;
+		margin-left: $base-unit * 2;
+		li{
+			color: $text-color;
+			strong{
+				font-weight: 900;
+			}
+			a{
+				color: #80a03a;
+				&:hover{
+					color: $text-color;
+				}
+			}
+		}
+	}
 }

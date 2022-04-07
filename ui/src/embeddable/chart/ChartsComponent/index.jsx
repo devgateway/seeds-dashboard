@@ -67,6 +67,7 @@ const ChartComponent = ({
     const ref = useRef(null);
     const genericLegend = "generic";
     //TODO can be configured in wordpress at a later stage
+    let defaultFormat = { style: 'decimal', minimumFractionDigits: 0, maximumFractionDigits: 1 };
     let indexBy = 'crop';
     let useFilterByYear = true;
     let layout = 'vertical';
@@ -85,7 +86,7 @@ const ChartComponent = ({
     let legend = 'crops';
     let customTickWithCropsBottom = false;
     let customTickWithCropsLeft = false;
-    let showTotalLabel = true;
+    let totalLabel = { show: true, format: defaultFormat };
     let showTotalMD = true;
     let legendTitle = "";
     let margins = null;
@@ -209,7 +210,7 @@ const ChartComponent = ({
                 const yearObject = { year: y };
                 let maxByYear = 0;
                 crops.forEach(c => {
-                    if (data.values[y][c]) {
+                    if (data.values[y][c] && !isNaN(data.values[y][c])) {
                         maxByYear += data.values[y][c];
                         const objKey = y + "_" + c;
                         yearObject[objKey] = data.values[y][c];
@@ -360,8 +361,8 @@ const ChartComponent = ({
                 let sumWOF = 0;
                 if (selectedYear && selectedYear.length > 0) {
                     //selected year is expected to be 1
-                    sumWF = data.values[c][selectedYear].withspecialfeature || 0;
-                    sumWOF = data.values[c][selectedYear].withoutspecialfeature || 0;
+                    sumWF = data.values[c] && data.values[c][selectedYear] && data.values[c][selectedYear].withspecialfeature || 0;
+                    sumWOF = data.values[c] && data.values[c][selectedYear] && data.values[c][selectedYear].withoutspecialfeature || 0;
                 } else {
                     Object.keys(data.values[c]).forEach(i => {
                         sumWF += data.values[c][i].withspecialfeature || 0;
@@ -369,8 +370,8 @@ const ChartComponent = ({
                     });
                 }
 
-                sumWF = sumWF === 'MD' ? 0 : sumWF;
-                sumWOF = sumWOF === 'MD' ? 0 : sumWOF;
+                sumWF = sumWF === 'MD' ? FAKE_NUMBER : sumWF;
+                sumWOF = sumWOF === 'MD' ? FAKE_NUMBER : sumWOF;
 
                 const key1 = 'withSpecialFeature_' + c;
                 const key2 = 'withoutSpecialFeature_' + c;
@@ -389,7 +390,7 @@ const ChartComponent = ({
                 }
             });
         }
-        noData = max === 0;
+        noData = max === FAKE_NUMBER;
     }
 
     let subLabel = '';
@@ -813,6 +814,7 @@ const ChartComponent = ({
             });
             bottomLegend = intl.formatMessage({ id: 'crops-legend', defaultMessage: 'Crop' });
             processVarietiesReleasedWithSpecialFeatures();
+            showTotalMD = false;
             break;
         case NUMBER_SEED_INSPECTORS_BY_COUNTRY:
             getTooltipHeader = (d) => {
@@ -878,7 +880,10 @@ const ChartComponent = ({
             }
             getTooltipText = (d) => {
                 const cropName = d.id.replace(`${d.indexValue}_`, "");
-                const gaugeValue = data.otherValues[d.indexValue][cropName];
+                let gaugeValue = data.otherValues[d.indexValue][cropName];
+                if (!Number(gaugeValue) || gaugeValue === '') {
+                    gaugeValue = 'MD';
+                }
                 const dataGauge = [
                     { id: "EP", value: 20 },
                     { id: "P", value: 20 },
@@ -946,7 +951,7 @@ const ChartComponent = ({
             withCropsWithSpecialFeatures = false;
             useFilterByYear = true;
             useFilterByCrops = false;
-            showTotalLabel = false;
+            totalLabel.show = false;
             showTotalMD = true;
             bottomLegend = intl.formatMessage({ id: 'percentage-legend', defaultMessage: 'Percentage (%)' });
             enableGridX = true;
@@ -1110,7 +1115,7 @@ const ChartComponent = ({
                     })
                 }
             ];
-            showTotalLabel = true;
+            totalLabel.show = true;
             lineChartFieldLabel = intl.formatMessage({
                 id: 'industry-opinion-legend-tooltip',
                 defaultMessage: 'Industry opinion rating'
@@ -1221,7 +1226,8 @@ const ChartComponent = ({
                             id: 'agricultural-households-tooltip',
                             defaultMessage: 'Agricultural households/agro-dealer'
                         })} </span>
-                        <span className="bold"> {d.data.households !== FAKE_NUMBER ? d.data.households : "MD"}</span>
+                        <span
+                            className="bold"> {d.data.households !== FAKE_NUMBER ? `${intl.formatNumber(d.data.households, defaultFormat)} ` : "MD"}</span>
                     </div>
                     <div style={{ textAlign: 'center' }}>
                         <span>{intl.formatMessage({
@@ -1295,7 +1301,8 @@ const ChartComponent = ({
                             id: 'households-per-officer-tooltip',
                             defaultMessage: 'Households per extension officer'
                         })} </span>
-                        <span className="bold"> {d.data.households !== FAKE_NUMBER ? d.data.households : "MD"}</span>
+                        <span
+                            className="bold"> {d.data.households !== FAKE_NUMBER ? `${intl.formatNumber(d.data.households, defaultFormat)} ` : "MD"}</span>
                     </div>
                 </>
             }
@@ -1374,11 +1381,11 @@ const ChartComponent = ({
                                 <td style={{ fontWeight: 'bold' }}>{data.otherValues[d.point.data.x - 2][d.point.serieId]}</td>
                             </tr>
                             <tr>
-                                <td className="year">{intl.formatMessage({
+                                <td className="average">{intl.formatMessage({
                                     id: 'tooltip-average',
                                     defaultMessage: 'Average'
                                 })}</td>
-                                <td style={{ fontWeight: 'bold' }}>{d.point.data.y}</td>
+                                <td className="total">{d.point.data.y}</td>
                             </tr>
                         </table>
                     </div>
@@ -1415,7 +1422,7 @@ const ChartComponent = ({
                         customTickWithCropsBottom={customTickWithCropsBottom}
                         customTickWithCropsLeft={customTickWithCropsLeft}
                         dataSuffix={dataSuffix}
-                        showTotalLabel={showTotalLabel}
+                        showTotalLabel={totalLabel.show}
                         containerHeight={containerHeight || 450}
                         showTotalMD={showTotalMD}
                         margins={margins}
@@ -1425,7 +1432,7 @@ const ChartComponent = ({
                 break;
             case MARKET_CONCENTRATION_HHI:
                 return <MarketConcentrationHHI data={data} selectedYear={selectedYear} bottomLegend={bottomLegend}
-                                               intl={intl} />
+                                               intl={intl} totalLabel={totalLabel}/>
             case NUMBER_SEED_INSPECTORS:
             case VARIETY_RELEASE_PROCESS:
             case AGRODEALER_NETWORK:
@@ -1439,7 +1446,7 @@ const ChartComponent = ({
                                         getTooltipHeader={getTooltipHeader} lineColor={barPieColor[0]}
                                         legends={legends} lineChartField={lineChartField}
                                         lineChartFieldLabel={lineChartFieldLabel}
-                                        showTotalLabel={showTotalLabel} extraTooltipClass={extraTooltipClass}
+                                        totalLabel={totalLabel} extraTooltipClass={extraTooltipClass}
                                         intl={intl}
                                         noDataLabelId={noDataLabelId}
                 />
@@ -1471,7 +1478,7 @@ const ChartComponent = ({
                                                     customTickWithCropsBottom={customTickWithCropsBottom}
                                                     customTickWithCropsLeft={customTickWithCropsLeft}
                                                     dataSuffix={dataSuffix}
-                                                    showTotalLabel={showTotalLabel}
+                                                    totalLabel={totalLabel}
                                                     containerHeight={containerHeight || 450}
                                                     showTotalMD={showTotalMD} margins={margins}
                                                     intl={intl} barLabelFormat={roundNumbers}
@@ -1497,7 +1504,7 @@ const ChartComponent = ({
                                                           customTickWithCropsBottom={customTickWithCropsBottom}
                                                           customTickWithCropsLeft={customTickWithCropsLeft}
                                                           dataSuffix={dataSuffix}
-                                                          showTotalLabel={showTotalLabel}
+                                                          totalLabel={totalLabel}
                                                           containerHeight={containerHeight || 450}
                                                           showTotalMD={showTotalMD}
                                                           margins={margins}
