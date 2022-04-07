@@ -16,13 +16,15 @@ class BlockEdit extends BaseBlockEdit {
       toggleSelection, setAttributes, attributes: {
         eventStartDate,
         eventEndDate,
-        eventLocation
+        eventLocation,
+        hostedBy
       }
     } = this.props;
 
     let queryString = `data-event-location=${eventLocation}&editing=true`;
-    queryString += `&data-event-start-date=${eventStartDate}&editing=true`;
-    queryString += `&data-event-end-date=${eventEndDate}&editing=true`;
+    queryString += `&data-event-start-date=${eventStartDate}`;
+    queryString += `&data-event-end-date=${eventEndDate}`;
+    queryString += `&data-event-hosted-by=${hostedBy}`;
     const divStyles = {};
     return ([isSelected && (<InspectorControls>
         <Panel header={__("Event Configuration")}>
@@ -56,6 +58,14 @@ class BlockEdit extends BaseBlockEdit {
                 label={__('Event location')}
                 value={eventLocation}
                 onChange={(eventLocation) => setAttributes({ eventLocation })}
+              />
+            </PanelRow>
+
+            <PanelRow>
+              <TextControl
+                  label={__('Hosted By')}
+                  value={hostedBy}
+                  onChange={(hostedBy) => setAttributes({ hostedBy })}
               />
             </PanelRow>
           </PanelBody>

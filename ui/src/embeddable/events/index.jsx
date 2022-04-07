@@ -5,7 +5,8 @@ import {Grid, Icon} from "semantic-ui-react";
 const Events = ({
                     'data-event-location': eventLocation,
                     'data-event-start-date': eventStartDate,
-                    'data-event-end-date': eventEndDate
+                    'data-event-end-date': eventEndDate,
+                    'data-event-hosted-by': hostedBy,
                 }) => {
     const options = {year: 'numeric', month: 'long', day: 'numeric'};
     const pEventStartDate = new Date(eventStartDate);
@@ -43,12 +44,18 @@ const Events = ({
         }
     }
     return (<Grid className="events">
-        <Grid.Column width={8} className="event-date">
+        <Grid.Column width={5} className="event-date">
             <Icon className="calendar"/> <span
             className="label">{dateString}</span>
         </Grid.Column>
-        <Grid.Column width={8} className="event-location">
-            <Icon className="marker"/> <span className="label">{eventLocation}</span>
+        <Grid.Column width={6} className="event-location">
+            <Icon className="marker"/> <span className="label">{eventLocation || 'Location N/A'}</span>
+        </Grid.Column>
+        <Grid.Column width={5} className="event-link">
+            <Icon className="linkify"/> <span>TODO</span>
+        </Grid.Column>
+        <Grid.Column width={5} className="event-hostedby">
+            <span className="hostedby">Hosted By </span><span>{hostedBy}</span>
         </Grid.Column>
     </Grid>);
 }

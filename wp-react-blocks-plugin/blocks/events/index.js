@@ -8,9 +8,14 @@ registerBlockType(process.env.BLOCKS_NS + '/events', {
     title: __('Event Viewer'), icon: Generic, category: process.env.BLOCKS_CATEGORY, apiVersion: 2, attributes: {
         eventLocation: {
             type: 'String',
-        }, eventStartDate: {
+        },
+        eventStartDate: {
             type: 'String'
-        }, eventEndDate: {
+        },
+        eventEndDate: {
+            type: 'String'
+        },
+        hostedBy: {
             type: 'String'
         }
     }, edit: BlockEdit, save: BlockSave,
