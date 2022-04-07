@@ -1050,5 +1050,28 @@ p:empty {
 			}
 		}
 	}
+}
 
+// Info Portals
+
+.info-portals{
+	h2{
+		margin-bottom: 0;
+	}
+	ul{
+		list-style: disc;
+		margin-left: $base-unit * 2;
+		li{
+			color: $text-color;
+			strong{
+				font-weight: 900;
+			}
+			a{
+				color: #80a03a;
+				&:hover{
+					color: $text-color;
+				}
+			}
+		}
+	}
 }
