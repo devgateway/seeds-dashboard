@@ -84,7 +84,7 @@ array(
             array(
                 'name'  => __('Dark Gray', 'wp-react-lib'),
                 'slug'  => 'dark-gray',
-                'color' => '#5c5d63',
+                'color' => '#555555',
             ),
             array(
                 'name'  => __('White', 'wp-react-lib'),
