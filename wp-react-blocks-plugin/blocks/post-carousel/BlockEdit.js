@@ -7,7 +7,8 @@ import {
   ResizableBox,
   CheckboxControl,
   TextControl,
-  SelectControl
+  SelectControl,
+  ToggleControl
 } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { BlockEditWithFilters, SizeConfig } from "../commons";
@@ -37,7 +38,8 @@ class BlockEdit extends BlockEditWithFilters {
         scheduledFilter,
         scheduledFilterStore,
         fieldOrientation,
-        navigatorStyle
+        navigatorStyle,
+        showLinksInModal
       },
     } = this.props;
 
@@ -53,6 +55,7 @@ class BlockEdit extends BlockEditWithFilters {
     queryString += `&data-orientation=${fieldOrientation}`;
     queryString += `&data-scheduled-filter=${scheduledFilter}`;
     queryString += `&data-scheduled-filter-store=${scheduledFilterStore}`;
+    queryString += `&data-show-links-in-modal=${showLinksInModal}`;
     const divStyles = { height: height + 'px', width: '100%' }
 
     return (
@@ -98,6 +101,13 @@ class BlockEdit extends BlockEditWithFilters {
                   { label: 'Horizontal', value: 'horizontal' }
                 ]}
               />
+              <PanelRow>
+                <ToggleControl
+                    label={__("Show links in Modal")}
+                    checked={showLinksInModal}
+                    onChange={(showLinksInModal) => setAttributes({ showLinksInModal })}
+                />
+              </PanelRow>
             </PanelBody>
             <SizeConfig initialOpen={false} setAttributes={setAttributes} height={height}></SizeConfig>
             {this.renderFilters()}

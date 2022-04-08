@@ -14,7 +14,8 @@ const SaveComponent = (props) => {
       scheduledFilterStore,
       connectFilter,
       fieldOrientation,
-      navigatorStyle
+      navigatorStyle,
+      showLinksInModal
     },
   } = props;
 
@@ -35,6 +36,7 @@ const SaveComponent = (props) => {
            data-categories={categories.toString()}
            data-scheduled-filter={scheduledFilter}
            data-scheduled-filter-store={scheduledFilterStore}
+           data-show-links-in-modal={showLinksInModal}
            className={"wp-react-lib-component"}
            data-component={"postsCarousel"}>
       </div>
