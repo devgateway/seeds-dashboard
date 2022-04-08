@@ -44,10 +44,11 @@ class Content extends React.Component {
         onOpen={() => this.switchModal()}
         closeIcon={true}
         open={modalOpen}
+        size="large"
     >
       <Modal.Content>
         <Modal.Description>
-          <iframe src={url} height="400" width="100%"/>
+          <iframe src={url} height="350" width="100%"/>
         </Modal.Description>
       </Modal.Content>
     </Modal>)
@@ -104,14 +105,14 @@ class Content extends React.Component {
           {showLink === true && showLinksInModal === "true" &&
               <a className="link" style={{cursor: 'pointer'}} onClick={() => this.switchModal()}>Read More (modal)</a>}
           {showLink === true && showLinksInModal === "true" &&
-              this.generateModal('http://localhost:3000/en/modal/2022/03/27/2021-tasai-mozambique-country-study-dissemination')}
+              this.generateModal(replaceLink(this.props.post.link, locale, false) + 'modal')}
         </Enhance>
       </EmbeddedGateway>
     } else {
       return showLoading ? 'Loading' : false;
     }
   }
-
+  
   replaceSlugWithId(replaceLink1, slug, id) {
     let url = replaceLink1;
     if (slug && id) {

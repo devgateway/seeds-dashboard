@@ -18,7 +18,7 @@ const Events = ({
     } else {
         if (eventEndDate) {
             const diff = pEventEndDate.getTime() - pEventStartDate.getTime();
-            if (diff < 0) {
+            if (diff < 0 && (diff * -1) < MILLISECONDS_DAY) {
                 dateString = 'ERROR: End date cant be sooner than start date.';
             } else if (diff / MILLISECONDS_DAY <= 24) {
                 // One day event.
