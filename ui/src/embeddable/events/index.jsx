@@ -13,6 +13,10 @@ const Events = ({
     const pEventEndDate = new Date(eventEndDate);
     const MILLISECONDS_DAY = 3600000;
     let dateString = null;
+    
+    // Could not find a better way to detect if this is modal or not.
+    const showFullContent = window.location.href.endsWith('/modal');
+    
     if (!eventStartDate) {
         dateString = 'Please provide a valid start date';
     } else {
@@ -51,12 +55,12 @@ const Events = ({
         <Grid.Column width={6} className="event-location">
             <Icon className="marker"/> <span className="label">{eventLocation || 'Location N/A'}</span>
         </Grid.Column>
-        <Grid.Column width={5} className="event-link">
-            <Icon className="linkify"/> <span>TODO</span>
-        </Grid.Column>
-        <Grid.Column width={5} className="event-hostedby">
-            <span className="hostedby">Hosted By </span><span>{hostedBy}</span>
-        </Grid.Column>
+        {showFullContent ? <Grid.Column width={5} className="event-link">
+            <Icon className="linkify"/> <span className="label">TODO</span>
+        </Grid.Column> : null}
+        {showFullContent ? <Grid.Column width={5} className="event-hostedby">
+            <span className="label hostedby">Hosted By </span><span>{hostedBy}</span>
+        </Grid.Column> : null}
     </Grid>);
 }
 export default Events;
