@@ -17,6 +17,9 @@ registerBlockType(process.env.BLOCKS_NS + '/events', {
         },
         hostedBy: {
             type: 'String'
+        },
+        link: {
+            type: 'String'
         }
     }, edit: BlockEdit, save: BlockSave,
 });

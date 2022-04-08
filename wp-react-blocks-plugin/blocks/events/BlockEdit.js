@@ -17,7 +17,8 @@ class BlockEdit extends BaseBlockEdit {
         eventStartDate,
         eventEndDate,
         eventLocation,
-        hostedBy
+        hostedBy,
+        link
       }
     } = this.props;
 
@@ -25,6 +26,7 @@ class BlockEdit extends BaseBlockEdit {
     queryString += `&data-event-start-date=${eventStartDate}`;
     queryString += `&data-event-end-date=${eventEndDate}`;
     queryString += `&data-event-hosted-by=${hostedBy}`;
+    queryString += `&data-event-link=${link}`;
     const divStyles = {};
     return ([isSelected && (<InspectorControls>
         <Panel header={__("Event Configuration")}>
@@ -66,6 +68,14 @@ class BlockEdit extends BaseBlockEdit {
                   label={__('Hosted By')}
                   value={hostedBy}
                   onChange={(hostedBy) => setAttributes({ hostedBy })}
+              />
+            </PanelRow>
+
+            <PanelRow>
+              <TextControl
+                  label={__('External Link')}
+                  value={link}
+                  onChange={(link) => setAttributes({ link })}
               />
             </PanelRow>
           </PanelBody>

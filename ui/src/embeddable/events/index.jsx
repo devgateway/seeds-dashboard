@@ -7,6 +7,8 @@ const Events = ({
                     'data-event-start-date': eventStartDate,
                     'data-event-end-date': eventEndDate,
                     'data-event-hosted-by': hostedBy,
+                    'data-event-link': link,
+                    'editing': editing,
                 }) => {
     const options = {year: 'numeric', month: 'long', day: 'numeric'};
     const pEventStartDate = new Date(eventStartDate);
@@ -15,7 +17,7 @@ const Events = ({
     let dateString = null;
     
     // Could not find a better way to detect if this is modal or not.
-    const showFullContent = window.location.href.endsWith('/modal');
+    const showFullContent = window.location.href.endsWith('/modal') || editing;
     
     if (!eventStartDate) {
         dateString = 'Please provide a valid start date';
@@ -55,10 +57,10 @@ const Events = ({
         <Grid.Column width={6} className="event-location">
             <Icon className="marker"/> <span className="label">{eventLocation || 'Location N/A'}</span>
         </Grid.Column>
-        {showFullContent ? <Grid.Column width={5} className="event-link">
-            <Icon className="linkify"/> <span className="label">TODO</span>
+        {showFullContent && link && link !== 'undefined' ? <Grid.Column width={5} className="event-link">
+            <Icon className="linkify"/> <a href={link} target="_blank" className="label">{link}</a>
         </Grid.Column> : null}
-        {showFullContent ? <Grid.Column width={5} className="event-hostedby">
+        {showFullContent && hostedBy && hostedBy !== 'undefined' ? <Grid.Column width={5} className="event-hostedby">
             <span className="label hostedby">Hosted By </span><span>{hostedBy}</span>
         </Grid.Column> : null}
     </Grid>);
