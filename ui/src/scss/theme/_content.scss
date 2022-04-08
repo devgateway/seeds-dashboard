@@ -392,7 +392,21 @@ p:empty {
     margin: $base-unit auto;
     width: $base-unit * 16;
   }
+	// Title with icon
+	&.icon{
+		background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDI2LjAuMywgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IgoJIHZpZXdCb3g9IjAgMCA2NCA2NCIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgNjQgNjQ7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4KCS5zdDB7ZmlsbDpub25lO3N0cm9rZTojNDA0MDQwO3N0cm9rZS13aWR0aDoyO3N0cm9rZS1saW5lY2FwOnJvdW5kO3N0cm9rZS1saW5lam9pbjpyb3VuZDtzdHJva2UtbWl0ZXJsaW1pdDoxMDt9Cjwvc3R5bGU+CjxnPgoJPGc+CgkJPGxpbmUgY2xhc3M9InN0MCIgeDE9IjMwLjUiIHkxPSIxOC4yIiB4Mj0iNDkuMyIgeTI9IjE4LjIiLz4KCTwvZz4KCTxnPgoJCTxsaW5lIGNsYXNzPSJzdDAiIHgxPSIzMC41IiB5MT0iMjUiIHgyPSI0OS4zIiB5Mj0iMjUiLz4KCTwvZz4KCTxjaXJjbGUgY2xhc3M9InN0MCIgY3g9IjMyLjIiIGN5PSI0Ny44IiByPSIzLjYiLz4KCTxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik00Ni45LDMyLjNjMi4zLDEuMSwyLjYsNC44LDQuOSw1LjdjMC41LTAuMSwxLjgtMC45LDEuNSwwLjFjLTAuMiwyLjItMy44LDMtMy4xLDUuM2MxLDEuNy0wLjUsMi41LTEuNSwzLjUKCQljMC42LDIuNC00LjIsNi4xLTUuMSwyLjFjLTAuMi0xLjctMS44LTMtMC43LTQuNmMwLjItMS4zLTEuNC0yLjItMS40LTMuM2MwLjctMS44LTEtMC43LTEuMy0xLjhjLTEuOSwwLTQuOCwxLjQtNS43LTEuNgoJCWMtMC45LTEuNCwwLjQtNC4xLDItNC45YzAuOS0yLjMsMy4yLTEuOSw1LjMtMi4zYzAuMywwLjIsMC4yLDAuNCwwLjEsMC43YzAuMSwwLjUsMS40LDAuNywyLDEuMUM0NSwzMS42LDQ1LjQsMzIuMSw0Ni45LDMyLjMiLz4KCTxnPgoJCTxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik0xMC41LDE3LjJjMS4xLDIuMiwwLjksNC41LTAuNSw1LjJjLTEuMywwLjctMy4zLTAuNi00LjQtMi43Yy0xLjEtMi4yLTItNi4zLTAuNy03CgkJCUM2LjMsMTIsOS40LDE1LjEsMTAuNSwxNy4yIi8+CgkJPHBhdGggY2xhc3M9InN0MCIgZD0iTTE2LDI4LjZjLTEuNSwxLjYtMy40LDIuNi00LjMsMi4yYy0wLjgtMC40LTAuMy0yLDEuMi0zLjZjMS41LTEuNiw0LjYtNC4xLDUuNS0zLjcKCQkJQzE5LjMsMjMuOSwxNy41LDI3LDE2LDI4LjYiLz4KCQk8Zz4KCQkJPHBhdGggY2xhc3M9InN0MCIgZD0iTTU2LjEsMTEuNEgyNC40Yy0wLjksMC0xLjYsMC43LTEuNiwxLjZ2MTUuNWMxLjMtMC40LDIuNi0wLjIsMy4zLDAuOGMwLjksMS4yLDAuNCwzLTEuMSw0LjEKCQkJCWMtMC42LDAuNC0xLjMsMC44LTIuMiwxLjF2MjEuM2MwLDAuOSwwLjcsMS42LDEuNiwxLjZoMzEuN2MwLjksMCwxLjYtMC43LDEuNi0xLjZWMTNDNTcuNywxMi4xLDU3LDExLjQsNTYuMSwxMS40eiIvPgoJCQk8cGF0aCBjbGFzcz0ic3QwIiBkPSJNMjIuOCwyOC41Yy0wLjQsMC4xLTAuNywwLjMtMS4xLDAuNWMtMS41LDEuMS0zLjIsNC0yLjMsNS4yYzAuNiwwLjgsMiwwLjYsMy40LDAuMiIvPgoJCTwvZz4KCQk8cGF0aCBjbGFzcz0ic3QwIiBkPSJNMTQuMiwxNC4xYy0wLjktMS43LTAuOC0zLjYsMC4zLTQuMmMxLjEtMC42LDIuNywwLjMsMy42LDJjMC45LDEuNywxLjcsNSwwLjcsNS42CgkJCUMxNy43LDE4LjEsMTUuMSwxNS44LDE0LjIsMTQuMSIvPgoJPC9nPgo8L2c+Cjwvc3ZnPgo=");
+		background-size: 55px 55px;
+		background-position: 0 -7px;
+		background-repeat: no-repeat;
+		display: inline-block;
+		left: 50%;
+		padding-left: 65px;
+		position: relative;
+		text-align: center;
+ 		transform: translateX(-50%);
+		}
 }
+
 
 // Events component
 
@@ -1013,7 +1027,7 @@ p:empty {
 	// seed icons section
 	.wp-block-image{
 		float: left;
-		margin-bottom: 0;
+		margin-bottom: 5px;
 		margin-top: -7px;
 		height: $base-unit * 3;
 		img{
@@ -1032,11 +1046,23 @@ p:empty {
 		display:block;
 		font-size: 22px !important;
 		line-height: 100%;
-		margin: 0;
-		padding-top: 5px;
+		margin: 0 0 $base-unit 0;
+		padding-top: $base-unit;
+	}
+	strong{
+		font-weight: 900;
 	}
 	p{
 		margin-top: 5px;
+		&.has-text-color a{
+			color: $green-link;
+		}
+	}
+	a{
+		color: $green-link;
+		&:hover{
+			color: $text-color;
+		}
 	}
 }
 
