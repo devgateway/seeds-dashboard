@@ -50,10 +50,10 @@ const Events = ({
                 } else {
                     // Different month range.
                     dateString = pEventStartDate.toLocaleDateString('en-US', {
-                        year: undefined, month: 'long', day: 'numeric'
-                    }) + '-' + pEventEndDate.toLocaleDateString('en-US', {
-                        year: undefined, month: 'long', day: 'numeric'
-                    }) + ', ' + pEventStartDate.getFullYear();
+                        year: 'numeric', month: 'long', day: 'numeric'
+                    }) + ' - ' + pEventEndDate.toLocaleDateString('en-US', {
+                        year: 'numeric', month: 'long', day: 'numeric'
+                    });
                 }
                 let endTimeString = pEventEndDate.toLocaleDateString("en-US", timeOptions);
                 endTimeString = endTimeString.substring(endTimeString.indexOf(',') + 1);
@@ -73,9 +73,9 @@ const Events = ({
             <Icon className="calendar"/> <span
             className="label">{dateString}</span>
         </Grid.Column>
-        <Grid.Column width={8} className="event-hour">
+        {showFullContent && <Grid.Column width={8} className="event-hour">
             <Icon className="clock outline"/> <span className="label">{timeString}</span>
-        </Grid.Column>
+        </Grid.Column>}
         <Grid.Column width={8} className="event-location">
             <Icon className="marker"/> <span className="label">{eventLocation || 'Location N/A'}</span>
         </Grid.Column>
