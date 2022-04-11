@@ -399,6 +399,7 @@ p:empty {
 .ui.grid>.column{
   &.event-date,
   &.event-location,
+  &.event-hour,
   &.event-link{
     font-size: 0.8rem;
     padding: 0;
