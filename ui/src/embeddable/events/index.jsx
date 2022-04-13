@@ -77,7 +77,7 @@ const Events = ({
     console.log(pEventStartDate.toTimeString());
     console.log(pEventStartDate.toLocaleTimeString());
     return (<Grid className="events">
-        {showFullContent && hostedBy && hostedBy !== 'undefined' ? <Grid.Column width={16} className="event-hostedby">
+        {hostedBy && hostedBy !== 'undefined' ? <Grid.Column width={16} className="event-hostedby">
             <span className="label hostedby">Hosted By </span><span>{hostedBy}</span>
         </Grid.Column> : null}
         <Grid.Column width={16} className="event-date">

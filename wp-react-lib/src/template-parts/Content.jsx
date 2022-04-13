@@ -103,7 +103,7 @@ class Content extends React.Component {
             <a href={this.replaceSlugWithId(replaceLink(post.link, locale, isAddTypeToLink), post.slug, post.id)}
                className="link">Read More</a>}
           {showLink === true && showLinksInModal === "true" &&
-              <a className="link" style={{cursor: 'pointer'}} onClick={() => this.switchModal()}>Read More (modal)</a>}
+              <a className="link" style={{cursor: 'pointer'}} onClick={() => this.switchModal()}>Read More</a>}
           {showLink === true && showLinksInModal === "true" &&
               this.generateModal(replaceLink(this.props.post.link, locale, false) + 'modal')}
         </Enhance>
