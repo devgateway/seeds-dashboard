@@ -106,7 +106,7 @@ services:
       - ./nginx/wordpress_beta.conf:/etc/nginx/conf.d/wordpress.conf:ro
       - /var/log/tasai:/usr/share/nginx/tasai:ro
       - ./nginx/logs.conf:/etc/nginx/conf.d/logs.conf:ro
-      - ./nginx/metabase_beta.conf:/etc/nginx/conf.d/metabase_stage.conf:ro
+      - ./nginx/metabase_beta.conf:/etc/nginx/conf.d/metabase_beta.conf:ro
       - ./nginx/ui_beta.conf:/etc/nginx/conf.d/ui.conf:ro
       - ./data/wordpress:/var/www/html:ro
       - ./wp-content:/var/www/html/wp-content:ro
