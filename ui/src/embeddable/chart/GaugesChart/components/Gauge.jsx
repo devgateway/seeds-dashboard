@@ -7,15 +7,15 @@ import {Pie} from "@nivo/pie";
 
 const colors = new Map(
     [
-        ["EP", "#f6d9d9"],
+        ["EP", "#f5e4e4"],
         ["EP_S", "#c00000"],
-        ["P", "#f9e8e8"],
+        ["P", "#f5e9e9"],
         ["P_S", "#d86565"],
-        ["F", "#fff6d9"],
+        ["F", "#f6f1e0"],
         ["F_S", "#ffc000"],
-        ["G", "#e5f4da"],
+        ["G", "#eef8e6"],
         ["G_S", "#7dc646"],
-        ["E", "#d4e1cc"],
+        ["E", "#e7f1e1"],
         ["E_S", "#276700"]
     ]);
 const getColor = (item) => colors.get(item.id);
@@ -48,8 +48,8 @@ const Gauge = ({data, height, width, innerValue, innerColor, tooltip}) =>
         startAngle={-90}
         endAngle={90}
         innerRadius={0.7}
-        padAngle={2}
-        cornerRadius={3}
+        padAngle={4}
+        cornerRadius={1}
         labelSkipWidth={18}
         slicesLabelsTextColor="#FFFFFF"
         enableRadialLabels={false}
@@ -60,6 +60,16 @@ const Gauge = ({data, height, width, innerValue, innerColor, tooltip}) =>
         motionStiffness={90}
         motionDamping={15}
         tooltip={tooltip}
+        borderWidth={1.5}
+        borderColor={{
+            from: 'color',
+            modifiers: [
+                [
+                    'darker',
+                    0.9
+                ]
+            ]
+        }}
     /></div>
 
 export default Gauge;
