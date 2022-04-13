@@ -53,11 +53,12 @@ registerBlockType(process.env.BLOCKS_NS + '/post-carousel',
       navigatorStyle: {
         type: "String",
         default: "dots"
-      }
-
-
-    }
-    ,
+      },
+      showLinksInModal : {
+        type: 'Boolean',
+        default: false
+      },
+    },
     edit: BlockEdit,
     save: BlockSave,
   }

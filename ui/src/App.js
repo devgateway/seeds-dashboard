@@ -230,6 +230,19 @@ class IntlRoutes extends Component {
               </ResponsiveContainer>
             )}>
             </Route>
+            {/* Special route used in Modal windows */}
+            <Route path="/:lan/:year/:month/:day/:slug/modal" exact render={props => (
+                <PostProvider
+                    slug={props.match.params.slug}
+                    store={props.match.params.slug}
+                    slug404={POST_404_SLUG}
+                >
+                  <PostConsumer>
+                    <Post/>
+                  </PostConsumer>
+                </PostProvider>
+            )}>
+            </Route>
             <Route exact render={props => {
               return (
                 <PageProvider

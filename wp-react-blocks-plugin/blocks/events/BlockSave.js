@@ -6,7 +6,11 @@ const SaveComponent = (props) => {
   const {
     attributes: {
       eventLocation,
-      eventStartDate
+      eventStartDate,
+      eventEndDate,
+      hostedBy,
+      link, 
+      name
     }
   } = props;
 
@@ -21,6 +25,10 @@ const SaveComponent = (props) => {
          data-component={"events"}
          data-event-location={eventLocation}
          data-event-start-date={eventStartDate}
+         data-event-end-date={eventEndDate}
+         data-event-hosted-by={hostedBy}
+         data-event-link={link}
+         data-event-name={name}
     >
     </div>
   );

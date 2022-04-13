@@ -10,7 +10,7 @@ import { WP_CATEGORIES } from "../reducers/StoreConstants";
 import { BUTTONS, DOTS } from "./Constants";
 import { getSlugFromFilters } from "../utils/common";
 
-const Carousel = ({ posts, itemsPerPage, messages, orientation, navigatorStyle, locale, type }) => {
+const Carousel = ({ posts, itemsPerPage, messages, orientation, navigatorStyle, locale, type, showLinksInModal}) => {
   let i = 0;
   const isAddType = type !== undefined;
   return (<CarouselProvider
@@ -26,7 +26,8 @@ const Carousel = ({ posts, itemsPerPage, messages, orientation, navigatorStyle, 
       <Slider dragEnabled={false}>
         {posts.map(p => {
           return <Slide index={i++} key={p.id}>
-            <PostIntro post={p} fluid showLink messages={messages} locale={locale} isAddTypeToLink={isAddType} />
+            <PostIntro post={p} fluid showLink showLinksInModal={showLinksInModal} 
+                       messages={messages} locale={locale} isAddTypeToLink={isAddType} />
           </Slide>;
         })}
       </Slider>
@@ -56,6 +57,7 @@ const PostCarousel = ({
                         "data-navigator-style": navigatorStyle = DOTS,
                         "data-scheduled-filter": scheduledFilter,
                         "data-scheduled-filter-store": scheduledFilterStore = 'past',
+                        "data-show-links-in-modal": showLinksInModal,
                         filters, filtersData, categoriesWP, onLoadWPCategories
                       }) => {
   const isConnectFilter = connectFilter === 'true';
@@ -83,7 +85,7 @@ const PostCarousel = ({
                   perPage={items} isScheduledFilter={scheduledFilter === 'true'} scheduledFilterStore={scheduledFilterStore}>
       <PostConsumer>
         <Carousel itemsPerPage={itemsPerPage} messages={messages} orientation={orientation}
-                  navigatorStyle={navigatorStyle} type={type} />
+                  navigatorStyle={navigatorStyle} type={type} showLinksInModal={showLinksInModal} />
       </PostConsumer>
     </PostProvider>
   </Container>

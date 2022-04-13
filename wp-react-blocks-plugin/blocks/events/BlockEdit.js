@@ -15,12 +15,20 @@ class BlockEdit extends BaseBlockEdit {
       className, isSelected,
       toggleSelection, setAttributes, attributes: {
         eventStartDate,
-        eventLocation
+        eventEndDate,
+        eventLocation,
+        hostedBy,
+        link,
+        name
       }
     } = this.props;
 
     let queryString = `data-event-location=${eventLocation}&editing=true`;
-    queryString += `&data-event-start-date=${eventStartDate}&editing=true`;
+    queryString += `&data-event-start-date=${eventStartDate}`;
+    queryString += `&data-event-end-date=${eventEndDate}`;
+    queryString += `&data-event-hosted-by=${hostedBy}`;
+    queryString += `&data-event-link=${link}`;
+    queryString += `&data-event-name=${name}`;
     const divStyles = {};
     return ([isSelected && (<InspectorControls>
         <Panel header={__("Event Configuration")}>
@@ -28,6 +36,15 @@ class BlockEdit extends BaseBlockEdit {
             <PanelRow>
               <label>{__('Event start date')}</label>
             </PanelRow>
+              
+            <PanelRow>
+                <TextControl
+                    label={__('Event Name')}
+                    value={name}
+                    onChange={(name) => setAttributes({ name })}
+                />
+            </PanelRow>
+              
             <PanelRow>
               <DateTimePicker
                 currentDate={eventStartDate}
@@ -36,11 +53,40 @@ class BlockEdit extends BaseBlockEdit {
                 is12Hour={true}
               />
             </PanelRow>
+            
+            <PanelRow>
+              <label>{__('Event end date')}</label>
+            </PanelRow>
+            <PanelRow>
+              <DateTimePicker
+                  currentDate={eventEndDate}
+                  eventEndDate
+                  onChange={(eventEndDate) => setAttributes({ eventEndDate })}
+                  is12Hour={true}
+              />
+            </PanelRow>
+            
             <PanelRow>
               <TextControl
                 label={__('Event location')}
                 value={eventLocation}
                 onChange={(eventLocation) => setAttributes({ eventLocation })}
+              />
+            </PanelRow>
+
+            <PanelRow>
+              <TextControl
+                  label={__('Hosted By')}
+                  value={hostedBy}
+                  onChange={(hostedBy) => setAttributes({ hostedBy })}
+              />
+            </PanelRow>
+
+            <PanelRow>
+              <TextControl
+                  label={__('External Link')}
+                  value={link}
+                  onChange={(link) => setAttributes({ link })}
               />
             </PanelRow>
           </PanelBody>
