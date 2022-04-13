@@ -9,7 +9,8 @@ const SaveComponent = (props) => {
       eventStartDate,
       eventEndDate,
       hostedBy,
-      link
+      link, 
+      name
     }
   } = props;
 
@@ -27,6 +28,7 @@ const SaveComponent = (props) => {
          data-event-end-date={eventEndDate}
          data-event-hosted-by={hostedBy}
          data-event-link={link}
+         data-event-name={name}
     >
     </div>
   );

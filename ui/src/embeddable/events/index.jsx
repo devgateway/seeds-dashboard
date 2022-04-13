@@ -1,6 +1,8 @@
 import React from "react";
 import './events.scss';
 import {Grid, Icon} from "semantic-ui-react";
+import {atcb_action} from 'add-to-calendar-button'
+import 'add-to-calendar-button/assets/css/atcb.min.css';
 
 const Events = ({
                     'data-event-location': eventLocation,
@@ -8,8 +10,10 @@ const Events = ({
                     'data-event-end-date': eventEndDate,
                     'data-event-hosted-by': hostedBy,
                     'data-event-link': link,
+                    'data-event-name': name,
                     'editing': editing,
                 }) => {
+
     const options = {year: 'numeric', month: 'long', day: 'numeric'};
     const pEventStartDate = new Date(eventStartDate);
     const pEventEndDate = new Date(eventEndDate);
@@ -65,6 +69,13 @@ const Events = ({
 
         }
     }
+    console.log(pEventStartDate.toUTCString());
+    console.log(pEventStartDate.toString());
+    console.log(pEventStartDate.toDateString());
+    console.log(pEventStartDate.toLocaleDateString());
+    console.log(pEventStartDate.toISOString());
+    console.log(pEventStartDate.toTimeString());
+    console.log(pEventStartDate.toLocaleTimeString());
     return (<Grid className="events">
         {showFullContent && hostedBy && hostedBy !== 'undefined' ? <Grid.Column width={16} className="event-hostedby">
             <span className="label hostedby">Hosted By </span><span>{hostedBy}</span>
@@ -81,6 +92,23 @@ const Events = ({
         </Grid.Column>
         {showFullContent && link && link !== 'undefined' ? <Grid.Column width={16} className="event-link">
             <Icon className="linkify"/> <a href={link} target="_blank" className="label">{link}</a>
+        </Grid.Column> : null}
+        {showFullContent ? <Grid.Column width={16}>
+            <form onSubmit={e => {
+                e.preventDefault()
+                atcb_action({
+                    name: name || 'TASAI Event',
+                    startDate: pEventStartDate.toISOString(),
+                    endDate: pEventEndDate.toISOString(),
+                    options: ['Apple', 'Google', 'iCal', 'Microsoft365', 'Outlook.com'],
+                    trigger: "click",
+                    iCalFileName: "Reminder-Event",
+                    description: link && link !== 'undefined' ? '[url]' + link + '[/url]' : '',
+                    location: eventLocation || 'Location N/A'
+                })
+            }}>
+                <input className="atcb_customTrigger" type="submit" value="Add to calendar"/>
+            </form>
         </Grid.Column> : null}
     </Grid>);
 }
