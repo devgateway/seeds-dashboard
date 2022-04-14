@@ -52,7 +52,7 @@ const MarketConcentrationHHI = ({ data, sources, selectedYear, bottomLegend, int
     });
 
     const noData = false;
-    const indexBy = 'crop';
+    const indexBy = 'year';
     const layout = 'vertical';
     const groupMode = 'grouped';
     const leftLegend = 'HHI value';
@@ -64,17 +64,26 @@ const MarketConcentrationHHI = ({ data, sources, selectedYear, bottomLegend, int
             className="bold">
             {totalLabel.format ? intl.formatNumber(d.data[d.id], totalLabel.format) : d.data[d.id]}</span><br />
             <span>Year</span><span
-            className="bold"> {d.id}  </span>
+            className="bold"> {d.data.year}  </span>
         </div>
     }
     const getTooltipHeader = (d) => {
         return <>
-            <div className={d.indexValue.toLowerCase() + " crop-icon"} />
-            <div className="crop-name">{intl.formatMessage({ id: d.indexValue, defaultMessage: d.indexValue })}</div>
+            <div className={d.data.crop.toLowerCase() + " crop-icon"} />
+            <div className="crop-name">{intl.formatMessage({ id: d.data.crop, defaultMessage: d.data.crop })}</div>
         </>;
     }
     const customTickWithCropsBottom = false;
-
+    
+    const hhiProcessedData = [];
+    processedData.forEach(i => {
+        Object.keys(i).forEach(j => {
+            if (j !== 'crop' && selectedYear.find(k => k === j)) {
+                hhiProcessedData.push({year: j, value: i[j], crop: i.crop});
+            }
+        });
+    });
+    
     return (
         <>
             <Grid.Row className={`hhi-section`}>
@@ -88,8 +97,8 @@ const MarketConcentrationHHI = ({ data, sources, selectedYear, bottomLegend, int
                         </div>
                         <ResponsiveBarChartImpl sources={sources} data={data} noData={noData} crops={crops}
                                                 selectedYear={selectedYear} colors={colors[i]} max={max * 1.25}
-                                                keys={keys}
-                                                processedData={processedData.filter(j => j.crop === crops[i])}
+                                                keys={['value']}
+                                                processedData={hhiProcessedData.filter(j => j.crop === crops[i])}
                                                 indexBy={indexBy} layout={layout}
                                                 groupMode={groupMode}
                                                 leftLegend={leftLegend} bottomLegend={bottomLegend}
@@ -99,7 +108,8 @@ const MarketConcentrationHHI = ({ data, sources, selectedYear, bottomLegend, int
                                                 containerHeight={300}
                                                 gridTickLines={4} margins={{ top: 40, right: 10, bottom: 60, left: 70 }}
                                                 padding={0.05} intl={intl}
-                                                axisBottom={false} totalLabel={totalLabel}
+                                                axisBottom={true} totalLabel={totalLabel} 
+                                                getColorsCustom={i => getColor(i.value)}
                         />
                     </Grid.Column>);
                 })}
