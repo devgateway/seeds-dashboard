@@ -175,8 +175,9 @@ export const loadCountrySettings = () => {
 }
 
 export const getDocumentsData = (params) => {
-  let documentsApi = WP_DOCUMENTS_API + (params ? '?' + queryParams(params) : '')
-  return get(documentsApi, params)
+  // let documentsApi = WP_DOCUMENTS_API + (params ? '?' + queryParams(params) : '')
+  // return get(documentsApi, params)
+  return getAll(WP_DOCUMENTS_API);
 }
 
 export const getCropsData = (country, year) => {

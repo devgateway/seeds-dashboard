@@ -4,7 +4,7 @@ const SaveComponent = (props) => {
 
     const {
         attributes: {
-            description, country, year, image, height, width
+            description, country, year, image, height, width, categorySuffix
         }
     } = props;
     const blockProps = useBlockProps.save({
@@ -18,6 +18,7 @@ const SaveComponent = (props) => {
                  data-image={image}
                  data-height={height}
                  data-width={width}
+                 data-category-sufix={categorySuffix}
                  data-year={year}>
     </div>);
 }
