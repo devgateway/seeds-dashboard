@@ -82,13 +82,13 @@ const CountryReports = ({
             });
             if (links.length === 1) {
                 return (<div className="links-container">
-                    <a href={links[0].link}>View Report</a>
+                    <a href={links[0].link} target="_blank">View Report</a>
                 </div>);
             } else {
                 return (<div className="links-container">
                     <span>View Report -</span>
                     {links.map((i, index) => {
-                        return <a key={i.link} href={i.link}>{i.lang}{index === 0 ? '  /  ' : ''}</a>
+                        return <a key={i.link} href={i.link} target="_blank">{i.lang}{index === 0 ? '  /  ' : ''}</a>
                     })}
                 </div>);
             }
