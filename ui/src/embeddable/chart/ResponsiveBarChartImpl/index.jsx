@@ -187,7 +187,7 @@ const ResponsiveBarChartImpl = ({
                             fontSize: getTextWidth(text, '14pt sans-serif') <= width ? '14pt' : '10pt',
                             fill: '#354052',
                         }}>
-                        {totalLabel.format ? intl.formatNumber(text, totalLabel.format) : text}
+                        {totalLabel.format && !isNaN(text) ? intl.formatNumber(text, totalLabel.format) : text}
                     </text>
                 </g>);
             }
