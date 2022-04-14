@@ -35,6 +35,10 @@ registerBlockType(process.env.BLOCKS_NS + '/country-reports',
                 type: 'number',
                 default: 900,
             },
+            categorySufix: {
+                type: "String",
+                default: ""
+            },
         },
         edit: BlockEdit,
         save: BlockSave,
