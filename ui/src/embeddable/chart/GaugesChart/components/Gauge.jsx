@@ -7,18 +7,36 @@ import {Pie} from "@nivo/pie";
 
 const colors = new Map(
     [
-        ["EP", "#f5e4e4"],
+        ["EP", "#ffffff"],
         ["EP_S", "#c00000"],
-        ["P", "#f5e9e9"],
+        ["P", "#ffffff"],
         ["P_S", "#d86565"],
-        ["F", "#f6f1e0"],
+        ["F", "#ffffff"],
         ["F_S", "#ffc000"],
-        ["G", "#eef8e6"],
+        ["G", "#ffffff"],
         ["G_S", "#7dc646"],
-        ["E", "#e7f1e1"],
+        ["E", "#ffffff"],
         ["E_S", "#276700"]
     ]);
-const getColor = (item) => colors.get(item.id);
+const getColor = (item) => {
+    console.log(item);
+    return colors.get(item.id)
+};
+
+const borderColors = new Map(
+    [
+        ["EP", "#c00000"],
+        ["EP_S", "#c00000"],
+        ["P", "#d86565"],
+        ["P_S", "#d86565"],
+        ["F", "#ffc000"],
+        ["F_S", "#ffc000"],
+        ["G", "#7dc646"],
+        ["G_S", "#7dc646"],
+        ["E", "#276700"],
+        ["E_S", "#276700"]
+    ]);
+const getBorderColor = (item) => borderColors.get(item.id);
 
 const CenteredMetric = ({dataWithArc, centerX, centerY, innerValue, innerColor}) => {
     return (
@@ -60,16 +78,8 @@ const Gauge = ({data, height, width, innerValue, innerColor, tooltip}) =>
         motionStiffness={90}
         motionDamping={15}
         tooltip={tooltip}
-        borderWidth={1.5}
-        borderColor={{
-            from: 'color',
-            modifiers: [
-                [
-                    'darker',
-                    0.9
-                ]
-            ]
-        }}
+        borderWidth={1.25}
+        borderColor={item => getBorderColor(item)}
     /></div>
 
 export default Gauge;
