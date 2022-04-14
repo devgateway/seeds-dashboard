@@ -30,7 +30,11 @@ const CountryReports = ({
                             editing,
                             "data-width": width,
                             "data-height": height,
+                            "data-category-sufix": categorySufix
                         }) => {
+
+    const categorySufix_ = categorySufix || '';
+
     useEffect(() => {
         onLoadCategories()
     }, [onLoadCategories]);
@@ -60,7 +64,9 @@ const CountryReports = ({
 
     const generateLinks = () => {
         if (documents && categoriesWP) {
-            const docs = documents.filter(d => d.mime_type === 'application/pdf' && d.categories.find(i => i === Number(year)) && d.categories.find(i => i === Number(country)));
+            const docs = documents.filter(d => d.mime_type === 'application/pdf'
+                && d.categories.find(i => i === Number(year))
+                && d.categories.find(i => i === Number(country)));
             if (docs.length === 0) {
                 return null;
             }
@@ -94,7 +100,7 @@ const CountryReports = ({
         if (crops && categoriesWP) {
             const year_ = categoriesWP.find(i => i.id === Number(year)).name;
             const country_ = categoriesWP.find(i => i.id === Number(country)).name;
-            const crops_ = crops.find(i => i.country.toLowerCase() === country_.toLowerCase() && i.year === year_);
+            const crops_ = crops.find(i => i.country.toLowerCase() + categorySufix_ === country_.toLowerCase() && i.year === year_);
             if (crops_ && (crops_.crop1 || crops_.crop2 || crops_.crop3 || crops_.crop4)) {
                 const data = [crops_.crop1 || '', crops_.crop2 || '', crops_.crop3 || '', crops_.crop4 || ''];
                 return <CropsLegend data={data}/>;
@@ -141,7 +147,7 @@ const CountryReports = ({
                                     {generateCrops()}
                                 </div>
                                 <div className="report-container">
-                                    <span className="title">{country_.name + ' ' + year_.name + ' Report'}</span>
+                                    <span className="title">{country_.name.replace(categorySufix_, '') + ' ' + year_.name + ' Report'}</span>
                                     <span className="description">{description}</span>
                                     <span className="links">{generateLinks()}</span>
                                 </div>

@@ -8,7 +8,7 @@ class BlockEdit extends BaseBlockEdit {
     render() {
         const {
             className, isSelected, toggleSelection, setAttributes, attributes: {
-                description, country, year, image, width, height
+                description, country, year, image, width, height, categorySufix
             }
         } = this.props;
 
@@ -17,6 +17,7 @@ class BlockEdit extends BaseBlockEdit {
         queryString += `&data-year=${year}`;
         queryString += `&data-image=${image}`
         queryString += `&data-height=${height}`
+        queryString += `&data-category-sufix=${categorySufix}`
         queryString += `&editing=true`;
         const divStyles = {height: height + 'px', width: width + 'px'}
         return ([isSelected && (<InspectorControls>
@@ -39,8 +40,15 @@ class BlockEdit extends BaseBlockEdit {
                         />
                     </PanelRow>
                     <PanelRow>
+                        <TextControl
+                            label={__('Category prefix:')}
+                            value={categorySufix}
+                            onChange={(categorySufix) => setAttributes({categorySufix})}
+                        />
+                    </PanelRow>
+                    <PanelRow>
                         <RangeControl
-                            label={__('Chart Width')}
+                            label={__('Width')}
                             value={width}
                             onChange={(width) => setAttributes({width})}
                             min={1}
@@ -49,7 +57,7 @@ class BlockEdit extends BaseBlockEdit {
                     </PanelRow>
                     <PanelRow>
                         <RangeControl
-                            label={__('Chart height')}
+                            label={__('Height')}
                             value={height}
                             onChange={(height) => setAttributes({height})}
                             min={1}
@@ -70,11 +78,13 @@ class BlockEdit extends BaseBlockEdit {
         const {setAttributes} = this.props;
         const list = [];
         list.push({label: '', value: ''});
-        images.filter(i => i.categories.find(j => j === categories.find(i => i.name === 'country-report').id))
-            .filter(i => i.mime_type.indexOf('image/') > -1)
-            .map(i => {
-                list.push({label: i.title.rendered + '(' + i.media_details.file + ')', value: i.id});
-            });
+        if (images) {
+            images.filter(i => i.categories.find(j => j === categories.find(i => i.name === 'country-report').id))
+                .filter(i => i.mime_type.indexOf('image/') > -1)
+                .map(i => {
+                    list.push({label: i.title.rendered + '(' + i.media_details.file + ')', value: i.id});
+                });
+        }
         return (<SelectControl
             label={__('Images')}
             value={image}
