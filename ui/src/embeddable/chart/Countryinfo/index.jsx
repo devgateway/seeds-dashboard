@@ -12,6 +12,8 @@ const CountryInfo = ({ data, intl, labels }) => {
         space: true,
         units: ["", "thousand", "million", "billion", "trillion"],
     }
+    
+    const NA = 'N/A';
 
     const getSymbol = (suffix) => {
         let symbol = '';
@@ -23,16 +25,21 @@ const CountryInfo = ({ data, intl, labels }) => {
         }
         return symbol;
     }
+    
     const getValue = (field) => {
         if (field && field.value) {
+            if (field.value === 0) {
+                return NA;
+            }
             if (field.symbol === '%') {
                 const format = { style: 'decimal', minimumFractionDigits: 0, maximumFractionDigits: 2 }
                 return `${intl.formatNumber(field.value * 100, format)} %`;
             } else {
                 return millify(field.value, config) + getSymbol(field.symbol);
             }
-        } else return '-';
+        } else return NA;
     }
+    
     const getOrderedCrops = () => {
         let aOrderedCrops = [];
 
@@ -55,8 +62,7 @@ const CountryInfo = ({ data, intl, labels }) => {
             <Grid.Row className={`section totals`}>
                 <Grid.Column width={10}>
                     <div className="label">{labels.totalLandArea}</div>
-                    <div
-                        className="data">{getValue(data.agricLandArea) + ` ${labels.totalLandAreaUnit}`}</div>
+                    <div className="data">{data.agricLandArea && data.agricLandArea.value > 0 ? getValue(data.agricLandArea) + ` ${labels.totalLandAreaUnit}` : NA}</div>
                 </Grid.Column>
                 <Grid.Column width={6}>
                     <div className="label">{labels.arableLand}</div>
@@ -77,7 +83,7 @@ const CountryInfo = ({ data, intl, labels }) => {
                                     <div className={`crop ${(crop.label).toLowerCase().replaceAll(" ", "-")}`}>
                                         <div className="label has-condensed-text">{crop.label} /
                                             in {labels.topHarvestedCropsAndValueUnit}</div>
-                                        <div className="data">{crop.value.toLocaleString()}</div>
+                                        <div className="data">{crop.value.toLocaleString() || NA}</div>
                                     </div>
                                 </Grid.Column>
                             })
@@ -116,11 +122,11 @@ const CountryInfo = ({ data, intl, labels }) => {
             <Grid.Row className={`section border`}>
                 <Grid.Column width={16} className={`business-rank`}>
                     {data.business && <div className="label">Ease of Doing Business Rank (2020) :
-                        <span className="data"> {data.business ? data.business.value : '-'}</span> of 100
+                        <span className="data"> {data.business ? data.business.value : NA}</span> of 100
                     </div>}
                     <div className="label">{labels.easeOfDoingBusinessAgriculture}
                         <span
-                            className="data"> {data.easeAgriculture ? data.easeAgriculture.value : '-'}</span> {labels.easeOfDoingBusinessAgricultureOf}
+                            className="data"> {data.easeAgriculture ? data.easeAgriculture.value : NA}</span> {labels.easeOfDoingBusinessAgricultureOf}
                     </div>
                 </Grid.Column>
             </Grid.Row>
