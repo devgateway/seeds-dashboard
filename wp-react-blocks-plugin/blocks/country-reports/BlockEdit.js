@@ -8,7 +8,7 @@ class BlockEdit extends BaseBlockEdit {
     render() {
         const {
             className, isSelected, toggleSelection, setAttributes, attributes: {
-                description, country, year, image, width, height, categorySufix
+                description, country, year, image, width, height, categorySuffix
             }
         } = this.props;
 
@@ -17,7 +17,7 @@ class BlockEdit extends BaseBlockEdit {
         queryString += `&data-year=${year}`;
         queryString += `&data-image=${image}`
         queryString += `&data-height=${height}`
-        queryString += `&data-category-sufix=${categorySufix}`
+        queryString += `&data-category-sufix=${categorySuffix}`
         queryString += `&editing=true`;
         const divStyles = {height: height + 'px', width: width + 'px'}
         return ([isSelected && (<InspectorControls>
@@ -42,8 +42,8 @@ class BlockEdit extends BaseBlockEdit {
                     <PanelRow>
                         <TextControl
                             label={__('Category prefix:')}
-                            value={categorySufix}
-                            onChange={(categorySufix) => setAttributes({categorySufix})}
+                            value={categorySuffix}
+                            onChange={(categorySuffix) => setAttributes({categorySuffix})}
                         />
                     </PanelRow>
                     <PanelRow>

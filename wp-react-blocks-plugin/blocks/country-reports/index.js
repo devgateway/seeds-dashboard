@@ -35,7 +35,7 @@ registerBlockType(process.env.BLOCKS_NS + '/country-reports',
                 type: 'number',
                 default: 900,
             },
-            categorySufix: {
+            categorySuffix: {
                 type: "String",
                 default: ""
             },

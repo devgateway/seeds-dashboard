@@ -30,10 +30,10 @@ const CountryReports = ({
                             editing,
                             "data-width": width,
                             "data-height": height,
-                            "data-category-sufix": categorySufix
+                            "data-category-sufix": categorySuffix
                         }) => {
 
-    const categorySufix_ = categorySufix || '';
+    const categorySuffix_ = categorySuffix || '';
 
     useEffect(() => {
         onLoadCategories()
@@ -100,7 +100,7 @@ const CountryReports = ({
         if (crops && categoriesWP) {
             const year_ = categoriesWP.find(i => i.id === Number(year)).name;
             const country_ = categoriesWP.find(i => i.id === Number(country)).name;
-            const crops_ = crops.find(i => i.country.toLowerCase() + categorySufix_ === country_.toLowerCase() && i.year === year_);
+            const crops_ = crops.find(i => i.country.toLowerCase() + categorySuffix_ === country_.toLowerCase() && i.year === year_);
             if (crops_ && (crops_.crop1 || crops_.crop2 || crops_.crop3 || crops_.crop4)) {
                 const data = [crops_.crop1 || '', crops_.crop2 || '', crops_.crop3 || '', crops_.crop4 || ''];
                 return <CropsLegend data={data}/>;
@@ -147,7 +147,7 @@ const CountryReports = ({
                                     {generateCrops()}
                                 </div>
                                 <div className="report-container">
-                                    <span className="title">{country_.name.replace(categorySufix_, '') + ' ' + year_.name + ' Report'}</span>
+                                    <span className="title">{country_.name.replace(categorySuffix_, '') + ' ' + year_.name + ' Report'}</span>
                                     <span className="description">{description}</span>
                                     <span className="links">{generateLinks()}</span>
                                 </div>
