@@ -45,6 +45,7 @@ const ResponsiveLineChartImpl = ({
 
     return (<div style={{height: containerHeight}} ref={ref}>
             {!noData ? <ResponsiveLine
+                curve={'monotoneX'}
                 theme={theme}
                 data={processedData}
                 colors={{datum: 'color'}}
