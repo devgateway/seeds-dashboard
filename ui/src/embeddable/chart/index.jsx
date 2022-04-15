@@ -290,9 +290,9 @@ const Chart = (props) => {
     // For every chart we set the height that shows the content with the best look.
     let fixedHeight = {
         [NUMBER_OF_ACTIVE_BREEDERS]: 742,
-        [NUMBER_OF_VARIETIES_RELEASED]: 745,
-        [VARIETIES_RELEASED_WITH_SPECIAL_FEATURES]: 745,
-        [AVAILABILITY_OF_BASIC_SEED]: 700,
+        [NUMBER_OF_VARIETIES_RELEASED]: 741,
+        [VARIETIES_RELEASED_WITH_SPECIAL_FEATURES]: 741,
+        [AVAILABILITY_OF_BASIC_SEED]: 698,
         [NUMBER_OF_ACTIVE_SEED_COMPANIES_PRODUCERS]: 740,
         [QUANTITY_CERTIFIED_SEED_SOLD]: 743,
         [NUMBER_VARIETIES_SOLD]: 745,
