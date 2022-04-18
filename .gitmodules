@@ -1,3 +1,3 @@
 [submodule "ui/src/seeds-commons"]
 	path = ui/src/seeds-commons
-	url = git@github.com:devgateway/seeds-commons.git
+	url = https://github.com/devgateway/seeds-commons.git
