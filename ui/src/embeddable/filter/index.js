@@ -4,9 +4,12 @@ import { connect } from "react-redux";
 import { setFilter } from "../reducers/data";
 import './filter.scss'
 import { getCountries } from "../reducers/data";
-import { COUNTRIES_FILTER, COUNTRY_SETTINGS, SELECTED_COUNTRY, SHARE_COUNTRY } from "../reducers/StoreConstants";
+import { COUNTRIES_FILTER, COUNTRY_SETTINGS, SHARE_COUNTRY } from "../reducers/StoreConstants";
+
+
 import CountryFilter from "./CountryFilter";
-import CountrySelector from "./countrySelector/CountrySelector";
+import { SELECTED_COUNTRY } from "../../seeds-commons/commonConstants";
+import CountrySelector from "../../seeds-commons/countrySelector/CountrySelector";
 
 const Filter = ({
                     onApply, countries, onLoadCountries, country_settings, filters,

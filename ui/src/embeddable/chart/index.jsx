@@ -37,11 +37,12 @@ import {
     DATA,
     WP_CATEGORIES,
     COUNTRIES_FILTER,
-    SOURCE_CATEGORIES, SELECTED_COUNTRY, NUMBER_SEED_INSPECTORS_BY_COUNTRY, SHARE_CHART, SHARE_CROPS
+    SOURCE_CATEGORIES, NUMBER_SEED_INSPECTORS_BY_COUNTRY, SHARE_CHART, SHARE_CROPS
 } from "../reducers/StoreConstants";
 import GaugesChart from "./GaugesChart";
 import { getWpCategories, setFilter } from "../reducers/data";
 import ChartComponent from "./ChartsComponent";
+import { SELECTED_COUNTRY } from "../../seeds-commons/commonConstants";
 
 const Diverging = (props) => {
     const { data, legends, colors, height } = props
@@ -104,7 +105,7 @@ const Chart = (props) => {
         "data-top-harvested-crops-and-value-unit": topHarvestedCropsAndValueUnit = "hectares",
         "data-population-vs-farming-households": populationVsFarmingHouseholds = "Population vs Farming Households",
         "data-ease-of-doing-business-agriculture": easeOfDoingBusinessAgriculture = "Enabling the Business of Agriculture (2019) :",
-        "data-ease-of-doing-business-agriculture-of": easeOfDoingBusinessAgricultureOf="of 100"
+        "data-ease-of-doing-business-agriculture-of": easeOfDoingBusinessAgricultureOf = "of 100"
     } = props;
 
     useEffect(() => {

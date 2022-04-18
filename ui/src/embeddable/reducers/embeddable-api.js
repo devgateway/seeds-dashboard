@@ -1,4 +1,5 @@
-import {post} from '../../api/commons'
+import { post } from "../../seeds-commons/commons";
+
 
 const API_ROOT = process.env.REACT_APP_UTIL_API
 
