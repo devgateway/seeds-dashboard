@@ -287,11 +287,37 @@ const Chart = (props) => {
             break;
     }
 
-    // This is necessary charts that become very long in small resolutions like HHI.
+    // For every chart we set the height that shows the content with the best look.
+    let fixedHeight = {
+        [NUMBER_OF_ACTIVE_BREEDERS]: 742,
+        [NUMBER_OF_VARIETIES_RELEASED]: 741,
+        [VARIETIES_RELEASED_WITH_SPECIAL_FEATURES]: 741,
+        [AVAILABILITY_OF_BASIC_SEED]: 698,
+        [NUMBER_OF_ACTIVE_SEED_COMPANIES_PRODUCERS]: 740,
+        [QUANTITY_CERTIFIED_SEED_SOLD]: 743,
+        [NUMBER_VARIETIES_SOLD]: 745,
+        [AVERAGE_AGE_VARIETIES_SOLD]: 743,
+        [MARKET_CONCENTRATION_HHI]: 880,
+        [MARKET_SHARE_TOP_FOUR_SEED_COMPANIES]: 772,
+        [MARKET_SHARE_STATE_OWNED_SEED_COMPANIES]: 743,
+        [EFFICIENCY_SEED_IMPORT_PROCESS]: 730,
+        [EFFICIENCY_SEED_EXPORT_PROCESS]: 685,
+        [VARIETY_RELEASE_PROCESS]: 640,
+        [SATISFACTION_ENFORCEMENT_SEED_LAW]: 380,
+        [PERFORMANCE_SEED_TRADERS]: 845,
+        [NUMBER_SEED_INSPECTORS]: 685,
+        [AGRICULTURAL_EXTENSION_SERVICES]: 760,
+        [AGRODEALER_NETWORK]: 730,
+        [AVAILABILITY_SEED_SMALL_PACKAGES]: 725,
+        [PRICE_SEED_PLANTING]: 695
+    };
+    const fixedHeightStyle = { height: (fixedHeight[type] ? fixedHeight[type] : 900) + 'px' };
+
+    // This is necessary for charts that become very long in small resolutions like HHI.
     const styleHeight = window.innerWidth <= 1024 ? {} : { height: contentHeight + 'px' };
     const wrapper = useRef(null);
     return (<div ref={wrapper}>
-            <Container className={"chart container"} style={{ "minHeight": height + 'px' }} fluid={true}>
+            <Container className={"chart container"} fluid={true}>
                 <DataProvider params={JSON.parse(decodeURIComponent(params))}
                               app={type}
                               source={chartDataSource}
@@ -299,8 +325,7 @@ const Chart = (props) => {
                               store={[type, unique]}>
 
                     {(!dual || (mode === 'chart')) && (
-                        <Container style={styleHeight} className={"body"}
-                                   fluid={true}>
+                        <Container className={"body"} fluid={true} style={fixedHeightStyle}>
                             <DataConsumer>
                                 {child}
                             </DataConsumer>
