@@ -1,30 +1,30 @@
-import {get, getAll} from '../../api/commons'
 import {
-  COUNTRY_INFO,
-  NUMBER_OF_VARIETIES_RELEASED,
-  SELECTED_COUNTRY,
-  EFFICIENCY_SEED_IMPORT_PROCESS,
-  VARIETIES_RELEASED_WITH_SPECIAL_FEATURES,
-  NUMBER_VARIETIES_SOLD,
-  PERFORMANCE_SEED_TRADERS,
-  AVAILABILITY_OF_BASIC_SEED,
-  DEFAULT_COUNTRY_ID,
-  AVERAGE_AGE_VARIETIES_SOLD,
-  NUMBER_SEED_INSPECTORS,
-  NUMBER_OF_ACTIVE_BREEDERS,
-  WP_CHART,
-  MARKET_CONCENTRATION_HHI,
-  EFFICIENCY_SEED_EXPORT_PROCESS,
-  VARIETY_RELEASE_PROCESS,
-  MARKET_SHARE_TOP_FOUR_SEED_COMPANIES,
-  MARKET_SHARE_STATE_OWNED_SEED_COMPANIES,
-  QUANTITY_CERTIFIED_SEED_SOLD,
-  SATISFACTION_ENFORCEMENT_SEED_LAW,
-  PRICE_SEED_PLANTING,
-  AVAILABILITY_SEED_SMALL_PACKAGES,
-  AGRODEALER_NETWORK,
-  AGRICULTURAL_EXTENSION_SERVICES, NUMBER_SEED_INSPECTORS_BY_COUNTRY
+    COUNTRY_INFO,
+    NUMBER_OF_VARIETIES_RELEASED,
+    EFFICIENCY_SEED_IMPORT_PROCESS,
+    VARIETIES_RELEASED_WITH_SPECIAL_FEATURES,
+    NUMBER_VARIETIES_SOLD,
+    PERFORMANCE_SEED_TRADERS,
+    AVAILABILITY_OF_BASIC_SEED,
+    DEFAULT_COUNTRY_ID,
+    AVERAGE_AGE_VARIETIES_SOLD,
+    NUMBER_SEED_INSPECTORS,
+    NUMBER_OF_ACTIVE_BREEDERS,
+    WP_CHART,
+    MARKET_CONCENTRATION_HHI,
+    EFFICIENCY_SEED_EXPORT_PROCESS,
+    VARIETY_RELEASE_PROCESS,
+    MARKET_SHARE_TOP_FOUR_SEED_COMPANIES,
+    MARKET_SHARE_STATE_OWNED_SEED_COMPANIES,
+    QUANTITY_CERTIFIED_SEED_SOLD,
+    SATISFACTION_ENFORCEMENT_SEED_LAW,
+    PRICE_SEED_PLANTING,
+    AVAILABILITY_SEED_SMALL_PACKAGES,
+    AGRODEALER_NETWORK,
+    AGRICULTURAL_EXTENSION_SERVICES, NUMBER_SEED_INSPECTORS_BY_COUNTRY
 } from "./StoreConstants";
+import { SELECTED_COUNTRY } from "../../seeds-commons/commonConstants";
+import { get, getAll } from "../../seeds-commons/commons";
 
 const SURVEY_API = process.env.REACT_APP_SURVEY_API
 const IP_INFO_URL = 'https://ipinfo.io/json?token=145d05e17c7c25';
@@ -64,128 +64,128 @@ const NUMBER_SEED_INSPECTORS_BY_COUNTRY_API = `${SURVEY_API}/chart/cc/numberSeed
 const CROPS_BY_COUNTRY_YEAR_API = `${SURVEY_API}/filter/countryCrops/`;
 
 const APIS = {
-  prevalence: '',
-  policy: POLICY_API_ROOT,
-  [COUNTRY_INFO]: COUNTRY_INFORMATION_API,
-  [MARKET_CONCENTRATION_HHI]: MARKET_CONCENTRATION_HHI_API,
-  [NUMBER_OF_VARIETIES_RELEASED]: NUMBER_OF_VARIETIES_RELEASED_API,
-  [VARIETIES_RELEASED_WITH_SPECIAL_FEATURES]: VARIETIES_RELEASED_WITH_SPECIAL_FEATURES_API,
-  [AVERAGE_AGE_VARIETIES_SOLD]: AVERAGE_AGE_VARIETIES_SOLD_API,
-  [AVAILABILITY_OF_BASIC_SEED]: AVAILABILITY_OF_BASIC_SEED_API,
-  [NUMBER_OF_ACTIVE_BREEDERS]: NUMBER_OF_ACTIVE_BREEDERS_API,
-  [AVAILABILITY_SEED_SMALL_PACKAGES]: AVAILABILITY_SEED_SMALL_PACKAGES_API,
-  [NUMBER_VARIETIES_SOLD]: NUMBER_VARIETIES_SOLD_API,
-  [SATISFACTION_ENFORCEMENT_SEED_LAW]: SATISFACTION_ENFORCEMENT_SEED_LAW_API,
-  [MARKET_SHARE_TOP_FOUR_SEED_COMPANIES]: MARKET_SHARE_TOP_FOUR_SEED_COMPANIES_API,
-  [MARKET_SHARE_STATE_OWNED_SEED_COMPANIES]: MARKET_SHARE_STATE_OWNED_SEED_COMPANIES_API,
-  [EFFICIENCY_SEED_IMPORT_PROCESS]: EFFICIENCY_SEED_IMPORT_PROCESS_API,
-  [PERFORMANCE_SEED_TRADERS]: PERFORMANCE_SEED_TRADERS_API,
-  [EFFICIENCY_SEED_EXPORT_PROCESS]: EFFICIENCY_SEED_EXPORT_PROCESS_API,
-  [NUMBER_SEED_INSPECTORS]: NUMBER_SEED_INSPECTORS_API,
-  [VARIETY_RELEASE_PROCESS]: VARIETY_RELEASE_PROCESS_API,
-  [QUANTITY_CERTIFIED_SEED_SOLD]: QUANTITY_CERTIFIED_SEED_SOLD_API,
-  [PRICE_SEED_PLANTING]: PRICE_SEED_PLANTING_API,
-  [AGRODEALER_NETWORK]: AGRODEALER_NETWORK_API,
-  [AGRICULTURAL_EXTENSION_SERVICES]: AGRICULTURAL_EXTENSION_SERVICES_API,
-  [NUMBER_SEED_INSPECTORS_BY_COUNTRY]: NUMBER_SEED_INSPECTORS_BY_COUNTRY_API,
+    prevalence: '',
+    policy: POLICY_API_ROOT,
+    [COUNTRY_INFO]: COUNTRY_INFORMATION_API,
+    [MARKET_CONCENTRATION_HHI]: MARKET_CONCENTRATION_HHI_API,
+    [NUMBER_OF_VARIETIES_RELEASED]: NUMBER_OF_VARIETIES_RELEASED_API,
+    [VARIETIES_RELEASED_WITH_SPECIAL_FEATURES]: VARIETIES_RELEASED_WITH_SPECIAL_FEATURES_API,
+    [AVERAGE_AGE_VARIETIES_SOLD]: AVERAGE_AGE_VARIETIES_SOLD_API,
+    [AVAILABILITY_OF_BASIC_SEED]: AVAILABILITY_OF_BASIC_SEED_API,
+    [NUMBER_OF_ACTIVE_BREEDERS]: NUMBER_OF_ACTIVE_BREEDERS_API,
+    [AVAILABILITY_SEED_SMALL_PACKAGES]: AVAILABILITY_SEED_SMALL_PACKAGES_API,
+    [NUMBER_VARIETIES_SOLD]: NUMBER_VARIETIES_SOLD_API,
+    [SATISFACTION_ENFORCEMENT_SEED_LAW]: SATISFACTION_ENFORCEMENT_SEED_LAW_API,
+    [MARKET_SHARE_TOP_FOUR_SEED_COMPANIES]: MARKET_SHARE_TOP_FOUR_SEED_COMPANIES_API,
+    [MARKET_SHARE_STATE_OWNED_SEED_COMPANIES]: MARKET_SHARE_STATE_OWNED_SEED_COMPANIES_API,
+    [EFFICIENCY_SEED_IMPORT_PROCESS]: EFFICIENCY_SEED_IMPORT_PROCESS_API,
+    [PERFORMANCE_SEED_TRADERS]: PERFORMANCE_SEED_TRADERS_API,
+    [EFFICIENCY_SEED_EXPORT_PROCESS]: EFFICIENCY_SEED_EXPORT_PROCESS_API,
+    [NUMBER_SEED_INSPECTORS]: NUMBER_SEED_INSPECTORS_API,
+    [VARIETY_RELEASE_PROCESS]: VARIETY_RELEASE_PROCESS_API,
+    [QUANTITY_CERTIFIED_SEED_SOLD]: QUANTITY_CERTIFIED_SEED_SOLD_API,
+    [PRICE_SEED_PLANTING]: PRICE_SEED_PLANTING_API,
+    [AGRODEALER_NETWORK]: AGRODEALER_NETWORK_API,
+    [AGRICULTURAL_EXTENSION_SERVICES]: AGRICULTURAL_EXTENSION_SERVICES_API,
+    [NUMBER_SEED_INSPECTORS_BY_COUNTRY]: NUMBER_SEED_INSPECTORS_BY_COUNTRY_API,
 }
 
 function queryParams(params) {
-  return Object.keys(params)
-    .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
-    .join('&')
+    return Object.keys(params)
+        .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
+        .join('&')
 }
 
 export const getCountriesData = (dataSource, params) => {
-  return get(SURVEY_COUNTRIES_API + dataSource, params)
+    return get(SURVEY_COUNTRIES_API + dataSource, params)
 }
 export const getCategoriesWP = (params) => {
-  //return get(WP_CATEGORIES, params)
-  return getAll(WP_CATEGORIES);
+    //return get(WP_CATEGORIES, params)
+    return getAll(WP_CATEGORIES);
 }
 export const getIndicatorsData = (params) => {
-  return get(SURVEY_INDICATORS_API, params)
+    return get(SURVEY_INDICATORS_API, params)
 }
 
 export const getData = ({ source, app, params }) => {
-  let sources;
-  if (source) {
-    sources = source.split("|");
-  }
+    let sources;
+    if (source) {
+        sources = source.split("|");
+    }
 
-  if (app === COUNTRY_INFO && params && (params[SELECTED_COUNTRY] || params[DEFAULT_COUNTRY_ID])) {
-    let countryId = params[DEFAULT_COUNTRY_ID];
-    if (params[SELECTED_COUNTRY]) {
-      countryId = params[SELECTED_COUNTRY];
-      delete params[DEFAULT_COUNTRY_ID];
-    }
-    return get(APIS[app] + countryId);
-  } else if (app === NUMBER_OF_VARIETIES_RELEASED
-    || app === AVAILABILITY_OF_BASIC_SEED
-    || app === MARKET_SHARE_TOP_FOUR_SEED_COMPANIES
-    || app === MARKET_CONCENTRATION_HHI
-    || app === VARIETIES_RELEASED_WITH_SPECIAL_FEATURES
-    || app === AVERAGE_AGE_VARIETIES_SOLD
-    || app === SATISFACTION_ENFORCEMENT_SEED_LAW
-    || app === NUMBER_OF_ACTIVE_BREEDERS
-    || app === NUMBER_VARIETIES_SOLD
-    || app === EFFICIENCY_SEED_IMPORT_PROCESS  
-    || app === PERFORMANCE_SEED_TRADERS
-    || app === NUMBER_SEED_INSPECTORS
-    || app === MARKET_SHARE_STATE_OWNED_SEED_COMPANIES
-    || app === EFFICIENCY_SEED_EXPORT_PROCESS
-    || app === VARIETY_RELEASE_PROCESS
-    || app === QUANTITY_CERTIFIED_SEED_SOLD
-    || app === AVAILABILITY_SEED_SMALL_PACKAGES
-    || app === PRICE_SEED_PLANTING
-    || app === AGRODEALER_NETWORK
-    || app === AGRICULTURAL_EXTENSION_SERVICES
-    || app === NUMBER_SEED_INSPECTORS_BY_COUNTRY  
-    || (sources && sources.length > 0 && sources[0] === WP_CHART)
-  ) {
-    if (params[SELECTED_COUNTRY] || params[DEFAULT_COUNTRY_ID]) {
-      params.countryId = params[DEFAULT_COUNTRY_ID];
-      if (params[SELECTED_COUNTRY]) {
-        params.countryId = params[SELECTED_COUNTRY];
-        delete params[DEFAULT_COUNTRY_ID];
-      }
-      let api;
-      if (sources && sources[0] === WP_CHART) {
-        api = `${SURVEY_API}/chart/${app}/${sources[1]}/${sources[2]}`;
-      } else {
-        api = APIS[app];
-      }
-      const apiToCall = api + (params ? '?' + queryParams(params) : '');
-      return get(apiToCall);
+    if (app === COUNTRY_INFO && params && (params[SELECTED_COUNTRY] || params[DEFAULT_COUNTRY_ID])) {
+        let countryId = params[DEFAULT_COUNTRY_ID];
+        if (params[SELECTED_COUNTRY]) {
+            countryId = params[SELECTED_COUNTRY];
+            delete params[DEFAULT_COUNTRY_ID];
+        }
+        return get(APIS[app] + countryId);
+    } else if (app === NUMBER_OF_VARIETIES_RELEASED
+        || app === AVAILABILITY_OF_BASIC_SEED
+        || app === MARKET_SHARE_TOP_FOUR_SEED_COMPANIES
+        || app === MARKET_CONCENTRATION_HHI
+        || app === VARIETIES_RELEASED_WITH_SPECIAL_FEATURES
+        || app === AVERAGE_AGE_VARIETIES_SOLD
+        || app === SATISFACTION_ENFORCEMENT_SEED_LAW
+        || app === NUMBER_OF_ACTIVE_BREEDERS
+        || app === NUMBER_VARIETIES_SOLD
+        || app === EFFICIENCY_SEED_IMPORT_PROCESS
+        || app === PERFORMANCE_SEED_TRADERS
+        || app === NUMBER_SEED_INSPECTORS
+        || app === MARKET_SHARE_STATE_OWNED_SEED_COMPANIES
+        || app === EFFICIENCY_SEED_EXPORT_PROCESS
+        || app === VARIETY_RELEASE_PROCESS
+        || app === QUANTITY_CERTIFIED_SEED_SOLD
+        || app === AVAILABILITY_SEED_SMALL_PACKAGES
+        || app === PRICE_SEED_PLANTING
+        || app === AGRODEALER_NETWORK
+        || app === AGRICULTURAL_EXTENSION_SERVICES
+        || app === NUMBER_SEED_INSPECTORS_BY_COUNTRY
+        || (sources && sources.length > 0 && sources[0] === WP_CHART)
+    ) {
+        if (params[SELECTED_COUNTRY] || params[DEFAULT_COUNTRY_ID]) {
+            params.countryId = params[DEFAULT_COUNTRY_ID];
+            if (params[SELECTED_COUNTRY]) {
+                params.countryId = params[SELECTED_COUNTRY];
+                delete params[DEFAULT_COUNTRY_ID];
+            }
+            let api;
+            if (sources && sources[0] === WP_CHART) {
+                api = `${SURVEY_API}/chart/${app}/${sources[1]}/${sources[2]}`;
+            } else {
+                api = APIS[app];
+            }
+            const apiToCall = api + (params ? '?' + queryParams(params) : '');
+            return get(apiToCall);
+        } else {
+            // TODO: remove this after we are sure we will always use the country filter component.
+            return Promise.resolve();
+        }
     } else {
-      // TODO: remove this after we are sure we will always use the country filter component.
-      return Promise.resolve();
+        return get(APIS[app] + (params ? '?' + queryParams(params) : ''))
     }
-  } else {
-    return get(APIS[app] + (params ? '?' + queryParams(params) : ''))
-  }
 }
 
 export function getIndicatorsInformation(categoryId) {
-  return get(SURVEY_INDICATOR_INFORMATION_API.replace("{categoryId}", categoryId))
+    return get(SURVEY_INDICATOR_INFORMATION_API.replace("{categoryId}", categoryId))
 }
 
 export const loadCountrySettings = () => {
-  return get(IP_INFO_URL);
+    return get(IP_INFO_URL);
 }
 
 export const getDocumentsData = (params) => {
-  // let documentsApi = WP_DOCUMENTS_API + (params ? '?' + queryParams(params) : '')
-  // return get(documentsApi, params)
-  return getAll(WP_DOCUMENTS_API);
+    // let documentsApi = WP_DOCUMENTS_API + (params ? '?' + queryParams(params) : '')
+    // return get(documentsApi, params)
+    return getAll(WP_DOCUMENTS_API);
 }
 
 export const getCropsData = (country, year) => {
-  let api = CROPS_BY_COUNTRY_YEAR_API;
-  // TODO: re-enable filter by country+year after making the EP ignore cases.  
-  /* if (country && year) {
-    api += country + '/' + year;
-  } */
-  return get(api, null);
+    let api = CROPS_BY_COUNTRY_YEAR_API;
+    // TODO: re-enable filter by country+year after making the EP ignore cases.
+    /* if (country && year) {
+      api += country + '/' + year;
+    } */
+    return get(api, null);
 }
 

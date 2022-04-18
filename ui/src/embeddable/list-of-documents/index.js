@@ -1,9 +1,10 @@
-import React, {useEffect} from "react";
-import {Container} from "semantic-ui-react";
-import {connect} from "react-redux";
-import {getDocuments, getWpCategories} from "../reducers/data";
-import {DATA, SELECTED_COUNTRY, WP_CATEGORIES, WP_DOCUMENTS, DATA_CATEGORY} from "../reducers/StoreConstants";
+import React, { useEffect } from "react";
+import { Container } from "semantic-ui-react";
+import { connect } from "react-redux";
+import { getDocuments, getWpCategories } from "../reducers/data";
+import { DATA, WP_CATEGORIES, WP_DOCUMENTS, DATA_CATEGORY } from "../reducers/StoreConstants";
 import Documents from "./Documents";
+import { SELECTED_COUNTRY } from "../../seeds-commons/commonConstants";
 
 const DOCUMENTS_PER_PAGE = 100;
 
@@ -33,7 +34,7 @@ const ListOfDocuments = ({
             const params = {};
             params.categories = category;
             params.per_page = DOCUMENTS_PER_PAGE;
-            onLoadDocuments({params})
+            onLoadDocuments({ params })
         }
     }, [categoriesWP, onLoadDocuments]);
 
@@ -62,7 +63,7 @@ const ListOfDocuments = ({
 
     const childComponent = <Documents type={dataType} showInline={showInline} list={filtered}
                                       loading={loading || !countries || !selectedCountryId || !categoriesWP}
-                                      error={error} noDataText={noDataText}/>
+                                      error={error} noDataText={noDataText} />
     return <Container fluid={true} className={classes}>{childComponent}</Container>
 }
 

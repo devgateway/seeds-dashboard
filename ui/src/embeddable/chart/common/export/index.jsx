@@ -3,7 +3,8 @@ import { Input, Popup, Form, Button, Icon } from 'semantic-ui-react'
 import './styles.scss';
 import { injectIntl } from "react-intl";
 import { connect } from "react-redux";
-import { CURRENT_TAB, SELECTED_COUNTRY } from "../../../reducers/StoreConstants";
+import { CURRENT_TAB } from "../../../reducers/StoreConstants";
+import { SELECTED_COUNTRY } from "../../../../seeds-commons/commonConstants";
 
 const Export = ({
                     methodology,

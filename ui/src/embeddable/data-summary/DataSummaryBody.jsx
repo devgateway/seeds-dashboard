@@ -3,7 +3,6 @@ import { Accordion, Container, Grid, Icon } from "semantic-ui-react";
 
 import {
     COUNTRY_SETTINGS,
-    SELECTED_COUNTRY,
     SUMMARY_INDICATORS,
     SUMMARY_INDICATORS_INFORMATION,
     VISIBLE_COUNTRIES
@@ -22,6 +21,7 @@ import {
     SUB_INDICATOR
 } from "./Constants";
 import Tooltip from "./components/Tooltip";
+import { SELECTED_COUNTRY } from "../../seeds-commons/commonConstants";
 
 const DataSummaryBody = ({
                              summary_indicators,

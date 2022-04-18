@@ -4,8 +4,8 @@ import { Accordion, Container, Form, Grid, Icon, Input, Menu } from "semantic-ui
 import 'pure-react-carousel/dist/react-carousel.es.css';
 import { CarouselProvider } from "pure-react-carousel";
 import CountryCarousel from "./CountryCarousel";
-import { SELECTED_COUNTRY } from "../reducers/StoreConstants";
-import CountrySelector from "./countrySelector/CountrySelector";
+import CountrySelector from "../../seeds-commons/countrySelector/CountrySelector";
+import { SELECTED_COUNTRY } from "../../seeds-commons/commonConstants";
 
 export const ADDITIONAL_COUNTRIES = 3;
 const CountryFilter = ({ countries, onApply, filters, addYear, countryColumns, isShowSelector }) => {
