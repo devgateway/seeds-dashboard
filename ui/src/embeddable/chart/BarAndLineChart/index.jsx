@@ -72,7 +72,7 @@ const BarAndLineChart = ({
 
         const newYScale = d3.scaleLinear().domain([0, 100]).range(yScale.range());
 
-        const lineGenerator = line()
+        const lineGenerator = line().curve(d3.curveMonotoneX)
             .x(bar => xScale(bar.data.indexValue) + bar.width / 2)
             .y(bar => newYScale(bar.data.data[lineChartField] || 0));
 
