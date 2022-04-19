@@ -1,5 +1,5 @@
 import React, { createRef, useEffect, useMemo, useState } from "react";
-import { Accordion, Container, Grid, Icon } from "semantic-ui-react";
+import {Accordion, Container, Grid, Icon, Sticky} from "semantic-ui-react";
 
 import {
     COUNTRY_SETTINGS,
@@ -27,7 +27,8 @@ const DataSummaryBody = ({
                              summary_indicators,
                              onLoadIndicatorsInformation,
                              summary_indicators_information,
-                             filters
+                             filters,
+                             ref_
                          }) => {
     const [activeThemeIndex, setActiveThemeIndex] = useState(1);
     const [activeIndicatorIndexes, setActiveIndicatorIndexes] = useState([]);
@@ -251,28 +252,35 @@ const DataSummaryBody = ({
 
             index.i = index.i + 1;
             const isIndicator = theme.key === 'ZC1';
-            return <>
-                <Accordion.Title
-                    active={activeThemeIndex === index.i}
-                    index={index.i}
-                    onClick={
-                        (e, titleProps) => handleThemeClick(e, titleProps, theme.id, themIndex)}
-                    key={theme.id} className={`theme-title ${isIndicator ? " theme-overview" : ''}`}>
-                    <div className="summary-theme summary-common" ref={refs[themIndex]}>
-                        <Icon name='chevron circle down' />
-                        {theme.name}
-                    </div>
-                </Accordion.Title>
+            return (<>
+                <Sticky context={innerRef} offset={60} active={activeThemeIndex === index.i}>
+                    <Accordion.Title
+                        active={activeThemeIndex === index.i}
+                        index={index.i}
+                        onClick={
+                            (e, titleProps) => handleThemeClick(e, titleProps, theme.id, themIndex)}
+                        key={theme.id} className={`theme-title ${isIndicator ? " theme-overview" : ''}`}>
+                        <div className="summary-theme summary-common" ref={refs[themIndex]}>
+                            <Icon name='chevron circle down' />
+                            {theme.name}
+                        </div>
+                    </Accordion.Title>
+                </Sticky>
                 <Accordion.Content active={activeThemeIndex === index.i}>
                     {theme.name !== 'Overview' && getIndicatorAccordion(theme.childs, index)}
                     {theme.name === 'Overview' && getTabletWithActualData(index.i, theme, index, true)}
                 </Accordion.Content>
-            </>
+            </>);
         })
     }
-    return <Container className="summary-container"><Accordion>
-        {summary_indicators && <SummaryIndicatorsHeader summaryIndicators={summary_indicators} />}
-    </Accordion></Container>
+    const innerRef = createRef();
+    return <div ref={innerRef}>
+        {/*<Sticky context={ref_} offset={160}>*/}
+            <Container className="summary-container">
+                <Accordion>{summary_indicators && <SummaryIndicatorsHeader summaryIndicators={summary_indicators} />}</Accordion>
+            </Container>
+        {/*</Sticky>*/}
+    </div>
 }
 
 const mapStateToProps = (state) => {
