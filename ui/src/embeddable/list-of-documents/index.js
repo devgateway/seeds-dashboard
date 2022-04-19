@@ -50,14 +50,20 @@ const ListOfDocuments = ({
     if (documents && selectedCountryId && countries && category !== '0') {
         const selectedCountry = countries.find(i => i.countryId === selectedCountryId);
         const countryCategory = categoriesWP.find(i => {
-            return i.name.toLowerCase() === (selectedCountry.country.toLowerCase().replace(/\s+/g, '-').toLowerCase() + documentSlugPostFix) && i.parent === Number(category);
-        })
+            // TODO: Change "slug" to "name".
+            return i.slug.toLowerCase() === (selectedCountry.country.toLowerCase().replace(/\s+/g, '-').toLowerCase() + documentSlugPostFix)
+                && i.parent === Number(category);
+        });
         if (countryCategory) {
             filtered = documents.filter(i => i.categories.find(j => j === countryCategory.id)
                 && i.categories.find(j => {
                     const catLocale = categoriesWP.find(k => k.name === locale);
                     return catLocale !== undefined && j === catLocale.id;
                 }));
+            if (filtered.length === 0) {
+                // Default to other language.
+                filtered = documents.filter(i => i.categories.find(j => j === countryCategory.id));
+            }
         }
     }
 
