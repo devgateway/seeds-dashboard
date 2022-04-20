@@ -59,6 +59,8 @@ const formatValue = (value, displayType, intl) => {
     if (displayType !== LEGEND && !isNaN(value)) {
       if (displayType === "Percentage") {
         formattedValue = `${intl.formatNumber(value * 100, format)} %`;
+      } else if (displayType === "Rating") {
+        formattedValue = `${intl.formatNumber(value, format)} %`;
       } else {
         formattedValue = `${intl.formatNumber(value, format)} `;
       }
