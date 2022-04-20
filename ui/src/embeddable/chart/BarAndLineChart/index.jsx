@@ -21,7 +21,8 @@ const round = (x, y) => {
 const BarAndLineChart = ({
                              data, sources, selectedYear, leftLegend, indexBy, groupMode, bottomLegend, rightLegend,
                              processedData, colors, keys, max, legends, getTooltipText, getTooltipHeader, lineColor,
-                             lineChartField, lineChartFieldLabel, totalLabel, extraTooltipClass, intl, noDataLabelId
+                             lineChartField, lineChartFieldLabel, totalLabel, extraTooltipClass, intl, noDataLabelId,
+                             lineTooltipSuffix
                          }) => {
 
     const TICK_NUMBER = 4;
@@ -116,8 +117,12 @@ const BarAndLineChart = ({
                                                 <tr>
                                                     <td>
                                                         <div style={{textAlign: 'center'}}>
-                                                            <span>{lineChartFieldLabel}</span><span
-                                                            className="bold"> {bar.data.data[lineChartField] !== FAKE_NUMBER ? bar.data.data[lineChartField] : "MD"}</span>
+                                                            <span>{lineChartFieldLabel} </span>
+                                                            <span className="bold">
+                                                                {bar.data.data[lineChartField] !== FAKE_NUMBER 
+                                                                    ? bar.data.data[lineChartField] + (lineTooltipSuffix || '') 
+                                                                    : "MD"}
+                                                            </span>
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -140,7 +145,7 @@ const BarAndLineChart = ({
                                       fill: lineColor,
                                       textAnchor: 'end',
                                       fontFamily: 'sans-serif'
-                                  }}>{t}</text>);
+                                  }}>{t + (lineTooltipSuffix || '')}</text>);
                 })}
                 <text
                     transform={`translate(${innerWidth + 50}, ${chartHeight - ((chartHeight - getTextWidth(rightLegend, '16px sans-serif')) / 2)}) rotate(-90)`}

@@ -101,6 +101,7 @@ const ChartComponent = ({
     let getColors = null;
     const keys = [];
     let max = 0;
+    let lineTooltipSuffix;
     let maxSelectableYear = 4;
     let processedData = [];
     let useCropLegendsRow = true;
@@ -1011,7 +1012,7 @@ const ChartComponent = ({
             indexBy = 'year';
             bottomLegend = 'Year';
             groupMode = 'grouped';
-            rightLegend = 'Rating out of 100';
+            rightLegend = 'Rating out of 100 (%)';
             keys.push(['value']);
             Object.keys(data.values.days).forEach(y => {
                 const item = { year: y };
@@ -1051,7 +1052,7 @@ const ChartComponent = ({
             indexBy = 'year';
             bottomLegend = intl.formatMessage({ id: 'years-legend', defaultMessage: 'Year' });
             groupMode = 'stacked';
-            rightLegend = intl.formatMessage({ id: 'rating-legend', defaultMessage: 'Rating out of 100' });
+            rightLegend = intl.formatMessage({ id: 'rating-legend', defaultMessage: 'Rating out of 100 (%)' });
             keys.push('public', 'private');
             Object.keys(data.values).forEach(y => {
                 const item = { year: y };
@@ -1129,6 +1130,7 @@ const ChartComponent = ({
             useCropLegendsRow = false;
             useFilterByCrops = false;
             useFilterByYear = false;
+            lineTooltipSuffix = '%';
             leftLegend = intl.formatMessage({
                 id: 'number-months-axis',
                 defaultMessage: 'Length of variety release process (months)'
@@ -1136,7 +1138,7 @@ const ChartComponent = ({
             indexBy = 'year';
             bottomLegend = intl.formatMessage({ id: 'years-legend', defaultMessage: 'Year' });
             groupMode = 'stacked';
-            rightLegend = intl.formatMessage({ id: 'rating-legend', defaultMessage: 'Rating out of 100' });
+            rightLegend = intl.formatMessage({ id: 'rating-legend', defaultMessage: 'Rating out of 100 (%)' });
             keys.push('time');
             Object.keys(data.values).forEach(y => {
                 const item = { year: y };
@@ -1203,7 +1205,7 @@ const ChartComponent = ({
             indexBy = 'year';
             bottomLegend = intl.formatMessage({ id: 'years-legend', defaultMessage: 'Year' });
             groupMode = 'stacked';
-            rightLegend = intl.formatMessage({ id: 'rating-legend', defaultMessage: 'Rating out of 100' });
+            rightLegend = intl.formatMessage({ id: 'rating-legend', defaultMessage: 'Rating out of 100 (%)' });
             keys.push('households');
             Object.keys(data.values).forEach(y => {
                 const item = { year: y };
@@ -1279,7 +1281,7 @@ const ChartComponent = ({
             indexBy = 'year';
             bottomLegend = intl.formatMessage({ id: 'years-legend', defaultMessage: 'Year' });
             groupMode = 'stacked';
-            rightLegend = intl.formatMessage({ id: 'rating-legend', defaultMessage: 'Rating out of 100' });
+            rightLegend = intl.formatMessage({ id: 'rating-legend', defaultMessage: 'Rating out of 100 (%)' });
             keys.push('households');
             Object.keys(data.values).forEach(y => {
                 const item = { year: y };
@@ -1443,6 +1445,7 @@ const ChartComponent = ({
             case AGRICULTURAL_EXTENSION_SERVICES:
             case EFFICIENCY_SEED_IMPORT_PROCESS:
             case EFFICIENCY_SEED_EXPORT_PROCESS:
+                lineTooltipSuffix = '%';
                 return <BarAndLineChart data={data} selectedYear={selectedYear} leftLegend={leftLegend}
                                         indexBy={indexBy} groupMode={groupMode} bottomLegend={bottomLegend}
                                         rightLegend={rightLegend} processedData={processedData} colors={colors}
@@ -1453,6 +1456,7 @@ const ChartComponent = ({
                                         totalLabel={totalLabel} extraTooltipClass={extraTooltipClass}
                                         intl={intl}
                                         noDataLabelId={noDataLabelId}
+                                        lineTooltipSuffix={lineTooltipSuffix}
                 />
             case PERFORMANCE_SEED_TRADERS:
                 return <Grid.Row className={`chart-section`}>
