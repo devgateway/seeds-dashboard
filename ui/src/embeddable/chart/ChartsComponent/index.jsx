@@ -611,13 +611,10 @@ const ChartComponent = ({
                     defaultMessage: 'Market share (out of 100%)'
                 });
                 getTooltipText = (d) => {
-                    return <>
-            <span>{intl.formatMessage({
-                id: 'tooltip-market-share-state-owned',
-                defaultMessage: 'Market share of state owned companies'
-            })}</span>
-                        <span className="bold"> {d.data[d.id]}%</span><br />
-                    </>
+                    return (<>
+                        <span>{intl.formatMessage({id: 'tooltip-market-share-state-owned', defaultMessage: 'Market share of state owned companies'})}</span>
+                        <span className="bold"> {d.data[d.id]}%</span><br/>
+                    </>);
                 }
                 getTooltipHeader = (d) => {
                     return <>
@@ -650,6 +647,9 @@ const ChartComponent = ({
                                 className="bold"> {d.point.data.y !== FAKE_NUMBER ? d.point.data.y + '%' : 'MD'}</span><br />
                         </div>
                     </div>)
+                }
+                if (max === 0) {
+                    max = 100;
                 }
             } else if (type === QUANTITY_CERTIFIED_SEED_SOLD) {
                 leftLegend = intl.formatMessage({

@@ -80,7 +80,7 @@ const ResponsiveBarChartImpl = ({
     if (allFake) {
         pMax = ALL_FAKE_MAX;
     }
-
+    
     // returns a list of total value labels for stacked bars
     const TotalLabels = ({ bars, yScale, xScale }) => {
         // space between top of stacked bars and total label
@@ -156,19 +156,22 @@ const ResponsiveBarChartImpl = ({
     };
 
     const TotalLabelsGrouped = ({ bars, yScale }) => {
-
         const data_ = data;
         // space between top of stacked bars and total label
         const labelMargin = 30;
 
         const numbers = [];
         bars.forEach(({ data: { data, indexValue, id }, x, width }, i) => {
-            const transform = `translate(${x}, ${yScale(data[id]) - labelMargin})`;
+            let value = data[id]; 
+            if (!value) {
+                value = data_.values[data.crop] ? data_.values[data.crop][id] : null;
+            }
+            const transform = `translate(${x}, ${yScale(value) - labelMargin})`;
             if (!numbers.find(i => i.props.transform === transform)) {
-                let text = data[id] !== FAKE_NUMBER
-                    ? data[id]
+                let text = value !== FAKE_NUMBER
+                    ? value
                     : data_.values[data.crop] ? data_.values[data.crop][id] || 'MD' : 'MD'
-                if (dataSuffix && Number(data[id]) >= 1) {
+                if (dataSuffix && Number(value) >= 0 && value !== FAKE_NUMBER) {
                     text += dataSuffix
                 }
                 numbers.push(<g
