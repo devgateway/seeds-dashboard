@@ -38,7 +38,7 @@ const borderColors = new Map(
     ]);
 const getBorderColor = (item) => borderColors.get(item.id);
 
-const CenteredMetric = ({dataWithArc, centerX, centerY, innerValue, innerColor}) => {
+const CenteredMetric = ({dataWithArc, centerX, centerY, value, innerColor}) => {
     return (
         <text
             x={centerX}
@@ -47,39 +47,46 @@ const CenteredMetric = ({dataWithArc, centerX, centerY, innerValue, innerColor})
             dominantBaseline="central"
             fontWeight="900"
             style={{
-                fontSize: '22px',
+                fontSize: value.toString().length <= 3 ? '22px' : '17px',
                 fill: innerColor
             }}
-        > {innerValue}
+        > {value}
         </text>
     )
 }
-const Gauge = ({data, height, width, innerValue, innerColor, tooltip}) =>
-    <div style={{height}}><Pie
-        layers={['arcs', 'arcLabels', 'arcLinkLabels', 'legends',
-            ({dataWithArc, centerX, centerY}) =>
-                CenteredMetric({dataWithArc, centerX, centerY, innerValue, innerColor})]}
-        width={width}
-        colors={item => getColor(item)}
-        height={height}
-        data={data}
-        startAngle={-90}
-        endAngle={90}
-        innerRadius={0.7}
-        padAngle={4}
-        cornerRadius={1}
-        labelSkipWidth={18}
-        slicesLabelsTextColor="#FFFFFF"
-        enableRadialLabels={false}
-        enableArcLinkLabels={false}
-        enableArcLabels={false}
-        slicesLabelsSkipAngle={10}
-        animate={true}
-        motionStiffness={90}
-        motionDamping={15}
-        tooltip={tooltip}
-        borderWidth={1.25}
-        borderColor={item => getBorderColor(item)}
-    /></div>
+const Gauge = ({data, height, width, innerValue, innerColor, tooltip, suffix}) => {
+    let value = innerValue;
+    if (suffix) {
+        value += suffix;
+    }
+    return (<div style={{height}}>
+        <Pie
+            layers={['arcs', 'arcLabels', 'arcLinkLabels', 'legends',
+                ({dataWithArc, centerX, centerY}) =>
+                    CenteredMetric({dataWithArc, centerX, centerY, value, innerColor})]}
+            width={width}
+            colors={item => getColor(item)}
+            height={height}
+            data={data}
+            startAngle={-90}
+            endAngle={90}
+            innerRadius={0.7}
+            padAngle={4}
+            cornerRadius={1}
+            labelSkipWidth={18}
+            slicesLabelsTextColor="#FFFFFF"
+            enableRadialLabels={false}
+            enableArcLinkLabels={false}
+            enableArcLabels={false}
+            slicesLabelsSkipAngle={10}
+            animate={true}
+            motionStiffness={90}
+            motionDamping={15}
+            tooltip={tooltip}
+            borderWidth={1.25}
+            borderColor={item => getBorderColor(item)}
+        />
+    </div>);
+}
 
 export default Gauge;

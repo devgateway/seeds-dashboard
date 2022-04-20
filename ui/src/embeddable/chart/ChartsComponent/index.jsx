@@ -881,8 +881,12 @@ const ChartComponent = ({
             getTooltipText = (d) => {
                 const cropName = d.id.replace(`${d.indexValue}_`, "");
                 let gaugeValue = data.otherValues[d.indexValue][cropName];
+                let suffix = null;
                 if (!Number(gaugeValue) || gaugeValue === '') {
                     gaugeValue = 'MD';
+                } else {
+                    gaugeValue = Math.round(gaugeValue);
+                    suffix = '%';
                 }
                 const dataGauge = [
                     { id: "EP", value: 20 },
@@ -901,7 +905,7 @@ const ChartComponent = ({
                 return <>
                     <div><span>Industry opinion on adequacy of breeders</span></div>
                     <Gauge data={particularGauge} height={45} width={105} innerValue={gaugeValue}
-                           innerColor={innerColor} />
+                           innerColor={innerColor} suffix={suffix} />
                 </>
             }
             extraTooltipClass = "NUMBER_OF_ACTIVE_BREEDERS";
