@@ -260,7 +260,7 @@ const DataSummaryBody = ({
                         (e, titleProps) => handleThemeClick(e, titleProps, theme.id, themIndex)}
                     key={theme.id} className={`theme-title ${isIndicator ? " theme-overview" : ''}`}
                     style={{backgroundColor: 'white'}}>
-                    <Sticky context={innerRef} offset={60} active={activeThemeIndex === index.i}>
+                    <Sticky context={innerRef} offset={70} active={activeThemeIndex === index.i}>
                         <div className="summary-theme summary-common" ref={refs[themIndex]}>
                             <Icon name='chevron circle down'/>
                             {theme.name}
