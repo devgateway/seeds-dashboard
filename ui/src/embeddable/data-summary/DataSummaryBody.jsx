@@ -276,11 +276,10 @@ const DataSummaryBody = ({
     }
     const innerRef = createRef();
     return <div ref={innerRef}>
-        {/*<Sticky context={ref_} offset={160}>*/}
-            <Container className="summary-container">
-                <Accordion>{summary_indicators && <SummaryIndicatorsHeader summaryIndicators={summary_indicators} />}</Accordion>
-            </Container>
-        {/*</Sticky>*/}
+        <Container className="summary-container">
+            <Accordion>{summary_indicators &&
+                <SummaryIndicatorsHeader summaryIndicators={summary_indicators}/>}</Accordion>
+        </Container>
     </div>
 }
 
