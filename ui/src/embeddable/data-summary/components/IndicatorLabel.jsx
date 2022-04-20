@@ -15,7 +15,7 @@ const IndicatorLabel = ({ field, className, range, displayType, intl, selectedCo
       const value = parseInt(field.value);
       r = range.find(r => value >= r.min && value <= r.max);
       if (r) {
-        style['background-color'] = r.color;
+        style['backgroundColor'] = r.color;
         style['color'] = '#FFFFFF';
       }
     }
