@@ -253,19 +253,20 @@ const DataSummaryBody = ({
             index.i = index.i + 1;
             const isIndicator = theme.key === 'ZC1';
             return (<>
-                <Sticky context={innerRef} offset={60} active={activeThemeIndex === index.i}>
-                    <Accordion.Title
-                        active={activeThemeIndex === index.i}
-                        index={index.i}
-                        onClick={
-                            (e, titleProps) => handleThemeClick(e, titleProps, theme.id, themIndex)}
-                        key={theme.id} className={`theme-title ${isIndicator ? " theme-overview" : ''}`}>
+                <Accordion.Title
+                    active={activeThemeIndex === index.i}
+                    index={index.i}
+                    onClick={
+                        (e, titleProps) => handleThemeClick(e, titleProps, theme.id, themIndex)}
+                    key={theme.id} className={`theme-title ${isIndicator ? " theme-overview" : ''}`}
+                    style={{backgroundColor: 'white'}}>
+                    <Sticky context={innerRef} offset={60} active={activeThemeIndex === index.i}>
                         <div className="summary-theme summary-common" ref={refs[themIndex]}>
-                            <Icon name='chevron circle down' />
+                            <Icon name='chevron circle down'/>
                             {theme.name}
                         </div>
-                    </Accordion.Title>
-                </Sticky>
+                    </Sticky>
+                </Accordion.Title>
                 <Accordion.Content active={activeThemeIndex === index.i}>
                     {theme.name !== 'Overview' && getIndicatorAccordion(theme.childs, index)}
                     {theme.name === 'Overview' && getTabletWithActualData(index.i, theme, index, true)}
