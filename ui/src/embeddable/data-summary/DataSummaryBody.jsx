@@ -1,5 +1,5 @@
 import React, { createRef, useEffect, useMemo, useState } from "react";
-import {Accordion, Container, Grid, Icon, Sticky} from "semantic-ui-react";
+import { Accordion, Container, Grid, Icon, Sticky } from "semantic-ui-react";
 
 import {
     COUNTRY_SETTINGS,
@@ -22,15 +22,16 @@ import {
 } from "./Constants";
 import Tooltip from "./components/Tooltip";
 import { SELECTED_COUNTRY } from "../../seeds-commons/commonConstants";
+import VisibilitySensor from "react-visibility-sensor-v2";
 
 const DataSummaryBody = ({
                              summary_indicators,
                              onLoadIndicatorsInformation,
                              summary_indicators_information,
-                             filters,
-                             ref_
+                             filters
                          }) => {
     const [activeThemeIndex, setActiveThemeIndex] = useState(1);
+    const [currentScrollableDiv, setCurrentScrollableDiv] = useState(undefined);
     const [activeIndicatorIndexes, setActiveIndicatorIndexes] = useState([]);
     const indicatorsIds = new Map();
 
@@ -40,17 +41,20 @@ const DataSummaryBody = ({
         }
 
     }, [summary_indicators, onLoadIndicatorsInformation])
+
+
     const handleThemeClick = (e, titleProps, categoryId, refIndex) => {
         const { index } = titleProps
         const newIndex = activeThemeIndex === index ? -1 : index
         //
         if (newIndex === -1) {
             setActiveIndicatorIndexes([]);
+            setCurrentScrollableDiv(undefined);
         } else {
             onLoadIndicatorsInformation(categoryId)
-            refs[refIndex].current.scrollIntoView();
-
-
+            if (refIndex && refs[refIndex] && refs[refIndex].current) {
+                setCurrentScrollableDiv(refs[refIndex].current.id);
+            }
             if (indicatorsIds.get(newIndex)) {
                 setActiveIndicatorIndexes([...indicatorsIds.get(newIndex)]);
             }
@@ -186,7 +190,7 @@ const DataSummaryBody = ({
             </Grid.Column>
         </Grid>
     }
-    const getTabletWithActualData = (themeIndex, indicator, index, isOverview) => {
+    const getTabletWithActualData = (themeIndex, indicator, index, isOverview, idx, ref, totalCount) => {
         let selectedCountries = [];
         let range;
         if (indicator.displayType === 'Rating' || indicator.displayType === 'HHI value (color)') {
@@ -211,9 +215,29 @@ const DataSummaryBody = ({
                     >
                         <div className="indicator summary-common">
                             <Icon name='chevron circle down' />
-                            <div>{indicator.key} {indicator.name}</div>
+                            <VisibilitySensor
+                                active={totalCount && idx && idx === (totalCount - 1)} onChange={() => {
+                                if (totalCount && idx && idx === (totalCount - 1)) {
+                                    if (currentScrollableDiv) {
+                                        const element = document.getElementById(currentScrollableDiv);
+                                        const headerOffset = 130;
+                                        const elementPosition = element.getBoundingClientRect().top;
+                                        const offsetPosition = elementPosition + window.scrollY - headerOffset;
+
+                                        window.scrollTo({
+                                            top: offsetPosition,
+                                            behavior: "smooth"
+                                        });
+                                    }
+                                    setCurrentScrollableDiv(undefined);
+                                }
+                            }}>
+                                <div ref={idx === 0 ? ref : undefined}
+                                     id={idx === 0 ? `scroll_${indicator.id}` : ''}>{indicator.key} {indicator.name} - {idx === 0 ? `scroll_${indicator.id}` : ''}</div>
+                            </VisibilitySensor>
                             <Tooltip item={indicator} />
                         </div>
+
                     </Accordion.Title>
                     <Accordion.Content active={isIndicatorActive(themeIndex, index.i)}>
                         {getIndicatorGrid(selectedCountries, indicator, range, isOverview)}
@@ -224,25 +248,26 @@ const DataSummaryBody = ({
         }
         return tabletWithActualData;
     }
-    const getIndicatorAccordion = (indicators, index) => {
+    const getIndicatorAccordion = (indicators, index, ref) => {
         const themeIndex = index.i;
         const indicatorIndexes = [];
+        const totalCount = indicators.length;
         const subIndicatorAccordion = (
             <Accordion className="table-container">
-                {indicators.sort((a, b) => a.position > b.position).map((subIndicators) => {
+                {indicators.sort((a, b) => a.position > b.position).map((subIndicators, idx) => {
                         index.i = index.i + 1;
                         indicatorIndexes.push(index.i);
-                        return getTabletWithActualData(themeIndex, subIndicators, index);
+                        return getTabletWithActualData(themeIndex, subIndicators, index, false, idx, ref, totalCount);
                     }
                 )}
-            </Accordion>);
+            </Accordion>
+        );
         indicatorsIds.set(themeIndex, indicatorIndexes);
         return subIndicatorAccordion;
     }
 
     const index = { i: 0 };
     let refs;
-
     const SummaryIndicatorsHeader = () => {
         refs = useMemo(
             () => Array.from({ length: summary_indicators.length }).map(() => createRef()),
@@ -259,16 +284,16 @@ const DataSummaryBody = ({
                     onClick={
                         (e, titleProps) => handleThemeClick(e, titleProps, theme.id, themIndex)}
                     key={theme.id} className={`theme-title ${isIndicator ? " theme-overview" : ''}`}
-                    style={{backgroundColor: 'white'}}>
+                    style={{ backgroundColor: 'white' }}>
                     <Sticky context={innerRef} offset={70} active={activeThemeIndex === index.i}>
-                        <div className="summary-theme summary-common" ref={refs[themIndex]}>
-                            <Icon name='chevron circle down'/>
+                        <div className="summary-theme summary-common">
+                            <Icon name='chevron circle down' />
                             {theme.name}
                         </div>
                     </Sticky>
                 </Accordion.Title>
                 <Accordion.Content active={activeThemeIndex === index.i}>
-                    {theme.name !== 'Overview' && getIndicatorAccordion(theme.childs, index)}
+                    {theme.name !== 'Overview' && getIndicatorAccordion(theme.childs, index, refs[themIndex])}
                     {theme.name === 'Overview' && getTabletWithActualData(index.i, theme, index, true)}
                 </Accordion.Content>
             </>);
@@ -278,7 +303,7 @@ const DataSummaryBody = ({
     return <div ref={innerRef}>
         <Container className="summary-container">
             <Accordion>{summary_indicators &&
-                <SummaryIndicatorsHeader summaryIndicators={summary_indicators}/>}</Accordion>
+                <SummaryIndicatorsHeader summaryIndicators={summary_indicators} />}</Accordion>
         </Container>
     </div>
 }

@@ -1,8 +1,6 @@
 import ResponsiveBarChartImpl from "../ResponsiveBarChartImpl";
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState } from "react";
 import { Grid } from "semantic-ui-react";
-import { toBlob } from 'html-to-image';
-import { saveAs } from 'file-saver';
 import Header from "../common/header";
 import CropFilter from "../common/filters/crops";
 import YearsFilter from "../common/filters/years";
