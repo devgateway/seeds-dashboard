@@ -31,7 +31,7 @@ const SatisfactionEnforcementSeedLawChart = ({data, yearsToShow, intl, tooltip})
             if (r) {
                 particularGauge[r.position - 1].id = particularGauge[r.position - 1].id + "_S";
                 innerColor = r.color;
-                cellValue = Math.round(cellValue);
+                // cellValue = Math.round(cellValue);
             } else {
                 if (cellValue === undefined) {
                     cellValue = 'N/A'

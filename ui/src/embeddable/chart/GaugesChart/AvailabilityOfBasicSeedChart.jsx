@@ -27,7 +27,7 @@ const AvailabilityOfBasicSeedChart = ({data, yearsToShow, intl, tooltip}) => {
             if (cellValue === 'N/A' || cellValue === 'MD') {
                 return <Grid.Column className={"with-bottom-border"} key={`${crop}__${y}`}/>
             }
-            cellValue = Math.round(cellValue);
+            // cellValue = Math.round(cellValue);
             return (<Grid.Column className={"with-bottom-border"} key={`${crop}__${y}`}>
                 <Gauge data={particularGauge}
                        height={45}
