@@ -27,12 +27,14 @@ const AvailabilityOfBasicSeedChart = ({data, yearsToShow, intl, tooltip}) => {
             if (cellValue === 'N/A' || cellValue === 'MD') {
                 return <Grid.Column className={"with-bottom-border"} key={`${crop}__${y}`}/>
             }
-            return <Grid.Column className={"with-bottom-border"} key={`${crop}__${y}`}>
+            // cellValue = Math.round(cellValue);
+            return (<Grid.Column className={"with-bottom-border"} key={`${crop}__${y}`}>
                 <Gauge data={particularGauge}
                        height={45}
                        width={105}
                        innerValue={cellValue}
-                       innerColor={innerColor} tooltip={tooltip}/></Grid.Column>
+                       innerColor={innerColor} tooltip={tooltip} suffix={'%'}/>
+                </Grid.Column>);
         })
     }
     const getData = () => {
