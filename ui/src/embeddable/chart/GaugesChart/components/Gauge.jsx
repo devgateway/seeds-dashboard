@@ -8,15 +8,15 @@ import {Pie} from "@nivo/pie";
 const colors = new Map(
     [
         ["EP", "#ffffff"],
-        ["EP_S", "#c00000"],
+        ["EP_S", "#FF3833"],
         ["P", "#ffffff"],
-        ["P_S", "#d86565"],
+        ["P_S", "#FF7E37"],
         ["F", "#ffffff"],
-        ["F_S", "#ffc000"],
+        ["F_S", "#FFFC61"],
         ["G", "#ffffff"],
-        ["G_S", "#7dc646"],
+        ["G_S", "#CCF000"],
         ["E", "#ffffff"],
-        ["E_S", "#276700"]
+        ["E_S", "#75DD00"]
     ]);
 const getColor = (item) => {
     console.log(item);
@@ -25,16 +25,16 @@ const getColor = (item) => {
 
 const borderColors = new Map(
     [
-        ["EP", "#c00000"],
-        ["EP_S", "#c00000"],
-        ["P", "#d86565"],
-        ["P_S", "#d86565"],
-        ["F", "#ffc000"],
-        ["F_S", "#ffc000"],
-        ["G", "#7dc646"],
-        ["G_S", "#7dc646"],
-        ["E", "#276700"],
-        ["E_S", "#276700"]
+        ["EP", "#FF3833"],
+        ["EP_S", "#FF3833"],
+        ["P", "#FF7E37"],
+        ["P_S", "#FF7E37"],
+        ["F", "#FFFC61"],
+        ["F_S", "#FFFC61"],
+        ["G", "#CCF000"],
+        ["G_S", "#CCF000"],
+        ["E", "#75DD00"],
+        ["E_S", "#75DD00"]
     ]);
 const getBorderColor = (item) => borderColors.get(item.id);
 
