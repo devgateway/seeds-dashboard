@@ -119,11 +119,11 @@ const MarketConcentrationHHI = ({ data, sources, selectedYear, bottomLegend, int
 }
 
 const hhiColors = [
-    { upTo: 1000, color: '#276700' },
-    { upTo: 1999, color: '#7dc646' },
-    { upTo: 2999, color: '#ffc000' },
-    { upTo: 3999, color: '#ff4f4f' },
-    { upTo: 10000, color: '#c00000' }
+    { upTo: 1000, color: '#75DD00' },
+    { upTo: 1999, color: '#CCF000' },
+    { upTo: 2999, color: '#FFFC61' },
+    { upTo: 3999, color: '#FF7E37' },
+    { upTo: 10000, color: '#FF3833' }
 ];
 
 const getColor = (value) => {
