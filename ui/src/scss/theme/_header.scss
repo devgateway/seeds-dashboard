@@ -317,14 +317,7 @@
           a {
             background-image: url("/static/images/dashboard.svg");
           }
-        }
-
-        /*Custom*/
-        :not(.home) {
-          &._country-overview {
-            width: 210px;
-            flex: 0 0 210px;
-
+          &.submenu {
             a {
               width: 180px;
               background-image: url("/static/images/country_dashboard.svg") !important;
