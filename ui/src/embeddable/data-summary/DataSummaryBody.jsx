@@ -233,7 +233,7 @@ const DataSummaryBody = ({
                                 }
                             }}>
                                 <div ref={idx === 0 ? ref : undefined}
-                                     id={idx === 0 ? `scroll_${indicator.id}` : ''}>{indicator.key} {indicator.name} - {idx === 0 ? `scroll_${indicator.id}` : ''}</div>
+                                     id={idx === 0 ? `scroll_${indicator.id}` : ''}>{indicator.key} {indicator.name}</div>
                             </VisibilitySensor>
                             <Tooltip item={indicator} />
                         </div>
