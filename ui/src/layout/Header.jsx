@@ -3,6 +3,9 @@ import React, { useEffect, useState } from "react";
 import { MenuConsumer, MenuProvider, utils } from "@devgateway/wp-react-lib";
 import { injectIntl } from "react-intl";
 import { useHistory, withRouter } from "react-router";
+import {connect} from "react-redux";
+import {SELECTED_COUNTRY} from "../seeds-commons/commonConstants";
+import {CURRENT_TAB} from "../embeddable/reducers/StoreConstants";
 
 const MENU_DASHBOARD = 'dashboard';
 const MENU_MAIN = 'main';
@@ -62,7 +65,7 @@ const MyMenuItems = injectIntl(withRouter(({
                                                addSeparator,
                                                intl: { locale },
                                                firstChildLink,
-                                               isSubmenu
+                                               isSubmenu,
                                            }) => {
     useEffect(() => {
         if (!selected) {
@@ -97,7 +100,7 @@ const MyMenuItems = injectIntl(withRouter(({
     </React.Fragment>
 }))
 
-const Header = ({ intl: { locale }, match, firstChildLink }) => {
+const Header = ({ intl: { locale }, match, firstChildLink, filters }) => {
     const [selected, setSelected] = useState()
     const routerHistory = useHistory();
     const { slug, parent } = match.params;
@@ -115,9 +118,20 @@ const Header = ({ intl: { locale }, match, firstChildLink }) => {
             bannerClass = slug;
         }
     }
+    
     const gotoLanguage = (lang) => {
-        const slugUrl = slug ? `/${slug}` : ``;
-        routerHistory.push(`/${lang}${slugUrl}`);
+        let selectedCountry = '';
+        let selectedTab = '';
+        if (filters) {
+            if (filters.get(SELECTED_COUNTRY)) {
+                selectedCountry = filters.get(SELECTED_COUNTRY);
+            }
+            if (filters.get(CURRENT_TAB)) {
+                selectedTab = filters.get(CURRENT_TAB);
+            }
+        }
+        const slugUrl = slug ? `/${slug}/#country=${selectedCountry}/tab=${selectedTab}` : ``;
+        routerHistory.replace(`/${lang}${slugUrl}`);
     }
 
     const logoUrl = process.env.REACT_APP_USE_HASH_LINKS ? `/#/${locale}` : `/${locale}`
@@ -170,4 +184,8 @@ const Header = ({ intl: { locale }, match, firstChildLink }) => {
     </MenuProvider>
 }
 
-export default (injectIntl(withRouter(Header)));
+const mapStateToProps = (state) => {
+    return {filters: state.getIn(['data', 'filters']),}
+}
+const mapActionCreators = {}
+export default connect(mapStateToProps, mapActionCreators)(injectIntl(withRouter(Header)));

@@ -19,7 +19,6 @@ const colors = new Map(
         ["E_S", "#75DD00"]
     ]);
 const getColor = (item) => {
-    console.log(item);
     return colors.get(item.id)
 };
 
