@@ -1,3 +1,6 @@
+import {SELECTED_COUNTRY} from "../../seeds-commons/commonConstants";
+import {CURRENT_TAB} from "../reducers/StoreConstants";
+
 export const getTextWidth = (text, font) => {
   // re-use canvas object for better performance
   const canvas = document.createElement("canvas");
@@ -49,4 +52,29 @@ export const getSlugFromFilters = (filters, filtersData, valuesFilterStore, sele
     }
   }
   return slug;
+}
+
+export const generateShareParams = (filters, chartType, selectedCrops, selectedYear) => {
+  let selectedCountry;
+  let selectedTab;
+  if (filters) {
+    if (filters.get(SELECTED_COUNTRY)) {
+      selectedCountry = filters.get(SELECTED_COUNTRY);
+    }
+    if (filters.get(CURRENT_TAB)) {
+      selectedTab = filters.get(CURRENT_TAB);
+    }
+  }
+
+  let finalUrl = `#tab=${selectedTab}/country=${selectedCountry}`
+  if (selectedCrops && selectedCrops.length > 0) {
+    finalUrl = finalUrl + `/crops=${selectedCrops.join(",")}`;
+  }
+  if (chartType) {
+    finalUrl = finalUrl + `/chart=${chartType}`;
+  }
+  if (selectedYear && selectedYear.length > 0) {
+    finalUrl = finalUrl + `/years=${Array.isArray(selectedYear) ? selectedYear.join(",") : selectedYear}`;
+  }
+  return finalUrl;
 }

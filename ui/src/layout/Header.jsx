@@ -6,6 +6,7 @@ import { useHistory, withRouter } from "react-router";
 import {connect} from "react-redux";
 import {SELECTED_COUNTRY} from "../seeds-commons/commonConstants";
 import {CURRENT_TAB} from "../embeddable/reducers/StoreConstants";
+import {generateShareParams} from "../embeddable/utils/common";
 
 const MENU_DASHBOARD = 'dashboard';
 const MENU_MAIN = 'main';
@@ -120,18 +121,9 @@ const Header = ({ intl: { locale }, match, firstChildLink, filters }) => {
     }
     
     const gotoLanguage = (lang) => {
-        let selectedCountry = '';
-        let selectedTab = '';
-        if (filters) {
-            if (filters.get(SELECTED_COUNTRY)) {
-                selectedCountry = filters.get(SELECTED_COUNTRY);
-            }
-            if (filters.get(CURRENT_TAB)) {
-                selectedTab = filters.get(CURRENT_TAB);
-            }
-        }
-        const slugUrl = slug ? `/${slug}/#country=${selectedCountry}/tab=${selectedTab}` : ``;
-        routerHistory.replace(`/${lang}${slugUrl}`);
+        let slugUrl = slug ? `${slug}` : ``;
+        slugUrl += generateShareParams(filters, null, null, null);
+        routerHistory.replace(`/${lang}/${slugUrl}`);
     }
 
     const logoUrl = process.env.REACT_APP_USE_HASH_LINKS ? `/#/${locale}` : `/${locale}`

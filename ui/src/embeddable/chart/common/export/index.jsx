@@ -5,6 +5,7 @@ import { injectIntl } from "react-intl";
 import { connect } from "react-redux";
 import { CURRENT_TAB } from "../../../reducers/StoreConstants";
 import { SELECTED_COUNTRY } from "../../../../seeds-commons/commonConstants";
+import {generateShareParams} from "../../../utils/common";
 
 const Export = ({
                     methodology,
@@ -27,24 +28,7 @@ const Export = ({
     }
     const buttonRef = useRef(null);
     const GenerateUrlForm = () => {
-        let selectedCountry;
-        let selectedTab;
-        if (filters) {
-            if (filters.get(SELECTED_COUNTRY)) {
-                selectedCountry = filters.get(SELECTED_COUNTRY);
-            }
-            if (filters.get(CURRENT_TAB)) {
-                selectedTab = filters.get(CURRENT_TAB);
-            }
-        }
-
-        let finalUrl = `${url}#tab=${selectedTab}/chart=${chartType}/country=${selectedCountry}`
-        if (selectedCrops && selectedCrops.length > 0) {
-            finalUrl = finalUrl + `/crops=${selectedCrops.join(",")}`;
-        }
-        if (selectedYear && selectedYear.length > 0) {
-            finalUrl = finalUrl + `/years=${Array.isArray(selectedYear) ? selectedYear.join(",") : selectedYear}`;
-        }
+        let finalUrl = url + generateShareParams(filters, chartType, selectedCrops, selectedYear);
         const clipboardMessage = intl.formatMessage({
             id: 'text-to-clipboard',
             defaultMessage: 'text copied to clipboard'
