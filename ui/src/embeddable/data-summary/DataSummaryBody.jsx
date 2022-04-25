@@ -266,17 +266,35 @@ const DataSummaryBody = ({
         return subIndicatorAccordion;
     }
 
+    window.onscroll = () => {
+        if (isOneSticky) {
+            const secondIndex = ids[ids.findIndex(i => i === "acc_" + activeThemeIndex) + 1];
+            const firstTop = document.getElementById("acc_" + activeThemeIndex).getBoundingClientRect().top +
+                document.getElementById("acc_" + activeThemeIndex).getBoundingClientRect().height;    
+            const secondTop = document.getElementById(secondIndex).getBoundingClientRect().top
+            if (secondTop <= firstTop) {
+                const scrollTop = document.documentElement.scrollTop;
+                const scrollLeft = document.documentElement.scrollLeft;
+                window.scrollTo(scrollLeft, scrollTop - 10);
+            }
+        }
+    }
+
     const index = { i: 0 };
+    let isOneSticky = false;
     let refs;
+    const ids = [];
+    let innerIndex = -1;
     const SummaryIndicatorsHeader = () => {
         refs = useMemo(
             () => Array.from({ length: summary_indicators.length }).map(() => createRef()),
             []
         );
         return summary_indicators.map((theme, themIndex) => {
-
+            innerIndex++;
             index.i = index.i + 1;
             const isIndicator = theme.key === 'ZC1';
+            ids.push('acc_' + index.i);
             return (<>
                 <Accordion.Title
                     active={activeThemeIndex === index.i}
@@ -285,8 +303,14 @@ const DataSummaryBody = ({
                         (e, titleProps) => handleThemeClick(e, titleProps, theme.id, themIndex)}
                     key={theme.id} className={`theme-title ${isIndicator ? " theme-overview" : ''}`}
                     style={{ backgroundColor: 'white' }}>
-                    <Sticky context={innerRef} offset={70} active={activeThemeIndex === index.i}>
-                        <div className="summary-theme summary-common">
+                    <Sticky context={innerRef} offset={70} active={activeThemeIndex === index.i}
+                            onStick={() => {
+                                isOneSticky = true
+                            }}
+                            onUnstick={() => {
+                                isOneSticky = false
+                            }}>
+                        <div className="summary-theme summary-common" id={ids[innerIndex]}>
                             <Icon name='chevron circle down' />
                             {theme.name}
                         </div>
