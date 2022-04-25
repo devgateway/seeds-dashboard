@@ -59,6 +59,7 @@ class IntlRoutes extends Component {
     const locale = this.props.match.params.lan
     store.dispatch(updateIntl({ locale, messages: messages[locale] }))
     store.dispatch(detectClientCountry());
+    this.processSharedInfo();
   }
 
     processSharedInfo() {
