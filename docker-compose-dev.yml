@@ -8,7 +8,7 @@ services:
       - ./wp-react-blocks-plugin/blocks/build:/tmp/plugins
     restart: "no"
   wordpress:
-    image: library/wordpress:5.7-fpm-alpine
+    image: library/wordpress:5.9.3-fpm-alpine
     depends_on:
       - plugins
       - mysql
