@@ -284,14 +284,12 @@ const DataSummaryBody = ({
     let isOneSticky = false;
     let refs;
     const ids = [];
-    let innerIndex = -1;
     const SummaryIndicatorsHeader = () => {
         refs = useMemo(
             () => Array.from({ length: summary_indicators.length }).map(() => createRef()),
             []
         );
         return summary_indicators.map((theme, themIndex) => {
-            innerIndex++;
             index.i = index.i + 1;
             const isIndicator = theme.key === 'ZC1';
             ids.push('acc_' + index.i);
@@ -310,7 +308,7 @@ const DataSummaryBody = ({
                             onUnstick={() => {
                                 isOneSticky = false
                             }}>
-                        <div className="summary-theme summary-common" id={ids[innerIndex]}>
+                        <div className="summary-theme summary-common">
                             <Icon name='chevron circle down' />
                             {theme.name}
                         </div>
