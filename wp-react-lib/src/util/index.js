@@ -38,10 +38,7 @@ export const replaceHTMLinks = (html, locale) => {
     let newHtml = html
     while ((link = regex.exec(html)) !== null) {
         let href = link[2];
-        let newLink
-        if (href.includes("Katanga")) {
-            debugger
-        }
+        let newLink;
         if (extensions.test(href)) {
             newLink = href;
         } else {
