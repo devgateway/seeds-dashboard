@@ -109,6 +109,28 @@ class IntlRoutes extends Component {
               );
             }}>
             </Route>
+
+            <Route path="/:lan/dashboard/:slug" exact render={props => {
+              return (
+                  <PageProvider
+                      slug={props.match.params.slug}
+                      store={props.match.params.slug}
+                      messages={messages}
+                      slug404={PAGE_404_SLUG}
+                  >
+                  <div className="dashboard-wrapper">
+                    <ResponsiveContainer>
+                      <PageConsumer>
+                        <Page />
+                      </PageConsumer>
+                    </ResponsiveContainer>
+                  </div>
+                  </PageProvider>
+              );
+            }}>
+            </Route>
+
+
             <Route exact={true} path="/:lan/embeddable/:name" render={(props) => {
               let params = queryString.parse(props.location.search)
               const UIComponent = getComponentByNameIgnoreCase(props.match.params.name)
