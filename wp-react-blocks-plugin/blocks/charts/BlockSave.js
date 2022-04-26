@@ -26,7 +26,9 @@ const SaveComponent = (props) => {
             topHarvestedCropsAndValueUnit,
             populationVsFarmingHouseholds,
             easeOfDoingBusinessAgriculture,
-            easeOfDoingBusinessAgricultureOf
+            easeOfDoingBusinessAgricultureOf,
+            totalPopulationLabel,
+            farmingHouseholdsLabel
         }
     } = props;
     const blockProps = useBlockProps.save({
@@ -60,7 +62,8 @@ const SaveComponent = (props) => {
              data-population-vs-farming-households={populationVsFarmingHouseholds}
              data-ease-of-doing-business-agriculture={easeOfDoingBusinessAgriculture}
              data-ease-of-doing-business-agriculture-of={easeOfDoingBusinessAgricultureOf}
-
+             data-total-population-label={totalPopulationLabel}
+             data-farming-households-label={farmingHouseholdsLabel}
 
         />
     );

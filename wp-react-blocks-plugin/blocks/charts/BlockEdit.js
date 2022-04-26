@@ -43,7 +43,9 @@ class BlockEdit extends BaseBlockEdit {
                 topHarvestedCropsAndValueUnit,
                 populationVsFarmingHouseholds,
                 easeOfDoingBusinessAgriculture,
-                easeOfDoingBusinessAgricultureOf
+                easeOfDoingBusinessAgricultureOf,
+                totalPopulationLabel,
+                farmingHouseholdsLabel
             }
         } = this.props;
         let queryString = `data-height=${height}`;
@@ -59,6 +61,8 @@ class BlockEdit extends BaseBlockEdit {
         queryString += `&data-group-mode=${groupMode}`;
         queryString += `&data-use-source-by-category=${useSourceByCategory}`;
         queryString += `&data-methodology=${methodology}`;
+        queryString += `&data-total-population-label=${totalPopulationLabel}`;
+        queryString += `&data-farming-households-label=${farmingHouseholdsLabel}`
 
         queryString += `&data-total-land-area-label=${totalLandArea}`;
         queryString += `&data-total-land-area-unit=${totalLandAreaUnit}`;
@@ -276,6 +280,8 @@ class BlockEdit extends BaseBlockEdit {
                                                      populationVsFarmingHouseholds={populationVsFarmingHouseholds}
                                                      easeOfDoingBusinessAgriculture={easeOfDoingBusinessAgriculture}
                                                      easeOfDoingBusinessAgricultureOf={easeOfDoingBusinessAgricultureOf}
+                                                     totalPopulationLabel={totalPopulationLabel}
+                                                     farmingHouseholdsLabel={farmingHouseholdsLabel}
                             />}
                     </Panel>
                 </InspectorControls>
@@ -351,7 +357,9 @@ const CountryInfoChartsLabels = ({
                                      topHarvestedCropsAndValueUnit,
                                      populationVsFarmingHouseholds,
                                      easeOfDoingBusinessAgriculture,
-                                     easeOfDoingBusinessAgricultureOf
+                                     easeOfDoingBusinessAgricultureOf,
+                                     totalPopulationLabel,
+                                     farmingHouseholdsLabel
                                  }) => {
     return (<PanelBody title={__(bodyTitle)}>
         <PanelRow>
@@ -379,11 +387,20 @@ const CountryInfoChartsLabels = ({
                          onChange={(populationVsFarmingHouseholds) => setAttributes({ populationVsFarmingHouseholds })} />
         </PanelRow>
         <PanelRow>
+            <TextControl label={__('Total Population label')} value={totalPopulationLabel}
+                         onChange={(totalPopulationLabel) => setAttributes({ totalPopulationLabel })} />
+        </PanelRow>
+        <PanelRow>
+
+            <TextControl label={__('Farming Households label')} value={farmingHouseholdsLabel}
+                         onChange={(farmingHouseholdsLabel) => setAttributes({ farmingHouseholdsLabel })} />
+        </PanelRow>
+        <PanelRow>
             <TextControl label={__('Enabling the Business of Agriculture label')} value={easeOfDoingBusinessAgriculture}
                          onChange={(easeOfDoingBusinessAgriculture) => setAttributes({ easeOfDoingBusinessAgriculture })} />
         </PanelRow>
         <PanelRow>
-            <TextControl label={__('Enabling the Business of Agriculture \'OF\' label')}
+            <TextControl label={__('Enabling the Business of Agriculture label')}
                          value={easeOfDoingBusinessAgricultureOf}
                          onChange={(easeOfDoingBusinessAgricultureOf) => setAttributes({ easeOfDoingBusinessAgricultureOf })} />
         </PanelRow>
