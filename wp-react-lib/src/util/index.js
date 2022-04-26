@@ -33,22 +33,30 @@ export const replaceHTMLinks = (html, locale) => {
     let all = getRegExp(locale);
     let link;
     let regex = /href\s*=\s*(['"])(https?:\/\/.+?)\1/ig;
-
+    const extensionsNotToReplace = process.env.REACT_APP_WP_EXTENSIONS.split(",")
+    const extensions = new RegExp(`^.*\.(${extensionsNotToReplace.join('|')})$`);
     let newHtml = html
     while ((link = regex.exec(html)) !== null) {
-        let href = link[2]
+        let href = link[2];
         let newLink
-        if (useHash) {
-            if (href.includes(`/${locale}/`)) {
-                newLink = href.replace(all, `#`);
-            } else {
-                newLink = href.replace(all, `#/${locale}`);
-            }
+        if (href.includes("Katanga")) {
+            debugger
+        }
+        if (extensions.test(href)) {
+            newLink = href;
         } else {
-            if (href.includes(`/${locale}/`)) {
-                newLink = href.replace(all, '');
+            if (useHash) {
+                if (href.includes(`/${locale}/`)) {
+                    newLink = href.replace(all, `#`);
+                } else {
+                    newLink = href.replace(all, `#/${locale}`);
+                }
             } else {
-                newLink = href.replace(all, '/' + locale);
+                if (href.includes(`/${locale}/`)) {
+                    newLink = href.replace(all, '');
+                } else {
+                    newLink = href.replace(all, '/' + locale);
+                }
             }
         }
         newHtml = newHtml.replaceAll(link[2], newLink)
