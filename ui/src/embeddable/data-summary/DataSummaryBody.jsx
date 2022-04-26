@@ -268,9 +268,9 @@ const DataSummaryBody = ({
 
     window.onscroll = () => {
         if (isOneSticky) {
-            const secondIndex = ids[ids.findIndex(i => i === "acc_" + activeThemeIndex) + 1];
-            const firstTop = document.getElementById("acc_" + activeThemeIndex).getBoundingClientRect().top +
-                document.getElementById("acc_" + activeThemeIndex).getBoundingClientRect().height;    
+            const secondIndex = ids[ids.findIndex(i => i === prefix + activeThemeIndex) + 1];
+            const firstTop = document.getElementById(prefix + activeThemeIndex).getBoundingClientRect().top +
+                document.getElementById(prefix + activeThemeIndex).getBoundingClientRect().height;    
             const secondTop = document.getElementById(secondIndex).getBoundingClientRect().top
             if (secondTop <= firstTop) {
                 const scrollTop = document.documentElement.scrollTop;
@@ -282,6 +282,7 @@ const DataSummaryBody = ({
 
     const index = { i: 0 };
     let isOneSticky = false;
+    const prefix = 'acc_';
     let refs;
     const ids = [];
     const SummaryIndicatorsHeader = () => {
@@ -292,7 +293,7 @@ const DataSummaryBody = ({
         return summary_indicators.map((theme, themIndex) => {
             index.i = index.i + 1;
             const isIndicator = theme.key === 'ZC1';
-            ids.push('acc_' + index.i);
+            ids.push(prefix + index.i);
             return (<>
                 <Accordion.Title
                     active={activeThemeIndex === index.i}
