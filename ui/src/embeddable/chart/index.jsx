@@ -105,7 +105,9 @@ const Chart = (props) => {
         "data-top-harvested-crops-and-value-unit": topHarvestedCropsAndValueUnit = "hectares",
         "data-population-vs-farming-households": populationVsFarmingHouseholds = "Population vs Farming Households",
         "data-ease-of-doing-business-agriculture": easeOfDoingBusinessAgriculture = "Enabling the Business of Agriculture (2019) :",
-        "data-ease-of-doing-business-agriculture-of": easeOfDoingBusinessAgricultureOf = "of 100"
+        "data-ease-of-doing-business-agriculture-of": easeOfDoingBusinessAgricultureOf = "of 100",
+        "data-total-population-label": totalPopulationLabel="Total Population",
+        "data-farming-households-label": farmingHouseholdsLabel="Farming Households",
     } = props;
 
     useEffect(() => {
@@ -277,7 +279,9 @@ const Chart = (props) => {
                 topHarvestedCropsAndValueUnit,
                 populationVsFarmingHouseholds,
                 easeOfDoingBusinessAgriculture,
-                easeOfDoingBusinessAgricultureOf
+                easeOfDoingBusinessAgricultureOf,
+                totalPopulationLabel,
+                farmingHouseholdsLabel
             };
             child = <CountryInfo labels={labels} />
             break;

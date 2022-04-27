@@ -12,7 +12,7 @@ const CountryInfo = ({ data, intl, labels }) => {
         space: true,
         units: ["", "thousand", "million", "billion", "trillion"],
     }
-    
+
     const NA = 'N/A';
 
     const getSymbol = (suffix) => {
@@ -25,7 +25,7 @@ const CountryInfo = ({ data, intl, labels }) => {
         }
         return symbol;
     }
-    
+
     const getValue = (field) => {
         if (field && field.value) {
             if (field.value === 0) {
@@ -39,7 +39,7 @@ const CountryInfo = ({ data, intl, labels }) => {
             }
         } else return NA;
     }
-    
+
     const getOrderedCrops = () => {
         let aOrderedCrops = [];
 
@@ -62,7 +62,8 @@ const CountryInfo = ({ data, intl, labels }) => {
             <Grid.Row className={`section totals`}>
                 <Grid.Column width={10}>
                     <div className="label">{labels.totalLandArea}</div>
-                    <div className="data">{data.agricLandArea && data.agricLandArea.value > 0 ? getValue(data.agricLandArea) + ` ${labels.totalLandAreaUnit}` : NA}</div>
+                    <div
+                        className="data">{data.agricLandArea && data.agricLandArea.value > 0 ? getValue(data.agricLandArea) + ` ${labels.totalLandAreaUnit}` : NA}</div>
                 </Grid.Column>
                 <Grid.Column width={6}>
                     <div className="label">{labels.arableLand}</div>
@@ -102,7 +103,7 @@ const CountryInfo = ({ data, intl, labels }) => {
             <Grid.Row className={`section sub`}>
                 <Grid.Column width={8}>
                     <div className="household-data population">
-                        <div className="label has-condensed-text">Total<br />Population</div>
+                        <div className="label has-condensed-text">{labels.totalPopulationLabel}</div>
                         <div className="data large">
                             <div
                                 className="data-value">{getValue(data.population)}</div>
@@ -111,7 +112,7 @@ const CountryInfo = ({ data, intl, labels }) => {
                 </Grid.Column>
                 <Grid.Column width={8}>
                     <div className="household-data households">
-                        <div className="label has-condensed-text">Farming<br />Households</div>
+                        <div className="label has-condensed-text">{labels.farmingHouseholdsLabel}</div>
                         <div className="data large">
                             <div
                                 className="data-value ">{getValue(data.farmingHouseholds)}</div>
