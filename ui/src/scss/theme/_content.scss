@@ -974,13 +974,13 @@ p:empty {
 // Testimonials feed
 .testimonials{
   li{
-    padding: $base-unit * 1.5 0 $base-unit 0;
+    padding: $base-unit * 2.5 0 0 0;
     border-bottom: 1px solid $separator-grey;
   }
   img{
     @include border-radius(50%);
     border: 1px solid $separator-grey;
-    max-width: $base-unit * 15;
+    max-width: $base-unit * 10;
   }
 	h6{
 		margin: $base-unit 0;
