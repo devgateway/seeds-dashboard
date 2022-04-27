@@ -659,7 +659,7 @@ p:empty {
       font-weight: 700;
     }
     &.light-orange{
-      background-color: $table-light-orange-bg;
+      background-color: $table-theme-orange-bg;
       color: $text-color;
       text-align: left;
     }
@@ -678,13 +678,13 @@ p:empty {
   width: $base-unit * 2;
 
   &.plus{
-    background-color: $link-green;
+    background-color: $table-plus-green;
   }
   &.minus{
     background-color: $red;
   }
   &.plus-minus{
-    background-color: darken($table-light-orange-bg, 15%);
+    background-color: $table-theme-orange-bg;
     font-size: 0.5rem;
   }
 }
