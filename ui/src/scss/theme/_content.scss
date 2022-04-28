@@ -42,6 +42,7 @@
 }
 
 p{
+	text-align: justify;
   &.has-text-color{
     a{
       color: $link-color-default;
@@ -300,6 +301,9 @@ p:empty {
       }
     }
   }
+	p{
+		text-align: justify;
+	}
 }
 
 // News section
@@ -970,17 +974,17 @@ p:empty {
 // Testimonials feed
 .testimonials{
   li{
-    padding: $base-unit * 5.5 0 $base-unit * 2 0;
+    padding: $base-unit * 2.5 0 0 0;
     border-bottom: 1px solid $separator-grey;
   }
   img{
     @include border-radius(50%);
     border: 1px solid $separator-grey;
-    max-width: $base-unit * 15;
+    max-width: $base-unit * 10;
   }
-  .wp-block-post-excerpt__excerpt{
-    font-size: 30px;
-  }
+	h6{
+		margin: $base-unit 0;
+	}
 }
 
 // map container in dashboard
