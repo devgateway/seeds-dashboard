@@ -308,7 +308,7 @@ p:empty {
   &.news{
     overflow: hidden;
     img{
-      border-bottom: 5px solid $yellow;
+      border-bottom: 6px solid $yellow;
     }
     .wp-block-post-excerpt__excerpt{
       color: $text-color;
@@ -337,6 +337,13 @@ p:empty {
       width: $extend / 3;
     }
   }
+}
+
+// News feed on secondary page
+.wp-block-post-featured-image{
+	&.news{
+		border-bottom: 6px solid $yellow;
+	}
 }
 
 // Read more buttons in post feeds
