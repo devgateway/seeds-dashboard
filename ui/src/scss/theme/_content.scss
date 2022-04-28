@@ -663,7 +663,7 @@ p:empty {
       font-weight: 700;
     }
     &.light-orange{
-      background-color: $table-light-orange-bg;
+      background-color: $table-theme-orange-bg;
       color: $text-color;
       text-align: left;
     }
@@ -682,13 +682,13 @@ p:empty {
   width: $base-unit * 2;
 
   &.plus{
-    background-color: $link-green;
+    background-color: $table-plus-green;
   }
   &.minus{
     background-color: $red;
   }
   &.plus-minus{
-    background-color: darken($table-light-orange-bg, 15%);
+    background-color: $table-theme-orange-bg;
     font-size: 0.5rem;
   }
 }
@@ -1007,13 +1007,37 @@ p:empty {
 }
 
 // Fix image alignments
-.wp-block-image .alignleft img{
-	display: block;
-	float: left;
+:not([data-align])>.wp-block-image{
+	display: flex;
 }
-.wp-block-image .aligncenter img{
-	display: block;
-	margin: auto;
+
+
+.wp-block-image{
+	.aligncenter{
+		display: block;
+		margin: auto;
+		display: flex;
+	  align-items: center;
+	  justify-content: center;
+	}
+}
+
+.wp-block-image{
+	.alignleft{
+		display: flex;
+	  align-items: start;
+	  justify-content: flex-start;
+		margin-right: auto;
+		border:2px dotted red;
+	}
+}
+.wp-block-image{
+	.alignright{
+		display: flex;
+	  align-items: end;
+	  justify-content: flex-end;
+		margin-left: auto;
+	}
 }
 
 // Country Report
