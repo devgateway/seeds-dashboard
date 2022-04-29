@@ -52,4 +52,16 @@
       }
     }
   }
+  .dashboard-logo{
+    visibility: hidden;
+  }
+}
+
+// Dashboard footer - hide logos dashboard class
+.dashboard-wrapper{
+	.container.wp-react-lib.footer{
+		.dashboard-logo{
+      visibility: visible;
+		}
+	}
 }

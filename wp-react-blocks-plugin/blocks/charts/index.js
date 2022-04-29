@@ -103,6 +103,14 @@ registerBlockType(process.env.BLOCKS_NS + '/chart',
             easeOfDoingBusinessAgricultureOf: {
                 type: "string",
                 default: "of 100"
+            },
+            totalPopulationLabel: {
+                type: "string",
+                default: "Total Population"
+            },
+            farmingHouseholdsLabel: {
+                type: "string",
+                default: "Farming Households"
             }
 
 

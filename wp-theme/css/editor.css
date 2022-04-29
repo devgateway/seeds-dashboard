@@ -50,12 +50,12 @@ p.wp-block.rich-text{
     background-color: #5089a6 !important;
 }
 
-.has-blue-color {
-    color: #3e53a6;
+.has-yellow-color {
+    color: #efcb16;
 }
 
-.has-blue-background-color {
-    background-color: #3e53a6;
+.has-yellow-background-color {
+    background-color: #efcb16;
 }
 
 .has-gray-color {
@@ -79,19 +79,19 @@ p.wp-block.rich-text{
 }
 
 .has-green-color {
-    color: #5baf95;
+    color: #84a43a;
 }
 
 .has-green-background-color {
-    background-color: #5baf95;
+    background-color: #84a43a;
 }
 
-.has-red-color {
-    color: #ba5555;
+.has-orange-color {
+    color: #f38e28;
 }
 
-.has-red-background-color {
-    background-color: #ba5555;
+.has-orange-background-color {
+    background-color: #f38e28;
 }
 
 .has-ligth-green-color {

@@ -3,6 +3,10 @@ import React, { useEffect, useState } from "react";
 import { MenuConsumer, MenuProvider, utils } from "@devgateway/wp-react-lib";
 import { injectIntl } from "react-intl";
 import { useHistory, withRouter } from "react-router";
+import {connect} from "react-redux";
+import {SELECTED_COUNTRY} from "../seeds-commons/commonConstants";
+import {CURRENT_TAB} from "../embeddable/reducers/StoreConstants";
+import {generateShareParams} from "../embeddable/utils/common";
 
 const MENU_DASHBOARD = 'dashboard';
 const MENU_MAIN = 'main';
@@ -62,7 +66,7 @@ const MyMenuItems = injectIntl(withRouter(({
                                                addSeparator,
                                                intl: { locale },
                                                firstChildLink,
-                                               isSubmenu
+                                               isSubmenu,
                                            }) => {
     useEffect(() => {
         if (!selected) {
@@ -81,7 +85,7 @@ const MyMenuItems = injectIntl(withRouter(({
         {menu.items.map((i, index) => (
             <><Menu.Item
                 key={i.ID}
-                className={`divided ${i.child_items ? 'has-child-items' : ''}
+                className={`${isSubmenu ? ' submenu ' : ''}divided ${i.child_items ? 'has-child-items' : ''}
                  ${selected && selected.ID === i.ID ? 'selected' : ''}  ${active === i.slug ? "active" : ""}
                  ${addClass && i.slug ? `_${i.slug.replace(/\s+/g, '-').toLowerCase()}` : ''}`}
 
@@ -97,7 +101,7 @@ const MyMenuItems = injectIntl(withRouter(({
     </React.Fragment>
 }))
 
-const Header = ({ intl: { locale }, match, firstChildLink }) => {
+const Header = ({ intl: { locale }, match, firstChildLink, filters }) => {
     const [selected, setSelected] = useState()
     const routerHistory = useHistory();
     const { slug, parent } = match.params;
@@ -115,9 +119,11 @@ const Header = ({ intl: { locale }, match, firstChildLink }) => {
             bannerClass = slug;
         }
     }
+    
     const gotoLanguage = (lang) => {
-        const slugUrl = slug ? `/${slug}` : ``;
-        routerHistory.push(`/${lang}${slugUrl}`);
+        let slugUrl = slug ? `${slug}` : ``;
+        slugUrl += generateShareParams(filters, null, null, null);
+        routerHistory.replace(`/${lang}/${slugUrl}`);
     }
 
     const logoUrl = process.env.REACT_APP_USE_HASH_LINKS ? `/#/${locale}` : `/${locale}`
@@ -170,4 +176,8 @@ const Header = ({ intl: { locale }, match, firstChildLink }) => {
     </MenuProvider>
 }
 
-export default (injectIntl(withRouter(Header)));
+const mapStateToProps = (state) => {
+    return {filters: state.getIn(['data', 'filters']),}
+}
+const mapActionCreators = {}
+export default connect(mapStateToProps, mapActionCreators)(injectIntl(withRouter(Header)));
