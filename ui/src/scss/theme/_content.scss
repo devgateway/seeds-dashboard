@@ -443,6 +443,7 @@ p:empty {
     .icon{
       color: $yellow;
       background-color: transparent;
+			font-size: $base-unit * 3;
     }
     .label{
       color: $text-color;
