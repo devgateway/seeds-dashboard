@@ -439,6 +439,7 @@ p:empty {
   &.event-hour,
   &.event-link{
     font-size: 0.8rem;
+		margin-bottom: 5px;
     padding: 0;
     .icon{
       color: $yellow;
