@@ -81,43 +81,34 @@
 // Events carousel
 .event-carousel {
   .link {
-    color: $link-green;
-    display: block;
-    font-size: 0.8rem;
-    font-weight: 900;
-    margin-left: $base-unit * 3;
-    margin-top: -($base-unit * 8.5);
-    position: relative;
+    @include border-radius(5px);
+    background-color: $yellow;
+    bottom: auto;
+    color: #ffffff;
+    font-size: 14px;
+    left: $base-unit * 22.5;
+    padding: $base-unit + 2 $base-unit * 2;
+    position: absolute;
+    top: $base-unit * 20;
+    &:hover{
+      background-color: $link-green;
+    }
   }
-
   .carousel__inner-slide{
     padding: $base-unit * 3;
   }
-
   .event-wrapper{
     background-color: #ffffff;
-    min-height: 510px;
-    p{
-      color: #555555 !important;
-      font-size: 18px !important;
-    }
   }
-
   .event-details{
     padding: 5px 30px;
   }
-  .carousel {
-    li {
-      min-height: $base-unit * 55;
-    }
-  }
-
   h3 {
-    font-size: 0.9rem !important;
-
+    font-size: 1rem !important;
+    font-weight: 900;
+    margin-top: 20px !important;
     a {
       color: $text-color;
-
       &:hover {
         color: $green-link;
       }
@@ -209,7 +200,7 @@
       padding-left: $base-unit + 2;
       li{
         float: left;
-        height: $base-unit * 62;
+        height: $base-unit * 30;
         padding: 5px;
         position: relative;
         width: 33% !important;
