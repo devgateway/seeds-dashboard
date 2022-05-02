@@ -1,7 +1,7 @@
 {
   "post_types": {
     "post": {},
-    "testimonials": {},
+    "testimonials": {}
   },
   "taxonomies": {
     "prevalence_category": {},
