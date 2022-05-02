@@ -86,7 +86,7 @@ const Events = ({
         {showFullContent && link && link !== 'undefined' ? <Grid.Column width={16} className="event-link">
             <Icon className="linkify"/> <a href={link} target="_blank" className="label">{link}</a>
         </Grid.Column> : null}
-        {showFullContent ? <Grid.Column width={16}>
+        {showFullContent ? <Grid.Column width={16} className="add-to-cal">
             <form onSubmit={e => {
                 e.preventDefault()
                 atcb_action({
