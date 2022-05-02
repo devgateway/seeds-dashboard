@@ -1,10 +1,7 @@
 {
   "post_types": {
     "post": {},
-    "prevalence": {},
-    "illicit": {},
-    "health": {},
-    "agriculture": {}
+    "testimonials": {},
   },
   "taxonomies": {
     "prevalence_category": {},
