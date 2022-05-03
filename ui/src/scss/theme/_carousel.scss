@@ -43,8 +43,6 @@
 .carousel__dot-group {
   margin: 0px auto auto;
   text-align: center;
-
-
   .carousel__dot {
     pointer-events: all !important;
     background-color: $text-color;
@@ -53,7 +51,6 @@
     height: 12px;
     width: 10px;
     border: 0px !important;
-
   }
 
   .carousel__dot:hover {
@@ -93,9 +90,15 @@
     &:hover{
       background-color: $link-green;
     }
+    @media only screen and (max-width: 1024px){
+      left: 0;
+    }
   }
   .carousel__inner-slide{
     padding: $base-unit * 3;
+    @media only screen and (max-width: 1024px){
+      background-color: #ffffff;
+    }
   }
   .event-wrapper{
     background-color: #ffffff;
