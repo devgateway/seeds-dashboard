@@ -21,7 +21,8 @@ const Filter = ({
                     "data-country-columns": countryColumns = 3,
                     "data-additional-classes": additionalClasses,
                     "data-data-source": dataSource = "latestCountryStudies",
-                    "data-show-selector": showSelector = "true"
+                    "data-show-selector": showSelector = "true",
+                    setIsFilterOpen,
                 }) => {
     useEffect(() => {
         onLoadCountries(dataSource)
@@ -63,14 +64,15 @@ const Filter = ({
     let childComponent = <CountryFilter
         countries={countries} onApply={onApply} filters={filters} addYear={isAddYear}
         selectedCountryLabel={selectedCountryLabel} countryColumns={countryColumns} isShowSelector={isShowSelector}
-        selectedCountryPostLabel={selectedCountryPostLabel}
+        selectedCountryPostLabel={selectedCountryPostLabel} setIsFilterOpen={setIsFilterOpen}
     />;
     if (dataType === "Country") {
         childComponent = <CountrySelector countries={countries} onApply={onApply} filters={filters}
                                           selectedCountryFirst={isSelectedCountryFirst} addYear={isAddYear}
                                           selectedCountryLabel={selectedCountryLabel} countryColumns={countryColumns}
                                           isShowSelector={isShowSelector}
-                                          selectedCountryPostLabel={selectedCountryPostLabel} />
+                                          selectedCountryPostLabel={selectedCountryPostLabel} 
+                                          setIsFilterOpen={setIsFilterOpen} />
 
         classes = "country-selector " + (additionalClasses ? additionalClasses : '');
     }
