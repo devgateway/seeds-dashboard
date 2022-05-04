@@ -76,10 +76,10 @@ const SingleTabbedView = ({ posts, showLabels, messages, locale, filters, applyF
 
     if (posts) {
         orderedPosts = posts.sort((a, b) => {
-                if (a.id < b.id) {
+                if (a.date < b.date) {
                     return -1;
                 }
-                if (a.id > b.id) {
+                if (a.date > b.date) {
                     return 1;
                 }
                 return 0;
