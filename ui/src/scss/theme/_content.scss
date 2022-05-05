@@ -549,6 +549,10 @@ p:empty {
 .bean {
   @include country-crop-icon;
   background-image: url('data:image/svg+xml;base64,PHN2ZyBpZD0iYWQ4Y2Q0YTAtMGUwOC00MTBmLWI5N2EtMmE5YjdmZDkyMGNkIiBkYXRhLW5hbWU9ImFydCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgNDAgNDAiPjxkZWZzPjxzdHlsZT4uYWE2ZTg0ZGMtMTg4ZC00ZGRlLTgzM2MtZTEwYzVmY2NjMWY1e2ZpbGw6I2M1YzM5ZTt9LmY0Yzc5MTI0LWMzYzctNDQyNS1iZjM1LTUwOGU4NGYyNTk0YXtmaWxsOm5vbmU7c3Ryb2tlOiNmZmY7c3Ryb2tlLWxpbmVjYXA6cm91bmQ7c3Ryb2tlLWxpbmVqb2luOnJvdW5kO308L3N0eWxlPjwvZGVmcz48Y2lyY2xlIGNsYXNzPSJhYTZlODRkYy0xODhkLTRkZGUtODMzYy1lMTBjNWZjY2MxZjUiIGN4PSIyMCIgY3k9IjIwIiByPSIxNiIvPjxwYXRoIGNsYXNzPSJmNGM3OTEyNC1jM2M3LTQ0MjUtYmYzNS01MDhlODRmMjU5NGEiIGQ9Ik0xMy4wNSwyMC42NGExNi43NSwxNi43NSwwLDAsMCw1LTIuOTEsMTYuODQsMTYuODQsMCwwLDAsMy41Ny00LjU3YzEuNTUtMi4zNCw0LjI4LTIuMjQsNi0uMjMsMy43NCw0LjI4LS41OCw5LjQ3LTMuMzgsMTEuOTNzLTguNTQsNi0xMi4yOCwxLjczQzEwLjI1LDI0LjU4LDEwLjUyLDIxLjg2LDEzLjA1LDIwLjY0WiIvPjxwYXRoIGNsYXNzPSJmNGM3OTEyNC1jM2M3LTQ0MjUtYmYzNS01MDhlODRmMjU5NGEiIGQ9Ik0yMC4yMSwyNC4yMmE4LDgsMCwwLDEtMy43NSwxLjI4LDIuMzYsMi4zNiwwLDAsMS0xLjkzLS44OCIvPjxwYXRoIGNsYXNzPSJmNGM3OTEyNC1jM2M3LTQ0MjUtYmYzNS01MDhlODRmMjU5NGEiIGQ9Ik0xNi42LDE4Ljg5Yy0uMDUuMTIuNywzLjY5LDMuMTksMS44MmExLjgsMS44LDAsMCwwLTEuNDktMy4yMyIvPjwvc3ZnPg==');
+	&.soya{
+	  @include country-crop-icon;
+	  background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDI2LjAuMiwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IgoJIHZpZXdCb3g9IjAgMCAzMCAzMCIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgMzAgMzA7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4KCS5zdDB7ZmlsbDojODRBNDNEO30KCS5zdDF7ZmlsbDpub25lO3N0cm9rZTojRkZGRkZGO3N0cm9rZS1saW5lY2FwOnJvdW5kO3N0cm9rZS1saW5lam9pbjpyb3VuZDtzdHJva2UtbWl0ZXJsaW1pdDoxMDt9Cjwvc3R5bGU+CjxnPgoJPGNpcmNsZSBjbGFzcz0ic3QwIiBjeD0iMTUiIGN5PSIxNSIgcj0iMTQiLz4KCTxnPgoJCTxlbGxpcHNlIHRyYW5zZm9ybT0ibWF0cml4KDAuNzA3MSAtMC43MDcxIDAuNzA3MSAwLjcwNzEgLTYuMjEzMiAxNSkiIGNsYXNzPSJzdDEiIGN4PSIxNSIgY3k9IjE1IiByeD0iNyIgcnk9IjUuNyIvPgoJCTxsaW5lIGNsYXNzPSJzdDEiIHgxPSIxNy45IiB5MT0iMTIuMiIgeDI9IjE1LjIiIHkyPSIxNC45Ii8+Cgk8L2c+CjwvZz4KPC9zdmc+Cg==");
+	}
 }
 .beans {
   @include country-crop-icon;
@@ -778,7 +782,7 @@ p:empty {
 }
 
 // Publications filter
-.green-filter{
+.publications-filter{
 		height: $base-unit * 8;
 		margin-left: calc(-50vw + 50%);
 		margin-top: -($base-unit * 2);
@@ -1080,17 +1084,6 @@ p:empty {
 	}
 }
 
-// Country reports content
-.country-reports-wrapper{
-	.wp-block-wp-react-lib-components-inner-page{
-		.wp-react-lib-component{
-			> div{
-				height: auto !important;
-				min-height: 500px;
-			}
-		}
-	}
-}
 
 // Info Portals
 

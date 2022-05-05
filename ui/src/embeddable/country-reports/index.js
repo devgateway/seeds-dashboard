@@ -142,7 +142,7 @@ const CountryReports = ({
                                 {generateImage()}
                             </div>
                         </GridColumn>
-                        <GridColumn width={11}>
+                        <GridColumn width={11} className="compacted">
                             <div>
                                 <div className="crops">
                                     {generateCrops()}
