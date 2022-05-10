@@ -12,6 +12,8 @@ const Events = ({
                     'data-event-link': link,
                     'data-event-name': name,
                     'editing': editing,
+                    'data-external-form-url': externalFormURL,
+                    'data-external-form-height': externalFormHeight,
                 }) => {
 
     const options = {year: 'numeric', month: 'long', day: 'numeric'};
@@ -103,6 +105,9 @@ const Events = ({
                 <input className="atcb_customTrigger" type="submit" value="Add to calendar"/>
             </form>
         </Grid.Column> : null}
+        {showFullContent && externalFormURL ? (<Grid.Column width={16} className="external_form">
+            <iframe className="form_iframe" src={externalFormURL} height={externalFormHeight} width="100%"/>
+        </Grid.Column>) : null}
     </Grid>);
 }
 export default Events;
