@@ -19,7 +19,9 @@ class BlockEdit extends BaseBlockEdit {
         eventLocation,
         hostedBy,
         link,
-        name
+        name,
+        externalFormURL,
+        externalFormHeight
       }
     } = this.props;
 
@@ -29,6 +31,8 @@ class BlockEdit extends BaseBlockEdit {
     queryString += `&data-event-hosted-by=${hostedBy}`;
     queryString += `&data-event-link=${link}`;
     queryString += `&data-event-name=${name}`;
+    queryString += `&data-external-form-url=${externalFormURL}`;
+    queryString += `&data-external-form-height=${externalFormHeight}`;
     const divStyles = {};
     return ([isSelected && (<InspectorControls>
         <Panel header={__("Event Configuration")}>
@@ -87,6 +91,22 @@ class BlockEdit extends BaseBlockEdit {
                   label={__('External Link')}
                   value={link}
                   onChange={(link) => setAttributes({ link })}
+              />
+            </PanelRow>
+
+            <PanelRow>
+              <TextControl
+                  label={__('URL to Google Form')}
+                  value={externalFormURL}
+                  onChange={(externalFormURL) => setAttributes({ externalFormURL })}
+              />
+            </PanelRow>
+
+            <PanelRow>
+              <TextControl
+                  label={__('Height of Google Form')}
+                  value={externalFormHeight}
+                  onChange={(externalFormHeight) => setAttributes({ externalFormHeight })}
               />
             </PanelRow>
           </PanelBody>

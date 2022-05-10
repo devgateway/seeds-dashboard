@@ -23,6 +23,13 @@ registerBlockType(process.env.BLOCKS_NS + '/events', {
         },
         name: {
             type: 'String'
+        },
+        externalFormURL: {
+            type: 'String'
+        },
+        externalFormHeight: {
+            type: 'Number',
+            default: 350,
         }
     }, edit: BlockEdit, save: BlockSave,
 });

@@ -10,7 +10,9 @@ const SaveComponent = (props) => {
       eventEndDate,
       hostedBy,
       link, 
-      name
+      name,
+      externalFormURL,
+      externalFormHeight
     }
   } = props;
 
@@ -29,6 +31,8 @@ const SaveComponent = (props) => {
          data-event-hosted-by={hostedBy}
          data-event-link={link}
          data-event-name={name}
+         data-external-form-url={externalFormURL}
+         data-external-form-height={externalFormHeight}
     >
     </div>
   );
