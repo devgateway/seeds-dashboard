@@ -42,7 +42,7 @@ const PAGE_404_SLUG = "error-404";
 const POST_404_SLUG = "post-404";
 
 
-const InjectTitle = injectIntl(({ intl, locale, hola }) => {
+const InjectTitle = injectIntl(({ intl, locale }) => {
     document.title = intl.formatMessage({ id: 'app.title', defaultMessage: process.env.REACT_APP_TITLE });
     document.documentElement.lang = locale;
     return null
