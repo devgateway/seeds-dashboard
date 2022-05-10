@@ -12,6 +12,7 @@ export const NUMBER_SEED_INSPECTORS_BY_COUNTRY = 'seedInspectorsByCountry';
 export const QUANTITY_CERTIFIED_SEED_SOLD = 'quantityCertifiedSeedSold';
 export const SATISFACTION_ENFORCEMENT_SEED_LAW = 'satisfactionEnforcementSeedLaw';
 export const COUNTRY_SETTINGS = 'country-settings';
+export const CUSTOM_TOOLTIPS = 'custom-tooltips';
 export const COUNTRIES_FILTER = 'countries';
 export const SOURCE_CATEGORIES = 'source-category';
 export const WP_CATEGORIES = 'wp-categories';
