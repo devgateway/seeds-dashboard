@@ -26,6 +26,7 @@
     .column {
       font-weight: 600;
     }
+
     @media (max-width: 1000px) {
       font-size: 11px !important;
     }
@@ -33,6 +34,24 @@
 }
 
 .indicator-label {
+  .value {
+    .number_right, .rating_right {
+      padding-right: 5px;
+      justify-content: right !important;
+    }
+
+    .number_center, .rating_center {
+      padding-right: 0!important;
+      justify-content: center !important;
+    }
+
+    .number_left, .rating_left {
+      padding-left: 5px;
+      justify-content: left !important;
+    }
+
+  }
+
   .letter.centered {
     width: 100%;
     display: flex;

@@ -29,7 +29,9 @@ const DataSummaryBody = ({
                              onLoadIndicatorsInformation,
                              summary_indicators_information,
                              filters,
-                             overrideSticky
+                             overrideSticky,
+                             editing,
+                             configuration
                          }) => {
     const [activeThemeIndex, setActiveThemeIndex] = useState(1);
     const [currentScrollableDiv, setCurrentScrollableDiv] = useState(undefined);
@@ -102,10 +104,10 @@ const DataSummaryBody = ({
     const getTitleDisplayType = (indicator, isOverview) => {
         let value = '';
         if (indicator.displayType === DISPLAY_TYPE_RATING || indicator.displayType === DISPLAY_TYPE_HHI) {
-            value = 'rating';
+            value = configuration.labels.rating;
         } else {
             if (indicator.displayType === DISPLAY_TYPE_NUMBER || indicator.displayType === DISPLAY_TYPE_PERCENTAGE || isOverview) {
-                value = 'number';
+                value = configuration.labels.number;
             }
         }
         return value;
@@ -120,7 +122,8 @@ const DataSummaryBody = ({
                         </Grid.Column>
                         <Grid.Column width={6}><IndicatorLabel
                             field={{ value: selectedTitle }}
-                            className={'indicator-sub-title'} displayType={LEGEND} selectedCountry />
+                            className={'indicator-sub-title'} displayType={LEGEND} selectedCountry
+                            configuration={configuration} />
                         </Grid.Column>
                     </Grid>}
                 {indicator.childs.sort((a, b) => a.position > b.position).map((f, index) => {
@@ -136,18 +139,19 @@ const DataSummaryBody = ({
 
                     const display = getEffectiveDisplayAndRange(range, isOverview, f, indicator);
 
-
                     return <Grid className={`${index % 2 === 0 ? EVEN : ODD}`} key={f.id}>
                         <Grid.Column width={10}
                                      className="crop-title " data-indicator-key={f.key}>
-                            <Tooltip item={f} tiny />
+                            <Tooltip item={f} tiny editing={editing} />
                             {f.name}
                         </Grid.Column>
                         <Grid.Column width={6}
                                      className={"indicator-selected-country"}><IndicatorLabel
                             field={field}
                             className={'indicator-label'}
-                            range={display.effectiveRange} displayType={display.displayType}
+                            range={display.effectiveRange}
+                            displayType={display.displayType}
+                            configuration={configuration}
                             selectedCountry />
                         </Grid.Column>
                     </Grid>
@@ -162,7 +166,7 @@ const DataSummaryBody = ({
                                 field={{
                                     value: getTitleDisplayType(indicator, isOverview)
                                 }}
-                                className={'indicator-sub-title'} displayType={LEGEND} /></Grid.Column>)}
+                                className={'indicator-sub-title'} displayType={LEGEND} configuration={configuration} /></Grid.Column>)}
                     </Grid>
                 </Grid.Row>}
                 {indicator.childs.sort((a, b) => a.position > b.position).map((f, index) => {
@@ -181,7 +185,9 @@ const DataSummaryBody = ({
                                     return <Grid.Column key={vc}><IndicatorLabel field={field}
                                                                                  className={'indicator-label'}
                                                                                  range={display.effectiveRange}
-                                                                                 displayType={display.displayType} /></Grid.Column>
+                                                                                 displayType={display.displayType}
+                                                                                 configuration={configuration}
+                                    /></Grid.Column>
                                 })
                                 }
                             </Grid>
@@ -236,7 +242,7 @@ const DataSummaryBody = ({
                                 <div ref={idx === 0 ? ref : undefined}
                                      id={idx === 0 ? `scroll_${indicator.id}` : ''}>{indicator.key} {indicator.name}</div>
                             </VisibilitySensor>
-                            <Tooltip item={indicator} />
+                            <Tooltip item={indicator} editing={editing} />
                         </div>
 
                     </Accordion.Title>
@@ -271,7 +277,7 @@ const DataSummaryBody = ({
         if (isOneSticky) {
             const secondIndex = ids[ids.findIndex(i => i === prefix + activeThemeIndex) + 1];
             const firstTop = document.getElementById(prefix + activeThemeIndex).getBoundingClientRect().top +
-                document.getElementById(prefix + activeThemeIndex).getBoundingClientRect().height;    
+                document.getElementById(prefix + activeThemeIndex).getBoundingClientRect().height;
             const secondTop = document.getElementById(secondIndex).getBoundingClientRect().top
             if (secondTop <= firstTop) {
                 const scrollTop = document.documentElement.scrollTop;
