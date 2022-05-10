@@ -28,7 +28,8 @@ const DataSummaryBody = ({
                              summary_indicators,
                              onLoadIndicatorsInformation,
                              summary_indicators_information,
-                             filters
+                             filters,
+                             overrideSticky
                          }) => {
     const [activeThemeIndex, setActiveThemeIndex] = useState(1);
     const [currentScrollableDiv, setCurrentScrollableDiv] = useState(undefined);
@@ -304,7 +305,7 @@ const DataSummaryBody = ({
                         (e, titleProps) => handleThemeClick(e, titleProps, theme.id, themIndex)}
                     key={theme.id} className={`theme-title ${isIndicator ? " theme-overview" : ''}`}
                     style={{ backgroundColor: 'white' }}>
-                    <Sticky context={innerRef} offset={70} active={activeThemeIndex === index.i}
+                    <Sticky context={innerRef} offset={70} active={activeThemeIndex === index.i && !overrideSticky}
                             onStick={() => {
                                 isOneSticky = true
                             }}

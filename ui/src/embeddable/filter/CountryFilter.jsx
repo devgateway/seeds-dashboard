@@ -8,7 +8,7 @@ import CountrySelector from "../../seeds-commons/countrySelector/CountrySelector
 import { SELECTED_COUNTRY } from "../../seeds-commons/commonConstants";
 
 export const ADDITIONAL_COUNTRIES = 3;
-const CountryFilter = ({ countries, onApply, filters, addYear, countryColumns, isShowSelector }) => {
+const CountryFilter = ({ countries, onApply, filters, addYear, countryColumns, isShowSelector, setIsFilterOpen }) => {
 
     const getLength = () => {
         let length = 0;
@@ -23,7 +23,8 @@ const CountryFilter = ({ countries, onApply, filters, addYear, countryColumns, i
     return <Grid className="country-filter-container">
         <Grid.Column width={7}>
             <CountrySelector countries={countries} onApply={onApply} filters={filters} addYear={addYear}
-                             countryColumns={countryColumns} isShowSelector={isShowSelector} />
+                             countryColumns={countryColumns} isShowSelector={isShowSelector} 
+                             setIsFilterOpen={setIsFilterOpen}/>
         </Grid.Column>
         <Grid.Column width={9}>
             <Container fluid={true} className={"country-carousel"}>

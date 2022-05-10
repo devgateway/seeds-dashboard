@@ -15,6 +15,9 @@
 }
 
 .events-feed{
+  .event-item{
+    background-color: #ffffff;
+  }
   li{
     .event-wrapper{
       padding: 0 5px;
@@ -27,7 +30,7 @@
     }
     h3{
       color: $text-color !important;
-      font-size: 22px !important;
+      font-size: 18px !important;
       margin-bottom: $base-unit;
       margin-top: $base-unit;
       text-transform: none;
@@ -42,23 +45,27 @@
       overflow: hidden;
     }
     img{
-      border-bottom: 6px solid #4f8c3e;
-      height: 280px;
-      margin-left: -30%;
-      max-width:160%;
-      width: 160%;
+      height: 260px;
+      @media only screen and (max-width: 1024px){
+        height: auto;
+      }
     }
     .link{
       @include border-radius(5px);
       background-color: $yellow;
-      bottom: $base-unit * 2;
+      bottom: auto;
       color: #ffffff;
       font-size: 14px;
-      left: $base-unit;
+      left: $base-unit * 22.5;
       padding: $base-unit + 2 $base-unit * 2;
       position: absolute;
+      top: 200px;
       &:hover{
         background-color: $link-green;
+      }
+      @media only screen and (max-width: 1024px){
+        left: 0;
+        top: 180px;
       }
     }
     .events.ui.grid{
@@ -67,17 +74,115 @@
       .column{
         display: block;
         float: left;
-        margin-bottom: 5px;
         margin-left: -5px;
         width: $extend !important;
         .label{
-          font-size: 0.6rem;
+          font-size: 0.75rem;
         }
         .icon{
           background-repeat: no-repeat;
-          background-size: 25px 25px;
+          background-size: $base-unit * 3.5;
         }
       }
+    }
+  }
+  .wp-block-columns:not(.is-not-stacked-on-mobile)>.wp-block-column:not(:first-child){
+    @media only screen and (min-width: 782px){
+      margin-left: $base-unit * 2.2;
+    }
+  }
+}
+
+// Events component
+.ui.grid>.column{
+  &.event-date,
+  &.event-location,
+  &.event-hour,
+  &.event-link{
+    font-size: 0.8rem;
+		line-height: 100%;
+    padding: 0;
+    .icon{
+      color: $yellow;
+      background-color: transparent;
+			font-size: 1.3rem;
+    }
+    .label{
+      color: $text-color;
+			line-height: 200%;
+      text-transform: uppercase;
+    }
+  }
+	&.add-to-cal{
+		padding: 0;
+		[type=submit]{
+      @include border-radius (5px);
+			background-color: $yellow;
+			border: 1px solid $yellow;
+    	color: #ffffff;
+    	font-size: 14px;
+      margin-top: $base-unit;
+    	padding: $base-unit + 2 $base-unit * 2;
+			&:hover{
+				background-color: $link-green;
+        border: 1px solid $link-green;
+			}
+		}
+	}
+}
+
+// Custom edvent icon images
+.events{
+  .marker{
+    &.icon{
+      @include event-icon();
+      background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDI2LjAuMSwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IgoJIHZpZXdCb3g9IjAgMCAzNiAzNiIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgMzYgMzY7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4KCS5zdDB7ZmlsbDpub25lO3N0cm9rZTojRUZDQjE2O3N0cm9rZS13aWR0aDoyO3N0cm9rZS1taXRlcmxpbWl0OjEwO30KPC9zdHlsZT4KPGcgaWQ9ImJiMjNjZjliLWFkMjAtNGYzNi1hYWQyLTNjMzY3Zjk3Zjg3ZSI+Cgk8cGF0aCBjbGFzcz0ic3QwIiBkPSJNMTgsNi42Yy00LjYsMC04LjMsMy43LTguMyw4LjNjMCwwLDAsMCwwLDBjMCwyLjEsMC44LDQsMi4xLDUuNmw0LjUsNy45YzAuNSwwLjksMS43LDEuMiwyLjYsMC43CgkJYzAuMy0wLjIsMC41LTAuNCwwLjctMC43bDQuNS03LjljMS40LTEuNSwyLjItMy41LDIuMS01LjZDMjYuMywxMC40LDIyLjYsNi43LDE4LDYuNkMxOCw2LjYsMTgsNi42LDE4LDYuNnogTTE4LDEwLjYKCQljMi40LDAsNC40LDIsNC40LDQuNGMwLDAsMCwwLDAsMGwwLDBjMCwyLjQtMiw0LjQtNC40LDQuNHMtNC40LTItNC40LTQuNGwwLDBDMTMuNiwxMi42LDE1LjUsMTAuNiwxOCwxMC42CgkJQzE4LDEwLjYsMTgsMTAuNiwxOCwxMC42eiIvPgo8L2c+Cjwvc3ZnPgo=");
+    }
+  }
+  .calendar{
+    &.icon{
+      @include event-icon();
+      background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDI2LjAuMSwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IgoJIHZpZXdCb3g9IjAgMCAzNiAzNiIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgMzYgMzY7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4KCS5zdDB7ZmlsbDpub25lO3N0cm9rZTojRUZDQjE2O3N0cm9rZS13aWR0aDoyO3N0cm9rZS1taXRlcmxpbWl0OjEwO30KPC9zdHlsZT4KPGcgaWQ9ImI5MjZhZjEyLTAyYjItNDBlNi1hZTEwLTJkMTM3YWI0ZTg3MiI+Cgk8cGF0aCBjbGFzcz0ic3QwIiBkPSJNOS40LDEwLjFoMTcuMmMwLjYsMCwxLjEsMC41LDEuMSwxLjF2MTYuMWMwLDAuNi0wLjUsMS4xLTEuMSwxLjFIOS40Yy0wLjYsMC0xLjEtMC41LTEuMS0xLjFWMTEuMQoJCUM4LjQsMTAuNiw4LjgsMTAuMSw5LjQsMTAuMXoiLz4KCTxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik0xMy40LDcuN0wxMy40LDcuN2MwLjUsMCwwLjksMC40LDAuOSwwLjlWMTFjMCwwLjUtMC40LDAuOS0wLjksMC45aDBjLTAuNSwwLTAuOS0wLjQtMC45LTAuOVY4LjYKCQlDMTIuNCw4LjEsMTIuOSw3LjcsMTMuNCw3Ljd6Ii8+Cgk8cGF0aCBjbGFzcz0ic3QwIiBkPSJNMjIuNiw3LjdMMjIuNiw3LjdjMC41LDAsMC45LDAuNCwwLjksMC45VjExYzAsMC41LTAuNCwwLjktMC45LDAuOWgwYy0wLjUsMC0wLjktMC40LTAuOS0wLjlWOC42CgkJQzIxLjcsOC4xLDIyLjEsNy43LDIyLjYsNy43eiIvPgoJPGxpbmUgY2xhc3M9InN0MCIgeDE9IjguNCIgeTE9IjE0LjciIHgyPSIyNy41IiB5Mj0iMTQuNyIvPgo8L2c+Cjwvc3ZnPgo=");
+    }
+  }
+	.clock{
+		&.icon{
+			@include event-icon();
+			&:before{
+				display: block;
+				margin-top: 3px;
+			}
+		}
+	}
+}
+
+// Event slide items
+.event-item{
+	background-color: #ffffff;
+	padding-right: $base-unit * 2;
+	h3{
+		font-weight: 900;
+		margin-top: $base-unit;
+	}
+  .wp-block-column.event-thumbnail{
+    width: 200px;
+    @media (min-width: 782px){
+      flex-basis: 200px;
+    }
+  }
+	img{
+		margin-bottom: -5px;
+	}
+}
+.wp-block-columns:not(.is-not-stacked-on-mobile)>.wp-block-column{
+  &.event-thumbnail{
+    @media (min-width: 1024px){
+      flex-basis: 200px;
+      flex-grow: 0;
+    }
+    @media only screen and (max-width: 1024px){
+      flex-basis: 100px;
+      flex-grow: 0;
     }
   }
 }

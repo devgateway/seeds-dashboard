@@ -1,8 +1,42 @@
+// Country reports content
+.country-reports-wrapper{
+  padding: 0;
+  @media only screen and (min-width: 1366px){
+    margin-left: -20px;
+    margin-right: -20px;
+    width: 1366px;
+  }
+  @media only screen and (max-width: 1366px){
+    margin: auto;
+    width: 1250px;
+  }
+  @media only screen and (max-width: 1024px){
+    margin: auto;
+    width: 100%;
+  }
+	.wp-block-wp-react-lib-components-inner-page{
+		.wp-react-lib-component{
+			> div{
+				height: auto !important;
+			}
+		}
+	}
+}
+
 .box {
   border: 1px solid #ececec;
   border-radius: 5px;
   padding: 10px;
   margin: 5px;
+  @media only screen and (max-width: 1024px){
+    height: auto !important;
+    min-height: 350px;
+    width: 100% !important;
+  }
+
+  .ui.grid>.row>.column.compacted{
+    padding-left: 5px;
+  }
 
   .crops {
     float: left;
@@ -14,6 +48,7 @@
     .crop-icon {
       background-size: 25px;
       height: 30px;
+      margin-right: 10px;
       padding-left: 30px;
 
       label {
@@ -41,7 +76,6 @@
       max-height: 200px;
       display: inline-block;
       color: #7d7d7d;
-      max-width: 97%;
     }
 
     .links {
@@ -50,15 +84,16 @@
       font-weight: 600;
 
       .links-container {
-        position: absolute;
-        bottom: 4px;
+        margin-top: 7px;
 
         span {
+          font-size: 14px;
           margin-right: 5px;
         }
 
         a {
           color: #84a43a;
+          font-size: 14px;
         }
       }
     }
