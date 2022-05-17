@@ -287,8 +287,19 @@
             background-image: url("/static/images/board.svg") !important;
           }
         }
+        /* Media */
+        &._press {
+          a {
+            background-image: url("/static/images/press.svg") !important;
+          }
+        }
+        &._news {
+          a {
+            background-image: url("/static/images/updates.svg") !important;
+          }
+        }
 
-        /*Dashboard*/
+        /* Dashboard */
         &._dashboard {
           a {
             background-image: url("/static/images/dashboard.svg") !important;

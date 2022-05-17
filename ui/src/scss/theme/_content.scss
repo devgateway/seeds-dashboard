@@ -1108,3 +1108,27 @@ p:empty {
 		}
 	}
 }
+
+// Press content
+.press-post{
+	img{
+		border: 1px solid #cecece;
+	}
+	h2{
+		margin: $base-unit + 3 0 5px 0;
+		a{
+			color: $text-color;
+			display: block;
+			font-family: $font-family;
+			font-size: 18px;
+			line-height: 130%;
+			&:hover{
+				color: $green;
+			}
+		}
+	}
+	p{
+		font-size: 16px;
+		margin: 0;
+	}
+}
