@@ -21,9 +21,10 @@ $blue: #3e53a6;
 $green: #84a43a;
 $dark-green: #375e2d;
 
-$table-light-orange-bg: #f9d791;
+$table-theme-orange-bg: #f48e27;
 $table-orange-bg: #e79f38;
-$table-grey-bg: #e4e4e4;
+$table-grey-bg: #e8e7e5;
+$table-plus-green: #82C341;
 
 $health-color: #5baf95;
 $light-green: #31ba1a;
@@ -144,7 +145,6 @@ $breakpoint-phone: 480px;
   display: block;
   float: left;
   height: $base-unit * 3;
-  margin-top: -7px;
   width: $base-unit * 3;
   &:before{
     content: none;

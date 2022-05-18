@@ -57,7 +57,6 @@ const Export = ({
             document.addEventListener('mouseout', hoverOutside, true);
             document.addEventListener("click", handleClickOutside, false);
             return () => {
-                debugger
                 document.removeEventListener('mouseout', hoverOutside, true);
                 document.removeEventListener("click", handleClickOutside, true);
             };

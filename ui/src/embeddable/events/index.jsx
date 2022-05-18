@@ -12,6 +12,8 @@ const Events = ({
                     'data-event-link': link,
                     'data-event-name': name,
                     'editing': editing,
+                    'data-external-form-url': externalFormURL,
+                    'data-external-form-height': externalFormHeight,
                 }) => {
 
     const options = {year: 'numeric', month: 'long', day: 'numeric'};
@@ -77,16 +79,16 @@ const Events = ({
             <Icon className="calendar"/> <span
             className="label">{dateString}</span>
         </Grid.Column>
-        {showFullContent && <Grid.Column width={8} className="event-hour">
+        {showFullContent && <Grid.Column width={16} className="event-hour">
             <Icon className="clock outline"/> <span className="label">{timeString}</span>
         </Grid.Column>}
-        <Grid.Column width={8} className="event-location">
+        <Grid.Column width={16} className="event-location">
             <Icon className="marker"/> <span className="label">{eventLocation || 'Location N/A'}</span>
         </Grid.Column>
         {showFullContent && link && link !== 'undefined' ? <Grid.Column width={16} className="event-link">
             <Icon className="linkify"/> <a href={link} target="_blank" className="label">{link}</a>
         </Grid.Column> : null}
-        {showFullContent ? <Grid.Column width={16}>
+        {showFullContent ? <Grid.Column width={16} className="add-to-cal">
             <form onSubmit={e => {
                 e.preventDefault()
                 atcb_action({
@@ -103,6 +105,9 @@ const Events = ({
                 <input className="atcb_customTrigger" type="submit" value="Add to calendar"/>
             </form>
         </Grid.Column> : null}
+        {showFullContent && externalFormURL ? (<Grid.Column width={16} className="external_form">
+            <iframe className="form_iframe" src={externalFormURL} height={externalFormHeight} width="100%"/>
+        </Grid.Column>) : null}
     </Grid>);
 }
 export default Events;

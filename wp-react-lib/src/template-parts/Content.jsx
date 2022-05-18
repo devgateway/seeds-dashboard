@@ -48,7 +48,7 @@ class Content extends React.Component {
     >
       <Modal.Content>
         <Modal.Description>
-          <iframe src={url} height="350" width="100%"/>
+          <iframe className="modal_iframe" src={url} width="100%"/>
         </Modal.Description>
       </Modal.Content>
     </Modal>)

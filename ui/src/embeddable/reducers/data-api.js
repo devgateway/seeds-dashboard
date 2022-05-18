@@ -24,7 +24,7 @@ import {
     AGRICULTURAL_EXTENSION_SERVICES, NUMBER_SEED_INSPECTORS_BY_COUNTRY
 } from "./StoreConstants";
 import { SELECTED_COUNTRY } from "../../seeds-commons/commonConstants";
-import { get, getAll } from "../../seeds-commons/commons";
+import { get, getAll, post } from "../../seeds-commons/commons";
 
 const SURVEY_API = process.env.REACT_APP_SURVEY_API
 const IP_INFO_URL = 'https://ipinfo.io/json?token=145d05e17c7c25';
@@ -38,7 +38,6 @@ const SURVEY_COUNTRIES_API = `${SURVEY_API}/${SURVEY_FILTER_API}/`
 const SURVEY_INDICATORS_API = `${SURVEY_API}/${SURVEY_FILTER_API}/indicators`
 const SURVEY_INDICATOR_INFORMATION_API = `${SURVEY_API}/${DATA_SUMMARY}/categoryId/{categoryId}/latest`;
 const WP_DOCUMENTS_API = `${APP_WP_API}/wp/v2/media`;
-
 let COUNTRY_INFORMATION_API = `${SURVEY_API}/countryInfo/countryId/`;
 let NUMBER_OF_VARIETIES_RELEASED_API = `${SURVEY_API}/chart/numberVarietiesReleased/year/crop`;
 let VARIETIES_RELEASED_WITH_SPECIAL_FEATURES_API = `${SURVEY_API}/chart/cropsReleased/crop/year`;
@@ -62,6 +61,8 @@ const AGRODEALER_NETWORK_API = `${SURVEY_API}/chart/agrodealerNetwork/year/`;
 const AGRICULTURAL_EXTENSION_SERVICES_API = `${SURVEY_API}/chart/agriculturalExtensionServices/year/`;
 const NUMBER_SEED_INSPECTORS_BY_COUNTRY_API = `${SURVEY_API}/chart/cc/numberSeedInspectors/`;
 const CROPS_BY_COUNTRY_YEAR_API = `${SURVEY_API}/filter/countryCrops/`;
+const TOOLTIP_SAVE_URL = `${SURVEY_API}/tooltip/save`;
+const TOOLTIP_LOAD_URL = `${SURVEY_API}/tooltip/list`;
 
 const APIS = {
     prevalence: '',
@@ -170,10 +171,15 @@ export function getIndicatorsInformation(categoryId) {
     return get(SURVEY_INDICATOR_INFORMATION_API.replace("{categoryId}", categoryId))
 }
 
+export const loadCustomTooltips = () => {
+    return get(TOOLTIP_LOAD_URL);
+}
 export const loadCountrySettings = () => {
     return get(IP_INFO_URL);
 }
-
+export const saveTooltips = (tooltip) => {
+    return post(TOOLTIP_SAVE_URL, tooltip)
+}
 export const getDocumentsData = (params) => {
     // let documentsApi = WP_DOCUMENTS_API + (params ? '?' + queryParams(params) : '')
     // return get(documentsApi, params)
