@@ -335,17 +335,11 @@ p:empty {
     .wp-block-post-excerpt__excerpt{
       color: $text-color;
       font-size: 0.8rem;
-      min-height: $base-unit * 13;
-	    position: relative;
-      .wp-block-post-excerpt__more-text{
-        bottom: 0;
-  	    position: absolute;
-      }
+			margin-bottom: $base-unit + 5;
     }
 
     h3{
-      margin-bottom: 0;
-	    min-height: $base-unit * 9;
+      margin-bottom: $base-unit;
       a{
         color: $text-color;
         font-size: 1.2rem;
