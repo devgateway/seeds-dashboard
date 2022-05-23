@@ -21,7 +21,7 @@ export const replaceLink = (url, locale, isAddTypeToLink) => {
 
     } else {
         if (url.includes(`/${locale}/`)) {
-            finalUrl = url.replaceAll(all, `/${type}`)
+            finalUrl = url.replaceAll(all, `${type}`)
         } else {
             finalUrl = url.replaceAll(all, `/${locale}${type}`)
         }
