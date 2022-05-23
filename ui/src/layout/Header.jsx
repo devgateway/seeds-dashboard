@@ -3,10 +3,10 @@ import React, { useEffect, useState } from "react";
 import { MenuConsumer, MenuProvider, utils } from "@devgateway/wp-react-lib";
 import { injectIntl } from "react-intl";
 import { useHistory, withRouter } from "react-router";
-import {connect} from "react-redux";
-import {SELECTED_COUNTRY} from "../seeds-commons/commonConstants";
-import {CURRENT_TAB} from "../embeddable/reducers/StoreConstants";
-import {generateShareParams} from "../embeddable/utils/common";
+import { connect } from "react-redux";
+import { SELECTED_COUNTRY } from "../seeds-commons/commonConstants";
+import { CURRENT_TAB } from "../embeddable/reducers/StoreConstants";
+import { generateShareParams } from "../embeddable/utils/common";
 
 const MENU_DASHBOARD = 'dashboard';
 const MENU_MAIN = 'main';
@@ -51,7 +51,7 @@ const PrincipalMenuItem = ({ i, onSetSelected, locale, firstChildLink, isSubmenu
             return <span onMouseOver={() => onSetSelected(i)}>{i.title}</span>;
         }
     } else {
-        return <a onMouseLeave={isSubmenu && onSetSelected(null)    } onMouseOver={() => onSetSelected(i)}
+        return <a onMouseLeave={isSubmenu && onSetSelected(null)} onMouseOver={() => onSetSelected(i)}
                   href={utils.replaceLink(i.url, locale)}>{i.title}</a>;
     }
 }
@@ -104,10 +104,12 @@ const MyMenuItems = injectIntl(withRouter(({
 const Header = ({ intl: { locale }, match, firstChildLink, filters }) => {
     const [selected, setSelected] = useState()
     const routerHistory = useHistory();
-    const { slug, parent } = match.params;
+    const { params, url } = match;
+    const { slug, parent, } = params;
 
-    const isCustom = (parent && parent === MENU_DASHBOARD) || slug === MENU_DASHBOARD;
 
+    const isCustom = (parent && parent === MENU_DASHBOARD) || slug === MENU_DASHBOARD
+        || (url.includes(`/${MENU_DASHBOARD}/${slug}`));
 
     let bannerClass;
     if (isCustom) {
@@ -119,7 +121,7 @@ const Header = ({ intl: { locale }, match, firstChildLink, filters }) => {
             bannerClass = slug;
         }
     }
-    
+
     const gotoLanguage = (lang) => {
         let slugUrl = slug ? `${slug}` : ``;
         slugUrl += generateShareParams(filters, null, null, null);
@@ -149,10 +151,10 @@ const Header = ({ intl: { locale }, match, firstChildLink, filters }) => {
                         </Container>}
                     </div>
                     <div className="lang-container align-content">
-                                <div className="lang">
-                                    {locale === 'en' && <a onClick={() => gotoLanguage('fr')}>français</a>}
-                                    {locale === 'fr' && <a onClick={() => gotoLanguage('en')}>english</a>}
-                                </div>
+                        <div className="lang">
+                            {locale === 'en' && <a onClick={() => gotoLanguage('fr')}>français</a>}
+                            {locale === 'fr' && <a onClick={() => gotoLanguage('en')}>english</a>}
+                        </div>
                     </div>
                 </Menu>
             </Container>
@@ -177,7 +179,7 @@ const Header = ({ intl: { locale }, match, firstChildLink, filters }) => {
 }
 
 const mapStateToProps = (state) => {
-    return {filters: state.getIn(['data', 'filters']),}
+    return { filters: state.getIn(['data', 'filters']), }
 }
 const mapActionCreators = {}
 export default connect(mapStateToProps, mapActionCreators)(injectIntl(withRouter(Header)));
