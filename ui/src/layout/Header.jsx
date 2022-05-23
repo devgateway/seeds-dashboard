@@ -4,8 +4,6 @@ import { MenuConsumer, MenuProvider, utils } from "@devgateway/wp-react-lib";
 import { injectIntl } from "react-intl";
 import { useHistory, withRouter } from "react-router";
 import { connect } from "react-redux";
-import { SELECTED_COUNTRY } from "../seeds-commons/commonConstants";
-import { CURRENT_TAB } from "../embeddable/reducers/StoreConstants";
 import { generateShareParams } from "../embeddable/utils/common";
 
 const MENU_DASHBOARD = 'dashboard';
@@ -28,19 +26,6 @@ const getPath = (menu, match) => {
     })
     return path
 }
-
-
-const BreadCrumbs = withRouter(injectIntl(({ menu, match, intl }) => {
-
-    let path = getPath(menu, match)
-    return <React.Fragment>
-        <a href={"/#"}> Home </a>
-        {path.map(i => !i.child_items ? <a className={i.slug === match.params.slug ? 'active' : ''}
-                                           href={utils.replaceLink(i.url, intl.locale)}> {i.post_title}</a> :
-            <span>{i.post_title} </span>)}
-    </React.Fragment>
-
-}))
 
 const PrincipalMenuItem = ({ i, onSetSelected, locale, firstChildLink, isSubmenu }) => {
     if (i.child_items) {
@@ -152,7 +137,7 @@ const Header = ({ intl: { locale }, match, firstChildLink, filters }) => {
                     </div>
                     <div className="lang-container align-content">
                         <div className="lang">
-                            {locale === 'en' && <a onClick={() => gotoLanguage('fr')}>français</a>}
+                            {locale === 'en' && <a href="#" onClick={() => gotoLanguage('fr')}>français</a>}
                             {locale === 'fr' && <a onClick={() => gotoLanguage('en')}>english</a>}
                         </div>
                     </div>
@@ -168,7 +153,7 @@ const Header = ({ intl: { locale }, match, firstChildLink, filters }) => {
                         </MenuConsumer>
                     }
                     {!isCustom && selected && selected.child_items &&
-                        <MyMenuItems active={slug} locale={locale} onSetSelected={e => null}
+                        <MyMenuItems active={slug} locale={locale} onSetSelected={() => null}
                                      addSeparator addClass menu={{ items: selected.child_items }}
                         >}</MyMenuItems>
                     }
