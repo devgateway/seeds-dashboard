@@ -87,6 +87,7 @@ class BlockEdit extends BlockEditWithFilters {
                 }}
                 options={[
                   { label: 'Dots', value: 'dots' },
+                  { label: 'Paged Dots', value: 'paged-dots' },
                   { label: 'Buttons', value: 'buttons' }
                 ]}
               />
