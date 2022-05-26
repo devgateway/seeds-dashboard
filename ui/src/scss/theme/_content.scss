@@ -42,6 +42,7 @@
 }
 
 p{
+	text-align: justify;
   &.has-text-color{
     a{
       color: $link-color-default;
@@ -319,9 +320,7 @@ p:empty {
       }
     }
   }
-	p{
-		text-align: left;
-	}
+	
 }
 
 // News section
