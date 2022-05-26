@@ -879,7 +879,7 @@ const ChartComponent = ({
             }
             getTooltipText = (d) => {
                 const cropName = d.id.replace(`${d.indexValue}_`, "");
-                let gaugeValue = data.otherValues[d.indexValue][cropName];
+                let gaugeValue = data.otherValues[d.indexValue] ? data.otherValues[d.indexValue][cropName] : '';
                 let suffix = null;
                 if (!Number(gaugeValue) || gaugeValue === '') {
                     gaugeValue = 'MD';
@@ -1374,15 +1374,15 @@ const ChartComponent = ({
                         <table width="100%">
                             <tr>
                                 <td className="year">{d.point.data.x}</td>
-                                <td style={{ fontWeight: 'bold' }}>{data.otherValues[d.point.data.x][d.point.serieId]}</td>
+                                <td style={{ fontWeight: 'bold' }}>{data.otherValues[d.point.data.x] ? data.otherValues[d.point.data.x][d.point.serieId] : 'MD'}</td>
                             </tr>
                             <tr>
                                 <td className="year">{d.point.data.x - 1}</td>
-                                <td style={{ fontWeight: 'bold' }}>{data.otherValues[d.point.data.x - 1][d.point.serieId]}</td>
+                                <td style={{ fontWeight: 'bold' }}>{data.otherValues[d.point.data.x - 1] ? data.otherValues[d.point.data.x - 1][d.point.serieId] : 'MD'}</td>
                             </tr>
                             <tr>
                                 <td className="year">{d.point.data.x - 2}</td>
-                                <td style={{ fontWeight: 'bold' }}>{data.otherValues[d.point.data.x - 2][d.point.serieId]}</td>
+                                <td style={{ fontWeight: 'bold' }}>{data.otherValues[d.point.data.x - 2] ? data.otherValues[d.point.data.x - 2][d.point.serieId] : 'MD'}</td>
                             </tr>
                             <tr>
                                 <td className="average">{intl.formatMessage({
