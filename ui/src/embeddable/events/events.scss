@@ -56,7 +56,7 @@
       bottom: auto;
       color: #ffffff;
       font-size: 14px;
-      left: $base-unit * 22.5;
+      left: 56%;
       padding: $base-unit + 2 $base-unit * 2;
       position: absolute;
       top: 200px;
@@ -159,17 +159,12 @@
 // Event slide items
 .event-item{
 	background-color: #ffffff;
+  overflow: hidden;
 	padding-right: $base-unit * 2;
 	h3{
 		font-weight: 900;
 		margin-top: $base-unit;
 	}
-  .wp-block-column.event-thumbnail{
-    width: 200px;
-    @media (min-width: 782px){
-      flex-basis: 200px;
-    }
-  }
 	img{
 		margin-bottom: -5px;
 	}
