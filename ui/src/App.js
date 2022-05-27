@@ -8,7 +8,8 @@ import messages_fr from "./translations/fr.json";
 import { updateIntl } from 'react-intl-redux'
 import { injectIntl, IntlProvider } from "react-intl";
 import smoothscroll from 'smoothscroll-polyfill';
-import ResponsiveContainer from './layout'
+import ResponsiveContainer from './layout';
+import MobileMessage from './layout/MobileMessage'
 import { getComponentByNameIgnoreCase } from "./embeddable/index";
 import {
     AppContextProvider,
@@ -128,6 +129,7 @@ class IntlRoutes extends Component {
                                         >
                                             <div className="dashboard-wrapper">
                                                 <ResponsiveContainer>
+                                                <MobileMessage/>
                                                     <PageConsumer>
                                                         <Page />
                                                     </PageConsumer>

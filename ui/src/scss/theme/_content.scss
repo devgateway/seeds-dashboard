@@ -42,7 +42,6 @@
 }
 
 p{
-	text-align: justify;
   &.has-text-color{
     a{
       color: $link-color-default;
@@ -320,7 +319,9 @@ p:empty {
       }
     }
   }
-	
+	p{
+		text-align: left;
+	}
 }
 
 // News section
@@ -1130,5 +1131,21 @@ p:empty {
 	p{
 		font-size: 16px;
 		margin: 0;
+	}
+}
+
+
+.mobile-message{
+	@include border-radius(5px);
+	background-color: $yellow;
+	color: $text-color;
+	display: none;
+	left: 20%;
+	padding: $base-unit + 5;
+	position: absolute;
+	top: 250px;
+	width: 60%;
+	@media (max-width: 600px){
+		display: block;
 	}
 }
