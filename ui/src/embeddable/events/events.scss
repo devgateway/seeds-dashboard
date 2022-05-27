@@ -186,3 +186,8 @@
   height: 600px;
   overflow: auto;
 }
+
+.atcb_bgoverlay.atcb_click{
+	cursor: none !important;
+	pointer-events: none;
+}
