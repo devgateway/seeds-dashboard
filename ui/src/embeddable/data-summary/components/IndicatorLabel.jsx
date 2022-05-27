@@ -31,7 +31,7 @@ const IndicatorLabel = ({ field, className, range, displayType, intl, selectedCo
                                 configuration.numberFormat)}</div>}
                             className="indicator-popup"
                             position="right center">
-                            <Legend val={r.legend} color={r.color} />
+                            <Legend val={r.legend} />
                         </Popup>}
                         {!r &&
                             <div
@@ -87,7 +87,7 @@ const formatValue = (value, displayType, intl, formatConfiguration) => {
 const Legend = ({ val, color }) => {
     const regexText = /[a-zA-Z\s]+/g;
     const number = /\(([^)]+)\)/g;
-    return (<><span style={{
+    return (<><span className="tooltip-label" style={{
             color,
             fontWeight: 'bold'
         }}>{val.match(regexText)}</span><span><span style={{ color: 'grey' }}>{val.match(number)}</span></span>&nbsp;</>

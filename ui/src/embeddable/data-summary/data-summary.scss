@@ -4,12 +4,13 @@
   &:before {
     content: none;
   }
-
   font-size: 14px;
   border-radius: 0;
   background-color: #f9fff8;
   border: 1px solid #82b55c;
-
+  .tooltip-label{
+    color: $text-color;
+  }
 }
 
 .ui.container.fluid .desktop {
