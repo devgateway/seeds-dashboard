@@ -320,7 +320,7 @@ p:empty {
       }
     }
   }
-	
+
 }
 
 // News section
@@ -336,7 +336,9 @@ p:empty {
       font-size: 0.8rem;
 			margin-bottom: $base-unit + 5;
     }
-
+		.wp-block-post-excerpt__more-text{
+			text-align: center;
+		}
     h3{
       margin-bottom: $base-unit;
       a{
