@@ -316,7 +316,7 @@ const Chart = (props) => {
         [AVAILABILITY_SEED_SMALL_PACKAGES]: 725,
         [PRICE_SEED_PLANTING]: 695
     };
-    const fixedHeightStyle = { height: (fixedHeight[type] ? fixedHeight[type] : 900) + 'px' };
+    const fixedHeightStyle = { height: (fixedHeight[type] ? fixedHeight[type] : 550) + 'px' };
 
     // This is necessary for charts that become very long in small resolutions like HHI.
     const styleHeight = window.innerWidth <= 1024 ? {} : { height: contentHeight + 'px' };
