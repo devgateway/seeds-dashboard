@@ -4,13 +4,10 @@
   @include border-radius(5px);
   background-color: $yellow;
   color: $text-color;
-  display: none;
+  display: block;
   left: 20%;
   padding: $base-unit + 5;
   position: absolute;
   top: 220px;
   width: 60%;
-  @media (max-width: 600px){
-    display: block;
-  }
 }
