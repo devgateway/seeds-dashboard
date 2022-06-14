@@ -3,7 +3,8 @@ import {
   Panel,
   PanelBody,
   PanelRow,
-  TextControl
+  TextControl,
+  RangeControl,
 } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { BaseBlockEdit } from '../commons/index'
