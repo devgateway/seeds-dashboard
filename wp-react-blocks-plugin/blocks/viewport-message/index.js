@@ -4,7 +4,7 @@ import BlockSave from "./BlockSave";
 import BlockEdit from "./BlockEdit";
 import Generic from "../icons";
 
-registerBlockType(process.env.BLOCKS_NS + '/viewportMessage',
+registerBlockType(process.env.BLOCKS_NS + '/viewport-message',
   {
     title: __('Viewport Message'),
     icon: Generic,
