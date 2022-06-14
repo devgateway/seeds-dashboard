@@ -11,14 +11,14 @@ const SaveComponent = (props) => {
   } = props;
 
   const blockProps = useBlockProps.save({
-    className: 'wp-react-lib component viewport-message'
+    className: 'wp-react-lib component viewportMessage'
   });
 
   const divClass = {}
   const divStyles = {}
   return (
     <div className={"wp-react-lib-component"}
-         data-component={"viewport-message"}
+         data-component={"viewportMessage"}
          data-viewport-message={viewportMessage}
          data-viewport-width={viewportWidth}
          data-viewport-height={viewportHeight}
