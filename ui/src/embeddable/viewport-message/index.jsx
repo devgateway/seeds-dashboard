@@ -8,7 +8,7 @@ const ViewportMessage = ({
                   'data-viewport-height': viewportHeight,
                   'data-viewport-width': viewportWidth
                 }) => {
-    if (window.innerWidth < viewportWidth || window.innerHeight < viewportHeight) {
+    if (window.innerWidth < parseInt(viewportWidth) || window.innerHeight < parseInt(viewportHeight)) {
         return (<Container>
                 <div className="mobile-message">{viewportMessage}</div>
             </Container>)
