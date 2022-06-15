@@ -60,11 +60,12 @@ const CountryInfo = ({ data, intl, labels }) => {
 
     let enablingBusinessAgricultureRank = "Enabling the Business of Agriculture Rank (" + data.year + "): ";
     enablingBusinessAgricultureRank += (getValue(data.easeAgricultureRank) !== 'N/A' 
-        ? getValue(data.easeAgricultureRank) + " out of 101 countries" : "N/A");
-
+        ? "<span class='data'>"+ getValue(data.easeAgricultureRank) + "</span>" + " out of 101 countries" 
+        : "<span class='data'>N/A</span>");
     let enablingBusinessAgricultureScore = "Enabling the Business of Agriculture Topic Score (" + data.year + "): ";
     enablingBusinessAgricultureScore += (getValue(data.easeAgricultureScore) !== 'N/A'
-        ? getValue(data.easeAgricultureScore) + " out of 100" : "N/A");
+        ? "<span class='data'>" + getValue(data.easeAgricultureScore) + "</span>" + " out of 100" 
+        : "<span class='data'>N/A</span>");
     
     return (
         <Grid className={`country-info`}>
@@ -134,8 +135,8 @@ const CountryInfo = ({ data, intl, labels }) => {
                     {data.business && <div className="label">Ease of Doing Business Rank (2020) :
                         <span className="data"> {data.business ? data.business.value : NA}</span> of 100
                     </div>}
-                    <div className="label">{enablingBusinessAgricultureScore}</div>
-                    <div className="label">{enablingBusinessAgricultureRank}</div>
+                    <div className="label" dangerouslySetInnerHTML={{__html: enablingBusinessAgricultureScore}}/>
+                    <div className="label" dangerouslySetInnerHTML={{__html: enablingBusinessAgricultureRank}}/>
                 </Grid.Column>
             </Grid.Row>
         </Grid>
