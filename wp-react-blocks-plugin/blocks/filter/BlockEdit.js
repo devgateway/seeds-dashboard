@@ -11,6 +11,9 @@ import {
 import { __ } from '@wordpress/i18n';
 import { BaseBlockEdit } from '../commons/index'
 
+export const COUNTRY = 'Country';
+const CAROUSEL = 'Carousel';
+
 class BlockEdit extends BaseBlockEdit {
 
     render() {
@@ -18,7 +21,7 @@ class BlockEdit extends BaseBlockEdit {
             className, isSelected,
             toggleSelection, setAttributes, attributes: {
                 type, selectedCountryFirst, addYear, selectedCountryLabel, countryColumns,
-                dataSource, additionalClasses, showSelector,selectedCountryPostLabel
+                dataSource, additionalClasses, showSelector, selectedCountryPostLabel, addAllCountries
             }
         } = this.props;
 
@@ -31,6 +34,9 @@ class BlockEdit extends BaseBlockEdit {
         queryString += `&data-data-source=${dataSource}`;
         queryString += `&data-additional-classes=${additionalClasses}`;
         queryString += `&data-show-selector=${showSelector}`;
+        if (type === COUNTRY) {
+            queryString += `&data-add-all-countries=${addAllCountries}`;
+        }
 
         queryString += `&editing=true`
         const divStyles = {}
@@ -45,11 +51,17 @@ class BlockEdit extends BaseBlockEdit {
                                     setAttributes({ type: value })
                                 }}
                                 options={[
-                                    { label: 'Country', value: 'Country' },
-                                    { label: 'Carousel', value: 'Carousel' }
+                                    { label: COUNTRY, value: COUNTRY },
+                                    { label: CAROUSEL, value: CAROUSEL }
                                 ]}
                             />
                         </PanelRow>
+                        {type === COUNTRY && <PanelRow>
+                            <CheckboxControl
+                                label={__('Add all countries')}
+                                checked={addAllCountries}
+                                onChange={() => setAttributes({ addAllCountries: !addAllCountries })} />
+                        </PanelRow>}
                         <PanelRow>
                             <SelectControl
                                 label={__('DataSource:')}

@@ -39,15 +39,26 @@ export const lightenDarkenColor = (col, amt) => {
     return (usePound ? "#" : "") + (g | (b << 8) | (r << 16)).toString(16);
 
 }
+export const normalizeField = (f) => {
+    return f.replace(/\s+/g, '-').toLowerCase();
+}
 export const getSlugFromFilters = (filters, filtersData, valuesFilterStore, selectedFilterStore) => {
-    let slug;
+    const slug = [];
     if (filters && filtersData) {
         //TODO add object id (countryId) as parameter
-        if (valuesFilterStore && filtersData.get(valuesFilterStore) && selectedFilterStore && filters.get(selectedFilterStore)) {
-            const filterSelected = filtersData.get(valuesFilterStore).find(fd => fd.countryId === filters.get(selectedFilterStore));
-            if (filterSelected) {
-                //TODO add object value (country) as parameter
-                slug = filterSelected.country.replace(/\s+/g, '-').toLowerCase();
+        if (valuesFilterStore && filtersData.get(valuesFilterStore)
+            && selectedFilterStore && filters.get(selectedFilterStore)) {
+            if (filters.get(selectedFilterStore) === -1) {
+                return filtersData.get(valuesFilterStore)
+                    .filter(c => c.countryId !== filters.get(selectedFilterStore))
+                    .map(c => normalizeField(c.country));
+            } else {
+                const filterSelected = filtersData.get(valuesFilterStore)
+                    .find(fd => fd.countryId === filters.get(selectedFilterStore));
+                if (filterSelected) {
+                    //TODO add object value (country) as parameter
+                    slug.push(normalizeField(filterSelected.country));
+                }
             }
         }
     }

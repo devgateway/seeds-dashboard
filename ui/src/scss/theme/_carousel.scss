@@ -39,9 +39,11 @@
   .carousel__dot--selected {
   }
 }
-.carousel__dot-group ,.paged-dots-container{
+
+.carousel__dot-group, .paged-dots-container {
   margin: 0px auto auto;
   text-align: center;
+
   .carousel__dot {
     pointer-events: all !important;
     background-color: $text-color;
@@ -86,31 +88,39 @@
     padding: $base-unit + 2 $base-unit * 2;
     position: absolute;
     top: $base-unit * 20;
-    &:hover{
+
+    &:hover {
       background-color: $link-green;
     }
-    @media only screen and (max-width: 1024px){
+
+    @media only screen and (max-width: 1024px) {
       left: 0;
     }
   }
-  .carousel__inner-slide{
+
+  .carousel__inner-slide {
     padding: $base-unit * 3;
-    @media only screen and (max-width: 1024px){
+    @media only screen and (max-width: 1024px) {
       background-color: #ffffff;
     }
   }
-  .event-wrapper{
+
+  .event-wrapper {
     background-color: #ffffff;
   }
-  .event-details{
+
+  .event-details {
     padding: 5px 30px;
   }
+
   h3 {
     font-size: 1rem !important;
     font-weight: 900;
     margin-top: 20px !important;
+
     a {
       color: $text-color;
+
       &:hover {
         color: $green-link;
       }
@@ -140,8 +150,8 @@
       padding-bottom: $base-unit;
       padding-top: $base-unit;
 
-      i.icon.chevron.right{
-        &:before{
+      i.icon.chevron.right {
+        &:before {
           margin-right: -5px;
         }
       }
@@ -158,49 +168,65 @@
 }
 
 // Researchers vertical carousel - no dots, auto height on carousel and slides
-.vertical{
+.vertical {
+
+  /* TODO this is the proper fix to show in two columns if configured to if we change the style if the li to 50% (the computed style)
+      or if we use normal ul-li instead of carousel (might make no sense to use the carousel if we are not showing the navigator)
+      SEEDSDT-839
+  .two-columns {
+    ul li {
+      width: 50%;
+      float: right;
+    }
+  }*/
+
   // Vertical Carousel without dots
-  .post.carousel{
+  .post.carousel {
     height: auto !important;
   }
-  &.no-navigation{
-    .carousel__dot-group{
+
+  &.no-navigation {
+    .carousel__dot-group {
       display: none;
     }
   }
-  &.has-separator{
-    .carousel__slider--vertical{
-      li{
+
+  &.has-separator {
+    .carousel__slider--vertical {
+      li {
         border-bottom: 1px solid $separator-grey;
         padding-bottom: $base-unit * 3.5;
       }
     }
   }
 
-  .carousel__slider--vertical{
-    li{
+  .carousel__slider--vertical {
+    li {
       display: block;
       margin-bottom: $base-unit * 3;
       min-height: auto;
       height: auto;
       overflow: hidden;
     }
-    .carousel__slider-tray-wrap--vertical{
-      min-height: $extend!important;
+
+    .carousel__slider-tray-wrap--vertical {
+      min-height: $extend !important;
       height: $extend !important;
       position: relative;
       overflow: hidden;
     }
-    .carousel__inner-slide{
+
+    .carousel__inner-slide {
       position: relative;
     }
   }
 
   // Events grid
-  &.events-feed{
-    .carousel__slider--vertical{
+  &.events-feed {
+    .carousel__slider--vertical {
       padding-left: $base-unit + 2;
-      li{
+
+      li {
         float: left;
         height: $base-unit * 30;
         padding: 5px;
@@ -211,10 +237,11 @@
   }
 
   // Press grid
-  &.press-feed{
-    .carousel__slider--vertical{
+  &.press-feed {
+    .carousel__slider--vertical {
       padding-left: $base-unit + 2;
-      li{
+
+      li {
         float: left;
         height: $base-unit * 40;
         padding: $base-unit;
@@ -227,14 +254,15 @@
 }
 
 // Carousel without read more
-.no-read-more{
-  .carousel{
-    .link{
+.no-read-more {
+  .carousel {
+    .link {
       display: none;
     }
   }
 }
+
 // remove carousel slide outline
 .focusRing___1airF.carousel__slide-focus-ring {
-    outline: none !important;
+  outline: none !important;
 }
