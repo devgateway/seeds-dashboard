@@ -26,7 +26,6 @@ const innerPage = ({
     let slug;
     if (!isEditing) {
         const slugArray = getSlugFromFilters(filters, filtersData, valuesFilterStore, selectedFilterStore);
-        debugger;
         if (slugArray && slugArray.length) {
             slug = slugPrefix + slugArray[0];
         }
