@@ -3,8 +3,9 @@
 .country-info {
   color: $text-color;
   font-size: 18px;
-  height: 100%;
-  min-height: 650px;
+  // height: 100%;
+  min-height: 550px;
+  overflow: hidden;
 
   &.ui.grid {
     margin: 0;
@@ -23,7 +24,6 @@
       clear: both;
       height: $base-unit * 2;
       width: $extend;
-      border:1px dotted pink;
       flex: none;
     }
     &.totals {

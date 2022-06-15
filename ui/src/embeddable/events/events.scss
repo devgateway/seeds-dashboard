@@ -56,7 +56,7 @@
       bottom: auto;
       color: #ffffff;
       font-size: 14px;
-      left: $base-unit * 22.5;
+      left: 56%;
       padding: $base-unit + 2 $base-unit * 2;
       position: absolute;
       top: 200px;
@@ -75,7 +75,13 @@
         display: block;
         float: left;
         margin-left: -5px;
-        width: $extend !important;
+        width: $extend;
+        &.event-hostedby{
+          padding: 0 0 5px 5px;
+        }
+        .host-value{
+          color: #000000;
+        }
         .label{
           font-size: 0.75rem;
         }
@@ -159,17 +165,28 @@
 // Event slide items
 .event-item{
 	background-color: #ffffff;
+  overflow: hidden;
 	padding-right: $base-unit * 2;
+
+  .ui.grid>.column{
+    &.event-hostedby{
+      margin-left: 5px;
+      padding: 0 0 5px 0;
+    }
+  }
+
+  .icon.linkify{
+    font-size: 17px;
+    margin-left: 6px;
+  }
+  .label.hostedby{
+    color: #555555;
+    font-size: 0.75rem;
+  }
 	h3{
 		font-weight: 900;
 		margin-top: $base-unit;
 	}
-  .wp-block-column.event-thumbnail{
-    width: 200px;
-    @media (min-width: 782px){
-      flex-basis: 200px;
-    }
-  }
 	img{
 		margin-bottom: -5px;
 	}
@@ -188,6 +205,23 @@
 }
 
 .modal_iframe {
-  height: 600px;
+  height: 450px;
   overflow: auto;
+}
+
+.atcb_bgoverlay.atcb_click{
+	cursor: none !important;
+	pointer-events: none;
+}
+
+// Flickr section
+.flickr{
+  .wp-block-columns:not(.is-not-stacked-on-mobile)>.wp-block-column:not(:first-child){
+    margin-left: 0;
+  }
+  a{
+    color: #5ca4c2;
+    display: inline-block;
+    margin-top: 6px;
+  }
 }
