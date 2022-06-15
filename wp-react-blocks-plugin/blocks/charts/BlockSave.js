@@ -25,8 +25,6 @@ const SaveComponent = (props) => {
             topHarvestedCropsAndValue,
             topHarvestedCropsAndValueUnit,
             populationVsFarmingHouseholds,
-            easeOfDoingBusinessAgriculture,
-            easeOfDoingBusinessAgricultureOf,
             totalPopulationLabel,
             farmingHouseholdsLabel
         }
@@ -60,8 +58,6 @@ const SaveComponent = (props) => {
              data-top-harvested-crops-and-value={topHarvestedCropsAndValue}
              data-top-harvested-crops-and-value-unit={topHarvestedCropsAndValueUnit}
              data-population-vs-farming-households={populationVsFarmingHouseholds}
-             data-ease-of-doing-business-agriculture={easeOfDoingBusinessAgriculture}
-             data-ease-of-doing-business-agriculture-of={easeOfDoingBusinessAgricultureOf}
              data-total-population-label={totalPopulationLabel}
              data-farming-households-label={farmingHouseholdsLabel}
 

@@ -96,14 +96,6 @@ registerBlockType(process.env.BLOCKS_NS + '/chart',
                 type: "string",
                 default: "Population vs Farming Households"
             },
-            easeOfDoingBusinessAgriculture: {
-                type: "string",
-                default: "Enabling the Business of Agriculture (2019) : "
-            },
-            easeOfDoingBusinessAgricultureOf: {
-                type: "string",
-                default: "of 100"
-            },
             totalPopulationLabel: {
                 type: "string",
                 default: "Total Population"

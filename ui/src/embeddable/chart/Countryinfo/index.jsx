@@ -57,6 +57,15 @@ const CountryInfo = ({ data, intl, labels }) => {
         }
         return aOrderedCrops;
     }
+
+    let enablingBusinessAgricultureRank = "Enabling the Business of Agriculture Rank (" + data.year + "): ";
+    enablingBusinessAgricultureRank += (getValue(data.easeAgricultureRank) !== 'N/A' 
+        ? getValue(data.easeAgricultureRank) + " out of 101 countries" : "N/A");
+
+    let enablingBusinessAgricultureScore = "Enabling the Business of Agriculture Topic Score (" + data.year + "): ";
+    enablingBusinessAgricultureScore += (getValue(data.easeAgricultureScore) !== 'N/A'
+        ? getValue(data.easeAgricultureScore) + " out of 100" : "N/A");
+    
     return (
         <Grid className={`country-info`}>
             <Grid.Row className={`section totals`}>
@@ -125,10 +134,8 @@ const CountryInfo = ({ data, intl, labels }) => {
                     {data.business && <div className="label">Ease of Doing Business Rank (2020) :
                         <span className="data"> {data.business ? data.business.value : NA}</span> of 100
                     </div>}
-                    <div className="label">{labels.easeOfDoingBusinessAgriculture}
-                        <span
-                            className="data"> {data.easeAgriculture ? data.easeAgriculture.value : NA}</span> {labels.easeOfDoingBusinessAgricultureOf}
-                    </div>
+                    <div className="label">{enablingBusinessAgricultureScore}</div>
+                    <div className="label">{enablingBusinessAgricultureRank}</div>
                 </Grid.Column>
             </Grid.Row>
         </Grid>
