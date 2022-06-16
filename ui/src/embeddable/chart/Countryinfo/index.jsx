@@ -57,6 +57,16 @@ const CountryInfo = ({ data, intl, labels }) => {
         }
         return aOrderedCrops;
     }
+
+    let enablingBusinessAgricultureRank = "Enabling the Business of Agriculture Rank (" + data.year + "): ";
+    enablingBusinessAgricultureRank += (getValue(data.easeAgricultureRank) !== 'N/A' 
+        ? "<span class='data'>"+ getValue(data.easeAgricultureRank) + "</span>" + " out of 101 countries" 
+        : "<span class='data'>N/A</span>");
+    let enablingBusinessAgricultureScore = "Enabling the Business of Agriculture Topic Score (" + data.year + "): ";
+    enablingBusinessAgricultureScore += (getValue(data.easeAgricultureScore) !== 'N/A'
+        ? "<span class='data'>" + getValue(data.easeAgricultureScore) + "</span>" + " out of 100" 
+        : "<span class='data'>N/A</span>");
+    
     return (
         <Grid className={`country-info`}>
             <Grid.Row className={`section totals`}>
@@ -125,10 +135,8 @@ const CountryInfo = ({ data, intl, labels }) => {
                     {data.business && <div className="label">Ease of Doing Business Rank (2020) :
                         <span className="data"> {data.business ? data.business.value : NA}</span> of 100
                     </div>}
-                    <div className="label">{labels.easeOfDoingBusinessAgriculture}
-                        <span
-                            className="data"> {data.easeAgriculture ? data.easeAgriculture.value : NA}</span> {labels.easeOfDoingBusinessAgricultureOf}
-                    </div>
+                    <div className="label" dangerouslySetInnerHTML={{__html: enablingBusinessAgricultureScore}}/>
+                    <div className="label" dangerouslySetInnerHTML={{__html: enablingBusinessAgricultureRank}}/>
                 </Grid.Column>
             </Grid.Row>
         </Grid>
