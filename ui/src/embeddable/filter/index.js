@@ -10,7 +10,9 @@ import { COUNTRIES_FILTER, COUNTRY_SETTINGS, SHARE_COUNTRY } from "../reducers/S
 import CountryFilter from "./CountryFilter";
 import { SELECTED_COUNTRY } from "../../seeds-commons/commonConstants";
 import CountrySelector from "../../seeds-commons/countrySelector/CountrySelector";
+import { injectIntl } from "react-intl";
 
+const ALL_COUNTRIES_ID = -1;
 const Filter = ({
                     onApply, countries, onLoadCountries, country_settings, filters,
                     "data-type": dataType,
@@ -22,13 +24,23 @@ const Filter = ({
                     "data-additional-classes": additionalClasses,
                     "data-data-source": dataSource = "latestCountryStudies",
                     "data-show-selector": showSelector = "true",
-                    setIsFilterOpen,
+                    "data-add-all-countries": addAllCountries = "false",
+                    setIsFilterOpen, intl
                 }) => {
+    const isAddAllCountries = addAllCountries === 'true';
     useEffect(() => {
         onLoadCountries(dataSource)
     }, []);
 
     useEffect(() => {
+        if (isAddAllCountries && countries) {
+            countries.unshift({
+                country: intl.formatMessage({ id: 'all-countries', defaultMessage: 'all countries' }),
+                countryId: ALL_COUNTRIES_ID,
+                isoCode: "AA",
+                year: 2020
+            });
+        }
         if (getFirstSelectedCountry()) {
             onApply(SELECTED_COUNTRY, getFirstSelectedCountry());
         }
@@ -41,16 +53,20 @@ const Filter = ({
             firstSelectedCountry = parseInt(filters.get(SHARE_COUNTRY));
         } else {
             if (countries) {
-                const defaultCountry = countries.find(c => c.isoCode === process.env.REACT_APP_DEFAULT_COUNTRY);
-                if (defaultCountry) {
-                    firstSelectedCountry = defaultCountry.countryId;
+                if (addAllCountries) {
+                    return  ALL_COUNTRIES_ID;
                 } else {
-                    firstSelectedCountry = countries[0].countryId;
-                }
-                if (pNavigationCountry) {
-                    const tempFirstSelectedCountry = countries.find(c => c.isoCode === pNavigationCountry);
-                    if (tempFirstSelectedCountry) {
-                        firstSelectedCountry = tempFirstSelectedCountry.countryId;
+                    const defaultCountry = countries.find(c => c.isoCode === process.env.REACT_APP_DEFAULT_COUNTRY);
+                    if (defaultCountry) {
+                        firstSelectedCountry = defaultCountry.countryId;
+                    } else {
+                        firstSelectedCountry = countries[0].countryId;
+                    }
+                    if (pNavigationCountry) {
+                        const tempFirstSelectedCountry = countries.find(c => c.isoCode === pNavigationCountry);
+                        if (tempFirstSelectedCountry) {
+                            firstSelectedCountry = tempFirstSelectedCountry.countryId;
+                        }
                     }
                 }
             }
@@ -71,8 +87,8 @@ const Filter = ({
                                           selectedCountryFirst={isSelectedCountryFirst} addYear={isAddYear}
                                           selectedCountryLabel={selectedCountryLabel} countryColumns={countryColumns}
                                           isShowSelector={isShowSelector}
-                                          selectedCountryPostLabel={selectedCountryPostLabel} 
-                                          setIsFilterOpen={setIsFilterOpen} />
+                                          selectedCountryPostLabel={selectedCountryPostLabel}
+                                          setIsFilterOpen={setIsFilterOpen} isAddAllCountries={isAddAllCountries} />
 
         classes = "country-selector " + (additionalClasses ? additionalClasses : '');
     }
@@ -92,4 +108,4 @@ const mapActionCreators = {
     onApply: setFilter,
     onLoadCountries: getCountries
 };
-export default connect(mapStateToProps, mapActionCreators)(Filter)
+export default connect(mapStateToProps, mapActionCreators)(injectIntl(Filter))

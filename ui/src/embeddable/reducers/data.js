@@ -84,7 +84,7 @@ export const getCountries = (dataSource) => (dispatch, getState) => {
     })
 }
 
-export const getDocuments = ({ params }) => (dispatch, getState) => {
+export const getDocuments = ( params ) => (dispatch, getState) => {
     const store = params.categories;
     dispatch({
         type: LOAD_DOCUMENTS,
@@ -109,7 +109,7 @@ export const getCrops = ({ params }) => (dispatch, getState) => {
     dispatch({
         type: LOAD_CROPS,
     })
-    api.getCropsData(params.country, params.year).then(data => {
+    api.getCropsData(params).then(data => {
         dispatch({
             type: LOAD_CROPS_DONE,
             data
@@ -139,13 +139,14 @@ export const getImages = () => (dispatch, getState) => {
     })
 }
 
-export const getWpCategories = () => (dispatch, getState) => {
+export const getWpCategories = (storePrefix = '') => (dispatch, getState) => {
     dispatch({
         type: LOAD_WP_CATEGORIES
     });
     api.getCategoriesWP().then(data => {
         dispatch({
             type: LOAD_WP_CATEGORIES_DONE,
+            storePrefix: storePrefix,
             data: data
         })
     }).catch(error => {
@@ -306,8 +307,8 @@ const reducer = (state = initialState, action) => {
         case LOAD_WP_CATEGORIES:
             return state
         case LOAD_WP_CATEGORIES_DONE: {
-            const { data } = action
-            return state.setIn([WP_CATEGORIES], data)
+            const { data, storePrefix } = action
+            return state.setIn([`${WP_CATEGORIES}${storePrefix}`], data)
         }
         case LOAD_WP_CATEGORIES_ERROR:
             return state

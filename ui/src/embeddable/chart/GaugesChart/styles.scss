@@ -4,8 +4,7 @@
 
   &.ui.grid {
     color: #626262;
-    margin: 0;
-    width: $extend;
+    margin-top: 0;
 
     .row {
       .no-data {
@@ -237,4 +236,8 @@
   width: 15px;
   margin-right: 8px;
   border-radius: 2px;
+}
+
+.row.legends {
+  height: 70px !important;
 }

@@ -14,7 +14,7 @@ const CountryFilter = ({ countries, onApply, filters, addYear, countryColumns, i
         let length = 0;
         if (countries) {
             length = countries.length;
-            if (filters && filters.get(SELECTED_COUNTRY)) {
+            if (filters && filters.get(SELECTED_COUNTRY) && filters.get(SELECTED_COUNTRY).length > 0) {
                 length = length - 1;
             }
         }
@@ -23,8 +23,8 @@ const CountryFilter = ({ countries, onApply, filters, addYear, countryColumns, i
     return <Grid className="country-filter-container">
         <Grid.Column width={7}>
             <CountrySelector countries={countries} onApply={onApply} filters={filters} addYear={addYear}
-                             countryColumns={countryColumns} isShowSelector={isShowSelector} 
-                             setIsFilterOpen={setIsFilterOpen}/>
+                             countryColumns={countryColumns} isShowSelector={isShowSelector}
+                             setIsFilterOpen={setIsFilterOpen} />
         </Grid.Column>
         <Grid.Column width={9}>
             <Container fluid={true} className={"country-carousel"}>
@@ -35,8 +35,10 @@ const CountryFilter = ({ countries, onApply, filters, addYear, countryColumns, i
                     visibleSlides={ADDITIONAL_COUNTRIES}
                     step={3}
                 >
-                    <CountryCarousel selectedCountry={filters ? filters.get(SELECTED_COUNTRY) : null}
-                                     countries={countries} setVisibleCountries={onApply}
+                    <CountryCarousel
+                        selectedCountry={filters && filters.get(SELECTED_COUNTRY)
+                        && filters.get(SELECTED_COUNTRY).length > 0 ? filters.get(SELECTED_COUNTRY)[0] : null}
+                        countries={countries} setVisibleCountries={onApply}
                     />
                 </CarouselProvider></Container>
         </Grid.Column>

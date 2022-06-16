@@ -159,5 +159,6 @@
   "select-country": "Select another country",
   "tooltip-varieties-released": "Varieties released",
   "tooltip-average": "Average",
-  "tooltip-price-usd-by-kg": "Average price per kg:"
+  "tooltip-price-usd-by-kg": "Average price per kg:",
+  "all-countries":"All countries"
 }
