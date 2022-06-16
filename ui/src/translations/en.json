@@ -102,7 +102,6 @@
   "tooltip-year": "Year",
   "tooltip-market-share-state-owned": "Market share of state owned companies",
   "tooltip-quantity-certified-seed-sold": "Quantity of certified seed sold",
-  "tooltip-price-usd-by-kg": "(usd/kg) of variety and year",
   "number-seed-inspectors-legend": "Number of seed inspectors",
   "rating-legend": "Rating out of 100 (%)",
   "number-days-import-legend": "Number of days for import",
@@ -159,5 +158,6 @@
   "no-data-reported-export": "No reported exports",
   "select-country": "Select another country",
   "tooltip-varieties-released": "Varieties released",
-  "tooltip-average": "Average"
+  "tooltip-average": "Average",
+  "tooltip-price-usd-by-kg": "Average price per kg:"
 }
