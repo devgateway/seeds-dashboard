@@ -10,7 +10,7 @@ export const Carousel = ({
                              itemsPerPage,
                              messages,
                              orientation,
-                             navigatorStyle=DOTS,
+                             navigatorStyle = DOTS,
                              locale,
                              type,
                              showLinksInModal,
@@ -19,20 +19,25 @@ export const Carousel = ({
                              isSortedByCountryAndYearCategories
                          }) => {
     let filteredAndOrderedPosts = posts;
+
     if (categories && isSortedByCountryAndYearCategories) {
-        posts.forEach(p => {
-            p.categoriesHydrated = {};
-            p.categories.forEach(c => {
-                const category = categories.find(cwp => cwp.id === c);
-                if (category.parent === 114) {
-                    p.categoriesHydrated.year = parseInt(category.name);
-                } else {
-                    if (category.parent === 133) {
-                        p.categoriesHydrated.country = category.name;
+        const categoryYear = categories.find(cwp => cwp.slug === 'years');
+        const categoryCountry = categories.find(cwp => cwp.slug === 'countries');
+        if (categoryYear && categoryCountry) {
+            posts.forEach(p => {
+                p.categoriesHydrated = {};
+                p.categories.forEach(c => {
+                    const category = categories.find(cwp => cwp.id === c);
+                    if (category.parent === categoryYear.id) {
+                        p.categoriesHydrated.year = parseInt(category.name);
+                    } else {
+                        if (category.parent === categoryCountry.id) {
+                            p.categoriesHydrated.country = category.name;
+                        }
                     }
-                }
+                });
             });
-        });
+        }
         filteredAndOrderedPosts.sort((a, b) => (b.categoriesHydrated.year - a.categoriesHydrated.year || a.categoriesHydrated.country.localeCompare(b.categoriesHydrated.country)))
         /* TODO until SEEDSDT-839 is fixed
         if (isTwoColumns) {
