@@ -186,10 +186,13 @@ export const getDocumentsData = (params) => {
     return getAll(WP_DOCUMENTS_API);
 }
 
-export const getCropsData = (country, year) => {
+export const getCropsData = (params) => {
+
     let api = CROPS_BY_COUNTRY_YEAR_API;
     // TODO: re-enable filter by country+year after making the EP ignore cases.
-    /* if (country && year) {
+    /*
+    const { country, year } = params;
+    if (country && year) {
       api += country + '/' + year;
     } */
     return get(api, null);

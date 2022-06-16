@@ -1,4 +1,5 @@
 import { useBlockProps } from '@wordpress/block-editor';
+import { COUNTRY } from "./BlockEdit";
 
 const SaveComponent = (props) => {
 
@@ -12,7 +13,8 @@ const SaveComponent = (props) => {
             dataSource,
             additionalClasses,
             showSelector,
-            selectedCountryPostLabel
+            selectedCountryPostLabel,
+            addAllCountries
         }
     } = props;
     const blockProps = useBlockProps.save({
@@ -33,6 +35,12 @@ const SaveComponent = (props) => {
              data-additional-classes={additionalClasses}
              data-show-selector={showSelector}
              data-selected-country-post-label={selectedCountryPostLabel}
+
+             {...(
+                 type === COUNTRY ?
+                     { 'data-add-all-countries': addAllCountries } :
+                     {}
+             )}
         >
         </div>
 

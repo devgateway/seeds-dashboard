@@ -46,6 +46,10 @@ registerBlockType(process.env.BLOCKS_NS + '/filter',
             additionalClasses: {
                 type: "String",
                 default: ''
+            },
+            addAllCountries: {
+                type: "Boolean",
+                default: false
             }
         }
         ,

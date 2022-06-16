@@ -159,5 +159,6 @@
   "no-data-reported-export": "No reported exports",
   "select-country": "Select another country",
   "tooltip-varieties-released": "Varieties released",
-  "tooltip-average": "Average"
+  "tooltip-average": "Average",
+  "all-countries":"All countries"
 }

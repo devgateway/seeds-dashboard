@@ -11,7 +11,7 @@ const SaveComponent = (props) => {
         className: 'wp-react-lib component chart'
     });
 
-    return (<div className={"wp-react-lib-component"}
+    return (<div className={"wp-react-lib-component self-render-component"}
                  data-component={"countryReports"}
                  data-description={description}
                  data-country={country}
