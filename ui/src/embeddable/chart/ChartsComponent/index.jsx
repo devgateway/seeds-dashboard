@@ -518,11 +518,9 @@ const ChartComponent = ({
                 });
                 getTooltipText = (d) => {
                     return <>
-                        <span className="bold">{d.data[d.id]} </span>
                         <span>{intl.formatMessage({
                             id: 'tooltip-price-usd-by-kg',
-                            defaultMessage: '(usd/kg) of variety and year'
-                        })}</span>
+                        })}</span> <span className="bold">{d.data[d.id]}</span> <span className="normal">USD</span>
                     </>
                 }
                 getTooltipHeader = (d) => {
@@ -548,11 +546,11 @@ const ChartComponent = ({
                             </div>
                         </div>
                         <div className="amount-container">
-                            <span className="bold">{d.point.data.y !== FAKE_NUMBER ? d.point.data.y : 'MD'} </span>
                             <span className="normal">{intl.formatMessage({
-                                id: 'tooltip-price-usd-by-kg',
-                                defaultMessage: '(usd/kg) of variety and year'
-                            })}</span>
+                                id: 'tooltip-price-usd-by-kg'
+                            })}</span> {d.point.data.y !== FAKE_NUMBER 
+                                ? (<><span className="bold">{d.point.data.y} </span><span className="normal">USD</span></>) 
+                                : 'MD'}
                         </div>
                     </div>)
                 }
