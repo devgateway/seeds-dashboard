@@ -53,7 +53,7 @@ const Filter = ({
             firstSelectedCountry = parseInt(filters.get(SHARE_COUNTRY));
         } else {
             if (countries) {
-                if (addAllCountries) {
+                if (isAddAllCountries) {
                     return  ALL_COUNTRIES_ID;
                 } else {
                     const defaultCountry = countries.find(c => c.isoCode === process.env.REACT_APP_DEFAULT_COUNTRY);
