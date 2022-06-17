@@ -35,6 +35,10 @@ const Events = ({
     // Could not find a better way to detect if this is modal or not.
     const showFullContent = window.location.href.endsWith('/modal') || editing;
 
+    const openRegisterForm = (e) => {
+        window.open(externalFormURL, 'Event Registration Form', "_blank");
+    }
+
     if (!eventStartDate) {
         dateString = 'Please provide a valid start date';
     } else {
@@ -106,7 +110,7 @@ const Events = ({
             </form>
         </Grid.Column> : null}
         {showFullContent && externalFormURL ? (<Grid.Column width={16} className="external_form">
-            <iframe className="form_iframe" src={externalFormURL} height={externalFormHeight} width="100%"/>
+            <input type="button" value="Open Register Form" onClick={openRegisterForm}/>
         </Grid.Column>) : null}
     </Grid>);
 }
