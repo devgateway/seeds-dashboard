@@ -1,49 +1,55 @@
+import { FIELD_ORIENTATION_VERTICAL } from "./index";
+
 const SaveComponent = (props) => {
-  const {
-    setAttributes,
-    attributes: {
-      count,
-      height,
-      type,
-      taxonomy,
-      categories,
-      itemsPerPage,
-      valuesFilterStore,
-      selectedFilterStore,
-      scheduledFilter,
-      scheduledFilterStore,
-      connectFilter,
-      fieldOrientation,
-      navigatorStyle,
-      showLinksInModal
-    },
-  } = props;
+    const {
+        setAttributes,
+        attributes: {
+            count,
+            height,
+            type,
+            taxonomy,
+            categories,
+            itemsPerPage,
+            valuesFilterStore,
+            selectedFilterStore,
+            scheduledFilter,
+            scheduledFilterStore,
+            connectFilter,
+            fieldOrientation,
+            navigatorStyle,
+            showLinksInModal,
+            twoColumns,
+            sortedByCountryAndYearCategories,
+            preloadDocumentsAndCrops
+        },
+    } = props;
 
-  const divClass = {}
-  const divStyles = {}
+    const divClass = {}
+    const divStyles = {}
+    return (<div className={divClass} style={divStyles}>
+            <div data-items={count} data-type={type}
+                 data-items-per-page={itemsPerPage}
+                 data-taxonomy={taxonomy}
+                 data-values-filter-store={valuesFilterStore}
+                 data-selected-filter-store={selectedFilterStore}
+                 data-connect-filter={connectFilter}
+                 data-orientation={fieldOrientation}
+                 data-navigator-style={navigatorStyle}
+                 data-height={height}
+                 data-categories={categories.toString()}
+                 data-scheduled-filter={scheduledFilter}
+                 data-scheduled-filter-store={scheduledFilterStore}
+                 data-show-links-in-modal={showLinksInModal}
+                 data-show-sorted-by-country-and-year-categories={sortedByCountryAndYearCategories}
+                 data-show-two-columns={fieldOrientation === FIELD_ORIENTATION_VERTICAL ? twoColumns : false}
+                 data-preload-document-and-crops={preloadDocumentsAndCrops}
+                 className={"wp-react-lib-component"}
+                 data-component={"postsCarousel"}>
+            </div>
+        </div>
 
 
-  return (<div className={divClass} style={divStyles}>
-      <div data-items={count} data-type={type}
-           data-items-per-page={itemsPerPage}
-           data-taxonomy={taxonomy}
-           data-values-filter-store={valuesFilterStore}
-           data-selected-filter-store={selectedFilterStore}
-           data-connect-filter={connectFilter}
-           data-orientation={fieldOrientation}
-           data-navigator-style={navigatorStyle}
-           data-height={height}
-           data-categories={categories.toString()}
-           data-scheduled-filter={scheduledFilter}
-           data-scheduled-filter-store={scheduledFilterStore}
-           data-show-links-in-modal={showLinksInModal}
-           className={"wp-react-lib-component"}
-           data-component={"postsCarousel"}>
-      </div>
-    </div>
-
-
-  );
+    );
 }
 
 

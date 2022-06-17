@@ -3,11 +3,11 @@ import AvailabilityOfBasicSeedChart from "./AvailabilityOfBasicSeedChart";
 import { Grid } from "semantic-ui-react";
 import Export from "../common/export";
 import Source from "../common/source";
-
 import Heading from "../../data-summary/components/Heading";
 import { legends } from "./components/LegendConstant";
 import { AVAILABILITY_OF_BASIC_SEED, SATISFACTION_ENFORCEMENT_SEED_LAW } from "../../reducers/StoreConstants";
 import SatisfactionEnforcementSeedLawChart from "./SatisfactionEnforcementSeedLawChart";
+import './styles.scss';
 
 const GaugesChart = ({
                          data,

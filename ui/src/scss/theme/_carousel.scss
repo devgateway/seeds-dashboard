@@ -76,16 +76,19 @@
 
 // Events carousel
 .event-carousel {
+  .carousel__dot-group{
+    margin-top: 10px;
+  }
   .link {
     @include border-radius(5px);
     background-color: $yellow;
     bottom: auto;
     color: #ffffff;
     font-size: 14px;
-    left: $base-unit * 22.5;
+    left: 57%;
     padding: $base-unit + 2 $base-unit * 2;
     position: absolute;
-    top: $base-unit * 20;
+    top: $base-unit * 26;
     &:hover{
       background-color: $link-green;
     }
@@ -94,7 +97,7 @@
     }
   }
   .carousel__inner-slide{
-    padding: $base-unit * 3;
+    padding: $base-unit;
     @media only screen and (max-width: 1024px){
       background-color: #ffffff;
     }

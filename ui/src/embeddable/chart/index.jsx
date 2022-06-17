@@ -104,8 +104,6 @@ const Chart = (props) => {
         "data-top-harvested-crops-and-value": topHarvestedCropsAndValue = "Top Harvested Crops and Value",
         "data-top-harvested-crops-and-value-unit": topHarvestedCropsAndValueUnit = "hectares",
         "data-population-vs-farming-households": populationVsFarmingHouseholds = "Population vs Farming Households",
-        "data-ease-of-doing-business-agriculture": easeOfDoingBusinessAgriculture = "Enabling the Business of Agriculture (2019) :",
-        "data-ease-of-doing-business-agriculture-of": easeOfDoingBusinessAgricultureOf = "of 100",
         "data-total-population-label": totalPopulationLabel="Total Population",
         "data-farming-households-label": farmingHouseholdsLabel="Farming Households",
     } = props;
@@ -278,8 +276,6 @@ const Chart = (props) => {
                 topHarvestedCropsAndValue,
                 topHarvestedCropsAndValueUnit,
                 populationVsFarmingHouseholds,
-                easeOfDoingBusinessAgriculture,
-                easeOfDoingBusinessAgricultureOf,
                 totalPopulationLabel,
                 farmingHouseholdsLabel
             };
@@ -316,7 +312,7 @@ const Chart = (props) => {
         [AVAILABILITY_SEED_SMALL_PACKAGES]: 725,
         [PRICE_SEED_PLANTING]: 695
     };
-    const fixedHeightStyle = { height: (fixedHeight[type] ? fixedHeight[type] : 900) + 'px' };
+    const fixedHeightStyle = { height: (fixedHeight[type] ? fixedHeight[type] : 550) + 'px' };
 
     // This is necessary for charts that become very long in small resolutions like HHI.
     const styleHeight = window.innerWidth <= 1024 ? {} : { height: contentHeight + 'px' };

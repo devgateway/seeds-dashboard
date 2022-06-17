@@ -5,50 +5,12 @@ import React, { useEffect, useState } from "react";
 import { Container, Icon } from "semantic-ui-react";
 import { ButtonBack, ButtonNext, CarouselProvider, Dot, DotGroup, Slide, Slider } from "pure-react-carousel";
 import { connect } from "react-redux";
-import { getIndicatorsInformation, getWpCategories } from "../reducers/data";
+import { getCrops, getDocuments, getIndicatorsInformation, getWpCategories } from "../reducers/data";
 import { WP_CATEGORIES } from "../reducers/StoreConstants";
-import { BUTTONS, DOTS, PAGED_DOTS } from "./Constants";
 import { getSlugFromFilters } from "../utils/common";
+import { DOCUMENTS_PER_PAGE } from "../../seeds-commons/commonConstants";
+import { Carousel } from "./Carousel";
 
-const Carousel = ({ posts, itemsPerPage, messages, orientation, navigatorStyle, locale, type, showLinksInModal }) => {
-    let i = 0;
-    const isAddType = type !== undefined;
-    return (<CarouselProvider
-        visibleSlides={parseInt(itemsPerPage)}
-        totalSlides={posts.length}
-        orientation={orientation} className={navigatorStyle === BUTTONS ? "carousel-flex" : ''}
-    >
-
-        {navigatorStyle === BUTTONS && <div className="navigator">
-            <ButtonBack><Icon name="chevron left" /></ButtonBack>
-        </div>}
-        <div className={navigatorStyle === BUTTONS ? "carousel-container" : ''}>
-            <Slider dragEnabled={false}>
-                {posts.map(p => {
-                    return <Slide index={i++} key={p.id}>
-                        <PostIntro post={p} fluid showLink showLinksInModal={showLinksInModal}
-                                   messages={messages} locale={locale} isAddTypeToLink={isAddType} />
-                    </Slide>;
-                })}
-            </Slider>
-        </div>
-        {navigatorStyle === BUTTONS && <div className="navigator">
-            <ButtonNext><Icon name="chevron right" /></ButtonNext>
-        </div>}
-        {navigatorStyle === DOTS && <DotGroup />}
-        {navigatorStyle === PAGED_DOTS && <PagedDots posts={posts} itemsPerPage={itemsPerPage} />}
-
-    </CarouselProvider>)
-}
-const PagedDots = ({ posts, itemsPerPage }) => {
-    let firstItemOfPage = 0;
-    const dotArray = [];
-    while (firstItemOfPage < posts.length) {
-        dotArray.push(<Dot slide={firstItemOfPage}><span /></Dot>);
-        firstItemOfPage = firstItemOfPage + parseInt(itemsPerPage, 10)
-    }
-    return <div className="paged-dots-container">{dotArray}</div>;
-}
 const PostCarousel = ({
                           "data-type": type,
                           "data-taxonomy": taxonomy,
@@ -62,39 +24,68 @@ const PostCarousel = ({
                           "data-connect-filter": connectFilter,
                           "data-values-filter-store": valuesFilterStore,
                           "data-selected-filter-store": selectedFilterStore,
-                          "data-navigator-style": navigatorStyle = DOTS,
+                          "data-navigator-style": navigatorStyle,
                           "data-scheduled-filter": scheduledFilter,
                           "data-scheduled-filter-store": scheduledFilterStore = 'past',
                           "data-show-links-in-modal": showLinksInModal,
-                          filters, filtersData, categoriesWP, onLoadWPCategories
+                          "data-show-sorted-by-country-and-year-categories": sortedByCountryAndYearCategories = 'false',
+                          "data-show-two-columns": twoColumns = 'false',
+                          "data-preload-document-and-crops": preloadDocumentsAndCrops = 'false',
+                          filters, filtersData, categoriesWP, onLoadWPCategories,
+                          onLoadCrops, onLoadDocuments
                       }) => {
     const isConnectFilter = connectFilter === 'true';
-    const [random, setRandomStore] = useState(Math.random() * (99999 - 1) + 1);
+    const isTwoColumns = twoColumns === 'true';
+    const isSortedByCountryAndYearCategories = sortedByCountryAndYearCategories === 'true';
+    const isPreloadDocumentsAndCrops = preloadDocumentsAndCrops === 'true';
+    let orCategoriesArray = undefined;
     useEffect(() => {
+        if (isPreloadDocumentsAndCrops) {
+            onLoadCrops({});
+            const params = {};
+            params.per_page = DOCUMENTS_PER_PAGE;
+            onLoadDocuments({ params })
+        }
         if (isConnectFilter) {
             onLoadWPCategories();
         }
     }, [taxonomy, categories, onLoadWPCategories])
-    let categoryWP;
-    if (isConnectFilter) {
-        const slug = getSlugFromFilters(filters, filtersData, valuesFilterStore, selectedFilterStore);
-        if (categoriesWP) {
-            categoryWP = categoriesWP.find(cwp => cwp.slug === slug);
-            if (!categoryWP) {
+    if (isConnectFilter && categoriesWP) {
+        //orCategoriesArray = [];
+        const slugArray = getSlugFromFilters(filters, filtersData, valuesFilterStore, selectedFilterStore);
+        if (slugArray && slugArray.length > 0) {
+            //TODO when changing the categories fix search by slug or name
+            //categoryWP = categoriesWP.filter(cwp => cwp.slug === `c-${slug}`);
+            let categoriesWPFiltered;
+            if (isPreloadDocumentsAndCrops) { //TODO until SEEDSDT-839 is done we add a c- to countries slugs. we assume that
+                // if we are preloading we are talking about country reports page
+                categoriesWPFiltered = categoriesWP.filter(cwp => slugArray.map(sa => `c-${sa}`).includes(cwp.slug));
+            } else {
+                categoriesWPFiltered = categoriesWP.filter(cwp => slugArray.includes(cwp.slug));
+            }
+            if (categoriesWPFiltered) {
+                orCategoriesArray = categoriesWPFiltered.map(orC => orC.id);
+            } else {
                 //TODO add not-found as a parameter
-                categoryWP = categoriesWP.find(cwp => cwp.slug === 'not-found');
+                //FI NOT FOUND
+                //categoryWP = categoriesWP.find(cwp => cwp.slug === 'not-found');
             }
         }
     }
     return <Container className={`wp-react-lib post carousel ${editing ? 'editing' : ''}`} fluid={true}
                       style={{ "height": height + 'px' }}>
-        <PostProvider type={type} taxonomy={taxonomy} categories={categoryWP ? categoryWP.id : categories}
+        <PostProvider type={type} taxonomy={taxonomy}
+                      categories={orCategoriesArray && !isPreloadDocumentsAndCrops ? orCategoriesArray.join(',') : categories}
+                      categoriesOr={orCategoriesArray && isPreloadDocumentsAndCrops ? orCategoriesArray : undefined}
                       store={"carousel_" + parent + "_" + unique} page={1}
-                      perPage={items} isScheduledFilter={scheduledFilter === 'true'}
+                      perPage={items > 0 ? items : undefined} isScheduledFilter={scheduledFilter === 'true'}
                       scheduledFilterStore={scheduledFilterStore}>
             <PostConsumer>
                 <Carousel itemsPerPage={itemsPerPage} messages={messages} orientation={orientation}
-                          navigatorStyle={navigatorStyle} type={type} showLinksInModal={showLinksInModal} />
+                          navigatorStyle={navigatorStyle} type={type} showLinksInModal={showLinksInModal}
+                          categories={categoriesWP} isTwoColumns={isTwoColumns}
+                          isSortedByCountryAndYearCategories={isSortedByCountryAndYearCategories}
+                />
             </PostConsumer>
         </PostProvider>
     </Container>
@@ -109,7 +100,9 @@ const mapStateToProps = (state) => {
 
 const mapActionCreators = {
     onLoadIndicatorsInformation: getIndicatorsInformation,
-    onLoadWPCategories: getWpCategories
+    onLoadWPCategories: getWpCategories,
+    onLoadCrops: getCrops,
+    onLoadDocuments: getDocuments,
 };
 
 export default connect(mapStateToProps, mapActionCreators)(PostCarousel);
