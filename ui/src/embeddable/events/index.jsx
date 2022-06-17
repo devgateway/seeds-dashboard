@@ -97,8 +97,8 @@ const Events = ({
                 e.preventDefault()
                 atcb_action({
                     name: name || 'TASAI Event',
-                    startDate: pEventStartDate.toISOString(),
-                    endDate: pEventEndDate.toISOString(),
+                    startDate: pEventStartDate ? pEventStartDate.toISOString() : null,
+                    endDate: pEventEndDate && !isNaN(Date.parse(pEventEndDate)) ? pEventEndDate.toISOString() : pEventStartDate.toISOString(),
                     options: ['Apple', 'Google', 'iCal', 'Microsoft365', 'Outlook.com'],
                     trigger: "click",
                     iCalFileName: "Reminder-Event",
