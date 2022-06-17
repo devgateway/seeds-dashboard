@@ -107,11 +107,11 @@ const Events = ({
                 })
             }}>
                 <input className="atcb_customTrigger" type="submit" value="Add to calendar"/>
+                {showFullContent && externalFormURL ? (
+                    <a className="register_form_button" type="button" onClick={openRegisterForm}>Open register
+                        form</a>) : null}
             </form>
         </Grid.Column> : null}
-        {showFullContent && externalFormURL ? (<Grid.Column width={16} className="external_form">
-            <input type="button" value="Open Register Form" onClick={openRegisterForm}/>
-        </Grid.Column>) : null}
     </Grid>);
 }
 export default Events;

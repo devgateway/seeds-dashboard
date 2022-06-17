@@ -229,3 +229,26 @@
     margin-top: 6px;
   }
 }
+
+.register_form_button {
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  background-color: #EFCB16;
+  bottom: auto;
+  color: #ffffff;
+  font-size: 14px;
+  left: 56%;
+  padding: 12px 20px;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.register_form_button:hover {
+  background-color: #80973a;
+  color: #ffffff;
+}
+
+.atcb_customTrigger {
+  cursor: pointer;
+}
