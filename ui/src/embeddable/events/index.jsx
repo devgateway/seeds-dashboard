@@ -35,6 +35,10 @@ const Events = ({
     // Could not find a better way to detect if this is modal or not.
     const showFullContent = window.location.href.endsWith('/modal') || editing;
 
+    const openRegisterForm = (e) => {
+        window.open(externalFormURL, 'Event Registration Form', "_blank");
+    }
+
     if (!eventStartDate) {
         dateString = 'Please provide a valid start date';
     } else {
@@ -93,8 +97,8 @@ const Events = ({
                 e.preventDefault()
                 atcb_action({
                     name: name || 'TASAI Event',
-                    startDate: pEventStartDate.toISOString(),
-                    endDate: pEventEndDate.toISOString(),
+                    startDate: pEventStartDate ? pEventStartDate.toISOString() : null,
+                    endDate: pEventEndDate && !isNaN(Date.parse(pEventEndDate)) ? pEventEndDate.toISOString() : pEventStartDate.toISOString(),
                     options: ['Apple', 'Google', 'iCal', 'Microsoft365', 'Outlook.com'],
                     trigger: "click",
                     iCalFileName: "Reminder-Event",
@@ -103,11 +107,11 @@ const Events = ({
                 })
             }}>
                 <input className="atcb_customTrigger" type="submit" value="Add to calendar"/>
+                {showFullContent && externalFormURL ? (
+                    <a className="register_form_button" type="button" onClick={openRegisterForm}>Open register
+                        form</a>) : null}
             </form>
         </Grid.Column> : null}
-        {showFullContent && externalFormURL ? (<Grid.Column width={16} className="external_form">
-            <iframe className="form_iframe" src={externalFormURL} height={externalFormHeight} width="100%"/>
-        </Grid.Column>) : null}
     </Grid>);
 }
 export default Events;
