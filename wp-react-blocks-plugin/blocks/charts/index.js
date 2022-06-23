@@ -103,9 +103,13 @@ registerBlockType(process.env.BLOCKS_NS + '/chart',
             farmingHouseholdsLabel: {
                 type: "string",
                 default: "Farming Households"
+            },
+            sourceText_en: {
+                type: 'String',
+            },
+            sourceText_fr: {
+                type: 'String',
             }
-
-
         },
         edit: BlockEdit,
         save: BlockSave,

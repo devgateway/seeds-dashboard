@@ -139,6 +139,11 @@ const CountryInfo = ({ data, intl, labels }) => {
                     <div className="label" dangerouslySetInnerHTML={{__html: enablingBusinessAgricultureRank}}/>
                 </Grid.Column>
             </Grid.Row>
+            <Grid.Row className={`section border`}>
+                <Grid.Column width={16} className={`country_info_source`}>
+                    <div className="label" dangerouslySetInnerHTML={{__html: decodeURI(labels.sourceText_en)}}/>
+                </Grid.Column>
+            </Grid.Row>
         </Grid>
     )
 }

@@ -8,7 +8,8 @@ import {
     SelectControl,
     RangeControl,
     TextControl,
-    ToggleControl
+    ToggleControl,
+    TextareaControl
 } from '@wordpress/components';
 import { InnerBlocks } from '@wordpress/editor'; // or wp.editor
 import { __ } from '@wordpress/i18n';
@@ -43,7 +44,9 @@ class BlockEdit extends BaseBlockEdit {
                 topHarvestedCropsAndValueUnit,
                 populationVsFarmingHouseholds,
                 totalPopulationLabel,
-                farmingHouseholdsLabel
+                farmingHouseholdsLabel,
+                sourceText_en,
+                sourceText_fr,
             }
         } = this.props;
         let queryString = `data-height=${height}`;
@@ -70,6 +73,8 @@ class BlockEdit extends BaseBlockEdit {
         queryString += `&data-top-harvested-crops-and-value-unit=${topHarvestedCropsAndValueUnit}`;
         queryString += `&data-population-vs-farming-households=${populationVsFarmingHouseholds}`;
 
+        queryString += `&data-source-text_en=${sourceText_en}`;
+        queryString += `&data-source-text_fr=${sourceText_fr}`;
 
         if (ApiConfigurations[type]) {
             queryString += ` & data - chart - data - source =${ApiConfigurations[type].join("|")}`;
@@ -276,6 +281,7 @@ class BlockEdit extends BaseBlockEdit {
                                                      populationVsFarmingHouseholds={populationVsFarmingHouseholds}
                                                      totalPopulationLabel={totalPopulationLabel}
                                                      farmingHouseholdsLabel={farmingHouseholdsLabel}
+                                                     sourceText_en={sourceText_en} sourceText_fr={sourceText_fr}
                             />}
                     </Panel>
                 </InspectorControls>
@@ -351,7 +357,9 @@ const CountryInfoChartsLabels = ({
                                      topHarvestedCropsAndValueUnit,
                                      populationVsFarmingHouseholds,
                                      totalPopulationLabel,
-                                     farmingHouseholdsLabel
+                                     farmingHouseholdsLabel,
+                                     sourceText_en,
+                                     sourceText_fr,
                                  }) => {
     return (<PanelBody title={__(bodyTitle)}>
         <PanelRow>
@@ -386,6 +394,20 @@ const CountryInfoChartsLabels = ({
 
             <TextControl label={__('Farming Households label')} value={farmingHouseholdsLabel}
                          onChange={(farmingHouseholdsLabel) => setAttributes({ farmingHouseholdsLabel })} />
+        </PanelRow>
+        <PanelRow>
+            <TextareaControl
+                label={__('Source in English (it can be HTML)')}
+                value={sourceText_en}
+                onChange={(sourceText_en) => setAttributes({ sourceText_en })}
+            />
+        </PanelRow>
+        <PanelRow>
+            <TextareaControl
+                label={__('Source in French (it can be HTML)')}
+                value={sourceText_fr}
+                onChange={(sourceText_fr) => setAttributes({ sourceText_fr })}
+            />
         </PanelRow>
     </PanelBody>)
 }

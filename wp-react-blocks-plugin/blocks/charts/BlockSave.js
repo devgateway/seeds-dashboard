@@ -26,7 +26,9 @@ const SaveComponent = (props) => {
             topHarvestedCropsAndValueUnit,
             populationVsFarmingHouseholds,
             totalPopulationLabel,
-            farmingHouseholdsLabel
+            farmingHouseholdsLabel,
+            sourceText_en,
+            sourceText_fr,
         }
     } = props;
     const blockProps = useBlockProps.save({
@@ -60,7 +62,8 @@ const SaveComponent = (props) => {
              data-population-vs-farming-households={populationVsFarmingHouseholds}
              data-total-population-label={totalPopulationLabel}
              data-farming-households-label={farmingHouseholdsLabel}
-
+             data-source-text_en={encodeURI(sourceText_en)}
+             data-source-text_fr={encodeURI(sourceText_fr)}
         />
     );
 }
