@@ -5,7 +5,7 @@ import './CountryInfo.scss';
 import CountryInfoChart from "./CountryInfoChart";
 import { injectIntl } from "react-intl";
 
-const CountryInfo = ({ data, intl, labels }) => {
+const CountryInfo = ({ data, intl, labels, locale }) => {
     const config = {
         precision: 2,
         lowercase: true,
@@ -66,6 +66,22 @@ const CountryInfo = ({ data, intl, labels }) => {
     enablingBusinessAgricultureScore += (getValue(data.easeAgricultureScore) !== 'N/A'
         ? "<span class='data'>" + getValue(data.easeAgricultureScore) + "</span>" + " out of 100" 
         : "<span class='data'>N/A</span>");
+    
+    let sourceText = "";
+    const currentLanguage = locale || 'en';
+    if (currentLanguage === 'en') {
+        if (cleanupParam(labels.sourceText_en)) {
+            sourceText = labels.sourceText_en;
+        } else {
+            sourceText = cleanupParam(labels.sourceText_fr) || '';
+        }
+    } else {
+        if (cleanupParam(labels.sourceText_fr)) {
+            sourceText = labels.sourceText_fr;
+        } else {
+            sourceText = cleanupParam(labels.sourceText_en) || '';
+        }
+    }
     
     return (
         <Grid className={`country-info`}>
@@ -139,11 +155,11 @@ const CountryInfo = ({ data, intl, labels }) => {
                     <div className="label" dangerouslySetInnerHTML={{__html: enablingBusinessAgricultureRank}}/>
                 </Grid.Column>
             </Grid.Row>
-            <Grid.Row className={`section border`}>
+            {labels.sourceText_en ? <Grid.Row className={`section border`}>
                 <Grid.Column width={16} className={`country_info_source`}>
-                    <div className="label" dangerouslySetInnerHTML={{__html: decodeURI(labels.sourceText_en)}}/>
+                    <div className="label" dangerouslySetInnerHTML={{__html: decodeURI(sourceText)}}/>
                 </Grid.Column>
-            </Grid.Row>
+            </Grid.Row> : null}
         </Grid>
     )
 }
@@ -160,6 +176,14 @@ export const getCropsArray = (rawData) => {
     } else {
         return [];
     }
+}
+
+const cleanupParam = (param) => {
+    let text = param;
+    if (!text || text === '' || text === 'null' || text === 'undefined') {
+        return '';
+    }
+    return text;
 }
 
 

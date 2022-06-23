@@ -106,6 +106,8 @@ const Chart = (props) => {
         "data-population-vs-farming-households": populationVsFarmingHouseholds = "Population vs Farming Households",
         "data-total-population-label": totalPopulationLabel="Total Population",
         "data-farming-households-label": farmingHouseholdsLabel="Farming Households",
+        "data-source-text_en": sourceText_en,
+        "data-source-text_fr": sourceText_fr,
     } = props;
 
     useEffect(() => {
@@ -277,9 +279,11 @@ const Chart = (props) => {
                 topHarvestedCropsAndValueUnit,
                 populationVsFarmingHouseholds,
                 totalPopulationLabel,
-                farmingHouseholdsLabel
+                farmingHouseholdsLabel,
+                sourceText_en,
+                sourceText_fr
             };
-            child = <CountryInfo labels={labels} />
+            child = <CountryInfo labels={labels} locale={locale} />
             break;
         case AVAILABILITY_OF_BASIC_SEED:
         case SATISFACTION_ENFORCEMENT_SEED_LAW:
