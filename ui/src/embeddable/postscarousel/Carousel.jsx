@@ -48,10 +48,12 @@ export const Carousel = ({
 
     let i = 0;
     const isAddType = type !== undefined;
+    const finalItemsPerPage = itemsPerPage > 0 ? parseInt(itemsPerPage) : filteredAndOrderedPosts.length;
     return (<CarouselProvider
-        visibleSlides={itemsPerPage > 0 ? parseInt(itemsPerPage) : filteredAndOrderedPosts.length}
+        visibleSlides={finalItemsPerPage}
         totalSlides={filteredAndOrderedPosts.length}
         orientation={orientation} className={navigatorStyle === BUTTONS ? "carousel-flex" : ''}
+        step={finalItemsPerPage}
     >
         {navigatorStyle === BUTTONS && <div className="navigator">
             <ButtonBack><Icon name="chevron left" /></ButtonBack>
@@ -70,7 +72,7 @@ export const Carousel = ({
             <ButtonNext><Icon name="chevron right" /></ButtonNext>
         </div>}
         {navigatorStyle === DOTS && <DotGroup />}
-        {navigatorStyle === PAGED_DOTS && <PagedDots posts={posts} itemsPerPage={itemsPerPage} />}
+        {navigatorStyle === PAGED_DOTS && <PagedDots posts={posts} itemsPerPage={finalItemsPerPage  } />}
 
     </CarouselProvider>)
 }
