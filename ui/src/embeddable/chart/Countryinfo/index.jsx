@@ -70,6 +70,7 @@ const CountryInfo = ({ data, intl, labels, locale }) => {
     let sourceText = "";
     let topHarvestedCropsAndValue = '';
     let populationVsFarmingHouseholds = '';
+    let totalPopulationLabel = '';
     const currentLanguage = locale || 'en';
     if (currentLanguage === 'en') {
         if (cleanupParam(labels.sourceText_en)) {
@@ -87,6 +88,11 @@ const CountryInfo = ({ data, intl, labels, locale }) => {
         } else {
             populationVsFarmingHouseholds = cleanupParam(labels.populationVsFarmingHouseholds_fr) || '';
         }
+        if (cleanupParam(labels.totalPopulationLabel_en)) {
+            totalPopulationLabel = labels.totalPopulationLabel_en;
+        } else {
+            totalPopulationLabel = cleanupParam(labels.totalPopulationLabel_fr) || '';
+        }
     } else {
         if (cleanupParam(labels.sourceText_fr)) {
             sourceText = labels.sourceText_fr;
@@ -102,6 +108,11 @@ const CountryInfo = ({ data, intl, labels, locale }) => {
             populationVsFarmingHouseholds = labels.populationVsFarmingHouseholds_fr;
         } else {
             populationVsFarmingHouseholds = cleanupParam(labels.populationVsFarmingHouseholds_en) || '';
+        }
+        if (cleanupParam(labels.totalPopulationLabel_fr)) {
+            totalPopulationLabel = labels.totalPopulationLabel_fr;
+        } else {
+            totalPopulationLabel = cleanupParam(labels.totalPopulationLabel_en) || '';
         }
     }
     
@@ -151,7 +162,7 @@ const CountryInfo = ({ data, intl, labels, locale }) => {
             <Grid.Row className={`section sub`}>
                 <Grid.Column width={8}>
                     <div className="household-data population">
-                        <div className="label has-condensed-text">{labels.totalPopulationLabel + (data.year ? ' (' + data.year + ')' : '')}</div>
+                        <div className="label has-condensed-text">{totalPopulationLabel + (data.year ? ' (' + data.year + ')' : '')}</div>
                         <div className="data large">
                             <div
                                 className="data-value">{getValue(data.population)}</div>

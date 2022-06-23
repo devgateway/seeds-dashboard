@@ -45,7 +45,8 @@ class BlockEdit extends BaseBlockEdit {
                 topHarvestedCropsAndValueUnit,
                 populationVsFarmingHouseholds_en,
                 populationVsFarmingHouseholds_fr,
-                totalPopulationLabel,
+                totalPopulationLabel_en,
+                totalPopulationLabel_fr,
                 farmingHouseholdsLabel,
                 sourceText_en,
                 sourceText_fr,
@@ -64,7 +65,8 @@ class BlockEdit extends BaseBlockEdit {
         queryString += `&data-group-mode=${groupMode}`;
         queryString += `&data-use-source-by-category=${useSourceByCategory}`;
         queryString += `&data-methodology=${methodology}`;
-        queryString += `&data-total-population-label=${totalPopulationLabel}`;
+        queryString += `&data-total-population-label_en=${totalPopulationLabel_en}`;
+        queryString += `&data-total-population-label_fr=${totalPopulationLabel_fr}`;
         queryString += `&data-farming-households-label=${farmingHouseholdsLabel}`
 
         queryString += `&data-total-land-area-label=${totalLandArea}`;
@@ -285,7 +287,8 @@ class BlockEdit extends BaseBlockEdit {
                                                      topHarvestedCropsAndValueUnit={topHarvestedCropsAndValueUnit}
                                                      populationVsFarmingHouseholds_en={populationVsFarmingHouseholds_en}
                                                      populationVsFarmingHouseholds_fr={populationVsFarmingHouseholds_fr}
-                                                     totalPopulationLabel={totalPopulationLabel}
+                                                     totalPopulationLabel_en={totalPopulationLabel_en}
+                                                     totalPopulationLabel_fr={totalPopulationLabel_fr}
                                                      farmingHouseholdsLabel={farmingHouseholdsLabel}
                                                      sourceText_en={sourceText_en} sourceText_fr={sourceText_fr}
                             />}
@@ -364,7 +367,8 @@ const CountryInfoChartsLabels = ({
                                      topHarvestedCropsAndValueUnit,
                                      populationVsFarmingHouseholds_en,
                                      populationVsFarmingHouseholds_fr,
-                                     totalPopulationLabel,
+                                     totalPopulationLabel_en,
+                                     totalPopulationLabel_fr,
                                      farmingHouseholdsLabel,
                                      sourceText_en,
                                      sourceText_fr,
@@ -407,9 +411,14 @@ const CountryInfoChartsLabels = ({
         </PanelRow>
         
         <PanelRow>
-            <TextControl label={__('Total Population label')} value={totalPopulationLabel}
-                         onChange={(totalPopulationLabel) => setAttributes({ totalPopulationLabel })} />
+            <TextControl label={__('Total Population label in English')} value={totalPopulationLabel_en}
+                         onChange={(totalPopulationLabel_en) => setAttributes({ totalPopulationLabel_en })} />
         </PanelRow>
+        <PanelRow>
+            <TextControl label={__('Total Population label in French')} value={totalPopulationLabel_fr}
+                         onChange={(totalPopulationLabel_fr) => setAttributes({ totalPopulationLabel_fr })} />
+        </PanelRow>
+        
         <PanelRow>
 
             <TextControl label={__('Farming Households label')} value={farmingHouseholdsLabel}
