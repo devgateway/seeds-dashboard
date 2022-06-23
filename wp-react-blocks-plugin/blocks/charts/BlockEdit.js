@@ -40,7 +40,8 @@ class BlockEdit extends BaseBlockEdit {
                 totalLandArea,
                 arableLand,
                 totalLandAreaUnit,
-                topHarvestedCropsAndValue,
+                topHarvestedCropsAndValue_en,
+                topHarvestedCropsAndValue_fr,
                 topHarvestedCropsAndValueUnit,
                 populationVsFarmingHouseholds,
                 totalPopulationLabel,
@@ -69,7 +70,8 @@ class BlockEdit extends BaseBlockEdit {
         queryString += `&data-total-land-area-unit=${totalLandAreaUnit}`;
 
         queryString += `&data-total-arable-land-label=${arableLand}`;
-        queryString += `&data-top-harvested-crops-and-value=${topHarvestedCropsAndValue}`;
+        queryString += `&data-top-harvested-crops-and-value_en=${topHarvestedCropsAndValue_en}`;
+        queryString += `&data-top-harvested-crops-and-value_fr=${topHarvestedCropsAndValue_fr}`;
         queryString += `&data-top-harvested-crops-and-value-unit=${topHarvestedCropsAndValueUnit}`;
         queryString += `&data-population-vs-farming-households=${populationVsFarmingHouseholds}`;
 
@@ -276,7 +278,8 @@ class BlockEdit extends BaseBlockEdit {
                                                      totalLandArea={totalLandArea} arableLand={arableLand}
                                                      setAttributes={setAttributes}
                                                      totalLandAreaUnit={totalLandAreaUnit}
-                                                     topHarvestedCropsAndValue={topHarvestedCropsAndValue}
+                                                     topHarvestedCropsAndValue_en={topHarvestedCropsAndValue_en}
+                                                     topHarvestedCropsAndValue_fr={topHarvestedCropsAndValue_fr}
                                                      topHarvestedCropsAndValueUnit={topHarvestedCropsAndValueUnit}
                                                      populationVsFarmingHouseholds={populationVsFarmingHouseholds}
                                                      totalPopulationLabel={totalPopulationLabel}
@@ -353,7 +356,8 @@ const CountryInfoChartsLabels = ({
                                      setAttributes,
                                      arableLand,
                                      totalLandAreaUnit,
-                                     topHarvestedCropsAndValue,
+                                     topHarvestedCropsAndValue_en,
+                                     topHarvestedCropsAndValue_fr,
                                      topHarvestedCropsAndValueUnit,
                                      populationVsFarmingHouseholds,
                                      totalPopulationLabel,
@@ -374,10 +378,16 @@ const CountryInfoChartsLabels = ({
             <TextControl label={__('Arable land label')} value={arableLand}
                          onChange={(arableLand) => setAttributes({ arableLand })} />
         </PanelRow>
+        
         <PanelRow>
-            <TextControl label={__('Top Harvested Crops and Value label')} value={topHarvestedCropsAndValue}
-                         onChange={(topHarvestedCropsAndValue) => setAttributes({ topHarvestedCropsAndValue })} />
+            <TextControl label={__('Top Harvested Crops and Value label in English')} value={topHarvestedCropsAndValue_en}
+                         onChange={(topHarvestedCropsAndValue_en) => setAttributes({ topHarvestedCropsAndValue_en })} />
         </PanelRow>
+        <PanelRow>
+            <TextControl label={__('Top Harvested Crops and Value label in French')} value={topHarvestedCropsAndValue_fr}
+                         onChange={(topHarvestedCropsAndValue_fr) => setAttributes({ topHarvestedCropsAndValue_fr })} />
+        </PanelRow>
+        
         <PanelRow>
             <TextControl label={__('Top Harvested Crops and Value unit')} value={topHarvestedCropsAndValueUnit}
                          onChange={(topHarvestedCropsAndValueUnit) => setAttributes({ topHarvestedCropsAndValueUnit })} />

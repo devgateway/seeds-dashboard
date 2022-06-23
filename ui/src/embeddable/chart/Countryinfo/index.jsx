@@ -68,6 +68,7 @@ const CountryInfo = ({ data, intl, labels, locale }) => {
         : "<span class='data'>N/A</span>");
     
     let sourceText = "";
+    let topHarvestedCropsAndValue = '';
     const currentLanguage = locale || 'en';
     if (currentLanguage === 'en') {
         if (cleanupParam(labels.sourceText_en)) {
@@ -75,11 +76,21 @@ const CountryInfo = ({ data, intl, labels, locale }) => {
         } else {
             sourceText = cleanupParam(labels.sourceText_fr) || '';
         }
+        if (cleanupParam(labels.topHarvestedCropsAndValue_en)) {
+            topHarvestedCropsAndValue = labels.topHarvestedCropsAndValue_en;
+        } else {
+            topHarvestedCropsAndValue = cleanupParam(labels.topHarvestedCropsAndValue_fr) || '';
+        }
     } else {
         if (cleanupParam(labels.sourceText_fr)) {
             sourceText = labels.sourceText_fr;
         } else {
             sourceText = cleanupParam(labels.sourceText_en) || '';
+        }
+        if (cleanupParam(labels.topHarvestedCropsAndValue_fr)) {
+            topHarvestedCropsAndValue = labels.topHarvestedCropsAndValue_fr;
+        } else {
+            topHarvestedCropsAndValue = cleanupParam(labels.topHarvestedCropsAndValue_en) || '';
         }
     }
     
@@ -98,7 +109,7 @@ const CountryInfo = ({ data, intl, labels, locale }) => {
             </Grid.Row>
             <Grid.Row className={`section sub`}>
                 <Grid.Column width={16}>
-                    <div className="section-title">{labels.topHarvestedCropsAndValue + (data.year ? ' (' + data.year + ')' : '')}</div>
+                    <div className="section-title">{topHarvestedCropsAndValue + (data.year ? ' (' + data.year + ')' : '')}</div>
                 </Grid.Column>
             </Grid.Row>
             <Grid.Row className={`section sub`}>

@@ -79,12 +79,15 @@ registerBlockType(process.env.BLOCKS_NS + '/chart',
                 type: "String",
                 default: "Hectares"
             },
-
             arableLand: {
                 type: "string",
                 default: "Arable land"
             },
-            topHarvestedCropsAndValue: {
+            topHarvestedCropsAndValue_en: {
+                type: "string",
+                default: "Top Harvested Crops and Value"
+            },
+            topHarvestedCropsAndValue_fr: {
                 type: "string",
                 default: "Top Harvested Crops and Value"
             },
@@ -92,15 +95,27 @@ registerBlockType(process.env.BLOCKS_NS + '/chart',
                 type: "string",
                 default: "hectares"
             },
-            populationVsFarmingHouseholds: {
+            populationVsFarmingHouseholds_en: {
                 type: "string",
                 default: "Population vs Farming Households"
             },
-            totalPopulationLabel: {
+            populationVsFarmingHouseholds_fr: {
+                type: "string",
+                default: "Population vs Farming Households"
+            },
+            totalPopulationLabel_en: {
                 type: "string",
                 default: "Total Population"
             },
-            farmingHouseholdsLabel: {
+            totalPopulationLabel_fr: {
+                type: "string",
+                default: "Total Population"
+            },
+            farmingHouseholdsLabel_en: {
+                type: "string",
+                default: "Farming Households"
+            },
+            farmingHouseholdsLabel_fr: {
                 type: "string",
                 default: "Farming Households"
             },

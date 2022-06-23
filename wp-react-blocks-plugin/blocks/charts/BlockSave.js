@@ -22,7 +22,8 @@ const SaveComponent = (props) => {
             totalLandArea,
             totalLandAreaUnit,
             arableLand,
-            topHarvestedCropsAndValue,
+            topHarvestedCropsAndValue_en,
+            topHarvestedCropsAndValue_fr,
             topHarvestedCropsAndValueUnit,
             populationVsFarmingHouseholds,
             totalPopulationLabel,
@@ -57,7 +58,8 @@ const SaveComponent = (props) => {
              data-total-land-area-label={totalLandArea}
              data-total-land-area-unit={totalLandAreaUnit}
              data-total-arable-land-label={arableLand}
-             data-top-harvested-crops-and-value={topHarvestedCropsAndValue}
+             data-top-harvested-crops-and-value_en={topHarvestedCropsAndValue_en}
+             data-top-harvested-crops-and-value_fr={topHarvestedCropsAndValue_fr}
              data-top-harvested-crops-and-value-unit={topHarvestedCropsAndValueUnit}
              data-population-vs-farming-households={populationVsFarmingHouseholds}
              data-total-population-label={totalPopulationLabel}
