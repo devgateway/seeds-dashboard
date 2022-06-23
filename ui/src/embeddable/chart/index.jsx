@@ -108,7 +108,8 @@ const Chart = (props) => {
         "data-population-vs-farming-households_fr": populationVsFarmingHouseholds_fr = "Population vs Farming Households",
         "data-total-population-label_en": totalPopulationLabel_en="Total Population",
         "data-total-population-label_fr": totalPopulationLabel_fr="Total Population",
-        "data-farming-households-label": farmingHouseholdsLabel="Farming Households",
+        "data-farming-households-label_en": farmingHouseholdsLabel_en="Farming Households",
+        "data-farming-households-label_fr": farmingHouseholdsLabel_fr="Farming Households",
         "data-source-text_en": sourceText_en,
         "data-source-text_fr": sourceText_fr,
     } = props;
@@ -285,7 +286,8 @@ const Chart = (props) => {
                 populationVsFarmingHouseholds_fr,
                 totalPopulationLabel_en,
                 totalPopulationLabel_fr,
-                farmingHouseholdsLabel,
+                farmingHouseholdsLabel_en,
+                farmingHouseholdsLabel_fr,
                 sourceText_en,
                 sourceText_fr
             };

@@ -71,6 +71,7 @@ const CountryInfo = ({ data, intl, labels, locale }) => {
     let topHarvestedCropsAndValue = '';
     let populationVsFarmingHouseholds = '';
     let totalPopulationLabel = '';
+    let farmingHouseholdsLabel = '';
     const currentLanguage = locale || 'en';
     if (currentLanguage === 'en') {
         if (cleanupParam(labels.sourceText_en)) {
@@ -93,6 +94,11 @@ const CountryInfo = ({ data, intl, labels, locale }) => {
         } else {
             totalPopulationLabel = cleanupParam(labels.totalPopulationLabel_fr) || '';
         }
+        if (cleanupParam(labels.farmingHouseholdsLabel_en)) {
+            farmingHouseholdsLabel = labels.farmingHouseholdsLabel_en;
+        } else {
+            farmingHouseholdsLabel = cleanupParam(labels.farmingHouseholdsLabel_fr) || '';
+        }
     } else {
         if (cleanupParam(labels.sourceText_fr)) {
             sourceText = labels.sourceText_fr;
@@ -113,6 +119,11 @@ const CountryInfo = ({ data, intl, labels, locale }) => {
             totalPopulationLabel = labels.totalPopulationLabel_fr;
         } else {
             totalPopulationLabel = cleanupParam(labels.totalPopulationLabel_en) || '';
+        }
+        if (cleanupParam(labels.farmingHouseholdsLabel_fr)) {
+            farmingHouseholdsLabel = labels.farmingHouseholdsLabel_fr;
+        } else {
+            farmingHouseholdsLabel = cleanupParam(labels.farmingHouseholdsLabel_en) || '';
         }
     }
     
@@ -171,7 +182,7 @@ const CountryInfo = ({ data, intl, labels, locale }) => {
                 </Grid.Column>
                 <Grid.Column width={8}>
                     <div className="household-data households">
-                        <div className="label has-condensed-text">{labels.farmingHouseholdsLabel + (data.year ? ' (' + data.year + ')' : '')}</div>
+                        <div className="label has-condensed-text">{farmingHouseholdsLabel + (data.year ? ' (' + data.year + ')' : '')}</div>
                         <div className="data large">
                             <div
                                 className="data-value ">{getValue(data.farmingHouseholds)}</div>

@@ -29,7 +29,8 @@ const SaveComponent = (props) => {
             populationVsFarmingHouseholds_fr,
             totalPopulationLabel_en,
             totalPopulationLabel_fr,
-            farmingHouseholdsLabel,
+            farmingHouseholdsLabel_en,
+            farmingHouseholdsLabel_fr,
             sourceText_en,
             sourceText_fr,
         }
@@ -67,7 +68,8 @@ const SaveComponent = (props) => {
              data-population-vs-farming-households_fr={populationVsFarmingHouseholds_fr}
              data-total-population-label_en={totalPopulationLabel_en}
              data-total-population-label_fr={totalPopulationLabel_fr}
-             data-farming-households-label={farmingHouseholdsLabel}
+             data-farming-households-label_en={farmingHouseholdsLabel_en}
+             data-farming-households-label_fr={farmingHouseholdsLabel_fr}
              data-source-text_en={encodeURI(sourceText_en)}
              data-source-text_fr={encodeURI(sourceText_fr)}
         />

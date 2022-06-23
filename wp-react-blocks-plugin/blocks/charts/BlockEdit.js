@@ -47,7 +47,8 @@ class BlockEdit extends BaseBlockEdit {
                 populationVsFarmingHouseholds_fr,
                 totalPopulationLabel_en,
                 totalPopulationLabel_fr,
-                farmingHouseholdsLabel,
+                farmingHouseholdsLabel_en,
+                farmingHouseholdsLabel_fr,
                 sourceText_en,
                 sourceText_fr,
             }
@@ -67,7 +68,8 @@ class BlockEdit extends BaseBlockEdit {
         queryString += `&data-methodology=${methodology}`;
         queryString += `&data-total-population-label_en=${totalPopulationLabel_en}`;
         queryString += `&data-total-population-label_fr=${totalPopulationLabel_fr}`;
-        queryString += `&data-farming-households-label=${farmingHouseholdsLabel}`
+        queryString += `&data-farming-households-label_en=${farmingHouseholdsLabel_en}`
+        queryString += `&data-farming-households-label_fr=${farmingHouseholdsLabel_fr}`
 
         queryString += `&data-total-land-area-label=${totalLandArea}`;
         queryString += `&data-total-land-area-unit=${totalLandAreaUnit}`;
@@ -289,7 +291,8 @@ class BlockEdit extends BaseBlockEdit {
                                                      populationVsFarmingHouseholds_fr={populationVsFarmingHouseholds_fr}
                                                      totalPopulationLabel_en={totalPopulationLabel_en}
                                                      totalPopulationLabel_fr={totalPopulationLabel_fr}
-                                                     farmingHouseholdsLabel={farmingHouseholdsLabel}
+                                                     farmingHouseholdsLabel_en={farmingHouseholdsLabel_en}
+                                                     farmingHouseholdsLabel_fr={farmingHouseholdsLabel_fr}
                                                      sourceText_en={sourceText_en} sourceText_fr={sourceText_fr}
                             />}
                     </Panel>
@@ -369,7 +372,8 @@ const CountryInfoChartsLabels = ({
                                      populationVsFarmingHouseholds_fr,
                                      totalPopulationLabel_en,
                                      totalPopulationLabel_fr,
-                                     farmingHouseholdsLabel,
+                                     farmingHouseholdsLabel_en,
+                                     farmingHouseholdsLabel_fr,
                                      sourceText_en,
                                      sourceText_fr,
                                  }) => {
@@ -420,10 +424,14 @@ const CountryInfoChartsLabels = ({
         </PanelRow>
         
         <PanelRow>
-
-            <TextControl label={__('Farming Households label')} value={farmingHouseholdsLabel}
-                         onChange={(farmingHouseholdsLabel) => setAttributes({ farmingHouseholdsLabel })} />
+            <TextControl label={__('Farming Households label in English')} value={farmingHouseholdsLabel_en}
+                         onChange={(farmingHouseholdsLabel_en) => setAttributes({ farmingHouseholdsLabel_en })} />
         </PanelRow>
+        <PanelRow>
+            <TextControl label={__('Farming Households label in French')} value={farmingHouseholdsLabel_fr}
+                         onChange={(farmingHouseholdsLabel_fr) => setAttributes({ farmingHouseholdsLabel_fr })} />
+        </PanelRow>
+        
         <PanelRow>
             <TextareaControl
                 label={__('Source in English (it can be HTML)')}

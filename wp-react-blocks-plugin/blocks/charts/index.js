@@ -85,11 +85,11 @@ registerBlockType(process.env.BLOCKS_NS + '/chart',
             },
             topHarvestedCropsAndValue_en: {
                 type: "string",
-                default: "Top Harvested Crops and Value"
+                default: "Areas harvested for focus crops"
             },
             topHarvestedCropsAndValue_fr: {
                 type: "string",
-                default: "Top Harvested Crops and Value"
+                default: "Superficie cultivée des cultures cible"
             },
             topHarvestedCropsAndValueUnit: {
                 type: "string",
@@ -97,11 +97,11 @@ registerBlockType(process.env.BLOCKS_NS + '/chart',
             },
             populationVsFarmingHouseholds_en: {
                 type: "string",
-                default: "Population vs Farming Households"
+                default: "Population and Farming households"
             },
             populationVsFarmingHouseholds_fr: {
                 type: "string",
-                default: "Population vs Farming Households"
+                default: "Population et Exploitations agricoles"
             },
             totalPopulationLabel_en: {
                 type: "string",
