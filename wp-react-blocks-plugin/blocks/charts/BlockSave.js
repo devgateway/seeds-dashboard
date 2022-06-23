@@ -25,7 +25,8 @@ const SaveComponent = (props) => {
             topHarvestedCropsAndValue_en,
             topHarvestedCropsAndValue_fr,
             topHarvestedCropsAndValueUnit,
-            populationVsFarmingHouseholds,
+            populationVsFarmingHouseholds_en,
+            populationVsFarmingHouseholds_fr,
             totalPopulationLabel,
             farmingHouseholdsLabel,
             sourceText_en,
@@ -61,7 +62,8 @@ const SaveComponent = (props) => {
              data-top-harvested-crops-and-value_en={topHarvestedCropsAndValue_en}
              data-top-harvested-crops-and-value_fr={topHarvestedCropsAndValue_fr}
              data-top-harvested-crops-and-value-unit={topHarvestedCropsAndValueUnit}
-             data-population-vs-farming-households={populationVsFarmingHouseholds}
+             data-population-vs-farming-households_en={populationVsFarmingHouseholds_en}
+             data-population-vs-farming-households_fr={populationVsFarmingHouseholds_fr}
              data-total-population-label={totalPopulationLabel}
              data-farming-households-label={farmingHouseholdsLabel}
              data-source-text_en={encodeURI(sourceText_en)}

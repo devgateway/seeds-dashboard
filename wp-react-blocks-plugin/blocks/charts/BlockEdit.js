@@ -43,7 +43,8 @@ class BlockEdit extends BaseBlockEdit {
                 topHarvestedCropsAndValue_en,
                 topHarvestedCropsAndValue_fr,
                 topHarvestedCropsAndValueUnit,
-                populationVsFarmingHouseholds,
+                populationVsFarmingHouseholds_en,
+                populationVsFarmingHouseholds_fr,
                 totalPopulationLabel,
                 farmingHouseholdsLabel,
                 sourceText_en,
@@ -73,7 +74,8 @@ class BlockEdit extends BaseBlockEdit {
         queryString += `&data-top-harvested-crops-and-value_en=${topHarvestedCropsAndValue_en}`;
         queryString += `&data-top-harvested-crops-and-value_fr=${topHarvestedCropsAndValue_fr}`;
         queryString += `&data-top-harvested-crops-and-value-unit=${topHarvestedCropsAndValueUnit}`;
-        queryString += `&data-population-vs-farming-households=${populationVsFarmingHouseholds}`;
+        queryString += `&data-population-vs-farming-households_en=${populationVsFarmingHouseholds_en}`;
+        queryString += `&data-population-vs-farming-households_fr=${populationVsFarmingHouseholds_fr}`;
 
         queryString += `&data-source-text_en=${sourceText_en}`;
         queryString += `&data-source-text_fr=${sourceText_fr}`;
@@ -281,7 +283,8 @@ class BlockEdit extends BaseBlockEdit {
                                                      topHarvestedCropsAndValue_en={topHarvestedCropsAndValue_en}
                                                      topHarvestedCropsAndValue_fr={topHarvestedCropsAndValue_fr}
                                                      topHarvestedCropsAndValueUnit={topHarvestedCropsAndValueUnit}
-                                                     populationVsFarmingHouseholds={populationVsFarmingHouseholds}
+                                                     populationVsFarmingHouseholds_en={populationVsFarmingHouseholds_en}
+                                                     populationVsFarmingHouseholds_fr={populationVsFarmingHouseholds_fr}
                                                      totalPopulationLabel={totalPopulationLabel}
                                                      farmingHouseholdsLabel={farmingHouseholdsLabel}
                                                      sourceText_en={sourceText_en} sourceText_fr={sourceText_fr}
@@ -359,7 +362,8 @@ const CountryInfoChartsLabels = ({
                                      topHarvestedCropsAndValue_en,
                                      topHarvestedCropsAndValue_fr,
                                      topHarvestedCropsAndValueUnit,
-                                     populationVsFarmingHouseholds,
+                                     populationVsFarmingHouseholds_en,
+                                     populationVsFarmingHouseholds_fr,
                                      totalPopulationLabel,
                                      farmingHouseholdsLabel,
                                      sourceText_en,
@@ -392,10 +396,16 @@ const CountryInfoChartsLabels = ({
             <TextControl label={__('Top Harvested Crops and Value unit')} value={topHarvestedCropsAndValueUnit}
                          onChange={(topHarvestedCropsAndValueUnit) => setAttributes({ topHarvestedCropsAndValueUnit })} />
         </PanelRow>
+        
         <PanelRow>
-            <TextControl label={__('Population vs Farming Households label')} value={populationVsFarmingHouseholds}
-                         onChange={(populationVsFarmingHouseholds) => setAttributes({ populationVsFarmingHouseholds })} />
+            <TextControl label={__('Population vs Farming Households label in English')} value={populationVsFarmingHouseholds_en}
+                         onChange={(populationVsFarmingHouseholds_en) => setAttributes({ populationVsFarmingHouseholds_en })} />
         </PanelRow>
+        <PanelRow>
+            <TextControl label={__('Population vs Farming Households label in French')} value={populationVsFarmingHouseholds_fr}
+                         onChange={(populationVsFarmingHouseholds_fr) => setAttributes({ populationVsFarmingHouseholds_fr })} />
+        </PanelRow>
+        
         <PanelRow>
             <TextControl label={__('Total Population label')} value={totalPopulationLabel}
                          onChange={(totalPopulationLabel) => setAttributes({ totalPopulationLabel })} />

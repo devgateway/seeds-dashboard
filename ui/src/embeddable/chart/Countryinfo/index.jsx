@@ -69,6 +69,7 @@ const CountryInfo = ({ data, intl, labels, locale }) => {
     
     let sourceText = "";
     let topHarvestedCropsAndValue = '';
+    let populationVsFarmingHouseholds = '';
     const currentLanguage = locale || 'en';
     if (currentLanguage === 'en') {
         if (cleanupParam(labels.sourceText_en)) {
@@ -81,6 +82,11 @@ const CountryInfo = ({ data, intl, labels, locale }) => {
         } else {
             topHarvestedCropsAndValue = cleanupParam(labels.topHarvestedCropsAndValue_fr) || '';
         }
+        if (cleanupParam(labels.populationVsFarmingHouseholds_en)) {
+            populationVsFarmingHouseholds = labels.populationVsFarmingHouseholds_en;
+        } else {
+            populationVsFarmingHouseholds = cleanupParam(labels.populationVsFarmingHouseholds_fr) || '';
+        }
     } else {
         if (cleanupParam(labels.sourceText_fr)) {
             sourceText = labels.sourceText_fr;
@@ -91,6 +97,11 @@ const CountryInfo = ({ data, intl, labels, locale }) => {
             topHarvestedCropsAndValue = labels.topHarvestedCropsAndValue_fr;
         } else {
             topHarvestedCropsAndValue = cleanupParam(labels.topHarvestedCropsAndValue_en) || '';
+        }
+        if (cleanupParam(labels.populationVsFarmingHouseholds_fr)) {
+            populationVsFarmingHouseholds = labels.populationVsFarmingHouseholds_fr;
+        } else {
+            populationVsFarmingHouseholds = cleanupParam(labels.populationVsFarmingHouseholds_en) || '';
         }
     }
     
@@ -134,7 +145,7 @@ const CountryInfo = ({ data, intl, labels, locale }) => {
             </Grid.Row>
             <Grid.Row key={`gr-3`} className={`section sub border`}>
                 <Grid.Column key={`gc-3-1`} width={16}>
-                    <div className="section-title">{labels.populationVsFarmingHouseholds}</div>
+                    <div className="section-title">{populationVsFarmingHouseholds}</div>
                 </Grid.Column>
             </Grid.Row>
             <Grid.Row className={`section sub`}>
