@@ -82,7 +82,7 @@ const CountryInfo = ({ data, intl, labels }) => {
             </Grid.Row>
             <Grid.Row className={`section sub`}>
                 <Grid.Column width={16}>
-                    <div className="section-title">{labels.topHarvestedCropsAndValue}</div>
+                    <div className="section-title">{labels.topHarvestedCropsAndValue + (data.year ? ' (' + data.year + ')' : '')}</div>
                 </Grid.Column>
             </Grid.Row>
             <Grid.Row className={`section sub`}>
@@ -113,7 +113,7 @@ const CountryInfo = ({ data, intl, labels }) => {
             <Grid.Row className={`section sub`}>
                 <Grid.Column width={8}>
                     <div className="household-data population">
-                        <div className="label has-condensed-text">{labels.totalPopulationLabel}</div>
+                        <div className="label has-condensed-text">{labels.totalPopulationLabel + (data.year ? ' (' + data.year + ')' : '')}</div>
                         <div className="data large">
                             <div
                                 className="data-value">{getValue(data.population)}</div>
@@ -122,7 +122,7 @@ const CountryInfo = ({ data, intl, labels }) => {
                 </Grid.Column>
                 <Grid.Column width={8}>
                     <div className="household-data households">
-                        <div className="label has-condensed-text">{labels.farmingHouseholdsLabel}</div>
+                        <div className="label has-condensed-text">{labels.farmingHouseholdsLabel + (data.year ? ' (' + data.year + ')' : '')}</div>
                         <div className="data large">
                             <div
                                 className="data-value ">{getValue(data.farmingHouseholds)}</div>
