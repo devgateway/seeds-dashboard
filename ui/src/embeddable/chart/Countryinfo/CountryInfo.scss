@@ -80,13 +80,14 @@
     .business-rank {
       .label{
         display: block;
-        paddinb-bottom: $base-unit / 2;
+        padding-bottom: $base-unit / 2;
         padding-top: $base-unit / 2;
         text-align: left;
+        font-weight: normal;
       }
       .data {
         font-size: 20px;
-        font-weight: 700;
+        font-weight: 600;
         color: $green-link;
       }
     }
