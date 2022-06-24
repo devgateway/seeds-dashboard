@@ -5,7 +5,7 @@ import './CountryInfo.scss';
 import CountryInfoChart from "./CountryInfoChart";
 import { injectIntl } from "react-intl";
 
-const CountryInfo = ({ data, intl, labels }) => {
+const CountryInfo = ({ data, intl, labels, locale }) => {
     const config = {
         precision: 2,
         lowercase: true,
@@ -67,6 +67,66 @@ const CountryInfo = ({ data, intl, labels }) => {
         ? "<span class='data'>" + getValue(data.easeAgricultureScore) + "</span>" + " out of 100" 
         : "<span class='data'>N/A</span>");
     
+    let sourceText = "";
+    let topHarvestedCropsAndValue = '';
+    let populationVsFarmingHouseholds = '';
+    let totalPopulationLabel = '';
+    let farmingHouseholdsLabel = '';
+    const currentLanguage = locale || 'en';
+    if (currentLanguage === 'en') {
+        if (cleanupParam(labels.sourceText_en)) {
+            sourceText = labels.sourceText_en;
+        } else {
+            sourceText = cleanupParam(labels.sourceText_fr) || '';
+        }
+        if (cleanupParam(labels.topHarvestedCropsAndValue_en)) {
+            topHarvestedCropsAndValue = labels.topHarvestedCropsAndValue_en;
+        } else {
+            topHarvestedCropsAndValue = cleanupParam(labels.topHarvestedCropsAndValue_fr) || '';
+        }
+        if (cleanupParam(labels.populationVsFarmingHouseholds_en)) {
+            populationVsFarmingHouseholds = labels.populationVsFarmingHouseholds_en;
+        } else {
+            populationVsFarmingHouseholds = cleanupParam(labels.populationVsFarmingHouseholds_fr) || '';
+        }
+        if (cleanupParam(labels.totalPopulationLabel_en)) {
+            totalPopulationLabel = labels.totalPopulationLabel_en;
+        } else {
+            totalPopulationLabel = cleanupParam(labels.totalPopulationLabel_fr) || '';
+        }
+        if (cleanupParam(labels.farmingHouseholdsLabel_en)) {
+            farmingHouseholdsLabel = labels.farmingHouseholdsLabel_en;
+        } else {
+            farmingHouseholdsLabel = cleanupParam(labels.farmingHouseholdsLabel_fr) || '';
+        }
+    } else {
+        if (cleanupParam(labels.sourceText_fr)) {
+            sourceText = labels.sourceText_fr;
+        } else {
+            sourceText = cleanupParam(labels.sourceText_en) || '';
+        }
+        if (cleanupParam(labels.topHarvestedCropsAndValue_fr)) {
+            topHarvestedCropsAndValue = labels.topHarvestedCropsAndValue_fr;
+        } else {
+            topHarvestedCropsAndValue = cleanupParam(labels.topHarvestedCropsAndValue_en) || '';
+        }
+        if (cleanupParam(labels.populationVsFarmingHouseholds_fr)) {
+            populationVsFarmingHouseholds = labels.populationVsFarmingHouseholds_fr;
+        } else {
+            populationVsFarmingHouseholds = cleanupParam(labels.populationVsFarmingHouseholds_en) || '';
+        }
+        if (cleanupParam(labels.totalPopulationLabel_fr)) {
+            totalPopulationLabel = labels.totalPopulationLabel_fr;
+        } else {
+            totalPopulationLabel = cleanupParam(labels.totalPopulationLabel_en) || '';
+        }
+        if (cleanupParam(labels.farmingHouseholdsLabel_fr)) {
+            farmingHouseholdsLabel = labels.farmingHouseholdsLabel_fr;
+        } else {
+            farmingHouseholdsLabel = cleanupParam(labels.farmingHouseholdsLabel_en) || '';
+        }
+    }
+    
     return (
         <Grid className={`country-info`}>
             <Grid.Row className={`section totals`}>
@@ -82,7 +142,7 @@ const CountryInfo = ({ data, intl, labels }) => {
             </Grid.Row>
             <Grid.Row className={`section sub`}>
                 <Grid.Column width={16}>
-                    <div className="section-title">{labels.topHarvestedCropsAndValue}</div>
+                    <div className="section-title">{topHarvestedCropsAndValue + (data.year ? ' (' + data.year + ')' : '')}</div>
                 </Grid.Column>
             </Grid.Row>
             <Grid.Row className={`section sub`}>
@@ -107,13 +167,13 @@ const CountryInfo = ({ data, intl, labels }) => {
             </Grid.Row>
             <Grid.Row key={`gr-3`} className={`section sub border`}>
                 <Grid.Column key={`gc-3-1`} width={16}>
-                    <div className="section-title">{labels.populationVsFarmingHouseholds}</div>
+                    <div className="section-title">{populationVsFarmingHouseholds}</div>
                 </Grid.Column>
             </Grid.Row>
             <Grid.Row className={`section sub`}>
                 <Grid.Column width={8}>
                     <div className="household-data population">
-                        <div className="label has-condensed-text">{labels.totalPopulationLabel}</div>
+                        <div className="label has-condensed-text">{totalPopulationLabel + (data.year ? ' (' + data.year + ')' : '')}</div>
                         <div className="data large">
                             <div
                                 className="data-value">{getValue(data.population)}</div>
@@ -122,7 +182,7 @@ const CountryInfo = ({ data, intl, labels }) => {
                 </Grid.Column>
                 <Grid.Column width={8}>
                     <div className="household-data households">
-                        <div className="label has-condensed-text">{labels.farmingHouseholdsLabel}</div>
+                        <div className="label has-condensed-text">{farmingHouseholdsLabel + (data.year ? ' (' + data.year + ')' : '')}</div>
                         <div className="data large">
                             <div
                                 className="data-value ">{getValue(data.farmingHouseholds)}</div>
@@ -139,6 +199,11 @@ const CountryInfo = ({ data, intl, labels }) => {
                     <div className="label" dangerouslySetInnerHTML={{__html: enablingBusinessAgricultureRank}}/>
                 </Grid.Column>
             </Grid.Row>
+            {labels.sourceText_en ? <Grid.Row className={`section border`}>
+                <Grid.Column width={16} className={`country_info_source`}>
+                    <div className="label" dangerouslySetInnerHTML={{__html: decodeURI(sourceText)}}/>
+                </Grid.Column>
+            </Grid.Row> : null}
         </Grid>
     )
 }
@@ -155,6 +220,14 @@ export const getCropsArray = (rawData) => {
     } else {
         return [];
     }
+}
+
+const cleanupParam = (param) => {
+    let text = param;
+    if (!text || text === '' || text === 'null' || text === 'undefined') {
+        return '';
+    }
+    return text;
 }
 
 

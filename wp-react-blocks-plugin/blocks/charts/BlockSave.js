@@ -22,11 +22,17 @@ const SaveComponent = (props) => {
             totalLandArea,
             totalLandAreaUnit,
             arableLand,
-            topHarvestedCropsAndValue,
+            topHarvestedCropsAndValue_en,
+            topHarvestedCropsAndValue_fr,
             topHarvestedCropsAndValueUnit,
-            populationVsFarmingHouseholds,
-            totalPopulationLabel,
-            farmingHouseholdsLabel
+            populationVsFarmingHouseholds_en,
+            populationVsFarmingHouseholds_fr,
+            totalPopulationLabel_en,
+            totalPopulationLabel_fr,
+            farmingHouseholdsLabel_en,
+            farmingHouseholdsLabel_fr,
+            sourceText_en,
+            sourceText_fr,
         }
     } = props;
     const blockProps = useBlockProps.save({
@@ -55,12 +61,17 @@ const SaveComponent = (props) => {
              data-total-land-area-label={totalLandArea}
              data-total-land-area-unit={totalLandAreaUnit}
              data-total-arable-land-label={arableLand}
-             data-top-harvested-crops-and-value={topHarvestedCropsAndValue}
+             data-top-harvested-crops-and-value_en={topHarvestedCropsAndValue_en}
+             data-top-harvested-crops-and-value_fr={topHarvestedCropsAndValue_fr}
              data-top-harvested-crops-and-value-unit={topHarvestedCropsAndValueUnit}
-             data-population-vs-farming-households={populationVsFarmingHouseholds}
-             data-total-population-label={totalPopulationLabel}
-             data-farming-households-label={farmingHouseholdsLabel}
-
+             data-population-vs-farming-households_en={populationVsFarmingHouseholds_en}
+             data-population-vs-farming-households_fr={populationVsFarmingHouseholds_fr}
+             data-total-population-label_en={totalPopulationLabel_en}
+             data-total-population-label_fr={totalPopulationLabel_fr}
+             data-farming-households-label_en={farmingHouseholdsLabel_en}
+             data-farming-households-label_fr={farmingHouseholdsLabel_fr}
+             data-source-text_en={encodeURI(sourceText_en)}
+             data-source-text_fr={encodeURI(sourceText_fr)}
         />
     );
 }

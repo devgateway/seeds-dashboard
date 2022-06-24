@@ -101,11 +101,17 @@ const Chart = (props) => {
         "data-total-land-area-label": totalLandArea = "Total area land",
         "data-total-land-area-unit": totalLandAreaUnit = "Hectares",
         "data-total-arable-land-label": arableLand = "Arable land",
-        "data-top-harvested-crops-and-value": topHarvestedCropsAndValue = "Top Harvested Crops and Value",
+        "data-top-harvested-crops-and-value_en": topHarvestedCropsAndValue_en = "Top Harvested Crops and Value",
+        "data-top-harvested-crops-and-value_fr": topHarvestedCropsAndValue_fr = "Top Harvested Crops and Value",
         "data-top-harvested-crops-and-value-unit": topHarvestedCropsAndValueUnit = "hectares",
-        "data-population-vs-farming-households": populationVsFarmingHouseholds = "Population vs Farming Households",
-        "data-total-population-label": totalPopulationLabel="Total Population",
-        "data-farming-households-label": farmingHouseholdsLabel="Farming Households",
+        "data-population-vs-farming-households_en": populationVsFarmingHouseholds_en = "Population vs Farming Households",
+        "data-population-vs-farming-households_fr": populationVsFarmingHouseholds_fr = "Population vs Farming Households",
+        "data-total-population-label_en": totalPopulationLabel_en="Total Population",
+        "data-total-population-label_fr": totalPopulationLabel_fr="Total Population",
+        "data-farming-households-label_en": farmingHouseholdsLabel_en="Farming Households",
+        "data-farming-households-label_fr": farmingHouseholdsLabel_fr="Farming Households",
+        "data-source-text_en": sourceText_en,
+        "data-source-text_fr": sourceText_fr,
     } = props;
 
     useEffect(() => {
@@ -273,13 +279,19 @@ const Chart = (props) => {
                 totalLandArea,
                 arableLand,
                 totalLandAreaUnit,
-                topHarvestedCropsAndValue,
+                topHarvestedCropsAndValue_en,
+                topHarvestedCropsAndValue_fr,
                 topHarvestedCropsAndValueUnit,
-                populationVsFarmingHouseholds,
-                totalPopulationLabel,
-                farmingHouseholdsLabel
+                populationVsFarmingHouseholds_en,
+                populationVsFarmingHouseholds_fr,
+                totalPopulationLabel_en,
+                totalPopulationLabel_fr,
+                farmingHouseholdsLabel_en,
+                farmingHouseholdsLabel_fr,
+                sourceText_en,
+                sourceText_fr
             };
-            child = <CountryInfo labels={labels} />
+            child = <CountryInfo labels={labels} locale={locale} />
             break;
         case AVAILABILITY_OF_BASIC_SEED:
         case SATISFACTION_ENFORCEMENT_SEED_LAW:

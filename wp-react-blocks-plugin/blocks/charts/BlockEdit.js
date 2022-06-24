@@ -8,7 +8,8 @@ import {
     SelectControl,
     RangeControl,
     TextControl,
-    ToggleControl
+    ToggleControl,
+    TextareaControl
 } from '@wordpress/components';
 import { InnerBlocks } from '@wordpress/editor'; // or wp.editor
 import { __ } from '@wordpress/i18n';
@@ -39,11 +40,17 @@ class BlockEdit extends BaseBlockEdit {
                 totalLandArea,
                 arableLand,
                 totalLandAreaUnit,
-                topHarvestedCropsAndValue,
+                topHarvestedCropsAndValue_en,
+                topHarvestedCropsAndValue_fr,
                 topHarvestedCropsAndValueUnit,
-                populationVsFarmingHouseholds,
-                totalPopulationLabel,
-                farmingHouseholdsLabel
+                populationVsFarmingHouseholds_en,
+                populationVsFarmingHouseholds_fr,
+                totalPopulationLabel_en,
+                totalPopulationLabel_fr,
+                farmingHouseholdsLabel_en,
+                farmingHouseholdsLabel_fr,
+                sourceText_en,
+                sourceText_fr,
             }
         } = this.props;
         let queryString = `data-height=${height}`;
@@ -59,17 +66,23 @@ class BlockEdit extends BaseBlockEdit {
         queryString += `&data-group-mode=${groupMode}`;
         queryString += `&data-use-source-by-category=${useSourceByCategory}`;
         queryString += `&data-methodology=${methodology}`;
-        queryString += `&data-total-population-label=${totalPopulationLabel}`;
-        queryString += `&data-farming-households-label=${farmingHouseholdsLabel}`
+        queryString += `&data-total-population-label_en=${totalPopulationLabel_en}`;
+        queryString += `&data-total-population-label_fr=${totalPopulationLabel_fr}`;
+        queryString += `&data-farming-households-label_en=${farmingHouseholdsLabel_en}`
+        queryString += `&data-farming-households-label_fr=${farmingHouseholdsLabel_fr}`
 
         queryString += `&data-total-land-area-label=${totalLandArea}`;
         queryString += `&data-total-land-area-unit=${totalLandAreaUnit}`;
 
         queryString += `&data-total-arable-land-label=${arableLand}`;
-        queryString += `&data-top-harvested-crops-and-value=${topHarvestedCropsAndValue}`;
+        queryString += `&data-top-harvested-crops-and-value_en=${topHarvestedCropsAndValue_en}`;
+        queryString += `&data-top-harvested-crops-and-value_fr=${topHarvestedCropsAndValue_fr}`;
         queryString += `&data-top-harvested-crops-and-value-unit=${topHarvestedCropsAndValueUnit}`;
-        queryString += `&data-population-vs-farming-households=${populationVsFarmingHouseholds}`;
+        queryString += `&data-population-vs-farming-households_en=${populationVsFarmingHouseholds_en}`;
+        queryString += `&data-population-vs-farming-households_fr=${populationVsFarmingHouseholds_fr}`;
 
+        queryString += `&data-source-text_en=${sourceText_en}`;
+        queryString += `&data-source-text_fr=${sourceText_fr}`;
 
         if (ApiConfigurations[type]) {
             queryString += ` & data - chart - data - source =${ApiConfigurations[type].join("|")}`;
@@ -271,11 +284,16 @@ class BlockEdit extends BaseBlockEdit {
                                                      totalLandArea={totalLandArea} arableLand={arableLand}
                                                      setAttributes={setAttributes}
                                                      totalLandAreaUnit={totalLandAreaUnit}
-                                                     topHarvestedCropsAndValue={topHarvestedCropsAndValue}
+                                                     topHarvestedCropsAndValue_en={topHarvestedCropsAndValue_en}
+                                                     topHarvestedCropsAndValue_fr={topHarvestedCropsAndValue_fr}
                                                      topHarvestedCropsAndValueUnit={topHarvestedCropsAndValueUnit}
-                                                     populationVsFarmingHouseholds={populationVsFarmingHouseholds}
-                                                     totalPopulationLabel={totalPopulationLabel}
-                                                     farmingHouseholdsLabel={farmingHouseholdsLabel}
+                                                     populationVsFarmingHouseholds_en={populationVsFarmingHouseholds_en}
+                                                     populationVsFarmingHouseholds_fr={populationVsFarmingHouseholds_fr}
+                                                     totalPopulationLabel_en={totalPopulationLabel_en}
+                                                     totalPopulationLabel_fr={totalPopulationLabel_fr}
+                                                     farmingHouseholdsLabel_en={farmingHouseholdsLabel_en}
+                                                     farmingHouseholdsLabel_fr={farmingHouseholdsLabel_fr}
+                                                     sourceText_en={sourceText_en} sourceText_fr={sourceText_fr}
                             />}
                     </Panel>
                 </InspectorControls>
@@ -347,11 +365,17 @@ const CountryInfoChartsLabels = ({
                                      setAttributes,
                                      arableLand,
                                      totalLandAreaUnit,
-                                     topHarvestedCropsAndValue,
+                                     topHarvestedCropsAndValue_en,
+                                     topHarvestedCropsAndValue_fr,
                                      topHarvestedCropsAndValueUnit,
-                                     populationVsFarmingHouseholds,
-                                     totalPopulationLabel,
-                                     farmingHouseholdsLabel
+                                     populationVsFarmingHouseholds_en,
+                                     populationVsFarmingHouseholds_fr,
+                                     totalPopulationLabel_en,
+                                     totalPopulationLabel_fr,
+                                     farmingHouseholdsLabel_en,
+                                     farmingHouseholdsLabel_fr,
+                                     sourceText_en,
+                                     sourceText_fr,
                                  }) => {
     return (<PanelBody title={__(bodyTitle)}>
         <PanelRow>
@@ -366,26 +390,61 @@ const CountryInfoChartsLabels = ({
             <TextControl label={__('Arable land label')} value={arableLand}
                          onChange={(arableLand) => setAttributes({ arableLand })} />
         </PanelRow>
+        
         <PanelRow>
-            <TextControl label={__('Top Harvested Crops and Value label')} value={topHarvestedCropsAndValue}
-                         onChange={(topHarvestedCropsAndValue) => setAttributes({ topHarvestedCropsAndValue })} />
+            <TextControl label={__('Top Harvested Crops and Value label in English')} value={topHarvestedCropsAndValue_en}
+                         onChange={(topHarvestedCropsAndValue_en) => setAttributes({ topHarvestedCropsAndValue_en })} />
         </PanelRow>
+        <PanelRow>
+            <TextControl label={__('Top Harvested Crops and Value label in French')} value={topHarvestedCropsAndValue_fr}
+                         onChange={(topHarvestedCropsAndValue_fr) => setAttributes({ topHarvestedCropsAndValue_fr })} />
+        </PanelRow>
+        
         <PanelRow>
             <TextControl label={__('Top Harvested Crops and Value unit')} value={topHarvestedCropsAndValueUnit}
                          onChange={(topHarvestedCropsAndValueUnit) => setAttributes({ topHarvestedCropsAndValueUnit })} />
         </PanelRow>
+        
         <PanelRow>
-            <TextControl label={__('Population vs Farming Households label')} value={populationVsFarmingHouseholds}
-                         onChange={(populationVsFarmingHouseholds) => setAttributes({ populationVsFarmingHouseholds })} />
+            <TextControl label={__('Population vs Farming Households label in English')} value={populationVsFarmingHouseholds_en}
+                         onChange={(populationVsFarmingHouseholds_en) => setAttributes({ populationVsFarmingHouseholds_en })} />
         </PanelRow>
         <PanelRow>
-            <TextControl label={__('Total Population label')} value={totalPopulationLabel}
-                         onChange={(totalPopulationLabel) => setAttributes({ totalPopulationLabel })} />
+            <TextControl label={__('Population vs Farming Households label in French')} value={populationVsFarmingHouseholds_fr}
+                         onChange={(populationVsFarmingHouseholds_fr) => setAttributes({ populationVsFarmingHouseholds_fr })} />
+        </PanelRow>
+        
+        <PanelRow>
+            <TextControl label={__('Total Population label in English')} value={totalPopulationLabel_en}
+                         onChange={(totalPopulationLabel_en) => setAttributes({ totalPopulationLabel_en })} />
         </PanelRow>
         <PanelRow>
-
-            <TextControl label={__('Farming Households label')} value={farmingHouseholdsLabel}
-                         onChange={(farmingHouseholdsLabel) => setAttributes({ farmingHouseholdsLabel })} />
+            <TextControl label={__('Total Population label in French')} value={totalPopulationLabel_fr}
+                         onChange={(totalPopulationLabel_fr) => setAttributes({ totalPopulationLabel_fr })} />
+        </PanelRow>
+        
+        <PanelRow>
+            <TextControl label={__('Farming Households label in English')} value={farmingHouseholdsLabel_en}
+                         onChange={(farmingHouseholdsLabel_en) => setAttributes({ farmingHouseholdsLabel_en })} />
+        </PanelRow>
+        <PanelRow>
+            <TextControl label={__('Farming Households label in French')} value={farmingHouseholdsLabel_fr}
+                         onChange={(farmingHouseholdsLabel_fr) => setAttributes({ farmingHouseholdsLabel_fr })} />
+        </PanelRow>
+        
+        <PanelRow>
+            <TextareaControl
+                label={__('Source in English (it can be HTML)')}
+                value={sourceText_en}
+                onChange={(sourceText_en) => setAttributes({ sourceText_en })}
+            />
+        </PanelRow>
+        <PanelRow>
+            <TextareaControl
+                label={__('Source in French (it can be HTML)')}
+                value={sourceText_fr}
+                onChange={(sourceText_fr) => setAttributes({ sourceText_fr })}
+            />
         </PanelRow>
     </PanelBody>)
 }
