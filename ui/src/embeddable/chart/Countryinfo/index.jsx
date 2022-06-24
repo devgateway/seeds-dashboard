@@ -190,7 +190,7 @@ const CountryInfo = ({ data, intl, labels, locale }) => {
                     </div>
                 </Grid.Column>
             </Grid.Row>
-            <Grid.Row className={`section border`} style={{border: 'none'}}>
+            <Grid.Row className={`section border`}>
                 <Grid.Column width={16} className={`business-rank`}>
                     {data.business && <div className="label">Ease of Doing Business Rank (2020) :
                         <span className="data"> {data.business ? data.business.value : NA}</span> of 100
