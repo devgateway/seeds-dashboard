@@ -93,7 +93,7 @@ const CountryReports = (props) => {
 
     const generateCrops = () => {
         if (crops && categoriesWP) {
-            const year_ = categoriesWP.find(i => i.id === Number(year)).name;
+            const year_ = Number(categoriesWP.find(i => i.id === Number(year)).name);
             const country_ = categoriesWP.find(i => i.id === Number(country)).name;
             const crops_ = crops.find(i => i.country.toLowerCase() + categorySuffix_ === country_.toLowerCase() && i.year === year_);
             if (crops_ && (crops_.crop1 || crops_.crop2 || crops_.crop3 || crops_.crop4)) {

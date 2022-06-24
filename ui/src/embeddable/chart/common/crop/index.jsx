@@ -11,7 +11,7 @@ const CropsLegend = ({data, title, titleClass, addLighterDiv, intl}) => {
                 const translated = intl ? intl.formatMessage({id: c, defaultMessage: c}) : c;
                 const class_ = "crop " + c.toLowerCase() + " crop-icon";
                 return (<div key={c} className={class_}>
-                    <label>{translated}</label>
+                    <label style={{cursor: "auto"}}>{translated}</label>
                     {addLighterDiv ? <div className="lighter-crop"/> : null}
                 </div>)
             })}
