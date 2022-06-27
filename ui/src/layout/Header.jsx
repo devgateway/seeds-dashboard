@@ -110,7 +110,7 @@ const Header = ({ intl: { locale }, match, firstChildLink, filters }) => {
     const gotoLanguage = (lang) => {
         let slugUrl = slug ? `${slug}` : ``;
         slugUrl += generateShareParams(filters, null, null, null);
-        routerHistory.replace(`/${lang}/${slugUrl}`);
+        window.location = `/${lang}/${slugUrl}`;
     }
 
     const logoUrl = process.env.REACT_APP_USE_HASH_LINKS === 'true' ? `/#/${locale}` : `/${locale}`
