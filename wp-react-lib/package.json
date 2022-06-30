@@ -28,6 +28,12 @@
     "semantic-ui-react": "^2.0.3",
     "immutable": "^4.0.0-rc.12"
   },
+  "resolutions": {
+    "@types/eslint": "8.4.3"
+  },
+  "overrides": {
+    "@types/eslint": "8.4.3"
+  },
   "scripts": {
     "dist": "rm -rf dist && mkdir dist &&  babel src/ -d dist --copy-files && npm link",
     "dev": "rm -rf dist && mkdir dist &&  babel src/ -d dist --copy-files --source-maps --watch",
