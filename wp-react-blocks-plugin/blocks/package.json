@@ -31,5 +31,11 @@
     "@wordpress/icons": "^2.9.1",
     "classnames": "^2.2.6",
     "semantic-ui-react": "^2.0.3"
+  },
+  "resolutions": {
+    "@types/eslint": "8.4.3"
+  },
+  "overrides": {
+    "@types/eslint": "8.4.3"
   }
 }
