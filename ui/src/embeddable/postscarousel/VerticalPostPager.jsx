@@ -5,7 +5,7 @@ import { POST_CAROUSEL_CONTAINER } from "./index";
 
 
 //TODO this could be configured via wp admin
-const MAX_PAGE_COUNT = 1;
+const MAX_PAGE_COUNT = 6;
 
 const VerticalPostPager = ({
                                filteredAndOrderedPosts, showLinksInModal,
