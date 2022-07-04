@@ -4,6 +4,7 @@ import { ButtonBack, ButtonNext, CarouselProvider, Dot, DotGroup, Slide, Slider 
 import { BUTTONS, DOTS, PAGED_DOTS } from "./Constants";
 import { Icon } from "semantic-ui-react";
 import React from "react";
+import VerticalPostPager from "./VerticalPostPager";
 
 export const Carousel = ({
                              posts,
@@ -15,7 +16,6 @@ export const Carousel = ({
                              type,
                              showLinksInModal,
                              categories,
-                             isTwoColumns,//TODO no used until SEEDSDT-839 is fixed
                              isSortedByCountryAndYearCategories
                          }) => {
     let filteredAndOrderedPosts = posts;
@@ -39,42 +39,47 @@ export const Carousel = ({
             });
         }
         filteredAndOrderedPosts.sort((a, b) => (b.categoriesHydrated.year - a.categoriesHydrated.year || a.categoriesHydrated.country.localeCompare(b.categoriesHydrated.country)))
-        /* TODO until SEEDSDT-839 is fixed
-        if (isTwoColumns) {
-            filteredAndOrderedPosts = posts.filter((_, i) => i % 2 === 0).concat(posts.filter((_, i) => i % 2 === 1));
-        }*/
     }
 
 
-    let i = 0;
     const isAddType = type !== undefined;
     const finalItemsPerPage = itemsPerPage > 0 ? parseInt(itemsPerPage) : filteredAndOrderedPosts.length;
-    return (<CarouselProvider
-        visibleSlides={finalItemsPerPage}
-        totalSlides={filteredAndOrderedPosts.length}
-        orientation={orientation} className={navigatorStyle === BUTTONS ? "carousel-flex" : ''}
-        step={finalItemsPerPage}
-    >
-        {navigatorStyle === BUTTONS && <div className="navigator">
-            <ButtonBack><Icon name="chevron left" /></ButtonBack>
-        </div>}
-        <div className={navigatorStyle === BUTTONS ? "carousel-container" : ''}>
-            <Slider dragEnabled={false}>
-                {filteredAndOrderedPosts.map(p => {
-                    return <Slide index={i++} key={p.id}>
-                        <PostIntro post={p} fluid showLink showLinksInModal={showLinksInModal}
-                                   messages={messages} locale={locale} isAddTypeToLink={isAddType} />
-                    </Slide>;
-                })}
-            </Slider>
-        </div>
-        {navigatorStyle === BUTTONS && <div className="navigator">
-            <ButtonNext><Icon name="chevron right" /></ButtonNext>
-        </div>}
-        {navigatorStyle === DOTS && <DotGroup />}
-        {navigatorStyle === PAGED_DOTS && <PagedDots posts={posts} itemsPerPage={finalItemsPerPage  } />}
+    if (orientation === 'vertical') {
+        console.log(navigatorStyle);
+        return (<VerticalPostPager
+                filteredAndOrderedPosts={filteredAndOrderedPosts} showLinksInModal={showLinksInModal}
+                messages={messages} locale={locale} isAddTypeToLink={isAddType} itemsPerPage={itemsPerPage}
+                columns={3} />
+        )
+    } else {
+        let i = 0;
+        return (<CarouselProvider
+            visibleSlides={finalItemsPerPage}
+            totalSlides={filteredAndOrderedPosts.length}
+            orientation={orientation} className={navigatorStyle === BUTTONS ? "carousel-flex" : ''}
+            step={finalItemsPerPage}
+        >
+            {navigatorStyle === BUTTONS && <div className="navigator">
+                <ButtonBack><Icon name="chevron left" /></ButtonBack>
+            </div>}
+            <div className={navigatorStyle === BUTTONS ? "carousel-container" : ''}>
+                <Slider dragEnabled={false}>
+                    {filteredAndOrderedPosts.map(p => {
+                        return <Slide index={i++} key={p.id}>
+                            <PostIntro post={p} fluid showLink showLinksInModal={showLinksInModal}
+                                       messages={messages} locale={locale} isAddTypeToLink={isAddType} />
+                        </Slide>;
+                    })}
+                </Slider>
+            </div>
+            {navigatorStyle === BUTTONS && <div className="navigator">
+                <ButtonNext><Icon name="chevron right" /></ButtonNext>
+            </div>}
+            {navigatorStyle === DOTS && <DotGroup />}
+            {navigatorStyle === PAGED_DOTS && <PagedDots posts={posts} itemsPerPage={finalItemsPerPage} />}
 
-    </CarouselProvider>)
+        </CarouselProvider>)
+    }
 }
 const PagedDots = ({ posts, itemsPerPage }) => {
     let firstItemOfPage = 0;

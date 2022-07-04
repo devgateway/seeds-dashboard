@@ -60,10 +60,6 @@ registerBlockType(process.env.BLOCKS_NS + '/post-carousel',
                 type: 'Boolean',
                 default: false
             },
-            twoColumns: {
-                type: 'Boolean',
-                default: false
-            },
             sortedByCountryAndYearCategories: {
                 type: 'Boolean',
                 default: false

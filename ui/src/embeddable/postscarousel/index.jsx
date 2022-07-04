@@ -11,6 +11,8 @@ import { getSlugFromFilters } from "../utils/common";
 import { DOCUMENTS_PER_PAGE } from "../../seeds-commons/commonConstants";
 import { Carousel } from "./Carousel";
 
+export const POST_CAROUSEL_CONTAINER = 'postCarouselContainer';
+
 const PostCarousel = ({
                           "data-type": type,
                           "data-taxonomy": taxonomy,
@@ -72,8 +74,9 @@ const PostCarousel = ({
             }
         }
     }
+
     return <Container className={`wp-react-lib post carousel ${editing ? 'editing' : ''}`} fluid={true}
-                      style={{ "height": height + 'px' }}>
+                      style={{ "height": height + 'px' }} id={POST_CAROUSEL_CONTAINER}>
         <PostProvider type={type} taxonomy={taxonomy}
                       categories={orCategoriesArray && !isPreloadDocumentsAndCrops ? orCategoriesArray.join(',') : categories}
                       categoriesOr={orCategoriesArray && isPreloadDocumentsAndCrops ? orCategoriesArray : undefined}
