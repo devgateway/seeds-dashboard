@@ -18,7 +18,6 @@ const SaveComponent = (props) => {
             fieldOrientation,
             navigatorStyle,
             showLinksInModal,
-            twoColumns,
             sortedByCountryAndYearCategories,
             preloadDocumentsAndCrops
         },
@@ -41,7 +40,6 @@ const SaveComponent = (props) => {
                  data-scheduled-filter-store={scheduledFilterStore}
                  data-show-links-in-modal={showLinksInModal}
                  data-show-sorted-by-country-and-year-categories={sortedByCountryAndYearCategories}
-                 data-show-two-columns={fieldOrientation === FIELD_ORIENTATION_VERTICAL ? twoColumns : false}
                  data-preload-document-and-crops={preloadDocumentsAndCrops}
                  className={"wp-react-lib-component"}
                  data-component={"postsCarousel"}>

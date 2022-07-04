@@ -41,7 +41,6 @@ class BlockEdit extends BlockEditWithFilters {
                 fieldOrientation,
                 navigatorStyle,
                 showLinksInModal,
-                twoColumns,
                 sortedByCountryAndYearCategories,
                 preloadDocumentsAndCrops
             },
@@ -60,7 +59,6 @@ class BlockEdit extends BlockEditWithFilters {
         queryString += `&data-scheduled-filter-store=${scheduledFilterStore}`;
         queryString += `&data-show-links-in-modal=${showLinksInModal}`;
         queryString += `&data-show-sorted-by-country-and-year-categories=${sortedByCountryAndYearCategories}`;
-        queryString += `&data-show-two-columns=${fieldOrientation === FIELD_ORIENTATION_VERTICAL ? twoColumns : false}`;
         queryString += `&data-preload-document-and-crops=${preloadDocumentsAndCrops}`
         const divStyles = { height: height + 'px', width: '100%' }
 
@@ -110,14 +108,6 @@ class BlockEdit extends BlockEditWithFilters {
                                     { label: 'Horizontal', value: FIELD_ORIENTATION_HORIZONTAL }
                                 ]}
                             />
-                            {fieldOrientation === FIELD_ORIENTATION_VERTICAL && <PanelRow>
-                                <ToggleControl
-                                    label={__("Show in two columns")}
-                                    checked={twoColumns}
-                                    onChange={(twoColumns) => setAttributes({ twoColumns })}
-                                />
-                            </PanelRow>
-                            }
                             <PanelRow>
                                 <ToggleControl
                                     label={__("Show links in Modal")}
