@@ -73,43 +73,23 @@
         /*border-right: 3px solid $yellow;*/
       }
 
-      &._service-to-smallholder-farmer {
+      &._service-to-smallholder-farmer,&._service-to-smallholder-farmers {
         background-image: url("/static/images/service-to-smallholder-farmer.svg") !important;
       }
 
-      &._service-to-smallholder-farmers {
-        background-image: url("/static/images/service-to-smallholder-farmer.svg") !important;
-      }
-
-      &._institutional-support {
+      &._institutional-support,&._institutional-support-2 {
         background-image: url("/static/images/insitutional-support.svg") !important;
       }
 
-      &._institutional-support-2 {
-        background-image: url("/static/images/insitutional-support.svg") !important;
-      }
-
-      &._seeds-policy-regulation {
+      &._seeds-policy-regulation,&._seed-policy-and-regulations {
         background-image: url("/static/images/seeds-policy-regulation.svg") !important;
       }
 
-      &._seed-policy-and-regulations {
-        background-image: url("/static/images/seeds-policy-regulation.svg") !important;
-      }
-
-      &._industry-competitiveness {
+      &._industry-competitiveness,&._industry-competitiveness-2 {
         background-image: url("/static/images/industry-competitiveness.svg") !important;
       }
 
-      &._industry-competitiveness-2 {
-        background-image: url("/static/images/industry-competitiveness.svg") !important;
-      }
-
-      &._research-and-development {
-        background-image: url("/static/images/research-and-development.svg") !important;
-      }
-
-      &._research-and-development-2 {
+      &._research-and-development,&._research-and-development-2 {
         background-image: url("/static/images/research-and-development.svg") !important;
       }
 
