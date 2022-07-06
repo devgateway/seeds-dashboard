@@ -140,6 +140,7 @@ const ChartComponent = ({
         countriesISO.forEach(c => {
             countries.push({iso: c, name: COUNTRY_OPTIONS.find(j => j.flag.toLowerCase() === c.toLowerCase()).text});
         });
+        countriesISO = countriesISO.sort((a, b) => b.localeCompare(a));
         
         if (data !== currentData) {
             setCurrentData(data);
@@ -275,6 +276,7 @@ const ChartComponent = ({
                     item.iso = c.iso;
                     item[c.iso] = data.values[c.iso][crops];
                     item.country = c.name;
+                    item.year = data.values[c.iso].year;
                     processedData.push(item);
                     if (max < item[c.iso]) {
                         max = item[c.iso];
@@ -911,77 +913,27 @@ const ChartComponent = ({
             getColors = (item) => {
                 return baseColors[crops];
             }
-            
-            /*keys.push('public', 'private');
-            Object.keys(data.values).forEach(y => {
-                const item = { year: y };
-                if (selectedYear && selectedYear.find(k => k === y)) {
-                    item.public = Number(data.values[y].public) >= 0 ? data.values[y].public : FAKE_NUMBER;
-                    item.private = Number(data.values[y].private) >= 0 ? data.values[y].private : FAKE_NUMBER;
-                    item.rating = Number(data.values[y].rating) >= 0 ? data.values[y].rating : FAKE_NUMBER;
-                    item.total = Number(data.values[y].total) || 0;
-                    if (item.total > max) {
-                        max = item.total;
-                    }
-                    processedData.push(item);
-                }
-            });*/
-            /*colors.set('public', barPieColor[1])
-            colors.set('private', barPieColor[2])*/
+            containerHeight = 650;
             getTooltipText = (d) => {
-                /*const private_ = processedData.find(i => Number(i.year) === Number(d.data.year)).private;
-                const public_ = processedData.find(i => Number(i.year) === Number(d.data.year)).public;
                 return <>
                     <div style={{ textAlign: 'center' }}>
                         <span>{intl.formatMessage({
-                            id: 'tooltip-private-inspectors-legend',
-                            defaultMessage: 'Private seed inspectors'
-                        })} </span>
-                        <span className="bold"> {private_ !== FAKE_NUMBER ? private_ : 'MD'}</span>
+                            id: 'active-breeders-tooltip',
+                            defaultMessage: 'Number of active breeders'
+                        })} {d.data.year}</span>
+                        <span className="bold"> {d.value !== FAKE_NUMBER ? d.value + '/1,000,000 ha' : 'MD'}</span>
                     </div>
-                    <div style={{ textAlign: 'center' }}>
-                        <span>{intl.formatMessage({
-                            id: 'tooltip-public-inspectors-legend',
-                            defaultMessage: 'Public seed inspectors'
-                        })} </span>
-                        <span className="bold"> {public_ !== FAKE_NUMBER ? public_ : 'MD'}</span>
-                    </div>
-                </>*/
-                return <div>tooltip</div>;
+                </>
             }
             getTooltipHeader = (d) => {
-                /*return <>
-                    <div className={d.indexValue + " crop-icon"} />
+                return <>
+                    <div className={crops + " crop-icon"} />
                     <div className="crop-name">{intl.formatMessage({
-                        id: d.indexValue,
-                        defaultMessage: d.indexValue
-                    })}</div>
-                </>;*/
-                return <div>a</div>;
+                        id: crops, defaultMessage: crops
+                    })} - {d.indexValue} - {d.data.year}</div>
+                </>;
             }
-            /*legends = [{
-                id: 1,
-                'color': barPieColor[1],
-                'label': intl.formatMessage({ id: 'public-inspectors-legend', defaultMessage: 'Public inspectors' })
-            },
-                {
-                    id: 2,
-                    'color': barPieColor[2],
-                    'label': intl.formatMessage({
-                        id: 'private-inspectors-legend',
-                        defaultMessage: 'Private inspectors'
-                    })
-                },
-                {
-                    id: 3,
-                    'color': barPieColor[0],
-                    'label': intl.formatMessage({
-                        id: 'industry-opinion-legend',
-                        defaultMessage: 'Industry opinion rating (adequacy) (out of 100%)'
-                    })
-                }
-            ];*/
-            totalLabel.show = false;
+            totalLabel.show = true;
             break;
         case NUMBER_OF_ACTIVE_BREEDERS:
             getTooltipHeader = (d) => {

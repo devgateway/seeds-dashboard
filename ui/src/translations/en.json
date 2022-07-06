@@ -162,5 +162,6 @@
   "tooltip-price-usd-by-kg": "Average price per kg:",
   "all-countries":"All countries",
   "label-country": "Country",
-  "active-breeders-legend": "Active breeders per 1,000,000 hectares"
+  "active-breeders-legend": "Active breeders per 1,000,000 hectares",
+  "active-breeders-tooltip": "Number of active breeders"
 }
