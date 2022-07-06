@@ -63,7 +63,8 @@ const ResponsiveBarChartImpl = ({
                                     extraTooltipClass,
                                     intl,
                                     getColorsCustom,
-                                    axisBottom = true
+                                    axisBottom = true,
+                                    isCrossCountryChart
                                 }) => {
 
     let pMax = max;

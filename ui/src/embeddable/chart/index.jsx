@@ -37,7 +37,11 @@ import {
     DATA,
     WP_CATEGORIES,
     COUNTRIES_FILTER,
-    SOURCE_CATEGORIES, NUMBER_SEED_INSPECTORS_BY_COUNTRY, SHARE_CHART, SHARE_CROPS
+    SOURCE_CATEGORIES,
+    NUMBER_SEED_INSPECTORS_BY_COUNTRY,
+    SHARE_CHART,
+    SHARE_CROPS,
+    CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS
 } from "../reducers/StoreConstants";
 import GaugesChart from "./GaugesChart";
 import { getWpCategories, setFilter } from "../reducers/data";
@@ -269,7 +273,8 @@ const Chart = (props) => {
         case AGRODEALER_NETWORK:
         case AGRICULTURAL_EXTENSION_SERVICES:
         case NUMBER_SEED_INSPECTORS_BY_COUNTRY:
-        case AVERAGE_AGE_VARIETIES_SOLD: {
+        case AVERAGE_AGE_VARIETIES_SOLD:
+        case CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS: {
             const chartComponent = { type, ...chartProps }
             child = <ChartComponent {...chartComponent} sources={dynamicSources} />
             break;
@@ -322,7 +327,8 @@ const Chart = (props) => {
         [AGRICULTURAL_EXTENSION_SERVICES]: 760,
         [AGRODEALER_NETWORK]: 730,
         [AVAILABILITY_SEED_SMALL_PACKAGES]: 725,
-        [PRICE_SEED_PLANTING]: 695
+        [PRICE_SEED_PLANTING]: 695,
+        [CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS]: 742,
     };
     const fixedHeightStyle = { height: (fixedHeight[type] ? fixedHeight[type] : 550) + 'px' };
 

@@ -32,7 +32,8 @@ import {
     NUMBER_SEED_INSPECTORS_BY_COUNTRY,
     NUMBER_OF_VARIETIES_RELEASED,
     SHARE_CROPS,
-    SHARE_CHART, SHARE_YEARS
+    SHARE_CHART, SHARE_YEARS,
+    CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS,
 } from "../../reducers/StoreConstants";
 import YearLegend from "../common/year";
 import MarketConcentrationHHI from "../MarketConcentrationHHI";
@@ -93,6 +94,7 @@ const ChartComponent = ({
     let getTooltipText;
     let getTooltipHeader;
     let crops = null;
+    let countries = [];
     let noData = false;
     let years = null;
     let colors = new Map();
@@ -112,6 +114,7 @@ const ChartComponent = ({
     let switchToLineChart = false;
     let sharedCrops;
     let sharedYears;
+    let isCrossCountryChart = false;
     if (filters && filters.get(SHARE_CHART) === type) {
         if (filters.get(SHARE_CROPS)) {
             sharedCrops = filters.get(SHARE_CROPS).split(",");
@@ -132,6 +135,13 @@ const ChartComponent = ({
     } else {
         years = data.dimensions.year ? data.dimensions.year.values : {};
         crops = data.dimensions.crop ? data.dimensions.crop.values : {};
+        let countriesISO = data.dimensions.country ? data.dimensions.country.values : [];
+        
+        // TODO: convert ISO into country name.
+        countriesISO.forEach(c => {
+            countries.push({iso: c, name: c});
+        });
+        
         if (data !== currentData) {
             setCurrentData(data);
             if (sharedCrops) {
@@ -149,7 +159,6 @@ const ChartComponent = ({
                     setSelectedYear(years)
                 }
             }
-
             return null;
         }
         if (!initialCrops) {
@@ -169,6 +178,7 @@ const ChartComponent = ({
         }
         setSelectedCrops(currentlySelected);
     }
+    
     const handleYearFilterChange = (selected) => {
         setSelectedYear(selected);
     }
@@ -202,8 +212,8 @@ const ChartComponent = ({
             });
         }
     }
+    
     const numberOfActiveBreeders = () => {
-
         if (years && crops) {
             years.forEach(y => {
                 const yearObject = { year: y };
@@ -226,8 +236,7 @@ const ChartComponent = ({
             });
         }
     }
-
-
+    
     const availabilitySeedSmallPackages = () => {
         let hasData = false;
         if (years && crops) {
@@ -253,6 +262,18 @@ const ChartComponent = ({
                     noData = !hasData;
                 });
             }
+        }
+    }
+    
+    const commonCrossCountryProcess = () => {
+        if (crops && countries) {
+            countries.forEach(c => {
+                if (data.values[c.iso]) {
+                    const value = Object.assign({}, data.values[c.iso]);
+                    value.country = c.name;
+                    processedData.push(value);
+                }
+            });
         }
     }
 
@@ -859,6 +880,99 @@ const ChartComponent = ({
             containerHeight = 650;
             processInspectorsByCountry();
             break;
+        case CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS:
+            commonCrossCountryProcess();
+            isCrossCountryChart = true;
+            useCropLegendsRow = false;
+            useFilterByCrops = false;
+            leftLegend = intl.formatMessage({
+                id: 'label-country',
+                defaultMessage: 'Country'
+            });
+            indexBy = 'country';
+            bottomLegend = intl.formatMessage({
+                id: 'active-breeders-legend',
+                defaultMessage: 'Active breeders per 1,000,000 hectares'
+            });
+            processedData.forEach(i => {
+                keys.push(i.country);
+            });
+            legends = [];
+            layout = 'horizontal';
+            enableGridX = true;
+            enableGridY = false;
+            
+            /*keys.push('public', 'private');
+            Object.keys(data.values).forEach(y => {
+                const item = { year: y };
+                if (selectedYear && selectedYear.find(k => k === y)) {
+                    item.public = Number(data.values[y].public) >= 0 ? data.values[y].public : FAKE_NUMBER;
+                    item.private = Number(data.values[y].private) >= 0 ? data.values[y].private : FAKE_NUMBER;
+                    item.rating = Number(data.values[y].rating) >= 0 ? data.values[y].rating : FAKE_NUMBER;
+                    item.total = Number(data.values[y].total) || 0;
+                    if (item.total > max) {
+                        max = item.total;
+                    }
+                    processedData.push(item);
+                }
+            });*/
+            /*colors.set('public', barPieColor[1])
+            colors.set('private', barPieColor[2])*/
+            getTooltipText = (d) => {
+                /*const private_ = processedData.find(i => Number(i.year) === Number(d.data.year)).private;
+                const public_ = processedData.find(i => Number(i.year) === Number(d.data.year)).public;
+                return <>
+                    <div style={{ textAlign: 'center' }}>
+                        <span>{intl.formatMessage({
+                            id: 'tooltip-private-inspectors-legend',
+                            defaultMessage: 'Private seed inspectors'
+                        })} </span>
+                        <span className="bold"> {private_ !== FAKE_NUMBER ? private_ : 'MD'}</span>
+                    </div>
+                    <div style={{ textAlign: 'center' }}>
+                        <span>{intl.formatMessage({
+                            id: 'tooltip-public-inspectors-legend',
+                            defaultMessage: 'Public seed inspectors'
+                        })} </span>
+                        <span className="bold"> {public_ !== FAKE_NUMBER ? public_ : 'MD'}</span>
+                    </div>
+                </>*/
+                return <div>tooltip</div>;
+            }
+            getTooltipHeader = (d) => {
+                /*return <>
+                    <div className={d.indexValue + " crop-icon"} />
+                    <div className="crop-name">{intl.formatMessage({
+                        id: d.indexValue,
+                        defaultMessage: d.indexValue
+                    })}</div>
+                </>;*/
+                return <div>a</div>;
+            }
+            /*legends = [{
+                id: 1,
+                'color': barPieColor[1],
+                'label': intl.formatMessage({ id: 'public-inspectors-legend', defaultMessage: 'Public inspectors' })
+            },
+                {
+                    id: 2,
+                    'color': barPieColor[2],
+                    'label': intl.formatMessage({
+                        id: 'private-inspectors-legend',
+                        defaultMessage: 'Private inspectors'
+                    })
+                },
+                {
+                    id: 3,
+                    'color': barPieColor[0],
+                    'label': intl.formatMessage({
+                        id: 'industry-opinion-legend',
+                        defaultMessage: 'Industry opinion rating (adequacy) (out of 100%)'
+                    })
+                }
+            ];*/
+            totalLabel.show = false;
+            break;
         case NUMBER_OF_ACTIVE_BREEDERS:
             getTooltipHeader = (d) => {
                 const cropName = d.id.replace(`${d.indexValue}_`, "");
@@ -1441,6 +1555,7 @@ const ChartComponent = ({
             case AGRICULTURAL_EXTENSION_SERVICES:
             case EFFICIENCY_SEED_IMPORT_PROCESS:
             case EFFICIENCY_SEED_EXPORT_PROCESS:
+            case CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS:
                 lineTooltipSuffix = '%';
                 return <BarAndLineChart data={data} selectedYear={selectedYear} leftLegend={leftLegend}
                                         indexBy={indexBy} groupMode={groupMode} bottomLegend={bottomLegend}
@@ -1452,7 +1567,8 @@ const ChartComponent = ({
                                         totalLabel={totalLabel} extraTooltipClass={extraTooltipClass}
                                         intl={intl}
                                         noDataLabelId={noDataLabelId}
-                                        lineTooltipSuffix={lineTooltipSuffix}
+                                        lineTooltipSuffix={lineTooltipSuffix} 
+                                        isCrossCountryChart={isCrossCountryChart}
                 />
             case PERFORMANCE_SEED_TRADERS:
                 return <Grid.Row className={`chart-section`}>
@@ -1538,6 +1654,54 @@ const ChartComponent = ({
             });
         }
     }
+
+    const generateFilters = () => {
+        if (isCrossCountryChart) {
+            return null;
+        } else {
+            if (useFilterByCrops || useFilterByYear) {
+                return (<Grid.Row className={`filters-section`}>
+                    {!noData && useFilterByCrops ? <Grid.Column computer={3} mobile={16}>
+                        <CropFilter data={initialCrops} onChange={handleCropFilterChange}
+                                    initialSelectedCrops={initialSelectedCrops} intl={intl}/>
+                    </Grid.Column> : null}
+                    {(useFilterByYear) ? <Grid.Column computer={3} mobile={16}>
+                        <YearsFilter data={years} onChange={handleYearFilterChange} maxSelectable={maxSelectableYear}
+                                     defaultSelected={selectedYear} showMaxYearsMessage={showMaxYearsMessage}/>
+                    </Grid.Column> : null}
+                </Grid.Row>);
+            } else {
+                return null;
+            }
+        }
+    }
+
+    const generateLegends = () => {
+        if (isCrossCountryChart) {
+            return null;
+        } else {
+            if (!noData && useCropLegendsRow) {
+                return (<Grid.Row className={`crops-with-icons`}>
+                    <Grid.Column width={10}>
+                        {legend === 'crops' &&
+                            <CropsLegend data={selectedCrops} title="Crops" titleClass="crops-title"
+                                         addLighterDiv={addLighterDiv}
+                                         intl={intl}/>}
+                        {legend && legend.toLowerCase() === 'year' &&
+                            <YearLegend colors={yearsColors} years={selectedYear}/>}
+                        {legend && legend === genericLegend &&
+                            <GenericLegend colors={colors} keys={keys} title={legendTitle}/>}
+                    </Grid.Column>
+                    <Grid.Column width={6}>
+                        {withCropsWithSpecialFeatures && <CropsWithSpecialFeatures/>}
+                    </Grid.Column>
+                </Grid.Row>);
+            } else {
+                return null;
+            }
+        }
+    }
+    
     return (<div ref={ref}>
         <Grid className={`number-varieties-released`}>
             <Grid.Row className="header-section">
@@ -1549,31 +1713,8 @@ const ChartComponent = ({
                             type={'bar'} chartType={type} selectedCrops={selectedCrops} selectedYear={selectedYear} />
                 </Grid.Column>
             </Grid.Row>
-            {useFilterByCrops || useFilterByYear ? <Grid.Row className={`filters-section`}>
-                {!noData && useFilterByCrops ? <Grid.Column computer={3} mobile={16}>
-                    <CropFilter data={initialCrops} onChange={handleCropFilterChange}
-                                initialSelectedCrops={initialSelectedCrops} intl={intl} />
-                </Grid.Column> : null}
-                {(useFilterByYear) ? <Grid.Column computer={3} mobile={16}>
-                    <YearsFilter data={years} onChange={handleYearFilterChange} maxSelectable={maxSelectableYear}
-                                 defaultSelected={selectedYear} showMaxYearsMessage={showMaxYearsMessage} />
-                </Grid.Column> : null}
-            </Grid.Row> : null}
-            {!noData && useCropLegendsRow ? <Grid.Row className={`crops-with-icons`}>
-                <Grid.Column width={10}>
-                    {legend === 'crops' &&
-                        <CropsLegend data={selectedCrops} title="Crops" titleClass="crops-title"
-                                     addLighterDiv={addLighterDiv}
-                                     intl={intl} />}
-                    {legend && legend.toLowerCase() === 'year' &&
-                        <YearLegend colors={yearsColors} years={selectedYear} />}
-                    {legend && legend === genericLegend &&
-                        <GenericLegend colors={colors} keys={keys} title={legendTitle} />}
-                </Grid.Column>
-                <Grid.Column width={6}>
-                    {withCropsWithSpecialFeatures && <CropsWithSpecialFeatures />}
-                </Grid.Column>
-            </Grid.Row> : null}
+            {generateFilters()}
+            {generateLegends()}
             {insertChart()}
             <Grid.Row className={`source-section`}>
                 <Grid.Column>
