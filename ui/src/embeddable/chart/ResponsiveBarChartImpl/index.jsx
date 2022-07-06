@@ -66,7 +66,6 @@ const ResponsiveBarChartImpl = ({
                                     axisBottom = true,
                                     isCrossCountryChart
                                 }) => {
-
     let pMax = max;
     let allFake = true;
     if (processedData && processedData.length > 0) {

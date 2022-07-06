@@ -137,9 +137,8 @@ const ChartComponent = ({
         crops = data.dimensions.crop ? data.dimensions.crop.values : {};
         let countriesISO = data.dimensions.country ? data.dimensions.country.values : [];
         
-        // TODO: convert ISO into country name.
         countriesISO.forEach(c => {
-            countries.push({iso: c, name: c});
+            countries.push({iso: c, name: COUNTRY_OPTIONS.find(j => j.flag.toLowerCase() === c.toLowerCase()).text});
         });
         
         if (data !== currentData) {
@@ -266,12 +265,20 @@ const ChartComponent = ({
     }
     
     const commonCrossCountryProcess = () => {
+        // TODO: crops will always have 1 single element after we implement the filter.
+        crops = 'maize';
         if (crops && countries) {
+            max = 0;
             countries.forEach(c => {
                 if (data.values[c.iso]) {
-                    const value = Object.assign({}, data.values[c.iso]);
-                    value.country = c.name;
-                    processedData.push(value);
+                    const item = {};
+                    item.iso = c.iso;
+                    item[c.iso] = data.values[c.iso][crops];
+                    item.country = c.name;
+                    processedData.push(item);
+                    if (max < item[c.iso]) {
+                        max = item[c.iso];
+                    }
                 }
             });
         }
@@ -895,12 +902,15 @@ const ChartComponent = ({
                 defaultMessage: 'Active breeders per 1,000,000 hectares'
             });
             processedData.forEach(i => {
-                keys.push(i.country);
+                keys.push(i.iso);
             });
             legends = [];
             layout = 'horizontal';
             enableGridX = true;
             enableGridY = false;
+            getColors = (item) => {
+                return baseColors[crops];
+            }
             
             /*keys.push('public', 'private');
             Object.keys(data.values).forEach(y => {
@@ -1555,7 +1565,6 @@ const ChartComponent = ({
             case AGRICULTURAL_EXTENSION_SERVICES:
             case EFFICIENCY_SEED_IMPORT_PROCESS:
             case EFFICIENCY_SEED_EXPORT_PROCESS:
-            case CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS:
                 lineTooltipSuffix = '%';
                 return <BarAndLineChart data={data} selectedYear={selectedYear} leftLegend={leftLegend}
                                         indexBy={indexBy} groupMode={groupMode} bottomLegend={bottomLegend}
