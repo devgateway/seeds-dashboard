@@ -64,7 +64,8 @@ const ResponsiveBarChartImpl = ({
                                     intl,
                                     getColorsCustom,
                                     axisBottom = true,
-                                    isCrossCountryChart
+                                    isCrossCountryChart,
+                                    animate = true
                                 }) => {
     let pMax = max;
     let allFake = true;
@@ -290,6 +291,7 @@ const ResponsiveBarChartImpl = ({
                 gridYValues={fixedIntervals || gridTickLines}
                 enableLabel={false}
                 markers={markers || null}
+                animate={animate}
                 axisBottom={axisBottom ? (customTickWithCropsBottom ? { renderTick: CustomTick } : {
                     tickSize: 0,
                     tickPadding: 5,

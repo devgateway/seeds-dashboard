@@ -45,6 +45,7 @@ import ResponsiveLineChartImpl from "../ResponsiveLineChartImpl";
 import Gauge from "../GaugesChart/components/Gauge";
 import { range } from "../GaugesChart/components/common";
 import { connect } from "react-redux";
+import CrossCountryFilter from "../common/filters/crossCountry";
 
 const ChartComponent = ({
                             sources,
@@ -109,6 +110,7 @@ const ChartComponent = ({
     let yearsColors = barColors;
     let dataSuffix = null;
     let containerHeight = null;
+    let animate = true
     let extraTooltipClass = null;
     let showMaxYearsMessage = false;
     let switchToLineChart = false;
@@ -159,13 +161,14 @@ const ChartComponent = ({
                     setSelectedYear(years)
                 }
             }
+            if (type === CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS) {
+                setSelectedCrops(['maize']);
+            }
             return null;
         }
         if (!initialCrops) {
             setSelectedCrops(crops);
             setInitialCrops(crops);
-        } else {
-            crops = selectedCrops;
         }
     }
 
@@ -177,6 +180,10 @@ const ChartComponent = ({
             }
         }
         setSelectedCrops(currentlySelected);
+    }
+
+    const handleCrossCountryCropFilterChange = (selected) => {
+        setSelectedCrops(crops[selected]);
     }
     
     const handleYearFilterChange = (selected) => {
@@ -266,15 +273,13 @@ const ChartComponent = ({
     }
     
     const commonCrossCountryProcess = () => {
-        // TODO: crops will always have 1 single element after we implement the filter.
-        crops = 'maize';
         if (crops && countries) {
             max = 0;
             countries.forEach(c => {
                 if (data.values[c.iso]) {
                     const item = {};
                     item.iso = c.iso;
-                    item[c.iso] = data.values[c.iso][crops];
+                    item[c.iso] = data.values[c.iso][selectedCrops] || 0;
                     item.country = c.name;
                     item.year = data.values[c.iso].year;
                     processedData.push(item);
@@ -911,9 +916,10 @@ const ChartComponent = ({
             enableGridX = true;
             enableGridY = false;
             getColors = (item) => {
-                return baseColors[crops];
+                return baseColors[selectedCrops];
             }
             containerHeight = 650;
+            animate = true;
             getTooltipText = (d) => {
                 return <>
                     <div style={{ textAlign: 'center' }}>
@@ -927,9 +933,9 @@ const ChartComponent = ({
             }
             getTooltipHeader = (d) => {
                 return <>
-                    <div className={crops + " crop-icon"} />
+                    <div className={selectedCrops + " crop-icon"} />
                     <div className="crop-name">{intl.formatMessage({
-                        id: crops, defaultMessage: crops
+                        id: selectedCrops, defaultMessage: selectedCrops
                     })} - {d.indexValue} - {d.data.year}</div>
                 </>;
             }
@@ -1564,6 +1570,7 @@ const ChartComponent = ({
                                                     showTotalMD={showTotalMD} margins={margins}
                                                     intl={intl} barLabelFormat={roundNumbers}
                                                     getColorsCustom={getColors} extraTooltipClass={extraTooltipClass}
+                                                    animate={animate}
                             /> : <ResponsiveLineChartImpl sources={sources}
                                                           data={data}
                                                           noData={noData}
@@ -1598,6 +1605,7 @@ const ChartComponent = ({
     }
 
     let initialSelectedCrops = null;
+    let initialSelectedCrop = null;
     if (sharedCrops) {
         initialSelectedCrops = [];
         initialCrops.forEach(i => {
@@ -1608,17 +1616,31 @@ const ChartComponent = ({
             }
         });
     } else {
-        if (!noData && initialCrops && Array.from(initialCrops).length > 0) {
-            initialSelectedCrops = [];
-            initialCrops.forEach(i => {
-                initialSelectedCrops.push(1);
+        if (isCrossCountryChart) {
+            initialSelectedCrop = 0;
+            initialCrops.forEach((i, index) => {
+                if (i === 'maize') {
+                    initialSelectedCrop = index;
+                }
             });
+        } else {
+            if (!noData && initialCrops && Array.from(initialCrops).length > 0) {
+                initialSelectedCrops = [];
+                initialCrops.forEach(i => {
+                    initialSelectedCrops.push(1);
+                });
+            }
         }
     }
 
     const generateFilters = () => {
         if (isCrossCountryChart) {
-            return null;
+            return (<Grid.Row className={`filters-section`}>
+                <Grid.Column computer={3} mobile={16}>
+                    <CrossCountryFilter data={initialCrops} onChange={handleCrossCountryCropFilterChange}
+                                initialSelectedCrop={initialSelectedCrop} intl={intl}/>
+                </Grid.Column>
+            </Grid.Row>);
         } else {
             if (useFilterByCrops || useFilterByYear) {
                 return (<Grid.Row className={`filters-section`}>

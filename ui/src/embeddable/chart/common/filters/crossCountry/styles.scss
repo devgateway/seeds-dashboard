@@ -1,0 +1,103 @@
+.filters-section {
+
+  .ui.vertical.menu {
+    padding: 0;
+    height: 50px;
+    border: 1px solid #dbdce0;
+    background-color: #eef1fa;
+
+    .item {
+      border-radius: 0;
+      padding: 0;
+
+      .filter-selector-title {
+        font-size: 16px;
+        color: black;
+        justify-content: left;
+        float: left;
+        margin-top: 15px;
+      }
+
+      .filter-selector-numbers {
+        font-size: 12px;
+        color: #939393;
+        float: left;
+        margin-top: 19px;
+        margin-left: 15px;
+      }
+
+      .title {
+        justify-content: left;
+        font-size: 16px;
+        font-weight: 700;
+        height: 60px;
+        width: 100%;
+        padding-left: 25px;
+
+        .angle.icon {
+          margin-left: -18px;
+          margin-top: 15px;
+          float: right;
+        }
+
+        &.active {
+          .angle.icon {
+            transform: rotate(90deg);
+          }
+        }
+      }
+
+      .content {
+        background-color: #eef1fa;
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        border: 1px solid #e4e1d9;
+        padding: 10px;
+        box-shadow: 1px 2px #e4e1d9;
+        text-align: left;
+        opacity: 0.95;
+        padding-bottom: 15px !important;
+
+        .checkbox {
+          width: 100%;
+        }
+
+        .ui.input {
+          width: 90%;
+        }
+
+        .ui.form {
+          input {
+            height: 40px;
+          }
+
+          i.icons {
+            padding-left: 25px;
+
+            .icon {
+              left: 72%
+            }
+          }
+        }
+
+        .ui.form {
+          .field {
+
+            .ui.radio.checkbox {
+              label {
+                font-size: 10px;
+              }
+            }
+          }
+        }
+      }
+
+      .active.title {
+        .dropdown.icon {
+          transform: rotate(90deg);
+        }
+      }
+    }
+  }
+}
