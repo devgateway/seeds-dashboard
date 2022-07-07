@@ -5,14 +5,12 @@ import {Accordion, Form, Menu} from "semantic-ui-react";
 const CrossCountryCountryFilter = ({data, onChange, initialSelectedCrops = [], intl}) => {
 
     const [isOpen, setIsOpen] = useState(false);
-    const [numberOfSelectedCrops, setNumberOfSelectedCrops] = useState([]);
     const [currentData, setCurrentData] = useState(null);
 
     const ref = useRef(null);
 
     if (data !== currentData) {
         setCurrentData(data);
-        setNumberOfSelectedCrops(initialSelectedCrops);
         setIsOpen(false);
     }
 
@@ -37,17 +35,17 @@ const CrossCountryCountryFilter = ({data, onChange, initialSelectedCrops = [], i
     }, [onClickOutside]);
 
     const handleChange = (e, props) => {
-        const currentlySelected = Object.assign([], numberOfSelectedCrops);
+        /*const currentlySelected = Object.assign([], numberOfSelectedCrops);
         const index = data.findIndex(i => i === props.value);
         currentlySelected[index] = currentlySelected[index] === 0 ? 1 : 0;
         setNumberOfSelectedCrops(currentlySelected);
-        onChange(currentlySelected);
+        onChange(currentlySelected);*/
     }
 
     const generateContent = () => {
         return (data.map((c, i) => {
             return (<div key={c}>
-                <Form.Checkbox value={c} checked={numberOfSelectedCrops[i] === 1} 
+                <Form.Checkbox value={c.iso} checked={c.selected} 
                                onChange={handleChange}
                                disabled={!c.active}
                                label={intl.formatMessage({id: c.name, defaultMessage: c.name})}/>
@@ -55,8 +53,8 @@ const CrossCountryCountryFilter = ({data, onChange, initialSelectedCrops = [], i
         }));
     }
 
-    const sum = numberOfSelectedCrops.reduce((acc, a) => acc + a, 0);
-    const title = (<div><span className="filter-selector-title">Crop(s) </span><span
+    const sum = currentData ? currentData.filter(i => i.selected).length : 0;
+    const title = (<div><span className="filter-selector-title">Countries </span><span
         className="filter-selector-numbers">{sum} of {currentData ? currentData.length : 0}</span></div>);
     return (
         <div ref={ref}>

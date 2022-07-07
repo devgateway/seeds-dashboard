@@ -210,7 +210,6 @@ const ChartComponent = ({
             }
         });
         setCountries(countries);
-        console.log(countries);
     }
     
     const handleYearFilterChange = (selected) => {
