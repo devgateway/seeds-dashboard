@@ -2,17 +2,17 @@ import React, {useState, useEffect, useRef} from "react";
 import './styles.scss';
 import {Accordion, Form, Menu} from "semantic-ui-react";
 
-const CrossCountryFilter = ({data, onChange, initialSelectedCrop = 0, intl}) => {
+const CrossCountryCountryFilter = ({data, onChange, initialSelectedCrops = [], intl}) => {
 
     const [isOpen, setIsOpen] = useState(false);
-    const [selectedCrop, setSelectedCrop] = useState([1, 1, 1, 1]);
+    const [numberOfSelectedCrops, setNumberOfSelectedCrops] = useState([]);
     const [currentData, setCurrentData] = useState(null);
 
     const ref = useRef(null);
 
     if (data !== currentData) {
         setCurrentData(data);
-        setSelectedCrop(initialSelectedCrop);
+        setNumberOfSelectedCrops(initialSelectedCrops);
         setIsOpen(false);
     }
 
@@ -37,22 +37,25 @@ const CrossCountryFilter = ({data, onChange, initialSelectedCrop = 0, intl}) => 
     }, [onClickOutside]);
 
     const handleChange = (e, props) => {
+        const currentlySelected = Object.assign([], numberOfSelectedCrops);
         const index = data.findIndex(i => i === props.value);
-        const currentlySelected = selectedCrop;
-        setSelectedCrop(index);
-        onChange(index);
+        currentlySelected[index] = currentlySelected[index] === 0 ? 1 : 0;
+        setNumberOfSelectedCrops(currentlySelected);
+        onChange(currentlySelected);
     }
 
     const generateContent = () => {
         return (data.map((c, i) => {
             return (<div key={c}>
-                <Form.Checkbox value={c} checked={selectedCrop === i} onChange={handleChange}
-                               label={intl.formatMessage({id: c, defaultMessage: c})}/>
+                <Form.Checkbox value={c} checked={numberOfSelectedCrops[i] === 1} 
+                               onChange={handleChange}
+                               disabled={!c.active}
+                               label={intl.formatMessage({id: c.name, defaultMessage: c.name})}/>
             </div>);
         }));
     }
 
-    const sum = selectedCrop !== null ? 1 : 0;
+    const sum = numberOfSelectedCrops.reduce((acc, a) => acc + a, 0);
     const title = (<div><span className="filter-selector-title">Crop(s) </span><span
         className="filter-selector-numbers">{sum} of {currentData ? currentData.length : 0}</span></div>);
     return (
@@ -73,4 +76,4 @@ const CrossCountryFilter = ({data, onChange, initialSelectedCrop = 0, intl}) => 
     )
 }
 
-export default CrossCountryFilter
+export default CrossCountryCountryFilter

@@ -45,7 +45,8 @@ import ResponsiveLineChartImpl from "../ResponsiveLineChartImpl";
 import Gauge from "../GaugesChart/components/Gauge";
 import { range } from "../GaugesChart/components/common";
 import { connect } from "react-redux";
-import CrossCountryFilter from "../common/filters/crossCountry";
+import CrossCountryCropFilter from "../common/filters/crossCountry/crops";
+import CrossCountryCountryFilter from "../common/filters/crossCountry/country";
 
 const ChartComponent = ({
                             sources,
@@ -64,6 +65,7 @@ const ChartComponent = ({
     const [selectedCrops, setSelectedCrops] = useState(null);
     const [selectedYear, setSelectedYear] = useState(null);
     const [currentData, setCurrentData] = useState(null);
+    const [countries, setCountries] = useState([]);
     const ref = useRef(null);
     const genericLegend = "generic";
     //TODO can be configured in wordpress at a later stage
@@ -95,7 +97,6 @@ const ChartComponent = ({
     let getTooltipText;
     let getTooltipHeader;
     let crops = null;
-    let countries = [];
     let noData = false;
     let years = null;
     let colors = new Map();
@@ -117,6 +118,8 @@ const ChartComponent = ({
     let sharedCrops;
     let sharedYears;
     let isCrossCountryChart = false;
+    let useFilterByCropsWithCountries = false;
+    
     if (filters && filters.get(SHARE_CHART) === type) {
         if (filters.get(SHARE_CROPS)) {
             sharedCrops = filters.get(SHARE_CROPS).split(",");
@@ -137,12 +140,19 @@ const ChartComponent = ({
     } else {
         years = data.dimensions.year ? data.dimensions.year.values : {};
         crops = data.dimensions.crop ? data.dimensions.crop.values : {};
-        let countriesISO = data.dimensions.country ? data.dimensions.country.values : [];
         
-        countriesISO.forEach(c => {
-            countries.push({iso: c, name: COUNTRY_OPTIONS.find(j => j.flag.toLowerCase() === c.toLowerCase()).text});
-        });
-        countriesISO = countriesISO.sort((a, b) => b.localeCompare(a));
+        // To prevent infinite loop.
+        if (countries.length === 0) {
+            let countriesISO = data.dimensions.country ? data.dimensions.country.values : [];
+            countriesISO.forEach(c => {
+                countries.push({
+                    iso: c, name: COUNTRY_OPTIONS.find(j => j.flag.toLowerCase() === c.toLowerCase()).text,
+                    active: true, selected: true
+                });
+            });
+            countriesISO = countriesISO.sort((a, b) => b.localeCompare(a));
+            setCountries(countries.sort((a, b) => b.name.localeCompare(a.name)));
+        }
         
         if (data !== currentData) {
             setCurrentData(data);
@@ -182,8 +192,25 @@ const ChartComponent = ({
         setSelectedCrops(currentlySelected);
     }
 
+    /**
+     * Given a crop index set it as selected (with crop name) and update the list of countries, if a country
+     * has that crop then the country is active and selected, otherwise is disabled and unselected.
+     * @param selected
+     */
     const handleCrossCountryCropFilterChange = (selected) => {
         setSelectedCrops(crops[selected]);
+        const ISOs = Object.keys(data.values);
+        ISOs.forEach(i => {
+            if (data.values[i][crops[selected]] > FAKE_NUMBER) {
+                countries.find(c => c.iso === i).active = true;
+                countries.find(c => c.iso === i).selected = true;
+            } else {
+                countries.find(c => c.iso === i).active = false;
+                countries.find(c => c.iso === i).selected = false;
+            }
+        });
+        setCountries(countries);
+        console.log(countries);
     }
     
     const handleYearFilterChange = (selected) => {
@@ -275,7 +302,7 @@ const ChartComponent = ({
     const commonCrossCountryProcess = () => {
         if (crops && countries) {
             max = 0;
-            countries.forEach(c => {
+            countries.filter(c => c.selected).forEach(c => {
                 if (data.values[c.iso]) {
                     const item = {};
                     item.iso = c.iso;
@@ -897,6 +924,7 @@ const ChartComponent = ({
         case CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS:
             commonCrossCountryProcess();
             isCrossCountryChart = true;
+            useFilterByCropsWithCountries = true;
             useCropLegendsRow = false;
             useFilterByCrops = false;
             leftLegend = intl.formatMessage({
@@ -1635,12 +1663,19 @@ const ChartComponent = ({
 
     const generateFilters = () => {
         if (isCrossCountryChart) {
-            return (<Grid.Row className={`filters-section`}>
-                <Grid.Column computer={3} mobile={16}>
-                    <CrossCountryFilter data={initialCrops} onChange={handleCrossCountryCropFilterChange}
-                                initialSelectedCrop={initialSelectedCrop} intl={intl}/>
-                </Grid.Column>
-            </Grid.Row>);
+            if (useFilterByCropsWithCountries) {
+                return (<Grid.Row className={`filters-section`}>
+                    <Grid.Column computer={3} mobile={16}>
+                        <CrossCountryCropFilter data={initialCrops} onChange={handleCrossCountryCropFilterChange}
+                                                initialSelectedCrop={initialSelectedCrop} intl={intl}/>
+                    </Grid.Column>
+                    <Grid.Column computer={3} mobile={16}>
+                        <CrossCountryCountryFilter data={countries} onChange={(a) => alert(a)} intl={intl}/>
+                    </Grid.Column>
+                </Grid.Row>);
+            } else {
+                return null;
+            }
         } else {
             if (useFilterByCrops || useFilterByYear) {
                 return (<Grid.Row className={`filters-section`}>

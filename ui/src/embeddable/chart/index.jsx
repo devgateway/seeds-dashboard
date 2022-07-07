@@ -328,7 +328,7 @@ const Chart = (props) => {
         [AGRODEALER_NETWORK]: 730,
         [AVAILABILITY_SEED_SMALL_PACKAGES]: 725,
         [PRICE_SEED_PLANTING]: 695,
-        [CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS]: 800,
+        [CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS]: 875,
     };
     const fixedHeightStyle = { height: (fixedHeight[type] ? fixedHeight[type] : 550) + 'px' };
 
