@@ -62,7 +62,7 @@ const CrossCountryCountryFilter = ({data, onChange, initialSelectedCrops = [], i
             return (
                 <>
                     <div className="cross_country_select">
-                        <span onClick={selectAll}>Select all </span> | <span onClick={selectNone}> Select none</span>
+                        <span onClick={selectAll}>{intl.formatMessage({id: 'select-all'})} </span> | <span onClick={selectNone}> {intl.formatMessage({id: 'select-none'})}</span>
                     </div>
                     {aux.map((c, i) => {
                         return (<div key={c} style={{width: "50%", position: "relative", display: "inline-block"}}>
