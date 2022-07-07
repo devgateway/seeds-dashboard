@@ -48,16 +48,16 @@ $border_gray: rgba(229, 229, 229, 1);
   height: auto;
   box-shadow: 0 3px 10px #dbdce0;
   border: 1px solid #dbdce0;
-  width: 240px;
+  width: 340px;
 
   .header-container {
     background-color: #eef1fa;
-    width: 238px;
+    width: 338px;
     height: 40px;
 
     .header {
       margin: auto;
-      width: 220px;
+      width: 320px;
       height: 50px;
 
       .inner-container {
@@ -100,7 +100,7 @@ $border_gray: rgba(229, 229, 229, 1);
   }
 
   .amount-container {
-    width: 230px !important;
+    width: 330px !important;
 
     table {
       width: 100%;

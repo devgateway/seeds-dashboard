@@ -22,7 +22,7 @@ const BarAndLineChart = ({
                              data, sources, selectedYear, leftLegend, indexBy, groupMode, bottomLegend, rightLegend,
                              processedData, colors, keys, max, legends, getTooltipText, getTooltipHeader, lineColor,
                              lineChartField, lineChartFieldLabel, totalLabel, extraTooltipClass, intl, noDataLabelId,
-                             lineTooltipSuffix
+                             lineTooltipSuffix, isCrossCountryChart
                          }) => {
 
     const TICK_NUMBER = 4;
@@ -211,7 +211,7 @@ const BarAndLineChart = ({
                                             gridTickLines={TICK_NUMBER} LineLayer={LineLayer}
                                             markers={markerLine} fixedIntervals={fixedIntervals}
                                             totalLabel={totalLabel} extraTooltipClass={extraTooltipClass}
-                                            intl={intl} showTotalMD={true}
+                                            intl={intl} showTotalMD={true} isCrossCountryChart={isCrossCountryChart}
                     />
                 </Grid.Column>
             </Grid.Row>

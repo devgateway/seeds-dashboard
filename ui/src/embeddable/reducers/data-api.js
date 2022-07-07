@@ -21,7 +21,8 @@ import {
     PRICE_SEED_PLANTING,
     AVAILABILITY_SEED_SMALL_PACKAGES,
     AGRODEALER_NETWORK,
-    AGRICULTURAL_EXTENSION_SERVICES, NUMBER_SEED_INSPECTORS_BY_COUNTRY
+    AGRICULTURAL_EXTENSION_SERVICES, NUMBER_SEED_INSPECTORS_BY_COUNTRY,
+    CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS
 } from "./StoreConstants";
 import { SELECTED_COUNTRY } from "../../seeds-commons/commonConstants";
 import { get, getAll, post } from "../../seeds-commons/commons";
@@ -64,6 +65,8 @@ const CROPS_BY_COUNTRY_YEAR_API = `${SURVEY_API}/filter/countryCrops/`;
 const TOOLTIP_SAVE_URL = `${SURVEY_API}/tooltip/save`;
 const TOOLTIP_LOAD_URL = `${SURVEY_API}/tooltip/list`;
 
+const CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS_API = `${SURVEY_API}/chart/cc/numberActiveBreeders`;
+
 const APIS = {
     prevalence: '',
     policy: POLICY_API_ROOT,
@@ -89,6 +92,7 @@ const APIS = {
     [AGRODEALER_NETWORK]: AGRODEALER_NETWORK_API,
     [AGRICULTURAL_EXTENSION_SERVICES]: AGRICULTURAL_EXTENSION_SERVICES_API,
     [NUMBER_SEED_INSPECTORS_BY_COUNTRY]: NUMBER_SEED_INSPECTORS_BY_COUNTRY_API,
+    [CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS]: CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS_API,
 }
 
 function queryParams(params) {
@@ -142,19 +146,23 @@ export const getData = ({ source, app, params }) => {
         || app === AGRODEALER_NETWORK
         || app === AGRICULTURAL_EXTENSION_SERVICES
         || app === NUMBER_SEED_INSPECTORS_BY_COUNTRY
+        || app === CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS
         || (sources && sources.length > 0 && sources[0] === WP_CHART)
     ) {
-        if (params[SELECTED_COUNTRY] || params[DEFAULT_COUNTRY_ID]) {
+        let api;
+        if (sources && sources[0] === WP_CHART) {
+            api = `${SURVEY_API}/chart/${app}/${sources[1]}/${sources[2]}`;
+        } else {
+            api = APIS[app];
+        }
+        if (app.endsWith("_crossCountry")) {
+            const apiToCall = api + (params ? '?' + queryParams(params) : '');
+            return get(apiToCall);
+        } else if (params[SELECTED_COUNTRY] || params[DEFAULT_COUNTRY_ID]) {
             params.countryId = params[DEFAULT_COUNTRY_ID];
             if (params[SELECTED_COUNTRY]) {
                 params.countryId = params[SELECTED_COUNTRY];
                 delete params[DEFAULT_COUNTRY_ID];
-            }
-            let api;
-            if (sources && sources[0] === WP_CHART) {
-                api = `${SURVEY_API}/chart/${app}/${sources[1]}/${sources[2]}`;
-            } else {
-                api = APIS[app];
             }
             const apiToCall = api + (params ? '?' + queryParams(params) : '');
             return get(apiToCall);

@@ -32,7 +32,8 @@ import {
     NUMBER_SEED_INSPECTORS_BY_COUNTRY,
     NUMBER_OF_VARIETIES_RELEASED,
     SHARE_CROPS,
-    SHARE_CHART, SHARE_YEARS
+    SHARE_CHART, SHARE_YEARS,
+    CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS,
 } from "../../reducers/StoreConstants";
 import YearLegend from "../common/year";
 import MarketConcentrationHHI from "../MarketConcentrationHHI";
@@ -44,6 +45,8 @@ import ResponsiveLineChartImpl from "../ResponsiveLineChartImpl";
 import Gauge from "../GaugesChart/components/Gauge";
 import { range } from "../GaugesChart/components/common";
 import { connect } from "react-redux";
+import CrossCountryCropFilter from "../common/filters/crossCountry/crops";
+import CrossCountryCountryFilter from "../common/filters/crossCountry/country";
 
 const ChartComponent = ({
                             sources,
@@ -62,6 +65,8 @@ const ChartComponent = ({
     const [selectedCrops, setSelectedCrops] = useState(null);
     const [selectedYear, setSelectedYear] = useState(null);
     const [currentData, setCurrentData] = useState(null);
+    const [countries, setCountries] = useState([]);
+    const [forceUpdate, setForceUpdate] = useState(false);
     const ref = useRef(null);
     const genericLegend = "generic";
     //TODO can be configured in wordpress at a later stage
@@ -107,11 +112,16 @@ const ChartComponent = ({
     let yearsColors = barColors;
     let dataSuffix = null;
     let containerHeight = null;
+    let animate = true
     let extraTooltipClass = null;
     let showMaxYearsMessage = false;
     let switchToLineChart = false;
     let sharedCrops;
     let sharedYears;
+    let isCrossCountryChart = false;
+    let useFilterByCropsWithCountries = false;
+    const MAIZE = 'maize';
+    
     if (filters && filters.get(SHARE_CHART) === type) {
         if (filters.get(SHARE_CROPS)) {
             sharedCrops = filters.get(SHARE_CROPS).split(",");
@@ -132,6 +142,23 @@ const ChartComponent = ({
     } else {
         years = data.dimensions.year ? data.dimensions.year.values : {};
         crops = data.dimensions.crop ? data.dimensions.crop.values : {};
+        
+        // To prevent infinite loop.
+        if (countries.length === 0) {
+            let countriesISO = data.dimensions.country ? data.dimensions.country.values : [];
+            countriesISO.forEach(c => {
+                countries.push({
+                    iso: c, name: COUNTRY_OPTIONS.find(j => j.flag.toLowerCase() === c.toLowerCase()).text,
+                    active: true, selected: true
+                });
+            });
+            //countriesISO = countriesISO.sort((a, b) => b.localeCompare(a));
+            setCountries(countries.sort((a, b) => b.name.localeCompare(a.name)));
+        } else if (forceUpdate) {
+            setForceUpdate(false);
+            setCountries(countries);
+        } 
+        
         if (data !== currentData) {
             setCurrentData(data);
             if (sharedCrops) {
@@ -149,14 +176,14 @@ const ChartComponent = ({
                     setSelectedYear(years)
                 }
             }
-
+            if (type === CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS) {
+                setSelectedCrops([MAIZE]);
+            }
             return null;
         }
         if (!initialCrops) {
             setSelectedCrops(crops);
             setInitialCrops(crops);
-        } else {
-            crops = selectedCrops;
         }
     }
 
@@ -169,6 +196,34 @@ const ChartComponent = ({
         }
         setSelectedCrops(currentlySelected);
     }
+
+    /**
+     * Given a crop index set it as selected (with crop name) and update the list of countries, if a country
+     * has that crop then the country is active and selected, otherwise is disabled and unselected.
+     * @param selected
+     */
+    const handleCrossCountryCropFilterChange = (selected) => {
+        setSelectedCrops(crops[selected]);
+        const ISOs = Object.keys(data.values);
+        ISOs.forEach(i => {
+            if (data.values[i][crops[selected]] > FAKE_NUMBER) {
+                countries.find(c => c.iso === i).active = true;
+                countries.find(c => c.iso === i).selected = true;
+            } else {
+                countries.find(c => c.iso === i).active = false;
+                countries.find(c => c.iso === i).selected = false;
+            }
+        });
+        setCountries(countries);
+    }
+    
+    const handleCrossCountryCountryFilterChange = (index, iso, isSelected) => {
+        const aux = Object.assign(countries);
+        aux.find(c => c.iso === iso).selected = isSelected;
+        setCountries(aux);
+        setForceUpdate(true);
+    }
+    
     const handleYearFilterChange = (selected) => {
         setSelectedYear(selected);
     }
@@ -202,8 +257,8 @@ const ChartComponent = ({
             });
         }
     }
+    
     const numberOfActiveBreeders = () => {
-
         if (years && crops) {
             years.forEach(y => {
                 const yearObject = { year: y };
@@ -226,8 +281,7 @@ const ChartComponent = ({
             });
         }
     }
-
-
+    
     const availabilitySeedSmallPackages = () => {
         let hasData = false;
         if (years && crops) {
@@ -253,6 +307,25 @@ const ChartComponent = ({
                     noData = !hasData;
                 });
             }
+        }
+    }
+    
+    const commonCrossCountryProcess = () => {
+        if (crops && countries) {
+            max = 0;
+            countries.filter(c => c.selected).forEach(c => {
+                if (data.values[c.iso]) {
+                    const item = {};
+                    item.iso = c.iso;
+                    item[c.iso] = data.values[c.iso][selectedCrops] || 0;
+                    item.country = c.name;
+                    item.year = data.values[c.iso].year;
+                    processedData.push(item);
+                    if (max < item[c.iso]) {
+                        max = item[c.iso];
+                    }
+                }
+            });
         }
     }
 
@@ -859,6 +932,55 @@ const ChartComponent = ({
             containerHeight = 650;
             processInspectorsByCountry();
             break;
+        case CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS:
+            commonCrossCountryProcess();
+            isCrossCountryChart = true;
+            useFilterByCropsWithCountries = true;
+            useCropLegendsRow = false;
+            useFilterByCrops = false;
+            leftLegend = intl.formatMessage({
+                id: 'label-country',
+                defaultMessage: 'Country'
+            });
+            indexBy = 'country';
+            bottomLegend = intl.formatMessage({
+                id: 'active-breeders-legend',
+                defaultMessage: 'Active breeders per 1,000,000 hectares'
+            });
+            processedData.forEach(i => {
+                keys.push(i.iso);
+            });
+            legends = [];
+            layout = 'horizontal';
+            enableGridX = true;
+            enableGridY = false;
+            getColors = (item) => {
+                return baseColors[selectedCrops];
+            }
+            containerHeight = 650;
+            animate = true;
+            getTooltipText = (d) => {
+                return <>
+                    <div style={{ textAlign: 'center' }}>
+                        <span>{intl.formatMessage({
+                            id: 'active-breeders-tooltip',
+                            defaultMessage: 'Number of active breeders'
+                        })}: </span>
+                        <span className="bold"> {d.value !== FAKE_NUMBER ? d.value + '/1,000,000 ha' : 'MD'}</span>
+                    </div>
+                </>
+            }
+            getTooltipHeader = (d) => {
+                return <>
+                    <div className={selectedCrops + " crop-icon"} />
+                    <div className="crop-name">{intl.formatMessage({
+                        id: selectedCrops, defaultMessage: selectedCrops
+                    })} - {d.indexValue} - {d.data.year}</div>
+                </>;
+            }
+            totalLabel.show = true;
+            totalLabel.format = false;
+            break;
         case NUMBER_OF_ACTIVE_BREEDERS:
             getTooltipHeader = (d) => {
                 const cropName = d.id.replace(`${d.indexValue}_`, "");
@@ -1452,7 +1574,8 @@ const ChartComponent = ({
                                         totalLabel={totalLabel} extraTooltipClass={extraTooltipClass}
                                         intl={intl}
                                         noDataLabelId={noDataLabelId}
-                                        lineTooltipSuffix={lineTooltipSuffix}
+                                        lineTooltipSuffix={lineTooltipSuffix} 
+                                        isCrossCountryChart={isCrossCountryChart}
                 />
             case PERFORMANCE_SEED_TRADERS:
                 return <Grid.Row className={`chart-section`}>
@@ -1487,6 +1610,7 @@ const ChartComponent = ({
                                                     showTotalMD={showTotalMD} margins={margins}
                                                     intl={intl} barLabelFormat={roundNumbers}
                                                     getColorsCustom={getColors} extraTooltipClass={extraTooltipClass}
+                                                    animate={animate}
                             /> : <ResponsiveLineChartImpl sources={sources}
                                                           data={data}
                                                           noData={noData}
@@ -1521,6 +1645,7 @@ const ChartComponent = ({
     }
 
     let initialSelectedCrops = null;
+    let initialSelectedCrop = null;
     if (sharedCrops) {
         initialSelectedCrops = [];
         initialCrops.forEach(i => {
@@ -1531,13 +1656,83 @@ const ChartComponent = ({
             }
         });
     } else {
-        if (!noData && initialCrops && Array.from(initialCrops).length > 0) {
-            initialSelectedCrops = [];
-            initialCrops.forEach(i => {
-                initialSelectedCrops.push(1);
+        if (isCrossCountryChart) {
+            initialSelectedCrop = 0;
+            initialCrops.forEach((i, index) => {
+                if (i === MAIZE) {
+                    initialSelectedCrop = index;
+                }
             });
+        } else {
+            if (!noData && initialCrops && Array.from(initialCrops).length > 0) {
+                initialSelectedCrops = [];
+                initialCrops.forEach(i => {
+                    initialSelectedCrops.push(1);
+                });
+            }
         }
     }
+
+    const generateFilters = () => {
+        if (isCrossCountryChart) {
+            if (useFilterByCropsWithCountries) {
+                return (<Grid.Row className={`filters-section`} style={{borderBottom: "1px solid rgb(229, 229, 229)"}}>
+                    <Grid.Column computer={4} mobile={16}>
+                        <CrossCountryCropFilter data={initialCrops} onChange={handleCrossCountryCropFilterChange}
+                                                initialSelectedCrop={initialSelectedCrop} intl={intl}/>
+                    </Grid.Column>
+                    <Grid.Column computer={5} mobile={16}>
+                        <CrossCountryCountryFilter data={countries} onChange={handleCrossCountryCountryFilterChange} 
+                                                   intl={intl}/>
+                    </Grid.Column>
+                </Grid.Row>);
+            } else {
+                return null;
+            }
+        } else {
+            if (useFilterByCrops || useFilterByYear) {
+                return (<Grid.Row className={`filters-section`}>
+                    {!noData && useFilterByCrops ? <Grid.Column computer={3} mobile={16}>
+                        <CropFilter data={initialCrops} onChange={handleCropFilterChange}
+                                    initialSelectedCrops={initialSelectedCrops} intl={intl}/>
+                    </Grid.Column> : null}
+                    {(useFilterByYear) ? <Grid.Column computer={3} mobile={16}>
+                        <YearsFilter data={years} onChange={handleYearFilterChange} maxSelectable={maxSelectableYear}
+                                     defaultSelected={selectedYear} showMaxYearsMessage={showMaxYearsMessage}/>
+                    </Grid.Column> : null}
+                </Grid.Row>);
+            } else {
+                return null;
+            }
+        }
+    }
+
+    const generateLegends = () => {
+        if (isCrossCountryChart) {
+            return null;
+        } else {
+            if (!noData && useCropLegendsRow) {
+                return (<Grid.Row className={`crops-with-icons`}>
+                    <Grid.Column width={10}>
+                        {legend === 'crops' &&
+                            <CropsLegend data={selectedCrops} title="Crops" titleClass="crops-title"
+                                         addLighterDiv={addLighterDiv}
+                                         intl={intl}/>}
+                        {legend && legend.toLowerCase() === 'year' &&
+                            <YearLegend colors={yearsColors} years={selectedYear}/>}
+                        {legend && legend === genericLegend &&
+                            <GenericLegend colors={colors} keys={keys} title={legendTitle}/>}
+                    </Grid.Column>
+                    <Grid.Column width={6}>
+                        {withCropsWithSpecialFeatures && <CropsWithSpecialFeatures/>}
+                    </Grid.Column>
+                </Grid.Row>);
+            } else {
+                return null;
+            }
+        }
+    }
+    
     return (<div ref={ref}>
         <Grid className={`number-varieties-released`}>
             <Grid.Row className="header-section">
@@ -1549,31 +1744,8 @@ const ChartComponent = ({
                             type={'bar'} chartType={type} selectedCrops={selectedCrops} selectedYear={selectedYear} />
                 </Grid.Column>
             </Grid.Row>
-            {useFilterByCrops || useFilterByYear ? <Grid.Row className={`filters-section`}>
-                {!noData && useFilterByCrops ? <Grid.Column computer={3} mobile={16}>
-                    <CropFilter data={initialCrops} onChange={handleCropFilterChange}
-                                initialSelectedCrops={initialSelectedCrops} intl={intl} />
-                </Grid.Column> : null}
-                {(useFilterByYear) ? <Grid.Column computer={3} mobile={16}>
-                    <YearsFilter data={years} onChange={handleYearFilterChange} maxSelectable={maxSelectableYear}
-                                 defaultSelected={selectedYear} showMaxYearsMessage={showMaxYearsMessage} />
-                </Grid.Column> : null}
-            </Grid.Row> : null}
-            {!noData && useCropLegendsRow ? <Grid.Row className={`crops-with-icons`}>
-                <Grid.Column width={10}>
-                    {legend === 'crops' &&
-                        <CropsLegend data={selectedCrops} title="Crops" titleClass="crops-title"
-                                     addLighterDiv={addLighterDiv}
-                                     intl={intl} />}
-                    {legend && legend.toLowerCase() === 'year' &&
-                        <YearLegend colors={yearsColors} years={selectedYear} />}
-                    {legend && legend === genericLegend &&
-                        <GenericLegend colors={colors} keys={keys} title={legendTitle} />}
-                </Grid.Column>
-                <Grid.Column width={6}>
-                    {withCropsWithSpecialFeatures && <CropsWithSpecialFeatures />}
-                </Grid.Column>
-            </Grid.Row> : null}
+            {generateFilters()}
+            {generateLegends()}
             {insertChart()}
             <Grid.Row className={`source-section`}>
                 <Grid.Column>
