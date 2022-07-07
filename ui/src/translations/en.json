@@ -165,5 +165,6 @@
   "active-breeders-legend": "Active breeders per 1,000,000 hectares",
   "active-breeders-tooltip": "Number of active breeders",
   "select-all": "Select all",
-  "select-none": "Select none"
+  "select-none": "Select none",
+  "varieties-released-legend": "Varieties released per 1,000,000 hectares"
 }

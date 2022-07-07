@@ -34,6 +34,7 @@ import {
     SHARE_CROPS,
     SHARE_CHART, SHARE_YEARS,
     CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS,
+    CROSS_COUNTRY_NUMBER_OF_VARIETIES_RELEASED,
 } from "../../reducers/StoreConstants";
 import YearLegend from "../common/year";
 import MarketConcentrationHHI from "../MarketConcentrationHHI";
@@ -136,6 +137,10 @@ const ChartComponent = ({
     } else if (type === AVAILABILITY_SEED_SMALL_PACKAGES || type === VARIETIES_RELEASED_WITH_SPECIAL_FEATURES) {
         maxSelectableYear = 1;
     }
+    
+    if (type === CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS || type === CROSS_COUNTRY_NUMBER_OF_VARIETIES_RELEASED) {
+        isCrossCountryChart = true;
+    }
 
     if (!data || !data.dimensions || (!data.dimensions.crop && !data.dimensions.year) || data.id === null) {
         noData = true;
@@ -144,7 +149,7 @@ const ChartComponent = ({
         crops = data.dimensions.crop ? data.dimensions.crop.values : {};
         
         // To prevent infinite loop.
-        if (countries.length === 0) {
+        if (isCrossCountryChart && countries.length === 0) {
             let countriesISO = data.dimensions.country ? data.dimensions.country.values : [];
             countriesISO.forEach(c => {
                 countries.push({
@@ -176,7 +181,8 @@ const ChartComponent = ({
                     setSelectedYear(years)
                 }
             }
-            if (type === CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS) {
+            if (type === CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS 
+                || type === CROSS_COUNTRY_NUMBER_OF_VARIETIES_RELEASED) {
                 setSelectedCrops([MAIZE]);
             }
             return null;
@@ -934,7 +940,6 @@ const ChartComponent = ({
             break;
         case CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS:
             commonCrossCountryProcess();
-            isCrossCountryChart = true;
             useFilterByCropsWithCountries = true;
             useCropLegendsRow = false;
             useFilterByCrops = false;
@@ -946,6 +951,54 @@ const ChartComponent = ({
             bottomLegend = intl.formatMessage({
                 id: 'active-breeders-legend',
                 defaultMessage: 'Active breeders per 1,000,000 hectares'
+            });
+            processedData.forEach(i => {
+                keys.push(i.iso);
+            });
+            legends = [];
+            layout = 'horizontal';
+            enableGridX = true;
+            enableGridY = false;
+            getColors = (item) => {
+                return baseColors[selectedCrops];
+            }
+            containerHeight = 650;
+            animate = true;
+            getTooltipText = (d) => {
+                return <>
+                    <div style={{ textAlign: 'center' }}>
+                        <span>{intl.formatMessage({
+                            id: 'active-breeders-tooltip',
+                            defaultMessage: 'Number of active breeders'
+                        })}: </span>
+                        <span className="bold"> {d.value !== FAKE_NUMBER ? d.value + '/1,000,000 ha' : 'MD'}</span>
+                    </div>
+                </>
+            }
+            getTooltipHeader = (d) => {
+                return <>
+                    <div className={selectedCrops + " crop-icon"} />
+                    <div className="crop-name">{intl.formatMessage({
+                        id: selectedCrops, defaultMessage: selectedCrops
+                    })} - {d.indexValue} - {d.data.year}</div>
+                </>;
+            }
+            totalLabel.show = true;
+            totalLabel.format = false;
+            break;
+        case CROSS_COUNTRY_NUMBER_OF_VARIETIES_RELEASED:
+            commonCrossCountryProcess();
+            useFilterByCropsWithCountries = true;
+            useCropLegendsRow = false;
+            useFilterByCrops = false;
+            leftLegend = intl.formatMessage({
+                id: 'label-country',
+                defaultMessage: 'Country'
+            });
+            indexBy = 'country';
+            bottomLegend = intl.formatMessage({
+                id: 'varieties-released-legend',
+                defaultMessage: 'Varieties released per 1,000,000 hectares'
             });
             processedData.forEach(i => {
                 keys.push(i.iso);
