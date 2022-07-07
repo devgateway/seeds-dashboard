@@ -35,11 +35,9 @@ const CrossCountryCountryFilter = ({data, onChange, initialSelectedCrops = [], i
     }, [onClickOutside]);
 
     const handleChange = (e, props) => {
-        /*const currentlySelected = Object.assign([], numberOfSelectedCrops);
-        const index = data.findIndex(i => i === props.value);
-        currentlySelected[index] = currentlySelected[index] === 0 ? 1 : 0;
-        setNumberOfSelectedCrops(currentlySelected);
-        onChange(currentlySelected);*/
+        const index = currentData.findIndex(i => i.iso === props.value);
+        const selected = currentData.find(i=>i.iso === props.value).selected
+        onChange(index, props.value, !selected);
     }
 
     const generateContent = () => {

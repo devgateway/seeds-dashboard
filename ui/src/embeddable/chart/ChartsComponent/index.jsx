@@ -66,6 +66,7 @@ const ChartComponent = ({
     const [selectedYear, setSelectedYear] = useState(null);
     const [currentData, setCurrentData] = useState(null);
     const [countries, setCountries] = useState([]);
+    const [forceUpdate, setForceUpdate] = useState(false);
     const ref = useRef(null);
     const genericLegend = "generic";
     //TODO can be configured in wordpress at a later stage
@@ -152,7 +153,10 @@ const ChartComponent = ({
             });
             countriesISO = countriesISO.sort((a, b) => b.localeCompare(a));
             setCountries(countries.sort((a, b) => b.name.localeCompare(a.name)));
-        }
+        } else if (forceUpdate) {
+            setForceUpdate(false);
+            setCountries(countries);
+        } 
         
         if (data !== currentData) {
             setCurrentData(data);
@@ -210,6 +214,13 @@ const ChartComponent = ({
             }
         });
         setCountries(countries);
+    }
+    
+    const handleCrossCountryCountryFilterChange = (index, iso, isSelected) => {
+        const aux = Object.assign(countries);
+        aux.find(c => c.iso === iso).selected = isSelected;
+        setCountries(aux);
+        setForceUpdate(true);
     }
     
     const handleYearFilterChange = (selected) => {
@@ -1669,7 +1680,8 @@ const ChartComponent = ({
                                                 initialSelectedCrop={initialSelectedCrop} intl={intl}/>
                     </Grid.Column>
                     <Grid.Column computer={3} mobile={16}>
-                        <CrossCountryCountryFilter data={countries} onChange={(a) => alert(a)} intl={intl}/>
+                        <CrossCountryCountryFilter data={countries} onChange={handleCrossCountryCountryFilterChange} 
+                                                   intl={intl}/>
                     </Grid.Column>
                 </Grid.Row>);
             } else {
