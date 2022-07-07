@@ -41,14 +41,18 @@ const CrossCountryCountryFilter = ({data, onChange, initialSelectedCrops = [], i
     }
 
     const generateContent = () => {
-        return (data.map((c, i) => {
-            return (<div key={c}>
-                <Form.Checkbox value={c.iso} checked={c.selected} 
-                               onChange={handleChange}
-                               disabled={!c.active}
-                               label={intl.formatMessage({id: c.name, defaultMessage: c.name})}/>
-            </div>);
-        }));
+        if (currentData) {
+            const aux = JSON.parse(JSON.stringify(currentData)).sort((a,b) => a.name.localeCompare(b.name));
+            return (aux.map((c, i) => {
+                return (<div key={c} style={{width: "50%", position: "relative", display: "inline-block"}}>
+                    <Form.Checkbox value={c.iso} checked={c.selected}
+                                   onChange={handleChange}
+                                   disabled={!c.active}
+                                   label={intl.formatMessage({id: c.name, defaultMessage: c.name})}/>
+                </div>);
+            }));
+        }
+        return null;
     }
 
     const sum = currentData ? currentData.filter(i => i.selected).length : 0;
@@ -56,7 +60,7 @@ const CrossCountryCountryFilter = ({data, onChange, initialSelectedCrops = [], i
         className="filter-selector-numbers">{sum} of {currentData ? currentData.length : 0}</span></div>);
     return (
         <div ref={ref}>
-            <Accordion as={Menu} vertical>
+            <Accordion as={Menu} vertical style={{width: "100%"}}>
                 <Menu.Item>
                     <Accordion.Title
                         active={isOpen}

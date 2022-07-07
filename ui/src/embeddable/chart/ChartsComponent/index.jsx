@@ -120,6 +120,7 @@ const ChartComponent = ({
     let sharedYears;
     let isCrossCountryChart = false;
     let useFilterByCropsWithCountries = false;
+    const MAIZE = 'maize';
     
     if (filters && filters.get(SHARE_CHART) === type) {
         if (filters.get(SHARE_CROPS)) {
@@ -151,7 +152,7 @@ const ChartComponent = ({
                     active: true, selected: true
                 });
             });
-            countriesISO = countriesISO.sort((a, b) => b.localeCompare(a));
+            //countriesISO = countriesISO.sort((a, b) => b.localeCompare(a));
             setCountries(countries.sort((a, b) => b.name.localeCompare(a.name)));
         } else if (forceUpdate) {
             setForceUpdate(false);
@@ -176,7 +177,7 @@ const ChartComponent = ({
                 }
             }
             if (type === CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS) {
-                setSelectedCrops(['maize']);
+                setSelectedCrops([MAIZE]);
             }
             return null;
         }
@@ -1657,7 +1658,7 @@ const ChartComponent = ({
         if (isCrossCountryChart) {
             initialSelectedCrop = 0;
             initialCrops.forEach((i, index) => {
-                if (i === 'maize') {
+                if (i === MAIZE) {
                     initialSelectedCrop = index;
                 }
             });
@@ -1674,12 +1675,12 @@ const ChartComponent = ({
     const generateFilters = () => {
         if (isCrossCountryChart) {
             if (useFilterByCropsWithCountries) {
-                return (<Grid.Row className={`filters-section`}>
+                return (<Grid.Row className={`filters-section`} style={{borderBottom: "1px solid rgb(229, 229, 229)"}}>
                     <Grid.Column computer={3} mobile={16}>
                         <CrossCountryCropFilter data={initialCrops} onChange={handleCrossCountryCropFilterChange}
                                                 initialSelectedCrop={initialSelectedCrop} intl={intl}/>
                     </Grid.Column>
-                    <Grid.Column computer={3} mobile={16}>
+                    <Grid.Column computer={5} mobile={16}>
                         <CrossCountryCountryFilter data={countries} onChange={handleCrossCountryCountryFilterChange} 
                                                    intl={intl}/>
                     </Grid.Column>
