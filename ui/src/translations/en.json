@@ -163,5 +163,7 @@
   "all-countries":"All countries",
   "label-country": "Country",
   "active-breeders-legend": "Active breeders per 1,000,000 hectares",
-  "active-breeders-tooltip": "Number of active breeders"
+  "active-breeders-tooltip": "Number of active breeders",
+  "select-all": "Select all",
+  "select-none": "Select none"
 }

@@ -52,8 +52,9 @@ const CrossCountryCropFilter = ({data, onChange, initialSelectedCrop = 0, intl})
     }
 
     const sum = selectedCrop !== null ? 1 : 0;
-    const title = (<div><span className="filter-selector-title">Crop(s) </span><span
-        className="filter-selector-numbers">{sum} of {currentData ? currentData.length : 0}</span></div>);
+    const title = (<div><span className="filter-selector-title" style={{textTransform: 'capitalize'}}>
+        Crop: {currentData ? currentData[selectedCrop] : ''}
+    </span><span className="filter-selector-numbers">{sum} of {currentData ? currentData.length : 0}</span></div>);
     return (
         <div ref={ref}>
             <Accordion as={Menu} vertical>

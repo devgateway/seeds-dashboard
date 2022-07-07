@@ -965,7 +965,7 @@ const ChartComponent = ({
                         <span>{intl.formatMessage({
                             id: 'active-breeders-tooltip',
                             defaultMessage: 'Number of active breeders'
-                        })} {d.data.year}</span>
+                        })}: </span>
                         <span className="bold"> {d.value !== FAKE_NUMBER ? d.value + '/1,000,000 ha' : 'MD'}</span>
                     </div>
                 </>
@@ -1676,7 +1676,7 @@ const ChartComponent = ({
         if (isCrossCountryChart) {
             if (useFilterByCropsWithCountries) {
                 return (<Grid.Row className={`filters-section`} style={{borderBottom: "1px solid rgb(229, 229, 229)"}}>
-                    <Grid.Column computer={3} mobile={16}>
+                    <Grid.Column computer={4} mobile={16}>
                         <CrossCountryCropFilter data={initialCrops} onChange={handleCrossCountryCropFilterChange}
                                                 initialSelectedCrop={initialSelectedCrop} intl={intl}/>
                     </Grid.Column>
