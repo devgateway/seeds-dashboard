@@ -34,6 +34,7 @@ import {
     SHARE_CROPS,
     SHARE_CHART, SHARE_YEARS,
     CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS,
+    CROSS_COUNTRY_NUMBER_OF_VARIETIES_RELEASED,
 } from "../../reducers/StoreConstants";
 import YearLegend from "../common/year";
 import MarketConcentrationHHI from "../MarketConcentrationHHI";
@@ -176,7 +177,8 @@ const ChartComponent = ({
                     setSelectedYear(years)
                 }
             }
-            if (type === CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS) {
+            if (type === CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS 
+                || type === CROSS_COUNTRY_NUMBER_OF_VARIETIES_RELEASED) {
                 setSelectedCrops([MAIZE]);
             }
             return null;
@@ -946,6 +948,55 @@ const ChartComponent = ({
             bottomLegend = intl.formatMessage({
                 id: 'active-breeders-legend',
                 defaultMessage: 'Active breeders per 1,000,000 hectares'
+            });
+            processedData.forEach(i => {
+                keys.push(i.iso);
+            });
+            legends = [];
+            layout = 'horizontal';
+            enableGridX = true;
+            enableGridY = false;
+            getColors = (item) => {
+                return baseColors[selectedCrops];
+            }
+            containerHeight = 650;
+            animate = true;
+            getTooltipText = (d) => {
+                return <>
+                    <div style={{ textAlign: 'center' }}>
+                        <span>{intl.formatMessage({
+                            id: 'active-breeders-tooltip',
+                            defaultMessage: 'Number of active breeders'
+                        })}: </span>
+                        <span className="bold"> {d.value !== FAKE_NUMBER ? d.value + '/1,000,000 ha' : 'MD'}</span>
+                    </div>
+                </>
+            }
+            getTooltipHeader = (d) => {
+                return <>
+                    <div className={selectedCrops + " crop-icon"} />
+                    <div className="crop-name">{intl.formatMessage({
+                        id: selectedCrops, defaultMessage: selectedCrops
+                    })} - {d.indexValue} - {d.data.year}</div>
+                </>;
+            }
+            totalLabel.show = true;
+            totalLabel.format = false;
+            break;
+        case CROSS_COUNTRY_NUMBER_OF_VARIETIES_RELEASED:
+            commonCrossCountryProcess();
+            isCrossCountryChart = true;
+            useFilterByCropsWithCountries = true;
+            useCropLegendsRow = false;
+            useFilterByCrops = false;
+            leftLegend = intl.formatMessage({
+                id: 'label-country',
+                defaultMessage: 'Country'
+            });
+            indexBy = 'country';
+            bottomLegend = intl.formatMessage({
+                id: 'varieties-released-legend',
+                defaultMessage: 'Varieties released per 1,000,000 hectares'
             });
             processedData.forEach(i => {
                 keys.push(i.iso);

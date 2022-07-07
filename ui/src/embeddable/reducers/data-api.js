@@ -22,7 +22,8 @@ import {
     AVAILABILITY_SEED_SMALL_PACKAGES,
     AGRODEALER_NETWORK,
     AGRICULTURAL_EXTENSION_SERVICES, NUMBER_SEED_INSPECTORS_BY_COUNTRY,
-    CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS
+    CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS,
+    CROSS_COUNTRY_NUMBER_OF_VARIETIES_RELEASED
 } from "./StoreConstants";
 import { SELECTED_COUNTRY } from "../../seeds-commons/commonConstants";
 import { get, getAll, post } from "../../seeds-commons/commons";
@@ -66,6 +67,7 @@ const TOOLTIP_SAVE_URL = `${SURVEY_API}/tooltip/save`;
 const TOOLTIP_LOAD_URL = `${SURVEY_API}/tooltip/list`;
 
 const CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS_API = `${SURVEY_API}/chart/cc/numberActiveBreeders`;
+const CROSS_COUNTRY_NUMBER_OF_VARIETIES_RELEASED_API = `${SURVEY_API}/chart/cc/numberVarietiesReleased`;
 
 const APIS = {
     prevalence: '',
@@ -93,6 +95,7 @@ const APIS = {
     [AGRICULTURAL_EXTENSION_SERVICES]: AGRICULTURAL_EXTENSION_SERVICES_API,
     [NUMBER_SEED_INSPECTORS_BY_COUNTRY]: NUMBER_SEED_INSPECTORS_BY_COUNTRY_API,
     [CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS]: CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS_API,
+    [CROSS_COUNTRY_NUMBER_OF_VARIETIES_RELEASED]: CROSS_COUNTRY_NUMBER_OF_VARIETIES_RELEASED_API,
 }
 
 function queryParams(params) {
@@ -147,6 +150,7 @@ export const getData = ({ source, app, params }) => {
         || app === AGRICULTURAL_EXTENSION_SERVICES
         || app === NUMBER_SEED_INSPECTORS_BY_COUNTRY
         || app === CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS
+        || app === CROSS_COUNTRY_NUMBER_OF_VARIETIES_RELEASED
         || (sources && sources.length > 0 && sources[0] === WP_CHART)
     ) {
         let api;

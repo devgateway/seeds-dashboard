@@ -194,7 +194,12 @@ class BlockEdit extends BaseBlockEdit {
                                         {
                                             label: 'Cross-Country - Number of active breeders',
                                             value: 'numberActiveBreeders_crossCountry'
+                                        },
+                                        {
+                                            label: 'Cross-Country - Number of varieties released in last 3 years by land under production',
+                                            value: 'numberOfVarietiesReleased_crossCountry'
                                         }
+                                        
                                     ]}
                                 />
                             </PanelRow>
