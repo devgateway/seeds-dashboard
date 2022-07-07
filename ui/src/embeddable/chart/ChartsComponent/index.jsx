@@ -979,6 +979,7 @@ const ChartComponent = ({
                 </>;
             }
             totalLabel.show = true;
+            totalLabel.format = false;
             break;
         case NUMBER_OF_ACTIVE_BREEDERS:
             getTooltipHeader = (d) => {
