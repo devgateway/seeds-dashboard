@@ -137,6 +137,10 @@ const ChartComponent = ({
     } else if (type === AVAILABILITY_SEED_SMALL_PACKAGES || type === VARIETIES_RELEASED_WITH_SPECIAL_FEATURES) {
         maxSelectableYear = 1;
     }
+    
+    if (type === CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS || type === CROSS_COUNTRY_NUMBER_OF_VARIETIES_RELEASED) {
+        isCrossCountryChart = true;
+    }
 
     if (!data || !data.dimensions || (!data.dimensions.crop && !data.dimensions.year) || data.id === null) {
         noData = true;
@@ -145,7 +149,7 @@ const ChartComponent = ({
         crops = data.dimensions.crop ? data.dimensions.crop.values : {};
         
         // To prevent infinite loop.
-        if (countries.length === 0) {
+        if (isCrossCountryChart && countries.length === 0) {
             let countriesISO = data.dimensions.country ? data.dimensions.country.values : [];
             countriesISO.forEach(c => {
                 countries.push({
@@ -936,7 +940,6 @@ const ChartComponent = ({
             break;
         case CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS:
             commonCrossCountryProcess();
-            isCrossCountryChart = true;
             useFilterByCropsWithCountries = true;
             useCropLegendsRow = false;
             useFilterByCrops = false;
@@ -985,7 +988,6 @@ const ChartComponent = ({
             break;
         case CROSS_COUNTRY_NUMBER_OF_VARIETIES_RELEASED:
             commonCrossCountryProcess();
-            isCrossCountryChart = true;
             useFilterByCropsWithCountries = true;
             useCropLegendsRow = false;
             useFilterByCrops = false;
