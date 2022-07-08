@@ -170,7 +170,7 @@ const ResponsiveBarChartImpl = ({
             }
             let transform = `translate(${x}, ${yScale(Number(value)) - labelMargin})`;
 
-            let text = value !== FAKE_NUMBER
+            let text = (value !== FAKE_NUMBER && Number(value) !== FAKE_NUMBER)
                 ? value
                 : data_.values[data.crop] ? data_.values[data.crop][id] || 'MD' : 'MD'
             if (dataSuffix && Number(value) >= 0 && value !== FAKE_NUMBER) {
@@ -183,7 +183,11 @@ const ResponsiveBarChartImpl = ({
             if (layout === 'horizontal') {
                 labelMargin = 0;
                 transform = `translate(${xScale(value) - labelMargin},${y})`;
-                xText = (getTextWidth(text, '13pt sans-serif') / 1.20);
+                if (text === 'MD') {
+                    xText = 20;
+                } else {
+                    xText = Number(value) > FAKE_NUMBER ? x + (getTextWidth(text, '13pt sans-serif') / 2) + 5 : 10;
+                }
                 yText = height - ((height - textHeight) / 2);
             }
             
