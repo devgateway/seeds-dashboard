@@ -1148,7 +1148,8 @@ const ChartComponent = ({
                         i.textValue = "" + i.value;
                     });
                     max = max * 100;
-                    
+
+                    dataSuffix = "%";
                     bottomLegend = intl.formatMessage({
                         id: 'market-share-top4-legend',
                         defaultMessage: 'Market share (%)'
