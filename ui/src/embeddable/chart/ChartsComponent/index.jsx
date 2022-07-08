@@ -35,6 +35,7 @@ import {
     SHARE_CHART, SHARE_YEARS,
     CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS,
     CROSS_COUNTRY_NUMBER_OF_VARIETIES_RELEASED,
+    CROSS_COUNTRY_QUANTITY_CERTIFIED_SEED_SOLD,
 } from "../../reducers/StoreConstants";
 import YearLegend from "../common/year";
 import MarketConcentrationHHI from "../MarketConcentrationHHI";
@@ -137,8 +138,9 @@ const ChartComponent = ({
     } else if (type === AVAILABILITY_SEED_SMALL_PACKAGES || type === VARIETIES_RELEASED_WITH_SPECIAL_FEATURES) {
         maxSelectableYear = 1;
     }
-    
-    if (type === CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS || type === CROSS_COUNTRY_NUMBER_OF_VARIETIES_RELEASED) {
+
+    if (type === CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS || type === CROSS_COUNTRY_NUMBER_OF_VARIETIES_RELEASED
+        || type === CROSS_COUNTRY_QUANTITY_CERTIFIED_SEED_SOLD) {
         isCrossCountryChart = true;
     }
 
@@ -180,8 +182,9 @@ const ChartComponent = ({
                     setSelectedYear(years)
                 }
             }
-            if (type === CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS 
-                || type === CROSS_COUNTRY_NUMBER_OF_VARIETIES_RELEASED) {
+            if (type === CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS
+                || type === CROSS_COUNTRY_NUMBER_OF_VARIETIES_RELEASED
+                || type === CROSS_COUNTRY_QUANTITY_CERTIFIED_SEED_SOLD) {
                 setSelectedCrops([MAIZE]);
             }
             return null;
@@ -1018,6 +1021,53 @@ const ChartComponent = ({
                             defaultMessage: 'Number of varieties released per land under production'
                         })}: </span>
                         <span className="bold"> {d.value !== FAKE_NUMBER ? d.value + '/1,000,000 ha' : 'MD'}</span>
+                    </div>
+                </>
+            }
+            getTooltipHeader = (d) => {
+                return <>
+                    <div className={selectedCrops + " crop-icon"} />
+                    <div className="crop-name">{intl.formatMessage({
+                        id: selectedCrops, defaultMessage: selectedCrops
+                    })} - {d.indexValue} - {d.data.year}</div>
+                </>;
+            }
+            totalLabel.show = true;
+            totalLabel.format = false;
+            groupMode = 'grouped';
+            break;
+        case CROSS_COUNTRY_QUANTITY_CERTIFIED_SEED_SOLD:
+            commonCrossCountryProcess();
+            useFilterByCropsWithCountries = true;
+            useCropLegendsRow = false;
+            useFilterByCrops = false;
+            leftLegend = intl.formatMessage({
+                id: 'label-country',
+                defaultMessage: 'Country'
+            });
+            indexBy = 'country';
+            bottomLegend = intl.formatMessage({
+                id: 'quantity-certified-seed-sold-legend',
+                defaultMessage: 'Metric tons/ per 1,000 hectares'
+            });
+            keys.push('textValue');
+            legends = [];
+            layout = 'horizontal';
+            enableGridX = true;
+            enableGridY = false;
+            getColors = (item) => {
+                return baseColors[selectedCrops];
+            }
+            containerHeight = 650;
+            animate = true;
+            getTooltipText = (d) => {
+                return <>
+                    <div style={{ textAlign: 'center' }}>
+                        <span>{intl.formatMessage({
+                            id: 'quantity-certified-seed-sold-tooltip',
+                            defaultMessage: 'Certified seed sold'
+                        })}: </span>
+                        <span className="bold"> {d.value !== FAKE_NUMBER ? d.value + 't / 1,000 ha' : 'MD'}</span>
                     </div>
                 </>
             }
