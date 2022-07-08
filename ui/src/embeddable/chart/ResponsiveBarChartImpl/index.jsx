@@ -65,7 +65,8 @@ const ResponsiveBarChartImpl = ({
                                     getColorsCustom,
                                     axisBottom = true,
                                     isCrossCountryChart,
-                                    animate = true
+                                    animate = true,
+                                    customSorting = false
                                 }) => {
     let pMax = max;
     let allFake = true;
@@ -268,13 +269,18 @@ const ResponsiveBarChartImpl = ({
         });
         leftMargin += 40;
     }
+    
+    let auxData = processedData;
+    if (customSorting) {
+        auxData = auxData.sort(customSorting);
+    }
 
     return (
         <div style={{ height: containerHeight }} ref={ref}>
             {!noData ? <ResponsiveBar
                 theme={theme}
                 layers={layers}
-                data={processedData}
+                data={auxData}
                 keys={keys}
                 indexBy={indexBy}
                 margin={margins ? margins : { top: 50, right: 60, bottom: 70, left: leftMargin }}

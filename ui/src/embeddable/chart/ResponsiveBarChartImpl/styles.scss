@@ -83,6 +83,15 @@ $border_gray: rgba(229, 229, 229, 1);
           text-align: center;
           float: left;
         }
+        
+        .without-crop-name {
+          font-size: 14px !important;
+          font-weight: 900;
+          color: #555555;
+          top: 10px;
+          position: relative;
+          text-align: center;
+        }
 
         .country-header {
           font-size: 14px !important;

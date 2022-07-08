@@ -44,5 +44,6 @@ export const SHARE_YEARS = 'share_years';
 export const CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS = 'numberActiveBreeders_crossCountry';
 export const CROSS_COUNTRY_NUMBER_OF_VARIETIES_RELEASED = 'numberOfVarietiesReleased_crossCountry';
 export const CROSS_COUNTRY_QUANTITY_CERTIFIED_SEED_SOLD = 'quantityCertifiedSeedSold_crossCountry';
+export const CROSS_COUNTRY_NUMBER_OF_ACTIVE_SEED_COMPANIES = 'numberActiveCompanies_crossCountry'
 
 export const WP_CHART = 'wp-chart';
