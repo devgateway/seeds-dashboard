@@ -36,6 +36,7 @@ import {
     CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS,
     CROSS_COUNTRY_NUMBER_OF_VARIETIES_RELEASED,
     CROSS_COUNTRY_QUANTITY_CERTIFIED_SEED_SOLD,
+    CROSS_COUNTRY_NUMBER_OF_ACTIVE_SEED_COMPANIES
 } from "../../reducers/StoreConstants";
 import YearLegend from "../common/year";
 import MarketConcentrationHHI from "../MarketConcentrationHHI";
@@ -122,6 +123,8 @@ const ChartComponent = ({
     let sharedYears;
     let isCrossCountryChart = false;
     let useFilterByCropsWithCountries = false;
+    let useFilterByCountries = false;
+    let customSorting = null;
     const MAIZE = 'maize';
     
     if (filters && filters.get(SHARE_CHART) === type) {
@@ -140,7 +143,8 @@ const ChartComponent = ({
     }
 
     if (type === CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS || type === CROSS_COUNTRY_NUMBER_OF_VARIETIES_RELEASED
-        || type === CROSS_COUNTRY_QUANTITY_CERTIFIED_SEED_SOLD) {
+        || type === CROSS_COUNTRY_QUANTITY_CERTIFIED_SEED_SOLD
+        || type === CROSS_COUNTRY_NUMBER_OF_ACTIVE_SEED_COMPANIES) {
         isCrossCountryChart = true;
     }
 
@@ -184,7 +188,8 @@ const ChartComponent = ({
             }
             if (type === CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS
                 || type === CROSS_COUNTRY_NUMBER_OF_VARIETIES_RELEASED
-                || type === CROSS_COUNTRY_QUANTITY_CERTIFIED_SEED_SOLD) {
+                || type === CROSS_COUNTRY_QUANTITY_CERTIFIED_SEED_SOLD
+                || type === CROSS_COUNTRY_NUMBER_OF_ACTIVE_SEED_COMPANIES) {
                 setSelectedCrops([MAIZE]);
             }
             return null;
@@ -337,6 +342,36 @@ const ChartComponent = ({
                 }
             });
         }
+    }
+    
+    const commonCrossCountryProcessSummarizeCrops = () => {
+        const auxData = [];
+        if (data && data.values && countries) {
+            const selectedCountries = countries.filter(c => c.selected);
+            max = 0;
+            Object.keys(data.values).forEach(i => {
+                if (selectedCountries.find(c => c.iso === i)) {
+                    const item = {
+                        iso: i,
+                        country: COUNTRY_OPTIONS.find(j => j.flag.toLowerCase() === i.toLowerCase()).text
+                    };
+                    let sum = 0;
+                    Object.keys(data.values[i]).forEach(j => {
+                        if (j !== 'year') {
+                            sum += data.values[i][j];
+                        }
+                    });
+                    item.textValue = "" + sum;
+                    item.value = sum;
+                    item.year = data.values[i].year;
+                    if (max < sum) {
+                        max = sum;
+                    }
+                    auxData.push(item);
+                }
+            });
+        }
+        processedData = auxData;
     }
 
     const commonProcess = (c, entry, yearColors) => {
@@ -945,6 +980,7 @@ const ChartComponent = ({
         case CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS:
         case CROSS_COUNTRY_NUMBER_OF_VARIETIES_RELEASED:
         case CROSS_COUNTRY_QUANTITY_CERTIFIED_SEED_SOLD:
+        case CROSS_COUNTRY_NUMBER_OF_ACTIVE_SEED_COMPANIES:
             // Common code section.
             commonCrossCountryProcess();
             useFilterByCropsWithCountries = true;
@@ -1045,6 +1081,32 @@ const ChartComponent = ({
                             })} - {d.indexValue} - {d.data.year}</div>
                         </>;
                     }
+                    break;
+                case CROSS_COUNTRY_NUMBER_OF_ACTIVE_SEED_COMPANIES:
+                    bottomLegend = intl.formatMessage({
+                        id: 'active-seed-companies-legend',
+                        defaultMessage: 'Active seed companies'
+                    });
+                    getTooltipText = (d) => {
+                        return <>
+                            <div style={{ textAlign: 'center' }}>
+                        <span>{intl.formatMessage({
+                            id: 'active-seed-companies-tooltip',
+                            defaultMessage: 'Number of active seed companies'
+                        })}: </span>
+                                <span className="bold"> {d.value !== FAKE_NUMBER ? d.value : 'MD'}</span>
+                            </div>
+                        </>
+                    }
+                    getTooltipHeader = (d) => {
+                        return <>
+                            <div className="without-crop-name">{d.indexValue} - {d.data.year}</div>
+                        </>;
+                    }
+                    commonCrossCountryProcessSummarizeCrops();
+                    useFilterByCropsWithCountries = false;
+                    useFilterByCountries = true;
+                    customSorting = (a, b) => (b.country.localeCompare(a.country));
                     break;
             }
             break;
@@ -1677,7 +1739,7 @@ const ChartComponent = ({
                                                     showTotalMD={showTotalMD} margins={margins}
                                                     intl={intl} barLabelFormat={roundNumbers}
                                                     getColorsCustom={getColors} extraTooltipClass={extraTooltipClass}
-                                                    animate={animate}
+                                                    animate={animate} customSorting={customSorting}
                             /> : <ResponsiveLineChartImpl sources={sources}
                                                           data={data}
                                                           noData={noData}
@@ -1750,6 +1812,13 @@ const ChartComponent = ({
                     </Grid.Column>
                     <Grid.Column computer={5} mobile={16}>
                         <CrossCountryCountryFilter data={countries} onChange={handleCrossCountryCountryFilterChange} 
+                                                   intl={intl}/>
+                    </Grid.Column>
+                </Grid.Row>);
+            } else if (useFilterByCountries) {
+                return (<Grid.Row className={`filters-section`} style={{borderBottom: "1px solid rgb(229, 229, 229)"}}>
+                    <Grid.Column computer={5} mobile={16}>
+                        <CrossCountryCountryFilter data={countries} onChange={handleCrossCountryCountryFilterChange}
                                                    intl={intl}/>
                     </Grid.Column>
                 </Grid.Row>);

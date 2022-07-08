@@ -202,6 +202,10 @@ class BlockEdit extends BaseBlockEdit {
                                         {
                                             label: 'Cross-Country - Quantity of certified seed sold by land under production',
                                             value: 'quantityCertifiedSeedSold_crossCountry'
+                                        },
+                                        {
+                                            label: 'Cross-Country - Number of active seed companies',
+                                            value: 'numberActiveCompanies_crossCountry'
                                         }
                                     ]}
                                 />
