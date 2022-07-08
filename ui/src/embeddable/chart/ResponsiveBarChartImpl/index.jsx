@@ -156,39 +156,51 @@ const ResponsiveBarChartImpl = ({
         return numbers;
     };
 
-    const TotalLabelsGrouped = ({ bars, yScale }) => {
+    const TotalLabelsGrouped = ({ bars, yScale, xScale }) => {
         const data_ = data;
         // space between top of stacked bars and total label
-        const labelMargin = 30;
+        let labelMargin = 30;
 
         const numbers = [];
-        bars.forEach(({ data: { data, indexValue, id }, x, width }, i) => {
-            let value = data[id]; 
+        bars.forEach(({ data: { data, indexValue, id }, x, y, width, height }, i) => {
+            let value = data[id];
             if (!value) {
                 value = data_.values[data.crop] ? data_.values[data.crop][id] : null;
             }
-            const transform = `translate(${x}, ${yScale(value) - labelMargin})`;
+            let transform = `translate(${x}, ${yScale(Number(value)) - labelMargin})`;
+
+            let text = value !== FAKE_NUMBER
+                ? value
+                : data_.values[data.crop] ? data_.values[data.crop][id] || 'MD' : 'MD'
+            if (dataSuffix && Number(value) >= 0 && value !== FAKE_NUMBER) {
+                text += dataSuffix
+            }
+
+            let xText = width / 2;
+            let yText = labelMargin - 15;
+            const textHeight = 13; // TODO: add function to calculate height.
+            if (layout === 'horizontal') {
+                labelMargin = -5;
+                transform = `translate(${xScale(value) - labelMargin},${y})`;
+                xText = (getTextWidth(text, '13pt sans-serif') / 1.20);
+                yText = height - ((height - textHeight) / 2);
+            }
+            
             if (!numbers.find(i => i.props.transform === transform)) {
-                let text = value !== FAKE_NUMBER
-                    ? value
-                    : data_.values[data.crop] ? data_.values[data.crop][id] || 'MD' : 'MD'
-                if (dataSuffix && Number(value) >= 0 && value !== FAKE_NUMBER) {
-                    text += dataSuffix
-                }
                 numbers.push(<g
                     transform={transform}
                     key={`${indexValue}-${i}`}>
                     <text
                         // add any class to the label here
                         className="bar-total-label"
-                        x={width / 2}
-                        y={labelMargin - 15}
+                        x={xText}
+                        y={yText}
                         textAnchor="middle"
                         alignmentBaseline="central"
                         // add any style to the label here
                         style={{
                             fontWeight: 'bold',
-                            fontSize: getTextWidth(text, '14pt sans-serif') <= width ? '14pt' : '10pt',
+                            fontSize: (getTextWidth(text, '13pt sans-serif') <= width || layout === 'horizontal') ? '13pt' : '10pt',
                             fill: '#354052',
                         }}>
                         {totalLabel.format && !isNaN(text) ? intl.formatNumber(text, totalLabel.format) : text}
@@ -198,7 +210,7 @@ const ResponsiveBarChartImpl = ({
         });
         return numbers;
     };
-
+    
     const getColors = (item) => {
         if (Array.isArray(item.id)) {
             return colors.get(item.id[0]);
