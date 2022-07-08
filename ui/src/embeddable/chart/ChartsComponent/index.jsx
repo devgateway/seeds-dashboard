@@ -157,7 +157,6 @@ const ChartComponent = ({
                     active: true, selected: true
                 });
             });
-            //countriesISO = countriesISO.sort((a, b) => b.localeCompare(a));
             setCountries(countries.sort((a, b) => b.name.localeCompare(a.name)));
         } else if (forceUpdate) {
             setForceUpdate(false);
@@ -212,7 +211,7 @@ const ChartComponent = ({
         setSelectedCrops(crops[selected]);
         const ISOs = Object.keys(data.values);
         ISOs.forEach(i => {
-            if (data.values[i][crops[selected]] > FAKE_NUMBER) {
+            if (!isNaN(data.values[i][crops[selected]])) {
                 countries.find(c => c.iso === i).active = true;
                 countries.find(c => c.iso === i).selected = true;
             } else {
@@ -330,6 +329,8 @@ const ChartComponent = ({
                     if (max < item[c.iso]) {
                         max = item[c.iso];
                     }
+                    item.textValue = "" + item[c.iso];
+                    item.value = item[c.iso];
                 }
             });
         }
@@ -952,9 +953,7 @@ const ChartComponent = ({
                 id: 'active-breeders-legend',
                 defaultMessage: 'Active breeders per 1,000,000 hectares'
             });
-            processedData.forEach(i => {
-                keys.push(i.iso);
-            });
+            keys.push('textValue');
             legends = [];
             layout = 'horizontal';
             enableGridX = true;
@@ -985,6 +984,7 @@ const ChartComponent = ({
             }
             totalLabel.show = true;
             totalLabel.format = false;
+            groupMode = 'grouped';
             break;
         case CROSS_COUNTRY_NUMBER_OF_VARIETIES_RELEASED:
             commonCrossCountryProcess();
@@ -1000,9 +1000,7 @@ const ChartComponent = ({
                 id: 'varieties-released-legend',
                 defaultMessage: 'Varieties released per 1,000,000 hectares'
             });
-            processedData.forEach(i => {
-                keys.push(i.iso);
-            });
+            keys.push('textValue');
             legends = [];
             layout = 'horizontal';
             enableGridX = true;
@@ -1033,6 +1031,7 @@ const ChartComponent = ({
             }
             totalLabel.show = true;
             totalLabel.format = false;
+            groupMode = 'grouped';
             break;
         case NUMBER_OF_ACTIVE_BREEDERS:
             getTooltipHeader = (d) => {
