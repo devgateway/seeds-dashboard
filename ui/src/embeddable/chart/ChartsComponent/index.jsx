@@ -222,7 +222,7 @@ const ChartComponent = ({
         setSelectedCrops(crops[selected]);
         const ISOs = Object.keys(data.values);
         ISOs.forEach(i => {
-            if (!isNaN(data.values[i][crops[selected]])) {
+            if (!isNaN(data.values[i][crops[selected]]) || data.values[i][crops[selected]] === 'MD') {
                 countries.find(c => c.iso === i).active = true;
                 countries.find(c => c.iso === i).selected = true;
             } else {
@@ -333,7 +333,7 @@ const ChartComponent = ({
                 if (data.values[c.iso]) {
                     const item = {};
                     item.iso = c.iso;
-                    item[c.iso] = data.values[c.iso][selectedCrops] || 0;
+                    item[c.iso] = !isNaN(data.values[c.iso][selectedCrops]) ? data.values[c.iso][selectedCrops] : FAKE_NUMBER;
                     item.country = c.name;
                     item.year = data.values[c.iso].year;
                     processedData.push(item);

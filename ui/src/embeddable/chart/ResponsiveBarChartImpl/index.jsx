@@ -170,7 +170,6 @@ const ResponsiveBarChartImpl = ({
             }
             let transform = `translate(${x}, ${yScale(Number(value)) - labelMargin})`;
 
-            debugger
             let text = (value !== FAKE_NUMBER && Number(value) !== FAKE_NUMBER)
                 ? value
                 : data_.values[data.crop] ? data_.values[data.crop][id] || 'MD' : 'MD'
