@@ -198,8 +198,11 @@ class BlockEdit extends BaseBlockEdit {
                                         {
                                             label: 'Cross-Country - Number of varieties released in last 3 years by land under production',
                                             value: 'numberOfVarietiesReleased_crossCountry'
+                                        },
+                                        {
+                                            label: 'Cross-Country - Quantity of certified seed sold by land under production',
+                                            value: 'quantityCertifiedSeedSold_crossCountry'
                                         }
-                                        
                                     ]}
                                 />
                             </PanelRow>

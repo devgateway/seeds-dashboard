@@ -180,7 +180,7 @@ const ResponsiveBarChartImpl = ({
             let yText = labelMargin - 15;
             const textHeight = 13; // TODO: add function to calculate height.
             if (layout === 'horizontal') {
-                labelMargin = -5;
+                labelMargin = 0;
                 transform = `translate(${xScale(value) - labelMargin},${y})`;
                 xText = (getTextWidth(text, '13pt sans-serif') / 1.20);
                 yText = height - ((height - textHeight) / 2);
