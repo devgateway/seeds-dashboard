@@ -173,5 +173,7 @@
   "active-seed-companies-legend": "Active seed companies",
   "active-seed-companies-tooltip": "Number of active seed companies",
   "number-varieties-sold-legend": "Varieties sold",
-  "number-varieties-sold-tooltip": "Number of varieties sold"
+  "number-varieties-sold-tooltip": "Number of varieties sold",
+  "market-share-top4-legend": "Market share (%)",
+  "market-share-top4-tooltip": "Market share of top four companies"
 }

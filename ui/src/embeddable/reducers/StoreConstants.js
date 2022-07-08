@@ -45,6 +45,7 @@ export const CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS = 'numberActiveBreeders_cro
 export const CROSS_COUNTRY_NUMBER_OF_VARIETIES_RELEASED = 'numberOfVarietiesReleased_crossCountry';
 export const CROSS_COUNTRY_QUANTITY_CERTIFIED_SEED_SOLD = 'quantityCertifiedSeedSold_crossCountry';
 export const CROSS_COUNTRY_NUMBER_OF_ACTIVE_SEED_COMPANIES = 'numberActiveCompanies_crossCountry'
-export const CROSS_COUNTRY_NUMBER_VARIETIES_SOLD = 'numberVarietiesSold_crossCountry'; 
+export const CROSS_COUNTRY_NUMBER_VARIETIES_SOLD = 'numberVarietiesSold_crossCountry';
+export const CROSS_COUNTRY_MARKET_SHARE_TOP_FOUR_SEED_COMPANIES = 'marketShareTopFourSeedCompanies_crossCountry';
 
 export const WP_CHART = 'wp-chart';

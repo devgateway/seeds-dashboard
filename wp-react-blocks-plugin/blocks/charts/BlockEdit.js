@@ -210,6 +210,10 @@ class BlockEdit extends BaseBlockEdit {
                                         {
                                             label: 'Cross-Country - Number of varieties sold in data collection year',
                                             value: 'numberVarietiesSold_crossCountry'
+                                        },
+                                        {
+                                            label: 'Cross-Country - Market concentration: Market share of top 4 companies/producers (CR4)',
+                                            value: 'marketShareTopFourSeedCompanies_crossCountry'
                                         }
                                     ]}
                                 />
