@@ -183,7 +183,7 @@ const ResponsiveBarChartImpl = ({
             if (layout === 'horizontal') {
                 labelMargin = 0;
                 transform = `translate(${xScale(value) - labelMargin},${y})`;
-                xText = (getTextWidth(text, '13pt sans-serif') / 1.20);
+                xText = Number(value) > FAKE_NUMBER ? x + (getTextWidth(text, '13pt sans-serif') / 2) + 5 : 10;
                 yText = height - ((height - textHeight) / 2);
             }
             
