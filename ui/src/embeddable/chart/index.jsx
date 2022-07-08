@@ -42,7 +42,8 @@ import {
     SHARE_CHART,
     SHARE_CROPS,
     CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS, CROSS_COUNTRY_NUMBER_OF_VARIETIES_RELEASED,
-    CROSS_COUNTRY_QUANTITY_CERTIFIED_SEED_SOLD, CROSS_COUNTRY_NUMBER_OF_ACTIVE_SEED_COMPANIES
+    CROSS_COUNTRY_QUANTITY_CERTIFIED_SEED_SOLD, CROSS_COUNTRY_NUMBER_OF_ACTIVE_SEED_COMPANIES,
+    CROSS_COUNTRY_NUMBER_VARIETIES_SOLD
 } from "../reducers/StoreConstants";
 import GaugesChart from "./GaugesChart";
 import { getWpCategories, setFilter } from "../reducers/data";
@@ -278,7 +279,8 @@ const Chart = (props) => {
         case CROSS_COUNTRY_NUMBER_OF_VARIETIES_RELEASED:    
         case CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS:
         case CROSS_COUNTRY_QUANTITY_CERTIFIED_SEED_SOLD:
-        case CROSS_COUNTRY_NUMBER_OF_ACTIVE_SEED_COMPANIES: {
+        case CROSS_COUNTRY_NUMBER_OF_ACTIVE_SEED_COMPANIES:
+        case CROSS_COUNTRY_NUMBER_VARIETIES_SOLD: {
             const chartComponent = { type, ...chartProps }
             child = <ChartComponent {...chartComponent} sources={dynamicSources} />
             break;
@@ -335,7 +337,8 @@ const Chart = (props) => {
         [CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS]: 875,
         [CROSS_COUNTRY_NUMBER_OF_VARIETIES_RELEASED]: 875,
         [CROSS_COUNTRY_QUANTITY_CERTIFIED_SEED_SOLD]: 875,
-        [CROSS_COUNTRY_NUMBER_OF_ACTIVE_SEED_COMPANIES]: 875
+        [CROSS_COUNTRY_NUMBER_OF_ACTIVE_SEED_COMPANIES]: 875,
+        [CROSS_COUNTRY_NUMBER_VARIETIES_SOLD]: 875
     };
     const fixedHeightStyle = { height: (fixedHeight[type] ? fixedHeight[type] : 550) + 'px' };
 

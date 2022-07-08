@@ -36,7 +36,8 @@ import {
     CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS,
     CROSS_COUNTRY_NUMBER_OF_VARIETIES_RELEASED,
     CROSS_COUNTRY_QUANTITY_CERTIFIED_SEED_SOLD,
-    CROSS_COUNTRY_NUMBER_OF_ACTIVE_SEED_COMPANIES
+    CROSS_COUNTRY_NUMBER_OF_ACTIVE_SEED_COMPANIES,
+    CROSS_COUNTRY_NUMBER_VARIETIES_SOLD
 } from "../../reducers/StoreConstants";
 import YearLegend from "../common/year";
 import MarketConcentrationHHI from "../MarketConcentrationHHI";
@@ -144,7 +145,8 @@ const ChartComponent = ({
 
     if (type === CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS || type === CROSS_COUNTRY_NUMBER_OF_VARIETIES_RELEASED
         || type === CROSS_COUNTRY_QUANTITY_CERTIFIED_SEED_SOLD
-        || type === CROSS_COUNTRY_NUMBER_OF_ACTIVE_SEED_COMPANIES) {
+        || type === CROSS_COUNTRY_NUMBER_OF_ACTIVE_SEED_COMPANIES
+        || type === CROSS_COUNTRY_NUMBER_VARIETIES_SOLD) {
         isCrossCountryChart = true;
     }
 
@@ -189,7 +191,8 @@ const ChartComponent = ({
             if (type === CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS
                 || type === CROSS_COUNTRY_NUMBER_OF_VARIETIES_RELEASED
                 || type === CROSS_COUNTRY_QUANTITY_CERTIFIED_SEED_SOLD
-                || type === CROSS_COUNTRY_NUMBER_OF_ACTIVE_SEED_COMPANIES) {
+                || type === CROSS_COUNTRY_NUMBER_OF_ACTIVE_SEED_COMPANIES
+                || type === CROSS_COUNTRY_NUMBER_VARIETIES_SOLD) {
                 setSelectedCrops([MAIZE]);
             }
             return null;
@@ -981,6 +984,7 @@ const ChartComponent = ({
         case CROSS_COUNTRY_NUMBER_OF_VARIETIES_RELEASED:
         case CROSS_COUNTRY_QUANTITY_CERTIFIED_SEED_SOLD:
         case CROSS_COUNTRY_NUMBER_OF_ACTIVE_SEED_COMPANIES:
+        case CROSS_COUNTRY_NUMBER_VARIETIES_SOLD:
             // Common code section.
             commonCrossCountryProcess();
             useFilterByCropsWithCountries = true;
@@ -1107,6 +1111,31 @@ const ChartComponent = ({
                     useFilterByCropsWithCountries = false;
                     useFilterByCountries = true;
                     customSorting = (a, b) => (b.country.localeCompare(a.country));
+                    break;
+                case CROSS_COUNTRY_NUMBER_VARIETIES_SOLD:
+                    bottomLegend = intl.formatMessage({
+                        id: 'number-varieties-sold-legend',
+                        defaultMessage: 'Varieties sold'
+                    });
+                    getTooltipText = (d) => {
+                        return <>
+                            <div style={{ textAlign: 'center' }}>
+                        <span>{intl.formatMessage({
+                            id: 'number-varieties-sold-tooltip',
+                            defaultMessage: 'Number of varieties sold'
+                        })}: </span>
+                                <span className="bold"> {d.value !== FAKE_NUMBER ? d.value : 'MD'}</span>
+                            </div>
+                        </>
+                    }
+                    getTooltipHeader = (d) => {
+                        return <>
+                            <div className={selectedCrops + " crop-icon"} />
+                            <div className="crop-name">{intl.formatMessage({
+                                id: selectedCrops, defaultMessage: selectedCrops
+                            })} - {d.indexValue} - {d.data.year}</div>
+                        </>;
+                    }
                     break;
             }
             break;
