@@ -200,7 +200,7 @@ const ResponsiveBarChartImpl = ({
                         // add any style to the label here
                         style={{
                             fontWeight: 'bold',
-                            fontSize: '13pt',
+                            fontSize: (getTextWidth(text, '13pt sans-serif') <= width || layout === 'horizontal') ? '13pt' : '10pt',
                             fill: '#354052',
                         }}>
                         {totalLabel.format && !isNaN(text) ? intl.formatNumber(text, totalLabel.format) : text}
