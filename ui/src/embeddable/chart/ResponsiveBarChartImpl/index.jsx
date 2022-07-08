@@ -182,7 +182,7 @@ const ResponsiveBarChartImpl = ({
             if (layout === 'horizontal') {
                 labelMargin = -5;
                 transform = `translate(${xScale(value) - labelMargin},${y})`;
-                xText = (getTextWidth(text, '14pt sans-serif') / 1.20);
+                xText = (getTextWidth(text, '13pt sans-serif') / 1.20);
                 yText = height - ((height - textHeight) / 2);
             }
             
@@ -200,7 +200,7 @@ const ResponsiveBarChartImpl = ({
                         // add any style to the label here
                         style={{
                             fontWeight: 'bold',
-                            fontSize: getTextWidth(text, '14pt sans-serif') <= width ? '14pt' : '10pt',
+                            fontSize: '13pt',
                             fill: '#354052',
                         }}>
                         {totalLabel.format && !isNaN(text) ? intl.formatNumber(text, totalLabel.format) : text}

@@ -1014,8 +1014,8 @@ const ChartComponent = ({
                 return <>
                     <div style={{ textAlign: 'center' }}>
                         <span>{intl.formatMessage({
-                            id: 'active-breeders-tooltip',
-                            defaultMessage: 'Number of active breeders'
+                            id: 'varieties-released-tooltip',
+                            defaultMessage: 'Number of varieties released per land under production'
                         })}: </span>
                         <span className="bold"> {d.value !== FAKE_NUMBER ? d.value + '/1,000,000 ha' : 'MD'}</span>
                     </div>
