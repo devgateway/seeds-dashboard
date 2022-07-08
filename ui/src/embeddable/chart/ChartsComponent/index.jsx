@@ -9,7 +9,7 @@ import CropsLegend from "../common/crop";
 import Export from "../common/export";
 import CropsWithSpecialFeatures from "../common/cropWithSpecialFeatures";
 import Source from "../common/source";
-import { baseColors, getColor } from "../Countryinfo/CountryInfoChart";
+import { baseColors } from "../Countryinfo/CountryInfoChart";
 import {
     AVERAGE_AGE_VARIETIES_SOLD,
     MARKET_CONCENTRATION_HHI,
@@ -38,10 +38,11 @@ import {
     CROSS_COUNTRY_QUANTITY_CERTIFIED_SEED_SOLD,
     CROSS_COUNTRY_NUMBER_OF_ACTIVE_SEED_COMPANIES,
     CROSS_COUNTRY_NUMBER_VARIETIES_SOLD,
-    CROSS_COUNTRY_MARKET_SHARE_TOP_FOUR_SEED_COMPANIES
+    CROSS_COUNTRY_MARKET_SHARE_TOP_FOUR_SEED_COMPANIES,
+    CROSS_COUNTRY_MARKET_CONCENTRATION_HHI
 } from "../../reducers/StoreConstants";
 import YearLegend from "../common/year";
-import MarketConcentrationHHI from "../MarketConcentrationHHI";
+import MarketConcentrationHHI, {getColor, hhiLegends} from "../MarketConcentrationHHI";
 import ResponsiveRadarChartImpl from "../ResponsiveRadarChartImpl";
 import { injectIntl } from "react-intl";
 import BarAndLineChart from "../BarAndLineChart";
@@ -52,6 +53,7 @@ import { range } from "../GaugesChart/components/common";
 import { connect } from "react-redux";
 import CrossCountryCropFilter from "../common/filters/crossCountry/crops";
 import CrossCountryCountryFilter from "../common/filters/crossCountry/country";
+import HHILegend from "../MarketConcentrationHHI/HHILegend";
 
 const ChartComponent = ({
                             sources,
@@ -124,6 +126,7 @@ const ChartComponent = ({
     let sharedCrops;
     let sharedYears;
     let isCrossCountryChart = false;
+    let useHHILegends = false;
     let useFilterByCropsWithCountries = false;
     let useFilterByCountries = false;
     let customSorting = null;
@@ -148,7 +151,8 @@ const ChartComponent = ({
         || type === CROSS_COUNTRY_QUANTITY_CERTIFIED_SEED_SOLD
         || type === CROSS_COUNTRY_NUMBER_OF_ACTIVE_SEED_COMPANIES
         || type === CROSS_COUNTRY_NUMBER_VARIETIES_SOLD
-        || type === CROSS_COUNTRY_MARKET_SHARE_TOP_FOUR_SEED_COMPANIES) {
+        || type === CROSS_COUNTRY_MARKET_SHARE_TOP_FOUR_SEED_COMPANIES
+        || type === CROSS_COUNTRY_MARKET_CONCENTRATION_HHI) {
         isCrossCountryChart = true;
     }
 
@@ -195,7 +199,8 @@ const ChartComponent = ({
                 || type === CROSS_COUNTRY_QUANTITY_CERTIFIED_SEED_SOLD
                 || type === CROSS_COUNTRY_NUMBER_OF_ACTIVE_SEED_COMPANIES
                 || type === CROSS_COUNTRY_NUMBER_VARIETIES_SOLD
-                || type === CROSS_COUNTRY_MARKET_SHARE_TOP_FOUR_SEED_COMPANIES) {
+                || type === CROSS_COUNTRY_MARKET_SHARE_TOP_FOUR_SEED_COMPANIES
+                || type === CROSS_COUNTRY_MARKET_CONCENTRATION_HHI) {
                 setSelectedCrops([MAIZE]);
             }
             return null;
@@ -989,6 +994,7 @@ const ChartComponent = ({
         case CROSS_COUNTRY_NUMBER_OF_ACTIVE_SEED_COMPANIES:
         case CROSS_COUNTRY_NUMBER_VARIETIES_SOLD:
         case CROSS_COUNTRY_MARKET_SHARE_TOP_FOUR_SEED_COMPANIES:
+        case CROSS_COUNTRY_MARKET_CONCENTRATION_HHI:
             // Common code section.
             commonCrossCountryProcess();
             useFilterByCropsWithCountries = true;
@@ -1013,6 +1019,16 @@ const ChartComponent = ({
             totalLabel.format = false;
             groupMode = 'grouped';
             
+            // This is the most common header.
+            getTooltipHeader = (d) => {
+                return <>
+                    <div className={selectedCrops + " crop-icon"} />
+                    <div className="crop-name">{intl.formatMessage({
+                        id: selectedCrops, defaultMessage: selectedCrops
+                    })} - {d.indexValue} - {d.data.year}</div>
+                </>;
+            }
+            
             // Section for each cross-country chart.
             switch (type) {
                 case CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS:
@@ -1031,14 +1047,6 @@ const ChartComponent = ({
                             </div>
                         </>
                     }
-                    getTooltipHeader = (d) => {
-                        return <>
-                            <div className={selectedCrops + " crop-icon"} />
-                            <div className="crop-name">{intl.formatMessage({
-                                id: selectedCrops, defaultMessage: selectedCrops
-                            })} - {d.indexValue} - {d.data.year}</div>
-                        </>;
-                    }
                     break;
                 case CROSS_COUNTRY_NUMBER_OF_VARIETIES_RELEASED:
                     bottomLegend = intl.formatMessage({
@@ -1056,14 +1064,6 @@ const ChartComponent = ({
                             </div>
                         </>
                     }
-                    getTooltipHeader = (d) => {
-                        return <>
-                            <div className={selectedCrops + " crop-icon"} />
-                            <div className="crop-name">{intl.formatMessage({
-                                id: selectedCrops, defaultMessage: selectedCrops
-                            })} - {d.indexValue} - {d.data.year}</div>
-                        </>;
-                    }
                     break;
                 case CROSS_COUNTRY_QUANTITY_CERTIFIED_SEED_SOLD:
                     bottomLegend = intl.formatMessage({
@@ -1080,14 +1080,6 @@ const ChartComponent = ({
                                 <span className="bold"> {d.value !== FAKE_NUMBER ? d.value + 't / 1,000 ha' : 'MD'}</span>
                             </div>
                         </>
-                    }
-                    getTooltipHeader = (d) => {
-                        return <>
-                            <div className={selectedCrops + " crop-icon"} />
-                            <div className="crop-name">{intl.formatMessage({
-                                id: selectedCrops, defaultMessage: selectedCrops
-                            })} - {d.indexValue} - {d.data.year}</div>
-                        </>;
                     }
                     break;
                 case CROSS_COUNTRY_NUMBER_OF_ACTIVE_SEED_COMPANIES:
@@ -1132,14 +1124,6 @@ const ChartComponent = ({
                             </div>
                         </>
                     }
-                    getTooltipHeader = (d) => {
-                        return <>
-                            <div className={selectedCrops + " crop-icon"} />
-                            <div className="crop-name">{intl.formatMessage({
-                                id: selectedCrops, defaultMessage: selectedCrops
-                            })} - {d.indexValue} - {d.data.year}</div>
-                        </>;
-                    }
                     break;
                 case CROSS_COUNTRY_MARKET_SHARE_TOP_FOUR_SEED_COMPANIES:
                     // Fix %.
@@ -1165,14 +1149,27 @@ const ChartComponent = ({
                             </div>
                         </>
                     }
-                    getTooltipHeader = (d) => {
+                    break;
+                case CROSS_COUNTRY_MARKET_CONCENTRATION_HHI:
+                    bottomLegend = intl.formatMessage({
+                        id: 'hhi-legend',
+                        defaultMessage: 'HHI Score'
+                    });
+                    getTooltipText = (d) => {
                         return <>
-                            <div className={selectedCrops + " crop-icon"} />
-                            <div className="crop-name">{intl.formatMessage({
-                                id: selectedCrops, defaultMessage: selectedCrops
-                            })} - {d.indexValue} - {d.data.year}</div>
-                        </>;
+                            <div style={{ textAlign: 'center' }}>
+                        <span>{intl.formatMessage({
+                            id: 'hhi-tooltip',
+                            defaultMessage: 'HHI value'
+                        })}: </span>
+                                <span className="bold"> {d.value !== FAKE_NUMBER ? d.value : 'MD'}</span>
+                            </div>
+                        </>
                     }
+                    getColors = (item) => {
+                        return getColor(item.value);
+                    }
+                    useHHILegends = true;
                     break;
             }
             break;
@@ -1911,6 +1908,12 @@ const ChartComponent = ({
 
     const generateLegends = () => {
         if (isCrossCountryChart) {
+            if (useHHILegends) {
+                debugger
+                return (<Grid.Row className={`hhi-section`}>
+                    <HHILegend legends={hhiLegends} title={'HHI Value'} />
+                </Grid.Row>);
+            }
             return null;
         } else {
             if (!noData && useCropLegendsRow) {

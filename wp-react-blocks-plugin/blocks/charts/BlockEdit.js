@@ -214,6 +214,10 @@ class BlockEdit extends BaseBlockEdit {
                                         {
                                             label: 'Cross-Country - Market concentration: Market share of top 4 companies/producers (CR4)',
                                             value: 'marketShareTopFourSeedCompanies_crossCountry'
+                                        },
+                                        {
+                                            label: 'Cross-Country - Market concentration: Herfindahl-Hirschman Index Score',
+                                            value: 'marketConcentrationHHI_crossCountry'
                                         }
                                     ]}
                                 />
