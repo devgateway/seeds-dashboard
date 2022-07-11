@@ -181,5 +181,7 @@
   "market-share-state-owned-legend": "Market share (%)",
   "market-share-state-owned-tooltip": "Market share of state owned companies",
   "variety-release-process-legend": "Number of months",
-  "variety-release-process-tooltip": "Number of months"
+  "variety-release-process-tooltip": "Number of months",
+  "overall-rating-seed-association-legend": "Member opinion (out of 100%)",
+  "overall-rating-seed-association-tooltip": "Opinion rating"
 }
