@@ -175,5 +175,7 @@
   "number-varieties-sold-legend": "Varieties sold",
   "number-varieties-sold-tooltip": "Number of varieties sold",
   "market-share-top4-legend": "Market share (%)",
-  "market-share-top4-tooltip": "Market share of top four companies"
+  "market-share-top4-tooltip": "Market share of top four companies",
+  "hhi-legend": "HHI Score",
+  "hhi-tooltip": "HHI value"
 }

@@ -87,7 +87,7 @@ const MarketConcentrationHHI = ({ data, sources, selectedYear, bottomLegend, int
     return (
         <>
             <Grid.Row className={`hhi-section`}>
-                <HHILegend legends={legends} title={'HHI Value'} />
+                <HHILegend legends={hhiLegends} title={'HHI Value'} />
             </Grid.Row>
             <Grid.Row className="chart-section">
                 {[0, 1, 2, 3].map(i => {
@@ -126,7 +126,7 @@ const hhiColors = [
     { upTo: 10000, color: '#FF3833' }
 ];
 
-const getColor = (value) => {
+export const getColor = (value) => {
     if (value <= hhiColors[0].upTo) {
         return hhiColors[0].color;
     }
@@ -144,7 +144,7 @@ const getColor = (value) => {
     }
 }
 
-const legends = [
+export const hhiLegends = [
     {
         id: 8,
         'color': hhiColors[4].color,
