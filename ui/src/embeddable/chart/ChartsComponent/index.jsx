@@ -40,7 +40,8 @@ import {
     CROSS_COUNTRY_NUMBER_VARIETIES_SOLD,
     CROSS_COUNTRY_MARKET_SHARE_TOP_FOUR_SEED_COMPANIES,
     CROSS_COUNTRY_MARKET_CONCENTRATION_HHI,
-    CROSS_COUNTRY_MARKET_SHARE_STATE_OWNED_SEED_COMPANIES
+    CROSS_COUNTRY_MARKET_SHARE_STATE_OWNED_SEED_COMPANIES,
+    CROSS_COUNTRY_VARIETY_RELEASE_PROCESS
 } from "../../reducers/StoreConstants";
 import YearLegend from "../common/year";
 import MarketConcentrationHHI, {getColor, hhiLegends} from "../MarketConcentrationHHI";
@@ -154,11 +155,14 @@ const ChartComponent = ({
         || type === CROSS_COUNTRY_NUMBER_VARIETIES_SOLD
         || type === CROSS_COUNTRY_MARKET_SHARE_TOP_FOUR_SEED_COMPANIES
         || type === CROSS_COUNTRY_MARKET_CONCENTRATION_HHI
-        || type === CROSS_COUNTRY_MARKET_SHARE_STATE_OWNED_SEED_COMPANIES) {
+        || type === CROSS_COUNTRY_MARKET_SHARE_STATE_OWNED_SEED_COMPANIES
+        || type === CROSS_COUNTRY_VARIETY_RELEASE_PROCESS) {
         isCrossCountryChart = true;
     }
 
-    if (!data || !data.dimensions || (!data.dimensions.crop && !data.dimensions.year) || data.id === null) {
+    if (!data || 
+        !data.dimensions || (!data.dimensions.crop && !data.dimensions.year && type !== CROSS_COUNTRY_VARIETY_RELEASE_PROCESS) || 
+        data.id === null) {
         noData = true;
     } else {
         years = data.dimensions.year ? data.dimensions.year.values : {};
@@ -203,7 +207,8 @@ const ChartComponent = ({
                 || type === CROSS_COUNTRY_NUMBER_VARIETIES_SOLD
                 || type === CROSS_COUNTRY_MARKET_SHARE_TOP_FOUR_SEED_COMPANIES
                 || type === CROSS_COUNTRY_MARKET_CONCENTRATION_HHI
-                || type === CROSS_COUNTRY_MARKET_SHARE_STATE_OWNED_SEED_COMPANIES) {
+                || type === CROSS_COUNTRY_MARKET_SHARE_STATE_OWNED_SEED_COMPANIES
+                || type === CROSS_COUNTRY_VARIETY_RELEASE_PROCESS) {
                 setSelectedCrops([MAIZE]);
             }
             return null;
@@ -380,6 +385,34 @@ const ChartComponent = ({
                     item.year = data.values[i].year;
                     if (max < sum) {
                         max = sum;
+                    }
+                    auxData.push(item);
+                }
+            });
+        }
+        processedData = auxData;
+    }
+    
+    const commonCrossCountryProcessWithoutCrops = () => {
+        const auxData = [];
+        if (data && data.values && countries) {
+            const selectedCountries = countries.filter(c => c.selected);
+            max = 0;
+            Object.keys(data.values).forEach(i => {
+                if (selectedCountries.find(c => c.iso === i)) {
+                    const item = {
+                        iso: i,
+                        country: COUNTRY_OPTIONS.find(j => j.flag.toLowerCase() === i.toLowerCase()).text
+                    };
+                    if (!isNaN(data.values[i].value)) {
+                        item.textValue = "" + data.values[i].value;
+                        item.value = data.values[i].value;
+                        if (max < item.value) {
+                            max = item.value;
+                        }
+                    } else {
+                        item.textValue = FAKE_NUMBER;
+                        item.value = FAKE_NUMBER
                     }
                     auxData.push(item);
                 }
@@ -999,6 +1032,7 @@ const ChartComponent = ({
         case CROSS_COUNTRY_MARKET_SHARE_TOP_FOUR_SEED_COMPANIES:
         case CROSS_COUNTRY_MARKET_CONCENTRATION_HHI:
         case CROSS_COUNTRY_MARKET_SHARE_STATE_OWNED_SEED_COMPANIES:
+        case CROSS_COUNTRY_VARIETY_RELEASE_PROCESS:
             // Common code section.
             commonCrossCountryProcess();
             useFilterByCropsWithCountries = true;
@@ -1199,6 +1233,33 @@ const ChartComponent = ({
                             </div>
                         </>
                     }
+                    break;
+                case CROSS_COUNTRY_VARIETY_RELEASE_PROCESS:
+                    bottomLegend = intl.formatMessage({
+                        id: 'variety-release-process-legend',
+                        defaultMessage: 'Number of months'
+                    });
+                    getTooltipText = (d) => {
+                        return <>
+                            <div style={{ textAlign: 'center' }}>
+                        <span>{intl.formatMessage({
+                            id: 'variety-release-process-tooltip',
+                            defaultMessage: 'Number of months'
+                        })}: </span>
+                                <span className="bold"> {d.value !== FAKE_NUMBER ? d.value : 'MD'}</span>
+                            </div>
+                        </>
+                    }
+                    getTooltipHeader = (d) => {
+                        return <>
+                            <div className="without-crop-name">{d.indexValue}</div>
+                        </>;
+                    }
+                    commonCrossCountryProcessWithoutCrops();
+                    useFilterByCropsWithCountries = false;
+                    useFilterByCountries = true;
+                    customSorting = (a, b) => (b.country.localeCompare(a.country));
+                    console.log(processedData);
                     break;
             }
             break;
@@ -1879,11 +1940,13 @@ const ChartComponent = ({
     } else {
         if (isCrossCountryChart) {
             initialSelectedCrop = 0;
-            initialCrops.forEach((i, index) => {
-                if (i === MAIZE) {
-                    initialSelectedCrop = index;
-                }
-            });
+            if (initialCrops && initialCrops.forEach) {
+                initialCrops.forEach((i, index) => {
+                    if (i === MAIZE) {
+                        initialSelectedCrop = index;
+                    }
+                });
+            }
         } else {
             if (!noData && initialCrops && Array.from(initialCrops).length > 0) {
                 initialSelectedCrops = [];
@@ -1938,7 +2001,6 @@ const ChartComponent = ({
     const generateLegends = () => {
         if (isCrossCountryChart) {
             if (useHHILegends) {
-                debugger
                 return (<Grid.Row className={`hhi-section`}>
                     <HHILegend legends={hhiLegends} title={'HHI Value'} />
                 </Grid.Row>);

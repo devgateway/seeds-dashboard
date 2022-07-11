@@ -49,5 +49,6 @@ export const CROSS_COUNTRY_NUMBER_VARIETIES_SOLD = 'numberVarietiesSold_crossCou
 export const CROSS_COUNTRY_MARKET_SHARE_TOP_FOUR_SEED_COMPANIES = 'marketShareTopFourSeedCompanies_crossCountry';
 export const CROSS_COUNTRY_MARKET_CONCENTRATION_HHI = 'marketConcentrationHHI_crossCountry';
 export const CROSS_COUNTRY_MARKET_SHARE_STATE_OWNED_SEED_COMPANIES = 'marketShareStateOwnedSeedCompanies_crossCountry';
+export const CROSS_COUNTRY_VARIETY_RELEASE_PROCESS = 'varietyReleaseProcess_crossCountry';
 
 export const WP_CHART = 'wp-chart';

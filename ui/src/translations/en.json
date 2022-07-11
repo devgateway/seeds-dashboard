@@ -179,5 +179,7 @@
   "hhi-legend": "HHI Score",
   "hhi-tooltip": "HHI value",
   "market-share-state-owned-legend": "Market share (%)",
-  "market-share-state-owned-tooltip": "Market share of state owned companies"
+  "market-share-state-owned-tooltip": "Market share of state owned companies",
+  "variety-release-process-legend": "Number of months",
+  "variety-release-process-tooltip": "Number of months"
 }

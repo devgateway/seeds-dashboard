@@ -222,6 +222,10 @@ class BlockEdit extends BaseBlockEdit {
                                         {
                                             label: 'Cross-Country - Market share of state-owned seed company',
                                             value: 'marketShareStateOwnedSeedCompanies_crossCountry'
+                                        },
+                                        {
+                                            label: 'Cross-Country - Length of variety release process',
+                                            value: 'varietyReleaseProcess_crossCountry'
                                         }
                                     ]}
                                 />
