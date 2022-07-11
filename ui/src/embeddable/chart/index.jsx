@@ -46,7 +46,8 @@ import {
     CROSS_COUNTRY_NUMBER_VARIETIES_SOLD,
     CROSS_COUNTRY_MARKET_SHARE_TOP_FOUR_SEED_COMPANIES,
     CROSS_COUNTRY_MARKET_CONCENTRATION_HHI,
-    CROSS_COUNTRY_MARKET_SHARE_STATE_OWNED_SEED_COMPANIES
+    CROSS_COUNTRY_MARKET_SHARE_STATE_OWNED_SEED_COMPANIES,
+    CROSS_COUNTRY_VARIETY_RELEASE_PROCESS
 } from "../reducers/StoreConstants";
 import GaugesChart from "./GaugesChart";
 import { getWpCategories, setFilter } from "../reducers/data";
@@ -286,7 +287,8 @@ const Chart = (props) => {
         case CROSS_COUNTRY_NUMBER_VARIETIES_SOLD:
         case CROSS_COUNTRY_MARKET_SHARE_TOP_FOUR_SEED_COMPANIES:
         case CROSS_COUNTRY_MARKET_CONCENTRATION_HHI:
-        case CROSS_COUNTRY_MARKET_SHARE_STATE_OWNED_SEED_COMPANIES: {
+        case CROSS_COUNTRY_MARKET_SHARE_STATE_OWNED_SEED_COMPANIES:
+        case CROSS_COUNTRY_VARIETY_RELEASE_PROCESS: {
             const chartComponent = { type, ...chartProps }
             child = <ChartComponent {...chartComponent} sources={dynamicSources} />
             break;
@@ -347,7 +349,8 @@ const Chart = (props) => {
         [CROSS_COUNTRY_NUMBER_VARIETIES_SOLD]: 875,
         [CROSS_COUNTRY_MARKET_SHARE_TOP_FOUR_SEED_COMPANIES]: 875,
         [CROSS_COUNTRY_MARKET_CONCENTRATION_HHI]: 875,
-        [CROSS_COUNTRY_MARKET_SHARE_STATE_OWNED_SEED_COMPANIES]: 875
+        [CROSS_COUNTRY_MARKET_SHARE_STATE_OWNED_SEED_COMPANIES]: 875,
+        [CROSS_COUNTRY_VARIETY_RELEASE_PROCESS]: 875,
     };
     const fixedHeightStyle = { height: (fixedHeight[type] ? fixedHeight[type] : 550) + 'px' };
 
