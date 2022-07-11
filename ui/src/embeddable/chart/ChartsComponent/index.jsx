@@ -39,7 +39,8 @@ import {
     CROSS_COUNTRY_NUMBER_OF_ACTIVE_SEED_COMPANIES,
     CROSS_COUNTRY_NUMBER_VARIETIES_SOLD,
     CROSS_COUNTRY_MARKET_SHARE_TOP_FOUR_SEED_COMPANIES,
-    CROSS_COUNTRY_MARKET_CONCENTRATION_HHI
+    CROSS_COUNTRY_MARKET_CONCENTRATION_HHI,
+    CROSS_COUNTRY_MARKET_SHARE_STATE_OWNED_SEED_COMPANIES
 } from "../../reducers/StoreConstants";
 import YearLegend from "../common/year";
 import MarketConcentrationHHI, {getColor, hhiLegends} from "../MarketConcentrationHHI";
@@ -152,7 +153,8 @@ const ChartComponent = ({
         || type === CROSS_COUNTRY_NUMBER_OF_ACTIVE_SEED_COMPANIES
         || type === CROSS_COUNTRY_NUMBER_VARIETIES_SOLD
         || type === CROSS_COUNTRY_MARKET_SHARE_TOP_FOUR_SEED_COMPANIES
-        || type === CROSS_COUNTRY_MARKET_CONCENTRATION_HHI) {
+        || type === CROSS_COUNTRY_MARKET_CONCENTRATION_HHI
+        || type === CROSS_COUNTRY_MARKET_SHARE_STATE_OWNED_SEED_COMPANIES) {
         isCrossCountryChart = true;
     }
 
@@ -200,7 +202,8 @@ const ChartComponent = ({
                 || type === CROSS_COUNTRY_NUMBER_OF_ACTIVE_SEED_COMPANIES
                 || type === CROSS_COUNTRY_NUMBER_VARIETIES_SOLD
                 || type === CROSS_COUNTRY_MARKET_SHARE_TOP_FOUR_SEED_COMPANIES
-                || type === CROSS_COUNTRY_MARKET_CONCENTRATION_HHI) {
+                || type === CROSS_COUNTRY_MARKET_CONCENTRATION_HHI
+                || type === CROSS_COUNTRY_MARKET_SHARE_STATE_OWNED_SEED_COMPANIES) {
                 setSelectedCrops([MAIZE]);
             }
             return null;
@@ -995,6 +998,7 @@ const ChartComponent = ({
         case CROSS_COUNTRY_NUMBER_VARIETIES_SOLD:
         case CROSS_COUNTRY_MARKET_SHARE_TOP_FOUR_SEED_COMPANIES:
         case CROSS_COUNTRY_MARKET_CONCENTRATION_HHI:
+        case CROSS_COUNTRY_MARKET_SHARE_STATE_OWNED_SEED_COMPANIES:
             // Common code section.
             commonCrossCountryProcess();
             useFilterByCropsWithCountries = true;
@@ -1170,6 +1174,31 @@ const ChartComponent = ({
                         return getColor(item.value);
                     }
                     useHHILegends = true;
+                    break;
+                case CROSS_COUNTRY_MARKET_SHARE_STATE_OWNED_SEED_COMPANIES:
+                    // Fix %.
+                    processedData.forEach(i => {
+                        i.value = intl.formatNumber(i.value * 100);
+                        i.textValue = "" + i.value;
+                    });
+                    max = max * 100;
+
+                    dataSuffix = "%";
+                    bottomLegend = intl.formatMessage({
+                        id: 'market-share-state-owned-legend',
+                        defaultMessage: 'Market share (%)'
+                    });
+                    getTooltipText = (d) => {
+                        return <>
+                            <div style={{ textAlign: 'center' }}>
+                        <span>{intl.formatMessage({
+                            id: 'market-share-top4-tooltip',
+                            defaultMessage: 'Market share of top four companies'
+                        })}: </span>
+                                <span className="bold"> {d.value !== FAKE_NUMBER ? d.value + '%' : 'MD'}</span>
+                            </div>
+                        </>
+                    }
                     break;
             }
             break;
