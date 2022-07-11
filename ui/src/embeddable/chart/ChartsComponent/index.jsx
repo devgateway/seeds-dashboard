@@ -9,7 +9,7 @@ import CropsLegend from "../common/crop";
 import Export from "../common/export";
 import CropsWithSpecialFeatures from "../common/cropWithSpecialFeatures";
 import Source from "../common/source";
-import { baseColors } from "../Countryinfo/CountryInfoChart";
+import { baseColors, getColor } from "../Countryinfo/CountryInfoChart";
 import {
     AVERAGE_AGE_VARIETIES_SOLD,
     MARKET_CONCENTRATION_HHI,
@@ -42,10 +42,11 @@ import {
     CROSS_COUNTRY_MARKET_CONCENTRATION_HHI,
     CROSS_COUNTRY_MARKET_SHARE_STATE_OWNED_SEED_COMPANIES,
     CROSS_COUNTRY_VARIETY_RELEASE_PROCESS,
-    CROSS_COUNTRY_OVERALL_RATING_NATIONAL_SEED_TRADE_ASSOCIATION
+    CROSS_COUNTRY_OVERALL_RATING_NATIONAL_SEED_TRADE_ASSOCIATION,
+    CROSS_COUNTRY_AGRODEALER_NETWORK, CROSS_COUNTRY_AVAILABILITY_SEED_SMALL_PACKAGES,
 } from "../../reducers/StoreConstants";
 import YearLegend from "../common/year";
-import MarketConcentrationHHI, {getColor, hhiLegends} from "../MarketConcentrationHHI";
+import MarketConcentrationHHI, {getColorHHI, hhiLegends} from "../MarketConcentrationHHI";
 import ResponsiveRadarChartImpl from "../ResponsiveRadarChartImpl";
 import { injectIntl } from "react-intl";
 import BarAndLineChart from "../BarAndLineChart";
@@ -158,14 +159,17 @@ const ChartComponent = ({
         || type === CROSS_COUNTRY_MARKET_CONCENTRATION_HHI
         || type === CROSS_COUNTRY_MARKET_SHARE_STATE_OWNED_SEED_COMPANIES
         || type === CROSS_COUNTRY_VARIETY_RELEASE_PROCESS
-        || type === CROSS_COUNTRY_OVERALL_RATING_NATIONAL_SEED_TRADE_ASSOCIATION) {
+        || type === CROSS_COUNTRY_OVERALL_RATING_NATIONAL_SEED_TRADE_ASSOCIATION
+        || type === CROSS_COUNTRY_AGRODEALER_NETWORK
+        || type === CROSS_COUNTRY_AVAILABILITY_SEED_SMALL_PACKAGES) {
         isCrossCountryChart = true;
     }
 
     if (!data || 
         !data.dimensions || 
         (!data.dimensions.crop && !data.dimensions.year 
-            && type !== CROSS_COUNTRY_VARIETY_RELEASE_PROCESS && type !== CROSS_COUNTRY_OVERALL_RATING_NATIONAL_SEED_TRADE_ASSOCIATION) || 
+            && type !== CROSS_COUNTRY_VARIETY_RELEASE_PROCESS && type !== CROSS_COUNTRY_OVERALL_RATING_NATIONAL_SEED_TRADE_ASSOCIATION
+            && type !== CROSS_COUNTRY_AGRODEALER_NETWORK) || 
         data.id === null) {
         noData = true;
     } else {
@@ -213,7 +217,9 @@ const ChartComponent = ({
                 || type === CROSS_COUNTRY_MARKET_CONCENTRATION_HHI
                 || type === CROSS_COUNTRY_MARKET_SHARE_STATE_OWNED_SEED_COMPANIES
                 || type === CROSS_COUNTRY_VARIETY_RELEASE_PROCESS
-                || type === CROSS_COUNTRY_OVERALL_RATING_NATIONAL_SEED_TRADE_ASSOCIATION) {
+                || type === CROSS_COUNTRY_OVERALL_RATING_NATIONAL_SEED_TRADE_ASSOCIATION
+                || type === CROSS_COUNTRY_AGRODEALER_NETWORK
+                || type === CROSS_COUNTRY_AVAILABILITY_SEED_SMALL_PACKAGES) {
                 setSelectedCrops([MAIZE]);
             }
             return null;
@@ -1040,6 +1046,8 @@ const ChartComponent = ({
         case CROSS_COUNTRY_MARKET_SHARE_STATE_OWNED_SEED_COMPANIES:
         case CROSS_COUNTRY_VARIETY_RELEASE_PROCESS:
         case CROSS_COUNTRY_OVERALL_RATING_NATIONAL_SEED_TRADE_ASSOCIATION:
+        case CROSS_COUNTRY_AGRODEALER_NETWORK:
+        case CROSS_COUNTRY_AVAILABILITY_SEED_SMALL_PACKAGES:
             // Common code section.
             commonCrossCountryProcess();
             useFilterByCropsWithCountries = true;
@@ -1212,7 +1220,7 @@ const ChartComponent = ({
                         </>
                     }
                     getColors = (item) => {
-                        return getColor(item.value);
+                        return getColorHHI(item.value);
                     }
                     useHHILegends = true;
                     break;
@@ -1294,6 +1302,56 @@ const ChartComponent = ({
                     customSorting = (a, b) => (b.country.localeCompare(a.country));
                     dataSuffix = "%";
                     max =  max < 95 ? 95 : max;
+                    break;
+                case CROSS_COUNTRY_AGRODEALER_NETWORK:
+                    bottomLegend = intl.formatMessage({
+                        id: 'agrodealer-network-legend',
+                        defaultMessage: 'Agrodealers / households'
+                    });
+                    getTooltipText = (d) => {
+                        return <>
+                            <div style={{ textAlign: 'center' }}>
+                        <span>{intl.formatMessage({
+                            id: 'agrodealer-network-tooltip',
+                            defaultMessage: 'Households per agrodealers'
+                        })}: </span>
+                                <span className="bold"> {d.value !== FAKE_NUMBER ? d.value : 'MD'}</span>
+                            </div>
+                        </>
+                    }
+                    getTooltipHeader = (d) => {
+                        return <>
+                            <div className="without-crop-name">{d.indexValue} - {d.data.year}</div>
+                        </>;
+                    }
+                    commonCrossCountryProcessWithoutCrops();
+                    useFilterByCropsWithCountries = false;
+                    useFilterByCountries = true;
+                    customSorting = (a, b) => (b.country.localeCompare(a.country));
+                    break;
+                case CROSS_COUNTRY_AVAILABILITY_SEED_SMALL_PACKAGES:
+                    bottomLegend = intl.formatMessage({
+                        id: 'availability-seed-small-packages-legend',
+                        defaultMessage: 'Percentage of seeds in 2kg package'
+                    });
+                    getTooltipText = (d) => {
+                        return <>
+                            <div style={{ textAlign: 'center' }}>
+                        <span>{intl.formatMessage({
+                            id: 'availability-seed-small-packages-tooltip',
+                            defaultMessage: 'Seeds sold in 2kg package'
+                        })}: </span>
+                                <span className="bold"> {d.value !== FAKE_NUMBER ? d.value + '%' : 'MD'}</span>
+                            </div>
+                        </>
+                    }
+                    // Fix %.
+                    processedData.forEach(i => {
+                        i.value = intl.formatNumber(i.value * 100);
+                        i.textValue = "" + i.value;
+                    });
+                    max = max * 100;
+                    dataSuffix = "%";
                     break;
             }
             break;

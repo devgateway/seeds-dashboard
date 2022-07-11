@@ -31,7 +31,7 @@ const MarketConcentrationHHI = ({ data, sources, selectedYear, bottomLegend, int
                     max = item[y];
                 }
                 if (!colors[i].get(y)) {
-                    colors[i].set(y, getColor(item[y]))
+                    colors[i].set(y, getColorHHI(item[y]))
                 }
             }
         });
@@ -109,7 +109,7 @@ const MarketConcentrationHHI = ({ data, sources, selectedYear, bottomLegend, int
                                                 gridTickLines={4} margins={{ top: 40, right: 10, bottom: 60, left: 70 }}
                                                 padding={0.05} intl={intl}
                                                 axisBottom={true} totalLabel={totalLabel} 
-                                                getColorsCustom={i => getColor(i.value)}
+                                                getColorsCustom={i => getColorHHI(i.value)}
                         />
                     </Grid.Column>);
                 })}
@@ -126,7 +126,7 @@ const hhiColors = [
     { upTo: 10000, color: '#FF3833' }
 ];
 
-export const getColor = (value) => {
+export const getColorHHI = (value) => {
     if (value <= hhiColors[0].upTo) {
         return hhiColors[0].color;
     }

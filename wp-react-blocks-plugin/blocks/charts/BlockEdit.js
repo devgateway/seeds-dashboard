@@ -230,6 +230,14 @@ class BlockEdit extends BaseBlockEdit {
                                         {
                                             label: 'Cross-Country - Members overall rating of national seed trade association',
                                             value: 'overallRatingNationalSeedTradeAssociation_crossCountry'
+                                        },
+                                        {
+                                            label: 'Cross-Country - Concentration of agrodealer network',
+                                            value: 'agrodealerNetwork_crossCountry'
+                                        },
+                                        {
+                                            label: 'Cross-Country - Availability of seed in small packages (2kg)',
+                                            value: 'availabilitySeedSmallPackages_crossCountry'
                                         }
                                     ]}
                                 />
