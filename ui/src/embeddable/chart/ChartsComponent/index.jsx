@@ -41,7 +41,8 @@ import {
     CROSS_COUNTRY_MARKET_SHARE_TOP_FOUR_SEED_COMPANIES,
     CROSS_COUNTRY_MARKET_CONCENTRATION_HHI,
     CROSS_COUNTRY_MARKET_SHARE_STATE_OWNED_SEED_COMPANIES,
-    CROSS_COUNTRY_VARIETY_RELEASE_PROCESS
+    CROSS_COUNTRY_VARIETY_RELEASE_PROCESS,
+    CROSS_COUNTRY_OVERALL_RATING_NATIONAL_SEED_TRADE_ASSOCIATION
 } from "../../reducers/StoreConstants";
 import YearLegend from "../common/year";
 import MarketConcentrationHHI, {getColor, hhiLegends} from "../MarketConcentrationHHI";
@@ -156,12 +157,15 @@ const ChartComponent = ({
         || type === CROSS_COUNTRY_MARKET_SHARE_TOP_FOUR_SEED_COMPANIES
         || type === CROSS_COUNTRY_MARKET_CONCENTRATION_HHI
         || type === CROSS_COUNTRY_MARKET_SHARE_STATE_OWNED_SEED_COMPANIES
-        || type === CROSS_COUNTRY_VARIETY_RELEASE_PROCESS) {
+        || type === CROSS_COUNTRY_VARIETY_RELEASE_PROCESS
+        || type === CROSS_COUNTRY_OVERALL_RATING_NATIONAL_SEED_TRADE_ASSOCIATION) {
         isCrossCountryChart = true;
     }
 
     if (!data || 
-        !data.dimensions || (!data.dimensions.crop && !data.dimensions.year && type !== CROSS_COUNTRY_VARIETY_RELEASE_PROCESS) || 
+        !data.dimensions || 
+        (!data.dimensions.crop && !data.dimensions.year 
+            && type !== CROSS_COUNTRY_VARIETY_RELEASE_PROCESS && type !== CROSS_COUNTRY_OVERALL_RATING_NATIONAL_SEED_TRADE_ASSOCIATION) || 
         data.id === null) {
         noData = true;
     } else {
@@ -208,7 +212,8 @@ const ChartComponent = ({
                 || type === CROSS_COUNTRY_MARKET_SHARE_TOP_FOUR_SEED_COMPANIES
                 || type === CROSS_COUNTRY_MARKET_CONCENTRATION_HHI
                 || type === CROSS_COUNTRY_MARKET_SHARE_STATE_OWNED_SEED_COMPANIES
-                || type === CROSS_COUNTRY_VARIETY_RELEASE_PROCESS) {
+                || type === CROSS_COUNTRY_VARIETY_RELEASE_PROCESS
+                || type === CROSS_COUNTRY_OVERALL_RATING_NATIONAL_SEED_TRADE_ASSOCIATION) {
                 setSelectedCrops([MAIZE]);
             }
             return null;
@@ -404,6 +409,7 @@ const ChartComponent = ({
                         iso: i,
                         country: COUNTRY_OPTIONS.find(j => j.flag.toLowerCase() === i.toLowerCase()).text
                     };
+                    item.year = data.values[i].year; 
                     if (!isNaN(data.values[i].value)) {
                         item.textValue = "" + data.values[i].value;
                         item.value = data.values[i].value;
@@ -1033,6 +1039,7 @@ const ChartComponent = ({
         case CROSS_COUNTRY_MARKET_CONCENTRATION_HHI:
         case CROSS_COUNTRY_MARKET_SHARE_STATE_OWNED_SEED_COMPANIES:
         case CROSS_COUNTRY_VARIETY_RELEASE_PROCESS:
+        case CROSS_COUNTRY_OVERALL_RATING_NATIONAL_SEED_TRADE_ASSOCIATION:
             // Common code section.
             commonCrossCountryProcess();
             useFilterByCropsWithCountries = true;
@@ -1252,14 +1259,41 @@ const ChartComponent = ({
                     }
                     getTooltipHeader = (d) => {
                         return <>
-                            <div className="without-crop-name">{d.indexValue}</div>
+                            <div className="without-crop-name">{d.indexValue} - {d.data.year}</div>
                         </>;
                     }
                     commonCrossCountryProcessWithoutCrops();
                     useFilterByCropsWithCountries = false;
                     useFilterByCountries = true;
                     customSorting = (a, b) => (b.country.localeCompare(a.country));
-                    console.log(processedData);
+                    break;
+                case CROSS_COUNTRY_OVERALL_RATING_NATIONAL_SEED_TRADE_ASSOCIATION:
+                    bottomLegend = intl.formatMessage({
+                        id: 'overall-rating-seed-association-legend',
+                        defaultMessage: 'Member opinion (out of 100%)'
+                    });
+                    getTooltipText = (d) => {
+                        return <>
+                            <div style={{ textAlign: 'center' }}>
+                        <span>{intl.formatMessage({
+                            id: 'overall-rating-seed-association-tooltip',
+                            defaultMessage: 'Opinion rating'
+                        })}: </span>
+                                <span className="bold"> {d.value !== FAKE_NUMBER ? d.value + '%' : 'MD'}</span>
+                            </div>
+                        </>
+                    }
+                    getTooltipHeader = (d) => {
+                        return <>
+                            <div className="without-crop-name">{d.indexValue} - {d.data.year}</div>
+                        </>;
+                    }
+                    commonCrossCountryProcessWithoutCrops();
+                    useFilterByCropsWithCountries = false;
+                    useFilterByCountries = true;
+                    customSorting = (a, b) => (b.country.localeCompare(a.country));
+                    dataSuffix = "%";
+                    max =  max < 95 ? 95 : max;
                     break;
             }
             break;

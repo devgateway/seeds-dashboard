@@ -226,6 +226,10 @@ class BlockEdit extends BaseBlockEdit {
                                         {
                                             label: 'Cross-Country - Length of variety release process',
                                             value: 'varietyReleaseProcess_crossCountry'
+                                        },
+                                        {
+                                            label: 'Cross-Country - Members overall rating of national seed trade association',
+                                            value: 'overallRatingNationalSeedTradeAssociation_crossCountry'
                                         }
                                     ]}
                                 />
