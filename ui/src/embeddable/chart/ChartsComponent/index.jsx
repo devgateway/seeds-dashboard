@@ -42,7 +42,8 @@ import {
     CROSS_COUNTRY_MARKET_CONCENTRATION_HHI,
     CROSS_COUNTRY_MARKET_SHARE_STATE_OWNED_SEED_COMPANIES,
     CROSS_COUNTRY_VARIETY_RELEASE_PROCESS,
-    CROSS_COUNTRY_OVERALL_RATING_NATIONAL_SEED_TRADE_ASSOCIATION
+    CROSS_COUNTRY_OVERALL_RATING_NATIONAL_SEED_TRADE_ASSOCIATION,
+    CROSS_COUNTRY_AGRODEALER_NETWORK
 } from "../../reducers/StoreConstants";
 import YearLegend from "../common/year";
 import MarketConcentrationHHI, {getColor, hhiLegends} from "../MarketConcentrationHHI";
@@ -158,14 +159,16 @@ const ChartComponent = ({
         || type === CROSS_COUNTRY_MARKET_CONCENTRATION_HHI
         || type === CROSS_COUNTRY_MARKET_SHARE_STATE_OWNED_SEED_COMPANIES
         || type === CROSS_COUNTRY_VARIETY_RELEASE_PROCESS
-        || type === CROSS_COUNTRY_OVERALL_RATING_NATIONAL_SEED_TRADE_ASSOCIATION) {
+        || type === CROSS_COUNTRY_OVERALL_RATING_NATIONAL_SEED_TRADE_ASSOCIATION
+        || type === CROSS_COUNTRY_AGRODEALER_NETWORK) {
         isCrossCountryChart = true;
     }
 
     if (!data || 
         !data.dimensions || 
         (!data.dimensions.crop && !data.dimensions.year 
-            && type !== CROSS_COUNTRY_VARIETY_RELEASE_PROCESS && type !== CROSS_COUNTRY_OVERALL_RATING_NATIONAL_SEED_TRADE_ASSOCIATION) || 
+            && type !== CROSS_COUNTRY_VARIETY_RELEASE_PROCESS && type !== CROSS_COUNTRY_OVERALL_RATING_NATIONAL_SEED_TRADE_ASSOCIATION
+            && type !== CROSS_COUNTRY_AGRODEALER_NETWORK) || 
         data.id === null) {
         noData = true;
     } else {
@@ -213,7 +216,8 @@ const ChartComponent = ({
                 || type === CROSS_COUNTRY_MARKET_CONCENTRATION_HHI
                 || type === CROSS_COUNTRY_MARKET_SHARE_STATE_OWNED_SEED_COMPANIES
                 || type === CROSS_COUNTRY_VARIETY_RELEASE_PROCESS
-                || type === CROSS_COUNTRY_OVERALL_RATING_NATIONAL_SEED_TRADE_ASSOCIATION) {
+                || type === CROSS_COUNTRY_OVERALL_RATING_NATIONAL_SEED_TRADE_ASSOCIATION
+                || type === CROSS_COUNTRY_AGRODEALER_NETWORK) {
                 setSelectedCrops([MAIZE]);
             }
             return null;
@@ -1040,6 +1044,7 @@ const ChartComponent = ({
         case CROSS_COUNTRY_MARKET_SHARE_STATE_OWNED_SEED_COMPANIES:
         case CROSS_COUNTRY_VARIETY_RELEASE_PROCESS:
         case CROSS_COUNTRY_OVERALL_RATING_NATIONAL_SEED_TRADE_ASSOCIATION:
+        case CROSS_COUNTRY_AGRODEALER_NETWORK:
             // Common code section.
             commonCrossCountryProcess();
             useFilterByCropsWithCountries = true;
@@ -1294,6 +1299,32 @@ const ChartComponent = ({
                     customSorting = (a, b) => (b.country.localeCompare(a.country));
                     dataSuffix = "%";
                     max =  max < 95 ? 95 : max;
+                    break;
+                case CROSS_COUNTRY_AGRODEALER_NETWORK:
+                    bottomLegend = intl.formatMessage({
+                        id: 'agrodealer-network-legend',
+                        defaultMessage: 'Agrodealers / households'
+                    });
+                    getTooltipText = (d) => {
+                        return <>
+                            <div style={{ textAlign: 'center' }}>
+                        <span>{intl.formatMessage({
+                            id: 'agrodealer-network-tooltip',
+                            defaultMessage: 'Households per agrodealers'
+                        })}: </span>
+                                <span className="bold"> {d.value !== FAKE_NUMBER ? d.value : 'MD'}</span>
+                            </div>
+                        </>
+                    }
+                    getTooltipHeader = (d) => {
+                        return <>
+                            <div className="without-crop-name">{d.indexValue} - {d.data.year}</div>
+                        </>;
+                    }
+                    commonCrossCountryProcessWithoutCrops();
+                    useFilterByCropsWithCountries = false;
+                    useFilterByCountries = true;
+                    customSorting = (a, b) => (b.country.localeCompare(a.country));
                     break;
             }
             break;

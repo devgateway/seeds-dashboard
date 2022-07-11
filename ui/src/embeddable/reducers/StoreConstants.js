@@ -51,5 +51,6 @@ export const CROSS_COUNTRY_MARKET_CONCENTRATION_HHI = 'marketConcentrationHHI_cr
 export const CROSS_COUNTRY_MARKET_SHARE_STATE_OWNED_SEED_COMPANIES = 'marketShareStateOwnedSeedCompanies_crossCountry';
 export const CROSS_COUNTRY_VARIETY_RELEASE_PROCESS = 'varietyReleaseProcess_crossCountry';
 export const CROSS_COUNTRY_OVERALL_RATING_NATIONAL_SEED_TRADE_ASSOCIATION = 'overallRatingNationalSeedTradeAssociation_crossCountry'
+export const CROSS_COUNTRY_AGRODEALER_NETWORK = 'agrodealerNetwork_crossCountry';
 
 export const WP_CHART = 'wp-chart';

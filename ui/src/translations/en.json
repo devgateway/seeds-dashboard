@@ -183,5 +183,7 @@
   "variety-release-process-legend": "Number of months",
   "variety-release-process-tooltip": "Number of months",
   "overall-rating-seed-association-legend": "Member opinion (out of 100%)",
-  "overall-rating-seed-association-tooltip": "Opinion rating"
+  "overall-rating-seed-association-tooltip": "Opinion rating",
+  "agrodealer-network-legend": "Agrodealers / households",
+  "agrodealer-network-tooltip": "Households per agrodealers"
 }
