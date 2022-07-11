@@ -218,6 +218,10 @@ class BlockEdit extends BaseBlockEdit {
                                         {
                                             label: 'Cross-Country - Market concentration: Herfindahl-Hirschman Index Score',
                                             value: 'marketConcentrationHHI_crossCountry'
+                                        },
+                                        {
+                                            label: 'Cross-Country - Market share of state-owned seed company',
+                                            value: 'marketShareStateOwnedSeedCompanies_crossCountry'
                                         }
                                     ]}
                                 />

@@ -186,7 +186,7 @@ const ResponsiveBarChartImpl = ({
                 if (text === 'MD') {
                     xText = 20;
                 } else {
-                    xText = Number(value) > FAKE_NUMBER ? x + (getTextWidth(text, '13pt sans-serif') / 2) + 5 : 10;
+                    xText = (Number(value) > FAKE_NUMBER || dataSuffix === '%') ? x + (getTextWidth(text, '13pt sans-serif') / 2) + 5 : 10;
                 }
                 yText = height - ((height - textHeight) / 2);
             }
