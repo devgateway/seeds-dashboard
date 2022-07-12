@@ -31,7 +31,7 @@ const MarketConcentrationHHI = ({ data, sources, selectedYear, bottomLegend, int
                     max = item[y];
                 }
                 if (!colors[i].get(y)) {
-                    colors[i].set(y, getColor(item[y]))
+                    colors[i].set(y, getColorHHI(item[y]))
                 }
             }
         });
@@ -87,7 +87,7 @@ const MarketConcentrationHHI = ({ data, sources, selectedYear, bottomLegend, int
     return (
         <>
             <Grid.Row className={`hhi-section`}>
-                <HHILegend legends={legends} title={'HHI Value'} />
+                <HHILegend legends={hhiLegends} title={'HHI Value'} />
             </Grid.Row>
             <Grid.Row className="chart-section">
                 {[0, 1, 2, 3].map(i => {
@@ -109,7 +109,7 @@ const MarketConcentrationHHI = ({ data, sources, selectedYear, bottomLegend, int
                                                 gridTickLines={4} margins={{ top: 40, right: 10, bottom: 60, left: 70 }}
                                                 padding={0.05} intl={intl}
                                                 axisBottom={true} totalLabel={totalLabel} 
-                                                getColorsCustom={i => getColor(i.value)}
+                                                getColorsCustom={i => getColorHHI(i.value)}
                         />
                     </Grid.Column>);
                 })}
@@ -126,7 +126,7 @@ const hhiColors = [
     { upTo: 10000, color: '#FF3833' }
 ];
 
-const getColor = (value) => {
+export const getColorHHI = (value) => {
     if (value <= hhiColors[0].upTo) {
         return hhiColors[0].color;
     }
@@ -144,7 +144,7 @@ const getColor = (value) => {
     }
 }
 
-const legends = [
+export const hhiLegends = [
     {
         id: 8,
         'color': hhiColors[4].color,

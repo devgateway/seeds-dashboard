@@ -206,6 +206,38 @@ class BlockEdit extends BaseBlockEdit {
                                         {
                                             label: 'Cross-Country - Number of active seed companies',
                                             value: 'numberActiveCompanies_crossCountry'
+                                        },
+                                        {
+                                            label: 'Cross-Country - Number of varieties sold in data collection year',
+                                            value: 'numberVarietiesSold_crossCountry'
+                                        },
+                                        {
+                                            label: 'Cross-Country - Market concentration: Market share of top 4 companies/producers (CR4)',
+                                            value: 'marketShareTopFourSeedCompanies_crossCountry'
+                                        },
+                                        {
+                                            label: 'Cross-Country - Market concentration: Herfindahl-Hirschman Index Score',
+                                            value: 'marketConcentrationHHI_crossCountry'
+                                        },
+                                        {
+                                            label: 'Cross-Country - Market share of state-owned seed company',
+                                            value: 'marketShareStateOwnedSeedCompanies_crossCountry'
+                                        },
+                                        {
+                                            label: 'Cross-Country - Length of variety release process',
+                                            value: 'varietyReleaseProcess_crossCountry'
+                                        },
+                                        {
+                                            label: 'Cross-Country - Members overall rating of national seed trade association',
+                                            value: 'overallRatingNationalSeedTradeAssociation_crossCountry'
+                                        },
+                                        {
+                                            label: 'Cross-Country - Concentration of agrodealer network',
+                                            value: 'agrodealerNetwork_crossCountry'
+                                        },
+                                        {
+                                            label: 'Cross-Country - Availability of seed in small packages (2kg)',
+                                            value: 'availabilitySeedSmallPackages_crossCountry'
                                         }
                                     ]}
                                 />
