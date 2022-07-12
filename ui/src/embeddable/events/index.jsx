@@ -1,22 +1,37 @@
 import React from "react";
 import './events.scss';
-import {Grid, Icon} from "semantic-ui-react";
-import {atcb_action} from 'add-to-calendar-button'
+import { Grid, Icon } from "semantic-ui-react";
+import { atcb_action } from 'add-to-calendar-button'
 import 'add-to-calendar-button/assets/css/atcb.min.css';
+import { injectIntl } from "react-intl";
 
-const Events = ({
-                    'data-event-location': eventLocation,
-                    'data-event-start-date': eventStartDate,
-                    'data-event-end-date': eventEndDate,
-                    'data-event-hosted-by': hostedBy,
-                    'data-event-link': link,
-                    'data-event-name': name,
-                    'editing': editing,
-                    'data-external-form-url': externalFormURL,
-                    'data-external-form-height': externalFormHeight,
-                }) => {
+const Events = (props) => {
+    const {
+        'editing': editing,
+        meta_fields, acf, intl
+    } = props;
+    let eventStartDate, eventEndDate, hostedBy, eventLocation, link, name, externalFormURL, externalFormHeight;
+    if (editing) {
+        name = intl.formatMessage({ id: 'default-event-name', defaultMessage: 'TASAI Event' });
+        link = 'https://www.tasai.org';
+        hostedBy = intl.formatMessage({ id: 'default-hosted-by', defaultMessage: 'Tasai' });
+        eventStartDate = '2022-05-27 00:30:00';
+        eventLocation = intl.formatMessage({ id: 'default-location', defaultMessage: 'Default location' });
+        externalFormHeight = '350';
 
-    const options = {year: 'numeric', month: 'long', day: 'numeric'};
+    } else {
+        if (acf) {
+            hostedBy = acf.hosted_by;
+            eventStartDate = acf.event_stat_date;
+            eventEndDate = acf.event_end_date;
+            name = acf.event_name;
+            link = acf.external_link;
+            externalFormURL = acf.url_to_google_form;
+            externalFormHeight = acf.external_form_height;
+            eventLocation = acf.event_location
+        }
+    }
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
     const pEventStartDate = new Date(eventStartDate);
     const pEventEndDate = new Date(eventEndDate);
     const MILLISECONDS_DAY = 3600000;
@@ -80,17 +95,17 @@ const Events = ({
             <span className="label hostedby">Hosted By </span><span className="host-value">{hostedBy}</span>
         </Grid.Column> : null}
         <Grid.Column width={16} className="event-date">
-            <Icon className="calendar"/> <span
+            <Icon className="calendar" /> <span
             className="label">{dateString}</span>
         </Grid.Column>
         {showFullContent && <Grid.Column width={8} className="event-hour">
-            <Icon className="clock outline"/> <span className="label">{timeString}</span>
+            <Icon className="clock outline" /> <span className="label">{timeString}</span>
         </Grid.Column>}
         <Grid.Column width={8} className="event-location">
-            <Icon className="marker"/> <span className="label">{eventLocation || 'Location N/A'}</span>
+            <Icon className="marker" /> <span className="label">{eventLocation || 'Location N/A'}</span>
         </Grid.Column>
         {showFullContent && link && link !== 'undefined' ? <Grid.Column width={16} className="event-link">
-            <Icon className="linkify"/> <a href={link} target="_blank" className="label">{link}</a>
+            <Icon className="linkify" /> <a href={link} target="_blank" className="label">{link}</a>
         </Grid.Column> : null}
         {showFullContent ? <Grid.Column width={16} className="add-to-cal">
             <form onSubmit={e => {
@@ -106,7 +121,7 @@ const Events = ({
                     location: eventLocation || 'Location N/A'
                 })
             }}>
-                <input className="atcb_customTrigger" type="submit" value="Add to calendar"/>
+                <input className="atcb_customTrigger" type="submit" value="Add to calendar" />
                 {showFullContent && externalFormURL ? (
                     <a className="register_form_button" type="button" onClick={openRegisterForm}>Open register
                         form</a>) : null}
@@ -114,4 +129,4 @@ const Events = ({
         </Grid.Column> : null}
     </Grid>);
 }
-export default Events;
+export default injectIntl(Events);

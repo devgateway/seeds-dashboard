@@ -53,7 +53,7 @@ class Content extends React.Component {
       </Modal.Content>
     </Modal>)
   }
-  
+
   switchModal() {
     const {modalOpen} = this.state;
     this.setState({modalOpen: !modalOpen})
@@ -75,7 +75,7 @@ class Content extends React.Component {
       preview, isAddTypeToLink,
       showLinksInModal
     } = this.props
-    
+
     if (post) {
       const contentParts = post.content ? post.content.rendered.split("<!--more-->") : []
       const intro = contentParts.length > 0 ? contentParts[0] : null
@@ -86,8 +86,8 @@ class Content extends React.Component {
       if (pageNumber && pages.length > 0) {
         body = pages[pageNumber]
       }
-      
-      return <EmbeddedGateway locale={locale} messages={messages} parent={preview ? post.parent : post.id}>
+      return <EmbeddedGateway locale={locale} messages={messages} parent={preview ? post.parent : post.id}
+                              acf={post.acf}>
         <Enhance className="entry-content" {...this.props}>
           {showDate &&
             <Container fluid className="date">{post.date.toLocaleString()}</Container>}
@@ -112,7 +112,7 @@ class Content extends React.Component {
       return showLoading ? 'Loading' : false;
     }
   }
-  
+
   replaceSlugWithId(replaceLink1, slug, id) {
     let url = replaceLink1;
     if (slug && id) {
