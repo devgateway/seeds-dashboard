@@ -7,8 +7,7 @@ import { injectIntl } from "react-intl";
 
 const Events = (props) => {
     const {
-        'editing': editing,
-        meta_fields, acf, intl
+        'editing': editing, acf, intl
     } = props;
     let eventStartDate, eventEndDate, hostedBy, eventLocation, link, name, externalFormURL, externalFormHeight;
     if (editing) {

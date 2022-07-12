@@ -187,5 +187,8 @@
   "agrodealer-network-legend": "Agrodealers / households",
   "agrodealer-network-tooltip": "Households per agrodealers",
   "availability-seed-small-packages-legend": "Percentage of seeds in 2kg package",
-  "availability-seed-small-packages-tooltip": "Seeds sold in 2kg package"
+  "availability-seed-small-packages-tooltip": "Seeds sold in 2kg package",
+  "default-hosted-by": "Tasai",
+  "default-location": "Default Location",
+  "default-event-name": "TASAI Event"
 }
