@@ -45,7 +45,6 @@ export const Carousel = ({
     const isAddType = type !== undefined;
     const finalItemsPerPage = itemsPerPage > 0 ? parseInt(itemsPerPage) : filteredAndOrderedPosts.length;
     if (orientation === 'vertical') {
-        console.log(navigatorStyle);
         return (<VerticalPostPager
                 filteredAndOrderedPosts={filteredAndOrderedPosts} showLinksInModal={showLinksInModal}
                 messages={messages} locale={locale} isAddTypeToLink={isAddType} itemsPerPage={itemsPerPage}

@@ -1,35 +1,15 @@
-import {__} from '@wordpress/i18n';
-import {registerBlockType} from '@wordpress/blocks';
+import { __ } from '@wordpress/i18n';
+import { registerBlockType } from '@wordpress/blocks';
 import BlockSave from "./BlockSave";
 import BlockEdit from "./BlockEdit";
 import Generic from "../icons";
 
 registerBlockType(process.env.BLOCKS_NS + '/events', {
-    title: __('Event Viewer'), icon: Generic, category: process.env.BLOCKS_CATEGORY, apiVersion: 2, attributes: {
-        eventLocation: {
-            type: 'String',
-        },
-        eventStartDate: {
-            type: 'String'
-        },
-        eventEndDate: {
-            type: 'String'
-        },
-        hostedBy: {
-            type: 'String'
-        },
-        link: {
-            type: 'String'
-        },
-        name: {
-            type: 'String'
-        },
-        externalFormURL: {
-            type: 'String'
-        },
-        externalFormHeight: {
-            type: 'Number',
-            default: 350,
-        }
-    }, edit: BlockEdit, save: BlockSave,
+    title: __('Event Viewer'),
+    icon: Generic,
+    category: process.env.BLOCKS_CATEGORY,
+    apiVersion: 2,
+    attributes: {},
+    edit: BlockEdit,
+    save: BlockSave,
 });

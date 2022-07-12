@@ -159,5 +159,8 @@
   "select-country": "Sélectionnez un autre pays",
   "tooltip-varieties-released": "Varieties released",
   "tooltip-average": "Average",
-  "all-countries":"Tous les pays"
+  "all-countries":"Tous les pays",
+  "default-hosted-by": "Tasai",
+  "default-location": "Localisation par défaut",
+  "default-event-name": "Éévénement TASAI"
 }
