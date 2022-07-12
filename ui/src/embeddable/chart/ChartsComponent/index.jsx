@@ -1181,8 +1181,13 @@ const ChartComponent = ({
                 case CROSS_COUNTRY_MARKET_SHARE_TOP_FOUR_SEED_COMPANIES:
                     // Fix %.
                     processedData.forEach(i => {
-                        i.value = intl.formatNumber(i.value * 100);
-                        i.textValue = "" + i.value;
+                        if (i.value !== FAKE_NUMBER) {
+                            i.value = intl.formatNumber(i.value * 100);
+                            i.textValue = "" + i.value;
+                        } else {
+                            i.value = "MD";
+                            i.textValue = FAKE_NUMBER;
+                        }
                     });
                     max = max * 100;
 
@@ -1227,8 +1232,13 @@ const ChartComponent = ({
                 case CROSS_COUNTRY_MARKET_SHARE_STATE_OWNED_SEED_COMPANIES:
                     // Fix %.
                     processedData.forEach(i => {
-                        i.value = intl.formatNumber(i.value * 100);
-                        i.textValue = "" + i.value;
+                        if (i.value !== FAKE_NUMBER) {
+                            i.value = intl.formatNumber(i.value * 100);
+                            i.textValue = "" + i.value;
+                        } else {
+                            i.value = "MD";
+                            i.textValue = FAKE_NUMBER;
+                        }
                     });
                     max = max * 100;
 
@@ -1347,8 +1357,13 @@ const ChartComponent = ({
                     }
                     // Fix %.
                     processedData.forEach(i => {
-                        i.value = intl.formatNumber(i.value * 100);
-                        i.textValue = "" + i.value;
+                        if (i.value !== FAKE_NUMBER) {
+                            i.value = intl.formatNumber(i.value * 100);
+                            i.textValue = "" + i.value;
+                        } else {
+                            i.value = "MD";
+                            i.textValue = FAKE_NUMBER;
+                        }
                     });
                     max = max * 100;
                     dataSuffix = "%";
