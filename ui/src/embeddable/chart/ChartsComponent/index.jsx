@@ -1228,6 +1228,7 @@ const ChartComponent = ({
                         return getColorHHI(item.value);
                     }
                     useHHILegends = true;
+                    totalLabel.format = { style: 'decimal', minimumFractionDigits: 0, maximumFractionDigits: 0 };
                     break;
                 case CROSS_COUNTRY_MARKET_SHARE_STATE_OWNED_SEED_COMPANIES:
                     // Fix %.
@@ -1338,6 +1339,7 @@ const ChartComponent = ({
                     useFilterByCropsWithCountries = false;
                     useFilterByCountries = true;
                     customSorting = (a, b) => (b.country.localeCompare(a.country));
+                    totalLabel.format = { style: 'decimal', minimumFractionDigits: 0, maximumFractionDigits: 0 };
                     break;
                 case CROSS_COUNTRY_AVAILABILITY_SEED_SMALL_PACKAGES:
                     bottomLegend = intl.formatMessage({

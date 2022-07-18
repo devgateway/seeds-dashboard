@@ -191,6 +191,7 @@ const ResponsiveBarChartImpl = ({
                 yText = height - ((height - textHeight) / 2);
             }
             
+            text = totalLabel.format && !isNaN(text) ? intl.formatNumber(text, totalLabel.format) : text;
             if (!numbers.find(i => i.props.transform === transform)) {
                 numbers.push(<g
                     transform={transform}
@@ -208,7 +209,7 @@ const ResponsiveBarChartImpl = ({
                             fontSize: (getTextWidth(text, '13pt sans-serif') <= width || layout === 'horizontal') ? '13pt' : '10pt',
                             fill: '#354052',
                         }}>
-                        {totalLabel.format && !isNaN(text) ? intl.formatNumber(text, totalLabel.format) : text}
+                        {text}
                     </text>
                 </g>);
             }
