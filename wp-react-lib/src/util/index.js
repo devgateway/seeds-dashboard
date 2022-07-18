@@ -69,6 +69,53 @@ export const replaceHTMLinks = (html, locale) => {
     }
     return newHtml;
 }
+export const getAll = (url, addHeaderInfo) => {
+    const pageSize = 100;
+    let page = 1;
+    const returnObject = { data: [] };
+    return new Promise((resolve, reject) => {
+        return getNextPage(url, page, returnObject, pageSize, addHeaderInfo).then(() => {
+            if (addHeaderInfo) {
+                resolve(returnObject);
+            } else {
+                resolve(returnObject.data);
+            }
+        }).catch(err => {
+            reject(err);
+        });
+    });
+}
 
+const getNextPage = (url, page, returnObject, pageSize) => {
+    let union = '?';
+    if (url.includes('?')) {
+        union = '&';
+    }
+    return fetch(url + union + 'per_page=' + pageSize + '&page=' + page).then((response) => {
+        if (response.status !== 200) {
+            throw response.toString();
+        }
+        const meta = {}
+        response.headers.forEach((header, name) => {
+            meta[name] = header
 
-export default { replaceHTMLinks, replaceLink }
+        })
+
+        return response.json().then(function (data_) {
+            returnObject.data.push(...data_);
+            if (data_.length === pageSize) {
+                return getNextPage(url, page + 1, returnObject, pageSize);
+            }
+            //we take the metadata of last fetched page if we end up using this metadata
+            //then we need to fix the return object
+            //'{"content-type":"application/json; charset=UTF-8",
+            // "link":"<https://wp.tasai.dgstg.org/wp-json/>; rel=\\"https://api.w.org/\\"",
+            // "x-wp-total":"24",
+            // "x-wp-totalpages":"1"}'
+            returnObject.meta = meta;
+            return;
+        })
+    });
+}
+
+export default { replaceHTMLinks, replaceLink, getAll }

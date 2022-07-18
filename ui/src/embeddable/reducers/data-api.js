@@ -34,7 +34,8 @@ import {
     CROSS_COUNTRY_AGRODEALER_NETWORK, CROSS_COUNTRY_AVAILABILITY_SEED_SMALL_PACKAGES
 } from "./StoreConstants";
 import { SELECTED_COUNTRY } from "../../seeds-commons/commonConstants";
-import { get, getAll, post } from "../../seeds-commons/commons";
+import { get, post } from "../../seeds-commons/commons";
+import { utils } from "@devgateway/wp-react-lib";
 
 const SURVEY_API = process.env.REACT_APP_SURVEY_API
 const IP_INFO_URL = 'https://ipinfo.io/json?token=145d05e17c7c25';
@@ -136,8 +137,7 @@ export const getCountriesData = (dataSource, params) => {
     return get(SURVEY_COUNTRIES_API + dataSource, params)
 }
 export const getCategoriesWP = (params) => {
-    //return get(WP_CATEGORIES, params)
-    return getAll(WP_CATEGORIES);
+    return utils.getAll(WP_CATEGORIES);
 }
 export const getIndicatorsData = (params) => {
     return get(SURVEY_INDICATORS_API, params)
@@ -233,7 +233,7 @@ export const saveTooltips = (tooltip) => {
 export const getDocumentsData = (params) => {
     // let documentsApi = WP_DOCUMENTS_API + (params ? '?' + queryParams(params) : '')
     // return get(documentsApi, params)
-    return getAll(WP_DOCUMENTS_API);
+    return utils.getAll(WP_DOCUMENTS_API);
 }
 
 export const getCropsData = (params) => {
