@@ -120,7 +120,7 @@ export const getPosts = ({
                 })
             } else {
                 let filteredData;
-                if (data.length > 0 && taxonomy!=='none') {
+                if (data.length > 0 && taxonomy!=='none' && categories) {
                     //TODO add inclusive filter option
                     const categoriesArray = categories.split(',').map(ca => parseInt(ca));
                     //p => p.categories.every(val => categoriesArray.includes(val))
