@@ -100,8 +100,8 @@ class Content extends React.Component {
             <Container fluid className="content"
                        dangerouslySetInnerHTML={{ __html: replaceHTMLinks(body, locale) }} />}
           {showLink === true && showLinksInModal !== "true" &&
-            <a href={this.replaceSlugWithId(replaceLink(post.link, locale, isAddTypeToLink), post.slug, post.id)}
-               className="link">Read More</a>}
+              <a href={isAddTypeToLink ? this.replaceSlugWithId(replaceLink(post.link, locale, isAddTypeToLink), post.slug, post.id) : replaceLink(post.link, locale, isAddTypeToLink)}
+                 className="link">Read More</a>}
           {showLink === true && showLinksInModal === "true" &&
               <a className="link" style={{cursor: 'pointer'}} onClick={() => this.switchModal()}>Read More</a>}
           {showLink === true && showLinksInModal === "true" &&
