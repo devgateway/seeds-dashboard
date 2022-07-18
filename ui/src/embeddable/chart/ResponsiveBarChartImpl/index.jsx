@@ -179,7 +179,8 @@ const ResponsiveBarChartImpl = ({
 
             let xText = width / 2;
             let yText = labelMargin - 15;
-            const textHeight = 13; // TODO: add function to calculate height.
+            const isFirefox = typeof InstallTrigger !== 'undefined';
+            const textHeight = isFirefox ? 13 : 0; // TODO: add function to calculate height.
             if (layout === 'horizontal') {
                 labelMargin = 0;
                 transform = `translate(${xScale(value) - labelMargin},${y})`;
