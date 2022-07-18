@@ -186,12 +186,12 @@ const ResponsiveBarChartImpl = ({
                 if (text === 'MD') {
                     xText = 20;
                 } else {
+                    text = totalLabel.format && !isNaN(text) ? intl.formatNumber(text, totalLabel.format) : text;
                     xText = (Number(value) > FAKE_NUMBER || dataSuffix === '%') ? x + (getTextWidth(text, '13pt sans-serif') / 2) + 5 : 10;
                 }
                 yText = height - ((height - textHeight) / 2);
             }
             
-            text = totalLabel.format && !isNaN(text) ? intl.formatNumber(text, totalLabel.format) : text;
             if (!numbers.find(i => i.props.transform === transform)) {
                 numbers.push(<g
                     transform={transform}
