@@ -1,3 +1,4 @@
+import {  getAll } from "../util";
 const API_ROOT = process.env.REACT_APP_WP_API
 const URL_MENU = API_ROOT + '/menus/v1/menus/'
 const URL_API_BASE = API_ROOT + '/wp/v2/'
@@ -125,7 +126,7 @@ export const getPosts = (slug, type, taxonomy, categories, before, perPage, page
       url += "&lang=" + locale
     }
 
-    return get(url)
+    return getAll(url,true)
 }
 
 export const getPages = (before, perPage, page, fields, parent, slug, store, locale, previewNonce, previewId, search) => {

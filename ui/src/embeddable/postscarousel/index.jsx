@@ -47,6 +47,7 @@ const PostCarousel = ({
             const params = {};
             params.per_page = DOCUMENTS_PER_PAGE;
             onLoadDocuments({ params })
+            onLoadWPCategories('COUNTRY-REPORTS')
         }
         if (isConnectFilter) {
             onLoadWPCategories();
