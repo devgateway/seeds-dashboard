@@ -71,15 +71,27 @@ registerBlockType(process.env.BLOCKS_NS + '/chart',
                 type: 'String',
                 default: "Methodology not yet defined."
             },
-            totalLandArea: {
+            totalLandArea_en: {
                 type: "String",
                 default: "Total land area"
             },
-            totalLandAreaUnit: {
+            totalLandArea_fr: {
+                type: "String",
+                default: "Total land area"
+            },
+            totalLandAreaUnit_en: {
                 type: "String",
                 default: "Hectares"
             },
-            arableLand: {
+            totalLandAreaUnit_fr: {
+                type: "String",
+                default: "Hectares"
+            },
+            arableLand_en: {
+                type: "string",
+                default: "Arable land"
+            },
+            arableLand_fr: {
                 type: "string",
                 default: "Arable land"
             },
