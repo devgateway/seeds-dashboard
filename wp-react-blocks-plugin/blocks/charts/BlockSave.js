@@ -19,9 +19,12 @@ const SaveComponent = (props) => {
             subTitle,
             useSourceByCategory,
             methodology,
-            totalLandArea,
-            totalLandAreaUnit,
-            arableLand,
+            totalLandArea_en,
+            totalLandArea_fr,
+            totalLandAreaUnit_en,
+            totalLandAreaUnit_fr,
+            arableLand_en,
+            arableLand_fr,
             topHarvestedCropsAndValue_en,
             topHarvestedCropsAndValue_fr,
             topHarvestedCropsAndValueUnit,
@@ -58,9 +61,12 @@ const SaveComponent = (props) => {
              data-chart-data-source={ApiConfigurations[type] ? ApiConfigurations[type].join("|") : undefined}
              data-use-source-by-category={useSourceByCategory}
              data-methodology={methodology}
-             data-total-land-area-label={totalLandArea}
-             data-total-land-area-unit={totalLandAreaUnit}
-             data-total-arable-land-label={arableLand}
+             data-total-land-area-label_en={totalLandArea_en}
+             data-total-land-area-label_fr={totalLandArea_fr}
+             data-total-land-area-unit_en={totalLandAreaUnit_en}
+             data-total-land-area-unit_fr={totalLandAreaUnit_fr}
+             data-total-arable-land-label_en={arableLand_en}
+             data-total-arable-land-label_fr={arableLand_fr}
              data-top-harvested-crops-and-value_en={topHarvestedCropsAndValue_en}
              data-top-harvested-crops-and-value_fr={topHarvestedCropsAndValue_fr}
              data-top-harvested-crops-and-value-unit={topHarvestedCropsAndValueUnit}
