@@ -32,7 +32,7 @@
       color: $text-color !important;
       font-size: 18px !important;
       margin-bottom: $base-unit;
-      margin-top: $base-unit;
+      margin-top: $base-unit * 2.5;
       text-transform: none;
       a{
         color: $text-color !important;
@@ -43,12 +43,6 @@
     }
     figure.wp-block-image:not(.wp-block){
       overflow: hidden;
-    }
-    img{
-      height: 260px;
-      @media only screen and (max-width: 1024px){
-        height: auto;
-      }
     }
     .link{
       @include border-radius(5px);
