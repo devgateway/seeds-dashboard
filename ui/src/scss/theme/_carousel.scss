@@ -82,6 +82,14 @@
     margin-top: 10px;
   }
 
+  .wp-block-columns:not(.is-not-stacked-on-mobile)>.wp-block-column:not(:first-child){
+    margin-left: 1em;
+  }
+
+  .event-item{
+    padding-right: $base-unit;
+  }
+
   .link {
     @include border-radius(5px);
     background-color: $yellow;
@@ -224,7 +232,7 @@
         height: $base-unit * 30;
         padding: 5px;
         position: relative;
-        width: 33% !important;
+        width: 45% !important;
       }
     }
   }
