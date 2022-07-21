@@ -32,7 +32,7 @@
       color: $text-color !important;
       font-size: 18px !important;
       margin-bottom: $base-unit;
-      margin-top: $base-unit;
+      margin-top: $base-unit * 2.5;
       text-transform: none;
       a{
         color: $text-color !important;
@@ -44,12 +44,6 @@
     figure.wp-block-image:not(.wp-block){
       overflow: hidden;
     }
-    img{
-      height: 260px;
-      @media only screen and (max-width: 1024px){
-        height: auto;
-      }
-    }
     .link{
       @include border-radius(5px);
       background-color: $yellow;
@@ -59,7 +53,7 @@
       left: 56%;
       padding: $base-unit + 2 $base-unit * 2;
       position: absolute;
-      top: 200px;
+      top: 230px;
       &:hover{
         background-color: $link-green;
       }
@@ -112,6 +106,8 @@
       color: $yellow;
       background-color: transparent;
 			font-size: 1.3rem;
+      display:block;
+      float: left;
       &.linkify{
         font-size: 1.1rem;
         margin-left: 5px;
@@ -119,8 +115,12 @@
     }
     .label{
       color: $text-color;
-			line-height: 200%;
       text-transform: uppercase;
+      display: block;
+      float: left;
+      margin-top: 6px;
+      white-space: normal;
+      width: 82%;
     }
   }
 	&.add-to-cal{
