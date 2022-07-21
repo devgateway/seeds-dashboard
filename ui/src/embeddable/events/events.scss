@@ -53,7 +53,7 @@
       left: 56%;
       padding: $base-unit + 2 $base-unit * 2;
       position: absolute;
-      top: 200px;
+      top: 230px;
       &:hover{
         background-color: $link-green;
       }
@@ -106,6 +106,9 @@
       color: $yellow;
       background-color: transparent;
 			font-size: 1.3rem;
+      display:block;
+      float: left;
+      width: 35px;
       &.linkify{
         font-size: 1.1rem;
         margin-left: 5px;
@@ -113,8 +116,13 @@
     }
     .label{
       color: $text-color;
-			line-height: 200%;
+      top: 5px;
       text-transform: uppercase;
+      display: block;
+      float: left;
+      margin-top: 6px;
+      white-space: normal;
+      width: 82%;
     }
   }
 	&.add-to-cal{
