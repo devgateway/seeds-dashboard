@@ -55,11 +55,12 @@ class BlockEdit extends BlockEditWithFilters {
         queryString += `&data-values-filter-store=${valuesFilterStore}`;
         queryString += `&data-selected-filter-store=${selectedFilterStore}`;
         queryString += `&data-orientation=${fieldOrientation}`;
+        queryString += `&data-navigator-style=${navigatorStyle}`;
         queryString += `&data-scheduled-filter=${scheduledFilter}`;
-        queryString += `&data-scheduled-filter-store=${scheduledFilterStore}`;
         queryString += `&data-show-links-in-modal=${showLinksInModal}`;
         queryString += `&data-show-sorted-by-country-and-year-categories=${sortedByCountryAndYearCategories}`;
         queryString += `&data-preload-document-and-crops=${preloadDocumentsAndCrops}`
+        queryString += `&data-scheduled-filter-store=${scheduledFilterStore}`;
         const divStyles = { height: height + 'px', width: '100%' }
 
         return (
@@ -164,7 +165,7 @@ class BlockEdit extends BlockEditWithFilters {
                         {scheduledFilter &&
                             <SelectControl
                                 label={__('Filter past/upcoming posts:')}
-                                value={[scheduledFilterStore]}
+                                value={scheduledFilterStore}
                                 onChange={(scheduledFilterStore) => {
                                     setAttributes({ scheduledFilterStore })
                                 }}

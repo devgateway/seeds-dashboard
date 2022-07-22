@@ -36,11 +36,11 @@ const SaveComponent = (props) => {
                  data-navigator-style={navigatorStyle}
                  data-height={height}
                  data-categories={categories.toString()}
-                 data-scheduled-filter={scheduledFilter}
-                 data-scheduled-filter-store={scheduledFilterStore}
                  data-show-links-in-modal={showLinksInModal}
                  data-show-sorted-by-country-and-year-categories={sortedByCountryAndYearCategories}
                  data-preload-document-and-crops={preloadDocumentsAndCrops}
+                 data-scheduled-filter={scheduledFilter}
+                 data-scheduled-filter-store={scheduledFilterStore}
                  className={"wp-react-lib-component"}
                  data-component={"postsCarousel"}>
             </div>

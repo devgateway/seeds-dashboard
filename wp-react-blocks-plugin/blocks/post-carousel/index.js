@@ -67,6 +67,12 @@ registerBlockType(process.env.BLOCKS_NS + '/post-carousel',
             preloadDocumentsAndCrops: {
                 type: 'Boolean',
                 default: false
+            }, scheduledFilter: {
+                type: 'Boolean',
+                default: false
+            }, scheduledFilterStore: {
+                type: 'String',
+                default: 'past'
             }
         },
         edit: BlockEdit,
