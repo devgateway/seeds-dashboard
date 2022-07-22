@@ -1136,3 +1136,12 @@ p:empty {
 		margin: 0;
 	}
 }
+
+// For removing pre-set component height
+.auto-height{
+	.wp-react-lib-component{
+		> div{
+			height: auto !important;
+		}
+	}
+}

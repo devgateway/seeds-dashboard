@@ -82,6 +82,14 @@
     margin-top: 10px;
   }
 
+  .wp-block-columns:not(.is-not-stacked-on-mobile)>.wp-block-column:not(:first-child){
+    margin-left: 1em;
+  }
+
+  .event-item{
+    padding-right: $base-unit;
+  }
+
   .link {
     @include border-radius(5px);
     background-color: $yellow;
@@ -224,7 +232,7 @@
         height: $base-unit * 30;
         padding: 5px;
         position: relative;
-        width: 33% !important;
+        width: 45% !important;
       }
     }
   }
@@ -245,14 +253,12 @@
   // Press grid
   &.press-feed {
     .carousel__slider--vertical {
-      padding-left: $base-unit + 2;
-
       li {
         float: left;
-        height: $base-unit * 35;
+        height: $base-unit * 40;
         padding: $base-unit;
         position: relative;
-        width: 32% !important;
+        width: 27% !important;
       }
     }
   }

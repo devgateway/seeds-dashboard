@@ -72,6 +72,9 @@ const CountryInfo = ({ data, intl, labels, locale }) => {
     let populationVsFarmingHouseholds = '';
     let totalPopulationLabel = '';
     let farmingHouseholdsLabel = '';
+    let totalLandArea = '';
+    let totalLandAreaUnit = '';
+    let arableLand = '';
     const currentLanguage = locale || 'en';
     if (currentLanguage === 'en') {
         if (cleanupParam(labels.sourceText_en)) {
@@ -99,6 +102,26 @@ const CountryInfo = ({ data, intl, labels, locale }) => {
         } else {
             farmingHouseholdsLabel = cleanupParam(labels.farmingHouseholdsLabel_fr) || '';
         }
+        if (cleanupParam(labels.sourceText_en)) {
+            sourceText = labels.sourceText_en;
+        } else {
+            sourceText = cleanupParam(labels.sourceText_fr) || '';
+        }
+        if (cleanupParam(labels.totalLandArea_en)) {
+            totalLandArea = labels.totalLandArea_en;
+        } else {
+            totalLandArea = cleanupParam(labels.totalLandArea_fr) || '';
+        }
+        if (cleanupParam(labels.totalLandAreaUnit_en)) {
+            totalLandAreaUnit = labels.totalLandAreaUnit_en;
+        } else {
+            totalLandAreaUnit = cleanupParam(labels.totalLandAreaUnit_fr) || '';
+        }
+        if (cleanupParam(labels.arableLand_en)) {
+            arableLand = labels.arableLand_en;
+        } else {
+            arableLand = cleanupParam(labels.arableLand_fr) || '';
+        }
     } else {
         if (cleanupParam(labels.sourceText_fr)) {
             sourceText = labels.sourceText_fr;
@@ -125,18 +148,33 @@ const CountryInfo = ({ data, intl, labels, locale }) => {
         } else {
             farmingHouseholdsLabel = cleanupParam(labels.farmingHouseholdsLabel_en) || '';
         }
+        if (cleanupParam(labels.totalLandArea_fr)) {
+            totalLandArea = labels.totalLandArea_fr;
+        } else {
+            totalLandArea = cleanupParam(labels.totalLandArea_en) || '';
+        }
+        if (cleanupParam(labels.totalLandAreaUnit_fr)) {
+            totalLandAreaUnit = labels.totalLandAreaUnit_fr;
+        } else {
+            totalLandAreaUnit = cleanupParam(labels.totalLandAreaUnit_en) || '';
+        }
+        if (cleanupParam(labels.arableLand_fr)) {
+            arableLand = labels.arableLand_fr;
+        } else {
+            arableLand = cleanupParam(labels.arableLand_en) || '';
+        }
     }
     
     return (
         <Grid className={`country-info`}>
             <Grid.Row className={`section totals`}>
                 <Grid.Column width={10}>
-                    <div className="label">{labels.totalLandArea}</div>
+                    <div className="label">{totalLandArea}</div>
                     <div
-                        className="data">{data.agricLandArea && data.agricLandArea.value > 0 ? getValue(data.agricLandArea) + ` ${labels.totalLandAreaUnit}` : NA}</div>
+                        className="data">{data.agricLandArea && data.agricLandArea.value > 0 ? getValue(data.agricLandArea) + ` ${totalLandAreaUnit}` : NA}</div>
                 </Grid.Column>
                 <Grid.Column width={6}>
-                    <div className="label">{labels.arableLand}</div>
+                    <div className="label">{arableLand}</div>
                     <div className="data">{getValue(data.arableLand)}</div>
                 </Grid.Column>
             </Grid.Row>

@@ -37,9 +37,12 @@ class BlockEdit extends BaseBlockEdit {
                 groupMode,
                 useSourceByCategory,
                 methodology,
-                totalLandArea,
-                arableLand,
-                totalLandAreaUnit,
+                totalLandArea_en,
+                totalLandArea_fr,
+                arableLand_en,
+                arableLand_fr,
+                totalLandAreaUnit_en,
+                totalLandAreaUnit_fr,
                 topHarvestedCropsAndValue_en,
                 topHarvestedCropsAndValue_fr,
                 topHarvestedCropsAndValueUnit,
@@ -71,10 +74,13 @@ class BlockEdit extends BaseBlockEdit {
         queryString += `&data-farming-households-label_en=${farmingHouseholdsLabel_en}`
         queryString += `&data-farming-households-label_fr=${farmingHouseholdsLabel_fr}`
 
-        queryString += `&data-total-land-area-label=${totalLandArea}`;
-        queryString += `&data-total-land-area-unit=${totalLandAreaUnit}`;
+        queryString += `&data-total-land-area-label_en=${totalLandArea_en}`;
+        queryString += `&data-total-land-area-label_fr=${totalLandArea_fr}`;
+        queryString += `&data-total-land-area-unit_en=${totalLandAreaUnit_en}`;
+        queryString += `&data-total-land-area-unit_fr=${totalLandAreaUnit_fr}`;
 
-        queryString += `&data-total-arable-land-label=${arableLand}`;
+        queryString += `&data-total-arable-land-label_en=${arableLand_en}`;
+        queryString += `&data-total-arable-land-label_fr=${arableLand_fr}`;
         queryString += `&data-top-harvested-crops-and-value_en=${topHarvestedCropsAndValue_en}`;
         queryString += `&data-top-harvested-crops-and-value_fr=${topHarvestedCropsAndValue_fr}`;
         queryString += `&data-top-harvested-crops-and-value-unit=${topHarvestedCropsAndValueUnit}`;
@@ -329,9 +335,11 @@ class BlockEdit extends BaseBlockEdit {
                                                  useSourceByCategory={useSourceByCategory} methodology={methodology} />}
                         {type === 'countryInfo' &&
                             <CountryInfoChartsLabels bodyTitle={__('Country information labels configuration')}
-                                                     totalLandArea={totalLandArea} arableLand={arableLand}
+                                                     totalLandArea_en={totalLandArea_en} arableLand_en={arableLand_en}
+                                                     arableLand_fr={arableLand_fr}
                                                      setAttributes={setAttributes}
-                                                     totalLandAreaUnit={totalLandAreaUnit}
+                                                     totalLandAreaUnit_en={totalLandAreaUnit_en}
+                                                     totalLandAreaUnit_fr={totalLandAreaUnit_fr}
                                                      topHarvestedCropsAndValue_en={topHarvestedCropsAndValue_en}
                                                      topHarvestedCropsAndValue_fr={topHarvestedCropsAndValue_fr}
                                                      topHarvestedCropsAndValueUnit={topHarvestedCropsAndValueUnit}
@@ -409,10 +417,13 @@ const Edit = (props) => {
 }
 const CountryInfoChartsLabels = ({
                                      bodyTitle,
-                                     totalLandArea,
+                                     totalLandArea_en,
+                                     totalLandArea_fr,
                                      setAttributes,
-                                     arableLand,
-                                     totalLandAreaUnit,
+                                     arableLand_en,
+                                     arableLand_fr,
+                                     totalLandAreaUnit_en,
+                                     totalLandAreaUnit_fr,
                                      topHarvestedCropsAndValue_en,
                                      topHarvestedCropsAndValue_fr,
                                      topHarvestedCropsAndValueUnit,
@@ -427,16 +438,30 @@ const CountryInfoChartsLabels = ({
                                  }) => {
     return (<PanelBody title={__(bodyTitle)}>
         <PanelRow>
-            <TextControl label={__('Total land area label')} value={totalLandArea}
-                         onChange={(totalLandArea) => setAttributes({ totalLandArea })} />
+            <TextControl label={__('Total land area label in English')} value={totalLandArea_en}
+                         onChange={(totalLandArea_en) => setAttributes({ totalLandArea_en })} />
         </PanelRow>
         <PanelRow>
-            <TextControl label={__('Total land area unit')} value={totalLandAreaUnit}
-                         onChange={(totalLandAreaUnit) => setAttributes({ totalLandAreaUnit })} />
+            <TextControl label={__('Total land area label in French')} value={totalLandArea_fr}
+                         onChange={(totalLandArea_fr) => setAttributes({ totalLandArea_fr })} />
+        </PanelRow>
+        
+        <PanelRow>
+            <TextControl label={__('Total land area unit in English')} value={totalLandAreaUnit_en}
+                         onChange={(totalLandAreaUnit_en) => setAttributes({ totalLandAreaUnit_en })} />
         </PanelRow>
         <PanelRow>
-            <TextControl label={__('Arable land label')} value={arableLand}
-                         onChange={(arableLand) => setAttributes({ arableLand })} />
+            <TextControl label={__('Total land area unit in French')} value={totalLandAreaUnit_fr}
+                         onChange={(totalLandAreaUnit_fr) => setAttributes({ totalLandAreaUnit_fr })} />
+        </PanelRow>
+        
+        <PanelRow>
+            <TextControl label={__('Arable land label in English')} value={arableLand_en}
+                         onChange={(arableLand_en) => setAttributes({ arableLand_en })} />
+        </PanelRow>
+        <PanelRow>
+            <TextControl label={__('Arable land label in French')} value={arableLand_fr}
+                         onChange={(arableLand_fr) => setAttributes({ arableLand_fr })} />
         </PanelRow>
         
         <PanelRow>
