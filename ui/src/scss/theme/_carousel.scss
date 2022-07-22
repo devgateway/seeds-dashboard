@@ -253,14 +253,12 @@
   // Press grid
   &.press-feed {
     .carousel__slider--vertical {
-      padding-left: $base-unit + 2;
-
       li {
         float: left;
-        height: $base-unit * 35;
+        height: $base-unit * 40;
         padding: $base-unit;
         position: relative;
-        width: 32% !important;
+        width: 27% !important;
       }
     }
   }
