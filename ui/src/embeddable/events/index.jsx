@@ -100,9 +100,9 @@ const Events = (props) => {
         {showFullContent && <Grid.Column width={8} className="event-hour">
             <Icon className="clock outline" /> <span className="label">{timeString}</span>
         </Grid.Column>}
-        <Grid.Column width={8} className="event-location">
+        {eventLocation && <Grid.Column width={8} className="event-location">
             <Icon className="marker" /> <span className="label">{eventLocation || 'Location N/A'}</span>
-        </Grid.Column>
+        </Grid.Column>}
         {showFullContent && link && link !== 'undefined' ? <Grid.Column width={16} className="event-link">
             <Icon className="linkify" /> <a href={link} target="_blank" className="label">{link}</a>
         </Grid.Column> : null}
