@@ -6,7 +6,7 @@ import {
     COUNTRIES_FILTER,
     COUNTRY_SETTINGS,
     SUMMARY_INDICATORS,
-    SUMMARY_INDICATORS_INFORMATION, WP_CATEGORIES, WP_DOCUMENTS, WP_IMAGES, WP_CROPS, CUSTOM_TOOLTIPS
+    SUMMARY_INDICATORS_INFORMATION, WP_CATEGORIES, WP_DOCUMENTS, WP_IMAGES, WP_CROPS, CUSTOM_TOOLTIPS, DATA
 } from "./StoreConstants";
 import { getCategoriesWP, saveTooltips } from "./data-api";
 
@@ -413,21 +413,21 @@ const reducer = (state = initialState, action) => {
                 .setIn([CUSTOM_TOOLTIPS, getTooltipStore(action.type), 'error'], action.error)
         }
         case LOAD_DOCUMENTS: {
-            return state.deleteIn([action.store, WP_DOCUMENTS, 'error'])
-                .setIn([action.store, WP_DOCUMENTS, 'loading'], true)
-                .setIn([action.store, WP_DOCUMENTS, 'data'], null)
+            return state.deleteIn([WP_DOCUMENTS, 'error'])
+                .setIn([WP_DOCUMENTS, 'loading'], true)
+                .setIn([WP_DOCUMENTS, 'data'], null)
         }
 
         case LOAD_DOCUMENTS_DONE: {
-            return state.setIn([action.store, WP_DOCUMENTS, 'data'], action.data)
-                .deleteIn([action.store, WP_DOCUMENTS, 'error'])
-                .setIn([action.store, WP_DOCUMENTS, 'loading'], false)
+            return state.setIn([WP_DOCUMENTS, 'data'], action.data)
+                .deleteIn([WP_DOCUMENTS, 'error'])
+                .setIn([WP_DOCUMENTS, 'loading'], false)
         }
 
         case LOAD_DOCUMENTS_ERROR: {
-            return state.setIn([action.store, WP_DOCUMENTS, 'data'], null)
-                .setIn([action.store, WP_DOCUMENTS, 'error'], action.error)
-                .setIn([action.store, WP_DOCUMENTS, 'loading'], false)
+            return state.setIn([WP_DOCUMENTS, 'data'], null)
+                .setIn([WP_DOCUMENTS, 'error'], action.error)
+                .setIn([WP_DOCUMENTS, 'loading'], false)
         }
 
         case LOAD_CROPS: {

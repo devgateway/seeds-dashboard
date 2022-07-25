@@ -75,9 +75,9 @@ const ListOfDocuments = ({
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        documents: state.getIn([DATA, ownProps[DATA_CATEGORY], WP_DOCUMENTS, 'data']),
-        loading: state.getIn([DATA, ownProps[DATA_CATEGORY], WP_DOCUMENTS, 'loading']),
-        error: state.getIn([DATA, ownProps[DATA_CATEGORY], WP_DOCUMENTS, 'error']),
+        documents: state.getIn([DATA, WP_DOCUMENTS, 'data']),
+        loading: state.getIn([DATA, WP_DOCUMENTS, 'loading']),
+        error: state.getIn([DATA, WP_DOCUMENTS, 'error']),
         categoriesWP: state.getIn([DATA, WP_CATEGORIES]),
         selectedCountry: state.getIn([DATA, 'filters', SELECTED_COUNTRY]),
         countries: state.getIn([DATA, 'countries']),
