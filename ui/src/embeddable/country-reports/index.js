@@ -166,10 +166,10 @@ const CountryReports = (props) => {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        documentsAndImages: state.getIn([DATA, ownProps[DATA_CATEGORY], WP_DOCUMENTS, 'data']),
-        images: state.getIn([DATA, ownProps[DATA_CATEGORY], WP_DOCUMENTS, 'data']),
-        loading: state.getIn([DATA, ownProps[DATA_CATEGORY], WP_DOCUMENTS, 'loading']),
-        error: state.getIn([DATA, ownProps[DATA_CATEGORY], WP_DOCUMENTS, 'error']),
+        documentsAndImages: state.getIn([DATA, WP_DOCUMENTS, 'data']),
+        images: state.getIn([DATA, WP_DOCUMENTS, 'data']),
+        loading: state.getIn([DATA, WP_DOCUMENTS, 'loading']),
+        error: state.getIn([DATA, WP_DOCUMENTS, 'error']),
         categoriesWP: state.getIn([DATA, WP_CATEGORIES + 'COUNTRY-REPORTS']),
         crops: state.getIn([DATA, ownProps[DATA_CATEGORY], WP_CROPS, 'data']),
     }
