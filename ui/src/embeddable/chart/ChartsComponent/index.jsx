@@ -2162,7 +2162,7 @@ const ChartComponent = ({
 }
 
 const barColors = [
-    '#DE9F68', '#81B769', '#6C9964', '#8368B5'
+    '#82c341', '#21686e', '#f48e27', '#f0cc16', '#385e2e'
 ];
 const performanceColors = [
     '#4D843F', '#F39C00', '#E36A6A', '#289DF5', '#FBCC2A'
