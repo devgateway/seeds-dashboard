@@ -108,6 +108,7 @@
 			font-size: 1.3rem;
       display:block;
       float: left;
+      line-height: 140%;
       &.linkify{
         font-size: 1.1rem;
         margin-left: 5px;
@@ -121,6 +122,11 @@
       margin-top: 6px;
       white-space: normal;
       width: 82%;
+    }
+  }
+  &.event-link{
+    .icon{
+			font-size: 1.0rem !important;
     }
   }
 	&.add-to-cal{
