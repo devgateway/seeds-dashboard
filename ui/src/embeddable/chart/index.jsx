@@ -157,8 +157,8 @@ const Chart = (props) => {
                     padding: "0px",
                     marginTop: "10px",
                     marginBottom: "0px",
-                    marginLeft: '10px',
-                    marginRight: '0px',
+                    marginLeft: '30px',
+                    marginRight: '10px',
                 };
                 width = ref.current.childNodes[0].offsetWidth + 20;
                 height = ref.current.childNodes[0].offsetHeight + 20;
