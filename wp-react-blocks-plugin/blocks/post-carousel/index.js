@@ -73,6 +73,10 @@ registerBlockType(process.env.BLOCKS_NS + '/post-carousel',
             }, scheduledFilterStore: {
                 type: 'String',
                 default: 'past'
+            },
+            isNewImplementation: {
+                type: 'Boolean',
+                default: false
             }
         },
         edit: BlockEdit,

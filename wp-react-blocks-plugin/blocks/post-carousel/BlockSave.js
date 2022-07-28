@@ -19,7 +19,8 @@ const SaveComponent = (props) => {
             navigatorStyle,
             showLinksInModal,
             sortedByCountryAndYearCategories,
-            preloadDocumentsAndCrops
+            preloadDocumentsAndCrops,
+            isNewImplementation
         },
     } = props;
 
@@ -42,7 +43,9 @@ const SaveComponent = (props) => {
                  data-scheduled-filter={scheduledFilter}
                  data-scheduled-filter-store={scheduledFilterStore}
                  className={"wp-react-lib-component"}
+                 data-new-implementation={isNewImplementation}
                  data-component={"postsCarousel"}>
+
             </div>
         </div>
 

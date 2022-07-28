@@ -42,7 +42,8 @@ class BlockEdit extends BlockEditWithFilters {
                 navigatorStyle,
                 showLinksInModal,
                 sortedByCountryAndYearCategories,
-                preloadDocumentsAndCrops
+                preloadDocumentsAndCrops,
+                isNewImplementation
             },
         } = this.props;
         let queryString = `editing=true&data-type=${type}`
@@ -61,6 +62,7 @@ class BlockEdit extends BlockEditWithFilters {
         queryString += `&data-show-sorted-by-country-and-year-categories=${sortedByCountryAndYearCategories}`;
         queryString += `&data-preload-document-and-crops=${preloadDocumentsAndCrops}`
         queryString += `&data-scheduled-filter-store=${scheduledFilterStore}`;
+        queryString += `&data-new-implementation=${isNewImplementation}`
         const divStyles = { height: height + 'px', width: '100%' }
 
         return (
@@ -130,7 +132,13 @@ class BlockEdit extends BlockEditWithFilters {
                                     onChange={(preloadDocumentsAndCrops) => setAttributes({ preloadDocumentsAndCrops })}
                                 />
                             </PanelRow>
-
+                            <PanelRow>
+                                <ToggleControl
+                                    label={__("Is new implementation")}
+                                    checked={isNewImplementation}
+                                    onChange={(isNewImplementation) => setAttributes({ isNewImplementation })}
+                                />
+                            </PanelRow>
                         </PanelBody>
                         <SizeConfig initialOpen={false} setAttributes={setAttributes} height={height}></SizeConfig>
                         {this.renderFilters()}
