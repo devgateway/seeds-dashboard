@@ -38,7 +38,10 @@ export const Carousel = ({
                 });
             });
         }
-        filteredAndOrderedPosts.sort((a, b) => (b.categoriesHydrated.year - a.categoriesHydrated.year || a.categoriesHydrated.country.localeCompare(b.categoriesHydrated.country)))
+        filteredAndOrderedPosts.sort((a, b) => (b.categoriesHydrated.year - a.categoriesHydrated.year
+            || (a.categoriesHydrated.country
+                && a.categoriesHydrated.country.localeCompare(b.categoriesHydrated.country)))
+        )
     }
 
 
