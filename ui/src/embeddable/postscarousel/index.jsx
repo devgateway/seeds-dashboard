@@ -33,10 +33,12 @@ const PostCarousel = ({
                           "data-show-sorted-by-country-and-year-categories": sortedByCountryAndYearCategories = 'false',
                           "data-show-two-columns": twoColumns = 'false',
                           "data-preload-document-and-crops": preloadDocumentsAndCrops = 'false',
+                          'data-new-implementation': newImplementation = 'false',
                           filters, filtersData, categoriesWP, onLoadWPCategories,
                           onLoadCrops, onLoadDocuments
                       }) => {
     const isConnectFilter = connectFilter === 'true';
+    const isNewImplementation = newImplementation === 'true';
     const isTwoColumns = twoColumns === 'true';
     const isSortedByCountryAndYearCategories = sortedByCountryAndYearCategories === 'true';
     const isPreloadDocumentsAndCrops = preloadDocumentsAndCrops === 'true';
@@ -60,8 +62,8 @@ const PostCarousel = ({
             //TODO when changing the categories fix search by slug or name
             //categoryWP = categoriesWP.filter(cwp => cwp.slug === `c-${slug}`);
             let categoriesWPFiltered;
-            if (isPreloadDocumentsAndCrops) { //TODO until SEEDSDT-839 is done we add a c- to countries slugs. we assume that
-                // if we are preloading we are talking about country reports page
+            if (isNewImplementation) { //TODO until SEEDSDT-839 is done we add a c- to countries slugs. added
+                // a param to know its the new carousel (for now country reports and seeds news
                 categoriesWPFiltered = categoriesWP.filter(cwp => slugArray.map(sa => `c-${sa}`).includes(cwp.slug));
             } else {
                 categoriesWPFiltered = categoriesWP.filter(cwp => slugArray.includes(cwp.slug));
@@ -79,8 +81,8 @@ const PostCarousel = ({
     return <Container className={`wp-react-lib post carousel ${editing ? 'editing' : ''}`} fluid={true}
                       style={{ "height": height + 'px' }} id={POST_CAROUSEL_CONTAINER}>
         <PostProvider type={type} taxonomy={taxonomy}
-                      categories={orCategoriesArray && !isPreloadDocumentsAndCrops ? orCategoriesArray.join(',') : categories}
-                      categoriesOr={orCategoriesArray && isPreloadDocumentsAndCrops ? orCategoriesArray : undefined}
+                      categories={orCategoriesArray && !isNewImplementation ? orCategoriesArray.join(',') : categories}
+                      categoriesOr={orCategoriesArray && isNewImplementation ? orCategoriesArray : undefined}
                       store={"carousel_" + parent + "_" + unique} page={1}
                       perPage={items > 0 ? items : undefined} isScheduledFilter={scheduledFilter === 'true'}
                       scheduledFilterStore={scheduledFilterStore}>
