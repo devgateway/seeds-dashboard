@@ -106,7 +106,9 @@ class PostProvider extends React.Component {
                         }
                     }
                     return false;
-                });
+                }).sort((a, b) => !a.acf.event_stat_date || !b.acf.event_stat_date ? 0
+                    : isPast ? new Date(b.acf.event_stat_date) - new Date(a.acf.event_stat_date)
+                        : new Date(a.acf.event_stat_date) - new Date(b.acf.event_stat_date));
             }
 
             return <PostContext.Provider
