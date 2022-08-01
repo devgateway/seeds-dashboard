@@ -226,13 +226,16 @@
   &.events-feed {
     .carousel__slider--vertical {
       padding-left: $base-unit + 2;
-
+      ul{
+        width: $extend;
+      }
       li {
         float: left;
         height: $base-unit * 30;
-        padding: 5px;
+        margin-left: 12px;
+        margin-right: $base-unit;
         position: relative;
-        width: 45% !important;
+        width: 48% !important;
       }
     }
   }
