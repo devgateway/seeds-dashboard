@@ -232,10 +232,10 @@
       li {
         float: left;
         height: $base-unit * 30;
-        margin-left: 5px;
-        margin-right: 5px;
+        margin-left: 12px;
+        margin-right: $base-unit;
         position: relative;
-        width: 49% !important;
+        width: 48% !important;
       }
     }
   }
