@@ -277,9 +277,24 @@
   }
 }
 
-// remove carousel slide outline
+// Remove carousel slide outline
 .focusRing___1airF.carousel__slide-focus-ring {
   outline: none !important;
+}
+
+// Seeds news
+.seed-news{
+	margin-top: -$base-unit;
+  .vertical{
+    .carousel__slider--vertical{
+      li{
+        margin-bottom: 10px;
+        a{
+          color: $green-link;
+        }
+      }
+    }
+  }
 }
 
 // Other publications carousel
