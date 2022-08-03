@@ -281,3 +281,38 @@
 .focusRing___1airF.carousel__slide-focus-ring {
   outline: none !important;
 }
+
+// Other publications carousel
+.other-publications{
+  .carousel{
+    ul{
+      overflow: hidden;
+      width: $extend !important;
+      li{
+        @include border-radius(5px);
+        border: 1px solid $separator-grey;
+        float: left;
+        margin: 0 $base-unit $base-unit * 2 $base-unit;
+        min-height: 270px;
+        width: 48% !important;
+        img{
+          border: 1px solid $separator-grey;
+        }
+        .wp-block-columns{
+          margin-bottom: 0;
+        }
+        .ui.container.entry-content{
+          padding: $base-unit * 2;
+          width: $extend !important;
+          a{
+            color: $green-link;
+            &:hover{
+              color: $text-color;
+            }
+          }
+        }
+      }
+    }
+  }
+
+}
