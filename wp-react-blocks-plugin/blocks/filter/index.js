@@ -50,6 +50,9 @@ registerBlockType(process.env.BLOCKS_NS + '/filter',
             addAllCountries: {
                 type: "Boolean",
                 default: false
+            }, isAddIndicatorFilter: {
+                type: "Boolean",
+                default: false
             }
         }
         ,

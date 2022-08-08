@@ -6,7 +6,8 @@ import {
     SelectControl,
     TextControl,
     CheckboxControl,
-    RangeControl
+    RangeControl,
+    ToggleControl
 } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { BaseBlockEdit } from '../commons/index'
@@ -21,7 +22,8 @@ class BlockEdit extends BaseBlockEdit {
             className, isSelected,
             toggleSelection, setAttributes, attributes: {
                 type, selectedCountryFirst, addYear, selectedCountryLabel, countryColumns,
-                dataSource, additionalClasses, showSelector, selectedCountryPostLabel, addAllCountries
+                dataSource, additionalClasses, showSelector, selectedCountryPostLabel, addAllCountries,
+                isAddIndicatorFilter
             }
         } = this.props;
 
@@ -36,6 +38,7 @@ class BlockEdit extends BaseBlockEdit {
         queryString += `&data-show-selector=${showSelector}`;
         if (type === COUNTRY) {
             queryString += `&data-add-all-countries=${addAllCountries}`;
+            queryString += `&data-add-indicator-filter=${isAddIndicatorFilter}`;
         }
 
         queryString += `&editing=true`
@@ -61,6 +64,13 @@ class BlockEdit extends BaseBlockEdit {
                                 label={__('Add all countries')}
                                 checked={addAllCountries}
                                 onChange={() => setAttributes({ addAllCountries: !addAllCountries })} />
+                        </PanelRow>}
+                        {type === COUNTRY && <PanelRow>
+                            <ToggleControl
+                                label={__("Add indicator filter")}
+                                checked={isAddIndicatorFilter}
+                                onChange={(isAddIndicatorFilter) => setAttributes({ isAddIndicatorFilter })}
+                            />
                         </PanelRow>}
                         <PanelRow>
                             <SelectControl
