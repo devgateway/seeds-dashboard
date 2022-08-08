@@ -9,7 +9,7 @@ import { getCrops, getDocuments, getIndicatorsInformation, getWpCategories } fro
 import { WP_CATEGORIES } from "../reducers/StoreConstants";
 import { getSlugFromFilters } from "../utils/common";
 import { DOCUMENTS_PER_PAGE } from "../../seeds-commons/commonConstants";
-import { Carousel } from "./Carousel";
+import Carousel from "./Carousel";
 
 export const POST_CAROUSEL_CONTAINER = 'postCarouselContainer';
 

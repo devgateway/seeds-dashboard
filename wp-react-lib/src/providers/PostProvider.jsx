@@ -86,7 +86,6 @@ class PostProvider extends React.Component {
                 postsArray = [];
                 postsArray.push(posts);
             }
-            debugger
             if (isScheduledFilter) {
                 let now = new Date().getTime();
                 let isPast = scheduledFilterStore === 'past';

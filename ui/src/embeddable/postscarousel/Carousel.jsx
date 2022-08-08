@@ -5,19 +5,23 @@ import { BUTTONS, DOTS, PAGED_DOTS } from "./Constants";
 import { Icon } from "semantic-ui-react";
 import React from "react";
 import VerticalPostPager from "./VerticalPostPager";
+import { connect } from "react-redux";
+import { DATA } from "../reducers/StoreConstants";
+import { SELECTED_INDICATOR } from "../../seeds-commons/commonConstants";
 
-export const Carousel = ({
-                             posts,
-                             itemsPerPage,
-                             messages,
-                             orientation,
-                             navigatorStyle = DOTS,
-                             locale,
-                             type,
-                             showLinksInModal,
-                             categories,
-                             isSortedByCountryAndYearCategories
-                         }) => {
+const Carousel = ({
+                      posts,
+                      itemsPerPage,
+                      messages,
+                      orientation,
+                      navigatorStyle = DOTS,
+                      locale,
+                      type,
+                      showLinksInModal,
+                      categories,
+                      isSortedByCountryAndYearCategories,
+                      filters
+                  }) => {
     let filteredAndOrderedPosts = posts;
 
     if (categories && isSortedByCountryAndYearCategories) {
@@ -44,6 +48,11 @@ export const Carousel = ({
         )
     }
 
+    if (filters && filters.get(SELECTED_INDICATOR)) {
+
+        filteredAndOrderedPosts = filteredAndOrderedPosts.filter
+        (p => p.categories.includes(filters.get(SELECTED_INDICATOR)))
+    }
 
     const isAddType = type !== undefined;
     const finalItemsPerPage = itemsPerPage > 0 ? parseInt(itemsPerPage) : filteredAndOrderedPosts.length;
@@ -92,3 +101,7 @@ const PagedDots = ({ posts, itemsPerPage }) => {
     }
     return <div className="paged-dots-container">{dotArray}</div>;
 }
+const mapStateToProps = (state, ownProps) => {
+    return { filters: state.getIn([DATA, 'filters']) }
+}
+export default connect(mapStateToProps, {})(Carousel);

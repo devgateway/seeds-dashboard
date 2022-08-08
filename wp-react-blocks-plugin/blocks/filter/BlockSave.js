@@ -14,7 +14,8 @@ const SaveComponent = (props) => {
             additionalClasses,
             showSelector,
             selectedCountryPostLabel,
-            addAllCountries
+            addAllCountries,
+            isAddIndicatorFilter
         }
     } = props;
     const blockProps = useBlockProps.save({
@@ -41,7 +42,11 @@ const SaveComponent = (props) => {
                      { 'data-add-all-countries': addAllCountries } :
                      {}
              )}
-        >
+             {...(
+                 type === COUNTRY ?
+                     { 'data-add-indicator-filter': isAddIndicatorFilter} :
+                     {}
+             )}>
         </div>
 
 
