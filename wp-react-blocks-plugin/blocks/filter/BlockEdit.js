@@ -81,7 +81,8 @@ class BlockEdit extends BaseBlockEdit {
                                 }}
                                 options={[
                                     { label: 'Latest country studies', value: 'latestCountryStudies' },
-                                    { label: 'Country researcher list ', value: 'countryResearcherList ' }
+                                    { label: 'Country researcher list', value: 'countryResearcherList ' },
+                                    { label: 'Others country list', value: 'countryOthersList ' }
                                 ]}
                             />
                         </PanelRow>
