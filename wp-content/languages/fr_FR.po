@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the WordPress - 5.9.x package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2022-05-12 13:28:11+0000\n"
+"PO-Revision-Date: 2022-08-05 06:31:04+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -6553,8 +6553,8 @@ msgid "A description of the pattern."
 msgstr "Une description de la composition."
 
 #: wp-includes/rest-api/endpoints/class-wp-rest-pattern-directory-controller.php:284
-msgid "The pattern's keyword slugs."
-msgstr "Les identifiants des mots-clés de la composition."
+msgid "The pattern's keywords."
+msgstr "Les mots-clés de la composition."
 
 #: wp-includes/rest-api/endpoints/class-wp-rest-pattern-directory-controller.php:276
 msgid "The pattern's category slugs."
