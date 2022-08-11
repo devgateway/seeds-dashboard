@@ -40,7 +40,7 @@ const Filter = ({
     useEffect(() => {
         if (isAddAllCountries && countries) {
             countries.unshift({
-                country: intl.formatMessage({ id: 'all-countries', defaultMessage: 'all countries' }),
+                country: intl.formatMessage({ id: 'all-countries', defaultMessage: 'All countries' }),
                 countryId: ALL_COUNTRIES_ID,
                 isoCode: "AA",
                 year: 2020

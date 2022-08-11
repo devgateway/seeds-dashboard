@@ -44,6 +44,12 @@
   margin: 0px auto auto;
   text-align: center;
 
+  .ui.button{
+    background-color: $green;
+    color: #ffffff;
+    width: 150px;
+  }
+
   .carousel__dot {
     pointer-events: all !important;
     background-color: $text-color;
@@ -202,6 +208,7 @@
   }
 
   .carousel__slider--vertical {
+
     li {
       display: block;
       margin-bottom: $base-unit * 3;
