@@ -115,12 +115,14 @@
       }
     }
 
-    .selected-country.column {
-      background-color: $orange;
-      @include font-filter;
-      font-size: 14px;
-      font-weight: 800;
-
+    .selected-country{
+      width: $extend;
+      &.column {
+        background-color: $orange;
+        @include font-filter;
+        font-size: 14px;
+        font-weight: 800;
+      }
     }
 
     .country-carousel {
@@ -198,7 +200,6 @@
 
       .column {
         padding: 0;
-
         .ui.grid {
           margin: 0px;
         }

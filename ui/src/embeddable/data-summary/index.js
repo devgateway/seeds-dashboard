@@ -47,7 +47,7 @@ const DataSummary = ({
             <Container className={"data-summary"}>
                 <Heading legends={legends} title={title} showMDNALegends={true} />
             </Container>
-            <Sticky context={contextRef}>
+            <Sticky context={contextRef} className="data-summary-filters">
                 <Filter setIsFilterOpen={setIsFilterOpen} />
             </Sticky>
             <Container fluid={true} className={"data-summary"}>
