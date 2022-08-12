@@ -58,6 +58,16 @@ export const replaceHTMLinks = (html, locale) => {
         }
         newHtml = newHtml.replaceAll(link[2], newLink)
     }
+    const newRegExp = /href\s*=\s*(['"])([\/].+?)\1/ig;
+    let linkSlash;
+    while ((linkSlash = newRegExp.exec(html)) !== null) {
+        let newHrefSlash = linkSlash[2];
+        newHrefSlash = `/${locale}${newHrefSlash}`
+        if (useHash) {
+            newHrefSlash = `/#${newHrefSlash}`;
+        }
+        newHtml = newHtml.replaceAll(linkSlash[2], newHrefSlash);
+    }
     if (useHash) {
         let anchor = /href="#([^"]*)"/ig;
         let re2 = new RegExp(anchor, "i");
