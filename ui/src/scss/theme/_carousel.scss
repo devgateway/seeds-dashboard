@@ -191,6 +191,13 @@
   .post.carousel {
     height: auto !important;
   }
+  &.researchers{
+    li{
+      .ui.container.entry-content{
+        width: $extend !important;
+      }
+    }
+  }
 
   &.no-navigation {
     .carousel__dot-group {
