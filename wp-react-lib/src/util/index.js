@@ -61,8 +61,11 @@ export const replaceHTMLinks = (html, locale) => {
     const newRegExp = /href\s*=\s*(['"])([\/].+?)\1/ig;
     let linkSlash;
     while ((linkSlash = newRegExp.exec(html)) !== null) {
+        debugger;
         let newHrefSlash = linkSlash[2];
-        newHrefSlash = `/${locale}${newHrefSlash}`
+        if (!newHrefSlash.includes(`/${locale}/`)) {
+            newHrefSlash = `/${locale}${newHrefSlash}`
+        }
         if (useHash) {
             newHrefSlash = `/#${newHrefSlash}`;
         }
