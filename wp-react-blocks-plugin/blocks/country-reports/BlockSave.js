@@ -1,10 +1,10 @@
-import {useBlockProps} from '@wordpress/block-editor';
+import { useBlockProps } from '@wordpress/block-editor';
 
 const SaveComponent = (props) => {
 
     const {
         attributes: {
-            description, country, year, image, height, width, categorySuffix
+            description, country, year, image, height, width, categorySuffix, isBrief
         }
     } = props;
     const blockProps = useBlockProps.save({
@@ -19,6 +19,7 @@ const SaveComponent = (props) => {
                  data-height={height}
                  data-width={width}
                  data-category-sufix={categorySuffix}
+                 data-is-brief={isBrief}
                  data-year={year}>
     </div>);
 }
