@@ -1,5 +1,5 @@
-import {__} from '@wordpress/i18n';
-import {registerBlockType} from '@wordpress/blocks';
+import { __ } from '@wordpress/i18n';
+import { registerBlockType } from '@wordpress/blocks';
 import BlockSave from "./BlockSave";
 import BlockEdit from "./BlockEdit";
 import Generic from "../icons";
@@ -39,6 +39,10 @@ registerBlockType(process.env.BLOCKS_NS + '/country-reports',
                 type: "String",
                 default: ""
             },
+            isBrief: {
+                type: "Boolean",
+                default: false
+            }
         },
         edit: BlockEdit,
         save: BlockSave,

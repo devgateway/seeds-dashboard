@@ -30,9 +30,12 @@ const CountryReports = (props) => {
         editing,
         "data-width": width,
         "data-height": height,
-        "data-category-sufix": categorySuffix
+        "data-category-sufix": categorySuffix,
+        "data-is-brief": brief = 'false'
     } = props;
     const categorySuffix_ = categorySuffix || '';
+    const title = brief === 'false' ? 'Report' : 'Brief';
+
     useEffect(() => {
         if (!categoriesWP && editing) {
             onLoadCategories('COUNTRY-REPORTS')
@@ -49,6 +52,7 @@ const CountryReports = (props) => {
         if (categoriesWP && country && year && !crops) {
             const year_ = categoriesWP.find(i => i.id === Number(year)).name;
             const country_ = categoriesWP.find(i => i.id === Number(country)).name;
+            debugger
             const params = { country: country_, year: year_ };
             onLoadCrops({ params });
         }
@@ -80,7 +84,7 @@ const CountryReports = (props) => {
             });
             if (links.length === 1) {
                 return (<div className="links-container">
-                    <a href={links[0].link} target="_blank">View Report</a>
+                    <a href={links[0].link} target="_blank">{`View {$title}`}</a>
                 </div>);
             } else {
                 return (<div className="links-container">
@@ -147,7 +151,7 @@ const CountryReports = (props) => {
                                 </div>
                                 <div className="report-container">
                                     <span
-                                        className="title">{country_.name.replace(categorySuffix_, '') + ' ' + year_.name + ' Report'}</span>
+                                        className="title">{country_.name.replace(categorySuffix_, '') + ' ' + year_.name + ' ' + title}</span>
                                     <span className="description">{description}</span>
                                     <span className="links">{generateLinks()}</span>
                                 </div>
