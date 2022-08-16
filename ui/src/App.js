@@ -90,6 +90,7 @@ class IntlRoutes extends Component {
                             <Switch>
                                 {
                                     //Category Route
+
                                 }
                                 <Route path="/:lan/category/:slug/">
                                     <ResponsiveContainer>
@@ -213,7 +214,8 @@ class IntlRoutes extends Component {
                                 {
                                     //child route
                                 }
-                                <Route path="/:lan/:parent/:slug/" exact render={props => {
+                                <Route path={["/:lan/:parent/:slug/", "/:lan/:grandParent/:parent/:slug/"]} exact
+                                       render={props => {
                                     return (
                                         <PageProvider
                                             slug={props.match.params.slug}
@@ -276,6 +278,7 @@ class IntlRoutes extends Component {
                                 )}>
                                 </Route>
                                 <Route exact render={props => {
+                                    debugger
                                     return (
                                         <PageProvider
                                             slug={PAGE_404_SLUG}
