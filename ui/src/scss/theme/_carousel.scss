@@ -34,10 +34,6 @@
       }
     }
   }
-
-
-  .carousel__dot--selected {
-  }
 }
 
 .carousel__dot-group, .paged-dots-container {
@@ -308,6 +304,27 @@
           color: $green-link;
         }
       }
+    }
+  }
+}
+
+// One column vertical carousel
+.news-carousel{
+  .post.carousel{
+    height: auto !important; // use variable height
+  }
+  ul{
+    width: $extend;
+  }
+  .link{
+    @include button(3px, $yellow, $white);
+    bottom: $base-unit * 3;
+    display: inline-block;
+    left: 54%;
+    padding: $base-unit $base-unit * 2;
+    position: absolute;
+    &:hover{
+      @include button-hover;
     }
   }
 }

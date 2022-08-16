@@ -1170,3 +1170,20 @@ p:empty {
 		}
 	}
 }
+
+// Images with yellow border
+.yellow-border{
+	img{
+		border-bottom: 6px solid $yellow;
+	}
+}
+
+// News preview section
+.news-preview{
+	h3 a{
+		color: $link-green;
+	}
+	img{
+		border-bottom: 6px solid $yellow;
+	}
+}
