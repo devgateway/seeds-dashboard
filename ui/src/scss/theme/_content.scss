@@ -175,6 +175,11 @@ p:empty {
     }
   }
 }
+.wp-block-buttons .has-standard-24-font-size{
+	 .wp-block-button__link{
+		 font-size: 24px !important;
+	 }
+}
 
 .wp-block-group.compacted {
   .wp-block-columns {
