@@ -145,7 +145,7 @@ const DataSummaryBody = ({
                             <Tooltip item={f} tiny editing={editing} />
                             {f.name}
                         </Grid.Column>
-                        <Grid.Column width={6}
+                        <Grid.Column width={8}
                                      className={"indicator-selected-country"}><IndicatorLabel
                             field={field}
                             className={'indicator-label'}
@@ -351,4 +351,3 @@ const mapStateToProps = (state) => {
 
 const mapActionCreators = { onLoadIndicatorsInformation: getIndicatorsInformation };
 export default connect(mapStateToProps, mapActionCreators)(injectIntl(DataSummaryBody));
-
