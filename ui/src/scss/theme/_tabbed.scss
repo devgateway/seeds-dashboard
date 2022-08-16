@@ -111,3 +111,17 @@
     }
   }
 }
+
+.cross-country-tabs{
+  .wp-react-lib.tabbed.posts.container{
+    .label{
+        width: auto;
+    }
+  }
+  .chart.container{
+    .ui.grid{
+      margin-left: 0;
+      margin-right: 0;
+    }
+  }
+}
