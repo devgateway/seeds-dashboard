@@ -10,7 +10,7 @@ RUN npm install &&  npm run dist
 FROM node:12.16.3 AS compiler
 ARG ENVIRONMENT
 WORKDIR /tmp/ui
-COPY ./ui/.env.${stage} ./.env
+COPY ./ui/.env.${ENVIRONMENT} ./.env
 COPY ./ui/package*.json ./
 COPY ./ui/public ./public/
 COPY ./ui/src ./src/
