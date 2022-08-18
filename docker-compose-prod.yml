@@ -134,7 +134,7 @@ services:
       MYSQL_ROOT_PASSWORD: somewordpress
       MYSQL_DATABASE: wordpress
       MYSQL_USER: wordpress
-      MYSQL_PASSWORD: wordpress
+      MYSQL_PASSWORD: wordpress-production
     networks:
       - backend #for dev purpose we use a bridged network
 
