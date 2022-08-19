@@ -145,7 +145,7 @@ const DataSummaryBody = ({
                             <Tooltip item={f} tiny editing={editing} />
                             {f.name}
                         </Grid.Column>
-                        <Grid.Column width={8}
+                        <Grid.Column width={6}
                                      className={"indicator-selected-country"}><IndicatorLabel
                             field={field}
                             className={'indicator-label'}
