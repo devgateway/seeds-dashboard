@@ -114,6 +114,9 @@
 
 .cross-country-tabs{
   .wp-react-lib.tabbed.posts.container{
+    .item{
+      flex: auto;
+    }
     .label{
         width: auto;
     }

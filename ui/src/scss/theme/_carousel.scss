@@ -245,7 +245,7 @@
         margin-left: 12px;
         margin-right: $base-unit;
         position: relative;
-        width: 48% !important;
+        width: 47% !important;
       }
     }
   }
@@ -266,12 +266,15 @@
   // Press grid
   &.press-feed {
     .carousel__slider--vertical {
+      ul{
+        width:$extend;
+      }
       li {
         float: left;
         height: $base-unit * 40;
         padding: $base-unit;
         position: relative;
-        width: 27% !important;
+        width: 33% !important;
       }
     }
   }
