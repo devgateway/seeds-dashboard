@@ -94,7 +94,7 @@ const Filter = ({
                                           isShowSelector={isShowSelector}
                                           selectedCountryPostLabel={selectedCountryPostLabel}
                                           setIsFilterOpen={setIsFilterOpen} isAddAllCountries={isAddAllCountries}
-                                          isAddIndicatorFilter={isAddIndicatorFilter} categoriesWP={categoriesWP}/>
+                                          isAddIndicatorFilter={isAddIndicatorFilter} categoriesWP={categoriesWP} intl={intl}/>
 
         classes = "country-selector " + (additionalClasses ? additionalClasses : '');
     }
