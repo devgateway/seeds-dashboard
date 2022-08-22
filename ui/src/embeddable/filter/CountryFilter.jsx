@@ -30,7 +30,6 @@ const CountryFilter = ({
         }
         return length;
     }
-    debugger;
     return <Grid className="country-filter-container">
         <Grid.Column width={7}>
             <CountrySelector countries={countries} onApply={onApply} filters={filters} addYear={addYear}
