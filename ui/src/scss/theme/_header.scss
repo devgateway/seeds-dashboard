@@ -168,8 +168,7 @@
         font-weight: 800;
         opacity: 1;
         padding-right: $base-unit-md + 10;
-        // prevent clicking
-        pointer-events: none;
+
         &:hover {
           opacity: 0.6;
         }
@@ -188,22 +187,19 @@
       height: $dashboard-menu-height-home;
 
       ._country-overview {
-          a {
-            background-image: url("/static/images/dashboard.svg") !important;
-          }
+        a {
+          background-image: url("/static/images/dashboard.svg") !important;
+        }
 
       }
     }
 
-    &.dashboard {
+    /*&.dashboard {
       -webkit-transform: scaleX(-1);
-
       * {
         -webkit-transform: scaleX(-1);
       }
-    }
-
-
+    }*/
     .menu {
       width: 100%;
       flex: 0 0 100%;
@@ -249,7 +245,7 @@
         }
 
         /*ABOUT*/
-        &._background {
+        &._our-story {
           a {
             background-image: url("/static/images/story.svg") !important;
           }
@@ -291,8 +287,19 @@
             background-image: url("/static/images/board.svg") !important;
           }
         }
+        /* Media */
+        &._tasai-press {
+          a {
+            background-image: url("/static/images/press.svg") !important;
+          }
+        }
+        &._tasai-blog {
+          a {
+            background-image: url("/static/images/updates.svg") !important;
+          }
+        }
 
-        /*Dashboard*/
+        /* Dashboard */
         &._dashboard {
           a {
             background-image: url("/static/images/dashboard.svg") !important;
@@ -316,18 +323,12 @@
             background-image: url("/static/images/country_info.svg") !important;
           }
         }
+
         &._country-overview {
           a {
             background-image: url("/static/images/dashboard.svg");
           }
-        }
-
-        /*Custom*/
-        :not(.home) {
-          &._country-overview {
-            width: 210px;
-            flex: 0 0 210px;
-
+          &.submenu {
             a {
               width: 180px;
               background-image: url("/static/images/country_dashboard.svg") !important;
@@ -349,6 +350,7 @@
             background-image: url("/static/images/past-events.svg") !important;;
           }
         }
+
         &._upcoming-events {
           a {
             background-image: url("/static/images/upcoming-events.svg") !important;;

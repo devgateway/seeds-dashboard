@@ -21,35 +21,39 @@ const Events = asyncComponent(() => import("./events/"));
 const ListOfDocuments = asyncComponent(() => import("./list-of-documents/"));
 const InnerPage = asyncComponent(() => import("./innerPage/"));
 const ImageMap = asyncComponent(() => import("./image-map/"));
+const CountryReports = asyncComponent(() => import("./country-reports/"));
+const BackToTop = asyncComponent(() => import("./backToTop/"));
 const ViewportMessage = asyncComponent(() => import("./viewport-message/"));
 export const reducers = {
-  data,
-  embeddable
+    data,
+    embeddable
 }
 
 
 const components = {
-  pageGallery: PageGallery,
-  postsCarousel: PostsCarousel,
-  chart: Chart,
-  filter: Filter,
-  dataSummary: DataSummary,
-  showCaseForm: ShowcaseForm,
-  newsLetter: NewsLetter,
-  body: Body,
-  tabbedPosts: TabbedPosts,
-  pageModules: PageModules,
-  featuredTabs: FeaturedTabs,
-  inlineList: InlineList,
-  download: Download,
-  events: Events,
-  listOfDocuments: ListOfDocuments,
-  innerPage: InnerPage,
-  imageMap: ImageMap,
-  viewportMessage: ViewportMessage
+    pageGallery: PageGallery,
+    postsCarousel: PostsCarousel,
+    chart: Chart,
+    filter: Filter,
+    dataSummary: DataSummary,
+    showCaseForm: ShowcaseForm,
+    newsLetter: NewsLetter,
+    body: Body,
+    tabbedPosts: TabbedPosts,
+    pageModules: PageModules,
+    featuredTabs: FeaturedTabs,
+    inlineList: InlineList,
+    download: Download,
+    events: Events,
+    listOfDocuments: ListOfDocuments,
+    innerPage: InnerPage,
+    imageMap: ImageMap,
+    countryReports: CountryReports,
+    backToTop: BackToTop,
+    viewportMessage: ViewportMessage
 }
 
 export const getComponentByNameIgnoreCase = (name) => {
-  const k = Object.keys(components).filter(value => value.toLowerCase() == name.toLowerCase())
-  return components[k]
+    const k = Object.keys(components).filter(value => value.toLowerCase() == name.toLowerCase())
+    return components[k]
 }

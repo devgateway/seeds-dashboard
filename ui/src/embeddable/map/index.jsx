@@ -413,7 +413,8 @@ class Map extends React.Component {
             const {intl, measure} = this.props;
             const {} = data.properties;
             return (
-                <IntlProvider key="other-provider" locale={intl.locale} messages={intl.messages}>
+                <
+                    IntlProvider key="other-provider" locale={intl.locale} messages={intl.messages}>
                     <div>
                         POPUP
                     </div>

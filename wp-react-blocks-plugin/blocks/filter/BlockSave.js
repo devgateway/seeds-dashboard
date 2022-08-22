@@ -1,4 +1,5 @@
 import { useBlockProps } from '@wordpress/block-editor';
+import { COUNTRY } from "./BlockEdit";
 
 const SaveComponent = (props) => {
 
@@ -10,7 +11,11 @@ const SaveComponent = (props) => {
             selectedCountryLabel,
             countryColumns,
             dataSource,
-            additionalClasses
+            additionalClasses,
+            showSelector,
+            selectedCountryPostLabel,
+            addAllCountries,
+            isAddIndicatorFilter
         }
     } = props;
     const blockProps = useBlockProps.save({
@@ -29,7 +34,19 @@ const SaveComponent = (props) => {
              data-country-columns={countryColumns}
              data-data-source={dataSource}
              data-additional-classes={additionalClasses}
-        >
+             data-show-selector={showSelector}
+             data-selected-country-post-label={selectedCountryPostLabel}
+
+             {...(
+                 type === COUNTRY ?
+                     { 'data-add-all-countries': addAllCountries } :
+                     {}
+             )}
+             {...(
+                 type === COUNTRY ?
+                     { 'data-add-indicator-filter': isAddIndicatorFilter} :
+                     {}
+             )}>
         </div>
 
 

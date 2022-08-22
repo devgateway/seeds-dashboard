@@ -1,23 +1,40 @@
-import React, {useState} from "react";
+import React, {useState, useEffect, useRef} from "react";
 import './styles.scss';
 import {Accordion, Form, Menu} from "semantic-ui-react";
 
 const CropFilter = ({data, onChange, initialSelectedCrops = [1, 1, 1, 1], intl}) => {
 
-    const [activeIndex, setActiveIndex] = useState([0]);
+    const [isOpen, setIsOpen] = useState(false);
     const [numberOfSelectedCrops, setNumberOfSelectedCrops] = useState([1, 1, 1, 1]);
     const [currentData, setCurrentData] = useState(null);
+
+    const ref = useRef(null);
 
     if (data !== currentData) {
         setCurrentData(data);
         setNumberOfSelectedCrops(initialSelectedCrops);
-        setActiveIndex([0]);
+        setIsOpen(false);
     }
 
     const handleClick = (e, titleProps) => {
-        const {index} = titleProps
-        setActiveIndex(activeIndex === index ? -1 : index);
+        setIsOpen(!isOpen);
     }
+
+    const onClickOutside = () => {
+        setIsOpen(false);
+    }
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (ref.current && !ref.current.contains(event.target)) {
+                onClickOutside && onClickOutside();
+            }
+        };
+        document.addEventListener('mouseout', handleClickOutside, true);
+        return () => {
+            document.removeEventListener('mouseout', handleClickOutside, true);
+        };
+    }, [onClickOutside]);
 
     const handleChange = (e, props) => {
         const currentlySelected = Object.assign([], numberOfSelectedCrops);
@@ -40,18 +57,20 @@ const CropFilter = ({data, onChange, initialSelectedCrops = [1, 1, 1, 1], intl})
     const title = (<div><span className="filter-selector-title">Crop(s) </span><span
         className="filter-selector-numbers">{sum} of {currentData ? currentData.length : 0}</span></div>);
     return (
-        <Accordion as={Menu} vertical>
-            <Menu.Item>
-                <Accordion.Title
-                    active={activeIndex === 0}
-                    content={title}
-                    icon="angle right"
-                    index={0}
-                    onClick={handleClick}
-                />
-                <Accordion.Content className="ignore" active={activeIndex === 0} content={generateContent()}/>
-            </Menu.Item>
-        </Accordion>
+        <div ref={ref}>
+            <Accordion as={Menu} vertical>
+                <Menu.Item>
+                    <Accordion.Title
+                        active={isOpen}
+                        content={title}
+                        icon="angle right"
+                        index={0}
+                        onClick={handleClick}
+                    />
+                    <Accordion.Content className="ignore" active={isOpen} content={generateContent()}/>
+                </Menu.Item>
+            </Accordion>
+        </div>
     )
 }
 

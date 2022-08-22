@@ -3,21 +3,20 @@
   color: #FFF
 }
 
-.has-light-blue-color {
-  color: $light-blue
+.has-dark-green-color {
+  color: $dark-green;
 }
 
-
-.has-light-blue-background-color {
-  background-color: $light-blue !important;
+.has-dark-green-background-color {
+  background-color: $dark-green !important;
 }
 
-.has-blue-color {
-  color: $blue
+.has-yellow-color {
+  color: $yellow;
 }
 
-.has-blue-background-color {
-  background-color: $blue;
+.has-yellow-background-color {
+  background-color: $yellow;
 }
 
 
@@ -37,27 +36,27 @@
   background-color: #ffffff;
 }
 .has-dark-gray-color {
-  color: $dark-gray;
+  color: $text-color;
 }
 
 .has-dark-gray-background-color {
-  color: $dark-gray
+  color: $text-color;
 }
 
 .has-green-color {
-  color: $green
+  color: $green-link;
 }
 
 .has-green-background-color {
-  background-color: $green;
+  background-color: $green-link;
 }
 
-.has-red-color {
-  color: $red
+.has-orange-color {
+  color: $orange;
 }
 
-.has-red-background-color {
-  background-color: $red;
+.has-orange-background-color {
+  background-color: $orange;
 }
 
 .has-ligth-green-color {

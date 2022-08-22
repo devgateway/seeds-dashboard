@@ -12,19 +12,21 @@ services:
     build:
       context: ./
       dockerfile: ./ui/Dockerfile.Production
+      args:
+        ENVIRONMENT: production
     volumes:
       - ui:/var/www/ui
     restart: "no"
 
   wordpress:
-    image: library/wordpress:5.7-fpm-alpine
+    image: library/wordpress:5.9.3-fpm-alpine
     depends_on:
       - plugins
       - mysql
     environment:
       WORDPRESS_DB_HOST: mysql
       WORDPRESS_DB_USER: wordpress
-      WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress-production
       WORDPRESS_DB_NAME: wordpress
     volumes:
       - ./data/wordpress:/var/www/html
@@ -132,7 +134,7 @@ services:
       MYSQL_ROOT_PASSWORD: somewordpress
       MYSQL_DATABASE: wordpress
       MYSQL_USER: wordpress
-      MYSQL_PASSWORD: wordpress
+      MYSQL_PASSWORD: wordpress-production
     networks:
       - backend #for dev purpose we use a bridged network
 

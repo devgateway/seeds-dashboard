@@ -1,15 +1,13 @@
-import React, {useEffect, useRef, useState} from "react";
-import {Button, Container, Grid, Icon, Segment} from "semantic-ui-react";
+import React, { useEffect, useRef, useState } from "react";
+import { Button, Container, Grid, Icon, Segment } from "semantic-ui-react";
 import DataProvider from "../data/DataProvider";
-import {connect} from "react-redux";
-import {toBlob} from 'html-to-image';
-import {saveAs} from 'file-saver';
+import { connect } from "react-redux";
+import { toBlob } from 'html-to-image';
+import { saveAs } from 'file-saver';
 import DataConsumer from "../data/DataConsumer";
-import {buildDivergingOptions, buildPieOptions} from './prevalenceBuilder'
+import { buildDivergingOptions, buildPieOptions } from './prevalenceBuilder'
 
-import HalfPie from "./HalfPie";
-
-import {PostContent} from "@devgateway/wp-react-lib";
+import { PostContent } from "@devgateway/wp-react-lib";
 
 import CountryInfo from "./Countryinfo";
 import {
@@ -37,27 +35,37 @@ import {
     AGRODEALER_NETWORK,
     AGRICULTURAL_EXTENSION_SERVICES,
     DATA,
-    WP_DOCUMENTS,
-    DATA_CATEGORY,
     WP_CATEGORIES,
     COUNTRIES_FILTER,
-    SOURCE_CATEGORIES, SELECTED_COUNTRY, NUMBER_SEED_INSPECTORS_BY_COUNTRY
+    SOURCE_CATEGORIES,
+    NUMBER_SEED_INSPECTORS_BY_COUNTRY,
+    SHARE_CHART,
+    SHARE_CROPS,
+    CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS, CROSS_COUNTRY_NUMBER_OF_VARIETIES_RELEASED,
+    CROSS_COUNTRY_QUANTITY_CERTIFIED_SEED_SOLD, CROSS_COUNTRY_NUMBER_OF_ACTIVE_SEED_COMPANIES,
+    CROSS_COUNTRY_NUMBER_VARIETIES_SOLD,
+    CROSS_COUNTRY_MARKET_SHARE_TOP_FOUR_SEED_COMPANIES,
+    CROSS_COUNTRY_MARKET_CONCENTRATION_HHI,
+    CROSS_COUNTRY_MARKET_SHARE_STATE_OWNED_SEED_COMPANIES,
+    CROSS_COUNTRY_VARIETY_RELEASE_PROCESS,
+    CROSS_COUNTRY_OVERALL_RATING_NATIONAL_SEED_TRADE_ASSOCIATION,
+    CROSS_COUNTRY_AGRODEALER_NETWORK, CROSS_COUNTRY_AVAILABILITY_SEED_SMALL_PACKAGES,
 } from "../reducers/StoreConstants";
-import NumberOfVarietiesReleased from "./NumberOfVarietiesReleased";
 import GaugesChart from "./GaugesChart";
-import {getDocuments, getWpCategories, setFilter} from "../reducers/data";
+import { getWpCategories, setFilter } from "../reducers/data";
 import ChartComponent from "./ChartsComponent";
+import { SELECTED_COUNTRY } from "../../seeds-commons/commonConstants";
 
 const Diverging = (props) => {
-    const {data, legends, colors, height} = props
+    const { data, legends, colors, height } = props
     const options = buildDivergingOptions(data, true)
     return <Diverging height={height} legends={legends} colors={colors} options={options}
-                      format={{style: "percent", currency: "EUR"}}/>
+                      format={{ style: "percent", currency: "EUR" }} />
 }
 
 
 const Chart = (props) => {
-    const {filters} = props
+    const { filters } = props
     const {
         parent,
         editing = false,
@@ -102,10 +110,30 @@ const Chart = (props) => {
         "data-default-country-id": defaultCountryId = 9,
         "data-use-source-by-category": useSourceByCategory,
         "data-methodology": methodology,
+        "data-total-land-area-label_en": totalLandArea_en = "Total area land",
+        "data-total-land-area-unit_en": totalLandAreaUnit_en = "Hectares",
+        "data-total-arable-land-label_en": arableLand_en = "Arable land",
+        "data-total-land-area-label_fr": totalLandArea_fr = "Total area land",
+        "data-total-land-area-unit_fr": totalLandAreaUnit_fr = "Hectares",
+        "data-total-arable-land-label_fr": arableLand_fr = "Arable land",
+        "data-top-harvested-crops-and-value_en": topHarvestedCropsAndValue_en = "Top Harvested Crops and Value",
+        "data-top-harvested-crops-and-value_fr": topHarvestedCropsAndValue_fr = "Top Harvested Crops and Value",
+        "data-top-harvested-crops-and-value-unit": topHarvestedCropsAndValueUnit = "hectares",
+        "data-population-vs-farming-households_en": populationVsFarmingHouseholds_en = "Population vs Farming Households",
+        "data-population-vs-farming-households_fr": populationVsFarmingHouseholds_fr = "Population vs Farming Households",
+        "data-total-population-label_en": totalPopulationLabel_en="Total Population",
+        "data-total-population-label_fr": totalPopulationLabel_fr="Total Population",
+        "data-farming-households-label_en": farmingHouseholdsLabel_en="Farming Households",
+        "data-farming-households-label_fr": farmingHouseholdsLabel_fr="Farming Households",
+        "data-source-text_en": sourceText_en,
+        "data-source-text_fr": sourceText_fr,
     } = props;
 
     useEffect(() => {
-        setDefaultFilter(DEFAULT_COUNTRY_ID, defaultCountryId)
+        setDefaultFilter(DEFAULT_COUNTRY_ID, defaultCountryId);
+        if (filters && filters.get(SHARE_CHART) && type === filters.get(SHARE_CHART)) {
+            wrapper.current.scrollIntoView({ block: 'end', behavior: 'smooth' });
+        }
     }, []);
 
     useEffect(() => {
@@ -114,7 +142,7 @@ const Chart = (props) => {
 
     function filter(node) {
         if (node.classList) {
-            return !node.classList.contains("ignore") && !node.classList.contains("angle") 
+            return !node.classList.contains("ignore") && !node.classList.contains("angle")
         }
         return true;
     }
@@ -129,8 +157,8 @@ const Chart = (props) => {
                     padding: "0px",
                     marginTop: "10px",
                     marginBottom: "0px",
-                    marginLeft: '10px',
-                    marginRight: '0px',
+                    marginLeft: '30px',
+                    marginRight: '10px',
                 };
                 width = ref.current.childNodes[0].offsetWidth + 20;
                 height = ref.current.childNodes[0].offsetHeight + 20;
@@ -159,7 +187,7 @@ const Chart = (props) => {
             });
     }
 
-    const numberFormat = {style, minimumFractionDigits: parseInt(decimals), maximumFractionDigits: parseInt(decimals)}
+    const numberFormat = { style, minimumFractionDigits: parseInt(decimals), maximumFractionDigits: parseInt(decimals) }
     if (currency !== "") {
         numberFormat["currency"] = currency
     }
@@ -238,8 +266,6 @@ const Chart = (props) => {
     const dual = (dualMode === 'true')
     switch (type) {
         case NUMBER_OF_VARIETIES_RELEASED:
-            child = <NumberOfVarietiesReleased sources={dynamicSources} {...chartProps} type={type}/>;
-            break;
         case VARIETIES_RELEASED_WITH_SPECIAL_FEATURES:
         case NUMBER_OF_ACTIVE_BREEDERS:
         case NUMBER_OF_ACTIVE_SEED_COMPANIES_PRODUCERS:
@@ -258,26 +284,95 @@ const Chart = (props) => {
         case AGRODEALER_NETWORK:
         case AGRICULTURAL_EXTENSION_SERVICES:
         case NUMBER_SEED_INSPECTORS_BY_COUNTRY:
-        case AVERAGE_AGE_VARIETIES_SOLD: {
-            const chartComponent = {type, ...chartProps}
-            child = <ChartComponent {...chartComponent} sources={dynamicSources}/>
+        case AVERAGE_AGE_VARIETIES_SOLD:
+        case CROSS_COUNTRY_NUMBER_OF_VARIETIES_RELEASED:    
+        case CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS:
+        case CROSS_COUNTRY_QUANTITY_CERTIFIED_SEED_SOLD:
+        case CROSS_COUNTRY_NUMBER_OF_ACTIVE_SEED_COMPANIES:
+        case CROSS_COUNTRY_NUMBER_VARIETIES_SOLD:
+        case CROSS_COUNTRY_MARKET_SHARE_TOP_FOUR_SEED_COMPANIES:
+        case CROSS_COUNTRY_MARKET_CONCENTRATION_HHI:
+        case CROSS_COUNTRY_MARKET_SHARE_STATE_OWNED_SEED_COMPANIES:
+        case CROSS_COUNTRY_VARIETY_RELEASE_PROCESS:
+        case CROSS_COUNTRY_OVERALL_RATING_NATIONAL_SEED_TRADE_ASSOCIATION:
+        case CROSS_COUNTRY_AGRODEALER_NETWORK:
+        case CROSS_COUNTRY_AVAILABILITY_SEED_SMALL_PACKAGES: {
+            const chartComponent = { type, ...chartProps }
+            child = <ChartComponent {...chartComponent} sources={dynamicSources} />
             break;
         }
         case COUNTRY_INFO:
-            child = <CountryInfo/>
+            const labels = {
+                totalLandArea_en,
+                totalLandArea_fr,
+                arableLand_en,
+                arableLand_fr,
+                totalLandAreaUnit_en,
+                totalLandAreaUnit_fr,
+                topHarvestedCropsAndValue_en,
+                topHarvestedCropsAndValue_fr,
+                topHarvestedCropsAndValueUnit,
+                populationVsFarmingHouseholds_en,
+                populationVsFarmingHouseholds_fr,
+                totalPopulationLabel_en,
+                totalPopulationLabel_fr,
+                farmingHouseholdsLabel_en,
+                farmingHouseholdsLabel_fr,
+                sourceText_en,
+                sourceText_fr
+            };
+            child = <CountryInfo labels={labels} locale={locale} />
             break;
         case AVAILABILITY_OF_BASIC_SEED:
         case SATISFACTION_ENFORCEMENT_SEED_LAW:
             child = <GaugesChart mostRecentYears={mostRecentYears} sources={dynamicSources} {...chartProps} type={type}
-                                 title={title} subTitle={subTitle} tooltip={() => (null)}/>;
+                                 title={title} subTitle={subTitle} tooltip={() => (null)} />;
             break;
     }
-    
-    // This is necessary charts that become very long in small resolutions like HHI.
-    const styleHeight = window.innerWidth <= 1024 ? {} : {height: contentHeight + 'px'};
-    
-    return (<div>
-            <Container className={"chart container"} style={{"minHeight": height + 'px'}} fluid={true}>
+
+    // For every chart we set the height that shows the content with the best look.
+    let fixedHeight = {
+        [NUMBER_OF_ACTIVE_BREEDERS]: 742,
+        [NUMBER_OF_VARIETIES_RELEASED]: 741,
+        [VARIETIES_RELEASED_WITH_SPECIAL_FEATURES]: 741,
+        [AVAILABILITY_OF_BASIC_SEED]: 698,
+        [NUMBER_OF_ACTIVE_SEED_COMPANIES_PRODUCERS]: 740,
+        [QUANTITY_CERTIFIED_SEED_SOLD]: 743,
+        [NUMBER_VARIETIES_SOLD]: 745,
+        [AVERAGE_AGE_VARIETIES_SOLD]: 743,
+        [MARKET_CONCENTRATION_HHI]: 880,
+        [MARKET_SHARE_TOP_FOUR_SEED_COMPANIES]: 772,
+        [MARKET_SHARE_STATE_OWNED_SEED_COMPANIES]: 743,
+        [EFFICIENCY_SEED_IMPORT_PROCESS]: 730,
+        [EFFICIENCY_SEED_EXPORT_PROCESS]: 685,
+        [VARIETY_RELEASE_PROCESS]: 640,
+        [SATISFACTION_ENFORCEMENT_SEED_LAW]: 380,
+        [PERFORMANCE_SEED_TRADERS]: 845,
+        [NUMBER_SEED_INSPECTORS]: 685,
+        [AGRICULTURAL_EXTENSION_SERVICES]: 760,
+        [AGRODEALER_NETWORK]: 730,
+        [AVAILABILITY_SEED_SMALL_PACKAGES]: 725,
+        [PRICE_SEED_PLANTING]: 695,
+        [CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS]: 875,
+        [CROSS_COUNTRY_NUMBER_OF_VARIETIES_RELEASED]: 875,
+        [CROSS_COUNTRY_QUANTITY_CERTIFIED_SEED_SOLD]: 875,
+        [CROSS_COUNTRY_NUMBER_OF_ACTIVE_SEED_COMPANIES]: 875,
+        [CROSS_COUNTRY_NUMBER_VARIETIES_SOLD]: 875,
+        [CROSS_COUNTRY_MARKET_SHARE_TOP_FOUR_SEED_COMPANIES]: 875,
+        [CROSS_COUNTRY_MARKET_CONCENTRATION_HHI]: 875,
+        [CROSS_COUNTRY_MARKET_SHARE_STATE_OWNED_SEED_COMPANIES]: 875,
+        [CROSS_COUNTRY_VARIETY_RELEASE_PROCESS]: 875,
+        [CROSS_COUNTRY_OVERALL_RATING_NATIONAL_SEED_TRADE_ASSOCIATION]: 875,
+        [CROSS_COUNTRY_AGRODEALER_NETWORK]: 875,
+        [CROSS_COUNTRY_AVAILABILITY_SEED_SMALL_PACKAGES]: 875,
+    };
+    const fixedHeightStyle = { height: (fixedHeight[type] ? fixedHeight[type] : 550) + 'px' };
+
+    // This is necessary for charts that become very long in small resolutions like HHI.
+    const styleHeight = window.innerWidth <= 1024 ? {} : { height: contentHeight + 'px' };
+    const wrapper = useRef(null);
+    return (<div ref={wrapper}>
+            <Container className={"chart container"} fluid={true}>
                 <DataProvider params={JSON.parse(decodeURIComponent(params))}
                               app={type}
                               source={chartDataSource}
@@ -285,8 +380,7 @@ const Chart = (props) => {
                               store={[type, unique]}>
 
                     {(!dual || (mode === 'chart')) && (
-                        <Container style={styleHeight} className={"body"}
-                                   fluid={true}>
+                        <Container className={"body"} fluid={true} style={fixedHeightStyle}>
                             <DataConsumer>
                                 {child}
                             </DataConsumer>
@@ -295,22 +389,22 @@ const Chart = (props) => {
                 </DataProvider>
 
                 {dual && childContent && mode === 'info' &&
-                <Container fluid={true} style={{"height": contentHeight + 'px'}} className={"body"}>
-                    <PostContent post={{content: {rendered: childContent}}}/>
-                </Container>}
+                    <Container fluid={true} style={{ "height": contentHeight + 'px' }} className={"body"}>
+                        <PostContent post={{ content: { rendered: childContent } }} />
+                    </Container>}
 
                 {(!editing && showDataSource) && <Grid columns={2} className={"footnote"}>
 
                     <Grid.Column>
                         {dual &&
-                        <p className={"ignore"}>
-                            <Button className={(mode === 'info') ? "active" : ""}
-                                    onClick={e => setMode('info')}>{toggleInfoLabel}</Button>
-                            |
-                            <Button className={(mode === 'chart') ? "active" : ""}
-                                    onClick={e => setMode('chart')}>{toggleChartLabel}
-                            </Button>
-                        </p>
+                            <p className={"ignore"}>
+                                <Button className={(mode === 'info') ? "active" : ""}
+                                        onClick={e => setMode('info')}>{toggleInfoLabel}</Button>
+                                |
+                                <Button className={(mode === 'chart') ? "active" : ""}
+                                        onClick={e => setMode('chart')}>{toggleChartLabel}
+                                </Button>
+                            </p>
                         }
                     </Grid.Column>
 

@@ -1,28 +1,51 @@
 import React, { useEffect } from "react";
 import { Container } from "semantic-ui-react";
 import { connect } from "react-redux";
-import { setFilter } from "../reducers/data";
+import { getWpCategories, setFilter } from "../reducers/data";
 import './filter.scss'
 import { getCountries } from "../reducers/data";
-import { COUNTRIES_FILTER, COUNTRY_SETTINGS, SELECTED_COUNTRY } from "../reducers/StoreConstants";
-import CountryFilter from "./CountryFilter";
-import CountrySelector from "./countrySelector/CountrySelector";
+import { COUNTRIES_FILTER, COUNTRY_SETTINGS, DATA, SHARE_COUNTRY, WP_CATEGORIES } from "../reducers/StoreConstants";
 
+
+import CountryFilter from "./CountryFilter";
+import { SELECTED_COUNTRY } from "../../seeds-commons/commonConstants";
+import CountrySelector from "../../seeds-commons/countrySelector/CountrySelector";
+import { injectIntl } from "react-intl";
+
+const ALL_COUNTRIES_ID = -1;
 const Filter = ({
                     onApply, countries, onLoadCountries, country_settings, filters,
                     "data-type": dataType,
                     "data-selected-country-first": selectedCountryFirst = false,
                     "data-add-year": addYear = true,
                     "data-selected-country-label": selectedCountryLabel = undefined,
+                    "data-selected-country-post-label": selectedCountryPostLabel = undefined,
                     "data-country-columns": countryColumns = 3,
                     "data-additional-classes": additionalClasses,
-                    "data-data-source": dataSource = "latestCountryStudies"
+                    "data-data-source": dataSource = "latestCountryStudies",
+                    "data-show-selector": showSelector = "true",
+                    "data-add-indicator-filter": addIndicatorFilter = "false",
+                    "data-add-all-countries": addAllCountries = "false",
+                    setIsFilterOpen, intl, categoriesWP, onLoadCategories
                 }) => {
+    const isAddAllCountries = addAllCountries === 'true';
+    const isAddIndicatorFilter = addIndicatorFilter === 'true';
     useEffect(() => {
-        onLoadCountries(dataSource)
+        onLoadCountries(dataSource);
+        if (isAddIndicatorFilter) {
+            onLoadCategories();
+        }
     }, []);
 
     useEffect(() => {
+        if (isAddAllCountries && countries) {
+            countries.unshift({
+                country: intl.formatMessage({ id: 'all-countries', defaultMessage: 'All countries' }),
+                countryId: ALL_COUNTRIES_ID,
+                isoCode: "AA",
+                year: 2020
+            });
+        }
         if (getFirstSelectedCountry()) {
             onApply(SELECTED_COUNTRY, getFirstSelectedCountry());
         }
@@ -31,17 +54,25 @@ const Filter = ({
     const getFirstSelectedCountry = () => {
         const pNavigationCountry = country_settings ? country_settings.country : undefined;
         let firstSelectedCountry = undefined;
-        if (countries) {
-            const defaultCountry = countries.find(c => c.isoCode === process.env.REACT_APP_DEFAULT_COUNTRY);
-            if (defaultCountry) {
-                firstSelectedCountry = defaultCountry.countryId;
-            } else {
-                firstSelectedCountry = countries[0].countryId;
-            }
-            if (pNavigationCountry) {
-                const tempFirstSelectedCountry = countries.find(c => c.isoCode === pNavigationCountry);
-                if (tempFirstSelectedCountry) {
-                    firstSelectedCountry = tempFirstSelectedCountry.countryId;
+        if (filters && filters.get(SHARE_COUNTRY)) {
+            firstSelectedCountry = parseInt(filters.get(SHARE_COUNTRY));
+        } else {
+            if (countries) {
+                if (isAddAllCountries) {
+                    return ALL_COUNTRIES_ID;
+                } else {
+                    const defaultCountry = countries.find(c => c.isoCode === process.env.REACT_APP_DEFAULT_COUNTRY);
+                    if (defaultCountry) {
+                        firstSelectedCountry = defaultCountry.countryId;
+                    } else {
+                        firstSelectedCountry = countries[0].countryId;
+                    }
+                    if (pNavigationCountry) {
+                        const tempFirstSelectedCountry = countries.find(c => c.isoCode === pNavigationCountry);
+                        if (tempFirstSelectedCountry) {
+                            firstSelectedCountry = tempFirstSelectedCountry.countryId;
+                        }
+                    }
                 }
             }
         }
@@ -49,15 +80,21 @@ const Filter = ({
     }
     let classes = 'filters'
     const isAddYear = addYear === true || addYear === "true";
+    const isShowSelector = showSelector === 'true';
     const isSelectedCountryFirst = selectedCountryFirst === true || selectedCountryFirst === 'true';
     let childComponent = <CountryFilter
         countries={countries} onApply={onApply} filters={filters} addYear={isAddYear}
-        selectedCountryLabel={selectedCountryLabel} countryColumns={countryColumns}
+        selectedCountryLabel={selectedCountryLabel} countryColumns={countryColumns} isShowSelector={isShowSelector}
+        selectedCountryPostLabel={selectedCountryPostLabel} setIsFilterOpen={setIsFilterOpen}
     />;
     if (dataType === "Country") {
         childComponent = <CountrySelector countries={countries} onApply={onApply} filters={filters}
                                           selectedCountryFirst={isSelectedCountryFirst} addYear={isAddYear}
-                                          selectedCountryLabel={selectedCountryLabel} countryColumns={countryColumns} />
+                                          selectedCountryLabel={selectedCountryLabel} countryColumns={countryColumns}
+                                          isShowSelector={isShowSelector}
+                                          selectedCountryPostLabel={selectedCountryPostLabel}
+                                          setIsFilterOpen={setIsFilterOpen} isAddAllCountries={isAddAllCountries}
+                                          isAddIndicatorFilter={isAddIndicatorFilter} categoriesWP={categoriesWP} intl={intl}/>
 
         classes = "country-selector " + (additionalClasses ? additionalClasses : '');
     }
@@ -69,12 +106,14 @@ const mapStateToProps = (state, ownProps) => {
     return {
         filters: state.getIn(['data', 'filters']),
         countries: state.getIn(['data', COUNTRIES_FILTER]),
-        country_settings: state.getIn(['data', COUNTRY_SETTINGS, 'data'])
+        country_settings: state.getIn(['data', COUNTRY_SETTINGS, 'data']),
+        categoriesWP: state.getIn([DATA, WP_CATEGORIES]),
     }
 }
 
 const mapActionCreators = {
     onApply: setFilter,
-    onLoadCountries: getCountries
+    onLoadCountries: getCountries,
+    onLoadCategories: getWpCategories
 };
-export default connect(mapStateToProps, mapActionCreators)(Filter)
+export default connect(mapStateToProps, mapActionCreators)(injectIntl(Filter))

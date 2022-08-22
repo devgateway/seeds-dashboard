@@ -1,13 +1,14 @@
-import React, {Fragment} from "react";
-import {Grid} from "semantic-ui-react";
-import {line} from "d3-shape";
-import {BasicTooltip, useTooltip} from '@nivo/tooltip';
+import React, { Fragment } from "react";
+import { Grid } from "semantic-ui-react";
+import { line } from "d3-shape";
+import { useTooltip } from '@nivo/tooltip';
 import * as d3 from 'd3';
 import './styles.scss';
 import ResponsiveBarChartImpl from "../ResponsiveBarChartImpl";
 import Legend from "./Legend";
-import {FAKE_NUMBER} from "../ChartsComponent";
-import {getTextWidth} from "../../utils/common";
+import { FAKE_NUMBER } from "../ChartsComponent";
+import { getTextWidth } from "../../utils/common";
+import NoData from "../common/noData";
 
 const round = (x, y) => {
     return Math.ceil(x / y) * y;
@@ -20,7 +21,8 @@ const round = (x, y) => {
 const BarAndLineChart = ({
                              data, sources, selectedYear, leftLegend, indexBy, groupMode, bottomLegend, rightLegend,
                              processedData, colors, keys, max, legends, getTooltipText, getTooltipHeader, lineColor,
-                             lineChartField, lineChartFieldLabel, showTotalLabel, extraTooltipClass, intl
+                             lineChartField, lineChartFieldLabel, totalLabel, extraTooltipClass, intl, noDataLabelId,
+                             lineTooltipSuffix, isCrossCountryChart
                          }) => {
 
     const TICK_NUMBER = 4;
@@ -43,7 +45,7 @@ const BarAndLineChart = ({
     if (noData) {
         return (<Grid.Row className="chart-section">
             <Grid.Column width={16}>
-                <h2 className="no-data">No Data</h2>
+                <NoData noDataLabelId={noDataLabelId} />
             </Grid.Column>
         </Grid.Row>);
     }
@@ -57,7 +59,7 @@ const BarAndLineChart = ({
     const incrementalFactor = Number('1' + ''.padStart(String(max).length - 1, '0'));
     const newMax = round(max, incrementalFactor);
 
-    const LineLayer = ({bars, xScale, yScale, innerWidth}) => {
+    const LineLayer = ({ bars, xScale, yScale, innerWidth }) => {
         const filterIndex = [];
         const filteredBars = bars.filter(b => {
             if (b.data.data[lineChartField] !== FAKE_NUMBER) {
@@ -71,11 +73,11 @@ const BarAndLineChart = ({
 
         const newYScale = d3.scaleLinear().domain([0, 100]).range(yScale.range());
 
-        const lineGenerator = line()
+        const lineGenerator = line().curve(d3.curveMonotoneX)
             .x(bar => xScale(bar.data.indexValue) + bar.width / 2)
             .y(bar => newYScale(bar.data.data[lineChartField] || 0));
 
-        const {showTooltipFromEvent, hideTooltip} = useTooltip();
+        const { showTooltipFromEvent, hideTooltip } = useTooltip();
         const chartHeight = yScale.range()[0];
 
         return (
@@ -85,7 +87,7 @@ const BarAndLineChart = ({
                     fill="none"
                     stroke={lineColor}
                     strokeWidth={2}
-                    style={{pointerEvents: "none"}}
+                    style={{ pointerEvents: "none" }}
                 />
                 {selectedYear.length > 0 && bars.map(bar => {
                     if (selectedYear.find(i => i === bar.data.indexValue)
@@ -104,7 +106,7 @@ const BarAndLineChart = ({
                                         <div className="header-container">
                                             <div className="header">
                                                 <div className="inner-container">
-                                                    <div className="crop-icon"/>
+                                                    <div className="crop-icon" />
                                                     <div className="crop-name">{bar.data.indexValue}</div>
                                                 </div>
                                             </div>
@@ -115,8 +117,12 @@ const BarAndLineChart = ({
                                                 <tr>
                                                     <td>
                                                         <div style={{textAlign: 'center'}}>
-                                                            <span>{lineChartFieldLabel}</span><span
-                                                            className="bold"> {bar.data.data[lineChartField] !== FAKE_NUMBER ? bar.data.data[lineChartField] : "MD"}</span>
+                                                            <span>{lineChartFieldLabel} </span>
+                                                            <span className="bold">
+                                                                {bar.data.data[lineChartField] !== FAKE_NUMBER 
+                                                                    ? bar.data.data[lineChartField] + (lineTooltipSuffix || '') 
+                                                                    : "MD"}
+                                                            </span>
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -139,11 +145,11 @@ const BarAndLineChart = ({
                                       fill: lineColor,
                                       textAnchor: 'end',
                                       fontFamily: 'sans-serif'
-                                  }}>{t}</text>);
+                                  }}>{t + (lineTooltipSuffix || '')}</text>);
                 })}
                 <text
                     transform={`translate(${innerWidth + 50}, ${chartHeight - ((chartHeight - getTextWidth(rightLegend, '16px sans-serif')) / 2)}) rotate(-90)`}
-                    style={{fontFamily: 'Lato', fontSize: '16px', fill: '#354052', fontWeight: 400}}>
+                    style={{ fontFamily: 'Lato', fontSize: '16px', fill: '#354052', fontWeight: 400 }}>
                     {rightLegend}
                 </text>
             </Fragment>
@@ -158,7 +164,7 @@ const BarAndLineChart = ({
                 {
                     axis: 'y',
                     value: percent * newMax / 100,
-                    lineStyle: {stroke: lineColor, strokeWidth: 2},
+                    lineStyle: { stroke: lineColor, strokeWidth: 2 },
                     legend: '',
                     legendOrientation: 'vertical',
                 }
@@ -172,7 +178,7 @@ const BarAndLineChart = ({
             {
                 axis: 'y',
                 value: max > FAKE_NUMBER ? percent * newMax / 100 : percent * 10000 / 100,
-                lineStyle: {stroke: lineColor, strokeWidth: 2},
+                lineStyle: { stroke: lineColor, strokeWidth: 2 },
                 legend: '',
                 legendOrientation: 'vertical',
             }
@@ -189,7 +195,7 @@ const BarAndLineChart = ({
     return (
         <>
             <Grid.Row className={`hhi-section`}>
-                <Legend legends={legends} title={'Legend'}/>
+                <Legend legends={legends} title={'Legend'} />
             </Grid.Row>
             <Grid.Row className="chart-section">
                 <Grid.Column width={16}>
@@ -204,8 +210,8 @@ const BarAndLineChart = ({
                                             customTickWithCropsBottom={customTickWithCropsBottom}
                                             gridTickLines={TICK_NUMBER} LineLayer={LineLayer}
                                             markers={markerLine} fixedIntervals={fixedIntervals}
-                                            showTotalLabel={showTotalLabel} extraTooltipClass={extraTooltipClass}
-                                            intl={intl} showTotalMD={true}
+                                            totalLabel={totalLabel} extraTooltipClass={extraTooltipClass}
+                                            intl={intl} showTotalMD={true} isCrossCountryChart={isCrossCountryChart}
                     />
                 </Grid.Column>
             </Grid.Row>

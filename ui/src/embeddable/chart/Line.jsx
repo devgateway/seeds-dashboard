@@ -160,7 +160,7 @@ const Chart = ({
 
             {options && options.data && <ResponsiveLine
                 data={applyFilter(options.data)}
-
+                curve={'monotoneX'}
                 margin={margin}
                 xScale={{type: 'point'}}
                 yScale={{

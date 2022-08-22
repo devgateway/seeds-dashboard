@@ -17,20 +17,6 @@
 
   .wp-block-cover {
     padding: 0px;
-
-  }
-
-  .wp-block-group {
-    min-height: 555px;
-    padding: 1rem 2rem;
-  }
-
-  .wp-block-columns {
-    .wp-block-column {
-      // padding: 0px;
-      // margin: 0px;
-    }
-
   }
 
   padding: 0px;
@@ -48,16 +34,17 @@
       }
     }
   }
-
-
-  .carousel__dot--selected {
-  }
 }
 
-.carousel__dot-group {
+.carousel__dot-group, .paged-dots-container {
   margin: 0px auto auto;
   text-align: center;
 
+  .ui.button{
+    background-color: $green-link;
+    color: #ffffff;
+    width: 150px;
+  }
 
   .carousel__dot {
     pointer-events: all !important;
@@ -67,7 +54,6 @@
     height: 12px;
     width: 10px;
     border: 0px !important;
-
   }
 
   .carousel__dot:hover {
@@ -94,24 +80,57 @@
 
 // Events carousel
 .event-carousel {
-  .link {
-    color: $link-green;
-    display: block;
-    font-size: 0.8rem;
-    font-weight: 900;
-    margin-left: $base-unit * 5.5;
-    margin-top: -($base-unit * 8.5);
-    position: relative;
+  .carousel__dot-group {
+    margin-top: 10px;
   }
 
-  .carousel {
-    li {
-      min-height: $base-unit * 55;
+  .wp-block-columns:not(.is-not-stacked-on-mobile)>.wp-block-column:not(:first-child){
+    margin-left: 1em;
+  }
+
+  .event-item{
+    padding-right: $base-unit;
+  }
+
+  .link {
+    @include border-radius(5px);
+    background-color: $yellow;
+    bottom: auto;
+    color: #ffffff;
+    font-size: 14px;
+    left: 57%;
+    padding: $base-unit + 2 $base-unit * 2;
+    position: absolute;
+    top: $base-unit * 26;
+
+    &:hover {
+      background-color: $link-green;
+    }
+
+    @media only screen and (max-width: 1024px) {
+      left: 0;
     }
   }
 
+  .carousel__inner-slide {
+    padding: $base-unit;
+    @media only screen and (max-width: 1024px) {
+      background-color: #ffffff;
+    }
+  }
+
+  .event-wrapper {
+    background-color: #ffffff;
+  }
+
+  .event-details {
+    padding: 5px 30px;
+  }
+
   h3 {
-    font-size: 0.9rem !important;
+    font-size: 1rem !important;
+    font-weight: 900;
+    margin-top: 20px !important;
 
     a {
       color: $text-color;
@@ -145,6 +164,12 @@
       padding-bottom: $base-unit;
       padding-top: $base-unit;
 
+      i.icon.chevron.right {
+        &:before {
+          margin-right: -5px;
+        }
+      }
+
       &:hover {
         background-color: darken($green-link, 10%);
       }
@@ -157,49 +182,187 @@
 }
 
 // Researchers vertical carousel - no dots, auto height on carousel and slides
-.vertical{
+.vertical {
   // Vertical Carousel without dots
-  .post.carousel{
+  .post.carousel {
     height: auto !important;
   }
-  &.no-navigation{
-    .carousel__dot-group{
+  &.researchers{
+    li{
+      .ui.container.entry-content{
+        width: $extend !important;
+      }
+    }
+  }
+
+  &.no-navigation {
+    .carousel__dot-group {
       display: none;
     }
   }
-  &.has-separator{
-    .carousel__slider--vertical{
-      li{
+
+  &.has-separator {
+    .carousel__slider--vertical {
+      li {
         border-bottom: 1px solid $separator-grey;
         padding-bottom: $base-unit * 3.5;
       }
     }
   }
-  .carousel__slider--vertical{
-    li{
+
+  .carousel__slider--vertical {
+
+    li {
       display: block;
       margin-bottom: $base-unit * 3;
       min-height: auto;
       height: auto;
       overflow: hidden;
     }
-    .carousel__slider-tray-wrap--vertical{
-      min-height: $extend!important;
+
+    .carousel__slider-tray-wrap--vertical {
+      min-height: $extend !important;
       height: $extend !important;
       position: relative;
       overflow: hidden;
     }
-    .carousel__inner-slide{
+
+    .carousel__inner-slide {
       position: relative;
+    }
+  }
+
+  // Events grid
+  &.events-feed {
+    .carousel__slider--vertical {
+      padding-left: $base-unit + 2;
+      ul{
+        width: $extend;
+      }
+      li {
+        float: left;
+        height: $base-unit * 30;
+        margin-left: 12px;
+        margin-right: $base-unit;
+        position: relative;
+        width: 47% !important;
+      }
+    }
+  }
+
+  // Country reports grid
+  &.country-reports-wrapper {
+    .carousel__slider--vertical {
+      padding-left: $base-unit + 2;
+
+      li {
+        float: left;
+        position: relative;
+        width: 41% !important;
+      }
+    }
+  }
+
+  // Press grid
+  &.press-feed {
+    .carousel__slider--vertical {
+      ul{
+        width:$extend;
+      }
+      li {
+        float: left;
+        height: $base-unit * 40;
+        padding: $base-unit;
+        position: relative;
+        width: 33% !important;
+      }
+    }
+  }
+
+}
+
+// Carousel without read more
+.no-read-more {
+  .carousel {
+    .link {
+      display: none;
     }
   }
 }
 
-// Carousel without read more
-.no-read-more{
-  .carousel{
-    .link{
-      display: none;
+// Remove carousel slide outline
+.focusRing___1airF.carousel__slide-focus-ring {
+  outline: none !important;
+}
+
+// Seeds news
+.seed-news{
+	margin-top: -$base-unit;
+  .vertical{
+    .carousel__slider--vertical{
+      li{
+        font-size: 16px;
+        margin-bottom: 10px;
+        a{
+          color: $green-link;
+        }
+      }
     }
   }
+}
+
+// One column vertical carousel
+.news-carousel{
+  .post.carousel{
+    height: auto !important; // use variable height
+  }
+  ul{
+    width: $extend;
+  }
+  .link{
+    @include button(3px, $yellow, $white);
+    bottom: $base-unit * 3;
+    display: inline-block;
+    left: 54%;
+    padding: $base-unit $base-unit * 2;
+    position: absolute;
+    &:hover{
+      @include button-hover;
+    }
+  }
+}
+
+// Other publications carousel
+.other-publications{
+  .carousel{
+    ul{
+      overflow: hidden;
+      width: $extend !important;
+      li{
+        @include border-radius(5px);
+        border: 1px solid $separator-grey;
+        float: left;
+        margin: 0 $base-unit $base-unit * 2 $base-unit;
+        min-height: 280px;
+        width: 48% !important;
+        img{
+          border: 1px solid $separator-grey;
+        }
+        .wp-block-columns{
+          margin-bottom: 0;
+        }
+        .ui.container.entry-content{
+          padding: $base-unit * 2;
+          width: $extend !important;
+          a{
+            color: $green-link;
+            &:hover{
+              color: $text-color;
+            }
+          }
+        }
+      }
+    }
+  }
+
 }

@@ -3,8 +3,10 @@ import { ResponsivePie } from '@nivo/pie'
 import { getCropsArray } from "./index";
 
 // TODO: move to another file.
-const baseColors = {
+export const baseColors = {
     "maize": "#EFCB16",
+    "hybrid": "#EFCB16",
+    "opv": "#EFCB16",
     "rice": "#3A5F2E",
     "sorghum": "#798161",
     "cowpea": "#F38E28",

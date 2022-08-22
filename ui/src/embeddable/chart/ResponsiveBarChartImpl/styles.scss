@@ -48,16 +48,16 @@ $border_gray: rgba(229, 229, 229, 1);
   height: auto;
   box-shadow: 0 3px 10px #dbdce0;
   border: 1px solid #dbdce0;
-  width: 230px;
+  width: 340px;
 
   .header-container {
     background-color: #eef1fa;
-    width: 228px;
+    width: 338px;
     height: 40px;
 
     .header {
       margin: auto;
-      width: 175px;
+      width: 320px;
       height: 50px;
 
       .inner-container {
@@ -83,6 +83,15 @@ $border_gray: rgba(229, 229, 229, 1);
           text-align: center;
           float: left;
         }
+        
+        .without-crop-name {
+          font-size: 14px !important;
+          font-weight: 900;
+          color: #555555;
+          top: 10px;
+          position: relative;
+          text-align: center;
+        }
 
         .country-header {
           font-size: 14px !important;
@@ -100,7 +109,7 @@ $border_gray: rgba(229, 229, 229, 1);
   }
 
   .amount-container {
-    width: 230px !important;
+    width: 330px !important;
 
     table {
       width: 100%;
@@ -117,6 +126,10 @@ $border_gray: rgba(229, 229, 229, 1);
       .year {
         text-align: left;
       }
+
+      .sub-header {
+        background-color: #eef1fa;
+      }
     }
   }
 }
@@ -131,8 +144,8 @@ $border_gray: rgba(229, 229, 229, 1);
 }
 
 .no-data {
-  padding-bottom: 15%;
-  padding-top: 15%;
+  padding-bottom: 237px;
+  padding-top: 237px;
   text-align: center;
 }
 
@@ -145,5 +158,54 @@ $border_gray: rgba(229, 229, 229, 1);
 
   .amount-container {
     width: 298px !important;
+  }
+}
+
+.NUMBER_OF_ACTIVE_BREEDERS {
+
+  .header-container {
+    height: 60px;
+
+    .header {
+      height: 59px !important;
+
+      .inner-container {
+        margin: auto;
+        position: relative;
+        left: 0;
+        width: 220px;
+
+        .header-top {
+          margin: auto;
+          width: auto;
+          height: 40px;
+          display: table;
+        }
+
+        .sub-header {
+          font-size: 13px;
+          color: #555555;
+          position: relative;
+          text-align: center;
+          width: 220px;
+          top: 0px;
+          left: -4px;
+          float: left;
+        }
+      }
+    }
+  }
+
+  .amount-container {
+    td {
+      text-align: center;
+
+      span {
+        position: relative;
+        top: -5px;
+        margin-bottom: 10px;
+        padding-bottom: 10px;
+      }
+    }
   }
 }

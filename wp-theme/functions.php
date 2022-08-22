@@ -62,14 +62,29 @@ array(
 
         add_theme_support('editor-color-palette', array(
             array(
-                'name'  => __('Blue', 'wp-react-lib'),
-                'slug'  => 'blue',
-                'color'	=> '#3e53a6',
+                'name'  => __('Yellow', 'wp-react-lib'),
+                'slug'  => 'yellow',
+                'color'	=> '#efcb16',
             ),
             array(
-                'name'  => __('Light Blue', 'wp-react-lib'),
-                'slug'  => 'light-blue',
-                'color' => '#5089a6',
+                       'name'  => __('Orange', 'wp-react-lib'),
+                       'slug'  => 'orange',
+                       'color' => '#f38e28',
+            ),
+            array(
+                'name'  => __('Green', 'wp-react-lib'),
+                'slug'  => 'green',
+                'color' => '#84a43a',
+              ),
+            array(
+                'name'  => __('Dark Green', 'wp-react-lib'),
+                'slug'  => 'dark-green',
+                'color' => '#375e2d',
+            ),
+            array(
+                'name'  => __('Dark Gray', 'wp-react-lib'),
+                'slug'  => 'dark-gray',
+                'color' => '#555555',
             ),
             array(
                 'name'  => __('Gray', 'wp-react-lib'),
@@ -77,30 +92,16 @@ array(
                 'color' => '#54657e',
                ),
             array(
-                        'name'  => __('Green', 'wp-react-lib'),
-                        'slug'  => 'green',
-                        'color' => '#5baf95',
-                    ),
-            array(
-                'name'  => __('Dark Gray', 'wp-react-lib'),
-                'slug'  => 'dark-gray',
-                'color' => '#5c5d63',
-            ),
-            array(
                 'name'  => __('White', 'wp-react-lib'),
                 'slug'  => 'white',
                 'color' => '#fff',
             ),
              array(
-                            'name'  => __('Black', 'wp-react-lib'),
-                            'slug'  => 'black',
-                            'color' => '#000',
-                        ),
-             array(
-                        'name'  => __('White', 'wp-react-lib'),
-                        'slug'  => 'red',
-                        'color' => '#ba5555',
-                        ),
+                'name'  => __('Black', 'wp-react-lib'),
+                'slug'  => 'black',
+                'color' => '#000',
+            ),
+
         ));
     }
 endif;

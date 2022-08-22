@@ -24,12 +24,17 @@ const AvailabilityOfBasicSeedChart = ({data, yearsToShow, intl, tooltip}) => {
                     cellValue = 'N/A'
                 }
             }
-            return <Grid.Column className={"with-bottom-border"} key={`${crop}__${y}`}>
+            if (cellValue === 'N/A' || cellValue === 'MD') {
+                return <Grid.Column className={"with-bottom-border"} key={`${crop}__${y}`}/>
+            }
+            // cellValue = Math.round(cellValue);
+            return (<Grid.Column className={"with-bottom-border"} key={`${crop}__${y}`}>
                 <Gauge data={particularGauge}
                        height={45}
                        width={105}
                        innerValue={cellValue}
-                       innerColor={innerColor} tooltip={tooltip}/></Grid.Column>
+                       innerColor={innerColor} tooltip={tooltip} suffix={'%'}/>
+                </Grid.Column>);
         })
     }
     const getData = () => {
@@ -46,12 +51,11 @@ const AvailabilityOfBasicSeedChart = ({data, yearsToShow, intl, tooltip}) => {
         </Grid>
     }
     const getCrops = () => {
-        const crops =
-            data.dimensions.crop.values.map(c => {
-                return <Grid.Column key={c} className={"crop-container"}>
-                    <div className={`crop ${c}`}>{intl.formatMessage({id: c, defaultMessage: c})}</div>
-                </Grid.Column>
-            });
+        const crops = data.dimensions.crop.values.map(c => {
+            return <Grid.Column key={c} className={"crop-container"}>
+                <div className={`crop ${c}`}>{intl.formatMessage({id: c, defaultMessage: c})}</div>
+            </Grid.Column>
+        });
         crops.unshift(<Grid.Column key={'title'}/>);
         if (averageColumn) {
             crops.push(<Grid.Column key={Math.random()} className={'crop average'}>{intl.formatMessage({

@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { Accordion, Container, Grid, Icon } from "semantic-ui-react";
+import React, { createRef, useEffect, useMemo, useState } from "react";
+import { Accordion, Container, Grid, Icon, Sticky } from "semantic-ui-react";
+
 import {
     COUNTRY_SETTINGS,
-    SELECTED_COUNTRY,
     SUMMARY_INDICATORS,
     SUMMARY_INDICATORS_INFORMATION,
     VISIBLE_COUNTRIES
@@ -21,14 +21,20 @@ import {
     SUB_INDICATOR
 } from "./Constants";
 import Tooltip from "./components/Tooltip";
+import { SELECTED_COUNTRY } from "../../seeds-commons/commonConstants";
+import VisibilitySensor from "react-visibility-sensor-v2";
 
 const DataSummaryBody = ({
                              summary_indicators,
                              onLoadIndicatorsInformation,
                              summary_indicators_information,
-                             filters
+                             filters,
+                             overrideSticky,
+                             editing,
+                             configuration
                          }) => {
     const [activeThemeIndex, setActiveThemeIndex] = useState(1);
+    const [currentScrollableDiv, setCurrentScrollableDiv] = useState(undefined);
     const [activeIndicatorIndexes, setActiveIndicatorIndexes] = useState([]);
     const indicatorsIds = new Map();
 
@@ -38,18 +44,25 @@ const DataSummaryBody = ({
         }
 
     }, [summary_indicators, onLoadIndicatorsInformation])
-    const handleThemeClick = (e, titleProps, categoryId) => {
 
+
+    const handleThemeClick = (e, titleProps, categoryId, refIndex) => {
         const { index } = titleProps
         const newIndex = activeThemeIndex === index ? -1 : index
+        //
         if (newIndex === -1) {
             setActiveIndicatorIndexes([]);
+            setCurrentScrollableDiv(undefined);
         } else {
             onLoadIndicatorsInformation(categoryId)
+            if (refIndex && refs[refIndex] && refs[refIndex].current) {
+                setCurrentScrollableDiv(refs[refIndex].current.id);
+            }
             if (indicatorsIds.get(newIndex)) {
                 setActiveIndicatorIndexes([...indicatorsIds.get(newIndex)]);
             }
         }
+
         setActiveThemeIndex(newIndex);
     }
     const handleIndicatorClick = (e, titleProps) => {
@@ -91,10 +104,10 @@ const DataSummaryBody = ({
     const getTitleDisplayType = (indicator, isOverview) => {
         let value = '';
         if (indicator.displayType === DISPLAY_TYPE_RATING || indicator.displayType === DISPLAY_TYPE_HHI) {
-            value = 'rating';
+            value = configuration.labels.rating;
         } else {
             if (indicator.displayType === DISPLAY_TYPE_NUMBER || indicator.displayType === DISPLAY_TYPE_PERCENTAGE || isOverview) {
-                value = 'number';
+                value = configuration.labels.number;
             }
         }
         return value;
@@ -109,7 +122,8 @@ const DataSummaryBody = ({
                         </Grid.Column>
                         <Grid.Column width={6}><IndicatorLabel
                             field={{ value: selectedTitle }}
-                            className={'indicator-sub-title'} displayType={LEGEND} selectedCountry />
+                            className={'indicator-sub-title'} displayType={LEGEND} selectedCountry
+                            configuration={configuration} />
                         </Grid.Column>
                     </Grid>}
                 {indicator.childs.sort((a, b) => a.position > b.position).map((f, index) => {
@@ -125,20 +139,19 @@ const DataSummaryBody = ({
 
                     const display = getEffectiveDisplayAndRange(range, isOverview, f, indicator);
 
-
                     return <Grid className={`${index % 2 === 0 ? EVEN : ODD}`} key={f.id}>
                         <Grid.Column width={10}
                                      className="crop-title " data-indicator-key={f.key}>
-                            {(f.type === SUB_INDICATOR || f.isTotal) &&
-                                <Tooltip item={f} tiny />
-                            }
+                            <Tooltip item={f} tiny editing={editing} />
                             {f.name}
                         </Grid.Column>
                         <Grid.Column width={6}
                                      className={"indicator-selected-country"}><IndicatorLabel
                             field={field}
                             className={'indicator-label'}
-                            range={display.effectiveRange} displayType={display.displayType}
+                            range={display.effectiveRange}
+                            displayType={display.displayType}
+                            configuration={configuration}
                             selectedCountry />
                         </Grid.Column>
                     </Grid>
@@ -153,7 +166,7 @@ const DataSummaryBody = ({
                                 field={{
                                     value: getTitleDisplayType(indicator, isOverview)
                                 }}
-                                className={'indicator-sub-title'} displayType={LEGEND} /></Grid.Column>)}
+                                className={'indicator-sub-title'} displayType={LEGEND} configuration={configuration} /></Grid.Column>)}
                     </Grid>
                 </Grid.Row>}
                 {indicator.childs.sort((a, b) => a.position > b.position).map((f, index) => {
@@ -165,14 +178,16 @@ const DataSummaryBody = ({
                     return (
                         <Grid.Row className={index % 2 === 0 ? 'even' : 'odd'} key={effectiveF.id}>
                             <Grid columns={3}>
-                                {filters && filters.get(VISIBLE_COUNTRIES).map(vc => {
+                                {filters && filters.get(VISIBLE_COUNTRIES) && filters.get(VISIBLE_COUNTRIES).map(vc => {
                                     const field = selectedCountry.find(
                                         sc => (sc.fieldId === effectiveF.id && sc.countryId === vc)
                                     )
                                     return <Grid.Column key={vc}><IndicatorLabel field={field}
                                                                                  className={'indicator-label'}
                                                                                  range={display.effectiveRange}
-                                                                                 displayType={display.displayType} /></Grid.Column>
+                                                                                 displayType={display.displayType}
+                                                                                 configuration={configuration}
+                                    /></Grid.Column>
                                 })
                                 }
                             </Grid>
@@ -182,7 +197,7 @@ const DataSummaryBody = ({
             </Grid.Column>
         </Grid>
     }
-    const getTabletWithActualData = (themeIndex, indicator, index, isOverview) => {
+    const getTabletWithActualData = (themeIndex, indicator, index, isOverview, idx, ref, totalCount) => {
         let selectedCountries = [];
         let range;
         if (indicator.displayType === 'Rating' || indicator.displayType === 'HHI value (color)') {
@@ -207,9 +222,29 @@ const DataSummaryBody = ({
                     >
                         <div className="indicator summary-common">
                             <Icon name='chevron circle down' />
-                            <div>{indicator.key} {indicator.name}</div>
-                            <Tooltip item={indicator} />
+                            <VisibilitySensor
+                                active={totalCount && idx && idx === (totalCount - 1)} onChange={() => {
+                                if (totalCount && idx && idx === (totalCount - 1)) {
+                                    if (currentScrollableDiv) {
+                                        const element = document.getElementById(currentScrollableDiv);
+                                        const headerOffset = 130;
+                                        const elementPosition = element.getBoundingClientRect().top;
+                                        const offsetPosition = elementPosition + window.scrollY - headerOffset;
+
+                                        window.scrollTo({
+                                            top: offsetPosition,
+                                            behavior: "smooth"
+                                        });
+                                    }
+                                    setCurrentScrollableDiv(undefined);
+                                }
+                            }}>
+                                <div ref={idx === 0 ? ref : undefined}
+                                     id={idx === 0 ? `scroll_${indicator.id}` : ''}>{indicator.key} {indicator.name}</div>
+                            </VisibilitySensor>
+                            <Tooltip item={indicator} editing={editing} />
                         </div>
+
                     </Accordion.Title>
                     <Accordion.Content active={isIndicatorActive(themeIndex, index.i)}>
                         {getIndicatorGrid(selectedCountries, indicator, range, isOverview)}
@@ -220,47 +255,89 @@ const DataSummaryBody = ({
         }
         return tabletWithActualData;
     }
-    const getIndicatorAccordion = (indicators, index) => {
+    const getIndicatorAccordion = (indicators, index, ref) => {
         const themeIndex = index.i;
         const indicatorIndexes = [];
+        const totalCount = indicators.length;
         const subIndicatorAccordion = (
             <Accordion className="table-container">
-                {indicators.sort((a, b) => a.position > b.position).map((subIndicators) => {
+                {indicators.sort((a, b) => a.position > b.position).map((subIndicators, idx) => {
                         index.i = index.i + 1;
                         indicatorIndexes.push(index.i);
-                        return getTabletWithActualData(themeIndex, subIndicators, index);
+                        return getTabletWithActualData(themeIndex, subIndicators, index, false, idx, ref, totalCount);
                     }
                 )}
-            </Accordion>);
+            </Accordion>
+        );
         indicatorsIds.set(themeIndex, indicatorIndexes);
         return subIndicatorAccordion;
     }
 
+    window.onscroll = () => {
+        if (isOneSticky) {
+            const secondIndex = ids[ids.findIndex(i => i === prefix + activeThemeIndex) + 1];
+            const firstTop = document.getElementById(prefix + activeThemeIndex).getBoundingClientRect().top +
+                document.getElementById(prefix + activeThemeIndex).getBoundingClientRect().height;
+            const secondTop = document.getElementById(secondIndex).getBoundingClientRect().top
+            if (secondTop <= firstTop) {
+                const scrollTop = document.documentElement.scrollTop;
+                const scrollLeft = document.documentElement.scrollLeft;
+                window.scrollTo(scrollLeft, scrollTop - 10);
+            }
+        }
+    }
+
     const index = { i: 0 };
-    return <Container className="summary-container"><Accordion>
-        {summary_indicators && summary_indicators.map((theme) => {
+    let isOneSticky = false;
+    let refs;
+    const ids = [];
+    const prefix = 'acc_';
+    let innerIndex = -1;
+    const SummaryIndicatorsHeader = () => {
+        refs = useMemo(
+            () => Array.from({ length: summary_indicators.length }).map(() => createRef()),
+            []
+        );
+        return summary_indicators.map((theme, themIndex) => {
+            innerIndex++;
             index.i = index.i + 1;
             const isIndicator = theme.key === 'ZC1';
-            return <>
+            ids.push(prefix + index.i);
+            return (<>
                 <Accordion.Title
                     active={activeThemeIndex === index.i}
                     index={index.i}
                     onClick={
-                        (e, titleProps) => handleThemeClick(e, titleProps, theme.id)}
-                    key={theme.id} className={`theme-title ${isIndicator ? " theme-overview" : ''}`}>
-                    <div className="summary-theme summary-common">
-                        <Icon name='chevron circle down' />
-                        {theme.name}
-                    </div>
+                        (e, titleProps) => handleThemeClick(e, titleProps, theme.id, themIndex)}
+                    key={theme.id} className={`theme-title ${isIndicator ? " theme-overview" : ''}`}
+                    style={{ backgroundColor: 'white' }}>
+                    <Sticky context={innerRef} offset={70} active={activeThemeIndex === index.i && !overrideSticky}
+                            onStick={() => {
+                                isOneSticky = true
+                            }}
+                            onUnstick={() => {
+                                isOneSticky = false
+                            }}>
+                        <div className="summary-theme summary-common" id={ids[innerIndex]}>
+                            <Icon name='chevron circle down' />
+                            {theme.name}
+                        </div>
+                    </Sticky>
                 </Accordion.Title>
                 <Accordion.Content active={activeThemeIndex === index.i}>
-                    {theme.name !== 'Overview' && getIndicatorAccordion(theme.childs, index)}
+                    {theme.name !== 'Overview' && getIndicatorAccordion(theme.childs, index, refs[themIndex])}
                     {theme.name === 'Overview' && getTabletWithActualData(index.i, theme, index, true)}
                 </Accordion.Content>
-            </>
+            </>);
         })
-        }
-    </Accordion></Container>
+    }
+    const innerRef = createRef();
+    return <div ref={innerRef}>
+        <Container className="summary-container">
+            <Accordion>{summary_indicators &&
+                <SummaryIndicatorsHeader summaryIndicators={summary_indicators} />}</Accordion>
+        </Container>
+    </div>
 }
 
 const mapStateToProps = (state) => {
@@ -274,4 +351,3 @@ const mapStateToProps = (state) => {
 
 const mapActionCreators = { onLoadIndicatorsInformation: getIndicatorsInformation };
 export default connect(mapStateToProps, mapActionCreators)(injectIntl(DataSummaryBody));
-
