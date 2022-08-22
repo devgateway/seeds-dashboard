@@ -109,7 +109,7 @@ services:
       - ./nginx/.htpasswd-dashboard.tasai.org:/etc/nginx/conf.d/.htpasswd-dashboard.tasai.org:ro
       - /var/log/tasai:/usr/share/nginx/tasai:ro
       - ./nginx/logs.conf:/etc/nginx/conf.d/logs.conf:ro
-      - ./nginx/metabase_prod.conf:/etc/nginx/conf.d/metabase_stage.conf:ro
+      - ./nginx/metabase_prod.conf:/etc/nginx/conf.d/metabase_prod.conf:ro
       - ./nginx/ui_prod.conf:/etc/nginx/conf.d/ui.conf:ro
       - ./data/wordpress:/var/www/html:ro
       - ./wp-content:/var/www/html/wp-content:ro

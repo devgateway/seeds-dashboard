@@ -23,6 +23,7 @@ const InnerPage = asyncComponent(() => import("./innerPage/"));
 const ImageMap = asyncComponent(() => import("./image-map/"));
 const CountryReports = asyncComponent(() => import("./country-reports/"));
 const BackToTop = asyncComponent(() => import("./backToTop/"));
+const ViewportMessage = asyncComponent(() => import("./viewport-message/"));
 export const reducers = {
     data,
     embeddable
@@ -48,7 +49,8 @@ const components = {
     innerPage: InnerPage,
     imageMap: ImageMap,
     countryReports: CountryReports,
-    backToTop: BackToTop
+    backToTop: BackToTop,
+  viewportMessage: ViewportMessage
 }
 
 export const getComponentByNameIgnoreCase = (name) => {

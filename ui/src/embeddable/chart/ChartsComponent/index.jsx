@@ -135,7 +135,7 @@ const ChartComponent = ({
     let useFilterByCountries = false;
     let customSorting = null;
     const MAIZE = 'maize';
-    
+
     if (filters && filters.get(SHARE_CHART) === type) {
         if (filters.get(SHARE_CROPS)) {
             sharedCrops = filters.get(SHARE_CROPS).split(",");
@@ -165,17 +165,17 @@ const ChartComponent = ({
         isCrossCountryChart = true;
     }
 
-    if (!data || 
-        !data.dimensions || 
-        (!data.dimensions.crop && !data.dimensions.year 
+    if (!data ||
+        !data.dimensions ||
+        (!data.dimensions.crop && !data.dimensions.year
             && type !== CROSS_COUNTRY_VARIETY_RELEASE_PROCESS && type !== CROSS_COUNTRY_OVERALL_RATING_NATIONAL_SEED_TRADE_ASSOCIATION
-            && type !== CROSS_COUNTRY_AGRODEALER_NETWORK) || 
+            && type !== CROSS_COUNTRY_AGRODEALER_NETWORK) ||
         data.id === null) {
         noData = true;
     } else {
         years = data.dimensions.year ? data.dimensions.year.values : {};
         crops = data.dimensions.crop ? data.dimensions.crop.values : {};
-        
+
         // To prevent infinite loop.
         if (isCrossCountryChart && countries.length === 0) {
             let countriesISO = data.dimensions.country ? data.dimensions.country.values : [];
@@ -189,8 +189,8 @@ const ChartComponent = ({
         } else if (forceUpdate) {
             setForceUpdate(false);
             setCountries(countries);
-        } 
-        
+        }
+
         if (data !== currentData) {
             setCurrentData(data);
             if (sharedCrops) {
@@ -259,14 +259,14 @@ const ChartComponent = ({
         });
         setCountries(countries);
     }
-    
+
     const handleCrossCountryCountryFilterChange = (index, iso, isSelected) => {
         const aux = Object.assign(countries);
         aux.find(c => c.iso === iso).selected = isSelected;
         setCountries(aux);
         setForceUpdate(true);
     }
-    
+
     const handleYearFilterChange = (selected) => {
         setSelectedYear(selected);
     }
@@ -300,7 +300,7 @@ const ChartComponent = ({
             });
         }
     }
-    
+
     const numberOfActiveBreeders = () => {
         if (years && crops) {
             years.forEach(y => {
@@ -324,7 +324,7 @@ const ChartComponent = ({
             });
         }
     }
-    
+
     const availabilitySeedSmallPackages = () => {
         let hasData = false;
         if (years && crops) {
@@ -352,7 +352,7 @@ const ChartComponent = ({
             }
         }
     }
-    
+
     const commonCrossCountryProcess = () => {
         if (crops && countries) {
             max = 0;
@@ -373,7 +373,7 @@ const ChartComponent = ({
             });
         }
     }
-    
+
     const commonCrossCountryProcessSummarizeCrops = () => {
         const auxData = [];
         if (data && data.values && countries) {
@@ -403,7 +403,7 @@ const ChartComponent = ({
         }
         processedData = auxData;
     }
-    
+
     const commonCrossCountryProcessWithoutCrops = () => {
         const auxData = [];
         if (data && data.values && countries) {
@@ -415,7 +415,7 @@ const ChartComponent = ({
                         iso: i,
                         country: COUNTRY_OPTIONS.find(j => j.flag.toLowerCase() === i.toLowerCase()).text
                     };
-                    item.year = data.values[i].year; 
+                    item.year = data.values[i].year;
                     if (!isNaN(data.values[i].value)) {
                         item.textValue = "" + data.values[i].value;
                         item.value = data.values[i].value;
@@ -725,8 +725,8 @@ const ChartComponent = ({
                         <div className="amount-container">
                             <span className="normal">{intl.formatMessage({
                                 id: 'tooltip-price-usd-by-kg'
-                            })}</span> {d.point.data.y !== FAKE_NUMBER 
-                                ? (<><span className="bold">{d.point.data.y} </span><span className="normal">USD</span></>) 
+                            })}</span> {d.point.data.y !== FAKE_NUMBER
+                                ? (<><span className="bold">{d.point.data.y} </span><span className="normal">USD</span></>)
                                 : 'MD'}
                         </div>
                     </div>)
@@ -1071,7 +1071,7 @@ const ChartComponent = ({
             totalLabel.show = true;
             totalLabel.format = false;
             groupMode = 'grouped';
-            
+
             // This is the most common header.
             getTooltipHeader = (d) => {
                 return <>
@@ -1081,7 +1081,7 @@ const ChartComponent = ({
                     })} - {d.indexValue} - {d.data.year}</div>
                 </>;
             }
-            
+
             // Section for each cross-country chart.
             switch (type) {
                 case CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS:
@@ -1965,7 +1965,7 @@ const ChartComponent = ({
                                         totalLabel={totalLabel} extraTooltipClass={extraTooltipClass}
                                         intl={intl}
                                         noDataLabelId={noDataLabelId}
-                                        lineTooltipSuffix={lineTooltipSuffix} 
+                                        lineTooltipSuffix={lineTooltipSuffix}
                                         isCrossCountryChart={isCrossCountryChart}
                 />
             case PERFORMANCE_SEED_TRADERS:
@@ -2075,7 +2075,7 @@ const ChartComponent = ({
                                                 initialSelectedCrop={initialSelectedCrop} intl={intl}/>
                     </Grid.Column>
                     <Grid.Column computer={5} mobile={16}>
-                        <CrossCountryCountryFilter data={countries} onChange={handleCrossCountryCountryFilterChange} 
+                        <CrossCountryCountryFilter data={countries} onChange={handleCrossCountryCountryFilterChange}
                                                    intl={intl}/>
                     </Grid.Column>
                 </Grid.Row>);
@@ -2137,7 +2137,7 @@ const ChartComponent = ({
             }
         }
     }
-    
+
     return (<div ref={ref}>
         <Grid className={`number-varieties-released`}>
             <Grid.Row className="header-section">
