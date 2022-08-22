@@ -84,7 +84,7 @@ const CountryReports = (props) => {
             });
             if (links.length === 1) {
                 return (<div className="links-container">
-                    <a href={links[0].link} target="_blank">{`View {$title}`}</a>
+                    <a href={links[0].link} target="_blank">{`View ${title}`}</a>
                 </div>);
             } else {
                 return (<div className="links-container">
