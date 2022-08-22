@@ -1,8 +1,8 @@
-import {__} from '@wordpress/i18n';
-import {registerBlockType} from '@wordpress/blocks';
+import { __ } from '@wordpress/i18n';
+import { registerBlockType } from '@wordpress/blocks';
 import BlockSave from "./BlockSave";
 import BlockEdit from "./BlockEdit";
-import {Chart} from '../icons/index.js'
+import { Chart } from '../icons/index.js'
 
 registerBlockType(process.env.BLOCKS_NS + '/chart',
     {
@@ -70,6 +70,72 @@ registerBlockType(process.env.BLOCKS_NS + '/chart',
             methodology: {
                 type: 'String',
                 default: "Methodology not yet defined."
+            },
+            totalLandArea_en: {
+                type: "String",
+                default: "Total land area"
+            },
+            totalLandArea_fr: {
+                type: "String",
+                default: "Total land area"
+            },
+            totalLandAreaUnit_en: {
+                type: "String",
+                default: "Hectares"
+            },
+            totalLandAreaUnit_fr: {
+                type: "String",
+                default: "Hectares"
+            },
+            arableLand_en: {
+                type: "string",
+                default: "Arable land"
+            },
+            arableLand_fr: {
+                type: "string",
+                default: "Arable land"
+            },
+            topHarvestedCropsAndValue_en: {
+                type: "string",
+                default: "Areas harvested for focus crops"
+            },
+            topHarvestedCropsAndValue_fr: {
+                type: "string",
+                default: "Superficie cultivée des cultures cible"
+            },
+            topHarvestedCropsAndValueUnit: {
+                type: "string",
+                default: "hectares"
+            },
+            populationVsFarmingHouseholds_en: {
+                type: "string",
+                default: "Population and Farming households"
+            },
+            populationVsFarmingHouseholds_fr: {
+                type: "string",
+                default: "Population et Exploitations agricoles"
+            },
+            totalPopulationLabel_en: {
+                type: "string",
+                default: "Total Population"
+            },
+            totalPopulationLabel_fr: {
+                type: "string",
+                default: "Total Population"
+            },
+            farmingHouseholdsLabel_en: {
+                type: "string",
+                default: "Farming Households"
+            },
+            farmingHouseholdsLabel_fr: {
+                type: "string",
+                default: "Farming Households"
+            },
+            sourceText_en: {
+                type: 'String',
+            },
+            sourceText_fr: {
+                type: 'String',
             }
         },
         edit: BlockEdit,

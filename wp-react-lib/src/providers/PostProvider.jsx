@@ -1,8 +1,8 @@
 import React from 'react'
-import {connect} from 'react-redux'
-import {getPosts} from '../reducers/actions'
-import {PostContext} from './Context'
-import {Container, Loader, Segment} from "semantic-ui-react";
+import { connect } from 'react-redux'
+import { getPosts } from '../reducers/actions'
+import { PostContext } from './Context'
+import { Container, Loader, Segment } from "semantic-ui-react";
 import LocalizedProvider from "./LocalizedProvider"
 
 class PostProvider extends React.Component {
@@ -24,11 +24,12 @@ class PostProvider extends React.Component {
             search,
             postType,
             id,
-            slug404
+            slug404,
+            categoriesOr
         } = this.props
         this.props.onLoadPost({
             slug, type, taxonomy, categories, before, perPage, page, fields, store, locale, previewNonce,
-            previewId, search, postType, id,slug404
+            previewId, search, postType, id, slug404, categoriesOr
         })
     }
 
@@ -49,11 +50,15 @@ class PostProvider extends React.Component {
             search,
             postType,
             id,
-            slug404
+            isScheduledFilter,
+            scheduledFilterStore,
+            slug404,
+            categoriesOr
         } = this.props
-
         if (categories != prevProps.categories || locale != prevProps.locale || slug != prevProps.slug ||
-            taxonomy != prevProps.taxonomy || page != prevProps.page || perPage != prevProps.perPage || search != prevProps.search
+            taxonomy != prevProps.taxonomy || page != prevProps.page || perPage != prevProps.perPage || search != prevProps.search ||
+            categoriesOr != prevProps.categoriesOr
+
         ) {
             this.props.onLoadPost({
                 slug,
@@ -68,21 +73,45 @@ class PostProvider extends React.Component {
                 locale,
                 previewNonce,
                 previewId,
-                search, postType, id, slug404
+                search, postType, id, slug404, categoriesOr
             })
         }
     }
 
     render() {
-        const {posts, meta, loading, error, locale} = this.props;
+        const { posts, meta, loading, error, locale, isScheduledFilter, scheduledFilterStore } = this.props;
         if (posts && (posts.length > 0 || posts.id)) {
-          let postsArray = posts;
-          if (!Array.isArray(postsArray)) {
-            postsArray = [];
-            postsArray.push(posts);
-          }
-          return <PostContext.Provider
-            value={{ posts: postsArray, locale, meta }}>{this.props.children}</PostContext.Provider>
+            let postsArray = posts;
+            if (!Array.isArray(postsArray)) {
+                postsArray = [];
+                postsArray.push(posts);
+            }
+            if (isScheduledFilter) {
+                let now = new Date().getTime();
+                let isPast = scheduledFilterStore === 'past';
+                postsArray = postsArray.filter(post => {
+                    const acf = post['acf'];
+                    if (acf) {
+                        if (acf.event_end_date && acf.event_end_date !== "") {
+                            let end = new Date(acf.event_end_date).getTime();
+                            if ((end < now && isPast) || (end > now && !isPast)) {
+                                return true;
+                            }
+                        } else if (acf.event_stat_date && acf.event_start_date !== "") {
+                            let start = new Date(acf.event_stat_date).getTime();
+                            if ((start < now && isPast) || (start > now && !isPast)) {
+                                return true;
+                            }
+                        }
+                    }
+                    return false;
+                }).sort((a, b) => !a.acf.event_stat_date || !b.acf.event_stat_date ? 0
+                    : isPast ? new Date(b.acf.event_stat_date) - new Date(a.acf.event_stat_date)
+                        : new Date(a.acf.event_stat_date) - new Date(b.acf.event_stat_date));
+            }
+
+            return <PostContext.Provider
+                value={{ posts: postsArray, locale, meta }}>{this.props.children}</PostContext.Provider>
         } else if (error) {
             return <Segment color={"red"}>
                 <h1>500</h1>
@@ -103,7 +132,7 @@ class PostProvider extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    const {store = "posts"} = ownProps
+    const { store = "posts" } = ownProps
     return {
         meta: state.getIn(['wordpress', store, 'meta']),
         posts: state.getIn(['wordpress', store, 'items']),

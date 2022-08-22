@@ -1,4 +1,5 @@
 import React from 'react'
+import { Button, Header, Image, Modal } from 'semantic-ui-react'
 
 import EmbeddedGateway from '../embedded/EmbeddedGateway'
 
@@ -21,12 +22,41 @@ const Enhance = (props) => {
 
 class Content extends React.Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {modalOpen: false};
+    this.generateModal = this.generateModal.bind(this);
+    this.switchModal = this.switchModal.bind(this);
+  }
+
   componentDidMount() {
 
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
 
+  }
+
+  generateModal(url) {
+    const {modalOpen} = this.state;
+    return (<Modal
+        onClose={() => this.switchModal()}
+        onOpen={() => this.switchModal()}
+        closeIcon={true}
+        open={modalOpen}
+        size="large"
+    >
+      <Modal.Content>
+        <Modal.Description>
+          <iframe className="modal_iframe" src={url} width="100%"/>
+        </Modal.Description>
+      </Modal.Content>
+    </Modal>)
+  }
+
+  switchModal() {
+    const {modalOpen} = this.state;
+    this.setState({modalOpen: !modalOpen})
   }
 
   render() {
@@ -42,7 +72,8 @@ class Content extends React.Component {
       as,
       locale,
       messages,
-      preview, isAddTypeToLink
+      preview, isAddTypeToLink,
+      showLinksInModal
     } = this.props
 
     if (post) {
@@ -55,8 +86,8 @@ class Content extends React.Component {
       if (pageNumber && pages.length > 0) {
         body = pages[pageNumber]
       }
-
-      return <EmbeddedGateway locale={locale} messages={messages} parent={preview ? post.parent : post.id}>
+      return <EmbeddedGateway locale={locale} messages={messages} parent={preview ? post.parent : post.id}
+                              acf={post.acf}>
         <Enhance className="entry-content" {...this.props}>
           {showDate &&
             <Container fluid className="date">{post.date.toLocaleString()}</Container>}
@@ -68,10 +99,13 @@ class Content extends React.Component {
           {showContent &&
             <Container fluid className="content"
                        dangerouslySetInnerHTML={{ __html: replaceHTMLinks(body, locale) }} />}
-          {showLink === true &&
-
-            <a href={this.replaceSlugWithId(replaceLink(post.link, locale, isAddTypeToLink), post.slug, post.id)}
-               className="link">Read More</a>}
+          {showLink === true && showLinksInModal !== "true" &&
+              <a href={isAddTypeToLink ? this.replaceSlugWithId(replaceLink(post.link, locale, isAddTypeToLink), post.slug, post.id) : replaceLink(post.link, locale, isAddTypeToLink)}
+                 className="link">Read More</a>}
+          {showLink === true && showLinksInModal === "true" &&
+              <a className="link" style={{cursor: 'pointer'}} onClick={() => this.switchModal()}>Read More</a>}
+          {showLink === true && showLinksInModal === "true" &&
+              this.generateModal(replaceLink(this.props.post.link, locale, false) + 'modal')}
         </Enhance>
       </EmbeddedGateway>
     } else {

@@ -1,68 +1,51 @@
 import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
 import {
-  Panel,
-  PanelBody,
-  PanelRow,
-  DateTimePicker,
-  TextControl
+    Panel,
+    PanelBody,
+    PanelRow,
+    DateTimePicker,
+    TextControl
 } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { BaseBlockEdit } from '../commons/index'
 
 class BlockEdit extends BaseBlockEdit {
-  render() {
-    const {
-      className, isSelected,
-      toggleSelection, setAttributes, attributes: {
-        eventStartDate,
-        eventLocation
-      }
-    } = this.props;
+    render() {
+        const {
+            className, isSelected,
+            toggleSelection, setAttributes, attributes: {
+            }
+        } = this.props;
 
-    let queryString = `data-event-location=${eventLocation}&editing=true`;
-    queryString += `&data-event-start-date=${eventStartDate}&editing=true`;
-    const divStyles = {};
-    return ([isSelected && (<InspectorControls>
-        <Panel header={__("Event Configuration")}>
-          <PanelBody>
-            <PanelRow>
-              <label>{__('Event start date')}</label>
-            </PanelRow>
-            <PanelRow>
-              <DateTimePicker
-                currentDate={eventStartDate}
-                eventStartDate
-                onChange={(eventStartDate) => setAttributes({ eventStartDate })}
-                is12Hour={true}
-              />
-            </PanelRow>
-            <PanelRow>
-              <TextControl
-                label={__('Event location')}
-                value={eventLocation}
-                onChange={(eventLocation) => setAttributes({ eventLocation })}
-              />
-            </PanelRow>
-          </PanelBody>
-        </Panel>
-      </InspectorControls>),
+        let queryString = `editing=true`;
+        const divStyles = {};
+        return ([isSelected && (<InspectorControls>
+                <Panel header={__("Events")}>
+                    <PanelBody>
+                        <PanelRow>
+                            <label>{__('Event viewer')}</label>
+                        </PanelRow>
+                    </PanelBody>
+                </Panel>
+            </InspectorControls>),
 
-        (<div>
-            <iframe id={"id_description_iframe"} scrolling={"no"}
-                    style={divStyles} src={this.state.react_ui_url + "/en/embeddable/events?" + queryString} />
-          </div>
+                (<div>
+                        <iframe id={"id_description_iframe"} scrolling={"no"}
+                                style={divStyles}
+                                src={this.state.react_ui_url + "/en/embeddable/events?" + queryString} />
+                    </div>
 
-        )]
-    );
+                )]
+        );
 
-  }
+    }
 }
 
 
 const Edit = (props) => {
 
-  const blockProps = useBlockProps({ className: 'wp-react-component' });
-  return <div {...blockProps}><BlockEdit {...props} /></div>;
+    const blockProps = useBlockProps({ className: 'wp-react-component' });
+    return <div {...blockProps}><BlockEdit {...props} /></div>;
 
 
 }

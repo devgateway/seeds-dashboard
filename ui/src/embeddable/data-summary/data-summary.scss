@@ -4,12 +4,13 @@
   &:before {
     content: none;
   }
-
   font-size: 14px;
   border-radius: 0;
   background-color: #f9fff8;
   border: 1px solid #82b55c;
-
+  .tooltip-label{
+    color: $text-color;
+  }
 }
 
 .ui.container.fluid .desktop {
@@ -19,14 +20,12 @@
     // width: 100% !important;
   }
 }
-
 .data-summary {
   color: #000000;
   width: 100% !important;
   @media only screen and (max-width: 1366px) {
     padding: 0 $base-unit * 3;
   }
-
   .ui.placeholder {
     margin-left: 5px;
     margin-right: 5px;
@@ -229,6 +228,7 @@
         &.active {
           .summary-theme {
             color: $green;
+            line-height: 100%;
           }
 
           .icon {
@@ -245,6 +245,7 @@
           align-items: center;
           font-size: 14px;
           font-weight: 600;
+          line-height: 100%;
           padding-left: 10px;
 
           &.indicator {
@@ -266,6 +267,17 @@
     }
   }
 }
+
+.data-summary-filters{
+  .ui.grid.select-country-grid{
+    padding: 0;
+  }
+  #country{
+    padding:0;
+    width: 50%;
+  }
+}
+
 .square {
   height: 15px;
   width: 15px;

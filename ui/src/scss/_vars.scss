@@ -3,7 +3,6 @@ $title-font-family:'Museo Slab W01_700';
 
 $blue: #3e53a6;
 $light-blue: #5089a6;
-$dark-gray: #5c5d63;
 $breadcrumb-grey: #535454;
 $gray: #66676d;
 $text-color: #555555;
@@ -19,12 +18,13 @@ $chart-grey-title: #626262;
 $tooltip-text-color: #868686;
 
 $blue: #3e53a6;
-$green: #5baf95;
+$green: #84a43a;
 $dark-green: #375e2d;
 
-$table-light-orange-bg: #f9d791;
+$table-theme-orange-bg: #f48e27;
 $table-orange-bg: #e79f38;
-$table-grey-bg: #e4e4e4;
+$table-grey-bg: #e8e7e5;
+$table-plus-green: #82C341;
 
 $health-color: #5baf95;
 $light-green: #31ba1a;
@@ -59,7 +59,7 @@ $screen-width: 1350px;
 
 /*COLORS*/
 $yellow: #EFCB16;
-$orange: #f39c00;
+$orange: #f38e28;
 $green: #4d843f;
 $green-link: #84a43a;
 $text-color: #555555;
@@ -145,7 +145,6 @@ $breakpoint-phone: 480px;
   display: block;
   float: left;
   height: $base-unit * 3;
-  margin-top: -7px;
   width: $base-unit * 3;
   &:before{
     content: none;

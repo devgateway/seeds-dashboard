@@ -7,20 +7,37 @@ import {Pie} from "@nivo/pie";
 
 const colors = new Map(
     [
-        ["EP", "#f6d9d9"],
-        ["EP_S", "#c00000"],
-        ["P", "#f9e8e8"],
-        ["P_S", "#d86565"],
-        ["F", "#fff6d9"],
-        ["F_S", "#ffc000"],
-        ["G", "#e5f4da"],
-        ["G_S", "#7dc646"],
-        ["E", "#d4e1cc"],
-        ["E_S", "#276700"]
+        ["EP", "#ffffff"],
+        ["EP_S", "#FF3833"],
+        ["P", "#ffffff"],
+        ["P_S", "#FF7E37"],
+        ["F", "#ffffff"],
+        ["F_S", "#FFFC61"],
+        ["G", "#ffffff"],
+        ["G_S", "#CCF000"],
+        ["E", "#ffffff"],
+        ["E_S", "#75DD00"]
     ]);
-const getColor = (item) => colors.get(item.id);
+const getColor = (item) => {
+    return colors.get(item.id)
+};
 
-const CenteredMetric = ({dataWithArc, centerX, centerY, innerValue, innerColor}) => {
+const borderColors = new Map(
+    [
+        ["EP", "#FF3833"],
+        ["EP_S", "#FF3833"],
+        ["P", "#FF7E37"],
+        ["P_S", "#FF7E37"],
+        ["F", "#FFFC61"],
+        ["F_S", "#FFFC61"],
+        ["G", "#CCF000"],
+        ["G_S", "#CCF000"],
+        ["E", "#75DD00"],
+        ["E_S", "#75DD00"]
+    ]);
+const getBorderColor = (item) => borderColors.get(item.id);
+
+const CenteredMetric = ({dataWithArc, centerX, centerY, value, innerColor}) => {
     return (
         <text
             x={centerX}
@@ -29,37 +46,46 @@ const CenteredMetric = ({dataWithArc, centerX, centerY, innerValue, innerColor})
             dominantBaseline="central"
             fontWeight="900"
             style={{
-                fontSize: '22px',
+                fontSize: value.toString().length <= 3 ? '22px' : '17px',
                 fill: innerColor
             }}
-        > {innerValue}
+        > {value}
         </text>
     )
 }
-const Gauge = ({data, height, width, innerValue, innerColor, tooltip}) =>
-    <div style={{height}}><Pie
-        layers={['arcs', 'arcLabels', 'arcLinkLabels', 'legends',
-            ({dataWithArc, centerX, centerY}) =>
-                CenteredMetric({dataWithArc, centerX, centerY, innerValue, innerColor})]}
-        width={width}
-        colors={item => getColor(item)}
-        height={height}
-        data={data}
-        startAngle={-90}
-        endAngle={90}
-        innerRadius={0.7}
-        padAngle={2}
-        cornerRadius={3}
-        labelSkipWidth={18}
-        slicesLabelsTextColor="#FFFFFF"
-        enableRadialLabels={false}
-        enableArcLinkLabels={false}
-        enableArcLabels={false}
-        slicesLabelsSkipAngle={10}
-        animate={true}
-        motionStiffness={90}
-        motionDamping={15}
-        tooltip={tooltip}
-    /></div>
+const Gauge = ({data, height, width, innerValue, innerColor, tooltip, suffix}) => {
+    let value = innerValue;
+    if (suffix) {
+        value += suffix;
+    }
+    return (<div style={{height}}>
+        <Pie
+            layers={['arcs', 'arcLabels', 'arcLinkLabels', 'legends',
+                ({dataWithArc, centerX, centerY}) =>
+                    CenteredMetric({dataWithArc, centerX, centerY, value, innerColor})]}
+            width={width}
+            colors={item => getColor(item)}
+            height={height}
+            data={data}
+            startAngle={-90}
+            endAngle={90}
+            innerRadius={0.7}
+            padAngle={4}
+            cornerRadius={1}
+            labelSkipWidth={18}
+            slicesLabelsTextColor="#FFFFFF"
+            enableRadialLabels={false}
+            enableArcLinkLabels={false}
+            enableArcLabels={false}
+            slicesLabelsSkipAngle={10}
+            animate={true}
+            motionStiffness={90}
+            motionDamping={15}
+            tooltip={tooltip}
+            borderWidth={1.25}
+            borderColor={item => getBorderColor(item)}
+        />
+    </div>);
+}
 
 export default Gauge;

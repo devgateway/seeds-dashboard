@@ -23,7 +23,15 @@ registerBlockType(process.env.BLOCKS_NS + '/filter',
                 type: 'Boolean',
                 default: true
             },
+            showSelector: {
+                type: 'Boolean',
+                default: true
+            },
             selectedCountryLabel: {
+                type: 'String',
+                default: ''
+            },
+            selectedCountryPostLabel: {
                 type: 'String',
                 default: ''
             },
@@ -38,6 +46,13 @@ registerBlockType(process.env.BLOCKS_NS + '/filter',
             additionalClasses: {
                 type: "String",
                 default: ''
+            },
+            addAllCountries: {
+                type: "Boolean",
+                default: false
+            }, isAddIndicatorFilter: {
+                type: "Boolean",
+                default: false
             }
         }
         ,

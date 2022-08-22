@@ -3,8 +3,9 @@
 .country-info {
   color: $text-color;
   font-size: 18px;
-  height: 100%;
-  min-height: 650px;
+  // height: 100%;
+  min-height: 550px;
+  overflow: hidden;
 
   &.ui.grid {
     margin: 0;
@@ -23,7 +24,6 @@
       clear: both;
       height: $base-unit * 2;
       width: $extend;
-      border:1px dotted pink;
       flex: none;
     }
     &.totals {
@@ -41,7 +41,7 @@
 
         .label {
           font-size: 12px;
-          text-transform: uppercase;
+          text-transform: uppercase;;
         }
 
         .data {
@@ -61,10 +61,13 @@
     }
 
     .household-data {
-      margin-top: -30px;
+      margin-top: -20px;
       .label, .data {
         display: flex;
         text-align: left;
+      }
+      .label{
+        width: 150px;
       }
 
       .data {
@@ -75,15 +78,19 @@
     }
 
     .business-rank {
+      padding-top: $base-unit / 2;
+      padding-bottom: 0px !important;
+      margin-bottom: 0px !important;
+      height: 2.5em;
       .label{
         display: block;
-        paddinb-bottom: $base-unit / 2;
         padding-top: $base-unit / 2;
         text-align: left;
+        font-weight: 900;
       }
       .data {
         font-size: 20px;
-        font-weight: 700;
+        font-weight: 900;
         color: $green-link;
       }
     }
@@ -125,4 +132,10 @@
       }
     }
   }
+}
+
+.country_info_source {
+  text-align: left;
+  font-weight: normal;
+  padding-top: 0.5em;
 }

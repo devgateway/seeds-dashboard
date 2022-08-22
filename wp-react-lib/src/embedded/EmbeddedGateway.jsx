@@ -22,7 +22,6 @@ class EmbeddedGateway extends React.Component {
       Array.from(elements).forEach((element, index) => {
         const component = element.getAttribute('data-component');
         element.removeAttribute('data-component');
-
         if (component) {
           const { messages } = this.props;
           const props = { ...this.props };

@@ -5,6 +5,7 @@
   display: flex !important;
   justify-content: center;
   height: 60px;
+  z-index: 99;
 
   .ui {
     font-family: $font-family;
@@ -12,7 +13,7 @@
 
   .country-filter-container {
     width: $screen-width !important;
-    @media only screen and (max-width: 1366px){
+    @media only screen and (max-width: 1366px) {
       padding: 0 $base-unit * 2.8;
     }
 
@@ -47,7 +48,8 @@
           height: 60px;
           width: 100%;
           padding-left: 25px;
-          .angle.icon{
+
+          .angle.icon {
             margin-left: -18px;
           }
 
@@ -103,14 +105,24 @@
           }
         }
       }
+
+      &.narrow {
+        .item {
+          .content {
+            width: 160%;
+          }
+        }
+      }
     }
 
-    .selected-country.column {
-      background-color: $orange;
-      @include font-filter;
-      font-size: 14px;
-      font-weight: 800;
-
+    .selected-country{
+      width: $extend;
+      &.column {
+        background-color: $orange;
+        @include font-filter;
+        font-size: 14px;
+        font-weight: 800;
+      }
     }
 
     .country-carousel {
@@ -188,7 +200,6 @@
 
       .column {
         padding: 0;
-
         .ui.grid {
           margin: 0px;
         }

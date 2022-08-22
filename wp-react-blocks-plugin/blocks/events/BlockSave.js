@@ -5,8 +5,6 @@ const SaveComponent = (props) => {
 
   const {
     attributes: {
-      eventLocation,
-      eventStartDate
     }
   } = props;
 
@@ -19,8 +17,6 @@ const SaveComponent = (props) => {
   return (
     <div className={"wp-react-lib-component"}
          data-component={"events"}
-         data-event-location={eventLocation}
-         data-event-start-date={eventStartDate}
     >
     </div>
   );

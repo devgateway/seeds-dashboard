@@ -1,14 +1,16 @@
-import React, {useState} from "react";
-import {Grid} from "semantic-ui-react";
+import React, { useState } from "react";
+import { Grid } from "semantic-ui-react";
 import './styles.scss';
 import ResponsiveBarChartImpl from "../ResponsiveBarChartImpl";
 import HHILegend from "./HHILegend";
-import {FAKE_NUMBER} from "../ChartsComponent";
+import { FAKE_NUMBER } from "../ChartsComponent";
+import NoData from "../common/noData";
+import CropsLegend from "../common/crop";
 
-const MarketConcentrationHHI = ({data, sources, selectedYear, bottomLegend, intl}) => {
+const MarketConcentrationHHI = ({ data, sources, selectedYear, bottomLegend, intl, totalLabel }) => {
 
     if (!data) {
-        return 'No Data';
+        return <NoData />;
     }
 
     const crops = data.dimensions.crop.values;
@@ -18,7 +20,7 @@ const MarketConcentrationHHI = ({data, sources, selectedYear, bottomLegend, intl
     let max = 0;
     crops.forEach((crop, i) => {
         colors[i] = new Map();
-        const item = {crop: crop};
+        const item = { crop: crop };
         Object.keys(data.values[crop]).forEach(y => {
             if (selectedYear && selectedYear.find(k => k === y)) {
                 item[y] = data.values[crop][y];
@@ -29,7 +31,7 @@ const MarketConcentrationHHI = ({data, sources, selectedYear, bottomLegend, intl
                     max = item[y];
                 }
                 if (!colors[i].get(y)) {
-                    colors[i].set(y, getColor(item[y]))
+                    colors[i].set(y, getColorHHI(item[y]))
                 }
             }
         });
@@ -50,40 +52,53 @@ const MarketConcentrationHHI = ({data, sources, selectedYear, bottomLegend, intl
     });
 
     const noData = false;
-    const indexBy = 'crop';
+    const indexBy = 'year';
     const layout = 'vertical';
     const groupMode = 'grouped';
     const leftLegend = 'HHI value';
     const enableGridX = false;
     const enableGridY = true;
     const getTooltipText = (d) => {
-        return <div style={{textAlign: 'center'}}>
+        return <div style={{ textAlign: 'center' }}>
             <span>HHI Value</span><span
-            className="bold"> {d.data[d.id]}  </span><br/>
+            className="bold">
+            {totalLabel.format ? intl.formatNumber(d.data[d.id], totalLabel.format) : d.data[d.id]}</span><br />
             <span>Year</span><span
-            className="bold"> {d.id}  </span>
+            className="bold"> {d.data.year}  </span>
         </div>
     }
     const getTooltipHeader = (d) => {
         return <>
-            <div className={d.indexValue.toLowerCase() + " crop-icon"}/>
-            <div className="crop-name">{intl.formatMessage({id: d.indexValue, defaultMessage: d.indexValue})}</div>
+            <div className={d.data.crop.toLowerCase() + " crop-icon"} />
+            <div className="crop-name">{intl.formatMessage({ id: d.data.crop, defaultMessage: d.data.crop })}</div>
         </>;
     }
-    const customTickWithCropsBottom = true;
-
+    const customTickWithCropsBottom = false;
+    
+    const hhiProcessedData = [];
+    processedData.forEach(i => {
+        Object.keys(i).forEach(j => {
+            if (j !== 'crop' && selectedYear.find(k => k === j)) {
+                hhiProcessedData.push({year: j, value: i[j], crop: i.crop});
+            }
+        });
+    });
+    
     return (
         <>
             <Grid.Row className={`hhi-section`}>
-                <HHILegend legends={legends} title={'HHI Value'}/>
+                <HHILegend legends={hhiLegends} title={'HHI Value'} />
             </Grid.Row>
             <Grid.Row className="chart-section">
                 {[0, 1, 2, 3].map(i => {
                     return (<Grid.Column key={i} computer={8} mobile={16}>
+                        <div className="hhi-crops">
+                            <CropsLegend data={[crops[i]]} />
+                        </div>
                         <ResponsiveBarChartImpl sources={sources} data={data} noData={noData} crops={crops}
                                                 selectedYear={selectedYear} colors={colors[i]} max={max * 1.25}
-                                                keys={keys}
-                                                processedData={processedData.filter(j => j.crop === crops[i])}
+                                                keys={['value']}
+                                                processedData={hhiProcessedData.filter(j => j.crop === crops[i])}
                                                 indexBy={indexBy} layout={layout}
                                                 groupMode={groupMode}
                                                 leftLegend={leftLegend} bottomLegend={bottomLegend}
@@ -91,8 +106,10 @@ const MarketConcentrationHHI = ({data, sources, selectedYear, bottomLegend, intl
                                                 getTooltipText={getTooltipText} getTooltipHeader={getTooltipHeader}
                                                 customTickWithCropsBottom={customTickWithCropsBottom}
                                                 containerHeight={300}
-                                                gridTickLines={4} margins={{top: 30, right: 10, bottom: 70, left: 70}}
-                                                padding={0.15} intl={intl}
+                                                gridTickLines={4} margins={{ top: 40, right: 10, bottom: 60, left: 70 }}
+                                                padding={0.05} intl={intl}
+                                                axisBottom={true} totalLabel={totalLabel} 
+                                                getColorsCustom={i => getColorHHI(i.value)}
                         />
                     </Grid.Column>);
                 })}
@@ -102,14 +119,14 @@ const MarketConcentrationHHI = ({data, sources, selectedYear, bottomLegend, intl
 }
 
 const hhiColors = [
-    {upTo: 1000, color: '#276700'},
-    {upTo: 1999, color: '#7dc646'},
-    {upTo: 2999, color: '#ffc000'},
-    {upTo: 3999, color: '#ff4f4f'},
-    {upTo: 10000, color: '#c00000'}
+    { upTo: 1000, color: '#75DD00' },
+    { upTo: 1999, color: '#CCF000' },
+    { upTo: 2999, color: '#FFFC61' },
+    { upTo: 3999, color: '#FF7E37' },
+    { upTo: 10000, color: '#FF3833' }
 ];
 
-const getColor = (value) => {
+export const getColorHHI = (value) => {
     if (value <= hhiColors[0].upTo) {
         return hhiColors[0].color;
     }
@@ -127,7 +144,7 @@ const getColor = (value) => {
     }
 }
 
-const legends = [
+export const hhiLegends = [
     {
         id: 8,
         'color': hhiColors[4].color,
