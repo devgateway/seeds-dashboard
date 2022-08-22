@@ -6,9 +6,19 @@ import { CarouselProvider } from "pure-react-carousel";
 import CountryCarousel from "./CountryCarousel";
 import CountrySelector from "../../seeds-commons/countrySelector/CountrySelector";
 import { SELECTED_COUNTRY } from "../../seeds-commons/commonConstants";
+import { injectIntl } from "react-intl";
 
 export const ADDITIONAL_COUNTRIES = 3;
-const CountryFilter = ({ countries, onApply, filters, addYear, countryColumns, isShowSelector, setIsFilterOpen }) => {
+const CountryFilter = ({
+                           countries,
+                           onApply,
+                           filters,
+                           addYear,
+                           countryColumns,
+                           isShowSelector,
+                           setIsFilterOpen,
+                           intl
+                       }) => {
 
     const getLength = () => {
         let length = 0;
@@ -20,11 +30,12 @@ const CountryFilter = ({ countries, onApply, filters, addYear, countryColumns, i
         }
         return length;
     }
+    debugger;
     return <Grid className="country-filter-container">
         <Grid.Column width={7}>
             <CountrySelector countries={countries} onApply={onApply} filters={filters} addYear={addYear}
                              countryColumns={countryColumns} isShowSelector={isShowSelector}
-                             setIsFilterOpen={setIsFilterOpen} />
+                             setIsFilterOpen={setIsFilterOpen} intl={intl}/>
         </Grid.Column>
         <Grid.Column width={9}>
             <Container fluid={true} className={"country-carousel"}>
@@ -45,4 +56,4 @@ const CountryFilter = ({ countries, onApply, filters, addYear, countryColumns, i
     </Grid>
 }
 
-export default CountryFilter;
+export default injectIntl(CountryFilter);

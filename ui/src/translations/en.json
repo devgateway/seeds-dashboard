@@ -160,7 +160,7 @@
   "tooltip-varieties-released": "Varieties released",
   "tooltip-average": "Average",
   "tooltip-price-usd-by-kg": "Average price per kg:",
-  "all-countries":"All countries",
+  "all-countries": "All countries",
   "label-country": "Country",
   "active-breeders-legend": "Active breeders per 1,000,000 hectares",
   "active-breeders-tooltip": "Number of active breeders",
@@ -190,5 +190,7 @@
   "availability-seed-small-packages-tooltip": "Seeds sold in 2kg package",
   "default-hosted-by": "Tasai",
   "default-location": "Default Location",
-  "default-event-name": "TASAI Event"
+  "default-event-name": "TASAI Event",
+  "select-topic": "Select topic",
+  "select-country": "Select country"
 }
