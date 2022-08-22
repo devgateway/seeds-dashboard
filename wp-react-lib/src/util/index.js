@@ -115,7 +115,6 @@ const getNextPage = (url, page, returnObject, pageSize) => {
 
         return response.json().then(function (data_) {
             returnObject.data.push(...data_);
-            debugger
             if (meta['x-wp-totalpages'] && parseInt(meta['x-wp-totalpages']) > page) {
                 return getNextPage(url, page + 1, returnObject, pageSize);
             }
