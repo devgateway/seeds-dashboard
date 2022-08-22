@@ -109,13 +109,14 @@ const getNextPage = (url, page, returnObject, pageSize) => {
         }
         const meta = {}
         response.headers.forEach((header, name) => {
-            meta[name] = header
+            meta[name.toLowerCase()] = header
 
         })
 
         return response.json().then(function (data_) {
             returnObject.data.push(...data_);
-            if (data_.length === pageSize) {
+            debugger
+            if (meta['x-wp-totalpages'] && parseInt(meta['x-wp-totalpages']) > page) {
                 return getNextPage(url, page + 1, returnObject, pageSize);
             }
             //we take the metadata of last fetched page if we end up using this metadata
