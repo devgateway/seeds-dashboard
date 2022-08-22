@@ -9,9 +9,13 @@ services:
     restart: "no"
 
   ui:
+    env_file:
+      - .env.staging
     build:
       context: ./
       dockerfile: ./ui/Dockerfile
+      args:
+        ENVIRONMENT: stage
     volumes:
       - ui:/var/www/ui
     restart: "no"
