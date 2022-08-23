@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Advanced Custom Fields - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2022-08-07 07:35:43+0000\n"
+"PO-Revision-Date: 2022-08-15 07:29:46+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -290,7 +290,7 @@ msgstr "Aperçu"
 
 #: includes/locations.php:36
 msgid "Location type \"%s\" is already registered."
-msgstr "Le type d’emplacement « %s » est déjà enregistré."
+msgstr "Le type d’emplacement « %s » est déjà inscrit."
 
 #: includes/locations.php:25
 msgid "Class \"%s\" does not exist."
@@ -308,7 +308,7 @@ msgstr "Nonce invalide."
 
 #: includes/fields/class-acf-field-user.php:350
 msgid "Error loading field."
-msgstr "Erreur de chargement du champ."
+msgstr "Erreur lors du chargement du champ."
 
 #: includes/forms/form-user.php:353
 msgid "<strong>Error</strong>: %s"
@@ -324,7 +324,7 @@ msgstr "Rôle du compte"
 
 #: includes/locations/class-acf-location-comment.php:22
 msgid "Comment"
-msgstr "Commentaire"
+msgstr "Commenter"
 
 #: includes/locations/class-acf-location-post-format.php:22
 msgid "Post Format"
@@ -357,11 +357,11 @@ msgstr "Taxonomie de la publication"
 
 #: includes/locations/class-acf-location-page-type.php:114
 msgid "Child Page (has parent)"
-msgstr "Page enfant (possède des parents)"
+msgstr "Page enfant (a un parent)"
 
 #: includes/locations/class-acf-location-page-type.php:113
 msgid "Parent Page (has children)"
-msgstr "Page parent (possède des enfants)"
+msgstr "Page parent (a des enfants)"
 
 #: includes/locations/class-acf-location-page-type.php:112
 msgid "Top Level Page (no parent)"
@@ -381,11 +381,11 @@ msgstr "Type de page"
 
 #: includes/locations/class-acf-location-current-user.php:73
 msgid "Viewing back end"
-msgstr "Voir le back end"
+msgstr "Vue du back end"
 
 #: includes/locations/class-acf-location-current-user.php:72
 msgid "Viewing front end"
-msgstr "Voir sur l’interface publique"
+msgstr "Vue de l’interface publique"
 
 #: includes/locations/class-acf-location-current-user.php:71
 msgid "Logged in"
@@ -413,7 +413,7 @@ msgstr "Formulaire de profil"
 
 #: includes/locations/class-acf-location-page-parent.php:22
 msgid "Page Parent"
-msgstr "Page parent"
+msgstr "Page parente"
 
 #: includes/locations/class-acf-location-current-user-role.php:77
 msgid "Super Admin"
@@ -1098,7 +1098,7 @@ msgstr "Page"
 
 #: includes/locations.php:99 includes/locations/class-acf-location-post.php:22
 msgid "Post"
-msgstr "Article"
+msgstr "Publication"
 
 #: includes/fields.php:358
 msgid "jQuery"
@@ -1126,7 +1126,7 @@ msgstr "Le type de champ n&rsquo;existe pas"
 
 #: includes/forms/form-front.php:236
 msgid "Spam Detected"
-msgstr "Spam détecté"
+msgstr "Indésirable détecté"
 
 #: includes/forms/form-front.php:107
 msgid "Post updated"
@@ -1244,12 +1244,12 @@ msgstr "Limité"
 #: includes/media.php:53 assets/build/js/acf-input.js:6529
 #: assets/build/js/acf-input.js:7390
 msgid "Collapse Details"
-msgstr "Masquer les détails"
+msgstr "Replier les détails"
 
 #: includes/media.php:52 assets/build/js/acf-input.js:6529
 #: assets/build/js/acf-input.js:7387
 msgid "Expand Details"
-msgstr "Afficher les détails"
+msgstr "Déplier les détails"
 
 #: includes/media.php:51 assets/build/js/acf-input.js:6401
 #: assets/build/js/acf-input.js:7235
@@ -1493,7 +1493,7 @@ msgstr "La valeur doit être inférieure ou égale à %d"
 
 #: includes/fields/class-acf-field-number.php:244
 msgid "Value must be equal to or higher than %d"
-msgstr "La valeur doit être supérieure ou égale à %d"
+msgstr "La valeur doit être être supérieure ou égale à %d"
 
 #: includes/fields/class-acf-field-number.php:229
 msgid "Value must be a number"
@@ -1599,7 +1599,7 @@ msgstr "Fichier"
 
 #: includes/fields/class-acf-field-password.php:25
 msgid "Password"
-msgstr "Mot de passe"
+msgstr "Mot de Passe"
 
 #: includes/fields/class-acf-field-select.php:440
 msgid "Specify the value returned"
@@ -1854,7 +1854,7 @@ msgstr "Tableau du lien"
 
 #: includes/fields/class-acf-field-link.php:142
 msgid "Opens in a new window/tab"
-msgstr "Ouvrir dans un nouvel onglet/fenêtre"
+msgstr "Ouvrir dans une nouvelle fenêtre/onglet"
 
 #: includes/fields/class-acf-field-link.php:137
 msgid "Select Link"
@@ -1871,12 +1871,12 @@ msgstr "E-mail"
 #: includes/fields/class-acf-field-number.php:191
 #: includes/fields/class-acf-field-range.php:198
 msgid "Step Size"
-msgstr "Taille de pas"
+msgstr "Taille de l’incrément"
 
 #: includes/fields/class-acf-field-number.php:180
 #: includes/fields/class-acf-field-range.php:186
 msgid "Maximum Value"
-msgstr "Valeur maximale"
+msgstr "Valeur maximum"
 
 #: includes/fields/class-acf-field-number.php:169
 #: includes/fields/class-acf-field-range.php:174
@@ -1885,7 +1885,7 @@ msgstr "Valeur minimum"
 
 #: includes/fields/class-acf-field-range.php:25
 msgid "Range"
-msgstr "Plage de valeurs"
+msgstr "Plage"
 
 #: includes/fields/class-acf-field-button-group.php:205
 #: includes/fields/class-acf-field-checkbox.php:413
@@ -1990,19 +1990,19 @@ msgstr "Afficher les boutons de téléversement de médias ?"
 
 #: includes/fields/class-acf-field-wysiwyg.php:361
 msgid "Toolbar"
-msgstr "Barre d&rsquo;outils"
+msgstr "Barre d’outils"
 
 #: includes/fields/class-acf-field-wysiwyg.php:352
 msgid "Text Only"
-msgstr "Texte uniquement"
+msgstr "Texte Uniquement"
 
 #: includes/fields/class-acf-field-wysiwyg.php:351
 msgid "Visual Only"
-msgstr "Visuel seulement"
+msgstr "Visuel uniquement"
 
 #: includes/fields/class-acf-field-wysiwyg.php:350
 msgid "Visual & Text"
-msgstr "Visuel & Texte"
+msgstr "Visuel & texte"
 
 #: includes/fields/class-acf-field-wysiwyg.php:345
 msgid "Tabs"
@@ -2010,7 +2010,7 @@ msgstr "Onglets"
 
 #: includes/fields/class-acf-field-wysiwyg.php:289
 msgid "Click to initialize TinyMCE"
-msgstr "Cliquez pour initialiser TinyMCE"
+msgstr "Cliquer pour initialiser TinyMCE"
 
 #: includes/fields/class-acf-field-wysiwyg.php:283
 msgctxt "Name for the Text editor tab (formerly HTML)"
@@ -2023,7 +2023,7 @@ msgstr "Visuel"
 
 #: includes/fields/class-acf-field-wysiwyg.php:25
 msgid "Wysiwyg Editor"
-msgstr "Éditeur WYSIWYG"
+msgstr "Éditeur Wysiwyg"
 
 #: includes/fields/class-acf-field-text.php:168
 #: includes/fields/class-acf-field-textarea.php:221
@@ -2186,15 +2186,15 @@ msgstr "Filtrer par type de publication"
 
 #: includes/fields/class-acf-field-relationship.php:469
 msgid "Search..."
-msgstr "Rechercher..."
+msgstr "Rechercher…"
 
 #: includes/fields/class-acf-field-relationship.php:399
 msgid "Select taxonomy"
-msgstr "Sélectionner une taxonomie"
+msgstr "Sélectionner la taxonomie"
 
 #: includes/fields/class-acf-field-relationship.php:390
 msgid "Select post type"
-msgstr "Sélectionner un type de publication"
+msgstr "Choisissez le type de publication"
 
 #: includes/fields/class-acf-field-relationship.php:65
 #: assets/build/js/acf-input.js:3686 assets/build/js/acf-input.js:4168
@@ -2285,7 +2285,7 @@ msgstr "ID de l’image"
 
 #: includes/fields/class-acf-field-image.php:212
 msgid "Image URL"
-msgstr "URL de l&rsquo;image"
+msgstr "URL de l’image"
 
 #: includes/fields/class-acf-field-image.php:211
 msgid "Image Array"
@@ -2310,7 +2310,7 @@ msgstr "Valeur de retour"
 
 #: includes/fields/class-acf-field-image.php:159
 msgid "Add Image"
-msgstr "Ajouter une image"
+msgstr "Ajouter image"
 
 #: includes/fields/class-acf-field-image.php:159
 msgid "No image selected"
@@ -2360,27 +2360,27 @@ msgstr "Permet l’affichage du code HTML à l’écran au lieu de l’interpré
 
 #: includes/fields/class-acf-field-message.php:127
 msgid "Escape HTML"
-msgstr "Afficher le code HTML"
+msgstr "Autoriser le code HTML"
 
 #: includes/fields/class-acf-field-message.php:118
 #: includes/fields/class-acf-field-textarea.php:155
 msgid "No Formatting"
-msgstr "Pas de formatage"
+msgstr "Aucun formatage"
 
 #: includes/fields/class-acf-field-message.php:117
 #: includes/fields/class-acf-field-textarea.php:154
 msgid "Automatically add &lt;br&gt;"
-msgstr "Ajouter &lt;br&gt; automatiquement"
+msgstr "Ajouter automatiquement &lt;br&gt;"
 
 #: includes/fields/class-acf-field-message.php:116
 #: includes/fields/class-acf-field-textarea.php:153
 msgid "Automatically add paragraphs"
-msgstr "Ajouter des paragraphes automatiquement"
+msgstr "Ajouter automatiquement des paragraphes"
 
 #: includes/fields/class-acf-field-message.php:112
 #: includes/fields/class-acf-field-textarea.php:149
 msgid "Controls how new lines are rendered"
-msgstr "Contrôler le rendu des sauts de lignes"
+msgstr "Contrôle comment les nouvelles lignes sont rendues"
 
 #: includes/fields/class-acf-field-message.php:111
 #: includes/fields/class-acf-field-textarea.php:148
@@ -2433,16 +2433,16 @@ msgstr "Sélecteur de date"
 #: includes/fields/class-acf-field-image.php:291
 #: includes/fields/class-acf-field-oembed.php:279
 msgid "Width"
-msgstr "Largeur"
+msgstr "Largeur "
 
 #: includes/fields/class-acf-field-oembed.php:276
 #: includes/fields/class-acf-field-oembed.php:289
 msgid "Embed Size"
-msgstr "Dimensions"
+msgstr "Taille d’intégration"
 
 #: includes/fields/class-acf-field-oembed.php:230
 msgid "Enter URL"
-msgstr "Entrez une URL"
+msgstr "Saisissez l’URL"
 
 #: includes/fields/class-acf-field-oembed.php:25
 msgid "oEmbed"
