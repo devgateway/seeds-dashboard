@@ -52,7 +52,6 @@ const CountryReports = (props) => {
         if (categoriesWP && country && year && !crops) {
             const year_ = categoriesWP.find(i => i.id === Number(year)).name;
             const country_ = categoriesWP.find(i => i.id === Number(country)).name;
-            debugger
             const params = { country: country_, year: year_ };
             onLoadCrops({ params });
         }
@@ -68,7 +67,9 @@ const CountryReports = (props) => {
         if (documentsAndImages && categoriesWP) {
             const docs = documentsAndImages.filter(d => d.mime_type === 'application/pdf'
                 && d.categories.find(i => i === Number(year))
-                && d.categories.find(i => i === Number(country)));
+                && d.categories.find(i => i === Number(country))
+                && d.slug.includes(title.toLowerCase())
+            );
             if (docs.length === 0) {
                 return null;
             }
@@ -88,7 +89,7 @@ const CountryReports = (props) => {
                 </div>);
             } else {
                 return (<div className="links-container">
-                    <span>View Report -</span>
+                    <span>{`View ${title}`} -</span>
                     {links.map((i, index) => {
                         return <a key={i.link} href={i.link} target="_blank">{i.lang}{index === 0 ? '  /  ' : ''}</a>
                     })}
