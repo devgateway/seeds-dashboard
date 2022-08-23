@@ -2,7 +2,7 @@ import { PostConsumer, PostIntro, PostProvider } from "@devgateway/wp-react-lib"
 
 import 'pure-react-carousel/dist/react-carousel.es.css';
 import React, { useEffect, useState } from "react";
-import { Container, Icon } from "semantic-ui-react";
+import { Container, Icon, Loader } from "semantic-ui-react";
 import { ButtonBack, ButtonNext, CarouselProvider, Dot, DotGroup, Slide, Slider } from "pure-react-carousel";
 import { connect } from "react-redux";
 import { getCrops, getDocuments, getIndicatorsInformation, getWpCategories } from "../reducers/data";
@@ -77,24 +77,30 @@ const PostCarousel = ({
             }
         }
     }
-
-    return <Container className={`wp-react-lib post carousel ${editing ? 'editing' : ''}`} fluid={true}
-                      style={{ "height": height + 'px' }} id={POST_CAROUSEL_CONTAINER}>
-        <PostProvider type={type} taxonomy={taxonomy}
-                      categories={orCategoriesArray && !isNewImplementation ? orCategoriesArray.join(',') : categories}
-                      categoriesOr={orCategoriesArray && isNewImplementation ? orCategoriesArray : undefined}
-                      store={"carousel_" + parent + "_" + unique} page={1}
-                      perPage={items > 0 ? items : undefined} isScheduledFilter={scheduledFilter === 'true'}
-                      scheduledFilterStore={scheduledFilterStore}>
-            <PostConsumer>
-                <Carousel itemsPerPage={itemsPerPage} messages={messages} orientation={orientation}
-                          navigatorStyle={navigatorStyle} type={type} showLinksInModal={showLinksInModal}
-                          categories={categoriesWP} isTwoColumns={isTwoColumns}
-                          isSortedByCountryAndYearCategories={isSortedByCountryAndYearCategories}
-                />
-            </PostConsumer>
-        </PostProvider>
-    </Container>
+    if (isConnectFilter && !categoriesWP) {
+        return <Container>
+            <h1>Loading ...</h1>
+            <Loader inverted content='Loading' />
+        </Container>;
+    } else {
+        return <Container className={`wp-react-lib post carousel ${editing ? 'editing' : ''}`} fluid={true}
+                          style={{ "height": height + 'px' }} id={POST_CAROUSEL_CONTAINER}>
+            <PostProvider type={type} taxonomy={taxonomy}
+                          categories={orCategoriesArray && !isNewImplementation ? orCategoriesArray.join(',') : categories}
+                          categoriesOr={orCategoriesArray && isNewImplementation ? orCategoriesArray : undefined}
+                          store={"carousel_" + parent + "_" + unique} page={1}
+                          perPage={items > 0 ? items : undefined} isScheduledFilter={scheduledFilter === 'true'}
+                          scheduledFilterStore={scheduledFilterStore}>
+                <PostConsumer>
+                    <Carousel itemsPerPage={itemsPerPage} messages={messages} orientation={orientation}
+                              navigatorStyle={navigatorStyle} type={type} showLinksInModal={showLinksInModal}
+                              categories={categoriesWP} isTwoColumns={isTwoColumns}
+                              isSortedByCountryAndYearCategories={isSortedByCountryAndYearCategories}
+                    />
+                </PostConsumer>
+            </PostProvider>
+        </Container>
+    }   
 }
 const mapStateToProps = (state) => {
     return {
