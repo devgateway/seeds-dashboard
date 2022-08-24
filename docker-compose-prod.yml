@@ -105,12 +105,12 @@ services:
     image: nginx:alpine
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./nginx/wordpress_prod.conf:/etc/nginx/conf.d/wordpress.conf:ro
+      - ./nginx/wordpress_prod.conf:/etc/nginx/conf.d/wordpress.conf:rw
       - ./nginx/.htpasswd-dashboard.tasai.org:/etc/nginx/conf.d/.htpasswd-dashboard.tasai.org:ro
       - /var/log/tasai:/usr/share/nginx/tasai:ro
       - ./nginx/logs.conf:/etc/nginx/conf.d/logs.conf:ro
       - ./nginx/metabase_prod.conf:/etc/nginx/conf.d/metabase_prod.conf:ro
-      - ./nginx/ui_prod.conf:/etc/nginx/conf.d/ui.conf:ro
+      - ./nginx/ui_prod.conf:/etc/nginx/conf.d/ui.conf:rw
       - ./data/wordpress:/var/www/html:ro
       - ./wp-content:/var/www/html/wp-content:ro
       - ./wp-react-blocks-plugin:/var/www/html/wp-content/plugins/wp-react-blocks-plugin:ro
