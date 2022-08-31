@@ -85,12 +85,10 @@ function cptui_settings() {
 		<div class="changelog about-integrations">
 			<div class="cptui-feature feature-section col three-col">
 				<div class="col">
-					<h2><?php esc_html_e( 'Ability to set a default term for a custom taxonomy.', 'custom-post-type-ui' ); ?></h2>
-					<p><?php esc_html_e( 'WordPress 5.5 added the ability to set a default term to your custom taxonomy, and now you do not have to worry about extra coding for that with Custom Post Type UI.', 'custom-post-type-ui' ); ?></p>
-				</div>
-				<div class="col last-feature">
-					<h2><?php esc_html_e( 'Removed forced underscores for post type slugs.', 'custom-post-type-ui' ); ?></h2>
-					<p><?php esc_html_e( 'Post types are actually able to have dashes in their slug/name value, so we have removed the forcing of underscores for them. Taxonomies do still need underscores, until told otherwise.', 'custom-post-type-ui' ); ?></p>
+					<h2><?php esc_html_e( 'Auto-selection of "page attributes" for post types', 'custom-post-type-ui' ); ?></h2>
+					<p><?php esc_html_e( 'When setting a post type to be hierarchical, you also want to make sure you have `page_attributes` selected in the "Supports" section to set hierarchy. We do not force this, if you want to still turn it off, but this helps prevent potentially missing this setting.', 'custom-post-type-ui' ); ?></p>
+					<h2><?php esc_html_e( 'More post type and taxonomy settings', 'custom-post-type-ui' ); ?></h2>
+					<p><?php esc_html_e( 'We have updated the available settings to include the `rest_namespace` field as well as `register_meta_box_cb` for post types.', 'custom-post-type-ui' ); ?></p>
 				</div>
 			</div>
 		</div>

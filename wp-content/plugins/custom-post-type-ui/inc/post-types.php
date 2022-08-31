@@ -37,6 +37,7 @@ function cptui_post_type_enqueue_scripts() {
 
 	wp_enqueue_media();
 	wp_enqueue_script( 'cptui' );
+	wp_enqueue_script( 'dashicons-picker' );
 	wp_enqueue_style( 'cptui-css' );
 
 	$core                  = get_post_types( [ '_builtin' => true ] );
@@ -290,13 +291,14 @@ function cptui_manage_post_types() {
 						] );
 
 							$link_text = ( 'new' === $tab ) ?
-								esc_html__( 'Populate additional labels based on chosen labels.', 'custom-post-type-ui' ) :
-								esc_html__( 'Populate missing labels based on chosen labels.', 'custom-post-type-ui' );
+								esc_html__( 'Populate additional labels based on chosen labels', 'custom-post-type-ui' ) :
+								esc_html__( 'Populate missing labels based on chosen labels', 'custom-post-type-ui' );
 							echo $ui->get_tr_end();
 							echo $ui->get_th_start() . esc_html__( 'Auto-populate labels', 'custom-post-type-ui' ) . $ui->get_th_end();
 							echo $ui->get_td_start();
 								?>
-									<a href="#" id="auto-populate"><?php echo esc_html( $link_text ); ?></a>
+									<a href="#" id="auto-populate"><?php echo esc_html( $link_text ); ?></a> |
+							<a href="#" id="auto-clear"><?php esc_html_e( 'Clear labels', 'custom-post-type-ui' ); ?></a>
 								<?php
 							echo $ui->get_td_end() . $ui->get_tr_end();
 
@@ -788,6 +790,20 @@ function cptui_manage_post_types() {
 									],
 								] );
 
+								echo $ui->get_text_input( [
+									'labeltext' => esc_html__( 'Add Title', 'custom-post-type-ui' ),
+									'helptext'  => esc_html__( 'Placeholder text in the "title" input when creating a post. Not exportable.', 'custom-post-type-ui' ),
+									'namearray' => 'cpt_custom_post_type',
+									'name'      => 'enter_title_here',
+									'textvalue' => isset( $current['enter_title_here'] ) ? esc_attr( $current['enter_title_here'] ) : '',
+									'aftertext' => esc_html__( '(e.g. Add Movie)', 'custom-post-type-ui' ),
+									'data'      => [
+										/* translators: Used for autofill */
+										'label'     => sprintf( esc_attr__( 'Add %s', 'custom-post-type-ui' ), 'item' ),
+										'plurality' => 'singular',
+									],
+								] );
+
 							?>
 						</table>
 					</div>
@@ -921,6 +937,14 @@ function cptui_manage_post_types() {
 								'textvalue' => isset( $current['rest_controller_class'] ) ? esc_attr( $current['rest_controller_class'] ) : '',
 							] );
 
+							echo $ui->get_text_input( [
+								'namearray' => 'cpt_custom_post_type',
+								'name'      => 'rest_namespace',
+								'labeltext' => esc_html__( 'REST API namespace', 'custom-post-type-ui' ),
+								'aftertext' => esc_attr__( '(default: wp/v2) To change the namespace URL of REST API route.', 'custom-post-type-ui' ),
+								'textvalue' => isset( $current['rest_namespace'] ) ? esc_attr( $current['rest_namespace'] ) : '',
+							] );
+
 							echo $ui->get_tr_start() . $ui->get_th_start();
 							echo $ui->get_label( 'has_archive', esc_html__( 'Has Archive', 'custom-post-type-ui' ) );
 							echo $ui->get_p( esc_html__( 'If left blank, the archive slug will default to the post type slug.', 'custom-post-type-ui' ) );
@@ -966,7 +990,7 @@ function cptui_manage_post_types() {
 								'namearray'  => 'cpt_custom_post_type',
 								'name'       => 'exclude_from_search',
 								'labeltext'  => esc_html__( 'Exclude From Search', 'custom-post-type-ui' ),
-								'aftertext'  => esc_html__( '(default: false) Whether or not to exclude posts with this post type from front end search results.', 'custom-post-type-ui' ),
+								'aftertext'  => esc_html__( '(default: false) Whether or not to exclude posts with this post type from front end search results. This also excludes from taxonomy term archives.', 'custom-post-type-ui' ),
 								'selections' => $select,
 							] );
 
@@ -990,7 +1014,23 @@ function cptui_manage_post_types() {
 								'namearray'  => 'cpt_custom_post_type',
 								'name'       => 'hierarchical',
 								'labeltext'  => esc_html__( 'Hierarchical', 'custom-post-type-ui' ),
-								'aftertext'  => esc_html__( '(default: false) Whether or not the post type can have parent-child relationships.', 'custom-post-type-ui' ),
+								'aftertext'  => esc_html__( '(default: false) Whether or not the post type can have parent-child relationships. At least one published content item is needed in order to select a parent.', 'custom-post-type-ui' ),
+								'selections' => $select,
+							] );
+
+							$select = [
+								'options' => [
+									[ 'attr' => '0', 'text' => esc_attr__( 'False', 'custom-post-type-ui' ), 'default' => 'false' ],
+									[ 'attr' => '1', 'text' => esc_attr__( 'True', 'custom-post-type-ui' ) ],
+								],
+							];
+							$selected           = isset( $current ) ? disp_boolean( $current['can_export'] ) : '';
+							$select['selected'] = ! empty( $selected ) ? $current['can_export'] : '';
+							echo $ui->get_select_input( [
+								'namearray'  => 'cpt_custom_post_type',
+								'name'       => 'can_export',
+								'labeltext'  => esc_html__( 'Can Export', 'custom-post-type-ui' ),
+								'aftertext'  => esc_html__( '(default: false) Can this post_type be exported.', 'custom-post-type-ui' ),
 								'selections' => $select,
 							] );
 
@@ -1069,7 +1109,7 @@ function cptui_manage_post_types() {
 										'custom-post-type-ui'
 									),
 									sprintf(
-										'<a href="https://developer.wordpress.org/reference/functions/register_post_type/#menu_position" target="_blank">%s</a>',
+										'<a href="https://developer.wordpress.org/reference/functions/register_post_type/#menu_position" target="_blank" rel="noopener">%s</a>',
 										esc_html__( 'Available options', 'custom-post-type-ui' )
 									)
 								)
@@ -1131,10 +1171,18 @@ function cptui_manage_post_types() {
 								'aftertext' => esc_attr__( '(Full URL for icon or Dashicon class)', 'custom-post-type-ui' ),
 								'helptext'  => sprintf(
 									esc_html__( 'Image URL or %sDashicon class name%s to use for icon. Custom image should be 20px by 20px.', 'custom-post-type-ui' ),
-									'<a href="https://developer.wordpress.org/resource/dashicons/" target="_blank">',
+									'<a href="https://developer.wordpress.org/resource/dashicons/" target="_blank" rel="noopener">',
 									'</a>'
 								),
 								'wrap'      => false,
+							] );
+
+							echo '<div class="cptui-spacer">';
+
+							echo $ui->get_button( [
+								'id'      => 'cptui_choose_dashicon',
+								'classes' => 'dashicons-picker',
+								'textvalue' => esc_attr__( 'Choose dashicon', 'custom-post-type-ui' ),
 							] );
 
 							echo '<div class="cptui-spacer">';
@@ -1146,6 +1194,14 @@ function cptui_manage_post_types() {
 							echo '</div>';
 
 							echo $ui->get_td_end() . $ui->get_tr_end();
+
+							echo $ui->get_text_input( [
+								'namearray' => 'cpt_custom_post_type',
+								'name'      => 'register_meta_box_cb',
+								'textvalue' => isset( $current['register_meta_box_cb'] ) ? esc_attr( $current['register_meta_box_cb'] ) : '',
+								'labeltext' => esc_html__( 'Metabox callback', 'custom-post-type-ui' ),
+								'helptext'  => esc_html__( 'Provide a callback function that sets up the meta boxes for the edit form. Do `remove_meta_box()` and `add_meta_box()` calls in the callback. Default null.', 'custom-post-type-ui' ),
+							] );
 
 							echo $ui->get_tr_start() . $ui->get_th_start() . esc_html__( 'Supports', 'custom-post-type-ui' );
 
@@ -1304,7 +1360,7 @@ function cptui_manage_post_types() {
 							echo $ui->get_fieldset_end() . $ui->get_td_end() . $ui->get_tr_end();
 
 							echo $ui->get_tr_start() . $ui->get_th_start() . '<label for="custom_supports">' . esc_html__( 'Custom "Supports"', 'custom-post-type-ui' ) . '</label>';
-							echo $ui->get_p( sprintf( esc_html__( 'Use this input to register custom "supports" values, separated by commas. Learn about this at %s', 'custom-post-type-ui' ), '<a href="http://docs.pluginize.com/article/28-third-party-support-upon-registration" target="_blank">' . esc_html__( 'Custom "Supports"', 'custom-post-type-ui' ) . '</a>' ) );
+							echo $ui->get_p( sprintf( esc_html__( 'Use this input to register custom "supports" values, separated by commas. Learn about this at %s', 'custom-post-type-ui' ), '<a href="http://docs.pluginize.com/article/28-third-party-support-upon-registration" target="_blank" rel="noopener">' . esc_html__( 'Custom "Supports"', 'custom-post-type-ui' ) . '</a>' ) );
 							echo $ui->get_th_end() . $ui->get_td_start();
 							echo $ui->get_text_input( [
 								'namearray'      => 'cpt_custom_post_type',
@@ -1529,14 +1585,12 @@ function cptui_delete_post_type( $data = [] ) {
 
 	// Pass double data into last function despite matching values.
 	if ( is_string( $data ) && cptui_get_post_type_exists( $data, $data ) ) {
-		$data = [
-			'cpt_custom_post_type' => [
-				'name' => $data,
-			],
-		];
+		$slug         = $data;
+		$data         = [];
+		$data['name'] = $slug;
 	}
 
-	if ( empty( $data['cpt_custom_post_type']['name'] ) ) {
+	if ( empty( $data['name'] ) ) {
 		return cptui_admin_notices( 'error', '', false, __( 'Please provide a post type to delete', 'custom-post-type-ui' ) );
 	}
 
@@ -1551,9 +1605,9 @@ function cptui_delete_post_type( $data = [] ) {
 
 	$post_types = cptui_get_post_type_data();
 
-	if ( array_key_exists( strtolower( $data['cpt_custom_post_type']['name'] ), $post_types ) ) {
+	if ( array_key_exists( strtolower( $data['name'] ), $post_types ) ) {
 
-		unset( $post_types[ $data['cpt_custom_post_type']['name'] ] );
+		unset( $post_types[ $data['name'] ] );
 
 		/**
 		 * Filters whether or not 3rd party options were saved successfully within post type deletion.
@@ -1689,6 +1743,11 @@ function cptui_update_post_type( $data = [] ) {
 		$data['cpt_custom_post_type']['menu_icon'] = null;
 	}
 
+	$register_meta_box_cb = trim( $data['cpt_custom_post_type']['register_meta_box_cb'] );
+	if ( empty( $register_meta_box_cb ) ) {
+		$register_meta_box_cb = null;
+	}
+
 	$label = ucwords( str_replace( '_', ' ', $data['cpt_custom_post_type']['name'] ) );
 	if ( ! empty( $data['cpt_custom_post_type']['label'] ) ) {
 		$label = str_replace( '"', '', htmlspecialchars_decode( $data['cpt_custom_post_type']['label'] ) );
@@ -1705,6 +1764,7 @@ function cptui_update_post_type( $data = [] ) {
 	$description           = stripslashes_deep( $data['cpt_custom_post_type']['description'] );
 	$rest_base             = trim( $data['cpt_custom_post_type']['rest_base'] );
 	$rest_controller_class = trim( $data['cpt_custom_post_type']['rest_controller_class'] );
+	$rest_namespace        = trim( $data['cpt_custom_post_type']['rest_namespace'] );
 	$has_archive_string    = trim( $data['cpt_custom_post_type']['has_archive_string'] );
 	$capability_type       = trim( $data['cpt_custom_post_type']['capability_type'] );
 	$rewrite_slug          = trim( $data['cpt_custom_post_type']['rewrite_slug'] );
@@ -1713,6 +1773,7 @@ function cptui_update_post_type( $data = [] ) {
 	$show_in_menu_string   = trim( $data['cpt_custom_post_type']['show_in_menu_string'] );
 	$menu_icon             = trim( $data['cpt_custom_post_type']['menu_icon'] );
 	$custom_supports       = trim( $data['cpt_custom_post_type']['custom_supports'] );
+	$enter_title_here      = trim( $data['cpt_custom_post_type']['enter_title_here'] );
 
 	$post_types[ $data['cpt_custom_post_type']['name'] ] = [
 		'name'                  => $name,
@@ -1727,11 +1788,13 @@ function cptui_update_post_type( $data = [] ) {
 		'show_in_rest'          => disp_boolean( $data['cpt_custom_post_type']['show_in_rest'] ),
 		'rest_base'             => $rest_base,
 		'rest_controller_class' => $rest_controller_class,
+		'rest_namespace'        => $rest_namespace,
 		'has_archive'           => disp_boolean( $data['cpt_custom_post_type']['has_archive'] ),
 		'has_archive_string'    => $has_archive_string,
 		'exclude_from_search'   => disp_boolean( $data['cpt_custom_post_type']['exclude_from_search'] ),
 		'capability_type'       => $capability_type,
 		'hierarchical'          => disp_boolean( $data['cpt_custom_post_type']['hierarchical'] ),
+		'can_export'            => disp_boolean( $data['cpt_custom_post_type']['can_export'] ),
 		'rewrite'               => disp_boolean( $data['cpt_custom_post_type']['rewrite'] ),
 		'rewrite_slug'          => $rewrite_slug,
 		'rewrite_withfront'     => disp_boolean( $data['cpt_custom_post_type']['rewrite_withfront'] ),
@@ -1741,10 +1804,12 @@ function cptui_update_post_type( $data = [] ) {
 		'show_in_menu'          => disp_boolean( $data['cpt_custom_post_type']['show_in_menu'] ),
 		'show_in_menu_string'   => $show_in_menu_string,
 		'menu_icon'             => $menu_icon,
+		'register_meta_box_cb'  => $register_meta_box_cb,
 		'supports'              => $data['cpt_supports'],
 		'taxonomies'            => $data['cpt_addon_taxes'],
 		'labels'                => $data['cpt_labels'],
 		'custom_supports'       => $custom_supports,
+		'enter_title_here'      => $enter_title_here,
 	];
 
 	/**
@@ -1812,6 +1877,13 @@ function cptui_reserved_post_types() {
 		'customize_changeset',
 		'author',
 		'post_type',
+		'oembed_cache',
+		'user_request',
+		'wp_block',
+		'wp_template',
+		'wp_template_part',
+		'wp_global_styles',
+		'wp_navigation',
 	];
 
 	/**
@@ -1948,14 +2020,16 @@ function cptui_process_post_type() {
 		$result = '';
 		if ( isset( $_POST['cpt_submit'] ) ) {
 			check_admin_referer( 'cptui_addedit_post_type_nonce_action', 'cptui_addedit_post_type_nonce_field' );
-			$result = cptui_update_post_type( $_POST );
+			$data = cptui_filtered_post_type_post_global();
+			$result = cptui_update_post_type( $data );
 		} elseif ( isset( $_POST['cpt_delete'] ) ) {
 			check_admin_referer( 'cptui_addedit_post_type_nonce_action', 'cptui_addedit_post_type_nonce_field' );
-			$result = cptui_delete_post_type( $_POST );
+
+			$filtered_data = filter_input( INPUT_POST, 'cpt_custom_post_type', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
+			$result = cptui_delete_post_type( $filtered_data );
 			add_filter( 'cptui_post_type_deleted', '__return_true' );
 		}
 
-		// @TODO Utilize anonymous function to admin_notice `$result` if it happens to error.
 		if ( $result ) {
 			if ( is_callable( "cptui_{$result}_admin_notice" ) ) {
 				add_action( 'admin_notices', "cptui_{$result}_admin_notice" );
@@ -1992,7 +2066,15 @@ function cptui_do_convert_post_type_posts() {
 	if ( apply_filters( 'cptui_convert_post_type_posts', false ) ) {
 		check_admin_referer( 'cptui_addedit_post_type_nonce_action', 'cptui_addedit_post_type_nonce_field' );
 
-		cptui_convert_post_type_posts( sanitize_text_field( $_POST['cpt_original'] ), sanitize_text_field( $_POST['cpt_custom_post_type']['name'] ) );
+		$original = filter_input( INPUT_POST, 'cpt_original', FILTER_SANITIZE_STRING );
+		$new      = filter_input( INPUT_POST, 'cpt_custom_post_type', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
+
+		// Return early if either fails to successfully validate.
+		if ( ! $original || ! $new ) {
+			return;
+		}
+
+		cptui_convert_post_type_posts( sanitize_text_field( $original ), sanitize_text_field( $new['name'] ) );
 	}
 }
 add_action( 'init', 'cptui_do_convert_post_type_posts' );
@@ -2019,3 +2101,70 @@ function cptui_updated_post_type_slug_exists( $slug_exists, $post_type_slug = ''
 	return $slug_exists;
 }
 add_filter( 'cptui_post_type_slug_exists', 'cptui_updated_post_type_slug_exists', 11, 3 );
+
+/**
+ * Sanitize and filter the $_POST global and return a reconstructed array of the parts we need.
+ *
+ * Used for when managing post types.
+ *
+ * @since 1.10.0
+ * @return array
+ */
+function cptui_filtered_post_type_post_global() {
+	$filtered_data = [];
+
+	$default_arrays = [
+		'cpt_custom_post_type',
+		'cpt_labels',
+		'cpt_supports',
+		'cpt_addon_taxes',
+		'update_post_types',
+	];
+	$third_party_items_arrays = apply_filters(
+		'cptui_filtered_post_type_post_global_arrays',
+		(array) []
+	);
+
+	$items_arrays = array_merge( $default_arrays, $third_party_items_arrays );
+	foreach( $items_arrays as $item ) {
+		$first_result = filter_input( INPUT_POST, $item, FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
+
+		if ( $first_result ) {
+			$filtered_data[ $item ] = $first_result;
+		}
+	}
+
+	$default_strings = [
+		'cpt_original',
+		'cpt_type_status',
+	];
+	$third_party_items_strings = apply_filters(
+		'cptui_filtered_post_type_post_global_strings',
+		(array) []
+	);
+
+	$items_string = array_merge( $default_strings, $third_party_items_strings );
+
+	foreach ( $items_string as $item ) {
+		$second_result = filter_input( INPUT_POST, $item, FILTER_SANITIZE_STRING );
+		if ( $second_result ) {
+			$filtered_data[ $item ] = $second_result;
+		}
+	}
+
+	return $filtered_data;
+}
+
+function cptui_custom_enter_title_here( $text, $post ) {
+	$cptui_obj = cptui_get_cptui_post_type_object( $post->post_type );
+	if ( empty( $cptui_obj ) ) {
+		return $text;
+	}
+
+	if ( empty( $cptui_obj['enter_title_here'] ) ) {
+		return $text;
+	}
+
+	return $cptui_obj['enter_title_here'];
+}
+add_filter( 'enter_title_here', 'cptui_custom_enter_title_here', 10, 2 );
