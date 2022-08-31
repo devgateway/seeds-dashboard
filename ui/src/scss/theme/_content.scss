@@ -3,6 +3,13 @@
 	color: #ffffff;
 }
 
+// set space between columns
+@media (min-width: 782px){
+  .wp-block-columns:not(.is-not-stacked-on-mobile)>.wp-block-column:not(:first-child){
+    margin-left: 2em;
+  }
+}
+
 .entry-content {
   margin: 0;
   display: block;
