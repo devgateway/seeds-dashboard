@@ -268,6 +268,19 @@ p:empty {
     max-width: 1366px;
   }
 }
+// Full width cover with solid bg color
+.wp-block-cover .wp-block-cover__gradient-background.has-background-dim.has-background-dim-100{
+	margin-left: calc(-50vw + 50%);
+	width: 100vw;
+}
+// Cover with full opacity color
+.wp-block-cover .wp-block-cover__background.has-background-dim.has-background-dim-100{
+	opacity: 1;
+}
+// Cover with no opacity color
+.wp-block-cover__background.has-background-dim-0.has-background-dim{
+	opacity: 0;
+}
 
 // Full width banner with solid bg color
 .wp-block-cover.full-width-cover.bg-color{
@@ -1197,5 +1210,14 @@ p:empty {
 	}
 	img{
 		border-bottom: 6px solid $yellow;
+	}
+}
+
+.video-embed{
+	&.centered{
+		iframe{
+			display: block;
+			margin: auto;
+		}
 	}
 }
