@@ -89,7 +89,7 @@ services:
   #      driver: journald
 
   metabase:
-    image: metabase/metabase:v0.40.2
+    image: metabase/metabase:v0.44.0
     extra_hosts:
       - "host.docker.internal:host-gateway"
     environment:
