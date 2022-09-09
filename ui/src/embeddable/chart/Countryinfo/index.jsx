@@ -58,11 +58,21 @@ const CountryInfo = ({ data, intl, labels, locale }) => {
         return aOrderedCrops;
     }
 
-    let enablingBusinessAgricultureRank = "Enabling the Business of Agriculture Rank (" + data.year + "): ";
+    let enablingBusinessAgricultureRank = "Enabling the Business of Agriculture Rank";
+    if (data.easeAgricultureRankYear) {
+        enablingBusinessAgricultureRank += " (" + data.easeAgricultureRankYear + "): "
+    } else {
+        enablingBusinessAgricultureRank += ": ";
+    }
     enablingBusinessAgricultureRank += (getValue(data.easeAgricultureRank) !== 'N/A' 
         ? "<span class='data'>"+ getValue(data.easeAgricultureRank) + "</span>" + " out of 101 countries" 
         : "<span class='data'>N/A</span>");
-    let enablingBusinessAgricultureScore = "Enabling the Business of Agriculture Topic Score (" + data.year + "): ";
+    let enablingBusinessAgricultureScore = "Enabling the Business of Agriculture Topic Score";
+    if (data.easeAgricultureScoreYear) {
+        enablingBusinessAgricultureScore += " (" + data.easeAgricultureScoreYear + "): ";
+    } else {
+        enablingBusinessAgricultureScore += ": ";
+    }
     enablingBusinessAgricultureScore += (getValue(data.easeAgricultureScore) !== 'N/A'
         ? "<span class='data'>" + getValue(data.easeAgricultureScore) + "</span>" + " out of 100" 
         : "<span class='data'>N/A</span>");
