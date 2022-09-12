@@ -195,7 +195,7 @@ const BarAndLineChart = ({
     return (
         <>
             <Grid.Row className={`hhi-section`}>
-                <Legend legends={legends} title={'Legend'} />
+                <Legend legends={legends} title={intl.formatMessage({id:'legend',defaultMessage:'Legend'})} />
             </Grid.Row>
             <Grid.Row className="chart-section">
                 <Grid.Column width={16}>

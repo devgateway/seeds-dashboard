@@ -85,7 +85,7 @@ const Chart = (props) => {
         'data-color-scheme': scheme = 'nivo',
         'data-group-mode': groupMode = 'stacked',
         'data-layout': layout = 'vertical',
-        'data-legends-left': left = 'Left Legend',
+        'data-legends-left': left = 'Left  Legend',
         'data-legends-bottom': bottom = 'Bottom Legend',
         'data-dualmode': dualMode,
         'data-legend-position': legendPosition = "right",

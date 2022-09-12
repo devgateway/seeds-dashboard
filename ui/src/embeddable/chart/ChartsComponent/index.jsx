@@ -46,7 +46,7 @@ import {
     CROSS_COUNTRY_AGRODEALER_NETWORK, CROSS_COUNTRY_AVAILABILITY_SEED_SMALL_PACKAGES,
 } from "../../reducers/StoreConstants";
 import YearLegend from "../common/year";
-import MarketConcentrationHHI, {getColorHHI, hhiLegends} from "../MarketConcentrationHHI";
+import MarketConcentrationHHI, { getColorHHI, hhiLegends } from "../MarketConcentrationHHI";
 import ResponsiveRadarChartImpl from "../ResponsiveRadarChartImpl";
 import { injectIntl } from "react-intl";
 import BarAndLineChart from "../BarAndLineChart";
@@ -58,6 +58,7 @@ import { connect } from "react-redux";
 import CrossCountryCropFilter from "../common/filters/crossCountry/crops";
 import CrossCountryCountryFilter from "../common/filters/crossCountry/country";
 import HHILegend from "../MarketConcentrationHHI/HHILegend";
+import { normalizeField } from "../../utils/common";
 
 const ChartComponent = ({
                             sources,
@@ -180,11 +181,17 @@ const ChartComponent = ({
         if (isCrossCountryChart && countries.length === 0) {
             let countriesISO = data.dimensions.country ? data.dimensions.country.values : [];
             countriesISO.forEach(c => {
+                const countryName = COUNTRY_OPTIONS.find(j => j.flag.toLowerCase() === c.toLowerCase()).text
+                const translatedName = intl.formatMessage({
+                    id: normalizeField(countryName),
+                    defaultMessage: countryName
+                });
                 countries.push({
-                    iso: c, name: COUNTRY_OPTIONS.find(j => j.flag.toLowerCase() === c.toLowerCase()).text,
+                    iso: c, name: translatedName,
                     active: true, selected: true
                 });
             });
+            debugger;
             setCountries(countries.sort((a, b) => b.name.localeCompare(a.name)));
         } else if (forceUpdate) {
             setForceUpdate(false);
@@ -726,8 +733,8 @@ const ChartComponent = ({
                             <span className="normal">{intl.formatMessage({
                                 id: 'tooltip-price-usd-by-kg'
                             })}</span> {d.point.data.y !== FAKE_NUMBER
-                                ? (<><span className="bold">{d.point.data.y} </span><span className="normal">USD</span></>)
-                                : 'MD'}
+                            ? (<><span className="bold">{d.point.data.y} </span><span className="normal">USD</span></>)
+                            : 'MD'}
                         </div>
                     </div>)
                 }
@@ -786,8 +793,11 @@ const ChartComponent = ({
                 });
                 getTooltipText = (d) => {
                     return (<>
-                        <span>{intl.formatMessage({id: 'tooltip-market-share-state-owned', defaultMessage: 'Market share of state owned companies'})}</span>
-                        <span className="bold"> {d.data[d.id]}%</span><br/>
+                        <span>{intl.formatMessage({
+                            id: 'tooltip-market-share-state-owned',
+                            defaultMessage: 'Market share of state owned companies'
+                        })}</span>
+                        <span className="bold"> {d.data[d.id]}%</span><br />
                     </>);
                 }
                 getTooltipHeader = (d) => {
@@ -880,7 +890,10 @@ const ChartComponent = ({
                     return <>
             <span
                 className="bold"> {d.data[d.id]} </span>
-                        <span>seed companies / producers </span>
+                        <span>{intl.formatMessage({
+                            id: "seeds-companies-producers",
+                            defaultMessage: "seed companies / producers"
+                        })}</span>
                     </>
                 }
                 getTooltipHeader = (d) => {
@@ -912,7 +925,7 @@ const ChartComponent = ({
                     </div>)
                 }
             }
-            legend = intl.formatMessage({ id: 'years-legend', defaultMessage: 'Year' });
+            legend = intl.formatMessage({ id: 'year-legend', defaultMessage: 'Year' });
             groupMode = 'grouped';
             withCropsWithSpecialFeatures = false;
             processByYear();
@@ -947,7 +960,7 @@ const ChartComponent = ({
                         newProcessedData.push(item);
                     });
                     processedData = newProcessedData;
-                    bottomLegend = intl.formatMessage({ id: 'years-legend', defaultMessage: 'Year' });
+                    bottomLegend = intl.formatMessage({ id: 'year-legend', defaultMessage: 'Year' });
                     legend = 'crops';
                     addLighterDiv = false;
                     useFilterByYear = false;
@@ -964,13 +977,24 @@ const ChartComponent = ({
         }
         case VARIETIES_RELEASED_WITH_SPECIAL_FEATURES:
             getTooltipText = (d) => {
+                const varietiesReleased = intl.formatMessage({
+                    id: "tooltip-varieties-released",
+                    defaultMessage: "varieties released"
+                });
+                const with_ = intl.formatMessage({
+                    id: "with",
+                    defaultMessage: "with"
+                });
+                ;
+                const withOut_ = "";
+                const specialFeatures = "";
                 return <>
           <span
               className="bold"> {d.data[d.id]} out of {(d.data['withSpecialFeature_' + d.indexValue.toLowerCase()] || 0)
               + (d.data['withoutSpecialFeature_' + d.indexValue.toLowerCase()] || 0)} </span>
-                    <span>varieties released {d.id.startsWith('withSpecial')
-                        ? (<>with <span className="bold">special features</span></>)
-                        : <>without <span className="bold">special features</span></>}</span>
+                    <span>{varietiesReleased} {d.id.startsWith('withSpecial')
+                        ? (<>{with_} <span className="bold">{specialFeatures}</span></>)
+                        : <>{withOut_} <span className="bold">{specialFeatures}</span></>}</span>
                 </>
             }
             getTooltipHeader = (d) => {
@@ -986,7 +1010,7 @@ const ChartComponent = ({
                 id: 'number-of-varieties-released',
                 defaultMessage: 'Number of Varieties Released'
             });
-            bottomLegend = intl.formatMessage({ id: 'crops-legend', defaultMessage: 'Crop' });
+            bottomLegend = intl.formatMessage({ id: 'crop-legend', defaultMessage: 'Crop' });
             processVarietiesReleasedWithSpecialFeatures();
             showTotalMD = false;
             break;
@@ -1096,7 +1120,8 @@ const ChartComponent = ({
                             id: 'active-breeders-tooltip',
                             defaultMessage: 'Number of active breeders'
                         })}: </span>
-                                <span className="bold"> {d.value !== FAKE_NUMBER ? d.value + '/1,000,000 ha' : 'MD'}</span>
+                                <span
+                                    className="bold"> {d.value !== FAKE_NUMBER ? d.value + '/1,000,000 ha' : 'MD'}</span>
                             </div>
                         </>
                     }
@@ -1113,7 +1138,8 @@ const ChartComponent = ({
                             id: 'varieties-released-tooltip',
                             defaultMessage: 'Number of varieties released per land under production'
                         })}: </span>
-                                <span className="bold"> {d.value !== FAKE_NUMBER ? d.value + '/1,000,000 ha' : 'MD'}</span>
+                                <span
+                                    className="bold"> {d.value !== FAKE_NUMBER ? d.value + '/1,000,000 ha' : 'MD'}</span>
                             </div>
                         </>
                     }
@@ -1130,7 +1156,8 @@ const ChartComponent = ({
                             id: 'quantity-certified-seed-sold-tooltip',
                             defaultMessage: 'Certified seed sold'
                         })}: </span>
-                                <span className="bold"> {d.value !== FAKE_NUMBER ? d.value + 't / 1,000 ha' : 'MD'}</span>
+                                <span
+                                    className="bold"> {d.value !== FAKE_NUMBER ? d.value + 't / 1,000 ha' : 'MD'}</span>
                             </div>
                         </>
                     }
@@ -1312,7 +1339,7 @@ const ChartComponent = ({
                     useFilterByCountries = true;
                     customSorting = (a, b) => (b.country.localeCompare(a.country));
                     dataSuffix = "%";
-                    max =  max < 95 ? 95 : max;
+                    max = max < 95 ? 95 : max;
                     break;
                 case CROSS_COUNTRY_AGRODEALER_NETWORK:
                     bottomLegend = intl.formatMessage({
@@ -1413,7 +1440,10 @@ const ChartComponent = ({
                     innerColor = r.color;
                 }
                 return <>
-                    <div><span>Industry opinion on adequacy of breeders</span></div>
+                    <div><span>{intl.formatMessage({
+                        id: "tooltip-industry-opinion-on-adequacy-of-breeders",
+                        defaultMessage: "Industry opinion on adequacy of breeders"
+                    })}</span></div>
                     <Gauge data={particularGauge} height={45} width={105} innerValue={gaugeValue}
                            innerColor={innerColor} suffix={suffix} />
                 </>
@@ -1421,7 +1451,7 @@ const ChartComponent = ({
             extraTooltipClass = "NUMBER_OF_ACTIVE_BREEDERS";
             useFilterByYear = false;
             indexBy = 'year';
-            leftLegend = intl.formatMessage({ id: 'years-legend', defaultMessage: 'Year' });
+            leftLegend = intl.formatMessage({ id: 'year-legend', defaultMessage: 'Year' });
             layout = 'horizontal';
             addLighterDiv = false;
             withCropsWithSpecialFeatures = false;
@@ -1459,7 +1489,7 @@ const ChartComponent = ({
                 </>
             }
             indexBy = 'crop';
-            leftLegend = intl.formatMessage({ id: 'crops-legend', defaultMessage: 'Crop' });
+            leftLegend = intl.formatMessage({ id: 'crop-legend', defaultMessage: 'Crop' });
             layout = 'horizontal';
             addLighterDiv = false;
             withCropsWithSpecialFeatures = false;
@@ -1498,7 +1528,10 @@ const ChartComponent = ({
             let tooltipSubText = '';
             switch (type) {
                 case EFFICIENCY_SEED_IMPORT_PROCESS:
-                    leftLegend = 'Length of import process (days)';
+                    leftLegend = intl.formatMessage({
+                        id: 'chart-label-length-of-import',
+                        defaultMessage: 'Length of import process (days)'
+                    });
                     tooltipSubText = 'Days for Import';
                     subLabel = 'Length of import process (days)';
                     legends = [{ id: 1, 'color': barPieColor[1], 'label': 'Number of days for import' },
@@ -1507,7 +1540,10 @@ const ChartComponent = ({
                     noDataLabelId = "no-data-reported-import";
                     break;
                 case EFFICIENCY_SEED_EXPORT_PROCESS:
-                    leftLegend = 'Length of export process (days)';
+                    leftLegend = intl.formatMessage({
+                        id: 'chart-label-length-of-export',
+                        defaultMessage: "Length of export process (days)"
+                    });
                     tooltipSubText = 'Number of days';
                     subLabel = 'Length of export process (days)';
                     legends = [{ id: 1, 'color': barPieColor[1], 'label': 'Number of days for export' },
@@ -1519,7 +1555,7 @@ const ChartComponent = ({
                     leftLegend = 'insert legend here';
             }
             indexBy = 'year';
-            bottomLegend = 'Year';
+            bottomLegend = intl.formatMessage({ id: 'year-legend', defaultMessage: 'Year' });
             groupMode = 'grouped';
             rightLegend = 'Rating out of 100 (%)';
             keys.push(['value']);
@@ -1559,7 +1595,7 @@ const ChartComponent = ({
                 defaultMessage: 'Number of seed inspectors'
             });
             indexBy = 'year';
-            bottomLegend = intl.formatMessage({ id: 'years-legend', defaultMessage: 'Year' });
+            bottomLegend = intl.formatMessage({ id: 'year-legend', defaultMessage: 'Year' });
             groupMode = 'stacked';
             rightLegend = intl.formatMessage({ id: 'rating-legend', defaultMessage: 'Rating out of 100 (%)' });
             keys.push('public', 'private');
@@ -1645,7 +1681,7 @@ const ChartComponent = ({
                 defaultMessage: 'Length of variety release process (months)'
             });
             indexBy = 'year';
-            bottomLegend = intl.formatMessage({ id: 'years-legend', defaultMessage: 'Year' });
+            bottomLegend = intl.formatMessage({ id: 'year-legend', defaultMessage: 'Year' });
             groupMode = 'stacked';
             rightLegend = intl.formatMessage({ id: 'rating-legend', defaultMessage: 'Rating out of 100 (%)' });
             keys.push('time');
@@ -1712,7 +1748,7 @@ const ChartComponent = ({
                 defaultMessage: 'Number of households"'
             });
             indexBy = 'year';
-            bottomLegend = intl.formatMessage({ id: 'years-legend', defaultMessage: 'Year' });
+            bottomLegend = intl.formatMessage({ id: 'year-legend', defaultMessage: 'Year' });
             groupMode = 'stacked';
             rightLegend = intl.formatMessage({ id: 'rating-legend', defaultMessage: 'Rating out of 100 (%)' });
             keys.push('households');
@@ -1788,7 +1824,7 @@ const ChartComponent = ({
                 defaultMessage: 'Number of households"'
             });
             indexBy = 'year';
-            bottomLegend = intl.formatMessage({ id: 'years-legend', defaultMessage: 'Year' });
+            bottomLegend = intl.formatMessage({ id: 'year-legend', defaultMessage: 'Year' });
             groupMode = 'stacked';
             rightLegend = intl.formatMessage({ id: 'rating-legend', defaultMessage: 'Rating out of 100 (%)' });
             keys.push('households');
@@ -1853,7 +1889,7 @@ const ChartComponent = ({
             withCropsWithSpecialFeatures = false;
             useFilterByYear = false;
             addLighterDiv = false;
-            bottomLegend = intl.formatMessage({ id: 'years-legend', defaultMessage: 'Year' });
+            bottomLegend = intl.formatMessage({ id: 'year-legend', defaultMessage: 'Year' });
             leftLegend = intl.formatMessage({
                 id: 'number-of-varieties-released',
                 defaultMessage: 'Number of varieties released'
@@ -1947,7 +1983,7 @@ const ChartComponent = ({
                 break;
             case MARKET_CONCENTRATION_HHI:
                 return <MarketConcentrationHHI data={data} selectedYear={selectedYear} bottomLegend={bottomLegend}
-                                               intl={intl} totalLabel={totalLabel}/>
+                                               intl={intl} totalLabel={totalLabel} />
             case NUMBER_SEED_INSPECTORS:
             case VARIETY_RELEASE_PROCESS:
             case AGRODEALER_NETWORK:
@@ -2069,23 +2105,25 @@ const ChartComponent = ({
     const generateFilters = () => {
         if (isCrossCountryChart) {
             if (useFilterByCropsWithCountries) {
-                return (<Grid.Row className={`filters-section`} style={{borderBottom: "1px solid rgb(229, 229, 229)"}}>
-                    <Grid.Column computer={4} mobile={16}>
-                        <CrossCountryCropFilter data={initialCrops} onChange={handleCrossCountryCropFilterChange}
-                                                initialSelectedCrop={initialSelectedCrop} intl={intl}/>
-                    </Grid.Column>
-                    <Grid.Column computer={5} mobile={16}>
-                        <CrossCountryCountryFilter data={countries} onChange={handleCrossCountryCountryFilterChange}
-                                                   intl={intl}/>
-                    </Grid.Column>
-                </Grid.Row>);
+                return (
+                    <Grid.Row className={`filters-section`} style={{ borderBottom: "1px solid rgb(229, 229, 229)" }}>
+                        <Grid.Column computer={4} mobile={16}>
+                            <CrossCountryCropFilter data={initialCrops} onChange={handleCrossCountryCropFilterChange}
+                                                    initialSelectedCrop={initialSelectedCrop} intl={intl} />
+                        </Grid.Column>
+                        <Grid.Column computer={5} mobile={16}>
+                            <CrossCountryCountryFilter data={countries} onChange={handleCrossCountryCountryFilterChange}
+                                                       intl={intl} />
+                        </Grid.Column>
+                    </Grid.Row>);
             } else if (useFilterByCountries) {
-                return (<Grid.Row className={`filters-section`} style={{borderBottom: "1px solid rgb(229, 229, 229)"}}>
-                    <Grid.Column computer={5} mobile={16}>
-                        <CrossCountryCountryFilter data={countries} onChange={handleCrossCountryCountryFilterChange}
-                                                   intl={intl}/>
-                    </Grid.Column>
-                </Grid.Row>);
+                return (
+                    <Grid.Row className={`filters-section`} style={{ borderBottom: "1px solid rgb(229, 229, 229)" }}>
+                        <Grid.Column computer={5} mobile={16}>
+                            <CrossCountryCountryFilter data={countries} onChange={handleCrossCountryCountryFilterChange}
+                                                       intl={intl} />
+                        </Grid.Column>
+                    </Grid.Row>);
             } else {
                 return null;
             }
@@ -2094,11 +2132,11 @@ const ChartComponent = ({
                 return (<Grid.Row className={`filters-section`}>
                     {!noData && useFilterByCrops ? <Grid.Column computer={3} mobile={16}>
                         <CropFilter data={initialCrops} onChange={handleCropFilterChange}
-                                    initialSelectedCrops={initialSelectedCrops} intl={intl}/>
+                                    initialSelectedCrops={initialSelectedCrops} intl={intl} />
                     </Grid.Column> : null}
                     {(useFilterByYear) ? <Grid.Column computer={3} mobile={16}>
                         <YearsFilter data={years} onChange={handleYearFilterChange} maxSelectable={maxSelectableYear}
-                                     defaultSelected={selectedYear} showMaxYearsMessage={showMaxYearsMessage}/>
+                                     defaultSelected={selectedYear} showMaxYearsMessage={showMaxYearsMessage} />
                     </Grid.Column> : null}
                 </Grid.Row>);
             } else {
@@ -2117,19 +2155,23 @@ const ChartComponent = ({
             return null;
         } else {
             if (!noData && useCropLegendsRow) {
+                const cropsLegendTranslated = intl.formatMessage({
+                    id: 'crops-legend',
+                    defaultMessage: 'Crops'
+                });
                 return (<Grid.Row className={`crops-with-icons`}>
                     <Grid.Column width={10}>
                         {legend === 'crops' &&
-                            <CropsLegend data={selectedCrops} title="Crops" titleClass="crops-title"
+                            <CropsLegend data={selectedCrops} title={cropsLegendTranslated} titleClass="crops-title"
                                          addLighterDiv={addLighterDiv}
-                                         intl={intl}/>}
+                                         intl={intl} />}
                         {legend && legend.toLowerCase() === 'year' &&
-                            <YearLegend colors={yearsColors} years={selectedYear}/>}
+                            <YearLegend colors={yearsColors} years={selectedYear} />}
                         {legend && legend === genericLegend &&
-                            <GenericLegend colors={colors} keys={keys} title={legendTitle}/>}
+                            <GenericLegend colors={colors} keys={keys} title={legendTitle} />}
                     </Grid.Column>
                     <Grid.Column width={6}>
-                        {withCropsWithSpecialFeatures && <CropsWithSpecialFeatures/>}
+                        {withCropsWithSpecialFeatures && <CropsWithSpecialFeatures />}
                     </Grid.Column>
                 </Grid.Row>);
             } else {

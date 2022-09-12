@@ -9,6 +9,7 @@ import {
     SUMMARY_INDICATORS_INFORMATION, WP_CATEGORIES, WP_DOCUMENTS, WP_IMAGES, WP_CROPS, CUSTOM_TOOLTIPS, DATA
 } from "./StoreConstants";
 import { getCategoriesWP, saveTooltips } from "./data-api";
+import { normalizeField } from "../utils/common";
 
 const LOAD_DATA = 'LOAD_DATA'
 const LOAD_DATA_DONE = 'LOAD_DATA_DONE'
@@ -72,9 +73,18 @@ export const getCountries = (dataSource) => (dispatch, getState) => {
         type: LOAD_COUNTRIES
     })
     api.getCountriesData(dataSource).then(data => {
+        const intlState = getState().get('intl');
+        let translatedData = data;
+        if (intlState && intlState.messages) {
+            translatedData = data.map(c => {
+                c.translatedLabel = intlState.messages[normalizeField(c.country)];
+                return c;
+            });
+        }
+
         dispatch({
             type: LOAD_COUNTRIES_DONE,
-            data: data.sort((a, b) => a.country.localeCompare(b.country))
+            data: translatedData.sort((a, b) => a.country.localeCompare(b.country))
         })
     }).catch(error => {
         dispatch({
@@ -84,7 +94,7 @@ export const getCountries = (dataSource) => (dispatch, getState) => {
     })
 }
 
-export const getDocuments = ( params ) => (dispatch, getState) => {
+export const getDocuments = (params) => (dispatch, getState) => {
     const store = params.categories;
     dispatch({
         type: LOAD_DOCUMENTS,

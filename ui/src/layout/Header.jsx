@@ -86,7 +86,7 @@ const MyMenuItems = injectIntl(withRouter(({
     </React.Fragment>
 }))
 
-const Header = ({ intl: { locale }, match, firstChildLink, filters }) => {
+const Header = ({ intl, intl: { locale }, match, firstChildLink, filters }) => {
     const [selected, setSelected] = useState()
     const routerHistory = useHistory();
     const { params, url } = match;
@@ -124,7 +124,10 @@ const Header = ({ intl: { locale }, match, firstChildLink, filters }) => {
                         <a href={logoUrl}><img alt="Home" className="brand logo" src='/tasai_Logo.svg' /></a>
                     </div>
                     <div className="title-container align-content">
-                        {isCustom && <span className="title">TASAI DASHBOARD</span>}
+                        {isCustom && <span className="title">{intl.formatMessage({
+                            id: 'tasai-dashboard',
+                            defaultMessage: 'tasai DASHBOARD'
+                        })} </span>}
                         {!isCustom && <Container fluid={true} className="regular-menu">
                             <Menu.Menu className={"pages"}>
                                 <MenuConsumer>
@@ -136,8 +139,8 @@ const Header = ({ intl: { locale }, match, firstChildLink, filters }) => {
                     </div>
                     <div className="lang-container align-content">
                         <div className="lang">
-                            {/*{locale === 'en' && <a href="#" onClick={() => gotoLanguage('fr')}>français</a>}
-                            {locale === 'fr' && <a onClick={() => gotoLanguage('en')}>english</a>}*/}
+                            {locale === 'en' && <a href="#" onClick={() => gotoLanguage('fr')}>français</a>}
+                            {locale === 'fr' && <a onClick={() => gotoLanguage('en')}>english</a>}
                         </div>
                     </div>
                 </Menu>

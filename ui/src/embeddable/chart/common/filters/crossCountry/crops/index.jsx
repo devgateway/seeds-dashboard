@@ -1,8 +1,9 @@
-import React, {useState, useEffect, useRef} from "react";
+import React, { useState, useEffect, useRef } from "react";
 import './styles.scss';
-import {Accordion, Form, Menu} from "semantic-ui-react";
+import { Accordion, Form, Menu } from "semantic-ui-react";
+import { normalizeField } from "../../../../../utils/common";
 
-const CrossCountryCropFilter = ({data, onChange, initialSelectedCrop = 0, intl}) => {
+const CrossCountryCropFilter = ({ data, onChange, initialSelectedCrop = 0, intl }) => {
 
     const [isOpen, setIsOpen] = useState(false);
     const [selectedCrop, setSelectedCrop] = useState(0);
@@ -46,15 +47,29 @@ const CrossCountryCropFilter = ({data, onChange, initialSelectedCrop = 0, intl})
         return (data.map((c, i) => {
             return (<div key={c}>
                 <Form.Checkbox value={c} checked={selectedCrop === i} onChange={handleChange}
-                               label={intl.formatMessage({id: c, defaultMessage: c})}/>
+                               label={intl.formatMessage({ id: c, defaultMessage: c })} />
             </div>);
         }));
     }
 
     const sum = selectedCrop !== null ? 1 : 0;
-    const title = (<div><span className="filter-selector-title" style={{textTransform: 'capitalize'}}>
-        Crop: {currentData ? currentData[selectedCrop] : ''}
-    </span><span className="filter-selector-numbers">{sum} of {currentData ? currentData.length : 0}</span></div>);
+    let currentDataLabel = '';
+    if (currentData && currentData[selectedCrop]) {
+        currentDataLabel = intl.formatMessage({
+            id: normalizeField(currentData[selectedCrop]),
+            defaultMessage: currentData[selectedCrop]
+        })
+    }
+    const title = (<div><span className="filter-selector-title" style={{ textTransform: 'capitalize' }}>
+
+        {intl.formatMessage({
+            id: "crop-legend",
+            defaultMessage: "Crop"
+        })}: {currentDataLabel}
+    </span><span className="filter-selector-numbers">{sum} {intl.formatMessage({
+        id: "of",
+        defaultMessage: "of"
+    })} {currentData ? currentData.length : 0}</span></div>);
     return (
         <div ref={ref}>
             <Accordion as={Menu} vertical>
@@ -66,7 +81,7 @@ const CrossCountryCropFilter = ({data, onChange, initialSelectedCrop = 0, intl})
                         index={0}
                         onClick={handleClick}
                     />
-                    <Accordion.Content className="ignore" active={isOpen} content={generateContent()}/>
+                    <Accordion.Content className="ignore" active={isOpen} content={generateContent()} />
                 </Menu.Item>
             </Accordion>
         </div>

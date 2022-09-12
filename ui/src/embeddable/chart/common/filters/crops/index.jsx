@@ -54,8 +54,8 @@ const CropFilter = ({data, onChange, initialSelectedCrops = [1, 1, 1, 1], intl})
     }
 
     const sum = numberOfSelectedCrops.reduce((acc, a) => acc + a, 0);
-    const title = (<div><span className="filter-selector-title">Crop(s) </span><span
-        className="filter-selector-numbers">{sum} of {currentData ? currentData.length : 0}</span></div>);
+    const title = (<div><span className="filter-selector-title">{intl.formatMessage({id: "crop-s", defaultMessage: "Crop(s)"})}</span><span
+        className="filter-selector-numbers">{sum} {intl.formatMessage({id: 'of', defaultMessage: 'of'})} {currentData ? currentData.length : 0}</span></div>);
     return (
         <div ref={ref}>
             <Accordion as={Menu} vertical>
