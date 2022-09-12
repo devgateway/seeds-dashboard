@@ -75,7 +75,6 @@ class Content extends React.Component {
       preview, isAddTypeToLink,
       showLinksInModal
     } = this.props
-
     if (post) {
       const contentParts = post.content ? post.content.rendered.split("<!--more-->") : []
       const intro = contentParts.length > 0 ? contentParts[0] : null
@@ -86,6 +85,7 @@ class Content extends React.Component {
       if (pageNumber && pages.length > 0) {
         body = pages[pageNumber]
       }
+        const readMore = messages && messages[locale]['read-more'] ? messages[locale]['read-more'] : "Read More";
       return <EmbeddedGateway locale={locale} messages={messages} parent={preview ? post.parent : post.id}
                               acf={post.acf}>
         <Enhance className="entry-content" {...this.props}>
@@ -101,9 +101,9 @@ class Content extends React.Component {
                        dangerouslySetInnerHTML={{ __html: replaceHTMLinks(body, locale) }} />}
           {showLink === true && showLinksInModal !== "true" &&
               <a href={isAddTypeToLink ? this.replaceSlugWithId(replaceLink(post.link, locale, isAddTypeToLink), post.slug, post.id) : replaceLink(post.link, locale, isAddTypeToLink)}
-                 className="link">Read More</a>}
+                 className="link">{readMore}</a>}
           {showLink === true && showLinksInModal === "true" &&
-              <a className="link" style={{cursor: 'pointer'}} onClick={() => this.switchModal()}>Read More</a>}
+              <a className="link" style={{cursor: 'pointer'}} onClick={() => this.switchModal()}>{readMore}</a>}
           {showLink === true && showLinksInModal === "true" &&
               this.generateModal(replaceLink(this.props.post.link, locale, false) + 'modal')}
         </Enhance>

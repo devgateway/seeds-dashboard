@@ -55,15 +55,17 @@ const MarketConcentrationHHI = ({ data, sources, selectedYear, bottomLegend, int
     const indexBy = 'year';
     const layout = 'vertical';
     const groupMode = 'grouped';
-    const leftLegend = 'HHI value';
+    const hhiValue = intl.formatMessage({ id: 'hhi-value', defaultMessage: 'HHI Value' });
+
+    const leftLegend =hhiValue;
     const enableGridX = false;
     const enableGridY = true;
     const getTooltipText = (d) => {
         return <div style={{ textAlign: 'center' }}>
-            <span>HHI Value</span><span
+            <span>{hhiValue}</span><span
             className="bold">
             {totalLabel.format ? intl.formatNumber(d.data[d.id], totalLabel.format) : d.data[d.id]}</span><br />
-            <span>Year</span><span
+            <span>{intl.formatMessage({ id: 'year-legend', defaultMessage: 'Year' })}</span><span
             className="bold"> {d.data.year}  </span>
         </div>
     }
@@ -74,26 +76,27 @@ const MarketConcentrationHHI = ({ data, sources, selectedYear, bottomLegend, int
         </>;
     }
     const customTickWithCropsBottom = false;
-    
+
     const hhiProcessedData = [];
     processedData.forEach(i => {
         Object.keys(i).forEach(j => {
             if (j !== 'crop' && selectedYear.find(k => k === j)) {
-                hhiProcessedData.push({year: j, value: i[j], crop: i.crop});
+                hhiProcessedData.push({ year: j, value: i[j], crop: i.crop });
             }
         });
     });
-    
+
     return (
         <>
             <Grid.Row className={`hhi-section`}>
-                <HHILegend legends={hhiLegends} title={'HHI Value'} />
+                <HHILegend legends={hhiLegends}
+                           title={intl.formatMessage({ id: 'hhi-value', defaultMessage: 'HHI Value' })} />
             </Grid.Row>
             <Grid.Row className="chart-section">
                 {[0, 1, 2, 3].map(i => {
                     return (<Grid.Column key={i} computer={8} mobile={16}>
                         <div className="hhi-crops">
-                            <CropsLegend data={[crops[i]]} />
+                            <CropsLegend data={[crops[i]]} intl={intl} />
                         </div>
                         <ResponsiveBarChartImpl sources={sources} data={data} noData={noData} crops={crops}
                                                 selectedYear={selectedYear} colors={colors[i]} max={max * 1.25}
@@ -108,7 +111,7 @@ const MarketConcentrationHHI = ({ data, sources, selectedYear, bottomLegend, int
                                                 containerHeight={300}
                                                 gridTickLines={4} margins={{ top: 40, right: 10, bottom: 60, left: 70 }}
                                                 padding={0.05} intl={intl}
-                                                axisBottom={true} totalLabel={totalLabel} 
+                                                axisBottom={true} totalLabel={totalLabel}
                                                 getColorsCustom={i => getColorHHI(i.value)}
                         />
                     </Grid.Column>);
@@ -149,26 +152,36 @@ export const hhiLegends = [
         id: 8,
         'color': hhiColors[4].color,
         'label': 'Extremely poor (>4,000)',
+        'label-range': '(>4,000)',
+        'label-key': 'extremely-poor-legend',
     },
     {
         id: 9,
         'color': hhiColors[3].color,
         'label': 'Poor (3,000-3,999)',
+        'label-ke': 'poor-legend',
+        'label-range': '(3,000-3,999)',
     },
     {
         id: 10,
         'color': hhiColors[2].color,
         'label': 'Moderate (2,000-2,999)',
+        'label-key': 'moderate-legend',
+        'label-range': '(2,000-2,999)',
     },
     {
         id: 11,
         'color': hhiColors[1].color,
         'label': 'Good (1,000-1,999)',
+        'label-key': 'good-legend',
+        'label-range': '(1,000-1,999)',
     },
     {
         id: 12,
         'color': hhiColors[0].color,
         'label': 'Excellent (<1000)',
+        'label-range': '(<1000)',
+        'label-key': 'excellent-legend',
     }
 ];
 

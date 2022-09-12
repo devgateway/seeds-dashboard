@@ -3,7 +3,7 @@ import { Input, Popup, Form, Button, Icon } from 'semantic-ui-react'
 import './styles.scss';
 import { injectIntl } from "react-intl";
 import { connect } from "react-redux";
-import {generateShareParams} from "../../../utils/common";
+import { generateShareParams } from "../../../utils/common";
 
 const Export = ({
                     methodology,
@@ -59,6 +59,10 @@ const Export = ({
                 document.removeEventListener("click", handleClickOutside, true);
             };
         }, []);
+        const shareButton = intl.formatMessage({
+            id: 'share-button',
+            defaultMessage: 'Share'
+        });
         return (<div ref={ref}>
             <Icon.Group>
                 <Icon name='circle outline' />
@@ -74,11 +78,15 @@ const Export = ({
                                setIsPopupOpen(false)
                            }, 2000);
 
-                       }}>Share</Button>} />
+                       }}>{shareButton}</Button>} />
 
             </Form.Group>
         </div>)
     }
+    const methodsLegend = intl.formatMessage({
+        id: 'methods',
+        defaultMessage: 'Methods'
+    });
     return (
         <div className="export-wrapper">
             <div className="export-buttons">
@@ -96,7 +104,8 @@ const Export = ({
             </div>
             {methodology
                 ?
-                <Popup className="methods-popup" content={methodology} trigger={<div className="tooltip">Methods</div>}
+                <Popup className="methods-popup" content={methodology}
+                       trigger={<div className="tooltip">{methodsLegend}</div>}
                        position='bottom right' />
                 : null}
         </div>

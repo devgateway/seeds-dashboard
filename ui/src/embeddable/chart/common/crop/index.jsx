@@ -1,5 +1,6 @@
 import React from "react";
 import './styles.scss';
+import { normalizeField } from "../../../utils/common";
 
 const CropsLegend = ({data, title, titleClass, addLighterDiv, intl}) => {
     return (
@@ -8,7 +9,7 @@ const CropsLegend = ({data, title, titleClass, addLighterDiv, intl}) => {
                 <label className={titleClass || ''}>{title}</label>
             </div>) : null}
             {data.map(c => {
-                const translated = intl ? intl.formatMessage({id: c, defaultMessage: c}) : c;
+                const translated = intl ? intl.formatMessage({id: normalizeField(c), defaultMessage: c}) : c;
                 const class_ = "crop " + c.toLowerCase() + " crop-icon";
                 return (<div key={c} className={class_}>
                     <label>{translated}</label>

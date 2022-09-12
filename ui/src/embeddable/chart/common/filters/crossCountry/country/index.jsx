@@ -1,8 +1,9 @@
-import React, {useState, useEffect, useRef} from "react";
+import React, { useState, useEffect, useRef } from "react";
 import './styles.scss';
-import {Accordion, Form, Menu} from "semantic-ui-react";
+import { Accordion, Form, Menu } from "semantic-ui-react";
+import { normalizeField } from "../../../../../utils/common";
 
-const CrossCountryCountryFilter = ({data, onChange, initialSelectedCrops = [], intl}) => {
+const CrossCountryCountryFilter = ({ data, onChange, initialSelectedCrops = [], intl }) => {
 
     const [isOpen, setIsOpen] = useState(false);
     const [currentData, setCurrentData] = useState(null);
@@ -36,10 +37,10 @@ const CrossCountryCountryFilter = ({data, onChange, initialSelectedCrops = [], i
 
     const handleChange = (e, props) => {
         const index = currentData.findIndex(i => i.iso === props.value);
-        const selected = currentData.find(i=>i.iso === props.value).selected
+        const selected = currentData.find(i => i.iso === props.value).selected
         onChange(index, props.value, !selected);
     }
-    
+
     const selectAll = () => {
         currentData.forEach((i, index) => {
             if (i.active) {
@@ -62,14 +63,18 @@ const CrossCountryCountryFilter = ({data, onChange, initialSelectedCrops = [], i
             return (
                 <>
                     <div className="cross_country_select">
-                        <span onClick={selectAll}>{intl.formatMessage({id: 'select-all'})} </span> | <span onClick={selectNone}> {intl.formatMessage({id: 'select-none'})}</span>
+                        <span onClick={selectAll}>{intl.formatMessage({ id: 'select-all' })} </span> | <span
+                        onClick={selectNone}> {intl.formatMessage({ id: 'select-none' })}</span>
                     </div>
                     {aux.map((c, i) => {
-                        return (<div key={c} style={{width: "50%", position: "relative", display: "inline-block"}}>
+                        return (<div key={c} style={{ width: "50%", position: "relative", display: "inline-block" }}>
                             <Form.Checkbox value={c.iso} checked={c.selected}
                                            onChange={handleChange}
                                            disabled={!c.active}
-                                           label={intl.formatMessage({id: c.name, defaultMessage: c.name})}/>
+                                           label={intl.formatMessage({
+                                               id: normalizeField(c.name),
+                                               defaultMessage: c.name
+                                           })} />
                         </div>);
                     })}
                 </>);
@@ -78,11 +83,17 @@ const CrossCountryCountryFilter = ({data, onChange, initialSelectedCrops = [], i
     }
 
     const sum = currentData ? currentData.filter(i => i.selected).length : 0;
-    const title = (<div><span className="filter-selector-title">Country </span><span
-        className="filter-selector-numbers">{sum} of {currentData ? currentData.length : 0}</span></div>);
+    const title = (<div><span className="filter-selector-title">{intl.formatMessage({
+        id: "label-country",
+        defaultMessage: "Country"
+    })} </span><span
+        className="filter-selector-numbers">{sum} {intl.formatMessage({
+        id: "of",
+        defaultMessage: "of"
+    })} {currentData ? currentData.length : 0}</span></div>);
     return (
         <div ref={ref}>
-            <Accordion as={Menu} vertical style={{width: "100%"}}>
+            <Accordion as={Menu} vertical style={{ width: "100%" }}>
                 <Menu.Item>
                     <Accordion.Title
                         active={isOpen}
@@ -91,7 +102,7 @@ const CrossCountryCountryFilter = ({data, onChange, initialSelectedCrops = [], i
                         index={0}
                         onClick={handleClick}
                     />
-                    <Accordion.Content className="ignore" active={isOpen} content={generateContent()}/>
+                    <Accordion.Content className="ignore" active={isOpen} content={generateContent()} />
                 </Menu.Item>
             </Accordion>
         </div>
