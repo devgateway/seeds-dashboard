@@ -79,7 +79,7 @@ const PostCarousel = ({
     }
     if (isConnectFilter && !categoriesWP) {
         return <Container>
-            <h1>Loading ...</h1>
+            <span>Loading...</span>
             <Loader inverted content='Loading' />
         </Container>;
     } else {
