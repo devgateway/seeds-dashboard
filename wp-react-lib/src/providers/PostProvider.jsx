@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { getPosts } from '../reducers/actions'
 import { PostContext } from './Context'
-import { Container, Loader, Segment } from "semantic-ui-react";
+import { Container, Segment } from "semantic-ui-react";
 import LocalizedProvider from "./LocalizedProvider"
 
 class PostProvider extends React.Component {
@@ -80,7 +80,11 @@ class PostProvider extends React.Component {
 
     render() {
         const { posts, meta, loading, error, locale, isScheduledFilter, scheduledFilterStore } = this.props;
-        if (posts && (posts.length > 0 || posts.id)) {
+        if (loading) {
+            return (<Container>
+                <span className="loading">Loading...</span>
+            </Container>)
+        } else if (posts && (posts.length > 0 || posts.id)) {
             let postsArray = posts;
             if (!Array.isArray(postsArray)) {
                 postsArray = [];
@@ -109,7 +113,6 @@ class PostProvider extends React.Component {
                     : isPast ? new Date(b.acf.event_stat_date) - new Date(a.acf.event_stat_date)
                         : new Date(a.acf.event_stat_date) - new Date(b.acf.event_stat_date));
             }
-
             return <PostContext.Provider
                 value={{ posts: postsArray, locale, meta }}>{this.props.children}</PostContext.Provider>
         } else if (error) {
@@ -117,10 +120,6 @@ class PostProvider extends React.Component {
                 <h1>500</h1>
                 <p>The service is not available please try again in a few minutes</p>
             </Segment>
-        } else if (loading) {
-            return (<Container>
-                <Loader>Loading</Loader>
-            </Container>)
         } else {
             return <Container>
                 <Segment color={"red"}>
