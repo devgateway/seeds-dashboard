@@ -125,6 +125,12 @@ const CountryReports = (props) => {
             return (<img src={NO_IMAGE} />);
         }
     }
+    
+    const cleanupCountryName = (name) => {
+        let newName = name.replace(categorySuffix_, '');
+        newName = newName.replace('-', ' ');
+        return newName;
+    }
 
     const classes = 'styles reports';
     let childComponent = null;
@@ -152,7 +158,7 @@ const CountryReports = (props) => {
                                 </div>
                                 <div className="report-container">
                                     <span
-                                        className="title">{country_.name.replace(categorySuffix_, '') + ' ' + year_.name + ' ' + title}</span>
+                                        className="title">{cleanupCountryName(country_.name) + ' ' + year_.name + ' ' + title}</span>
                                     <span className="description">{description}</span>
                                     <span className="links">{generateLinks()}</span>
                                 </div>
