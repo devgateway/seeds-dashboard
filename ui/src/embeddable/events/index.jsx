@@ -89,6 +89,15 @@ const Events = (props) => {
 
         }
     }
+    
+    const isShowAddToCalendar = (pEventStartDate, pEventEndDate) => {
+        if (pEventEndDate) {
+            return pEventEndDate > new Date();
+        } else {
+            return pEventStartDate < new Date();
+        }
+    }
+    
     return (<Grid className="events">
         {hostedBy && hostedBy !== 'undefined' ? <Grid.Column width={16} className="event-hostedby">
             <span className="label hostedby">Hosted By </span><span className="host-value">{hostedBy}</span>
@@ -120,10 +129,10 @@ const Events = (props) => {
                     location: eventLocation || 'Location N/A'
                 })
             }}>
-                <input className="atcb_customTrigger" type="submit" value="Add to calendar" />
+                {isShowAddToCalendar(pEventStartDate, pEventEndDate) ? <input className="atcb_customTrigger" type="submit" 
+                                                                              value={intl.formatMessage({ id: 'addToCalendar', defaultMessage: 'Add to calendar' })} /> : null}
                 {showFullContent && externalFormURL ? (
-                    <a className="register_form_button" type="button" onClick={openRegisterForm}>Open register
-                        form</a>) : null}
+                    <a className="register_form_button" type="button" onClick={openRegisterForm}>{intl.formatMessage({ id: 'openRegisterForm', defaultMessage: 'Open register form' })}</a>) : null}
             </form>
         </Grid.Column> : null}
     </Grid>);
