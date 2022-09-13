@@ -237,5 +237,7 @@
   "chart-label-length-of-import": "Durée du processus d'importation (jours)",
   "chart-label-length-of-export": "Durée du processus d'exportation (jours)",
   "tasai-dashboard": "Tableau de bord TASAI",
-  "legend": "Légende"
+  "legend": "Légende",
+  "addToCalendar": "Ajouter au calendrier",
+  "openRegisterForm": "Ouvrir le formulaire d'inscription"
 }
