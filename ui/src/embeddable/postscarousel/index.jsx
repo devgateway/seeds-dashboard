@@ -10,6 +10,7 @@ import { WP_CATEGORIES } from "../reducers/StoreConstants";
 import { getSlugFromFilters } from "../utils/common";
 import { DOCUMENTS_PER_PAGE } from "../../seeds-commons/commonConstants";
 import Carousel from "./Carousel";
+import {injectIntl} from "react-intl";
 
 export const POST_CAROUSEL_CONTAINER = 'postCarouselContainer';
 
@@ -35,7 +36,8 @@ const PostCarousel = ({
                           "data-preload-document-and-crops": preloadDocumentsAndCrops = 'false',
                           'data-new-implementation': newImplementation = 'false',
                           filters, filtersData, categoriesWP, onLoadWPCategories,
-                          onLoadCrops, onLoadDocuments
+                          onLoadCrops, onLoadDocuments,
+                          intl
                       }) => {
     const isConnectFilter = connectFilter === 'true';
     const isNewImplementation = newImplementation === 'true';
@@ -79,8 +81,8 @@ const PostCarousel = ({
     }
     if (isConnectFilter && !categoriesWP) {
         return <Container>
-            <span>Loading...</span>
-            <Loader inverted content='Loading' />
+            <span>{intl.formatMessage({ id: 'loading', defaultMessage: 'Loading' })}</span>
+            <Loader inverted content={intl.formatMessage({ id: 'loading', defaultMessage: 'Loading' })} />
         </Container>;
     } else {
         return <Container className={`wp-react-lib post carousel ${editing ? 'editing' : ''}`} fluid={true}
@@ -117,4 +119,4 @@ const mapActionCreators = {
     onLoadDocuments: getDocuments,
 };
 
-export default connect(mapStateToProps, mapActionCreators)(PostCarousel);
+export default connect(mapStateToProps, mapActionCreators)(injectIntl(PostCarousel));
