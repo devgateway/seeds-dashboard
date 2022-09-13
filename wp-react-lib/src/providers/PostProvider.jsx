@@ -108,6 +108,9 @@ class PostProvider extends React.Component {
                 }).sort((a, b) => !a.acf.event_stat_date || !b.acf.event_stat_date ? 0
                     : isPast ? new Date(b.acf.event_stat_date) - new Date(a.acf.event_stat_date)
                         : new Date(a.acf.event_stat_date) - new Date(b.acf.event_stat_date));
+            } else {
+                postsArray = postsArray.sort((a, b) => !a.date || !b.date ? 0
+                    : new Date(b.date) - new Date(a.date));
             }
 
             return <PostContext.Provider
@@ -119,7 +122,8 @@ class PostProvider extends React.Component {
             </Segment>
         } else if (loading) {
             return (<Container>
-                <Loader>Loading</Loader>
+                <span>Loading...</span>
+                <Loader inverted content='Loading...' />
             </Container>)
         } else {
             return <Container>
