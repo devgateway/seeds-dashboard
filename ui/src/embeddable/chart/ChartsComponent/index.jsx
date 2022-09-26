@@ -46,7 +46,7 @@ import {
     CROSS_COUNTRY_AGRODEALER_NETWORK, CROSS_COUNTRY_AVAILABILITY_SEED_SMALL_PACKAGES,
 } from "../../reducers/StoreConstants";
 import YearLegend from "../common/year";
-import MarketConcentrationHHI, {getColorHHI, hhiLegends} from "../MarketConcentrationHHI";
+import MarketConcentrationHHI, { getColorHHI, hhiLegends } from "../MarketConcentrationHHI";
 import ResponsiveRadarChartImpl from "../ResponsiveRadarChartImpl";
 import { injectIntl } from "react-intl";
 import BarAndLineChart from "../BarAndLineChart";
@@ -227,6 +227,10 @@ const ChartComponent = ({
         if (!initialCrops) {
             setSelectedCrops(crops);
             setInitialCrops(crops);
+        } else {
+            if (!isCrossCountryChart) {
+                crops = selectedCrops;
+            }
         }
     }
 
@@ -726,8 +730,8 @@ const ChartComponent = ({
                             <span className="normal">{intl.formatMessage({
                                 id: 'tooltip-price-usd-by-kg'
                             })}</span> {d.point.data.y !== FAKE_NUMBER
-                                ? (<><span className="bold">{d.point.data.y} </span><span className="normal">USD</span></>)
-                                : 'MD'}
+                            ? (<><span className="bold">{d.point.data.y} </span><span className="normal">USD</span></>)
+                            : 'MD'}
                         </div>
                     </div>)
                 }
@@ -786,8 +790,11 @@ const ChartComponent = ({
                 });
                 getTooltipText = (d) => {
                     return (<>
-                        <span>{intl.formatMessage({id: 'tooltip-market-share-state-owned', defaultMessage: 'Market share of state owned companies'})}</span>
-                        <span className="bold"> {d.data[d.id]}%</span><br/>
+                        <span>{intl.formatMessage({
+                            id: 'tooltip-market-share-state-owned',
+                            defaultMessage: 'Market share of state owned companies'
+                        })}</span>
+                        <span className="bold"> {d.data[d.id]}%</span><br />
                     </>);
                 }
                 getTooltipHeader = (d) => {
@@ -1096,7 +1103,8 @@ const ChartComponent = ({
                             id: 'active-breeders-tooltip',
                             defaultMessage: 'Number of active breeders'
                         })}: </span>
-                                <span className="bold"> {d.value !== FAKE_NUMBER ? d.value + '/1,000,000 ha' : 'MD'}</span>
+                                <span
+                                    className="bold"> {d.value !== FAKE_NUMBER ? d.value + '/1,000,000 ha' : 'MD'}</span>
                             </div>
                         </>
                     }
@@ -1113,7 +1121,8 @@ const ChartComponent = ({
                             id: 'varieties-released-tooltip',
                             defaultMessage: 'Number of varieties released per land under production'
                         })}: </span>
-                                <span className="bold"> {d.value !== FAKE_NUMBER ? d.value + '/1,000,000 ha' : 'MD'}</span>
+                                <span
+                                    className="bold"> {d.value !== FAKE_NUMBER ? d.value + '/1,000,000 ha' : 'MD'}</span>
                             </div>
                         </>
                     }
@@ -1130,7 +1139,8 @@ const ChartComponent = ({
                             id: 'quantity-certified-seed-sold-tooltip',
                             defaultMessage: 'Certified seed sold'
                         })}: </span>
-                                <span className="bold"> {d.value !== FAKE_NUMBER ? d.value + 't / 1,000 ha' : 'MD'}</span>
+                                <span
+                                    className="bold"> {d.value !== FAKE_NUMBER ? d.value + 't / 1,000 ha' : 'MD'}</span>
                             </div>
                         </>
                     }
@@ -1312,7 +1322,7 @@ const ChartComponent = ({
                     useFilterByCountries = true;
                     customSorting = (a, b) => (b.country.localeCompare(a.country));
                     dataSuffix = "%";
-                    max =  max < 95 ? 95 : max;
+                    max = max < 95 ? 95 : max;
                     break;
                 case CROSS_COUNTRY_AGRODEALER_NETWORK:
                     bottomLegend = intl.formatMessage({
@@ -1947,7 +1957,7 @@ const ChartComponent = ({
                 break;
             case MARKET_CONCENTRATION_HHI:
                 return <MarketConcentrationHHI data={data} selectedYear={selectedYear} bottomLegend={bottomLegend}
-                                               intl={intl} totalLabel={totalLabel}/>
+                                               intl={intl} totalLabel={totalLabel} />
             case NUMBER_SEED_INSPECTORS:
             case VARIETY_RELEASE_PROCESS:
             case AGRODEALER_NETWORK:
@@ -2069,23 +2079,25 @@ const ChartComponent = ({
     const generateFilters = () => {
         if (isCrossCountryChart) {
             if (useFilterByCropsWithCountries) {
-                return (<Grid.Row className={`filters-section`} style={{borderBottom: "1px solid rgb(229, 229, 229)"}}>
-                    <Grid.Column computer={4} mobile={16}>
-                        <CrossCountryCropFilter data={initialCrops} onChange={handleCrossCountryCropFilterChange}
-                                                initialSelectedCrop={initialSelectedCrop} intl={intl}/>
-                    </Grid.Column>
-                    <Grid.Column computer={5} mobile={16}>
-                        <CrossCountryCountryFilter data={countries} onChange={handleCrossCountryCountryFilterChange}
-                                                   intl={intl}/>
-                    </Grid.Column>
-                </Grid.Row>);
+                return (
+                    <Grid.Row className={`filters-section`} style={{ borderBottom: "1px solid rgb(229, 229, 229)" }}>
+                        <Grid.Column computer={4} mobile={16}>
+                            <CrossCountryCropFilter data={initialCrops} onChange={handleCrossCountryCropFilterChange}
+                                                    initialSelectedCrop={initialSelectedCrop} intl={intl} />
+                        </Grid.Column>
+                        <Grid.Column computer={5} mobile={16}>
+                            <CrossCountryCountryFilter data={countries} onChange={handleCrossCountryCountryFilterChange}
+                                                       intl={intl} />
+                        </Grid.Column>
+                    </Grid.Row>);
             } else if (useFilterByCountries) {
-                return (<Grid.Row className={`filters-section`} style={{borderBottom: "1px solid rgb(229, 229, 229)"}}>
-                    <Grid.Column computer={5} mobile={16}>
-                        <CrossCountryCountryFilter data={countries} onChange={handleCrossCountryCountryFilterChange}
-                                                   intl={intl}/>
-                    </Grid.Column>
-                </Grid.Row>);
+                return (
+                    <Grid.Row className={`filters-section`} style={{ borderBottom: "1px solid rgb(229, 229, 229)" }}>
+                        <Grid.Column computer={5} mobile={16}>
+                            <CrossCountryCountryFilter data={countries} onChange={handleCrossCountryCountryFilterChange}
+                                                       intl={intl} />
+                        </Grid.Column>
+                    </Grid.Row>);
             } else {
                 return null;
             }
@@ -2094,11 +2106,11 @@ const ChartComponent = ({
                 return (<Grid.Row className={`filters-section`}>
                     {!noData && useFilterByCrops ? <Grid.Column computer={3} mobile={16}>
                         <CropFilter data={initialCrops} onChange={handleCropFilterChange}
-                                    initialSelectedCrops={initialSelectedCrops} intl={intl}/>
+                                    initialSelectedCrops={initialSelectedCrops} intl={intl} />
                     </Grid.Column> : null}
                     {(useFilterByYear) ? <Grid.Column computer={3} mobile={16}>
                         <YearsFilter data={years} onChange={handleYearFilterChange} maxSelectable={maxSelectableYear}
-                                     defaultSelected={selectedYear} showMaxYearsMessage={showMaxYearsMessage}/>
+                                     defaultSelected={selectedYear} showMaxYearsMessage={showMaxYearsMessage} />
                     </Grid.Column> : null}
                 </Grid.Row>);
             } else {
@@ -2122,14 +2134,14 @@ const ChartComponent = ({
                         {legend === 'crops' &&
                             <CropsLegend data={selectedCrops} title="Crops" titleClass="crops-title"
                                          addLighterDiv={addLighterDiv}
-                                         intl={intl}/>}
+                                         intl={intl} />}
                         {legend && legend.toLowerCase() === 'year' &&
-                            <YearLegend colors={yearsColors} years={selectedYear}/>}
+                            <YearLegend colors={yearsColors} years={selectedYear} />}
                         {legend && legend === genericLegend &&
-                            <GenericLegend colors={colors} keys={keys} title={legendTitle}/>}
+                            <GenericLegend colors={colors} keys={keys} title={legendTitle} />}
                     </Grid.Column>
                     <Grid.Column width={6}>
-                        {withCropsWithSpecialFeatures && <CropsWithSpecialFeatures/>}
+                        {withCropsWithSpecialFeatures && <CropsWithSpecialFeatures />}
                     </Grid.Column>
                 </Grid.Row>);
             } else {
