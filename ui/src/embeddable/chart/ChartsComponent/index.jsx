@@ -234,6 +234,10 @@ const ChartComponent = ({
         if (!initialCrops) {
             setSelectedCrops(crops);
             setInitialCrops(crops);
+        } else {
+            if (!isCrossCountryChart) {
+                crops = selectedCrops;
+            }
         }
     }
 
