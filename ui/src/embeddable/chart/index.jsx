@@ -331,6 +331,7 @@ const Chart = (props) => {
     }
 
     // For every chart we set the height that shows the content with the best look.
+    const cross_country_height = 750;
     let fixedHeight = {
         [NUMBER_OF_ACTIVE_BREEDERS]: 742,
         [NUMBER_OF_VARIETIES_RELEASED]: 741,
@@ -353,18 +354,18 @@ const Chart = (props) => {
         [AGRODEALER_NETWORK]: 730,
         [AVAILABILITY_SEED_SMALL_PACKAGES]: 725,
         [PRICE_SEED_PLANTING]: 695,
-        [CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS]: 875,
-        [CROSS_COUNTRY_NUMBER_OF_VARIETIES_RELEASED]: 875,
-        [CROSS_COUNTRY_QUANTITY_CERTIFIED_SEED_SOLD]: 875,
-        [CROSS_COUNTRY_NUMBER_OF_ACTIVE_SEED_COMPANIES]: 875,
-        [CROSS_COUNTRY_NUMBER_VARIETIES_SOLD]: 875,
-        [CROSS_COUNTRY_MARKET_SHARE_TOP_FOUR_SEED_COMPANIES]: 875,
-        [CROSS_COUNTRY_MARKET_CONCENTRATION_HHI]: 875,
-        [CROSS_COUNTRY_MARKET_SHARE_STATE_OWNED_SEED_COMPANIES]: 875,
-        [CROSS_COUNTRY_VARIETY_RELEASE_PROCESS]: 875,
-        [CROSS_COUNTRY_OVERALL_RATING_NATIONAL_SEED_TRADE_ASSOCIATION]: 875,
-        [CROSS_COUNTRY_AGRODEALER_NETWORK]: 875,
-        [CROSS_COUNTRY_AVAILABILITY_SEED_SMALL_PACKAGES]: 875,
+        [CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS]: cross_country_height,
+        [CROSS_COUNTRY_NUMBER_OF_VARIETIES_RELEASED]: cross_country_height,
+        [CROSS_COUNTRY_QUANTITY_CERTIFIED_SEED_SOLD]: cross_country_height,
+        [CROSS_COUNTRY_NUMBER_OF_ACTIVE_SEED_COMPANIES]: cross_country_height,
+        [CROSS_COUNTRY_NUMBER_VARIETIES_SOLD]: cross_country_height,
+        [CROSS_COUNTRY_MARKET_SHARE_TOP_FOUR_SEED_COMPANIES]: cross_country_height,
+        [CROSS_COUNTRY_MARKET_CONCENTRATION_HHI]: cross_country_height - 50,
+        [CROSS_COUNTRY_MARKET_SHARE_STATE_OWNED_SEED_COMPANIES]: cross_country_height,
+        [CROSS_COUNTRY_VARIETY_RELEASE_PROCESS]: cross_country_height,
+        [CROSS_COUNTRY_OVERALL_RATING_NATIONAL_SEED_TRADE_ASSOCIATION]: cross_country_height,
+        [CROSS_COUNTRY_AGRODEALER_NETWORK]: cross_country_height,
+        [CROSS_COUNTRY_AVAILABILITY_SEED_SMALL_PACKAGES]: cross_country_height,
     };
     const fixedHeightStyle = { height: (fixedHeight[type] ? fixedHeight[type] : 550) + 'px' };
 
