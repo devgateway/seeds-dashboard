@@ -191,7 +191,6 @@ const ChartComponent = ({
                     active: true, selected: true
                 });
             });
-            debugger;
             setCountries(countries.sort((a, b) => b.name.localeCompare(a.name)));
         } else if (forceUpdate) {
             setForceUpdate(false);
@@ -1094,7 +1093,7 @@ const ChartComponent = ({
             getColors = (item) => {
                 return baseColors[selectedCrops];
             }
-            containerHeight = 650;
+            containerHeight = 525;
             animate = true;
             totalLabel.show = true;
             totalLabel.format = false;
@@ -1260,6 +1259,7 @@ const ChartComponent = ({
                     }
                     useHHILegends = true;
                     totalLabel.format = { style: 'decimal', minimumFractionDigits: 0, maximumFractionDigits: 0 };
+                    containerHeight-=50;
                     break;
                 case CROSS_COUNTRY_MARKET_SHARE_STATE_OWNED_SEED_COMPANIES:
                     // Fix %.
