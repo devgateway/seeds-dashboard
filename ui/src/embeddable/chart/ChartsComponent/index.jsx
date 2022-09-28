@@ -29,7 +29,7 @@ import {
     AVAILABILITY_SEED_SMALL_PACKAGES,
     AGRODEALER_NETWORK,
     AGRICULTURAL_EXTENSION_SERVICES,
-    NUMBER_SEED_INSPECTORS_BY_COUNTRY,
+    CROSS_COUNTRY_NUMBER_SEED_INSPECTORS,
     NUMBER_OF_VARIETIES_RELEASED,
     SHARE_CROPS,
     SHARE_CHART, SHARE_YEARS,
@@ -1018,7 +1018,7 @@ const ChartComponent = ({
             processVarietiesReleasedWithSpecialFeatures();
             showTotalMD = false;
             break;
-        case NUMBER_SEED_INSPECTORS_BY_COUNTRY:
+        case CROSS_COUNTRY_NUMBER_SEED_INSPECTORS:
             getTooltipHeader = (d) => {
                 return <div className="country-header">{`${d.data.country} ${d.data.year}`}</div>
             }

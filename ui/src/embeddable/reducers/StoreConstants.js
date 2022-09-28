@@ -8,7 +8,6 @@ export const NUMBER_OF_ACTIVE_BREEDERS = 'numberActiveBreeders';
 export const NUMBER_OF_ACTIVE_SEED_COMPANIES_PRODUCERS = 'numberActiveCompanies'
 export const AVAILABILITY_OF_BASIC_SEED = 'availabilityOfBasicSeed';
 export const AVERAGE_AGE_VARIETIES_SOLD = 'avgAgeVarietiesSold';
-export const NUMBER_SEED_INSPECTORS_BY_COUNTRY = 'seedInspectorsByCountry';
 export const QUANTITY_CERTIFIED_SEED_SOLD = 'quantityCertifiedSeedSold';
 export const SATISFACTION_ENFORCEMENT_SEED_LAW = 'satisfactionEnforcementSeedLaw';
 export const COUNTRY_SETTINGS = 'country-settings';
@@ -53,5 +52,6 @@ export const CROSS_COUNTRY_VARIETY_RELEASE_PROCESS = 'varietyReleaseProcess_cros
 export const CROSS_COUNTRY_OVERALL_RATING_NATIONAL_SEED_TRADE_ASSOCIATION = 'overallRatingNationalSeedTradeAssociation_crossCountry'
 export const CROSS_COUNTRY_AGRODEALER_NETWORK = 'agrodealerNetwork_crossCountry';
 export const CROSS_COUNTRY_AVAILABILITY_SEED_SMALL_PACKAGES = 'availabilitySeedSmallPackages_crossCountry';
+export const CROSS_COUNTRY_NUMBER_SEED_INSPECTORS = 'seedInspectorsByCountry';
 
 export const WP_CHART = 'wp-chart';

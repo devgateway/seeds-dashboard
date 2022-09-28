@@ -194,7 +194,7 @@ class BlockEdit extends BaseBlockEdit {
                                             value: 'agriculturalExtensionServices'
                                         },
                                         {
-                                            label: 'Number of seed inspectors in most recent data collection year',
+                                            label: 'Cross-Country - Number of seed inspectors in most recent data collection year',
                                             value: 'seedInspectorsByCountry',
                                         },
                                         {
