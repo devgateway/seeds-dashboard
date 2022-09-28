@@ -278,7 +278,6 @@ class IntlRoutes extends Component {
                                 )}>
                                 </Route>
                                 <Route exact render={props => {
-                                    debugger
                                     return (
                                         <PageProvider
                                             slug={PAGE_404_SLUG}
