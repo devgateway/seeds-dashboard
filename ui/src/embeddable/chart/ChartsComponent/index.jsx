@@ -136,6 +136,7 @@ const ChartComponent = ({
     let useFilterByCountries = false;
     let customSorting = null;
     const MAIZE = 'maize';
+    let customCrossCountryLegend = null;
 
     if (filters && filters.get(SHARE_CHART) === type) {
         if (filters.get(SHARE_CROPS)) {
@@ -481,22 +482,19 @@ const ChartComponent = ({
         const selectedCountries = countries.filter(c => c.selected);
         Object.keys(data.values).forEach(i => {
             if (selectedCountries.find(c => c.iso === i)) {
-            const entry = {
-                country: COUNTRY_OPTIONS.find(j => j.flag.toLowerCase() === i.toLowerCase()).text,
-                publicSeedInspectors: data.values[i].public,
-                privateSeedInspectors: data.values[i].private,
-                year: data.values[i].year,
-                total: data.values[i].total,
-            }
-            auxData.push(entry);
-            noData = false;
+                const entry = {
+                    country: COUNTRY_OPTIONS.find(j => j.flag.toLowerCase() === i.toLowerCase()).text,
+                    publicSeedInspectors: data.values[i].public,
+                    privateSeedInspectors: data.values[i].private,
+                    year: data.values[i].year,
+                    total: data.values[i].total,
+                }
+                auxData.push(entry);
+                noData = false;
 
-            if (entry.privateSeedInspectors > max) {
-                max = entry.privateSeedInspectors;
-            }
-            if (entry.publicSeedInspectors > max) {
-                max = entry.publicSeedInspectors;
-            }
+                if (entry.privateSeedInspectors + entry.publicSeedInspectors > max) {
+                    max = entry.privateSeedInspectors + entry.publicSeedInspectors;
+                }
             }
         });
         max = max * 0.95;
@@ -504,8 +502,8 @@ const ChartComponent = ({
         auxData.forEach(i => {
             processedData.push(i);
         });
-        colors.set('privateSeedInspectors', barPieColor[2]);
-        colors.set('publicSeedInspectors', barPieColor[1]);
+        colors.set('privateSeedInspectors', crossCountryBarColor[1]);
+        colors.set('publicSeedInspectors', crossCountryBarColor[0]);
     }
 
     const processByYear = () => {
@@ -1082,13 +1080,13 @@ const ChartComponent = ({
                         id: 'tooltip-public-inspectors-legend',
                         defaultMessage: 'Public seed inspectors'
                     })} </span>
-                            <span className="bold"> {d.data.publicSeedInspectors || 0}</span>
+                            <span className="bold" style={{color: crossCountryBarColor[0]}}> {d.data.publicSeedInspectors || 0}</span>
                             <br />
                             <span>{intl.formatMessage({
                                 id: 'tooltip-private-inspectors-legend',
                                 defaultMessage: 'Private seed inspectors'
                             })} </span>
-                            <span className="bold"> {d.data.privateSeedInspectors || 0}</span>
+                            <span className="bold" style={{color: crossCountryBarColor[1]}}> {d.data.privateSeedInspectors || 0}</span>
                             <br />
                             <span>{intl.formatMessage({
                                 id: 'tooltip-total-inspectors-legend',
@@ -1115,6 +1113,33 @@ const ChartComponent = ({
                     legend = genericLegend;
                     legendTitle = '';
                     useFilterByCountries = true;
+                    customCrossCountryLegend = () => {
+                        const cropsLegendTranslated = intl.formatMessage({
+                            id: 'crops-legend',
+                            defaultMessage: 'Crops'
+                        });
+                        return (<Grid.Row className={`crops-with-icons`}>
+                            <Grid.Column width={16}>
+                                <div style={{width: 'max-content', float: "left", marginTop: '10px'}}>{legend === 'crops' &&
+                                    <CropsLegend data={selectedCrops} title={cropsLegendTranslated}
+                                                 titleClass="crops-title"
+                                                 addLighterDiv={addLighterDiv}
+                                                 intl={intl}/>}
+                                    {legend && legend.toLowerCase() === 'year' &&
+                                        <YearLegend colors={yearsColors} years={selectedYear}/>}
+                                    {legend && legend === genericLegend &&
+                                        <GenericLegend colors={colors} keys={keys} title={legendTitle}/>}
+                                </div>
+                                <div style={{width: 'max-content', float: "left", fontSize: '16px', color: '#333c48', marginTop: '12px'}}>
+                                    |&nbsp;&nbsp;&nbsp;
+                                    <bold>MD:</bold>
+                                    <span style={{fontWeight: "normal"}}> Indicator data missing </span>
+                                    <bold>NA:</bold>
+                                    <span style={{fontWeight: "normal"}}> Indicator not applicable</span>
+                                </div>
+                            </Grid.Column>
+                        </Grid.Row>);
+                    };
                     processInspectorsByCountry();
                     break;
                 case CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS:
@@ -2162,6 +2187,9 @@ const ChartComponent = ({
                     <HHILegend legends={hhiLegends} title={'HHI Value'} />
                 </Grid.Row>);
             }
+            if (customCrossCountryLegend) {
+                return customCrossCountryLegend();
+            }
             return null;
         } else {
             if (!noData && useCropLegendsRow) {
@@ -2221,6 +2249,9 @@ const performanceColors = [
 ];
 const barPieColor = [
     '#c2db24', '#41a9d9', '#43758D'
+];
+const crossCountryBarColor = [
+    '#82C341', '#F49739'
 ];
 const packageBarColor = [
     '#9D9D9D', '#F2CA05', '#EE912B', '#85AA2B', '#5F92C1'
