@@ -1,8 +1,8 @@
-import { __ } from '@wordpress/i18n';
-import { registerBlockType } from '@wordpress/blocks';
+import {__} from '@wordpress/i18n';
+import {registerBlockType} from '@wordpress/blocks';
 import BlockSave from "./BlockSave";
 import BlockEdit from "./BlockEdit";
-import { Generic } from "../icons";
+import {Generic} from "../icons";
 
 export const FIELD_ORIENTATION_VERTICAL = 'vertical';
 export const FIELD_ORIENTATION_HORIZONTAL = 'horizontal';
@@ -44,7 +44,12 @@ registerBlockType(process.env.BLOCKS_NS + '/post-carousel',
             valuesFilterStore: {
                 type: "String",
                 default: undefined
-            }, connectFilter: {
+            },
+            defaultCategory: {
+                type: "string",
+                default: 'none'
+            },
+            connectFilter: {
                 type: "Boolean",
                 default: false
             },

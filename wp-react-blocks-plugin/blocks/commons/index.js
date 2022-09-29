@@ -292,7 +292,6 @@ export class BlockEditWithFilters extends BaseBlockEdit {
     categoriesOptions() {
         const { types, taxonomies, taxonomyValues } = this.state
         const taxonomyValuesOptions = taxonomyValues && taxonomyValues.map(t => ({ label: t.name, value: t.id }))
-        console.log(taxonomyValuesOptions)
         return taxonomyValuesOptions
     }
 
