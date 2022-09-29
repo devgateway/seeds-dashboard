@@ -475,8 +475,12 @@ const ChartComponent = ({
     }
 
     const processInspectorsByCountry = () => {
+        processedData = [];
         let auxData = [];
+        max = 0;
+        const selectedCountries = countries.filter(c => c.selected);
         Object.keys(data.values).forEach(i => {
+            if (selectedCountries.find(c => c.iso === i)) {
             const entry = {
                 country: COUNTRY_OPTIONS.find(j => j.flag.toLowerCase() === i.toLowerCase()).text,
                 publicSeedInspectors: data.values[i].public,
@@ -492,6 +496,7 @@ const ChartComponent = ({
             }
             if (entry.publicSeedInspectors > max) {
                 max = entry.publicSeedInspectors;
+            }
             }
         });
         max = max * 0.95;
