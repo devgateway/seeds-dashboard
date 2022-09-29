@@ -29,7 +29,7 @@ import {
     AVAILABILITY_SEED_SMALL_PACKAGES,
     AGRODEALER_NETWORK,
     AGRICULTURAL_EXTENSION_SERVICES,
-    NUMBER_SEED_INSPECTORS_BY_COUNTRY,
+    CROSS_COUNTRY_NUMBER_SEED_INSPECTORS,
     NUMBER_OF_VARIETIES_RELEASED,
     SHARE_CROPS,
     SHARE_CHART, SHARE_YEARS,
@@ -136,6 +136,7 @@ const ChartComponent = ({
     let useFilterByCountries = false;
     let customSorting = null;
     const MAIZE = 'maize';
+    let customCrossCountryLegend = null;
 
     if (filters && filters.get(SHARE_CHART) === type) {
         if (filters.get(SHARE_CROPS)) {
@@ -162,6 +163,7 @@ const ChartComponent = ({
         || type === CROSS_COUNTRY_VARIETY_RELEASE_PROCESS
         || type === CROSS_COUNTRY_OVERALL_RATING_NATIONAL_SEED_TRADE_ASSOCIATION
         || type === CROSS_COUNTRY_AGRODEALER_NETWORK
+        || type === CROSS_COUNTRY_NUMBER_SEED_INSPECTORS
         || type === CROSS_COUNTRY_AVAILABILITY_SEED_SMALL_PACKAGES) {
         isCrossCountryChart = true;
     }
@@ -170,7 +172,7 @@ const ChartComponent = ({
         !data.dimensions ||
         (!data.dimensions.crop && !data.dimensions.year
             && type !== CROSS_COUNTRY_VARIETY_RELEASE_PROCESS && type !== CROSS_COUNTRY_OVERALL_RATING_NATIONAL_SEED_TRADE_ASSOCIATION
-            && type !== CROSS_COUNTRY_AGRODEALER_NETWORK) ||
+            && type !== CROSS_COUNTRY_AGRODEALER_NETWORK && type !== CROSS_COUNTRY_NUMBER_SEED_INSPECTORS) ||
         data.id === null) {
         noData = true;
     } else {
@@ -474,23 +476,25 @@ const ChartComponent = ({
     }
 
     const processInspectorsByCountry = () => {
+        processedData = [];
         let auxData = [];
+        max = 0;
+        const selectedCountries = countries.filter(c => c.selected);
         Object.keys(data.values).forEach(i => {
-            const entry = {
-                country: COUNTRY_OPTIONS.find(j => j.flag.toLowerCase() === i.toLowerCase()).text,
-                publicSeedInspectors: data.values[i].public,
-                privateSeedInspectors: data.values[i].private,
-                year: data.values[i].year,
-                total: data.values[i].total,
-            }
-            auxData.push(entry);
-            noData = false;
+            if (selectedCountries.find(c => c.iso === i)) {
+                const entry = {
+                    country: COUNTRY_OPTIONS.find(j => j.flag.toLowerCase() === i.toLowerCase()).text,
+                    publicSeedInspectors: data.values[i].public,
+                    privateSeedInspectors: data.values[i].private,
+                    year: data.values[i].year,
+                    total: data.values[i].total,
+                }
+                auxData.push(entry);
+                noData = false;
 
-            if (entry.privateSeedInspectors > max) {
-                max = entry.privateSeedInspectors;
-            }
-            if (entry.publicSeedInspectors > max) {
-                max = entry.publicSeedInspectors;
+                if (entry.privateSeedInspectors + entry.publicSeedInspectors > max) {
+                    max = entry.privateSeedInspectors + entry.publicSeedInspectors;
+                }
             }
         });
         max = max * 0.95;
@@ -498,8 +502,8 @@ const ChartComponent = ({
         auxData.forEach(i => {
             processedData.push(i);
         });
-        colors.set('privateSeedInspectors', barPieColor[2]);
-        colors.set('publicSeedInspectors', barPieColor[1]);
+        colors.set('privateSeedInspectors', crossCountryBarColor[1]);
+        colors.set('publicSeedInspectors', crossCountryBarColor[0]);
     }
 
     const processByYear = () => {
@@ -1017,52 +1021,6 @@ const ChartComponent = ({
             processVarietiesReleasedWithSpecialFeatures();
             showTotalMD = false;
             break;
-        case NUMBER_SEED_INSPECTORS_BY_COUNTRY:
-            getTooltipHeader = (d) => {
-                return <div className="country-header">{`${d.data.country} ${d.data.year}`}</div>
-            }
-            getTooltipText = (d) => {
-                return (<>
-                    <span>{intl.formatMessage({
-                        id: 'tooltip-public-inspectors-legend',
-                        defaultMessage: 'Public seed inspectors'
-                    })} </span>
-                    <span className="bold"> {d.data.publicSeedInspectors || 0}</span>
-                    <br />
-                    <span>{intl.formatMessage({
-                        id: 'tooltip-private-inspectors-legend',
-                        defaultMessage: 'Private seed inspectors'
-                    })} </span>
-                    <span className="bold"> {d.data.privateSeedInspectors || 0}</span>
-                    <br />
-                    <span>{intl.formatMessage({
-                        id: 'tooltip-total-inspectors-legend',
-                        defaultMessage: 'Total seed inspectors'
-                    })} </span>
-                    <span className="bold"> {d.data.total || 0}</span>
-                </>);
-            }
-            indexBy = 'country';
-            leftLegend = intl.formatMessage({ id: 'countries', defaultMessage: 'Countries' });
-            layout = 'horizontal';
-            bottomLegend = intl.formatMessage({
-                id: 'number-seed-inspectors-legend',
-                defaultMessage: 'Number of seed inspectors'
-            });
-            enableGridX = true;
-            enableGridY = false;
-            groupMode = 'stacked';
-            keys.push('publicSeedInspectors', 'privateSeedInspectors');
-            useFilterByCrops = false;
-            useFilterByYear = false;
-            addLighterDiv = false;
-            withCropsWithSpecialFeatures = false;
-            useCropLegendsRow = true;
-            legend = genericLegend;
-            legendTitle = '';
-            containerHeight = 650;
-            processInspectorsByCountry();
-            break;
         case CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS:
         case CROSS_COUNTRY_NUMBER_OF_VARIETIES_RELEASED:
         case CROSS_COUNTRY_QUANTITY_CERTIFIED_SEED_SOLD:
@@ -1075,6 +1033,7 @@ const ChartComponent = ({
         case CROSS_COUNTRY_OVERALL_RATING_NATIONAL_SEED_TRADE_ASSOCIATION:
         case CROSS_COUNTRY_AGRODEALER_NETWORK:
         case CROSS_COUNTRY_AVAILABILITY_SEED_SMALL_PACKAGES:
+        case CROSS_COUNTRY_NUMBER_SEED_INSPECTORS:
             // Common code section.
             commonCrossCountryProcess();
             useFilterByCropsWithCountries = true;
@@ -1093,7 +1052,7 @@ const ChartComponent = ({
             getColors = (item) => {
                 return baseColors[selectedCrops];
             }
-            containerHeight = 525;
+            containerHeight = 525; // cross_country_height - 225
             animate = true;
             totalLabel.show = true;
             totalLabel.format = false;
@@ -1111,6 +1070,78 @@ const ChartComponent = ({
 
             // Section for each cross-country chart.
             switch (type) {
+                case CROSS_COUNTRY_NUMBER_SEED_INSPECTORS:
+                    getTooltipHeader = (d) => {
+                        return <div className="country-header">{`${d.data.country} ${d.data.year}`}</div>
+                    }
+                    getTooltipText = (d) => {
+                        return (<>
+                    <span>{intl.formatMessage({
+                        id: 'tooltip-public-inspectors-legend',
+                        defaultMessage: 'Public seed inspectors'
+                    })} </span>
+                            <span className="bold" style={{color: crossCountryBarColor[0]}}> {d.data.publicSeedInspectors || 0}</span>
+                            <br />
+                            <span>{intl.formatMessage({
+                                id: 'tooltip-private-inspectors-legend',
+                                defaultMessage: 'Private seed inspectors'
+                            })} </span>
+                            <span className="bold" style={{color: crossCountryBarColor[1]}}> {d.data.privateSeedInspectors || 0}</span>
+                            <br />
+                            <span>{intl.formatMessage({
+                                id: 'tooltip-total-inspectors-legend',
+                                defaultMessage: 'Total seed inspectors'
+                            })} </span>
+                            <span className="bold"> {d.data.total || 0}</span>
+                        </>);
+                    }
+                    bottomLegend = intl.formatMessage({
+                        id: 'number-seed-inspectors-legend',
+                        defaultMessage: 'Number of seed inspectors'
+                    });
+                    useFilterByCropsWithCountries = false;
+                    useFilterByYear = false;
+                    useFilterByCrops = false;
+                    keys.splice(0);
+                    keys.push('publicSeedInspectors', 'privateSeedInspectors');
+                    leftLegend = intl.formatMessage({ id: 'countries', defaultMessage: 'Countries' });
+                    groupMode = 'stacked';
+                    getColors = undefined;
+                    addLighterDiv = false;
+                    withCropsWithSpecialFeatures = false;
+                    useCropLegendsRow = true;
+                    legend = genericLegend;
+                    legendTitle = '';
+                    useFilterByCountries = true;
+                    customCrossCountryLegend = () => {
+                        const cropsLegendTranslated = intl.formatMessage({
+                            id: 'crops-legend',
+                            defaultMessage: 'Crops'
+                        });
+                        return (<Grid.Row className={`crops-with-icons`}>
+                            <Grid.Column width={16}>
+                                <div style={{width: 'max-content', float: "left", marginTop: '10px'}}>{legend === 'crops' &&
+                                    <CropsLegend data={selectedCrops} title={cropsLegendTranslated}
+                                                 titleClass="crops-title"
+                                                 addLighterDiv={addLighterDiv}
+                                                 intl={intl}/>}
+                                    {legend && legend.toLowerCase() === 'year' &&
+                                        <YearLegend colors={yearsColors} years={selectedYear}/>}
+                                    {legend && legend === genericLegend &&
+                                        <GenericLegend colors={colors} keys={keys} title={legendTitle}/>}
+                                </div>
+                                <div style={{width: 'max-content', float: "left", fontSize: '16px', color: '#333c48', marginTop: '12px'}}>
+                                    |&nbsp;&nbsp;&nbsp;
+                                    <bold>MD:</bold>
+                                    <span style={{fontWeight: "normal"}}> Indicator data missing </span>
+                                    <bold>NA:</bold>
+                                    <span style={{fontWeight: "normal"}}> Indicator not applicable</span>
+                                </div>
+                            </Grid.Column>
+                        </Grid.Row>);
+                    };
+                    processInspectorsByCountry();
+                    break;
                 case CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS:
                     bottomLegend = intl.formatMessage({
                         id: 'active-breeders-legend',
@@ -2156,6 +2187,9 @@ const ChartComponent = ({
                     <HHILegend legends={hhiLegends} title={'HHI Value'} />
                 </Grid.Row>);
             }
+            if (customCrossCountryLegend) {
+                return customCrossCountryLegend();
+            }
             return null;
         } else {
             if (!noData && useCropLegendsRow) {
@@ -2215,6 +2249,9 @@ const performanceColors = [
 ];
 const barPieColor = [
     '#c2db24', '#41a9d9', '#43758D'
+];
+const crossCountryBarColor = [
+    '#82C341', '#F49739'
 ];
 const packageBarColor = [
     '#9D9D9D', '#F2CA05', '#EE912B', '#85AA2B', '#5F92C1'
