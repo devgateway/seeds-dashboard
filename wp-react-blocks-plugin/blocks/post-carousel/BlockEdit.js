@@ -1,4 +1,4 @@
-import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
+import {InspectorControls, useBlockProps} from '@wordpress/block-editor';
 import {
     __experimentalNumberControl as NumberControl,
     Panel,
@@ -10,15 +10,48 @@ import {
     SelectControl,
     ToggleControl
 } from '@wordpress/components';
-import { __ } from '@wordpress/i18n';
-import { BlockEditWithFilters, SizeConfig } from "../commons";
-import { FIELD_ORIENTATION_HORIZONTAL, FIELD_ORIENTATION_VERTICAL } from "./index";
+import {__} from '@wordpress/i18n';
+import {BlockEditWithFilters, SizeConfig} from "../commons";
+import {FIELD_ORIENTATION_HORIZONTAL, FIELD_ORIENTATION_VERTICAL} from "./index";
 
+const INDICATORS_SLUG = 'indicators';
 
 class BlockEdit extends BlockEditWithFilters {
 
     constructor(props) {
         super(props);
+        this.getCategories = this.getCategories.bind(this)
+        this.getCategoriesFromState = this.getCategoriesFromState.bind(this);
+    }
+
+    componentDidMount() {
+        super.componentDidMount();
+        this.getCategories();
+    }
+
+    getCategoriesFromState() {
+        const {categoriesData} = this.state;
+        let categoriesDataArray = [];
+        if (categoriesData) {
+            categoriesDataArray = categoriesData.map(cd => ({value: cd.id, label: cd.name}))
+        }
+        return [{label: 'None', value: 'none'}, ...categoriesDataArray];
+
+
+    }
+
+    getCategories() {
+        wp.apiFetch({path: `/wp/v2/categories?slug=${INDICATORS_SLUG}`}).then(parentData => {
+            if (parentData && parentData.length > 0) {
+                const parentId = parentData[0].id;
+                wp.apiFetch({
+                    path: `/wp/v2/categories?per_page=100&parent=${parentId}`,
+                }).then(data => {
+                    this.setState({categoriesData: data});
+                });
+            }
+        })
+
     }
 
     render() {
@@ -43,9 +76,11 @@ class BlockEdit extends BlockEditWithFilters {
                 showLinksInModal,
                 sortedByCountryAndYearCategories,
                 preloadDocumentsAndCrops,
-                isNewImplementation
-            },
+                isNewImplementation,
+                defaultCategory
+            }
         } = this.props;
+        console.log(defaultCategory);
         let queryString = `editing=true&data-type=${type}`
         queryString += `&data-taxonomy=${taxonomy}`;
         queryString += `&data-categories=${categories}`;
@@ -54,16 +89,17 @@ class BlockEdit extends BlockEditWithFilters {
         queryString += `&data-items-per-page=${itemsPerPage}`;
         queryString += `&data-connect-filter=${connectFilter}`;
         queryString += `&data-values-filter-store=${valuesFilterStore}`;
+        queryString += `&data-filter-default-category=${defaultCategory}`;
         queryString += `&data-selected-filter-store=${selectedFilterStore}`;
         queryString += `&data-orientation=${fieldOrientation}`;
         queryString += `&data-navigator-style=${navigatorStyle}`;
         queryString += `&data-scheduled-filter=${scheduledFilter}`;
         queryString += `&data-show-links-in-modal=${showLinksInModal}`;
         queryString += `&data-show-sorted-by-country-and-year-categories=${sortedByCountryAndYearCategories}`;
-        queryString += `&data-preload-document-and-crops=${preloadDocumentsAndCrops}`
+        queryString += `&data-preload-document-and-crops=${preloadDocumentsAndCrops}`;
         queryString += `&data-scheduled-filter-store=${scheduledFilterStore}`;
         queryString += `&data-new-implementation=${isNewImplementation}`
-        const divStyles = { height: height + 'px', width: '100%' }
+        const divStyles = {height: height + 'px', width: '100%'}
 
         return (
             <div>
@@ -73,70 +109,70 @@ class BlockEdit extends BlockEditWithFilters {
                             <PanelRow>
                                 <NumberControl
                                     isShiftStepEnabled={true}
-                                    onChange={(count) => setAttributes({ count: getNumberOfZeroIfEmpty(count) })}
+                                    onChange={(count) => setAttributes({count: getNumberOfZeroIfEmpty(count)})}
                                     shiftStep={10}
                                     value={count}
-                                    label={__("Items (0 for all)")} />
+                                    label={__("Items (0 for all)")}/>
                             </PanelRow>
                             <PanelRow>
                                 <NumberControl
                                     isShiftStepEnabled={true}
                                     onChange={(itemsPerPage) =>
-                                        setAttributes({ itemsPerPage: getNumberOfZeroIfEmpty(itemsPerPage) })}
+                                        setAttributes({itemsPerPage: getNumberOfZeroIfEmpty(itemsPerPage)})}
                                     shiftStep={10}
                                     value={itemsPerPage}
-                                    label={__("items per page")} />
+                                    label={__("items per page")}/>
                             </PanelRow>
                             <SelectControl
                                 label={__('Navigator style:')}
                                 value={[navigatorStyle]}
                                 onChange={(navigatorStyle) => {
-                                    setAttributes({ navigatorStyle })
+                                    setAttributes({navigatorStyle})
                                 }}
                                 options={[
-                                    { label: 'Dots', value: 'dots' },
-                                    { label: 'Paged Dots', value: 'paged-dots' },
-                                    { label: 'Buttons', value: 'buttons' },
-                                    { label: 'None', value: 'none' }
+                                    {label: 'Dots', value: 'dots'},
+                                    {label: 'Paged Dots', value: 'paged-dots'},
+                                    {label: 'Buttons', value: 'buttons'},
+                                    {label: 'None', value: 'none'}
                                 ]}
                             />
                             <SelectControl
                                 label={__('Orientation:')}
                                 value={[fieldOrientation]}
                                 onChange={(fieldOrientation) => {
-                                    setAttributes({ fieldOrientation })
+                                    setAttributes({fieldOrientation})
                                 }}
                                 options={[
-                                    { label: 'Vertical', value: FIELD_ORIENTATION_VERTICAL },
-                                    { label: 'Horizontal', value: FIELD_ORIENTATION_HORIZONTAL }
+                                    {label: 'Vertical', value: FIELD_ORIENTATION_VERTICAL},
+                                    {label: 'Horizontal', value: FIELD_ORIENTATION_HORIZONTAL}
                                 ]}
                             />
                             <PanelRow>
                                 <ToggleControl
                                     label={__("Show links in Modal")}
                                     checked={showLinksInModal}
-                                    onChange={(showLinksInModal) => setAttributes({ showLinksInModal })}
+                                    onChange={(showLinksInModal) => setAttributes({showLinksInModal})}
                                 />
                             </PanelRow>
                             <PanelRow>
                                 <ToggleControl
                                     label={__("Order by year and country")}
                                     checked={sortedByCountryAndYearCategories}
-                                    onChange={(sortedByCountryAndYearCategories) => setAttributes({ sortedByCountryAndYearCategories })}
+                                    onChange={(sortedByCountryAndYearCategories) => setAttributes({sortedByCountryAndYearCategories})}
                                 />
                             </PanelRow>
                             <PanelRow>
                                 <ToggleControl
                                     label={__("Preload documents and crops")}
                                     checked={preloadDocumentsAndCrops}
-                                    onChange={(preloadDocumentsAndCrops) => setAttributes({ preloadDocumentsAndCrops })}
+                                    onChange={(preloadDocumentsAndCrops) => setAttributes({preloadDocumentsAndCrops})}
                                 />
                             </PanelRow>
                             <PanelRow>
                                 <ToggleControl
                                     label={__("Is new implementation")}
                                     checked={isNewImplementation}
-                                    onChange={(isNewImplementation) => setAttributes({ isNewImplementation })}
+                                    onChange={(isNewImplementation) => setAttributes({isNewImplementation})}
                                 />
                             </PanelRow>
                         </PanelBody>
@@ -148,38 +184,45 @@ class BlockEdit extends BlockEditWithFilters {
                             <CheckboxControl
                                 label={__('Connect filter component')}
                                 checked={connectFilter}
-                                onChange={() => setAttributes({ connectFilter: !connectFilter })} />
+                                onChange={() => setAttributes({connectFilter: !connectFilter})}/>
                         </PanelRow>
                         {connectFilter && <PanelRow>
                             <TextControl
                                 label={__('Values store')}
                                 value={valuesFilterStore}
-                                onChange={(valuesFilterStore) => setAttributes({ valuesFilterStore })}
+                                onChange={(valuesFilterStore) => setAttributes({valuesFilterStore})}
                             /></PanelRow>}
                         {connectFilter && <PanelRow>
                             <TextControl
                                 label={__('selected filter store')}
                                 value={selectedFilterStore}
-                                onChange={(selectedFilterStore) => setAttributes({ selectedFilterStore })}
+                                onChange={(selectedFilterStore) => setAttributes({selectedFilterStore})}
                             /></PanelRow>}
+                        {connectFilter &&
+                            <PanelRow>
+                                <SelectControl label={__('Default category')} options={this.getCategoriesFromState()}
+                                               value={defaultCategory}
+                                               onChange={defaultCategory => setAttributes({defaultCategory})}
+                                /></PanelRow>}
+
                     </PanelBody>
                     <PanelBody title={__("Scheduled event filter")}>
                         <PanelRow>
                             <CheckboxControl
                                 label={__('Filter by scheduled date')}
                                 checked={scheduledFilter}
-                                onChange={() => setAttributes({ scheduledFilter: !scheduledFilter })} />
+                                onChange={() => setAttributes({scheduledFilter: !scheduledFilter})}/>
                         </PanelRow>
                         {scheduledFilter &&
                             <SelectControl
                                 label={__('Filter past/upcoming posts:')}
                                 value={scheduledFilterStore}
                                 onChange={(scheduledFilterStore) => {
-                                    setAttributes({ scheduledFilterStore })
+                                    setAttributes({scheduledFilterStore})
                                 }}
                                 options={[
-                                    { label: 'Past posts', value: 'past' },
-                                    { label: 'Upcoming posts', value: 'upcoming' }
+                                    {label: 'Past posts', value: 'past'},
+                                    {label: 'Upcoming posts', value: 'upcoming'}
                                 ]}
                             />}
                     </PanelBody>
@@ -187,8 +230,8 @@ class BlockEdit extends BlockEditWithFilters {
 
 
                 <ResizableBox
-                    size={{ height }}
-                    style={{ "margin": "auto", width: "100%" }}
+                    size={{height}}
+                    style={{"margin": "auto", width: "100%"}}
                     minHeight="200"
                     minWidth="100"
                     enable={{
@@ -212,7 +255,7 @@ class BlockEdit extends BlockEditWithFilters {
                     }}>
                     <div style={divStyles}>
                         <iframe style={divStyles} scrolling={"no"}
-                                src={this.state.react_ui_url + "/en/embeddable/postscarousel?" + queryString} />
+                                src={this.state.react_ui_url + "/en/embeddable/postscarousel?" + queryString}/>
                     </div>
                 </ResizableBox>
 
@@ -226,7 +269,7 @@ class BlockEdit extends BlockEditWithFilters {
 const getNumberOfZeroIfEmpty = (num) =>
     num === "" || isNaN(num) ? 0 : parseInt(num)
 const Edit = (props) => {
-    const blockProps = useBlockProps({ className: 'wp-react-component' });
+    const blockProps = useBlockProps({className: 'wp-react-component'});
     return <div {...blockProps}><BlockEdit {...props} /></div>;
 
 }

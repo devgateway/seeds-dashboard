@@ -26,13 +26,13 @@ import {
 import * as wp from '../api'
 
 //used to transform categories to id
-export const loadTaxonomy = ({ taxonomy, locale = "en" }) => (dispatch, getState) => {
-    dispatch({ type: LOAD_TAXONOMY })
+export const loadTaxonomy = ({taxonomy, locale = "en"}) => (dispatch, getState) => {
+    dispatch({type: LOAD_TAXONOMY})
     wp.getTaxonomy(taxonomy, locale).then(response => {
-        const { data, meta } = response
-        dispatch({ type: LOAD_TAXONOMY_DONE, data, meta, taxonomy })
+        const {data, meta} = response
+        dispatch({type: LOAD_TAXONOMY_DONE, data, meta, taxonomy})
     }).catch(error => {
-        dispatch({ type: LOAD_TAXONOMY_ERROR, taxonomy })
+        dispatch({type: LOAD_TAXONOMY_ERROR, taxonomy})
     })
 }
 
@@ -46,17 +46,17 @@ export const getPostByTaxonomy = ({
                                       perPage,
                                       locale = "en"
                                   }) => (dispatch, getState) => {
-    const payLoad = { wpType, taxonomy, category }
+    const payLoad = {wpType, taxonomy, category}
 
-    dispatch({ type: LOAD_CUSTOM_POSTS_BY_TAXONOMY, ...payLoad })
+    dispatch({type: LOAD_CUSTOM_POSTS_BY_TAXONOMY, ...payLoad})
 
     wp.getPostsByTypeAndTaxonomy(wpType, taxonomy, categoryId, locale, page, perPage)
         .then(response => {
-            const { data, meta } = response
-            dispatch({ type: LOAD_CUSTOM_POSTS_BY_TAXONOMY_DONE, data, meta, ...payLoad })
+            const {data, meta} = response
+            dispatch({type: LOAD_CUSTOM_POSTS_BY_TAXONOMY_DONE, data, meta, ...payLoad})
         })
         .catch(error => {
-            dispatch({ type: LOAD_CUSTOM_POSTS_BY_TAXONOMY_ERROR, error, ...payLoad })
+            dispatch({type: LOAD_CUSTOM_POSTS_BY_TAXONOMY_ERROR, error, ...payLoad})
         })
 }
 
@@ -73,18 +73,28 @@ export const getPosts = ({
                              locale = "en",
                              previewNonce,
                              previewId,
-                             search, postType, id, slug404, categoriesOr
+                             search, postType, id, slug404, categoriesOr, categoryDefault
                          }) => (dispatch, getState) => {
-    dispatch({ type: LOAD_POSTS, slug, taxonomy, categories, before, perPage, page, fields, store, locale })
+    dispatch({type: LOAD_POSTS, slug, taxonomy, categories, before, perPage, page, fields, store, locale})
     wp.getPosts(slug, type, taxonomy, categories, before, perPage, page, fields, locale, previewNonce, previewId,
         search, postType, id)
         .then(response => {
-            const { data, meta } = response;
-            if (data.length === 0 && slug404) {
-                wp.getPosts(slug404, type, taxonomy, categories, before, perPage, page, fields, locale, previewNonce, previewId,
+            const {data, meta} = response;
+            if (data.length === 0 && (slug404 || categoryDefault)) {
+                let notFoundSlug = slug;
+                let notFoundCategories = categories
+                if (slug404) {
+                    notFoundSlug = slug404;
+                } else {
+                    if (categoryDefault) {
+                        categories = [categoryDefault];
+                    }
+                }
+
+                wp.getPosts(notFoundSlug, type, taxonomy, notFoundCategories, before, perPage, page, fields, locale, previewNonce, previewId,
                     search, postType, id)
                     .then(response => {
-                        const { data: data404, meta: meta404 } = response;
+                        const {data: data404, meta: meta404} = response;
                         dispatch({
                             type: LOAD_POSTS_DONE,
                             data: data404,
@@ -120,16 +130,19 @@ export const getPosts = ({
                 })
             } else {
                 let filteredData;
-                if (data.length > 0 && taxonomy!=='none' && categories) {
+                if (data.length > 0 && taxonomy !== 'none' && categories) {
                     //TODO add inclusive filter option
                     const categoriesArray = categories.split(',').map(ca => parseInt(ca));
                     //p => p.categories.every(val => categoriesArray.includes(val))
-                    filteredData = data.filter(p => categoriesArray.every(c => p.categories.includes(c)));
+                    const categoriesFilteredData = data.filter(p => categoriesArray.every(c => p.categories.includes(c)));
                     if (categoriesOr) {
-                        filteredData = filteredData
+                        filteredData = categoriesFilteredData
                             .filter(p => p.categories.some(c => categoriesOr.includes(c)));
                     }
-
+                    if ((!filteredData || filteredData.length === 0) && categoryDefault) {
+                        filteredData = categoriesFilteredData.filter(p => p.categories.includes(categoryDefault));
+                        filteredData = filteredData.slice(0, 10);
+                    }
 
                 }
                 dispatch({
@@ -169,20 +182,20 @@ export const getPosts = ({
 }
 
 export const clean = (params) => (dispatch, getState) => {
-    dispatch({ type: CLEAN_PAGE_DATA, ...params })
+    dispatch({type: CLEAN_PAGE_DATA, ...params})
 
 }
 
-export const search = ({ context, page, perPage, search, type, subtype, store, locale }) => (dispatch, getState) => {
-    dispatch({ type: LOAD_SEARCH, store })
+export const search = ({context, page, perPage, search, type, subtype, store, locale}) => (dispatch, getState) => {
+    dispatch({type: LOAD_SEARCH, store})
     wp.search(context, page, perPage, search, type, subtype, locale)
         .then(response => {
-            const { data, meta } = response
+            const {data, meta} = response
 
-            dispatch({ type: LOAD_SEARCH_DONE, store, data, meta })
+            dispatch({type: LOAD_SEARCH_DONE, store, data, meta})
         })
         .catch(error => {
-            dispatch({ type: LOAD_SEARCH_ERROR, store })
+            dispatch({type: LOAD_SEARCH_ERROR, store})
         })
 }
 
@@ -200,14 +213,14 @@ export const getPages = ({
                              search,
                              slug404
                          }) => (dispatch, getState) => {
-    dispatch({ type: LOAD_PAGES, store })
+    dispatch({type: LOAD_PAGES, store})
     wp.getPages(before, perPage, page, fields, parent, slug, store, locale, previewNonce, previewId, search)
         .then(response => {
-            const { data, meta } = response;
+            const {data, meta} = response;
             if (data.length === 0 && slug404) {
                 wp.getPages(before, perPage, page, fields, parent, slug404, store, locale, previewNonce, previewId, search)
                     .then(response => {
-                        const { data: data404, meta: meta404 } = response;
+                        const {data: data404, meta: meta404} = response;
                         dispatch({
                             type: LOAD_PAGES_DONE,
                             data: data404,
@@ -277,23 +290,23 @@ export const getPages = ({
 /*
 Gt WP Menus  (WP-REST-API V2 Menus plugin requiered)
 */
-export const getMenu = ({ slug, locale = "en" }) => (dispatch, getState) => {
-    dispatch({ type: LOAD_MENU, slug })
+export const getMenu = ({slug, locale = "en"}) => (dispatch, getState) => {
+    dispatch({type: LOAD_MENU, slug})
     wp.getMenu(slug, locale).then(response => {
-        const { data, meta } = response
-        dispatch({ type: LOAD_MENU_DONE, slug, data, meta })
+        const {data, meta} = response
+        dispatch({type: LOAD_MENU_DONE, slug, data, meta})
     }).catch(error => {
-        dispatch({ type: LOAD_MENU_ERROR, slug, error })
+        dispatch({type: LOAD_MENU_ERROR, slug, error})
     })
 }
 
 export const getMedia = (id, locale = "en") => (dispatch, getState) => {
-    dispatch({ type: LOAD_MEDIA, id })
+    dispatch({type: LOAD_MEDIA, id})
     wp.getMedia(id, locale).then(response => {
-        const { data, meta } = response
-        dispatch({ type: LOAD_MEDIA_DONE, data, meta, id })
+        const {data, meta} = response
+        dispatch({type: LOAD_MEDIA_DONE, data, meta, id})
     }).catch(error => {
-        dispatch({ type: LOAD_MEDIA_ERROR, error, id })
+        dispatch({type: LOAD_MEDIA_ERROR, error, id})
     })
 }
 
