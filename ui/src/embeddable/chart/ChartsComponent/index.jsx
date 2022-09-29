@@ -162,6 +162,7 @@ const ChartComponent = ({
         || type === CROSS_COUNTRY_VARIETY_RELEASE_PROCESS
         || type === CROSS_COUNTRY_OVERALL_RATING_NATIONAL_SEED_TRADE_ASSOCIATION
         || type === CROSS_COUNTRY_AGRODEALER_NETWORK
+        || type === CROSS_COUNTRY_NUMBER_SEED_INSPECTORS
         || type === CROSS_COUNTRY_AVAILABILITY_SEED_SMALL_PACKAGES) {
         isCrossCountryChart = true;
     }
@@ -170,7 +171,7 @@ const ChartComponent = ({
         !data.dimensions ||
         (!data.dimensions.crop && !data.dimensions.year
             && type !== CROSS_COUNTRY_VARIETY_RELEASE_PROCESS && type !== CROSS_COUNTRY_OVERALL_RATING_NATIONAL_SEED_TRADE_ASSOCIATION
-            && type !== CROSS_COUNTRY_AGRODEALER_NETWORK) ||
+            && type !== CROSS_COUNTRY_AGRODEALER_NETWORK && type !== CROSS_COUNTRY_NUMBER_SEED_INSPECTORS) ||
         data.id === null) {
         noData = true;
     } else {
@@ -1017,52 +1018,6 @@ const ChartComponent = ({
             processVarietiesReleasedWithSpecialFeatures();
             showTotalMD = false;
             break;
-        case CROSS_COUNTRY_NUMBER_SEED_INSPECTORS:
-            getTooltipHeader = (d) => {
-                return <div className="country-header">{`${d.data.country} ${d.data.year}`}</div>
-            }
-            getTooltipText = (d) => {
-                return (<>
-                    <span>{intl.formatMessage({
-                        id: 'tooltip-public-inspectors-legend',
-                        defaultMessage: 'Public seed inspectors'
-                    })} </span>
-                    <span className="bold"> {d.data.publicSeedInspectors || 0}</span>
-                    <br />
-                    <span>{intl.formatMessage({
-                        id: 'tooltip-private-inspectors-legend',
-                        defaultMessage: 'Private seed inspectors'
-                    })} </span>
-                    <span className="bold"> {d.data.privateSeedInspectors || 0}</span>
-                    <br />
-                    <span>{intl.formatMessage({
-                        id: 'tooltip-total-inspectors-legend',
-                        defaultMessage: 'Total seed inspectors'
-                    })} </span>
-                    <span className="bold"> {d.data.total || 0}</span>
-                </>);
-            }
-            indexBy = 'country';
-            leftLegend = intl.formatMessage({ id: 'countries', defaultMessage: 'Countries' });
-            layout = 'horizontal';
-            bottomLegend = intl.formatMessage({
-                id: 'number-seed-inspectors-legend',
-                defaultMessage: 'Number of seed inspectors'
-            });
-            enableGridX = true;
-            enableGridY = false;
-            groupMode = 'stacked';
-            keys.push('publicSeedInspectors', 'privateSeedInspectors');
-            useFilterByCrops = false;
-            useFilterByYear = false;
-            addLighterDiv = false;
-            withCropsWithSpecialFeatures = false;
-            useCropLegendsRow = true;
-            legend = genericLegend;
-            legendTitle = '';
-            containerHeight = 650;
-            processInspectorsByCountry();
-            break;
         case CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS:
         case CROSS_COUNTRY_NUMBER_OF_VARIETIES_RELEASED:
         case CROSS_COUNTRY_QUANTITY_CERTIFIED_SEED_SOLD:
@@ -1075,6 +1030,7 @@ const ChartComponent = ({
         case CROSS_COUNTRY_OVERALL_RATING_NATIONAL_SEED_TRADE_ASSOCIATION:
         case CROSS_COUNTRY_AGRODEALER_NETWORK:
         case CROSS_COUNTRY_AVAILABILITY_SEED_SMALL_PACKAGES:
+        case CROSS_COUNTRY_NUMBER_SEED_INSPECTORS:
             // Common code section.
             commonCrossCountryProcess();
             useFilterByCropsWithCountries = true;
@@ -1093,7 +1049,7 @@ const ChartComponent = ({
             getColors = (item) => {
                 return baseColors[selectedCrops];
             }
-            containerHeight = 525;
+            containerHeight = 525; // cross_country_height - 225
             animate = true;
             totalLabel.show = true;
             totalLabel.format = false;
@@ -1111,6 +1067,51 @@ const ChartComponent = ({
 
             // Section for each cross-country chart.
             switch (type) {
+                case CROSS_COUNTRY_NUMBER_SEED_INSPECTORS:
+                    getTooltipHeader = (d) => {
+                        return <div className="country-header">{`${d.data.country} ${d.data.year}`}</div>
+                    }
+                    getTooltipText = (d) => {
+                        return (<>
+                    <span>{intl.formatMessage({
+                        id: 'tooltip-public-inspectors-legend',
+                        defaultMessage: 'Public seed inspectors'
+                    })} </span>
+                            <span className="bold"> {d.data.publicSeedInspectors || 0}</span>
+                            <br />
+                            <span>{intl.formatMessage({
+                                id: 'tooltip-private-inspectors-legend',
+                                defaultMessage: 'Private seed inspectors'
+                            })} </span>
+                            <span className="bold"> {d.data.privateSeedInspectors || 0}</span>
+                            <br />
+                            <span>{intl.formatMessage({
+                                id: 'tooltip-total-inspectors-legend',
+                                defaultMessage: 'Total seed inspectors'
+                            })} </span>
+                            <span className="bold"> {d.data.total || 0}</span>
+                        </>);
+                    }
+                    bottomLegend = intl.formatMessage({
+                        id: 'number-seed-inspectors-legend',
+                        defaultMessage: 'Number of seed inspectors'
+                    });
+                    useFilterByCropsWithCountries = false;
+                    useFilterByYear = false;
+                    useFilterByCrops = false;
+                    keys.splice(0);
+                    keys.push('publicSeedInspectors', 'privateSeedInspectors');
+                    leftLegend = intl.formatMessage({ id: 'countries', defaultMessage: 'Countries' });
+                    groupMode = 'stacked';
+                    getColors = undefined;
+                    addLighterDiv = false;
+                    withCropsWithSpecialFeatures = false;
+                    useCropLegendsRow = true;
+                    legend = genericLegend;
+                    legendTitle = '';
+                    useFilterByCountries = true;
+                    processInspectorsByCountry();
+                    break;
                 case CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS:
                     bottomLegend = intl.formatMessage({
                         id: 'active-breeders-legend',
