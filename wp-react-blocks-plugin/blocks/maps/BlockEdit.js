@@ -21,6 +21,8 @@ class BlockEdit extends BaseBlockEdit {
         const {
             className, isSelected,
             toggleSelection, setAttributes, attributes: {
+                height,
+                width,
                 mode,
                 type,
                 title_en,
@@ -29,12 +31,14 @@ class BlockEdit extends BaseBlockEdit {
                 sourceText_fr,
             }
         } = this.props;
-        let queryString = `&data-map-type=${type}`;
+        let queryString = `data-height=${height}`;
+        queryString += `&data-map-type=${type}`;
         queryString += `&data-title=${title_en}`;
         queryString += `&data-title=${title_fr}`;
         queryString += `&data-source-text_en=${sourceText_en}`;
         queryString += `&data-source-text_fr=${sourceText_fr}`;
         queryString += ` & editing = true`;
+        const divStyles = { height: height + 'px', width: '100%' }
         return (
             [isSelected && (
                 <InspectorControls>
@@ -54,6 +58,24 @@ class BlockEdit extends BaseBlockEdit {
                                         {label: 'Institutional Support', value: 'indicators_D'},
                                         {label: 'Service to Smallholder Farmers', value: 'indicators_E'}
                                     ]}
+                                />
+                            </PanelRow>
+                            <PanelRow>
+                                <RangeControl
+                                    label={__('Map Width')}
+                                    value={width}
+                                    onChange={(width) => setAttributes({ width })}
+                                    min={1}
+                                    max={1000}
+                                />
+                            </PanelRow>
+                            <PanelRow>
+                                <RangeControl
+                                    label={__('Map height')}
+                                    value={height}
+                                    onChange={(height) => setAttributes({ height })}
+                                    min={1}
+                                    max={1000}
                                 />
                             </PanelRow>
                         </PanelBody>

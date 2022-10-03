@@ -4,6 +4,8 @@ import { InnerBlocks } from '@wordpress/editor';
 const SaveComponent = (props) => {
     const {
         toggleSelection, setAttributes, attributes: {
+            height,
+            width,
             type,
             title_en,
             title_fr,
@@ -19,6 +21,8 @@ const SaveComponent = (props) => {
     return (
         <div className={"wp-react-lib-component"}
              data-component={"map"}
+             data-height={height}
+             data-width={width}
              data-map-type={type}
              data-title_en={title_en}
              data-source-text_en={encodeURI(sourceText_en)}
