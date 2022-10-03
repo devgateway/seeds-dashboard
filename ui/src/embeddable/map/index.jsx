@@ -1,73 +1,112 @@
-import React, {useState} from 'react'
-import {ResponsiveChoropleth} from '@nivo/geo'
-import {injectIntl} from 'react-intl';
-import countries from "../../static/africa_countries.json";
+import React, {useEffect, useRef, useState} from "react";
+import {Button, Container, Grid, Icon, Segment} from "semantic-ui-react";
+import DataProvider from "../data/DataProvider";
+import {connect} from "react-redux";
+import DataConsumer from "../data/DataConsumer";
 
+import {
+    DATA,
+    WP_CATEGORIES,
+    COUNTRIES_FILTER,
+    SOURCE_CATEGORIES,
+    SHARE_CHART,
+    SHARE_CROPS, DEFAULT_COUNTRY_ID,
+} from "../reducers/StoreConstants";
+import {MapComponent} from './Map';
+import {getWpCategories, setFilter} from "../reducers/data";
 
-// import './chart.scss'
+const Map = (props) => {
+    const {filters} = props
+    const {
+        parent,
+        editing = false,
+        unique,
+        childContent,
+        setDefaultFilter,
+        onLoadCategories,
+        categoriesWP,
+        countries,
+        locale,
+        "data-app": app,
+        "data-download": download,
+        "data-height": height = 500,
+        "data-map-type": type,
+        "data-source-text_en": sourceText_en,
+        "data-source-text_fr": sourceText_fr,
+        "data-title": title = "",
+        "data-sub-title": subTitle = "",
+        "data-methodology": methodology,
+        "data-map-data-source": mapDataSource,
+        'data-params': params = '{}',
+    } = props;
 
-const getTooltipLegendByValue = (value) => {
-    let tooltipLegend = "(Extremely High)"
-    let className = "label1"
-    if (value < 1000) {
-        tooltipLegend = "(Extremely Low)"
-        //className = "elow"
-    } else if (value < 2000) {
-        tooltipLegend = "(Low)"
-        //className = "low"
-    } else if (value < 3000) {
-        tooltipLegend = "(Average)"
-        //className = "average"
-    } else if (value < 4000) {
-        tooltipLegend = "(High)"
-        //className = "high"
+    useEffect(() => {
+        setDefaultFilter(DEFAULT_COUNTRY_ID, 23);
+        if (filters && filters.get(SHARE_CHART) && type === filters.get(SHARE_CHART)) {
+            wrapper.current.scrollIntoView({block: 'end', behavior: 'smooth'});
+        }
+    }, []);
+
+    useEffect(() => {
+        onLoadCategories()
+    }, [onLoadCategories]);
+
+    const exportPng = (ref, type) => {
     }
-    return (<span className={className}>{tooltipLegend}</span>);
+
+    let child = null
+    let contentHeight;
+    const showDataSource = false;
+    if (editing) {
+        contentHeight = height - 145;
+    } else {
+        if (showDataSource) {
+            contentHeight = height - 40;
+        } else {
+            contentHeight = height;
+        }
+    }
+
+    const mapProps = {
+        title: title,
+        subTitle: subTitle,
+        editing: editing,
+        methodology: methodology,
+        download: download,
+        exportPng: exportPng,
+    }
+
+    const generateSourcesText = () => {
+    }
+
+    let dynamicSources = generateSourcesText();
+    const mapComponent = {type, ...mapProps}
+    child = <MapComponent {...mapComponent} sources={dynamicSources}/>
+
+    const map_height = 750;
+    const fixedHeightStyle = {};
+
+    const wrapper = useRef(null);
+    return (<div ref={wrapper}>
+            <Container className={"map container"} fluid={true}>
+                {child}
+            </Container>
+        </div>
+    )
 }
 
-const Map = ({height, options, intl}) => {
-    return (<div className="map-wrapper" style={{height: height}}>
-
-        {options && options.data && <ResponsiveChoropleth
-            data={options.data}
-            features={countries.features}
-            margin={{top: 0, right: 0, bottom: 0, left: 0}}
-            colors={['#C4E765', '#96C11F', '#F9D133', '#FB9755', '#FB5555']}
-            label="properties.name"
-            width="700"
-            domain={[0, 5000]}
-            unknownColor="#D1D2D4"
-            //valueFormat=".2s"
-            projectionScale={400}
-            projectionTranslation={[0.36, 0.51]}
-            projectionRotation={[0, 0, 0]}
-            enableGraticule={false}
-            borderWidth={0.5}
-            borderColor="#fff"
-            isInteractive={true}
-            tooltip={(e) => {
-                if (e.feature.data) {
-                    return (<div className="tooltip-wrapper">
-                        <div className="tooltip-header">
-                            <span className="label">{e.feature.data.country} -</span>
-                            <span className="value">{e.feature.data.year}</span>
-                        </div>
-                        <div className="map-tooltip-data">
-                            <span className="value">{e.feature.data.crop}</span>
-                            <span className="label1">HHI value: </span>
-                            <span className="labelBolder">{e.feature.data.value} </span>
-                            {getTooltipLegendByValue(e.feature.data.value)}
-                        </div>
-                    </div>)
-                } else {
-                    return (<div/>)
-                }
-            }}
-            theme={{
-                background: "#F3F9FF",
-            }}
-        />}
-    </div>)
+const mapStateToProps = (state, ownProps) => {
+    return {
+        categoriesWP: state.getIn([DATA, WP_CATEGORIES]),
+        countries: state.getIn([DATA, COUNTRIES_FILTER]),
+        filters: state.getIn([DATA, 'filters']),
+        locale: state.getIn(['intl', 'locale']),
+    }
 }
 
-export default injectIntl(Map)
+const mapActionCreators = {
+    setDefaultFilter: setFilter,
+    onLoadCategories: getWpCategories
+};
+
+export default connect(mapStateToProps, mapActionCreators)(Map)

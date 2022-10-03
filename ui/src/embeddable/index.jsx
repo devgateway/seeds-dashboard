@@ -24,6 +24,7 @@ const ImageMap = asyncComponent(() => import("./image-map/"));
 const CountryReports = asyncComponent(() => import("./country-reports/"));
 const BackToTop = asyncComponent(() => import("./backToTop/"));
 const ViewportMessage = asyncComponent(() => import("./viewport-message/"));
+const Map = asyncComponent(() => import("./map/"))
 export const reducers = {
     data,
     embeddable
@@ -50,6 +51,7 @@ const components = {
     imageMap: ImageMap,
     countryReports: CountryReports,
     backToTop: BackToTop,
+    map: Map,
   viewportMessage: ViewportMessage
 }
 

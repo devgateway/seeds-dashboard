@@ -109,28 +109,10 @@ class BlockEdit extends BaseBlockEdit {
                     }}>
                     <div className={className}>
                         <div>
-                            {
-                                <Checkbox
-                                    toggle
-                                    defaultChecked={true}
-                                    onChange={e => setAttributes({ mode: (mode === 'map' ? 'info' : 'map') })}
-                                />
-                            }
+                            <iframe id={"id_description_iframe"} scrolling={"no"}
+                                    style={divStyles}
+                                    src={this.state.react_ui_url + "/en/embeddable/map?" + queryString}/>
                         </div>
-                        {
-                            mode === "map" &&
-                            <div>
-                                <iframe id={"id_description_iframe"} scrolling={"no"}
-                                        style={divStyles}
-                                        src={this.state.react_ui_url + "/en/embeddable/map?" + queryString} />
-                            </div>
-                        }
-                        {
-                            mode === "info" &&
-                            <div className={"inner block"}>
-                                <InnerBlocks />
-                            </div>
-                        }
                     </div>
                 </ResizableBox>
             )]);
