@@ -1,8 +1,6 @@
 import React, {useEffect, useRef, useState} from "react";
 import {Button, Container, Grid, Icon, Segment} from "semantic-ui-react";
-import DataProvider from "../data/DataProvider";
 import {connect} from "react-redux";
-import DataConsumer from "../data/DataConsumer";
 
 import {
     DATA,
@@ -12,11 +10,15 @@ import {
     SHARE_CHART,
     SHARE_CROPS, DEFAULT_COUNTRY_ID,
 } from "../reducers/StoreConstants";
-import {MapComponent} from './Map';
+import {MapComponent} from './components/Map';
 import {getWpCategories, setFilter} from "../reducers/data";
+import {A1_ADEQUACY_ACTIVE_BREEDERS, A4_AVAILABILITY_FOUNDATION_SEED} from "./Constants";
+import IndicatorFilter from "./components/IndicatorFilter";
+import {injectIntl} from "react-intl";
 
 const Map = (props) => {
     const {filters} = props
+    let indicators = [];
     const {
         parent,
         editing = false,
@@ -27,6 +29,7 @@ const Map = (props) => {
         categoriesWP,
         countries,
         locale,
+        intl,
         "data-app": app,
         "data-download": download,
         "data-height": height = 500,
@@ -51,7 +54,36 @@ const Map = (props) => {
         onLoadCategories()
     }, [onLoadCategories]);
 
+    const [selectedIndicator, setSelectedIndicator] = useState(null);
+
     const exportPng = (ref, type) => {
+    }
+
+    switch (type) {
+        case "indicators_A":
+            indicators = [
+                {value: A1_ADEQUACY_ACTIVE_BREEDERS, id: A1_ADEQUACY_ACTIVE_BREEDERS},
+                {value: A4_AVAILABILITY_FOUNDATION_SEED, id: A4_AVAILABILITY_FOUNDATION_SEED}
+            ];
+            if (!selectedIndicator) {
+                setSelectedIndicator(indicators[0]);
+            }
+            break;
+        case "indicators_B":
+
+            break;
+
+        case "indicators_C":
+
+            break;
+
+        case "indicators_D":
+
+            break;
+
+        case "indicators_E":
+
+            break;
     }
 
     let child = null
@@ -89,6 +121,7 @@ const Map = (props) => {
     const wrapper = useRef(null);
     return (<div ref={wrapper}>
             <Container className={"map container"} fluid={true}>
+                <IndicatorFilter intl={intl} data={indicators} />
                 {child}
             </Container>
         </div>
@@ -109,4 +142,4 @@ const mapActionCreators = {
     onLoadCategories: getWpCategories
 };
 
-export default connect(mapStateToProps, mapActionCreators)(Map)
+export default connect(mapStateToProps, mapActionCreators)(injectIntl(Map))

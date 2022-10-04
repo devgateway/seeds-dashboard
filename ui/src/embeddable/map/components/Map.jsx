@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import {ResponsiveChoropleth} from '@nivo/geo'
 import {injectIntl} from 'react-intl';
-import countries from "../../static/africa_countries.json";
+import countries from "../../../static/africa_countries.json";
 
 
 // import './chart.scss'
