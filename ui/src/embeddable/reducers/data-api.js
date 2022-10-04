@@ -148,6 +148,11 @@ export const getIndicatorsData = (params) => {
     return get(SURVEY_INDICATORS_API, params)
 }
 
+export const getMapIndicatorData = (type, params) => {
+    const ep = APIS[type];
+    return get(ep, params);
+}
+
 export const getData = ({ source, app, params }) => {
     let sources;
     if (source) {
@@ -194,7 +199,6 @@ export const getData = ({ source, app, params }) => {
         || app === CROSS_COUNTRY_OVERALL_RATING_NATIONAL_SEED_TRADE_ASSOCIATION
         || app === CROSS_COUNTRY_AGRODEALER_NETWORK
         || app === CROSS_COUNTRY_AVAILABILITY_SEED_SMALL_PACKAGES
-        || app === ADEQUACY_ACTIVE_BREEDERS
         || (sources && sources.length > 0 && sources[0] === WP_CHART)
     ) {
         let api;

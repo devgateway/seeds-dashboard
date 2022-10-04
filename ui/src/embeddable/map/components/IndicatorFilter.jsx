@@ -44,7 +44,7 @@ const IndicatorFilter = ({data, onChange, initialSelectedIndicator, intl}) => {
     const generateContent = () => {
         return (data.map((c, i) => {
             return (<div key={c.id}>
-                <Form.Checkbox value={c.value} onChange={handleChange}
+                <Form.Checkbox value={c.value} onChange={handleChange} checked={c.id === initialSelectedIndicator.id}
                                label={intl.formatMessage({id: c.value, defaultMessage: c.value})}/>
             </div>);
         }));

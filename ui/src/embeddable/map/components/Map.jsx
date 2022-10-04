@@ -25,18 +25,17 @@ const getTooltipLegendByValue = (value) => {
     return (<span className={className}>{tooltipLegend}</span>);
 }
 
-export const MapComponent = ({height, options, intl}) => {
-    console.log(options);
-    const options_ = {data: []};
+export const MapComponent = ({height, data, intl}) => {
+    console.log(data);
     return (<div className="map-wrapper" style={{height: '500px'}}>
-        {options_ && options_.data && <ResponsiveChoropleth
-            data={options_.data}
+        {data && <ResponsiveChoropleth
+            data={data}
             features={countries.features}
             margin={{top: 0, right: 0, bottom: 0, left: 0}}
             colors={['#C4E765', '#96C11F', '#F9D133', '#FB9755', '#FB5555']}
             label="properties.name"
             width="700"
-            domain={[0, 5000]}
+            domain={[0, 100]}
             unknownColor="#D1D2D4"
             //valueFormat=".2s"
             projectionScale={400}

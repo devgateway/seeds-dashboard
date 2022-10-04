@@ -42,6 +42,7 @@ export const SHARE_CHART = 'share_chart'
 export const CURRENT_TAB = 'current-tab';
 export const SHARE_CROPS = 'share_crops';
 export const SHARE_YEARS = 'share_years';
+export const MAP_INDICATOR_DATA = 'map-indicator-data';
 export const CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS = 'numberActiveBreeders_crossCountry';
 export const CROSS_COUNTRY_NUMBER_OF_VARIETIES_RELEASED = 'numberOfVarietiesReleased_crossCountry';
 export const CROSS_COUNTRY_QUANTITY_CERTIFIED_SEED_SOLD = 'quantityCertifiedSeedSold_crossCountry';
