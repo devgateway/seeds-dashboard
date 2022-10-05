@@ -1,7 +1,6 @@
 import React, {useEffect, useRef, useState} from "react";
 import {Button, Container, Grid, GridRow, Icon, Segment} from "semantic-ui-react";
 import {connect} from "react-redux";
-
 import {
     DATA,
     WP_CATEGORIES,
@@ -17,6 +16,7 @@ import IndicatorFilter from "./components/IndicatorFilter";
 import {injectIntl} from "react-intl";
 import CropFilter from "../chart/common/filters/crops";
 import Header from "../chart/common/header";
+import './map.scss';
 
 const Map = (props) => {
     const {filters} = props
