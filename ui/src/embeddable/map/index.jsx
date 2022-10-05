@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from "react";
-import {Button, Container, Grid, Icon, Segment} from "semantic-ui-react";
+import {Button, Container, Grid, GridRow, Icon, Segment} from "semantic-ui-react";
 import {connect} from "react-redux";
 
 import {
@@ -16,6 +16,7 @@ import {A1_ADEQUACY_ACTIVE_BREEDERS, A4_AVAILABILITY_FOUNDATION_SEED} from "./Co
 import IndicatorFilter from "./components/IndicatorFilter";
 import {injectIntl} from "react-intl";
 import CropFilter from "../chart/common/filters/crops";
+import Header from "../chart/common/header";
 
 const Map = (props) => {
     const {filters} = props
@@ -82,6 +83,7 @@ const Map = (props) => {
                     const item = Object.assign({}, mapData.values[k]);
                     item.id = k.toUpperCase()
                     item.value = item[selectedCrops];
+                    item.country = countries.find(c => c.isoCode === item.id).country;
                     processedData.push(item);
                 }
             });
@@ -124,18 +126,6 @@ const Map = (props) => {
         case "indicators_E":
 
             break;
-    }
-
-    let contentHeight;
-    const showDataSource = false;
-    if (editing) {
-        contentHeight = height - 145;
-    } else {
-        if (showDataSource) {
-            contentHeight = height - 40;
-        } else {
-            contentHeight = height;
-        }
     }
 
     const mapProps = {
@@ -182,10 +172,23 @@ const Map = (props) => {
     
     return (<div ref={wrapper}>
             <Container className={"map container"} fluid={true}>
-                <IndicatorFilter intl={intl} data={indicators} initialSelectedIndicator={selectedIndicator} />
-                {initialCrops && initialSelectedCrops && <CropFilter data={initialCrops} onChange={handleCropFilterChange}
-                            initialSelectedCrops={initialSelectedCrops} intl={intl} maxSelectable={1}/>}
-                <MapComponent {...mapComponent} sources={dynamicSources} data={processedData} height={height}/>
+                <Grid className={`number-varieties-released`}>
+                    <Grid.Row className="header-section">
+                        <Grid.Column width={12}>
+                            <Header title={`${title}`} subtitle={subTitle} />
+                        </Grid.Column>
+                    </Grid.Row>
+                    <Grid.Row className={`filters-section`}>
+                        <IndicatorFilter intl={intl} data={indicators} initialSelectedIndicator={selectedIndicator} />
+                        {initialCrops && initialSelectedCrops && <CropFilter data={initialCrops} onChange={handleCropFilterChange}
+                                                                             initialSelectedCrops={initialSelectedCrops} intl={intl} maxSelectable={1}/>}
+                    </Grid.Row>
+                    <Grid.Row>
+                        <Grid.Column width={16}>
+                            <MapComponent {...mapComponent} sources={dynamicSources} data={processedData} height={height}/>
+                        </Grid.Column>
+                    </Grid.Row>
+                </Grid>
             </Container>
         </div>
     )
