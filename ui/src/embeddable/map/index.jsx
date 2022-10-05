@@ -219,7 +219,7 @@ const Map = (props) => {
                         </Grid.Column>
                         <Grid.Column width={4}>
                             <Export methodology={methodology} exportPng={exportPng} download={download} containerRef={wrapper}
-                                    type={'bar'} chartType={type} selectedCrops={selectedCrops} />
+                                    type={'bar'} chartType={type} selectedCrops={selectedCrops ? [selectedCrops] : []} />
                         </Grid.Column>
                     </Grid.Row>
                     <Grid.Row className={`filters-section`}>
