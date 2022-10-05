@@ -112,13 +112,14 @@ const Map = (props) => {
         }
     }
     
-    const processCommonDataWithoutCrops = (field) => {
+    const processCommonDataWithoutCrops = () => {
         processedData = [];
-        if (mapData.values && mapData.values[field]) {
-            Object.keys(mapData.values[field]).forEach(k => {
+        if (mapData.values && mapData.values) {
+            Object.keys(mapData.values).forEach(k => {
                 const item = {};
                 item.id = k.toUpperCase()
-                item.value = mapData.values[field][k];
+                item.value = mapData.values[k].value;
+                item.year = mapData.values[k].year;
                 item.country = countries.find(c => c.isoCode === item.id).country;
                 item.crop = null;
                 if (item.value && item.value !== 'MD' && item.value !== 'NA') {
@@ -229,7 +230,7 @@ const Map = (props) => {
                 processCommonDataWithCrops();
                 break
             case D2_ADEQUACY_SEED_INSPECTION_SERVICES:
-                processCommonDataWithoutCrops('rating');
+                processCommonDataWithoutCrops();
                 break;
         }
     }
