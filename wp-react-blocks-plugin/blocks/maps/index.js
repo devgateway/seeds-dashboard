@@ -27,11 +27,7 @@ registerBlockType(process.env.BLOCKS_NS + '/map',
                 type: 'String',
                 default: ""
             },
-            title_en: {
-                type: 'String',
-                default: ""
-            },
-            title_fr: {
+            title: {
                 type: 'String',
                 default: ""
             },
@@ -40,6 +36,14 @@ registerBlockType(process.env.BLOCKS_NS + '/map',
             },
             sourceText_fr: {
                 type: 'String',
+            },
+            download: {
+                type: "Boolean",
+                default: true
+            },
+            methodology: {
+                type: 'String',
+                default: "Methodology not yet defined."
             }
         },
         edit: BlockEdit,

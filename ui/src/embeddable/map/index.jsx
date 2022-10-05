@@ -17,6 +17,10 @@ import {injectIntl} from "react-intl";
 import CropFilter from "../chart/common/filters/crops";
 import Header from "../chart/common/header";
 import './map.scss';
+import HHILegend from "../chart/MarketConcentrationHHI/HHILegend";
+import Export from "../chart/common/export";
+import Source from "../chart/common/source";
+import {cleanupParam} from "../chart/Countryinfo";
 
 const Map = (props) => {
     const {filters} = props
@@ -75,6 +79,16 @@ const Map = (props) => {
         onLoadIndicatorData(selectedIndicator.id);
     }, [selectedIndicator]);
 
+    const currentLanguage = locale || 'en';
+    let sourceText;
+    if (currentLanguage === 'en') {
+        if (cleanupParam(sourceText_en)) {
+            sourceText = sourceText_en;
+        } else {
+            sourceText = cleanupParam(sourceText_fr) || '';
+        }
+    }
+
     const processCommonData = ()  => {
         processedData = [];
         if (mapData.values) {
@@ -84,6 +98,7 @@ const Map = (props) => {
                     item.id = k.toUpperCase()
                     item.value = item[selectedCrops];
                     item.country = countries.find(c => c.isoCode === item.id).country;
+                    item.crop = selectedCrops;
                     if (item.value && item.value !== 'MD' && item.value !== 'NA') {
                         processedData.push(item);
                     } else {
@@ -180,22 +195,40 @@ const Map = (props) => {
         });
     }
     
+    const mapColors = colors.map(c => c.color);
     return (<div ref={wrapper}>
-            <Container className={"map container"} fluid={true}>
-                <Grid className={`number-varieties-released`}>
+            <Container className={"map container"} fluid={true} style={{height: '850px', width: '100%'}}>
+                <Grid className={`map-grid`}>
                     <Grid.Row className="header-section">
                         <Grid.Column width={12}>
                             <Header title={`${title}`} subtitle={subTitle} />
                         </Grid.Column>
+                        <Grid.Column width={4}>
+                            <Export methodology={methodology} exportPng={exportPng} download={download} containerRef={wrapper}
+                                    type={'bar'} chartType={type} selectedCrops={selectedCrops} />
+                        </Grid.Column>
                     </Grid.Row>
                     <Grid.Row className={`filters-section`}>
-                        <IndicatorFilter intl={intl} data={indicators} initialSelectedIndicator={selectedIndicator} onChange={handleIndicatorChange} />
-                        {initialCrops && initialSelectedCrops && <CropFilter data={initialCrops} onChange={handleCropFilterChange}
+                        <Grid.Column width={6}>
+                            <IndicatorFilter intl={intl} data={indicators} initialSelectedIndicator={selectedIndicator} onChange={handleIndicatorChange} />
+                        </Grid.Column>
+                        <Grid.Column width={4}>
+                            {initialCrops && initialSelectedCrops && <CropFilter data={initialCrops} onChange={handleCropFilterChange}
                                                                              initialSelectedCrops={initialSelectedCrops} intl={intl} maxSelectable={1}/>}
+                        </Grid.Column>
                     </Grid.Row>
-                    <Grid.Row>
+                    <Grid.Row className={`hhi-section`}>
+                        <HHILegend legends={legends} 
+                                   title={intl.formatMessage({ id: 'opinionRating', defaultMessage: 'Opinion Rating' })} />
+                    </Grid.Row>
+                    <Grid.Row className="map-row">
                         <Grid.Column width={16}>
-                            <MapComponent {...mapComponent} sources={dynamicSources} data={processedData} height={height} intl={intl}/>
+                            <MapComponent {...mapComponent} sources={dynamicSources} data={processedData} height={height} intl={intl} colors={mapColors}/>
+                        </Grid.Column>
+                    </Grid.Row>
+                    <Grid.Row className={`source-section`}>
+                        <Grid.Column>
+                            <Source title={`Source: ${sourceText}${editing ? ` *${type}*` : ''}`} />
                         </Grid.Column>
                     </Grid.Row>
                 </Grid>
@@ -203,6 +236,70 @@ const Map = (props) => {
         </div>
     )
 }
+
+const colors = [
+    { upTo: 100, color: '#FF3833' },
+    { upTo: 79.99, color: '#FF7E37' },
+    { upTo: 59.99, color: '#FFFC61' },
+    { upTo: 39.99, color: '#CCF000' },
+    { upTo: 19.99, color: '#75DD00' },
+];
+
+const getColor = (value) => {
+    if (value <= colors[4].upTo) {
+        return colors[4].color;
+    }
+    if (value <= colors[3].upTo) {
+        return colors[3].color;
+    }
+    if (value <= colors[2].upTo) {
+        return colors[2].color;
+    }
+    if (value <= colors[1].upTo) {
+        return colors[1].color;
+    }
+    if (value <= colors[0].upTo) {
+        return colors[0].color;
+    }
+}
+
+const legends = [
+    {
+        id: 8,
+        'color': colors[0].color,
+        'label': 'Extremely poor (0% - 19.99%)',
+        'label-range': '',
+        'label-key': 'extremely-poor-legend',
+    },
+    {
+        id: 9,
+        'color': colors[1].color,
+        'label': 'Poor (20% - 39.99%)',
+        'label-key': 'poor-legend',
+        'label-range': '',
+    },
+    {
+        id: 10,
+        'color': colors[2].color,
+        'label': 'Fair (40% - 59.99%)',
+        'label-key': 'fair-legend',
+        'label-range': '',
+    },
+    {
+        id: 11,
+        'color': colors[3].color,
+        'label': 'Good (60% - 79.99%)',
+        'label-key': 'good-legend',
+        'label-range': '',
+    },
+    {
+        id: 12,
+        'color': colors[4].color,
+        'label': 'Excellent (80% - 100%)',
+        'label-range': '',
+        'label-key': 'excellent-legend',
+    }
+];
 
 const mapStateToProps = (state, ownProps) => {
     return {

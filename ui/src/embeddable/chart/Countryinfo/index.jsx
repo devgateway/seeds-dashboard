@@ -270,7 +270,7 @@ export const getCropsArray = (rawData) => {
     }
 }
 
-const cleanupParam = (param) => {
+export const cleanupParam = (param) => {
     let text = param;
     if (!text || text === '' || text === 'null' || text === 'undefined') {
         return '';

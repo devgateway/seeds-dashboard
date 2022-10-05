@@ -23,20 +23,21 @@ class BlockEdit extends BaseBlockEdit {
             toggleSelection, setAttributes, attributes: {
                 height,
                 width,
-                mode,
                 type,
-                title_en,
-                title_fr,
+                title,
                 sourceText_en,
                 sourceText_fr,
+                methodology,
+                download
             }
         } = this.props;
         let queryString = `data-height=${height}`;
         queryString += `&data-map-type=${type}`;
-        queryString += `&data-title=${title_en}`;
-        queryString += `&data-title=${title_fr}`;
+        queryString += `&data-title=${title}`;
         queryString += `&data-source-text_en=${sourceText_en}`;
         queryString += `&data-source-text_fr=${sourceText_fr}`;
+        queryString += `&data-methodology=${methodology}`;
+        queryString += `&data-download=${download}`;
         queryString += ` & editing = true`;
         const divStyles = { height: height + 'px', width: '100%' }
         return (
@@ -44,6 +45,10 @@ class BlockEdit extends BaseBlockEdit {
                 <InspectorControls>
                     <Panel header={__("Map Configuration")}>
                         <PanelBody>
+                            <PanelRow>
+                                <TextControl label={__('Chart title')} value={title}
+                                             onChange={(title) => setAttributes({ title })} />
+                            </PanelRow>
                             <PanelRow>
                                 <SelectControl
                                     label={__('Type:')}
@@ -78,7 +83,32 @@ class BlockEdit extends BaseBlockEdit {
                                     max={1000}
                                 />
                             </PanelRow>
+                            <PanelRow>
+                                <TextControl label={__('Methodology')} value={methodology}
+                                             onChange={(methodology) => setAttributes({ methodology })} />
+                            </PanelRow>
+                            <PanelRow>
+                                <ToggleControl
+                                    label={__("Download chart")}
+                                    checked={download}
+                                    onChange={(download) => setAttributes({ download })}
+                                />
+                            </PanelRow>
                         </PanelBody>
+                        <PanelRow>
+                            <TextareaControl
+                                label={__('Source in English (it can be HTML)')}
+                                value={sourceText_en}
+                                onChange={(sourceText_en) => setAttributes({ sourceText_en })}
+                            />
+                        </PanelRow>
+                        <PanelRow>
+                            <TextareaControl
+                                label={__('Source in French (it can be HTML)')}
+                                value={sourceText_fr}
+                                onChange={(sourceText_fr) => setAttributes({ sourceText_fr })}
+                            />
+                        </PanelRow>
                     </Panel>
                 </InspectorControls>
             ), (

@@ -1,5 +1,19 @@
 @import "src/scss/vars";
 
+.map-row {
+  border: #e5e5e5 1px solid;
+  border-top: none;
+  padding: 0 !important;
+  
+  .column {
+    padding: 0 !important;
+  }
+  
+  .map-wrapper {
+    background-color: #f3f9ff;
+  }
+}
+
 .tooltip-wrapper {
   @include border-radius(5px);
   background-color: white !important;
