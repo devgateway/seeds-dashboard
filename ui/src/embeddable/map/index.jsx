@@ -9,7 +9,7 @@ import {
     SHARE_CHART,
     SHARE_CROPS, DEFAULT_COUNTRY_ID, ADEQUACY_ACTIVE_BREEDERS, MAP_INDICATOR_DATA, AVAILABILITY_BASIC_SEED,
 } from "../reducers/StoreConstants";
-import {MapComponent} from './components/Map';
+import {MapComponent} from './components/MapComponent';
 import {getCountries, getData, getMapIndicator, getWpCategories, setFilter} from "../reducers/data";
 import {A1_ADEQUACY_ACTIVE_BREEDERS, A4_AVAILABILITY_FOUNDATION_SEED} from "./Constants";
 import IndicatorFilter from "./components/IndicatorFilter";
@@ -81,6 +81,12 @@ const Map = (props) => {
             sourceText = sourceText_en;
         } else {
             sourceText = cleanupParam(sourceText_fr) || '';
+        }
+    } else {
+        if (cleanupParam(sourceText_fr)) {
+            sourceText = sourceText_fr;
+        } else {
+            sourceText = cleanupParam(sourceText_en) || '';
         }
     }
 
@@ -277,27 +283,27 @@ const legends = [
         'color': colors[0].color,
         'label': 'Extremely poor (0% - 19.99%)',
         'label-range': '',
-        'label-key': 'extremely-poor-legend',
+        'label-key': 'extremely-poor-map-legend',
     },
     {
         id: 9,
         'color': colors[1].color,
         'label': 'Poor (20% - 39.99%)',
-        'label-key': 'poor-legend',
+        'label-key': 'poor-map-legend',
         'label-range': '',
     },
     {
         id: 10,
         'color': colors[2].color,
         'label': 'Fair (40% - 59.99%)',
-        'label-key': 'fair-legend',
+        'label-key': 'fair-map-legend',
         'label-range': '',
     },
     {
         id: 11,
         'color': colors[3].color,
         'label': 'Good (60% - 79.99%)',
-        'label-key': 'good-legend',
+        'label-key': 'good-map-legend',
         'label-range': '',
     },
     {
@@ -305,7 +311,7 @@ const legends = [
         'color': colors[4].color,
         'label': 'Excellent (80% - 100%)',
         'label-range': '',
-        'label-key': 'excellent-legend',
+        'label-key': 'excellent-map-legend',
     }
 ];
 
