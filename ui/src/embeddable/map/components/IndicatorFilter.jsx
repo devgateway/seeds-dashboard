@@ -50,7 +50,7 @@ const IndicatorFilter = ({data, onChange, initialSelectedIndicator, intl}) => {
         }));
     }
 
-    const title = (<div><span className="filter-selector-title">{intl.formatMessage({id: "crop-s", defaultMessage: "Opinion Indicator"})}</span></div>);
+    const title = (<div><span className="filter-selector-title">{intl.formatMessage({id: "opinion-indicator", defaultMessage: "Opinion Indicator"})}</span></div>);
     return (
         <div ref={ref}>
             <Accordion as={Menu} vertical>

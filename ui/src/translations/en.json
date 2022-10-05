@@ -268,5 +268,21 @@
   "tasai-dashboard": "TASAI DASHBOARD",
   "legend": "Legend",
   "addToCalendar": "Add to calendar",
-  "openRegisterForm": "Open register form"
+  "openRegisterForm": "Open register form",
+  "average-satisfaction": "Overall rating",
+  "average": "Overall rating",
+  "extremelyPoor-map": "Extremely poor",
+  "poor-map": "Poor",
+  "fair-map": "Fair",
+  "good-map": "Good",
+  "excellent-map": "Excellent",
+  "extremely-poor-map-legend": "Extremely poor (0% - 19.99%)",
+  "poor-map-legend": "Poor (20% - 39.99%)",
+  "fair-map-legend": "Fair (40% - 59.99%)",
+  "good-map-legend": "Good (60% - 79.99%)",
+  "excellent-map-legend": "Excellent (80% - 100%)",
+  "opinion-indicator": "Opinion Indicator",
+  "opinionRating": "Opinion Rating",
+  "A1. Adequacy of active breeders": "A1. Adequacy of active breeders",
+  "A4. Availability of foundation (basic) seed": "A4. Availability of foundation (basic) seed"
 }
