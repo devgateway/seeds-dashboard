@@ -3,9 +3,6 @@ import {ResponsiveChoropleth} from '@nivo/geo'
 import {injectIntl} from 'react-intl';
 import countries from "../../../static/africa_countries.json";
 
-
-// import './chart.scss'
-
 const getTooltipLegendByValue = (value) => {
     let tooltipLegend = "(Extremely High)"
     let className = "label1"
@@ -27,14 +24,14 @@ const getTooltipLegendByValue = (value) => {
 
 export const MapComponent = ({height, data, intl}) => {
     console.log(data);
-    return (<div className="map-wrapper" style={{height: '500px'}}>
+    return (<div className="map-wrapper" style={{height: height + 'px'}}>
         {data && <ResponsiveChoropleth
             data={data}
             features={countries.features}
             margin={{top: 0, right: 0, bottom: 0, left: 0}}
             colors={['#C4E765', '#96C11F', '#F9D133', '#FB9755', '#FB5555']}
             label="properties.name"
-            width="700"
+            width={700}
             domain={[0, 100]}
             unknownColor="#D1D2D4"
             //valueFormat=".2s"

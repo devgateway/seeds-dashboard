@@ -15,11 +15,14 @@ import {getCountries, getData, getMapIndicator, getWpCategories, setFilter} from
 import {A1_ADEQUACY_ACTIVE_BREEDERS, A4_AVAILABILITY_FOUNDATION_SEED} from "./Constants";
 import IndicatorFilter from "./components/IndicatorFilter";
 import {injectIntl} from "react-intl";
+import CropFilter from "../chart/common/filters/crops";
 
 const Map = (props) => {
     const {filters} = props
     let indicators = [];
     let processedData = null;
+    let initialSelectedCrops = [];
+    let crops = null;
     const {
         parent,
         editing = false,
@@ -63,24 +66,37 @@ const Map = (props) => {
     }, [onLoadCategories]);
 
     const [selectedIndicator, setSelectedIndicator] = useState(null);
+    const [initialCrops, setInitialCrops] = useState(null);
+    const [currentData, setCurrentData] = useState(null);
+    const [selectedCrops, setSelectedCrops] = useState(null);
 
     useEffect(() => {
         onLoadIndicatorData(selectedIndicator.id);
     }, [selectedIndicator]);
 
-    const exportPng = (ref, type) => {
-    }
-    
     const processCommonData = ()  => {
         processedData = [];
         if (mapData.values) {
             Object.keys(mapData.values).forEach(k => {
-                const item = Object.assign({}, mapData.values[k]);
-                item.id = k.toUpperCase()
-                item.value = item['average-satisfaction'];
-                processedData.push(item);
+                if (selectedCrops) {
+                    const item = Object.assign({}, mapData.values[k]);
+                    item.id = k.toUpperCase()
+                    item.value = item[selectedCrops];
+                    processedData.push(item);
+                }
             });
         }
+    }
+
+    if (mapData && mapData !== currentData) {
+        setCurrentData(mapData);
+        crops = mapData.dimensions.crop ? mapData.dimensions.crop.values : {};
+        setInitialCrops(crops);
+        initialSelectedCrops = null;
+        setSelectedCrops(crops[0]);
+    }
+
+    const exportPng = (ref, type) => {
     }
 
     switch (type) {
@@ -133,22 +149,43 @@ const Map = (props) => {
 
     const generateSourcesText = () => {
     }
-
-    const map_height = 750;
-    const fixedHeightStyle = {};
     
+    const handleCropFilterChange = (selected) => {
+        const currentlySelected = [];
+        for (let i = 0; i < selected.length; i++) {
+            if (selected[i] === 1) {
+                currentlySelected.push(initialCrops[i]);
+            }
+        }
+        setSelectedCrops(currentlySelected);
+    }
+        
     if (countries && mapData && !mapData.LOADING) {
         // TODO: prevent calling this method more times than needed.
         processCommonData();
     }
 
+    const map_height = 750;
+    const fixedHeightStyle = {};
+
     let dynamicSources = generateSourcesText();
     const mapComponent = {type, ...mapProps}
     const wrapper = useRef(null);
+    
+    // Needed for <CropFilter/>
+    if (initialCrops) {
+        initialSelectedCrops = [];
+        initialCrops.forEach((c, i) => {
+            initialSelectedCrops.push(i === 0 ? 1 : 0)
+        });
+    }
+    
     return (<div ref={wrapper}>
             <Container className={"map container"} fluid={true}>
                 <IndicatorFilter intl={intl} data={indicators} initialSelectedIndicator={selectedIndicator} />
-                <MapComponent {...mapComponent} sources={dynamicSources} data={processedData}/>
+                {initialCrops && initialSelectedCrops && <CropFilter data={initialCrops} onChange={handleCropFilterChange}
+                            initialSelectedCrops={initialSelectedCrops} intl={intl} maxSelectable={1}/>}
+                <MapComponent {...mapComponent} sources={dynamicSources} data={processedData} height={height}/>
             </Container>
         </div>
     )
