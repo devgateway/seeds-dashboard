@@ -3,15 +3,21 @@ import {Button, Container, Grid, GridRow, Icon, Segment} from "semantic-ui-react
 import {connect} from "react-redux";
 import {
     DATA,
-    WP_CATEGORIES,
     COUNTRIES_FILTER,
-    SOURCE_CATEGORIES,
     SHARE_CHART,
-    SHARE_CROPS, DEFAULT_COUNTRY_ID, ADEQUACY_ACTIVE_BREEDERS, MAP_INDICATOR_DATA, AVAILABILITY_BASIC_SEED,
+    DEFAULT_COUNTRY_ID,
+    ADEQUACY_ACTIVE_BREEDERS,
+    MAP_INDICATOR_DATA,
+    AVAILABILITY_BASIC_SEED,
+    ADEQUACY_SEED_INSPECTION_SERVICES,
 } from "../reducers/StoreConstants";
 import {MapComponent} from './components/MapComponent';
-import {getCountries, getData, getMapIndicator, getWpCategories, setFilter} from "../reducers/data";
-import {A1_ADEQUACY_ACTIVE_BREEDERS, A4_AVAILABILITY_FOUNDATION_SEED} from "./Constants";
+import {getCountries, getMapIndicator, setFilter} from "../reducers/data";
+import {
+    A1_ADEQUACY_ACTIVE_BREEDERS,
+    A4_AVAILABILITY_FOUNDATION_SEED,
+    D2_ADEQUACY_SEED_INSPECTION_SERVICES
+} from "./Constants";
 import IndicatorFilter from "./components/IndicatorFilter";
 import {injectIntl} from "react-intl";
 import CropFilter from "../chart/common/filters/crops";
@@ -33,7 +39,6 @@ const Map = (props) => {
     const {
         editing = false,
         setDefaultFilter,
-        onLoadCategories,
         onLoadIndicatorData,
         countries,
         onLoadCountries,
@@ -61,14 +66,11 @@ const Map = (props) => {
         onLoadCountries("latestCountryStudies");
     }, [onLoadCountries]);
 
-    useEffect(() => {
-        onLoadCategories()
-    }, [onLoadCategories]);
-
     const [selectedIndicator, setSelectedIndicator] = useState(null);
     const [initialCrops, setInitialCrops] = useState(null);
     const [currentData, setCurrentData] = useState(null);
     const [selectedCrops, setSelectedCrops] = useState(null);
+    const [dontUseCrops, setDontUseCrops] = useState(null);
 
     useEffect(() => {
         onLoadIndicatorData(selectedIndicator.id);
@@ -90,7 +92,7 @@ const Map = (props) => {
         }
     }
 
-    const processCommonData = ()  => {
+    const processCommonDataWithCrops = ()  => {
         processedData = [];
         if (mapData.values) {
             Object.keys(mapData.values).forEach(k => {
@@ -109,10 +111,28 @@ const Map = (props) => {
             });
         }
     }
+    
+    const processCommonDataWithoutCrops = (field) => {
+        processedData = [];
+        if (mapData.values && mapData.values[field]) {
+            Object.keys(mapData.values[field]).forEach(k => {
+                const item = {};
+                item.id = k.toUpperCase()
+                item.value = mapData.values[field][k];
+                item.country = countries.find(c => c.isoCode === item.id).country;
+                item.crop = null;
+                if (item.value && item.value !== 'MD' && item.value !== 'NA') {
+                    processedData.push(item);
+                } else {
+                    console.warn('ignored not number.')
+                }
+            });
+        }
+    }
 
     if (mapData && mapData !== currentData) {
         setCurrentData(mapData);
-        crops = mapData.dimensions.crop ? mapData.dimensions.crop.values : {};
+        crops = mapData.dimensions.crop ? mapData.dimensions.crop.values : [];
         setInitialCrops(crops);
         initialSelectedCrops = null;
         setSelectedCrops(crops[0]);
@@ -155,11 +175,12 @@ const Map = (props) => {
         switch (type) {
             case "indicators_A":
                 indicators = [
-                    {value: A1_ADEQUACY_ACTIVE_BREEDERS, id: ADEQUACY_ACTIVE_BREEDERS},
-                    {value: A4_AVAILABILITY_FOUNDATION_SEED, id: AVAILABILITY_BASIC_SEED}
+                    {value: A1_ADEQUACY_ACTIVE_BREEDERS, id: ADEQUACY_ACTIVE_BREEDERS, usesCrops: true},
+                    {value: A4_AVAILABILITY_FOUNDATION_SEED, id: AVAILABILITY_BASIC_SEED, usesCrops: true}
                 ];
                 if (!selectedIndicator) {
                     setSelectedIndicator(indicators[0]);
+                    setDontUseCrops(false);
                 }
                 break;
             case "indicators_B":
@@ -171,7 +192,13 @@ const Map = (props) => {
                 break;
 
             case "indicators_D":
-
+                indicators = [
+                    {value: D2_ADEQUACY_SEED_INSPECTION_SERVICES, id: ADEQUACY_SEED_INSPECTION_SERVICES, usesCrops: false}
+                ];
+                if (!selectedIndicator) {
+                    setSelectedIndicator(indicators[0]);
+                    setDontUseCrops(true);
+                }
                 break;
 
             case "indicators_E":
@@ -192,17 +219,25 @@ const Map = (props) => {
     
     const handleIndicatorChange = (selected) => {
         setSelectedIndicator(selected);
+        setDontUseCrops(!selected.usesCrops);
     }
         
-    if (countries && mapData && !mapData.LOADING) {
-        // TODO: prevent calling this method more times than needed.
-        processCommonData();
+    if (countries && mapData && !mapData.LOADING && selectedIndicator) {
+        switch (selectedIndicator.value) {
+            case A1_ADEQUACY_ACTIVE_BREEDERS:
+            case A4_AVAILABILITY_FOUNDATION_SEED:
+                processCommonDataWithCrops();
+                break
+            case D2_ADEQUACY_SEED_INSPECTION_SERVICES:
+                processCommonDataWithoutCrops('rating');
+                break;
+        }
     }
 
     const wrapper = useRef(null);
     
     // Needed for <CropFilter/>
-    if (initialCrops) {
+    if (initialCrops && !dontUseCrops) {
         initialSelectedCrops = [];
         initialCrops.forEach((c, i) => {
             initialSelectedCrops.push(i === 0 ? 1 : 0)
@@ -227,7 +262,7 @@ const Map = (props) => {
                             <IndicatorFilter intl={intl} data={indicators} initialSelectedIndicator={selectedIndicator} onChange={handleIndicatorChange} />
                         </Grid.Column>
                         <Grid.Column width={4}>
-                            {initialCrops && initialSelectedCrops && <CropFilter data={initialCrops} onChange={handleCropFilterChange}
+                            {!dontUseCrops && initialCrops && initialSelectedCrops && <CropFilter data={initialCrops} onChange={handleCropFilterChange}
                                                                              initialSelectedCrops={initialSelectedCrops} intl={intl} maxSelectable={1}/>}
                         </Grid.Column>
                     </Grid.Row>
@@ -237,7 +272,7 @@ const Map = (props) => {
                     </Grid.Row>
                     <Grid.Row className="map-row">
                         <Grid.Column width={16}>
-                            <MapComponent data={processedData} height={height} intl={intl} colors={mapColors}/>
+                            <MapComponent data={processedData} height={height} intl={intl} colors={mapColors} dontUseCrops={dontUseCrops}/>
                         </Grid.Column>
                     </Grid.Row>
                     <Grid.Row className={`source-section`}>
@@ -317,7 +352,6 @@ const legends = [
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        categoriesWP: state.getIn([DATA, WP_CATEGORIES]),
         countries: state.getIn([DATA, COUNTRIES_FILTER]),
         filters: state.getIn([DATA, 'filters']),
         locale: state.getIn(['intl', 'locale']),
@@ -327,7 +361,6 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapActionCreators = {
     setDefaultFilter: setFilter,
-    onLoadCategories: getWpCategories,
     onLoadIndicatorData: getMapIndicator,
     onLoadCountries: getCountries,
 };
