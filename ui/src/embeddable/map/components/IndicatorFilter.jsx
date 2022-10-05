@@ -35,16 +35,16 @@ const IndicatorFilter = ({data, onChange, initialSelectedIndicator, intl}) => {
     }, [onClickOutside]);
 
     const handleChange = (e, props) => {
-        const currentlySelected = Object.assign({}, initialSelectedIndicator);
-        const index = data.findIndex(i => i === props.value);
-        currentlySelected[index] = currentlySelected[index] === 0 ? 1 : 0;
+        const index = data.findIndex(i => i.value === props.value);
+        const currentlySelected = Object.assign({}, data[index]);
+        initialSelectedIndicator = currentlySelected
         onChange(currentlySelected);
     }
 
     const generateContent = () => {
         return (data.map((c, i) => {
             return (<div key={c.id}>
-                <Form.Checkbox value={c.value} onChange={handleChange} checked={c.id === initialSelectedIndicator.id}
+                <Form.Radio value={c.value} onChange={handleChange} checked={c.id === initialSelectedIndicator.id}
                                label={intl.formatMessage({id: c.value, defaultMessage: c.value})}/>
             </div>);
         }));

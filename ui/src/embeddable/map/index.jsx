@@ -7,7 +7,7 @@ import {
     COUNTRIES_FILTER,
     SOURCE_CATEGORIES,
     SHARE_CHART,
-    SHARE_CROPS, DEFAULT_COUNTRY_ID, ADEQUACY_ACTIVE_BREEDERS, MAP_INDICATOR_DATA,
+    SHARE_CROPS, DEFAULT_COUNTRY_ID, ADEQUACY_ACTIVE_BREEDERS, MAP_INDICATOR_DATA, AVAILABILITY_BASIC_SEED,
 } from "../reducers/StoreConstants";
 import {MapComponent} from './components/Map';
 import {getCountries, getData, getMapIndicator, getWpCategories, setFilter} from "../reducers/data";
@@ -101,31 +101,33 @@ const Map = (props) => {
     const exportPng = (ref, type) => {
     }
 
-    switch (type) {
-        case "indicators_A":
-            indicators = [
-                {value: A1_ADEQUACY_ACTIVE_BREEDERS, id: ADEQUACY_ACTIVE_BREEDERS},
-                {value: A4_AVAILABILITY_FOUNDATION_SEED, id: null}
-            ];
-            if (!selectedIndicator) {
-                setSelectedIndicator(indicators[0]);
-            }
-            break;
-        case "indicators_B":
+    if (indicators.length === 0) {
+        switch (type) {
+            case "indicators_A":
+                indicators = [
+                    {value: A1_ADEQUACY_ACTIVE_BREEDERS, id: ADEQUACY_ACTIVE_BREEDERS},
+                    {value: A4_AVAILABILITY_FOUNDATION_SEED, id: AVAILABILITY_BASIC_SEED}
+                ];
+                if (!selectedIndicator) {
+                    setSelectedIndicator(indicators[0]);
+                }
+                break;
+            case "indicators_B":
 
-            break;
+                break;
 
-        case "indicators_C":
+            case "indicators_C":
 
-            break;
+                break;
 
-        case "indicators_D":
+            case "indicators_D":
 
-            break;
+                break;
 
-        case "indicators_E":
+            case "indicators_E":
 
-            break;
+                break;
+        }
     }
 
     const mapProps = {
@@ -148,6 +150,10 @@ const Map = (props) => {
             }
         }
         setSelectedCrops(currentlySelected);
+    }
+    
+    const handleIndicatorChange = (selected) => {
+        setSelectedIndicator(selected);
     }
         
     if (countries && mapData && !mapData.LOADING) {
@@ -179,7 +185,7 @@ const Map = (props) => {
                         </Grid.Column>
                     </Grid.Row>
                     <Grid.Row className={`filters-section`}>
-                        <IndicatorFilter intl={intl} data={indicators} initialSelectedIndicator={selectedIndicator} />
+                        <IndicatorFilter intl={intl} data={indicators} initialSelectedIndicator={selectedIndicator} onChange={handleIndicatorChange} />
                         {initialCrops && initialSelectedCrops && <CropFilter data={initialCrops} onChange={handleCropFilterChange}
                                                                              initialSelectedCrops={initialSelectedCrops} intl={intl} maxSelectable={1}/>}
                     </Grid.Row>
