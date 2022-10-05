@@ -1,3 +1,5 @@
+import {A1_ADEQUACY_ACTIVE_BREEDERS} from "../map/Constants";
+
 export const DATA = 'data';
 export const COUNTRY_INFO = 'countryInfo';
 export const NUMBER_OF_VARIETIES_RELEASED = 'numberOfVarietiesReleased';
@@ -40,6 +42,7 @@ export const SHARE_CHART = 'share_chart'
 export const CURRENT_TAB = 'current-tab';
 export const SHARE_CROPS = 'share_crops';
 export const SHARE_YEARS = 'share_years';
+export const MAP_INDICATOR_DATA = 'map-indicator-data';
 export const CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS = 'numberActiveBreeders_crossCountry';
 export const CROSS_COUNTRY_NUMBER_OF_VARIETIES_RELEASED = 'numberOfVarietiesReleased_crossCountry';
 export const CROSS_COUNTRY_QUANTITY_CERTIFIED_SEED_SOLD = 'quantityCertifiedSeedSold_crossCountry';
@@ -53,5 +56,7 @@ export const CROSS_COUNTRY_OVERALL_RATING_NATIONAL_SEED_TRADE_ASSOCIATION = 'ove
 export const CROSS_COUNTRY_AGRODEALER_NETWORK = 'agrodealerNetwork_crossCountry';
 export const CROSS_COUNTRY_AVAILABILITY_SEED_SMALL_PACKAGES = 'availabilitySeedSmallPackages_crossCountry';
 export const CROSS_COUNTRY_NUMBER_SEED_INSPECTORS = 'seedInspectorsByCountry';
+export const ADEQUACY_ACTIVE_BREEDERS = 'adequacyActiveBreeders_map';
+export const AVAILABILITY_BASIC_SEED = 'availabilityBasicSeed_map';
 
 export const WP_CHART = 'wp-chart';

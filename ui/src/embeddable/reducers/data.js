@@ -6,9 +6,16 @@ import {
     COUNTRIES_FILTER,
     COUNTRY_SETTINGS,
     SUMMARY_INDICATORS,
-    SUMMARY_INDICATORS_INFORMATION, WP_CATEGORIES, WP_DOCUMENTS, WP_IMAGES, WP_CROPS, CUSTOM_TOOLTIPS, DATA
+    SUMMARY_INDICATORS_INFORMATION,
+    WP_CATEGORIES,
+    WP_DOCUMENTS,
+    WP_IMAGES,
+    WP_CROPS,
+    CUSTOM_TOOLTIPS,
+    DATA,
+    MAP_INDICATOR_DATA
 } from "./StoreConstants";
-import { getCategoriesWP, saveTooltips } from "./data-api";
+import {getCategoriesWP, getMapIndicatorData, saveTooltips} from "./data-api";
 import { normalizeField } from "../utils/common";
 
 const LOAD_DATA = 'LOAD_DATA'
@@ -55,6 +62,10 @@ const LOAD_CROPS_ERROR = 'LOAD_CROPS_ERROR';
 const LOAD_IMAGES = 'LOAD_IMAGES';
 const LOAD_IMAGES_DONE = 'LOAD_IMAGES_DONE';
 const LOAD_IMAGES_ERROR = 'LOAD_IMAGES_ERROR';
+
+const LOAD_MAP_INDICATOR = 'LOAD_MAP_INDICATOR';
+const LOAD_MAP_INDICATOR_DONE = 'LOAD_MAP_INDICATOR_DONE';
+const LOAD_MAP_INDICATOR_ERROR = 'LOAD_MAP_INDICATOR_ERROR';
 
 const SET_FILTER = 'SET_FILTER'
 
@@ -203,6 +214,24 @@ export const getIndicators = () => (dispatch, getState) => {
         })
     })
 }
+
+export const getMapIndicator = (type) => (dispatch, getState) => {
+    dispatch({
+        type: LOAD_MAP_INDICATOR
+    })
+    api.getMapIndicatorData(type).then(data => {
+        dispatch({
+            type: LOAD_MAP_INDICATOR_DONE,
+            data: data
+        })
+    }).catch(error => {
+        dispatch({
+            type: LOAD_MAP_INDICATOR_ERROR,
+            error
+        })
+    })
+}
+
 export const getIndicatorsInformation = (categoryId) => (dispatch, getState) => {
     dispatch({
         type: LOAD_INDICATORS_INFORMATION,
@@ -357,6 +386,21 @@ const reducer = (state = initialState, action) => {
             return state.setIn([SUMMARY_INDICATORS_INFORMATION, 'LOADING'], false)
         }
 
+        case LOAD_INDICATORS_ERROR: {
+            return state
+        }
+        case LOAD_MAP_INDICATOR: {
+            return state.setIn([MAP_INDICATOR_DATA, 'LOADING'], true).deleteIn([MAP_INDICATOR_DATA, 'data']);
+        }
+
+        case LOAD_MAP_INDICATOR_DONE: {
+            const { data } = action
+            return state.setIn([MAP_INDICATOR_DATA, 'LOADING'], false).setIn([MAP_INDICATOR_DATA, 'data'], data);
+        }
+
+        case LOAD_MAP_INDICATOR_ERROR: {
+            return state.setIn([MAP_INDICATOR_DATA, 'LOADING'], false).deleteIn([MAP_INDICATOR_DATA, 'data']);
+        }
 
         case SET_FILTER: {
             const { param, value } = action

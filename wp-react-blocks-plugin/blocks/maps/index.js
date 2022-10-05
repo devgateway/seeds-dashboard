@@ -11,6 +11,14 @@ registerBlockType(process.env.BLOCKS_NS + '/map',
         category: process.env.BLOCKS_CATEGORY,
         apiVersion: 2,
         attributes: {
+            height: {
+                type: 'number',
+                default: 500,
+            },
+            width: {
+                type: 'number',
+                default: 900,
+            },
             type: {
                 type: 'string',
                 default: "indicators_A",
@@ -19,11 +27,7 @@ registerBlockType(process.env.BLOCKS_NS + '/map',
                 type: 'String',
                 default: ""
             },
-            title_en: {
-                type: 'String',
-                default: ""
-            },
-            title_fr: {
+            title: {
                 type: 'String',
                 default: ""
             },
@@ -32,6 +36,14 @@ registerBlockType(process.env.BLOCKS_NS + '/map',
             },
             sourceText_fr: {
                 type: 'String',
+            },
+            download: {
+                type: "Boolean",
+                default: true
+            },
+            methodology: {
+                type: 'String',
+                default: "Methodology not yet defined."
             }
         },
         edit: BlockEdit,

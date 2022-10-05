@@ -21,25 +21,34 @@ class BlockEdit extends BaseBlockEdit {
         const {
             className, isSelected,
             toggleSelection, setAttributes, attributes: {
-                mode,
+                height,
+                width,
                 type,
-                title_en,
-                title_fr,
+                title,
                 sourceText_en,
                 sourceText_fr,
+                methodology,
+                download
             }
         } = this.props;
-        let queryString = `&data-map-type=${type}`;
-        queryString += `&data-title=${title_en}`;
-        queryString += `&data-title=${title_fr}`;
+        let queryString = `data-height=${height}`;
+        queryString += `&data-map-type=${type}`;
+        queryString += `&data-title=${title}`;
         queryString += `&data-source-text_en=${sourceText_en}`;
         queryString += `&data-source-text_fr=${sourceText_fr}`;
+        queryString += `&data-methodology=${methodology}`;
+        queryString += `&data-download=${download}`;
         queryString += ` & editing = true`;
+        const divStyles = { height: height + 'px', width: '100%' }
         return (
             [isSelected && (
                 <InspectorControls>
                     <Panel header={__("Map Configuration")}>
                         <PanelBody>
+                            <PanelRow>
+                                <TextControl label={__('Chart title')} value={title}
+                                             onChange={(title) => setAttributes({ title })} />
+                            </PanelRow>
                             <PanelRow>
                                 <SelectControl
                                     label={__('Type:')}
@@ -56,7 +65,50 @@ class BlockEdit extends BaseBlockEdit {
                                     ]}
                                 />
                             </PanelRow>
+                            <PanelRow>
+                                <RangeControl
+                                    label={__('Map Width')}
+                                    value={width}
+                                    onChange={(width) => setAttributes({ width })}
+                                    min={1}
+                                    max={1000}
+                                />
+                            </PanelRow>
+                            <PanelRow>
+                                <RangeControl
+                                    label={__('Map height')}
+                                    value={height}
+                                    onChange={(height) => setAttributes({ height })}
+                                    min={1}
+                                    max={1000}
+                                />
+                            </PanelRow>
+                            <PanelRow>
+                                <TextControl label={__('Methodology')} value={methodology}
+                                             onChange={(methodology) => setAttributes({ methodology })} />
+                            </PanelRow>
+                            <PanelRow>
+                                <ToggleControl
+                                    label={__("Download chart")}
+                                    checked={download}
+                                    onChange={(download) => setAttributes({ download })}
+                                />
+                            </PanelRow>
                         </PanelBody>
+                        <PanelRow>
+                            <TextareaControl
+                                label={__('Source in English (it can be HTML)')}
+                                value={sourceText_en}
+                                onChange={(sourceText_en) => setAttributes({ sourceText_en })}
+                            />
+                        </PanelRow>
+                        <PanelRow>
+                            <TextareaControl
+                                label={__('Source in French (it can be HTML)')}
+                                value={sourceText_fr}
+                                onChange={(sourceText_fr) => setAttributes({ sourceText_fr })}
+                            />
+                        </PanelRow>
                     </Panel>
                 </InspectorControls>
             ), (
@@ -87,28 +139,10 @@ class BlockEdit extends BaseBlockEdit {
                     }}>
                     <div className={className}>
                         <div>
-                            {
-                                <Checkbox
-                                    toggle
-                                    defaultChecked={true}
-                                    onChange={e => setAttributes({ mode: (mode === 'map' ? 'info' : 'map') })}
-                                />
-                            }
+                            <iframe id={"id_description_iframe"} scrolling={"no"}
+                                    style={divStyles}
+                                    src={this.state.react_ui_url + "/en/embeddable/map?" + queryString}/>
                         </div>
-                        {
-                            mode === "map" &&
-                            <div>
-                                <iframe id={"id_description_iframe"} scrolling={"no"}
-                                        style={divStyles}
-                                        src={this.state.react_ui_url + "/en/embeddable/map?" + queryString} />
-                            </div>
-                        }
-                        {
-                            mode === "info" &&
-                            <div className={"inner block"}>
-                                <InnerBlocks />
-                            </div>
-                        }
                     </div>
                 </ResizableBox>
             )]);

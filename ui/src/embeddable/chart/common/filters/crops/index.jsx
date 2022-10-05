@@ -2,7 +2,7 @@ import React, {useState, useEffect, useRef} from "react";
 import './styles.scss';
 import {Accordion, Form, Menu} from "semantic-ui-react";
 
-const CropFilter = ({data, onChange, initialSelectedCrops = [1, 1, 1, 1], intl}) => {
+const CropFilter = ({data, onChange, initialSelectedCrops = [1, 1, 1, 1], intl, maxSelectable}) => {
 
     const [isOpen, setIsOpen] = useState(false);
     const [numberOfSelectedCrops, setNumberOfSelectedCrops] = useState([1, 1, 1, 1]);
@@ -37,11 +37,22 @@ const CropFilter = ({data, onChange, initialSelectedCrops = [1, 1, 1, 1], intl})
     }, [onClickOutside]);
 
     const handleChange = (e, props) => {
-        const currentlySelected = Object.assign([], numberOfSelectedCrops);
-        const index = data.findIndex(i => i === props.value);
-        currentlySelected[index] = currentlySelected[index] === 0 ? 1 : 0;
-        setNumberOfSelectedCrops(currentlySelected);
-        onChange(currentlySelected);
+        if (maxSelectable && maxSelectable === 1) { // Only 1 maxSelectable for now.
+            const currentlySelected = [];
+            const index = data.findIndex(i => i === props.value);
+            numberOfSelectedCrops.forEach(i => {
+                currentlySelected.push(0);
+            });
+            currentlySelected[index] = 1;
+            setNumberOfSelectedCrops(currentlySelected);
+            onChange(currentlySelected);
+        } else {
+            const currentlySelected = Object.assign([], numberOfSelectedCrops);
+            const index = data.findIndex(i => i === props.value);
+            currentlySelected[index] = currentlySelected[index] === 0 ? 1 : 0;
+            setNumberOfSelectedCrops(currentlySelected);
+            onChange(currentlySelected);
+        }
     }
 
     const generateContent = () => {
