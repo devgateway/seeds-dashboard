@@ -21,6 +21,8 @@ import HHILegend from "../chart/MarketConcentrationHHI/HHILegend";
 import Export from "../chart/common/export";
 import Source from "../chart/common/source";
 import {cleanupParam} from "../chart/Countryinfo";
+import {toBlob} from "html-to-image";
+import { saveAs } from 'file-saver';
 
 const Map = (props) => {
     const {filters} = props
@@ -29,20 +31,15 @@ const Map = (props) => {
     let initialSelectedCrops = [];
     let crops = null;
     const {
-        parent,
         editing = false,
-        unique,
-        childContent,
         setDefaultFilter,
         onLoadCategories,
         onLoadIndicatorData,
-        categoriesWP,
         countries,
         onLoadCountries,
         locale,
         intl,
         mapData,
-        "data-app": app,
         "data-download": download,
         "data-height": height = 500,
         "data-map-type": type,
@@ -51,8 +48,6 @@ const Map = (props) => {
         "data-title": title = "",
         "data-sub-title": subTitle = "",
         "data-methodology": methodology,
-        "data-map-data-source": mapDataSource,
-        'data-params': params = '{}',
     } = props;
 
     useEffect(() => {
@@ -117,7 +112,37 @@ const Map = (props) => {
         setSelectedCrops(crops[0]);
     }
 
+    function filter(node) {
+        if (node.classList) {
+            return !node.classList.contains("ignore") && !node.classList.contains("angle")
+        }
+        return true;
+    }
+
     const exportPng = (ref, type) => {
+        let style = null;
+        let width = 0;
+        let height = 0;
+        style = {
+            padding: "0px",
+            marginTop: "10px",
+            marginBottom: "0px",
+            marginLeft: '25px',
+            marginRight: '10px',
+        };
+        width = ref.current.childNodes[0].offsetWidth + 50;
+        height = ref.current.childNodes[0].offsetHeight;
+
+        toBlob(ref.current, {
+            filter,
+            "backgroundColor": "#FFF",
+            width: width,
+            height: height,
+            style: style
+        })
+            .then(function (blob) {
+                saveAs(blob, title + ' export.png');
+            });
     }
 
     if (indicators.length === 0) {
@@ -149,18 +174,6 @@ const Map = (props) => {
         }
     }
 
-    const mapProps = {
-        title: title,
-        subTitle: subTitle,
-        editing: editing,
-        methodology: methodology,
-        download: download,
-        exportPng: exportPng,
-    }
-
-    const generateSourcesText = () => {
-    }
-    
     const handleCropFilterChange = (selected) => {
         const currentlySelected = [];
         for (let i = 0; i < selected.length; i++) {
@@ -180,11 +193,6 @@ const Map = (props) => {
         processCommonData();
     }
 
-    const map_height = 750;
-    const fixedHeightStyle = {};
-
-    let dynamicSources = generateSourcesText();
-    const mapComponent = {type, ...mapProps}
     const wrapper = useRef(null);
     
     // Needed for <CropFilter/>
@@ -223,7 +231,7 @@ const Map = (props) => {
                     </Grid.Row>
                     <Grid.Row className="map-row">
                         <Grid.Column width={16}>
-                            <MapComponent {...mapComponent} sources={dynamicSources} data={processedData} height={height} intl={intl} colors={mapColors}/>
+                            <MapComponent data={processedData} height={height} intl={intl} colors={mapColors}/>
                         </Grid.Column>
                     </Grid.Row>
                     <Grid.Row className={`source-section`}>

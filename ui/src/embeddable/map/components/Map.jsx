@@ -22,7 +22,6 @@ const getTooltipLegendByValue = (value, intl) => {
 }
 
 export const MapComponent = ({height, data, intl, colors}) => {
-    console.log(data);
     return (<div className="map-wrapper" style={{height: height + 'px'}}>
         {data && <ResponsiveChoropleth
             data={data}
@@ -30,12 +29,11 @@ export const MapComponent = ({height, data, intl, colors}) => {
             margin={{top: 0, right: 0, bottom: 0, left: 0}}
             colors={colors}
             label="properties.name"
-            width={700}
             domain={[0, 100]}
             unknownColor="#D1D2D4"
             //valueFormat=".2s"
-            projectionScale={400}
-            projectionTranslation={[0.36, 0.51]}
+            projectionScale={350}
+            projectionTranslation={[0.43, 0.51]}
             projectionRotation={[0, 0, 0]}
             enableGraticule={false}
             borderWidth={0.5}
