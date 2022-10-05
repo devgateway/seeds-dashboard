@@ -3,23 +3,21 @@ import {ResponsiveChoropleth} from '@nivo/geo'
 import {injectIntl} from 'react-intl';
 import countries from "../../../static/africa_countries.json";
 
-const getTooltipLegendByValue = (value) => {
-    let tooltipLegend = "(Extremely High)"
+const getTooltipLegendByValue = (value, intl) => {
+    let tooltipLegend = ""
     let className = "label1"
-    if (value < 1000) {
-        tooltipLegend = "(Extremely Low)"
-        //className = "elow"
-    } else if (value < 2000) {
-        tooltipLegend = "(Low)"
-        //className = "low"
-    } else if (value < 3000) {
-        tooltipLegend = "(Average)"
-        //className = "average"
-    } else if (value < 4000) {
-        tooltipLegend = "(High)"
-        //className = "high"
+    if (value <= 19.99) {
+        tooltipLegend = intl.formatMessage({id: 'extremelyPoor', defaultMessage: 'Extremely poor'});
+    } else if (value <= 39.99) {
+        tooltipLegend = intl.formatMessage({id: 'poor', defaultMessage: 'Poor'});
+    } else if (value <= 59.99) {
+        tooltipLegend = intl.formatMessage({id: 'fair', defaultMessage: 'Fair'});
+    } else if (value <= 79.99) {
+        tooltipLegend = intl.formatMessage({id: 'good', defaultMessage: 'Good'});
+    } else {
+        tooltipLegend = intl.formatMessage({id: 'excellent', defaultMessage: 'Excellent'});
     }
-    return (<span className={className}>{tooltipLegend}</span>);
+    return (<span className={className}>({tooltipLegend})</span>);
 }
 
 export const MapComponent = ({height, data, intl}) => {
@@ -29,7 +27,7 @@ export const MapComponent = ({height, data, intl}) => {
             data={data}
             features={countries.features}
             margin={{top: 0, right: 0, bottom: 0, left: 0}}
-            colors={['#C4E765', '#96C11F', '#F9D133', '#FB9755', '#FB5555']}
+            colors={['#FB5555', '#FB9755', '#F9D133', '#C4E765', '#96C11F']}
             label="properties.name"
             width={700}
             domain={[0, 100]}
@@ -51,9 +49,9 @@ export const MapComponent = ({height, data, intl}) => {
                         </div>
                         <div className="map-tooltip-data">
                             <span className="value">{e.feature.data.crop}</span>
-                            <span className="label1">HHI value: </span>
+                            <span className="label1">Opinion rating: </span>
                             <span className="labelBolder">{e.feature.data.value} </span>
-                            {getTooltipLegendByValue(e.feature.data.value)}
+                            {getTooltipLegendByValue(e.feature.data.value, intl)}
                         </div>
                     </div>)
                 } else {

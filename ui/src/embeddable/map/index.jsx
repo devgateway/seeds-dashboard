@@ -84,7 +84,11 @@ const Map = (props) => {
                     item.id = k.toUpperCase()
                     item.value = item[selectedCrops];
                     item.country = countries.find(c => c.isoCode === item.id).country;
-                    processedData.push(item);
+                    if (item.value && item.value !== 'MD' && item.value !== 'NA') {
+                        processedData.push(item);
+                    } else {
+                        console.warn('ignored not number.')
+                    }
                 }
             });
         }
@@ -191,7 +195,7 @@ const Map = (props) => {
                     </Grid.Row>
                     <Grid.Row>
                         <Grid.Column width={16}>
-                            <MapComponent {...mapComponent} sources={dynamicSources} data={processedData} height={height}/>
+                            <MapComponent {...mapComponent} sources={dynamicSources} data={processedData} height={height} intl={intl}/>
                         </Grid.Column>
                     </Grid.Row>
                 </Grid>
