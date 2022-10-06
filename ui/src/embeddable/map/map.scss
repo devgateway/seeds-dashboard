@@ -17,16 +17,17 @@
 .tooltip-wrapper {
   @include border-radius(5px);
   background-color: white !important;
-  border: 1px solid $separator-grey;
+  border: 1px solid $tooltip-text-color;
   overflow: hidden;
   padding: $base-unit-md - 5;
   width: 280px;
 
   .tooltip-header {
     overflow: hidden;
+    font-size: 14px;
 
     .label {
-      line-height: 190%;
+      line-height: 150%;
       margin-right: $base-unit / 2;
     }
 
@@ -55,14 +56,6 @@
     }
   }
 
-  /*.label {
-    @include popup-data-style($default-text-color, $tooltip-font-size - 1, $regular-weight, left);
-  }
-
-  .value {
-    @include popup-data-style($theme-green, $tooltip-font-size + 1, 800, right);
-  }*/
-
   .map-tooltip-data {
     padding-bottom: $base-unit-md;
     border-top: 1px solid $separator-grey;
@@ -72,15 +65,14 @@
     .label {
       > span {
         color: $red;
-        /*font-size: $tooltip-font-size + 1;
-        font-weight: $bold-weight;*/
+        font-size: 13px;
+        font-weight: 700;
       }
     }
 
     .label1 {
-
       color: grey;
-      //font-size: $tooltip-font-size;
+      font-size: 13px;
       font-weight: normal;
       display: inline;
 
@@ -88,7 +80,7 @@
 
     .labelBolder {
       color: grey;
-      /*font-size: $tooltip-font-size;*/
+      font-size: 13px;
       font-weight: 700;
       display: inline;
 
@@ -98,33 +90,6 @@
       display: block;
       float: none;
       padding-bottom: $base-unit;
-    }
-
-    .elow {
-      //font-size: $tooltip-font-size;
-      color: #C4E765;
-      font-weight: bolder;
-
-    }
-
-    .low {
-      //font-size: $tooltip-font-size + 1;
-      color: #96C11F;
-    }
-
-    .average {
-      //font-size: $tooltip-font-size + 1;
-      color: #F9D133;
-    }
-
-    .high {
-      //font-size: $tooltip-font-size + 1;
-      color: #FB9755;
-    }
-
-    .ehigh {
-      //font-size: $tooltip-font-size + 1;
-      color: #FB5555;
     }
   }
 }

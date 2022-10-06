@@ -9,14 +9,14 @@ import {
     ADEQUACY_ACTIVE_BREEDERS,
     MAP_INDICATOR_DATA,
     AVAILABILITY_BASIC_SEED,
-    ADEQUACY_SEED_INSPECTION_SERVICES,
+    ADEQUACY_SEED_INSPECTION_SERVICES, ADEQUACY_AGRODEALER_NETWORK, ADEQUACY_EXTENSION_SERVICES,
 } from "../reducers/StoreConstants";
 import {MapComponent} from './components/MapComponent';
 import {getCountries, getMapIndicator, setFilter} from "../reducers/data";
 import {
     A1_ADEQUACY_ACTIVE_BREEDERS,
     A4_AVAILABILITY_FOUNDATION_SEED,
-    D2_ADEQUACY_SEED_INSPECTION_SERVICES
+    D2_ADEQUACY_SEED_INSPECTION_SERVICES, E13_ADEQUACY_EXTENSION_SERVICES, E24_ADEQUACY_AGRODEALER_NETWORK
 } from "./Constants";
 import IndicatorFilter from "./components/IndicatorFilter";
 import {injectIntl} from "react-intl";
@@ -203,7 +203,12 @@ const Map = (props) => {
                 break;
 
             case "indicators_E":
-
+                indicators = [{value: E13_ADEQUACY_EXTENSION_SERVICES, id: ADEQUACY_EXTENSION_SERVICES, useCrops: false}, 
+                    {value: E24_ADEQUACY_AGRODEALER_NETWORK, id: ADEQUACY_AGRODEALER_NETWORK, useCrops: false}];
+                if (!selectedIndicator) {
+                    setSelectedIndicator(indicators[0]);
+                    setDontUseCrops(true);
+                }
                 break;
         }
     }
@@ -230,6 +235,8 @@ const Map = (props) => {
                 processCommonDataWithCrops();
                 break
             case D2_ADEQUACY_SEED_INSPECTION_SERVICES:
+            case E13_ADEQUACY_EXTENSION_SERVICES:
+            case E24_ADEQUACY_AGRODEALER_NETWORK:
                 processCommonDataWithoutCrops();
                 break;
         }
@@ -288,11 +295,11 @@ const Map = (props) => {
 }
 
 const colors = [
-    { upTo: 100, color: '#FF3833' },
-    { upTo: 79.99, color: '#FF7E37' },
-    { upTo: 59.99, color: '#FFFC61' },
-    { upTo: 39.99, color: '#CCF000' },
-    { upTo: 19.99, color: '#75DD00' },
+    { upTo: 100, color: '#fb6e6e' },
+    { upTo: 79.99, color: '#fba66e' },
+    { upTo: 59.99, color: '#f9d751' },
+    { upTo: 39.99, color: '#ccea7b' },
+    { upTo: 19.99, color: '#a5ca40' },
 ];
 
 const getColor = (value) => {
