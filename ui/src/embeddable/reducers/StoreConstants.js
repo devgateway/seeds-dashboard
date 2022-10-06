@@ -61,5 +61,8 @@ export const AVAILABILITY_BASIC_SEED = 'availabilityBasicSeed_map';
 export const ADEQUACY_SEED_INSPECTION_SERVICES = 'getRatingSeedInspectors_map';
 export const ADEQUACY_EXTENSION_SERVICES = "agriculturalExtensionServices_map";
 export const ADEQUACY_AGRODEALER_NETWORK = "agrodealerNetwork_map";
+export const SATISFACTION_VARIETY_RELEASE_PROCESS = "varietyReleaseProcess_map";
+export const SATISFACTION_SEED_REGULATIONS = "satisfactionLawRegulation_map"
+export const ADEQUACY_GOVERNMENT_EFFORT_COUNTERFEIT_SEED = "satisfactionGovernmentEffortCounterfeitSeed_map";
 
 export const WP_CHART = 'wp-chart';
