@@ -20,7 +20,7 @@ const getTooltipLegendByValue = (value, intl) => {
     return (<span className={className}>({tooltipLegend})</span>);
 }
 
-export const MapComponent = ({height, data, intl, colors}) => {
+export const MapComponent = ({height, data, intl, colors, dontUseCrops}) => {
     return (<div className="map-wrapper" style={{height: height + 'px'}}>
         {data && <ResponsiveChoropleth
             data={data}
@@ -42,7 +42,7 @@ export const MapComponent = ({height, data, intl, colors}) => {
                 if (e.feature.data) {
                     return (<div className="tooltip-wrapper">
                         <div className="tooltip-header">
-                            <span className="value">{intl.formatMessage({ id: e.feature.data.crop})} - </span>
+                            {!dontUseCrops && <span className="value">{intl.formatMessage({ id: e.feature.data.crop})} - </span>}
                             <span className="label">{e.feature.data.country}</span>
                             <span className="value">{e.feature.data.year}</span>
                         </div>
