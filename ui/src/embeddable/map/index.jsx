@@ -12,13 +12,20 @@ import {
     ADEQUACY_SEED_INSPECTION_SERVICES,
     ADEQUACY_AGRODEALER_NETWORK,
     ADEQUACY_EXTENSION_SERVICES,
-    SATISFACTION_VARIETY_RELEASE_PROCESS, SATISFACTION_SEED_REGULATIONS, ADEQUACY_GOVERNMENT_EFFORT_COUNTERFEIT_SEED,
+    SATISFACTION_VARIETY_RELEASE_PROCESS,
+    SATISFACTION_SEED_REGULATIONS,
+    ADEQUACY_GOVERNMENT_EFFORT_COUNTERFEIT_SEED,
+    SATISFACTION_EXPORT, LENGTH_SEED_EXPORT, SATISFACTION_IMPORT, LENGTH_SEED_IMPORT,
 } from "../reducers/StoreConstants";
 import {MapComponent} from './components/MapComponent';
 import {getCountries, getMapIndicator, setFilter} from "../reducers/data";
 import {
     A1_ADEQUACY_ACTIVE_BREEDERS,
     A4_AVAILABILITY_FOUNDATION_SEED,
+    B72_LENGTH_SEED_IMPORT,
+    B73_SATISFACTION_IMPORT,
+    B75_LENGTH_SEED_EXPORT,
+    B77_SATISFACTION_EXPORT,
     C1_SATISFACTION_VARIETY_RELEASE_PROCESS,
     C2_SATISFACTION_SEED_REGULATIONS,
     C4_ADEQUACY_GOVERNMENT_EFFORT_COUNTERFEIT_SEED,
@@ -193,9 +200,15 @@ const Map = (props) => {
                 }
                 break;
             case "indicators_B":
-
+                indicators = [{value: B72_LENGTH_SEED_IMPORT, id: LENGTH_SEED_IMPORT, useCrops: false},
+                    {value: B73_SATISFACTION_IMPORT, id: SATISFACTION_IMPORT, useCrops: false},
+                    {value: B75_LENGTH_SEED_EXPORT, id: LENGTH_SEED_EXPORT, useCrops: false},
+                    {value: B77_SATISFACTION_EXPORT, id: SATISFACTION_EXPORT, useCrops: false}];
+                if (!selectedIndicator) {
+                    setSelectedIndicator(indicators[0]);
+                    setDontUseCrops(!indicators[0].usesCrops);
+                }
                 break;
-
             case "indicators_C":
                 indicators = [{value: C1_SATISFACTION_VARIETY_RELEASE_PROCESS, id: SATISFACTION_VARIETY_RELEASE_PROCESS, useCrops: false},
                     {value: C2_SATISFACTION_SEED_REGULATIONS, id: SATISFACTION_SEED_REGULATIONS, useCrops: false},
@@ -205,7 +218,6 @@ const Map = (props) => {
                     setDontUseCrops(!indicators[0].usesCrops);
                 }
                 break;
-
             case "indicators_D":
                 indicators = [
                     {value: D2_ADEQUACY_SEED_INSPECTION_SERVICES, id: ADEQUACY_SEED_INSPECTION_SERVICES, usesCrops: false}
@@ -215,7 +227,6 @@ const Map = (props) => {
                     setDontUseCrops(true);
                 }
                 break;
-
             case "indicators_E":
                 indicators = [{value: E13_ADEQUACY_EXTENSION_SERVICES, id: ADEQUACY_EXTENSION_SERVICES, useCrops: false}, 
                     {value: E24_ADEQUACY_AGRODEALER_NETWORK, id: ADEQUACY_AGRODEALER_NETWORK, useCrops: false}];
@@ -254,6 +265,10 @@ const Map = (props) => {
             case C1_SATISFACTION_VARIETY_RELEASE_PROCESS:
             case C2_SATISFACTION_SEED_REGULATIONS:
             case C4_ADEQUACY_GOVERNMENT_EFFORT_COUNTERFEIT_SEED:
+            case B72_LENGTH_SEED_IMPORT:
+            case B73_SATISFACTION_IMPORT:
+            case B75_LENGTH_SEED_EXPORT:
+            case B77_SATISFACTION_EXPORT:
                 processCommonDataWithoutCrops();
                 break;
         }

@@ -6,3 +6,7 @@ export const E24_ADEQUACY_AGRODEALER_NETWORK = "E2.4 Adequacy of agrodealer netw
 export const C1_SATISFACTION_VARIETY_RELEASE_PROCESS = "C1. Satisfaction with variety release process";
 export const C2_SATISFACTION_SEED_REGULATIONS = "C2. Satisfaction with the enforcement of seed law/ regulations (opinion)";
 export const C4_ADEQUACY_GOVERNMENT_EFFORT_COUNTERFEIT_SEED = "C4. Adequacy of government efforts to eradicate counterfeit seed (opinion)";
+export const B72_LENGTH_SEED_IMPORT = "B7.2 Length of seed import (days)";
+export const B75_LENGTH_SEED_EXPORT = "B7.5 Length of seed export (days)";
+export const B73_SATISFACTION_IMPORT = "B7.3 Satisfaction with import process";
+export const B77_SATISFACTION_EXPORT = "B7.7 Satisfaction with export process";
