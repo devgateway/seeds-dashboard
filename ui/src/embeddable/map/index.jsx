@@ -12,7 +12,7 @@ import {
     ADEQUACY_SEED_INSPECTION_SERVICES,
     ADEQUACY_AGRODEALER_NETWORK,
     ADEQUACY_EXTENSION_SERVICES,
-    SATISFACTION_VARIETY_RELEASE_PROCESS, SATISFACTION_SEED_REGULATIONS,
+    SATISFACTION_VARIETY_RELEASE_PROCESS, SATISFACTION_SEED_REGULATIONS, ADEQUACY_GOVERNMENT_EFFORT_COUNTERFEIT_SEED,
 } from "../reducers/StoreConstants";
 import {MapComponent} from './components/MapComponent';
 import {getCountries, getMapIndicator, setFilter} from "../reducers/data";
@@ -199,7 +199,7 @@ const Map = (props) => {
             case "indicators_C":
                 indicators = [{value: C1_SATISFACTION_VARIETY_RELEASE_PROCESS, id: SATISFACTION_VARIETY_RELEASE_PROCESS, useCrops: false},
                     {value: C2_SATISFACTION_SEED_REGULATIONS, id: SATISFACTION_SEED_REGULATIONS, useCrops: false},
-                    {value: C4_ADEQUACY_GOVERNMENT_EFFORT_COUNTERFEIT_SEED, id: null, useCrops: false}];
+                    {value: C4_ADEQUACY_GOVERNMENT_EFFORT_COUNTERFEIT_SEED, id: ADEQUACY_GOVERNMENT_EFFORT_COUNTERFEIT_SEED, useCrops: false}];
                 if (!selectedIndicator) {
                     setSelectedIndicator(indicators[0]);
                     setDontUseCrops(!indicators[0].usesCrops);
