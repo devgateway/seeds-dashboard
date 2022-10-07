@@ -6,7 +6,11 @@ import './styles.scss';
 const getTooltipLegendByValue = (value, intl, scale) => {
     let className = "label1"
     const tooltipLegend = intl.formatMessage({id: scale(value)['label-key'], defaultMessage: scale(value).label});
-    return (<span className={className}>({tooltipLegend})</span>);
+    return (<span className={className} style={{color: scale(value).color}}>({tooltipLegend})</span>);
+}
+
+const getColorByValue = (value, scale) => {
+    return scale(value).color;
 }
 
 export const MapComponent = ({height, data, intl, colors, dontUseCrops, domain, scale}) => {
@@ -33,11 +37,11 @@ export const MapComponent = ({height, data, intl, colors, dontUseCrops, domain, 
                         <div className="tooltip-header">
                             {!dontUseCrops && <span className="value">{intl.formatMessage({ id: e.feature.data.crop})} - </span>}
                             <span className="label">{e.feature.data.country}</span>
-                            <span className="value">{e.feature.data.year}</span>
+                            <span className="value"><b>{e.feature.data.year}</b></span>
                         </div>
                         <div className="map-tooltip-data">
                             <span className="label1">{intl.formatMessage({ id: 'opinionRating', defaultMessage: 'Opinion Rating' })}: </span>
-                            <span className="labelBolder">{e.feature.data.value} </span>
+                            <span className="labelBolder" style={{color: getColorByValue(e.feature.data.value, scale)}}>{e.feature.data.value}% </span>
                             {getTooltipLegendByValue(e.feature.data.value, intl, scale)}
                         </div>
                     </div>)

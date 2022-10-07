@@ -129,10 +129,10 @@ const Map = (props) => {
                     item.country = countries.find(c => c.isoCode === item.id).country;
                     item.crop = selectedCrops;
                     if (item.value === 0 
-                        || (item.value && item.value !== 'MD' && item.value !== 'NA') && !isNaN(item.value)) {
+                        || (item.value && item.value !== 'MD' && item.value !== 'NA' && !isNaN(item.value))) {
                         processedData.push(item);
                     } else {
-                        console.warn('ignored not number.')
+                        console.warn('ignored not number: ' + item.value);
                     }
                 }
             });
