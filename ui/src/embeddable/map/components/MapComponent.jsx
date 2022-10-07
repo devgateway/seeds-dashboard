@@ -3,25 +3,13 @@ import {ResponsiveChoropleth} from '@nivo/geo'
 import countries from "../../../static/africa_countries.json";
 import './styles.scss';
 
-const getTooltipLegendByValue = (value, intl) => {
-    let tooltipLegend = ""
+const getTooltipLegendByValue = (value, intl, scale) => {
     let className = "label1"
-    if (value <= 19.99) {
-        tooltipLegend = intl.formatMessage({id: 'extremelyPoor-map', defaultMessage: 'Extremely poor'});
-    } else if (value <= 39.99) {
-        tooltipLegend = intl.formatMessage({id: 'poor-map', defaultMessage: 'Poor'});
-    } else if (value <= 59.99) {
-        tooltipLegend = intl.formatMessage({id: 'fair-map', defaultMessage: 'Fair'});
-    } else if (value <= 79.99) {
-        tooltipLegend = intl.formatMessage({id: 'good-map', defaultMessage: 'Good'});
-    } else {
-        tooltipLegend = intl.formatMessage({id: 'excellent-map', defaultMessage: 'Excellent'});
-    }
+    const tooltipLegend = intl.formatMessage({id: scale(value)['label-key'], defaultMessage: scale(value).label});
     return (<span className={className}>({tooltipLegend})</span>);
 }
 
 export const MapComponent = ({height, data, intl, colors, dontUseCrops, domain, scale}) => {
-    console.log(domain);
     return (<div className="map-wrapper" style={{height: height + 'px'}}>
         {data && <ResponsiveChoropleth
             data={data}
@@ -50,7 +38,7 @@ export const MapComponent = ({height, data, intl, colors, dontUseCrops, domain, 
                         <div className="map-tooltip-data">
                             <span className="label1">{intl.formatMessage({ id: 'opinionRating', defaultMessage: 'Opinion Rating' })}: </span>
                             <span className="labelBolder">{e.feature.data.value} </span>
-                            {getTooltipLegendByValue(e.feature.data.value, intl)}
+                            {getTooltipLegendByValue(e.feature.data.value, intl, scale)}
                         </div>
                     </div>)
                 } else {

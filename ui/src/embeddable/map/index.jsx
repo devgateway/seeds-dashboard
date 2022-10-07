@@ -306,34 +306,17 @@ const Map = (props) => {
     // To reuse the colors.
     const mapColors = colors.map(c => c.color);
     
-    // To recalculate the intervals if needed.
-    const auxColors = JSON.parse(JSON.stringify(mapColors)).reverse();
-    const scaleQ = d3.scaleQuantize().domain(domain).range(legends);
     // Update the intervals to the new domain.
-    if (domain[0] !== 0 || domain[1] !== 100) {
-        const intervals = scaleQ.thresholds();
-        intervals.unshift(domain[0]);
-        intervals.push(domain[1]);
-        intervals.forEach((t, index) => {
-            switch (index) {
-                case 1:
-                    legends[0]['label-range'] = '(' + intervals[0] + '% - ' + (intervals[1] - 0.01) + '%)';
-                    break;
-                case 2:
-                    legends[1]['label-range'] = '(' + intervals[1] + '% - ' + (intervals[2] - 0.01) + '%)';
-                    break;
-                case 3:
-                    legends[2]['label-range'] = '(' + intervals[2] + '% - ' + (intervals[3] - 0.01) + '%)';
-                    break;
-                case 4:
-                    legends[3]['label-range'] = '(' + intervals[3] + '% - ' + (intervals[4] - 0.01) + '%)';
-                    break;
-                case 5:
-                    legends[4]['label-range'] = '(' + intervals[4] + '% - ' + (intervals[5] - 0.01) + '%)';
-                    break;
-            }
-        });
-    }
+    // FFR: https://github.com/d3/d3-scale/blob/main/README.md#scaleQuantize
+    const scaleQ = d3.scaleQuantize().domain(domain).range(legends);
+    const intervals = scaleQ.thresholds();
+    intervals.unshift(domain[0]);
+    intervals.push(domain[1]);
+    intervals.forEach((t, index) => {
+        if (index > 0) {
+            legends[index - 1]['label-range'] = '(' + intervals[index - 1] + '% - ' + (intervals[index] - ( index < 5 ? 0.01 : 0)) + '%)';
+        }
+    });
     
     return (<div ref={wrapper}>
             <Container className={"map container"} fluid={true} style={{height: '850px', width: '100%'}}>
@@ -363,7 +346,7 @@ const Map = (props) => {
                     <Grid.Row className="map-row">
                         <Grid.Column width={16}>
                             <MapComponent domain={domain} data={processedData} height={height} intl={intl} 
-                                          colors={mapColors} dontUseCrops={dontUseCrops}/>
+                                          colors={mapColors} dontUseCrops={dontUseCrops} scale={scaleQ}/>
                         </Grid.Column>
                     </Grid.Row>
                     <Grid.Row className={`source-section`}>
@@ -375,24 +358,6 @@ const Map = (props) => {
             </Container>
         </div>
     )
-}
-
-const getColor = (value) => {
-    if (value <= colors[4].upTo) {
-        return colors[4].color;
-    }
-    if (value <= colors[3].upTo) {
-        return colors[3].color;
-    }
-    if (value <= colors[2].upTo) {
-        return colors[2].color;
-    }
-    if (value <= colors[1].upTo) {
-        return colors[1].color;
-    }
-    if (value <= colors[0].upTo) {
-        return colors[0].color;
-    }
 }
 
 const legends = [
