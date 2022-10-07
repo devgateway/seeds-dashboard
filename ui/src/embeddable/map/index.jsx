@@ -1,6 +1,7 @@
 import React, {useEffect, useRef, useState} from "react";
 import {Button, Container, Grid, GridRow, Icon, Segment} from "semantic-ui-react";
 import {connect} from "react-redux";
+import * as d3 from 'd3'
 import {
     DATA,
     COUNTRIES_FILTER,
@@ -45,12 +46,22 @@ import {cleanupParam} from "../chart/Countryinfo";
 import {toBlob} from "html-to-image";
 import { saveAs } from 'file-saver';
 
+let colors = [
+    { upTo: 100, color: '#fb6e6e' },
+    { upTo: 79.99, color: '#fba66e' },
+    { upTo: 59.99, color: '#f9d751' },
+    { upTo: 39.99, color: '#ccea7b' },
+    { upTo: 19.99, color: '#a5ca40' },
+];
+
 const Map = (props) => {
     const {filters} = props
     let indicators = [];
     let processedData = null;
     let initialSelectedCrops = [];
     let crops = null;
+    let domain = [0, 100];
+    let scale;
     const {
         editing = false,
         setDefaultFilter,
@@ -127,9 +138,11 @@ const Map = (props) => {
         }
     }
     
-    const processCommonDataWithoutCrops = () => {
+    const processCommonDataWithoutCrops = (recalculateDomain) => {
         processedData = [];
         if (mapData.values && mapData.values) {
+            let min = 0;
+            let max = 0;
             Object.keys(mapData.values).forEach(k => {
                 const item = {};
                 item.id = k.toUpperCase()
@@ -137,7 +150,13 @@ const Map = (props) => {
                 item.year = mapData.values[k].year;
                 item.country = countries.find(c => c.isoCode === item.id).country;
                 item.crop = null;
-                if (item.value && item.value !== 'MD' && item.value !== 'NA') {
+                if (item.value && item.value !== 'MD' && item.value !== 'NA' && !isNaN(item.value)) {
+                    if (recalculateDomain) {
+                        if (item.value > max) {
+                            max = item.value;
+                        }
+                        domain[1] = max;
+                    }
                     processedData.push(item);
                 } else {
                     console.warn('ignored not number.')
@@ -200,9 +219,9 @@ const Map = (props) => {
                 }
                 break;
             case "indicators_B":
-                indicators = [{value: B72_LENGTH_SEED_IMPORT, id: LENGTH_SEED_IMPORT, useCrops: false},
+                indicators = [{value: B72_LENGTH_SEED_IMPORT, id: LENGTH_SEED_IMPORT, useCrops: false, recalculateDomain: true},
                     {value: B73_SATISFACTION_IMPORT, id: SATISFACTION_IMPORT, useCrops: false},
-                    {value: B75_LENGTH_SEED_EXPORT, id: LENGTH_SEED_EXPORT, useCrops: false},
+                    {value: B75_LENGTH_SEED_EXPORT, id: LENGTH_SEED_EXPORT, useCrops: false, recalculateDomain: true},
                     {value: B77_SATISFACTION_EXPORT, id: SATISFACTION_EXPORT, useCrops: false}];
                 if (!selectedIndicator) {
                     setSelectedIndicator(indicators[0]);
@@ -269,7 +288,7 @@ const Map = (props) => {
             case B73_SATISFACTION_IMPORT:
             case B75_LENGTH_SEED_EXPORT:
             case B77_SATISFACTION_EXPORT:
-                processCommonDataWithoutCrops();
+                processCommonDataWithoutCrops(selectedIndicator.recalculateDomain);
                 break;
         }
     }
@@ -283,8 +302,39 @@ const Map = (props) => {
             initialSelectedCrops.push(i === 0 ? 1 : 0)
         });
     }
-    
+
+    // To reuse the colors.
     const mapColors = colors.map(c => c.color);
+    
+    // To recalculate the intervals if needed.
+    const auxColors = JSON.parse(JSON.stringify(mapColors)).reverse();
+    const scaleQ = d3.scaleQuantize().domain(domain).range(legends);
+    // Update the intervals to the new domain.
+    if (domain[0] !== 0 || domain[1] !== 100) {
+        const intervals = scaleQ.thresholds();
+        intervals.unshift(domain[0]);
+        intervals.push(domain[1]);
+        intervals.forEach((t, index) => {
+            switch (index) {
+                case 1:
+                    legends[0]['label-range'] = '(' + intervals[0] + '% - ' + (intervals[1] - 0.01) + '%)';
+                    break;
+                case 2:
+                    legends[1]['label-range'] = '(' + intervals[1] + '% - ' + (intervals[2] - 0.01) + '%)';
+                    break;
+                case 3:
+                    legends[2]['label-range'] = '(' + intervals[2] + '% - ' + (intervals[3] - 0.01) + '%)';
+                    break;
+                case 4:
+                    legends[3]['label-range'] = '(' + intervals[3] + '% - ' + (intervals[4] - 0.01) + '%)';
+                    break;
+                case 5:
+                    legends[4]['label-range'] = '(' + intervals[4] + '% - ' + (intervals[5] - 0.01) + '%)';
+                    break;
+            }
+        });
+    }
+    
     return (<div ref={wrapper}>
             <Container className={"map container"} fluid={true} style={{height: '850px', width: '100%'}}>
                 <Grid className={`map-grid`}>
@@ -312,7 +362,8 @@ const Map = (props) => {
                     </Grid.Row>
                     <Grid.Row className="map-row">
                         <Grid.Column width={16}>
-                            <MapComponent data={processedData} height={height} intl={intl} colors={mapColors} dontUseCrops={dontUseCrops}/>
+                            <MapComponent domain={domain} data={processedData} height={height} intl={intl} 
+                                          colors={mapColors} dontUseCrops={dontUseCrops}/>
                         </Grid.Column>
                     </Grid.Row>
                     <Grid.Row className={`source-section`}>
@@ -325,14 +376,6 @@ const Map = (props) => {
         </div>
     )
 }
-
-const colors = [
-    { upTo: 100, color: '#fb6e6e' },
-    { upTo: 79.99, color: '#fba66e' },
-    { upTo: 59.99, color: '#f9d751' },
-    { upTo: 39.99, color: '#ccea7b' },
-    { upTo: 19.99, color: '#a5ca40' },
-];
 
 const getColor = (value) => {
     if (value <= colors[4].upTo) {
