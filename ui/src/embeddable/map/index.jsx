@@ -389,11 +389,11 @@ const Map = (props) => {
                         </Grid.Column>
                     </Grid.Row>
                     {selectedIndicator && !selectedIndicator.hideFilterSection && <Grid.Row className={`filters-section`}>
-                        <Grid.Column width={6}>
+                        <Grid.Column width={8}>
                             <IndicatorFilter intl={intl} data={indicators} initialSelectedIndicator={selectedIndicator}
                                              onChange={handleIndicatorChange}/>
                         </Grid.Column>
-                        <Grid.Column width={4}>
+                        <Grid.Column width={3}>
                             {!dontUseCrops && initialCrops && initialSelectedCrops &&
                                 <CropFilter data={initialCrops} onChange={handleCropFilterChange}
                                             initialSelectedCrops={initialSelectedCrops} intl={intl} maxSelectable={1}/>}
