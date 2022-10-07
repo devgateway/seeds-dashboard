@@ -61,7 +61,6 @@ const Map = (props) => {
     let initialSelectedCrops = [];
     let crops = null;
     let domain = [0, 100];
-    let scale;
     const {
         editing = false,
         setDefaultFilter,
@@ -282,7 +281,8 @@ const Map = (props) => {
                         value: D2_ADEQUACY_SEED_INSPECTION_SERVICES,
                         id: ADEQUACY_SEED_INSPECTION_SERVICES,
                         usesCrops: false,
-                        numberSuffix: '%'
+                        numberSuffix: '%',
+                        hideFilterSection: true
                     }
                 ];
                 if (!selectedIndicator) {
@@ -388,15 +388,17 @@ const Map = (props) => {
                                     type={'bar'} chartType={type} selectedCrops={selectedCrops ? [selectedCrops] : []} />
                         </Grid.Column>
                     </Grid.Row>
-                    <Grid.Row className={`filters-section`}>
+                    {selectedIndicator && !selectedIndicator.hideFilterSection && <Grid.Row className={`filters-section`}>
                         <Grid.Column width={6}>
-                            <IndicatorFilter intl={intl} data={indicators} initialSelectedIndicator={selectedIndicator} onChange={handleIndicatorChange} />
+                            <IndicatorFilter intl={intl} data={indicators} initialSelectedIndicator={selectedIndicator}
+                                             onChange={handleIndicatorChange}/>
                         </Grid.Column>
                         <Grid.Column width={4}>
-                            {!dontUseCrops && initialCrops && initialSelectedCrops && <CropFilter data={initialCrops} onChange={handleCropFilterChange}
-                                                                             initialSelectedCrops={initialSelectedCrops} intl={intl} maxSelectable={1}/>}
+                            {!dontUseCrops && initialCrops && initialSelectedCrops &&
+                                <CropFilter data={initialCrops} onChange={handleCropFilterChange}
+                                            initialSelectedCrops={initialSelectedCrops} intl={intl} maxSelectable={1}/>}
                         </Grid.Column>
-                    </Grid.Row>
+                    </Grid.Row>}
                     <Grid.Row className={`hhi-section`}>
                         <HHILegend legends={legends} 
                                    title={intl.formatMessage({ id: 'opinionRating', defaultMessage: 'Opinion Rating' })} />
