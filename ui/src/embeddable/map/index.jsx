@@ -128,7 +128,8 @@ const Map = (props) => {
                     item.value = item[selectedCrops];
                     item.country = countries.find(c => c.isoCode === item.id).country;
                     item.crop = selectedCrops;
-                    if (item.value && item.value !== 'MD' && item.value !== 'NA') {
+                    if (item.value === 0 
+                        || (item.value && item.value !== 'MD' && item.value !== 'NA') && !isNaN(item.value)) {
                         processedData.push(item);
                     } else {
                         console.warn('ignored not number.')
@@ -150,7 +151,8 @@ const Map = (props) => {
                 item.year = mapData.values[k].year;
                 item.country = countries.find(c => c.isoCode === item.id).country;
                 item.crop = null;
-                if (item.value && item.value !== 'MD' && item.value !== 'NA' && !isNaN(item.value)) {
+                if (item.value === 0  
+                    || (item.value && item.value !== 'MD' && item.value !== 'NA' && !isNaN(item.value))) {
                     if (recalculateDomain) {
                         if (item.value > max) {
                             max = item.value;
@@ -159,7 +161,7 @@ const Map = (props) => {
                     }
                     processedData.push(item);
                 } else {
-                    console.warn('ignored not number.')
+                    console.warn('ignored not number: ' + item.value);
                 }
             });
         }
