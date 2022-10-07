@@ -365,20 +365,28 @@ const Map = (props) => {
     // FFR: https://github.com/d3/d3-scale/blob/main/README.md#scaleQuantize
     const scaleQ = d3.scaleQuantize().domain(domain).range(legends);
     let intervals = scaleQ.thresholds();
+    const auxLegends = JSON.parse(JSON.stringify(legends));
     if (selectedIndicator) {
         const minus = selectedIndicator.numberSuffix === PERCENTAGE ? 0.01 : 1;
         const suffix = selectedIndicator.numberSuffix;
         intervals.unshift(domain[0]);
         intervals.push(domain[1]);
-        intervals = intervals.reverse();
+        // When the suffix is different from "%" then reverse the legends order. 
+        if (suffix !== PERCENTAGE) {
+            intervals = intervals.reverse();
+        }
         intervals.forEach((t, index) => {
             if (index > 0) {
-                legends[index - 1]['label-range'] = '(' + intervals[index - 1] + suffix + ' - ' + (intervals[index] - (index < 5 ? minus : 0)) + suffix + ')';
+                if (suffix === PERCENTAGE) {
+                    auxLegends[index - 1]['label-range'] = '(' + intervals[index - 1] + suffix + ' - ' + (intervals[index] - (index < 5 ? minus : 0)) + suffix + ')';
+                } else {
+                    auxLegends[index - 1]['label-range'] = intervals[index - 1] + suffix + ' - ' + (intervals[index] - (index < 5 ? minus : 0)) + suffix;
+                }
             }
         });
         // When the suffix is different from "%" then dont show any label in the legends section.
         if (suffix !== PERCENTAGE) {
-            legends.forEach(l => {
+            auxLegends.forEach(l => {
                 l['label-key'] = null;
                 l['label'] = '';
             });
@@ -409,7 +417,7 @@ const Map = (props) => {
                         </Grid.Column>
                     </Grid.Row>}
                     <Grid.Row className={`hhi-section`}>
-                        <HHILegend legends={legends} 
+                        <HHILegend legends={auxLegends} 
                                    title={intl.formatMessage({ id: 'legend', defaultMessage: 'Legend' })} />
                     </Grid.Row>
                     <Grid.Row className="map-row">

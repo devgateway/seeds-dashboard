@@ -58,8 +58,11 @@ const CropFilter = ({data, onChange, initialSelectedCrops = [1, 1, 1, 1], intl, 
     const generateContent = () => {
         return (data.map((c, i) => {
             return (<div key={c}>
-                <Form.Checkbox value={c} checked={numberOfSelectedCrops[i] === 1} onChange={handleChange}
-                               label={intl.formatMessage({id: c, defaultMessage: c})}/>
+                {maxSelectable !== 1 ?
+                    <Form.Checkbox value={c} checked={numberOfSelectedCrops[i] === 1} onChange={handleChange}
+                                   label={intl.formatMessage({id: c, defaultMessage: c})}/> :
+                    <Form.Radio value={c} checked={numberOfSelectedCrops[i] === 1} onChange={handleChange}
+                                   label={intl.formatMessage({id: c, defaultMessage: c})}/>}
             </div>);
         }));
     }
