@@ -5,8 +5,12 @@ import './styles.scss';
 
 const getTooltipLegendByValue = (value, intl, scale) => {
     let className = "label1"
-    const tooltipLegend = intl.formatMessage({id: scale(value)['label-key'], defaultMessage: scale(value).label});
-    return (<span className={className} style={{color: scale(value).color}}>({tooltipLegend})</span>);
+    let tooltipLegend = '';
+    if (scale(value)['label-key']) {
+        tooltipLegend = intl.formatMessage({id: scale(value)['label-key'], defaultMessage: scale(value).label});
+        return (<span className={className} style={{color: scale(value).color}}>({tooltipLegend})</span>);
+    }
+    return (<span className={className} style={{color: scale(value).color}} />);
 }
 
 const getColorByValue = (value, scale) => {

@@ -47,12 +47,13 @@ import {toBlob} from "html-to-image";
 import { saveAs } from 'file-saver';
 
 let colors = [
-    { upTo: 100, color: '#fb6e6e' },
-    { upTo: 79.99, color: '#fba66e' },
-    { upTo: 59.99, color: '#f9d751' },
-    { upTo: 39.99, color: '#ccea7b' },
-    { upTo: 19.99, color: '#a5ca40' },
+    { color: '#fb6e6e' },
+    { color: '#fba66e' },
+    { color: '#f9d751' },
+    { color: '#ccea7b' },
+    { color: '#a5ca40' },
 ];
+const PERCENTAGE = '%';
 
 const Map = (props) => {
     const {filters} = props
@@ -215,13 +216,13 @@ const Map = (props) => {
                         value: A1_ADEQUACY_ACTIVE_BREEDERS,
                         id: ADEQUACY_ACTIVE_BREEDERS,
                         usesCrops: true,
-                        numberSuffix: '%'
+                        numberSuffix: PERCENTAGE
                     },
                     {
                         value: A4_AVAILABILITY_FOUNDATION_SEED,
                         id: AVAILABILITY_BASIC_SEED,
                         usesCrops: true,
-                        numberSuffix: '%'
+                        numberSuffix: PERCENTAGE
                     }
                 ];
                 if (!selectedIndicator) {
@@ -237,7 +238,7 @@ const Map = (props) => {
                     recalculateDomain: true,
                     numberSuffix: ' ' + intl.formatMessage({id: 'days', defaultMessage: 'days'})
                 },
-                    {value: B73_SATISFACTION_IMPORT, id: SATISFACTION_IMPORT, useCrops: false, numberSuffix: '%'},
+                    {value: B73_SATISFACTION_IMPORT, id: SATISFACTION_IMPORT, useCrops: false, numberSuffix: PERCENTAGE},
                     {
                         value: B75_LENGTH_SEED_EXPORT,
                         id: LENGTH_SEED_EXPORT,
@@ -245,7 +246,7 @@ const Map = (props) => {
                         recalculateDomain: true,
                         numberSuffix: ' ' + intl.formatMessage({id: 'days', defaultMessage: 'days'})
                     },
-                    {value: B77_SATISFACTION_EXPORT, id: SATISFACTION_EXPORT, useCrops: false, numberSuffix: '%'}];
+                    {value: B77_SATISFACTION_EXPORT, id: SATISFACTION_EXPORT, useCrops: false, numberSuffix: PERCENTAGE}];
                 if (!selectedIndicator) {
                     setSelectedIndicator(indicators[0]);
                     setDontUseCrops(!indicators[0].usesCrops);
@@ -256,19 +257,19 @@ const Map = (props) => {
                     value: C1_SATISFACTION_VARIETY_RELEASE_PROCESS,
                     id: SATISFACTION_VARIETY_RELEASE_PROCESS,
                     useCrops: false,
-                    numberSuffix: '%'
+                    numberSuffix: PERCENTAGE
                 },
                     {
                         value: C2_SATISFACTION_SEED_REGULATIONS,
                         id: SATISFACTION_SEED_REGULATIONS,
                         useCrops: false,
-                        numberSuffix: '%'
+                        numberSuffix: PERCENTAGE
                     },
                     {
                         value: C4_ADEQUACY_GOVERNMENT_EFFORT_COUNTERFEIT_SEED,
                         id: ADEQUACY_GOVERNMENT_EFFORT_COUNTERFEIT_SEED,
                         useCrops: false,
-                        numberSuffix: '%'
+                        numberSuffix: PERCENTAGE
                     }];
                 if (!selectedIndicator) {
                     setSelectedIndicator(indicators[0]);
@@ -281,7 +282,7 @@ const Map = (props) => {
                         value: D2_ADEQUACY_SEED_INSPECTION_SERVICES,
                         id: ADEQUACY_SEED_INSPECTION_SERVICES,
                         usesCrops: false,
-                        numberSuffix: '%',
+                        numberSuffix: PERCENTAGE,
                         hideFilterSection: true
                     }
                 ];
@@ -295,13 +296,13 @@ const Map = (props) => {
                     value: E13_ADEQUACY_EXTENSION_SERVICES,
                     id: ADEQUACY_EXTENSION_SERVICES,
                     useCrops: false,
-                    numberSuffix: '%'
+                    numberSuffix: PERCENTAGE
                 },
                     {
                         value: E24_ADEQUACY_AGRODEALER_NETWORK,
                         id: ADEQUACY_AGRODEALER_NETWORK,
                         useCrops: false,
-                        numberSuffix: '%'
+                        numberSuffix: PERCENTAGE
                     }];
                 if (!selectedIndicator) {
                     setSelectedIndicator(indicators[0]);
@@ -363,17 +364,25 @@ const Map = (props) => {
     // Update the intervals to the new domain.
     // FFR: https://github.com/d3/d3-scale/blob/main/README.md#scaleQuantize
     const scaleQ = d3.scaleQuantize().domain(domain).range(legends);
-    const intervals = scaleQ.thresholds();
+    let intervals = scaleQ.thresholds();
     if (selectedIndicator) {
-        const minus = selectedIndicator.numberSuffix === '%' ? 0.01 : 1;
-        const suffix = selectedIndicator.numberSuffix === '%' ? '%' : '';
+        const minus = selectedIndicator.numberSuffix === PERCENTAGE ? 0.01 : 1;
+        const suffix = selectedIndicator.numberSuffix;
         intervals.unshift(domain[0]);
         intervals.push(domain[1]);
+        intervals = intervals.reverse();
         intervals.forEach((t, index) => {
             if (index > 0) {
                 legends[index - 1]['label-range'] = '(' + intervals[index - 1] + suffix + ' - ' + (intervals[index] - (index < 5 ? minus : 0)) + suffix + ')';
             }
         });
+        // When the suffix is different from "%" then dont show any label in the legends section.
+        if (suffix !== PERCENTAGE) {
+            legends.forEach(l => {
+                l['label-key'] = null;
+                l['label'] = '';
+            });
+        }
     }
     
     return (<div ref={wrapper}>
@@ -401,7 +410,7 @@ const Map = (props) => {
                     </Grid.Row>}
                     <Grid.Row className={`hhi-section`}>
                         <HHILegend legends={legends} 
-                                   title={intl.formatMessage({ id: 'opinionRating', defaultMessage: 'Opinion Rating' })} />
+                                   title={intl.formatMessage({ id: 'legend', defaultMessage: 'Legend' })} />
                     </Grid.Row>
                     <Grid.Row className="map-row">
                         <Grid.Column width={16}>
