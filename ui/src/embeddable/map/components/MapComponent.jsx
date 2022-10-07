@@ -13,7 +13,7 @@ const getColorByValue = (value, scale) => {
     return scale(value).color;
 }
 
-export const MapComponent = ({height, data, intl, colors, dontUseCrops, domain, scale}) => {
+export const MapComponent = ({height, data, intl, colors, dontUseCrops, domain, scale, numberSuffix}) => {
     return (<div className="map-wrapper" style={{height: height + 'px'}}>
         {data && <ResponsiveChoropleth
             data={data}
@@ -41,7 +41,7 @@ export const MapComponent = ({height, data, intl, colors, dontUseCrops, domain, 
                         </div>
                         <div className="map-tooltip-data">
                             <span className="label1">{intl.formatMessage({ id: 'opinionRating', defaultMessage: 'Opinion Rating' })}: </span>
-                            <span className="labelBolder" style={{color: getColorByValue(e.feature.data.value, scale)}}>{e.feature.data.value}% </span>
+                            <span className="labelBolder" style={{color: getColorByValue(e.feature.data.value, scale)}}>{e.feature.data.value}{numberSuffix} </span>
                             {getTooltipLegendByValue(e.feature.data.value, intl, scale)}
                         </div>
                     </div>)

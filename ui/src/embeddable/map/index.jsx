@@ -212,8 +212,18 @@ const Map = (props) => {
         switch (type) {
             case "indicators_A":
                 indicators = [
-                    {value: A1_ADEQUACY_ACTIVE_BREEDERS, id: ADEQUACY_ACTIVE_BREEDERS, usesCrops: true},
-                    {value: A4_AVAILABILITY_FOUNDATION_SEED, id: AVAILABILITY_BASIC_SEED, usesCrops: true}
+                    {
+                        value: A1_ADEQUACY_ACTIVE_BREEDERS,
+                        id: ADEQUACY_ACTIVE_BREEDERS,
+                        usesCrops: true,
+                        numberSuffix: '%'
+                    },
+                    {
+                        value: A4_AVAILABILITY_FOUNDATION_SEED,
+                        id: AVAILABILITY_BASIC_SEED,
+                        usesCrops: true,
+                        numberSuffix: '%'
+                    }
                 ];
                 if (!selectedIndicator) {
                     setSelectedIndicator(indicators[0]);
@@ -221,19 +231,46 @@ const Map = (props) => {
                 }
                 break;
             case "indicators_B":
-                indicators = [{value: B72_LENGTH_SEED_IMPORT, id: LENGTH_SEED_IMPORT, useCrops: false, recalculateDomain: true},
-                    {value: B73_SATISFACTION_IMPORT, id: SATISFACTION_IMPORT, useCrops: false},
-                    {value: B75_LENGTH_SEED_EXPORT, id: LENGTH_SEED_EXPORT, useCrops: false, recalculateDomain: true},
-                    {value: B77_SATISFACTION_EXPORT, id: SATISFACTION_EXPORT, useCrops: false}];
+                indicators = [{
+                    value: B72_LENGTH_SEED_IMPORT,
+                    id: LENGTH_SEED_IMPORT,
+                    useCrops: false,
+                    recalculateDomain: true,
+                    numberSuffix: ' ' + intl.formatMessage({id: 'days', defaultMessage: 'days'})
+                },
+                    {value: B73_SATISFACTION_IMPORT, id: SATISFACTION_IMPORT, useCrops: false, numberSuffix: '%'},
+                    {
+                        value: B75_LENGTH_SEED_EXPORT,
+                        id: LENGTH_SEED_EXPORT,
+                        useCrops: false,
+                        recalculateDomain: true,
+                        numberSuffix: ' ' + intl.formatMessage({id: 'days', defaultMessage: 'days'})
+                    },
+                    {value: B77_SATISFACTION_EXPORT, id: SATISFACTION_EXPORT, useCrops: false, numberSuffix: '%'}];
                 if (!selectedIndicator) {
                     setSelectedIndicator(indicators[0]);
                     setDontUseCrops(!indicators[0].usesCrops);
                 }
                 break;
             case "indicators_C":
-                indicators = [{value: C1_SATISFACTION_VARIETY_RELEASE_PROCESS, id: SATISFACTION_VARIETY_RELEASE_PROCESS, useCrops: false},
-                    {value: C2_SATISFACTION_SEED_REGULATIONS, id: SATISFACTION_SEED_REGULATIONS, useCrops: false},
-                    {value: C4_ADEQUACY_GOVERNMENT_EFFORT_COUNTERFEIT_SEED, id: ADEQUACY_GOVERNMENT_EFFORT_COUNTERFEIT_SEED, useCrops: false}];
+                indicators = [{
+                    value: C1_SATISFACTION_VARIETY_RELEASE_PROCESS,
+                    id: SATISFACTION_VARIETY_RELEASE_PROCESS,
+                    useCrops: false,
+                    numberSuffix: '%'
+                },
+                    {
+                        value: C2_SATISFACTION_SEED_REGULATIONS,
+                        id: SATISFACTION_SEED_REGULATIONS,
+                        useCrops: false,
+                        numberSuffix: '%'
+                    },
+                    {
+                        value: C4_ADEQUACY_GOVERNMENT_EFFORT_COUNTERFEIT_SEED,
+                        id: ADEQUACY_GOVERNMENT_EFFORT_COUNTERFEIT_SEED,
+                        useCrops: false,
+                        numberSuffix: '%'
+                    }];
                 if (!selectedIndicator) {
                     setSelectedIndicator(indicators[0]);
                     setDontUseCrops(!indicators[0].usesCrops);
@@ -241,7 +278,12 @@ const Map = (props) => {
                 break;
             case "indicators_D":
                 indicators = [
-                    {value: D2_ADEQUACY_SEED_INSPECTION_SERVICES, id: ADEQUACY_SEED_INSPECTION_SERVICES, usesCrops: false}
+                    {
+                        value: D2_ADEQUACY_SEED_INSPECTION_SERVICES,
+                        id: ADEQUACY_SEED_INSPECTION_SERVICES,
+                        usesCrops: false,
+                        numberSuffix: '%'
+                    }
                 ];
                 if (!selectedIndicator) {
                     setSelectedIndicator(indicators[0]);
@@ -249,8 +291,18 @@ const Map = (props) => {
                 }
                 break;
             case "indicators_E":
-                indicators = [{value: E13_ADEQUACY_EXTENSION_SERVICES, id: ADEQUACY_EXTENSION_SERVICES, useCrops: false}, 
-                    {value: E24_ADEQUACY_AGRODEALER_NETWORK, id: ADEQUACY_AGRODEALER_NETWORK, useCrops: false}];
+                indicators = [{
+                    value: E13_ADEQUACY_EXTENSION_SERVICES,
+                    id: ADEQUACY_EXTENSION_SERVICES,
+                    useCrops: false,
+                    numberSuffix: '%'
+                },
+                    {
+                        value: E24_ADEQUACY_AGRODEALER_NETWORK,
+                        id: ADEQUACY_AGRODEALER_NETWORK,
+                        useCrops: false,
+                        numberSuffix: '%'
+                    }];
                 if (!selectedIndicator) {
                     setSelectedIndicator(indicators[0]);
                     setDontUseCrops(true);
@@ -312,13 +364,17 @@ const Map = (props) => {
     // FFR: https://github.com/d3/d3-scale/blob/main/README.md#scaleQuantize
     const scaleQ = d3.scaleQuantize().domain(domain).range(legends);
     const intervals = scaleQ.thresholds();
-    intervals.unshift(domain[0]);
-    intervals.push(domain[1]);
-    intervals.forEach((t, index) => {
-        if (index > 0) {
-            legends[index - 1]['label-range'] = '(' + intervals[index - 1] + '% - ' + (intervals[index] - ( index < 5 ? 0.01 : 0)) + '%)';
-        }
-    });
+    if (selectedIndicator) {
+        const minus = selectedIndicator.numberSuffix === '%' ? 0.01 : 1;
+        const suffix = selectedIndicator.numberSuffix === '%' ? '%' : '';
+        intervals.unshift(domain[0]);
+        intervals.push(domain[1]);
+        intervals.forEach((t, index) => {
+            if (index > 0) {
+                legends[index - 1]['label-range'] = '(' + intervals[index - 1] + suffix + ' - ' + (intervals[index] - (index < 5 ? minus : 0)) + suffix + ')';
+            }
+        });
+    }
     
     return (<div ref={wrapper}>
             <Container className={"map container"} fluid={true} style={{height: '850px', width: '100%'}}>
@@ -348,7 +404,8 @@ const Map = (props) => {
                     <Grid.Row className="map-row">
                         <Grid.Column width={16}>
                             <MapComponent domain={domain} data={processedData} height={height} intl={intl} 
-                                          colors={mapColors} dontUseCrops={dontUseCrops} scale={scaleQ}/>
+                                          colors={mapColors} dontUseCrops={dontUseCrops} scale={scaleQ}
+                                          numberSuffix={selectedIndicator ? selectedIndicator.numberSuffix : ''}/>
                         </Grid.Column>
                     </Grid.Row>
                     <Grid.Row className={`source-section`}>
