@@ -3,24 +3,17 @@ import {ResponsiveChoropleth} from '@nivo/geo'
 import countries from "../../../static/africa_countries.json";
 import './styles.scss';
 
-const getTooltipLegendByValue = (value, intl) => {
-    let tooltipLegend = ""
+const getTooltipLegendByValue = (value, intl, scale) => {
     let className = "label1"
-    if (value <= 19.99) {
-        tooltipLegend = intl.formatMessage({id: 'extremelyPoor-map', defaultMessage: 'Extremely poor'});
-    } else if (value <= 39.99) {
-        tooltipLegend = intl.formatMessage({id: 'poor-map', defaultMessage: 'Poor'});
-    } else if (value <= 59.99) {
-        tooltipLegend = intl.formatMessage({id: 'fair-map', defaultMessage: 'Fair'});
-    } else if (value <= 79.99) {
-        tooltipLegend = intl.formatMessage({id: 'good-map', defaultMessage: 'Good'});
-    } else {
-        tooltipLegend = intl.formatMessage({id: 'excellent-map', defaultMessage: 'Excellent'});
-    }
-    return (<span className={className}>({tooltipLegend})</span>);
+    const tooltipLegend = intl.formatMessage({id: scale(value)['label-key'], defaultMessage: scale(value).label});
+    return (<span className={className} style={{color: scale(value).color}}>({tooltipLegend})</span>);
 }
 
-export const MapComponent = ({height, data, intl, colors, dontUseCrops}) => {
+const getColorByValue = (value, scale) => {
+    return scale(value).color;
+}
+
+export const MapComponent = ({height, data, intl, colors, dontUseCrops, domain, scale, numberSuffix}) => {
     return (<div className="map-wrapper" style={{height: height + 'px'}}>
         {data && <ResponsiveChoropleth
             data={data}
@@ -28,7 +21,7 @@ export const MapComponent = ({height, data, intl, colors, dontUseCrops}) => {
             margin={{top: 0, right: 0, bottom: 0, left: 0}}
             colors={colors}
             label="properties.name"
-            domain={[0, 100]}
+            domain={domain}
             unknownColor="#D1D2D4"
             //valueFormat=".2s"
             projectionScale={350}
@@ -44,12 +37,12 @@ export const MapComponent = ({height, data, intl, colors, dontUseCrops}) => {
                         <div className="tooltip-header">
                             {!dontUseCrops && <span className="value">{intl.formatMessage({ id: e.feature.data.crop})} - </span>}
                             <span className="label">{e.feature.data.country}</span>
-                            <span className="value">{e.feature.data.year}</span>
+                            <span className="value"><b>{e.feature.data.year}</b></span>
                         </div>
                         <div className="map-tooltip-data">
                             <span className="label1">{intl.formatMessage({ id: 'opinionRating', defaultMessage: 'Opinion Rating' })}: </span>
-                            <span className="labelBolder">{e.feature.data.value} </span>
-                            {getTooltipLegendByValue(e.feature.data.value, intl)}
+                            <span className="labelBolder" style={{color: getColorByValue(e.feature.data.value, scale)}}>{e.feature.data.value}{numberSuffix} </span>
+                            {getTooltipLegendByValue(e.feature.data.value, intl, scale)}
                         </div>
                     </div>)
                 } else {
