@@ -62,6 +62,7 @@ const Map = (props) => {
     let initialSelectedCrops = [];
     let crops = null;
     let domain = [0, 100];
+    let indicatorFilterTitle;
     const {
         editing = false,
         setDefaultFilter,
@@ -392,6 +393,15 @@ const Map = (props) => {
             });
         }
     }
+
+    indicatorFilterTitle = intl.formatMessage({id: 'opinion-indicator'});
+    if (selectedIndicator && 
+        (selectedIndicator.value === B72_LENGTH_SEED_IMPORT || 
+            selectedIndicator.value === B73_SATISFACTION_IMPORT || 
+            selectedIndicator.value === B75_LENGTH_SEED_EXPORT || 
+            selectedIndicator.value === B77_SATISFACTION_EXPORT)) {
+        indicatorFilterTitle = intl.formatMessage({id: 'indicator'});
+    }
     
     return (<div ref={wrapper}>
             <Container className={"map container"} fluid={true} style={{height: '850px', width: '100%'}}>
@@ -408,9 +418,9 @@ const Map = (props) => {
                     {selectedIndicator && !selectedIndicator.hideFilterSection && <Grid.Row className={`filters-section`}>
                         <Grid.Column width={8}>
                             <IndicatorFilter intl={intl} data={indicators} initialSelectedIndicator={selectedIndicator}
-                                             onChange={handleIndicatorChange}/>
+                                             onChange={handleIndicatorChange} title={indicatorFilterTitle}/>
                         </Grid.Column>
-                        <Grid.Column width={3}>
+                        <Grid.Column width={4}>
                             {!dontUseCrops && initialCrops && initialSelectedCrops &&
                                 <CropFilter data={initialCrops} onChange={handleCropFilterChange}
                                             initialSelectedCrops={initialSelectedCrops} intl={intl} maxSelectable={1}/>}

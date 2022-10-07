@@ -67,9 +67,18 @@ const CropFilter = ({data, onChange, initialSelectedCrops = [1, 1, 1, 1], intl, 
         }));
     }
 
-    const sum = numberOfSelectedCrops.reduce((acc, a) => acc + a, 0);
-    const title = (<div><span className="filter-selector-title">{intl.formatMessage({id: "crop-s", defaultMessage: "Crop(s)"})}</span><span
-        className="filter-selector-numbers">{sum} {intl.formatMessage({id: 'of', defaultMessage: 'of'})} {currentData ? currentData.length : 0}</span></div>);
+    let title;
+    if (maxSelectable !== 1) {
+        const sum = numberOfSelectedCrops.reduce((acc, a) => acc + a, 0);
+        title = (<div><span className="filter-selector-title">{intl.formatMessage({id: "crop-s", defaultMessage: "Crop(s)"})}</span><span
+            className="filter-selector-numbers">{sum} {intl.formatMessage({id: 'of', defaultMessage: 'of'})} {currentData ? currentData.length : 0}</span></div>);
+    } else {
+        const index = numberOfSelectedCrops.findIndex(i => i === 1);
+        title = (<div>
+            <span className="filter-selector-title">{intl.formatMessage({id: "crop-s", defaultMessage: "Crop(s)"})}</span>
+            { data && index >= 0 && <span className="filter-selector-numbers">{intl.formatMessage({id: data[index]})}</span> }
+        </div>);
+    }
     return (
         <div ref={ref}>
             <Accordion as={Menu} vertical>
