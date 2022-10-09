@@ -58,5 +58,15 @@ export const CROSS_COUNTRY_AVAILABILITY_SEED_SMALL_PACKAGES = 'availabilitySeedS
 export const CROSS_COUNTRY_NUMBER_SEED_INSPECTORS = 'seedInspectorsByCountry';
 export const ADEQUACY_ACTIVE_BREEDERS = 'adequacyActiveBreeders_map';
 export const AVAILABILITY_BASIC_SEED = 'availabilityBasicSeed_map';
+export const ADEQUACY_SEED_INSPECTION_SERVICES = 'getRatingSeedInspectors_map';
+export const ADEQUACY_EXTENSION_SERVICES = "agriculturalExtensionServices_map";
+export const ADEQUACY_AGRODEALER_NETWORK = "agrodealerNetwork_map";
+export const SATISFACTION_VARIETY_RELEASE_PROCESS = "varietyReleaseProcess_map";
+export const SATISFACTION_SEED_REGULATIONS = "satisfactionLawRegulation_map"
+export const ADEQUACY_GOVERNMENT_EFFORT_COUNTERFEIT_SEED = "satisfactionGovernmentEffortCounterfeitSeed_map";
+export const LENGTH_SEED_IMPORT = "daysImportProcess_map";
+export const LENGTH_SEED_EXPORT = "daysExportProcess_map";
+export const SATISFACTION_IMPORT = "efficiencyImportProcess_map";
+export const SATISFACTION_EXPORT = "efficiencyExportProcess_map";
 
 export const WP_CHART = 'wp-chart';

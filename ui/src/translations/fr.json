@@ -247,14 +247,15 @@
   "fair-map": "Acceptable",
   "good-map": "Bien",
   "excellent-map": "Excellent",
-  "extremely-poor-map-legend": "Extrêmement pauvre (0% - 19.99%)",
-  "poor-map-legend": "Pauvre (20% - 39.99%)",
-  "fair-map-legend": "Acceptable (40% - 59.99%)",
-  "good-map-legend": "Bien (60% - 79.99%)",
-  "excellent-map-legend": "Excellent (80% - 100%)",
+  "extremely-poor-map-legend": "Extrêmement pauvre",
+  "poor-map-legend": "Pauvre",
+  "fair-map-legend": "Acceptable",
+  "good-map-legend": "Bien",
+  "excellent-map-legend": "Excellent",
   "opinion-indicator": "Indicateur d'opinion",
   "opinionRating": "Note d'opinion",
   "A1. Adequacy of active breeders": "A1. Adequacy of active breeders",
   "A4. Availability of foundation (basic) seed": "A4. Availability of foundation (basic) seed",
-  "notes": "Remarques"
+  "notes": "Remarques",
+  "days": "journées"
 }
