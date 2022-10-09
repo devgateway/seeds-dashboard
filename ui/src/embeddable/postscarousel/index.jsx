@@ -1,16 +1,15 @@
-import {PostConsumer, PostIntro, PostProvider} from "@devgateway/wp-react-lib";
+import { PostConsumer, PostIntro, PostProvider } from "@devgateway/wp-react-lib";
 
 import 'pure-react-carousel/dist/react-carousel.es.css';
-import React, {useEffect, useState} from "react";
-import {Container, Icon, Loader} from "semantic-ui-react";
-import {ButtonBack, ButtonNext, CarouselProvider, Dot, DotGroup, Slide, Slider} from "pure-react-carousel";
-import {connect} from "react-redux";
-import {getCrops, getDocuments, getIndicatorsInformation, getWpCategories} from "../reducers/data";
-import {WP_CATEGORIES} from "../reducers/StoreConstants";
-import {getSlugFromFilters} from "../utils/common";
-import {DOCUMENTS_PER_PAGE} from "../../seeds-commons/commonConstants";
+import React, { useEffect, useState } from "react";
+import { Container, Icon, Loader } from "semantic-ui-react";
+import { connect } from "react-redux";
+import { getCrops, getDocuments, getIndicatorsInformation, getWpCategories } from "../reducers/data";
+import { WP_CATEGORIES } from "../reducers/StoreConstants";
+import { getSlugFromFilters } from "../utils/common";
+import { DOCUMENTS_PER_PAGE } from "../../seeds-commons/commonConstants";
 import Carousel from "./Carousel";
-import {injectIntl} from "react-intl";
+import { injectIntl } from "react-intl";
 
 export const POST_CAROUSEL_CONTAINER = 'postCarouselContainer';
 
@@ -57,7 +56,7 @@ const PostCarousel = ({
             onLoadCrops({});
             const params = {};
             params.per_page = DOCUMENTS_PER_PAGE;
-            onLoadDocuments({params})
+            onLoadDocuments({ params })
             onLoadWPCategories('COUNTRY-REPORTS')
         }
         if (isConnectFilter) {
@@ -88,12 +87,12 @@ const PostCarousel = ({
     }
     if (isConnectFilter && !categoriesWP) {
         return <Container>
-            <span>{intl.formatMessage({id: 'loading', defaultMessage: 'Loading'})}</span>
-            <Loader inverted content={intl.formatMessage({id: 'loading', defaultMessage: 'Loading'})}/>
+            <span>{intl.formatMessage({ id: 'loading', defaultMessage: 'Loading' })}</span>
+            <Loader inverted content={intl.formatMessage({ id: 'loading', defaultMessage: 'Loading' })} />
         </Container>;
     } else {
         return <Container className={`wp-react-lib post carousel ${editing ? 'editing' : ''}`} fluid={true}
-                          style={{"height": height + 'px'}} id={POST_CAROUSEL_CONTAINER}>
+                          style={{ "height": height + 'px' }} id={POST_CAROUSEL_CONTAINER}>
             <PostProvider type={type} taxonomy={taxonomy}
                           categories={orCategoriesArray && !isNewImplementation ? orCategoriesArray.join(',') : categories}
                           categoriesOr={orCategoriesArray && isNewImplementation ? orCategoriesArray : undefined}

@@ -161,8 +161,8 @@
   "no-data-reported-export": "No reported exports",
   "select-country": "Sélectionnez un autre pays",
   "tooltip-varieties-released": "Nombre de variétés homologuées",
-  "with":"avec",
-  "with-out":"sans",
+  "with": "avec",
+  "with-out": "sans",
   "special-features": "caractéristiques spécifiques",
   "tooltip-average": "Moyen",
   "all-countries": "Tous les pays",
@@ -255,5 +255,6 @@
   "opinion-indicator": "Indicateur d'opinion",
   "opinionRating": "Note d'opinion",
   "A1. Adequacy of active breeders": "A1. Adequacy of active breeders",
-  "A4. Availability of foundation (basic) seed": "A4. Availability of foundation (basic) seed"
+  "A4. Availability of foundation (basic) seed": "A4. Availability of foundation (basic) seed",
+  "notes": "Remarques"
 }

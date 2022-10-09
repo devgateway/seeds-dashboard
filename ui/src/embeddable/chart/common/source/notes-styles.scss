@@ -1,0 +1,35 @@
+@import '../../../../scss/vars';
+
+.source-section.no-top-border {
+  border-top: 0;
+}
+
+.source-section.no-bottom-border {
+  border-bottom: 0;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+
+.indicator-note {
+  .accordion.ui {
+    .icon {
+      color: #7c7c7b;
+    }
+
+    .title {
+      text-align: left;
+      color: $export-green;
+      font-size: 14px;
+    }
+
+    .excerpt {
+      font-size: 14px;
+    }
+  }
+
+  label {
+    margin-top: 7px;
+  }
+}
+

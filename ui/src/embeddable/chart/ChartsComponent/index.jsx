@@ -1,5 +1,5 @@
 import ResponsiveBarChartImpl from "../ResponsiveBarChartImpl";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Grid } from "semantic-ui-react";
 import Header from "../common/header";
 import CropFilter from "../common/filters/crops";
@@ -59,6 +59,7 @@ import CrossCountryCropFilter from "../common/filters/crossCountry/crops";
 import CrossCountryCountryFilter from "../common/filters/crossCountry/country";
 import HHILegend from "../MarketConcentrationHHI/HHILegend";
 import { normalizeField } from "../../utils/common";
+import Notes from "../common/source/Notes";
 
 const ChartComponent = ({
                             sources,
@@ -71,7 +72,8 @@ const ChartComponent = ({
                             methodology,
                             download,
                             exportPng,
-                            filters
+                            filters,
+                            categoriesWP
                         }) => {
     const [initialCrops, setInitialCrops] = useState(null);
     const [selectedCrops, setSelectedCrops] = useState(null);
@@ -79,8 +81,14 @@ const ChartComponent = ({
     const [currentData, setCurrentData] = useState(null);
     const [countries, setCountries] = useState([]);
     const [forceUpdate, setForceUpdate] = useState(false);
+    const [hasNotes, setHasNotes] = useState(false)
     const ref = useRef(null);
     const genericLegend = "generic";
+    let categoryType;
+    if (categoriesWP) {
+        categoryType = categoriesWP.find(c => c.slug === type.toLowerCase())
+    }
+
     //TODO can be configured in wordpress at a later stage
     let defaultFormat = { style: 'decimal', minimumFractionDigits: 0, maximumFractionDigits: 1 };
     let indexBy = 'crop';
@@ -1080,13 +1088,15 @@ const ChartComponent = ({
                         id: 'tooltip-public-inspectors-legend',
                         defaultMessage: 'Public seed inspectors'
                     })} </span>
-                            <span className="bold" style={{color: crossCountryBarColor[0]}}> {d.data.publicSeedInspectors || 0}</span>
+                            <span className="bold"
+                                  style={{ color: crossCountryBarColor[0] }}> {d.data.publicSeedInspectors || 0}</span>
                             <br />
                             <span>{intl.formatMessage({
                                 id: 'tooltip-private-inspectors-legend',
                                 defaultMessage: 'Private seed inspectors'
                             })} </span>
-                            <span className="bold" style={{color: crossCountryBarColor[1]}}> {d.data.privateSeedInspectors || 0}</span>
+                            <span className="bold"
+                                  style={{ color: crossCountryBarColor[1] }}> {d.data.privateSeedInspectors || 0}</span>
                             <br />
                             <span>{intl.formatMessage({
                                 id: 'tooltip-total-inspectors-legend',
@@ -1120,22 +1130,32 @@ const ChartComponent = ({
                         });
                         return (<Grid.Row className={`crops-with-icons`}>
                             <Grid.Column width={16}>
-                                <div style={{width: 'max-content', float: "left", marginTop: '10px'}}>{legend === 'crops' &&
+                                <div style={{
+                                    width: 'max-content',
+                                    float: "left",
+                                    marginTop: '10px'
+                                }}>{legend === 'crops' &&
                                     <CropsLegend data={selectedCrops} title={cropsLegendTranslated}
                                                  titleClass="crops-title"
                                                  addLighterDiv={addLighterDiv}
-                                                 intl={intl}/>}
+                                                 intl={intl} />}
                                     {legend && legend.toLowerCase() === 'year' &&
-                                        <YearLegend colors={yearsColors} years={selectedYear}/>}
+                                        <YearLegend colors={yearsColors} years={selectedYear} />}
                                     {legend && legend === genericLegend &&
-                                        <GenericLegend colors={colors} keys={keys} title={legendTitle}/>}
+                                        <GenericLegend colors={colors} keys={keys} title={legendTitle} />}
                                 </div>
-                                <div style={{width: 'max-content', float: "left", fontSize: '16px', color: '#333c48', marginTop: '12px'}}>
+                                <div style={{
+                                    width: 'max-content',
+                                    float: "left",
+                                    fontSize: '16px',
+                                    color: '#333c48',
+                                    marginTop: '12px'
+                                }}>
                                     |&nbsp;&nbsp;&nbsp;
                                     <bold>MD:</bold>
-                                    <span style={{fontWeight: "normal"}}> Indicator data missing </span>
+                                    <span style={{ fontWeight: "normal" }}> Indicator data missing </span>
                                     <bold>NA:</bold>
-                                    <span style={{fontWeight: "normal"}}> Indicator not applicable</span>
+                                    <span style={{ fontWeight: "normal" }}> Indicator not applicable</span>
                                 </div>
                             </Grid.Column>
                         </Grid.Row>);
@@ -1290,7 +1310,7 @@ const ChartComponent = ({
                     }
                     useHHILegends = true;
                     totalLabel.format = { style: 'decimal', minimumFractionDigits: 0, maximumFractionDigits: 0 };
-                    containerHeight-=50;
+                    containerHeight -= 50;
                     break;
                 case CROSS_COUNTRY_MARKET_SHARE_STATE_OWNED_SEED_COMPANIES:
                     // Fix %.
@@ -2232,11 +2252,12 @@ const ChartComponent = ({
             {generateFilters()}
             {generateLegends()}
             {insertChart()}
-            <Grid.Row className={`source-section`}>
+            <Grid.Row className={`source-section ${hasNotes ? ' no-bottom-border' : ''}`}>
                 <Grid.Column>
                     <Source title={`Source: ${sources}${editing ? ` *${type}*` : ''}`} />
                 </Grid.Column>
             </Grid.Row>
+            <Notes chardIdCategory={categoryType ? categoryType.id : undefined} setHasNotes={setHasNotes} />
         </Grid>
     </div>);
 }

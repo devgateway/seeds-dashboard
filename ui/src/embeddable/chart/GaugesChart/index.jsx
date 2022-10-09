@@ -5,9 +5,18 @@ import Export from "../common/export";
 import Source from "../common/source";
 import Heading from "../../data-summary/components/Heading";
 import { legends } from "./components/LegendConstant";
-import { AVAILABILITY_OF_BASIC_SEED, SATISFACTION_ENFORCEMENT_SEED_LAW } from "../../reducers/StoreConstants";
+import {
+    AVAILABILITY_OF_BASIC_SEED, COUNTRIES_FILTER,
+    DATA, MAP_INDICATOR_DATA,
+    SATISFACTION_ENFORCEMENT_SEED_LAW,
+    WP_CATEGORIES
+} from "../../reducers/StoreConstants";
 import SatisfactionEnforcementSeedLawChart from "./SatisfactionEnforcementSeedLawChart";
 import './styles.scss';
+import Notes from "../common/source/Notes";
+import { getCountries, getMapIndicator, getWpCategories, setFilter } from "../../reducers/data";
+import { connect } from "react-redux";
+import { injectIntl } from "react-intl";
 
 const GaugesChart = ({
                          data,
@@ -19,11 +28,17 @@ const GaugesChart = ({
                          methodology,
                          download,
                          exportPng,
-                         tooltip
+                         tooltip,
+                         categoriesWP
                      }) => {
     const ref = useRef(null);
+    const [hasNotes, setHasNotes] = useState(false)
     let yearsToShow;
     let noData = false;
+    let categoryType;
+    if (categoriesWP) {
+        categoryType = categoriesWP.find(c => c.slug === type.toLowerCase())
+    }
     if (data && data.id) {
         yearsToShow = data.dimensions.year.values.sort((a, b) => {
             if (parseInt(a) < parseInt(b)) {
@@ -66,7 +81,7 @@ const GaugesChart = ({
                 </Grid.Column>
                 <Grid.Column width={4}>
                     <Export methodology={methodology} exportPng={exportPng} download={download} containerRef={ref}
-                            type={'gauge'} chartType={type}/>
+                            type={'gauge'} chartType={type} />
                 </Grid.Column>
             </Grid.Row>
             <Grid.Row className={"with-bottom-border border-left border-right"}>
@@ -75,12 +90,21 @@ const GaugesChart = ({
             <Grid.Row className={"with-bottom-border border-left border-right"}>
                 {getChart()}
             </Grid.Row>
-            <Grid.Row className={`source-section`}>
+            <Grid.Row className={`source-section ${hasNotes ? ' no-bottom-border' : ''}`}>
                 <Grid.Column>
                     <Source title={`Source: ${sources}`} />
                 </Grid.Column>
             </Grid.Row>
+            <Notes chardIdCategory={categoryType ? categoryType.id : undefined} setHasNotes={setHasNotes} />
         </Grid>
     </div>);
 }
-export default GaugesChart;
+const mapStateToProps = (state, ownProps) => {
+    return {
+        categoriesWP: state.getIn([DATA, WP_CATEGORIES])
+    }
+}
+
+const mapActionCreators = {};
+
+export default connect(mapStateToProps, mapActionCreators)(injectIntl(GaugesChart))

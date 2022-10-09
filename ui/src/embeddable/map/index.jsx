@@ -1,6 +1,6 @@
-import React, {useEffect, useRef, useState} from "react";
-import {Button, Container, Grid, GridRow, Icon, Segment} from "semantic-ui-react";
-import {connect} from "react-redux";
+import React, { useEffect, useRef, useState } from "react";
+import { Button, Container, Grid, GridRow, Icon, Segment } from "semantic-ui-react";
+import { connect } from "react-redux";
 import {
     DATA,
     WP_CATEGORIES,
@@ -9,23 +9,24 @@ import {
     SHARE_CHART,
     SHARE_CROPS, DEFAULT_COUNTRY_ID, ADEQUACY_ACTIVE_BREEDERS, MAP_INDICATOR_DATA, AVAILABILITY_BASIC_SEED,
 } from "../reducers/StoreConstants";
-import {MapComponent} from './components/MapComponent';
-import {getCountries, getData, getMapIndicator, getWpCategories, setFilter} from "../reducers/data";
-import {A1_ADEQUACY_ACTIVE_BREEDERS, A4_AVAILABILITY_FOUNDATION_SEED} from "./Constants";
+import { MapComponent } from './components/MapComponent';
+import { getCountries, getData, getMapIndicator, getWpCategories, setFilter } from "../reducers/data";
+import { A1_ADEQUACY_ACTIVE_BREEDERS, A4_AVAILABILITY_FOUNDATION_SEED } from "./Constants";
 import IndicatorFilter from "./components/IndicatorFilter";
-import {injectIntl} from "react-intl";
+import { injectIntl } from "react-intl";
 import CropFilter from "../chart/common/filters/crops";
 import Header from "../chart/common/header";
 import './map.scss';
 import HHILegend from "../chart/MarketConcentrationHHI/HHILegend";
 import Export from "../chart/common/export";
 import Source from "../chart/common/source";
-import {cleanupParam} from "../chart/Countryinfo";
-import {toBlob} from "html-to-image";
+import { cleanupParam } from "../chart/Countryinfo";
+import { toBlob } from "html-to-image";
 import { saveAs } from 'file-saver';
+import Notes from "../chart/common/source/Notes";
 
 const Map = (props) => {
-    const {filters} = props
+    const { filters } = props
     let indicators = [];
     let processedData = null;
     let initialSelectedCrops = [];
@@ -48,12 +49,13 @@ const Map = (props) => {
         "data-title": title = "",
         "data-sub-title": subTitle = "",
         "data-methodology": methodology,
+        categoriesWP
     } = props;
 
     useEffect(() => {
         setDefaultFilter(DEFAULT_COUNTRY_ID, 23);
         if (filters && filters.get(SHARE_CHART) && type === filters.get(SHARE_CHART)) {
-            wrapper.current.scrollIntoView({block: 'end', behavior: 'smooth'});
+            wrapper.current.scrollIntoView({ block: 'end', behavior: 'smooth' });
         }
     }, []);
 
@@ -69,11 +71,16 @@ const Map = (props) => {
     const [initialCrops, setInitialCrops] = useState(null);
     const [currentData, setCurrentData] = useState(null);
     const [selectedCrops, setSelectedCrops] = useState(null);
+    const [hasNotes, setHasNotes] = useState(false)
 
     useEffect(() => {
         onLoadIndicatorData(selectedIndicator.id);
     }, [selectedIndicator]);
 
+    let categoryType;
+    if (categoriesWP) {
+        categoryType = categoriesWP.find(c => c.slug === type.toLowerCase())
+    }
     const currentLanguage = locale || 'en';
     let sourceText;
     if (currentLanguage === 'en') {
@@ -90,7 +97,7 @@ const Map = (props) => {
         }
     }
 
-    const processCommonData = ()  => {
+    const processCommonData = () => {
         processedData = [];
         if (mapData.values) {
             Object.keys(mapData.values).forEach(k => {
@@ -155,8 +162,8 @@ const Map = (props) => {
         switch (type) {
             case "indicators_A":
                 indicators = [
-                    {value: A1_ADEQUACY_ACTIVE_BREEDERS, id: ADEQUACY_ACTIVE_BREEDERS},
-                    {value: A4_AVAILABILITY_FOUNDATION_SEED, id: AVAILABILITY_BASIC_SEED}
+                    { value: A1_ADEQUACY_ACTIVE_BREEDERS, id: ADEQUACY_ACTIVE_BREEDERS },
+                    { value: A4_AVAILABILITY_FOUNDATION_SEED, id: AVAILABILITY_BASIC_SEED }
                 ];
                 if (!selectedIndicator) {
                     setSelectedIndicator(indicators[0]);
@@ -189,18 +196,18 @@ const Map = (props) => {
         }
         setSelectedCrops(currentlySelected);
     }
-    
+
     const handleIndicatorChange = (selected) => {
         setSelectedIndicator(selected);
     }
-        
+
     if (countries && mapData && !mapData.LOADING) {
         // TODO: prevent calling this method more times than needed.
         processCommonData();
     }
 
     const wrapper = useRef(null);
-    
+
     // Needed for <CropFilter/>
     if (initialCrops) {
         initialSelectedCrops = [];
@@ -208,43 +215,52 @@ const Map = (props) => {
             initialSelectedCrops.push(i === 0 ? 1 : 0)
         });
     }
-    
+
     const mapColors = colors.map(c => c.color);
     return (<div ref={wrapper}>
-            <Container className={"map container"} fluid={true} style={{height: '850px', width: '100%'}}>
+            <Container className={"map container"} fluid={true} style={{ height: '850px', width: '100%' }}>
                 <Grid className={`map-grid`}>
                     <Grid.Row className="header-section">
                         <Grid.Column width={12}>
                             <Header title={`${title}`} subtitle={subTitle} />
                         </Grid.Column>
                         <Grid.Column width={4}>
-                            <Export methodology={methodology} exportPng={exportPng} download={download} containerRef={wrapper}
-                                    type={'bar'} chartType={type} selectedCrops={selectedCrops ? [selectedCrops] : []} />
+                            <Export methodology={methodology} exportPng={exportPng} download={download}
+                                    containerRef={wrapper}
+                                    type={'bar'} chartType={type}
+                                    selectedCrops={selectedCrops ? [selectedCrops] : []} />
                         </Grid.Column>
                     </Grid.Row>
                     <Grid.Row className={`filters-section`}>
                         <Grid.Column width={6}>
-                            <IndicatorFilter intl={intl} data={indicators} initialSelectedIndicator={selectedIndicator} onChange={handleIndicatorChange} />
+                            <IndicatorFilter intl={intl} data={indicators} initialSelectedIndicator={selectedIndicator}
+                                             onChange={handleIndicatorChange} />
                         </Grid.Column>
                         <Grid.Column width={4}>
-                            {initialCrops && initialSelectedCrops && <CropFilter data={initialCrops} onChange={handleCropFilterChange}
-                                                                             initialSelectedCrops={initialSelectedCrops} intl={intl} maxSelectable={1}/>}
+                            {initialCrops && initialSelectedCrops &&
+                                <CropFilter data={initialCrops} onChange={handleCropFilterChange}
+                                            initialSelectedCrops={initialSelectedCrops} intl={intl}
+                                            maxSelectable={1} />}
                         </Grid.Column>
                     </Grid.Row>
                     <Grid.Row className={`hhi-section`}>
-                        <HHILegend legends={legends} 
-                                   title={intl.formatMessage({ id: 'opinionRating', defaultMessage: 'Opinion Rating' })} />
+                        <HHILegend legends={legends}
+                                   title={intl.formatMessage({
+                                       id: 'opinionRating',
+                                       defaultMessage: 'Opinion Rating'
+                                   })} />
                     </Grid.Row>
                     <Grid.Row className="map-row">
                         <Grid.Column width={16}>
-                            <MapComponent data={processedData} height={height} intl={intl} colors={mapColors}/>
+                            <MapComponent data={processedData} height={height} intl={intl} colors={mapColors} />
                         </Grid.Column>
                     </Grid.Row>
-                    <Grid.Row className={`source-section`}>
+                    <Grid.Row className={`source-section ${hasNotes ? ' no-bottom-border' : ''}`}>
                         <Grid.Column>
                             <Source title={`Source: ${sourceText}${editing ? ` *${type}*` : ''}`} />
                         </Grid.Column>
                     </Grid.Row>
+                    <Notes chardIdCategory={categoryType ? categoryType.id : undefined} setHasNotes={setHasNotes} />
                 </Grid>
             </Container>
         </div>
