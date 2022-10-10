@@ -16,7 +16,7 @@
 
 .tooltip-wrapper {
   @include border-radius(5px);
-  border: 1px solid $tooltip-text-color;
+  border: 1px solid #c5c4c4;
   overflow: hidden;
   width: 300px;
   background-color: #eef1fa !important;
