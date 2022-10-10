@@ -241,6 +241,7 @@ class IntlRoutes extends Component {
                                                 postType={props.match.params.postType}
                                                 store={props.match.params.postType + props.match.params.id}
                                                 slug404={POST_404_SLUG}
+                                                messages={messages}
                                             >
                                                 <PostConsumer>
                                                     <Post/>
