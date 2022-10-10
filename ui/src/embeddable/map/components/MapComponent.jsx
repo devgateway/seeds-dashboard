@@ -40,8 +40,7 @@ export const MapComponent = ({height, data, intl, colors, dontUseCrops, domain, 
                     return (<div className="tooltip-wrapper">
                         <div className="tooltip-header">
                             {!dontUseCrops && <span className="value">{intl.formatMessage({ id: e.feature.data.crop})} - </span>}
-                            <span className="label">{e.feature.data.country}</span>
-                            <span className="value"><b>{e.feature.data.year}</b></span>
+                            <span className="label">{e.feature.data.country} <b>{e.feature.data.year}</b></span>
                         </div>
                         <div className="map-tooltip-data">
                             <span className="label1">{intl.formatMessage({ id: 'opinionRating', defaultMessage: 'Opinion Rating' })}: </span>

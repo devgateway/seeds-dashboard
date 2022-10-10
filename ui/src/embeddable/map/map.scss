@@ -16,24 +16,31 @@
 
 .tooltip-wrapper {
   @include border-radius(5px);
-  background-color: white !important;
   border: 1px solid $tooltip-text-color;
   overflow: hidden;
-  padding: $base-unit-md - 5;
   width: 300px;
+  background-color: #eef1fa !important;
 
   .tooltip-header {
+    margin: $base-unit-md - 8;
     overflow: hidden;
     font-size: 14px;
+    /*background-color: #eef1fa;*/
+    //background-color: red; 
 
     .label {
       line-height: 150%;
-      margin-right: $base-unit / 2;
+      display: table;
+      margin: 0 auto;
     }
 
     .value {
       float: none;
     }
+  }
+  
+  .map-tooltip-data {
+    background-color: white;
   }
 
   ul {
