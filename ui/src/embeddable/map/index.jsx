@@ -237,17 +237,20 @@ const Map = (props) => {
                     id: LENGTH_SEED_IMPORT,
                     useCrops: false,
                     recalculateDomain: true,
-                    numberSuffix: ' ' + intl.formatMessage({id: 'days', defaultMessage: 'days'})
-                },
-                    {value: B73_SATISFACTION_IMPORT, id: SATISFACTION_IMPORT, useCrops: false, numberSuffix: PERCENTAGE},
-                    {
-                        value: B75_LENGTH_SEED_EXPORT,
-                        id: LENGTH_SEED_EXPORT,
-                        useCrops: false,
-                        recalculateDomain: true,
-                        numberSuffix: ' ' + intl.formatMessage({id: 'days', defaultMessage: 'days'})
-                    },
-                    {value: B77_SATISFACTION_EXPORT, id: SATISFACTION_EXPORT, useCrops: false, numberSuffix: PERCENTAGE}];
+                    numberSuffix: ' ' + intl.formatMessage({id: 'days', defaultMessage: 'days'}),
+                    mapLegend: 'numberOfDays'
+                }, {
+                    value: B73_SATISFACTION_IMPORT, id: SATISFACTION_IMPORT, useCrops: false, numberSuffix: PERCENTAGE
+                }, {
+                    value: B75_LENGTH_SEED_EXPORT,
+                    id: LENGTH_SEED_EXPORT,
+                    useCrops: false,
+                    recalculateDomain: true,
+                    numberSuffix: ' ' + intl.formatMessage({id: 'days', defaultMessage: 'days'}),
+                    mapLegend: 'numberOfDays'
+                }, {
+                    value: B77_SATISFACTION_EXPORT, id: SATISFACTION_EXPORT, useCrops: false, numberSuffix: PERCENTAGE
+                }];
                 if (!selectedIndicator) {
                     setSelectedIndicator(indicators[0]);
                     setDontUseCrops(!indicators[0].usesCrops);
@@ -434,7 +437,8 @@ const Map = (props) => {
                         <Grid.Column width={16}>
                             <MapComponent domain={domain} data={processedData} height={height} intl={intl} 
                                           colors={mapColors} dontUseCrops={dontUseCrops} scale={scaleQ}
-                                          numberSuffix={selectedIndicator ? selectedIndicator.numberSuffix : ''}/>
+                                          legend={selectedIndicator ? selectedIndicator.mapLegend : null}
+                                          numberSuffix={selectedIndicator && selectedIndicator.numberSuffix === PERCENTAGE ? selectedIndicator.numberSuffix : ''}/>
                         </Grid.Column>
                     </Grid.Row>
                     <Grid.Row className={`source-section`}>

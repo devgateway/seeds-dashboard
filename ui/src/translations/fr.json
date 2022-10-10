@@ -257,5 +257,6 @@
   "opinionRating": "Note d'opinion",
   "A1. Adequacy of active breeders": "A1. Adequacy of active breeders",
   "A4. Availability of foundation (basic) seed": "A4. Availability of foundation (basic) seed",
-  "days": "journées"
+  "days": "journées",
+  "numberOfDays": "Nombre de jours"
 }
