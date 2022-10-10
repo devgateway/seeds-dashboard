@@ -8,7 +8,7 @@ const getTooltipLegendByValue = (value, intl, scale) => {
     let tooltipLegend = '';
     if (scale(value)['label-key']) {
         tooltipLegend = intl.formatMessage({id: scale(value)['label-key'], defaultMessage: scale(value).label});
-        return (<span style={{/*color: scale(value).color*/}}>({tooltipLegend})</span>);
+        return (<span style={{fontWeight: 'normal' /*color: scale(value).color*/}}>({tooltipLegend})</span>);
     }
     return (<span className={className} style={{/*color: scale(value).color*/}} />);
 }

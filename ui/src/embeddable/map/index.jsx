@@ -53,7 +53,7 @@ let colors = [
     { color: '#ccea7b' },
     { color: '#a5ca40' },
 ];
-const PERCENTAGE = '%';
+export const PERCENTAGE = '%';
 
 const Map = (props) => {
     const {filters} = props
@@ -363,11 +363,11 @@ const Map = (props) => {
     }
 
     // To reuse the colors.
-    const mapColors = colors.map(c => c.color);
+    let mapColors = colors.map(c => c.color);
     
     // Update the intervals to the new domain.
     // FFR: https://github.com/d3/d3-scale/blob/main/README.md#scaleQuantize
-    const scaleQ = d3.scaleQuantize().domain(domain).range(legends);
+    let scaleQ = d3.scaleQuantize().domain(domain).range(legends);
     let intervals = scaleQ.thresholds();
     const auxLegends = JSON.parse(JSON.stringify(legends));
     if (selectedIndicator) {
@@ -375,10 +375,15 @@ const Map = (props) => {
         const suffix = selectedIndicator.numberSuffix;
         intervals.unshift(domain[0]);
         intervals.push(domain[1]);
+        
         // When the suffix is different from "%" then reverse the legends order. 
         if (suffix !== PERCENTAGE) {
             intervals = intervals.reverse();
+            mapColors = mapColors.reverse();
+            const auxLegends = JSON.parse(JSON.stringify(legends)).reverse();
+            scaleQ = d3.scaleQuantize().domain(domain).range(auxLegends);
         }
+        
         intervals.forEach((t, index) => {
             if (index > 0) {
                 if (suffix === PERCENTAGE) {
