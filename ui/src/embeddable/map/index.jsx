@@ -48,12 +48,13 @@ import { saveAs } from 'file-saver';
 import Notes from "../chart/common/source/Notes";
 
 let colors = [
-    { upTo: 100, color: '#fb6e6e' },
-    { upTo: 79.99, color: '#fba66e' },
-    { upTo: 59.99, color: '#f9d751' },
-    { upTo: 39.99, color: '#ccea7b' },
-    { upTo: 19.99, color: '#a5ca40' },
+    { color: '#fb6e6e' },
+    { color: '#fba66e' },
+    { color: '#f9d751' },
+    { color: '#ccea7b' },
+    { color: '#a5ca40' },
 ];
+export const PERCENTAGE = '%';
 
 const Map = (props) => {
     const [hasNotes, setHasNotes] = useState(false)
@@ -63,6 +64,7 @@ const Map = (props) => {
     let initialSelectedCrops = [];
     let crops = null;
     let domain = [0, 100];
+    let indicatorFilterTitle;
     const {
         editing = false,
         setDefaultFilter,
@@ -221,13 +223,13 @@ const Map = (props) => {
                         value: A1_ADEQUACY_ACTIVE_BREEDERS,
                         id: ADEQUACY_ACTIVE_BREEDERS,
                         usesCrops: true,
-                        numberSuffix: '%'
+                        numberSuffix: PERCENTAGE
                     },
                     {
                         value: A4_AVAILABILITY_FOUNDATION_SEED,
                         id: AVAILABILITY_BASIC_SEED,
                         usesCrops: true,
-                        numberSuffix: '%'
+                        numberSuffix: PERCENTAGE
                     }
                 ];
                 if (!selectedIndicator) {
@@ -241,17 +243,20 @@ const Map = (props) => {
                     id: LENGTH_SEED_IMPORT,
                     useCrops: false,
                     recalculateDomain: true,
-                    numberSuffix: ' ' + intl.formatMessage({id: 'days', defaultMessage: 'days'})
-                },
-                    {value: B73_SATISFACTION_IMPORT, id: SATISFACTION_IMPORT, useCrops: false, numberSuffix: '%'},
-                    {
-                        value: B75_LENGTH_SEED_EXPORT,
-                        id: LENGTH_SEED_EXPORT,
-                        useCrops: false,
-                        recalculateDomain: true,
-                        numberSuffix: ' ' + intl.formatMessage({id: 'days', defaultMessage: 'days'})
-                    },
-                    {value: B77_SATISFACTION_EXPORT, id: SATISFACTION_EXPORT, useCrops: false, numberSuffix: '%'}];
+                    numberSuffix: ' ' + intl.formatMessage({id: 'days', defaultMessage: 'days'}),
+                    mapLegend: 'numberOfDays'
+                }, {
+                    value: B73_SATISFACTION_IMPORT, id: SATISFACTION_IMPORT, useCrops: false, numberSuffix: PERCENTAGE
+                }, {
+                    value: B75_LENGTH_SEED_EXPORT,
+                    id: LENGTH_SEED_EXPORT,
+                    useCrops: false,
+                    recalculateDomain: true,
+                    numberSuffix: ' ' + intl.formatMessage({id: 'days', defaultMessage: 'days'}),
+                    mapLegend: 'numberOfDays'
+                }, {
+                    value: B77_SATISFACTION_EXPORT, id: SATISFACTION_EXPORT, useCrops: false, numberSuffix: PERCENTAGE
+                }];
                 if (!selectedIndicator) {
                     setSelectedIndicator(indicators[0]);
                     setDontUseCrops(!indicators[0].usesCrops);
@@ -262,19 +267,19 @@ const Map = (props) => {
                     value: C1_SATISFACTION_VARIETY_RELEASE_PROCESS,
                     id: SATISFACTION_VARIETY_RELEASE_PROCESS,
                     useCrops: false,
-                    numberSuffix: '%'
+                    numberSuffix: PERCENTAGE
                 },
                     {
                         value: C2_SATISFACTION_SEED_REGULATIONS,
                         id: SATISFACTION_SEED_REGULATIONS,
                         useCrops: false,
-                        numberSuffix: '%'
+                        numberSuffix: PERCENTAGE
                     },
                     {
                         value: C4_ADEQUACY_GOVERNMENT_EFFORT_COUNTERFEIT_SEED,
                         id: ADEQUACY_GOVERNMENT_EFFORT_COUNTERFEIT_SEED,
                         useCrops: false,
-                        numberSuffix: '%'
+                        numberSuffix: PERCENTAGE
                     }];
                 if (!selectedIndicator) {
                     setSelectedIndicator(indicators[0]);
@@ -287,7 +292,7 @@ const Map = (props) => {
                         value: D2_ADEQUACY_SEED_INSPECTION_SERVICES,
                         id: ADEQUACY_SEED_INSPECTION_SERVICES,
                         usesCrops: false,
-                        numberSuffix: '%',
+                        numberSuffix: PERCENTAGE,
                         hideFilterSection: true
                     }
                 ];
@@ -301,13 +306,13 @@ const Map = (props) => {
                     value: E13_ADEQUACY_EXTENSION_SERVICES,
                     id: ADEQUACY_EXTENSION_SERVICES,
                     useCrops: false,
-                    numberSuffix: '%'
+                    numberSuffix: PERCENTAGE
                 },
                     {
                         value: E24_ADEQUACY_AGRODEALER_NETWORK,
                         id: ADEQUACY_AGRODEALER_NETWORK,
                         useCrops: false,
-                        numberSuffix: '%'
+                        numberSuffix: PERCENTAGE
                     }];
                 if (!selectedIndicator) {
                     setSelectedIndicator(indicators[0]);
@@ -364,22 +369,52 @@ const Map = (props) => {
     }
 
     // To reuse the colors.
-    const mapColors = colors.map(c => c.color);
+    let mapColors = colors.map(c => c.color);
     
     // Update the intervals to the new domain.
     // FFR: https://github.com/d3/d3-scale/blob/main/README.md#scaleQuantize
-    const scaleQ = d3.scaleQuantize().domain(domain).range(legends);
-    const intervals = scaleQ.thresholds();
+    let scaleQ = d3.scaleQuantize().domain(domain).range(legends);
+    let intervals = scaleQ.thresholds();
+    const auxLegends = JSON.parse(JSON.stringify(legends));
     if (selectedIndicator) {
-        const minus = selectedIndicator.numberSuffix === '%' ? 0.01 : 1;
-        const suffix = selectedIndicator.numberSuffix === '%' ? '%' : '';
+        const minus = selectedIndicator.numberSuffix === PERCENTAGE ? 0.01 : 1;
+        const suffix = selectedIndicator.numberSuffix;
         intervals.unshift(domain[0]);
         intervals.push(domain[1]);
+        
+        // When the suffix is different from "%" then reverse the legends order. 
+        if (suffix !== PERCENTAGE) {
+            intervals = intervals.reverse();
+            mapColors = mapColors.reverse();
+            const auxLegends = JSON.parse(JSON.stringify(legends)).reverse();
+            scaleQ = d3.scaleQuantize().domain(domain).range(auxLegends);
+        }
+        
         intervals.forEach((t, index) => {
             if (index > 0) {
-                legends[index - 1]['label-range'] = '(' + intervals[index - 1] + suffix + ' - ' + (intervals[index] - (index < 5 ? minus : 0)) + suffix + ')';
+                if (suffix === PERCENTAGE) {
+                    auxLegends[index - 1]['label-range'] = '(' + intervals[index - 1] + suffix + ' - ' + (intervals[index] - (index < 5 ? minus : 0)) + suffix + ')';
+                } else {
+                    auxLegends[index - 1]['label-range'] = intervals[index - 1] + suffix + ' - ' + (intervals[index] - (index < 5 ? minus : 0)) + suffix;
+                }
             }
         });
+        // When the suffix is different from "%" then dont show any label in the legends section.
+        if (suffix !== PERCENTAGE) {
+            auxLegends.forEach(l => {
+                l['label-key'] = null;
+                l['label'] = '';
+            });
+        }
+    }
+
+    indicatorFilterTitle = intl.formatMessage({id: 'opinion-indicator'});
+    if (selectedIndicator && 
+        (selectedIndicator.value === B72_LENGTH_SEED_IMPORT || 
+            selectedIndicator.value === B73_SATISFACTION_IMPORT || 
+            selectedIndicator.value === B75_LENGTH_SEED_EXPORT || 
+            selectedIndicator.value === B77_SATISFACTION_EXPORT)) {
+        indicatorFilterTitle = intl.formatMessage({id: 'indicator'});
     }
     
     return (<div ref={wrapper}>
@@ -397,23 +432,24 @@ const Map = (props) => {
                     {selectedIndicator && !selectedIndicator.hideFilterSection && <Grid.Row className={`filters-section`}>
                         <Grid.Column width={8}>
                             <IndicatorFilter intl={intl} data={indicators} initialSelectedIndicator={selectedIndicator}
-                                             onChange={handleIndicatorChange}/>
+                                             onChange={handleIndicatorChange} title={indicatorFilterTitle}/>
                         </Grid.Column>
-                        <Grid.Column width={3}>
+                        <Grid.Column width={4}>
                             {!dontUseCrops && initialCrops && initialSelectedCrops &&
                                 <CropFilter data={initialCrops} onChange={handleCropFilterChange}
                                             initialSelectedCrops={initialSelectedCrops} intl={intl} maxSelectable={1}/>}
                         </Grid.Column>
                     </Grid.Row>}
                     <Grid.Row className={`hhi-section`}>
-                        <HHILegend legends={legends} 
-                                   title={intl.formatMessage({ id: 'opinionRating', defaultMessage: 'Opinion Rating' })} />
+                        <HHILegend legends={auxLegends} 
+                                   title={intl.formatMessage({ id: 'legend', defaultMessage: 'Legend' })} />
                     </Grid.Row>
                     <Grid.Row className="map-row">
                         <Grid.Column width={16}>
                             <MapComponent domain={domain} data={processedData} height={height} intl={intl} 
                                           colors={mapColors} dontUseCrops={dontUseCrops} scale={scaleQ}
-                                          numberSuffix={selectedIndicator ? selectedIndicator.numberSuffix : ''}/>
+                                          legend={selectedIndicator ? selectedIndicator.mapLegend : null}
+                                          numberSuffix={selectedIndicator && selectedIndicator.numberSuffix === PERCENTAGE ? selectedIndicator.numberSuffix : ''}/>
                         </Grid.Column>
                     </Grid.Row>
                     <Grid.Row className={`source-section ${hasNotes ? ' no-bottom-border' : ''}`}>

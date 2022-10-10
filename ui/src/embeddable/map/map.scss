@@ -16,47 +16,49 @@
 
 .tooltip-wrapper {
   @include border-radius(5px);
-  background-color: white !important;
-  border: 1px solid $tooltip-text-color;
+  border: 1px solid #c5c4c4;
   overflow: hidden;
-  padding: $base-unit-md - 5;
   width: 300px;
+  background-color: #eef1fa !important;
+  color: #354052;
 
   .tooltip-header {
+    margin: 10px;
     overflow: hidden;
-    font-size: 14px;
+    font-size: 15px;
+    font-weight: 700;
 
     .label {
       line-height: 150%;
-      margin-right: $base-unit / 2;
+      display: table;
+      margin: 0 auto;
+
+      .crop-icon {
+        height: 30px;
+        background-size: 30px;
+        display: table;
+        margin: 0 auto;
+        
+        span {
+          position: relative;
+          top: 5px;
+        }
+      }
+
+      .country-year {
+        float: left;
+        position: relative;
+        top: 5px
+      }
     }
 
     .value {
       float: none;
     }
   }
-
-  ul {
-    @include list-unstyled;
-    border-top: 1px solid $separator-grey;
-    margin-top: $base-unit;
-    padding-top: $base-unit;
-
-    li {
-      border-bottom: 1px solid $chart-grey-title;
-      margin-bottom: $base-unit / 2;
-      overflow: hidden;
-      padding-bottom: $base-unit / 2;
-
-      &:last-child {
-        border-bottom: none;
-        margin-bottom: 0;
-        padding-bottom: 0;
-      }
-    }
-  }
-
+  
   .map-tooltip-data {
+    background-color: white;
     padding-bottom: $base-unit-md;
     border-top: 1px solid $separator-grey;
     margin-top: $base-unit;
@@ -75,6 +77,7 @@
       font-size: 14px;
       font-weight: normal;
       display: inline;
+      padding-left: 10px;
 
     }
 

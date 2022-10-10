@@ -2,7 +2,7 @@ import React, {useState, useEffect, useRef} from "react";
 import './IndicatorFilter.scss';
 import {Accordion, Form, Menu} from "semantic-ui-react";
 
-const IndicatorFilter = ({data, onChange, initialSelectedIndicator, intl}) => {
+const IndicatorFilter = ({data, onChange, initialSelectedIndicator, intl, title}) => {
 
     const [isOpen, setIsOpen] = useState(false);
     const [currentData, setCurrentData] = useState(null);
@@ -50,8 +50,8 @@ const IndicatorFilter = ({data, onChange, initialSelectedIndicator, intl}) => {
         }));
     }
 
-    const title = (<div>
-        <span className="filter-selector-title">{intl.formatMessage({id: "opinion-indicator", defaultMessage: "Opinion Indicator"})}</span>
+    const titleComponent = (<div>
+        <span className="filter-selector-title">{title}</span>
         <span className="filter-selected-option">{initialSelectedIndicator.value}</span>
     </div>);
     return (
@@ -60,7 +60,7 @@ const IndicatorFilter = ({data, onChange, initialSelectedIndicator, intl}) => {
                 <Menu.Item>
                     <Accordion.Title
                         active={isOpen}
-                        content={title}
+                        content={titleComponent}
                         icon="angle right"
                         index={0}
                         onClick={handleClick}
