@@ -30,7 +30,8 @@
 
     .label {
       line-height: 150%;
-      width: 100%;
+      display: table;
+      margin: 0 auto;
 
       .crop-icon {
         height: 30px;
