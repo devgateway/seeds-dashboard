@@ -137,12 +137,11 @@ const Wrapper = (props) => {
         parent, editing, unique, messages, locale,
         filters, applyFilter
     } = props;
-
     return <Container className={`wp-react-lib tabbed posts ${editing ? 'editing' : ''}`} fluid={true}>
 
         <PostProvider type={type} taxonomy={taxonomy} categories={categories}
                       store={"tabbedposts_" + parent + '_' + unique} page={1}
-                      perPage={items}>
+                      perPage={items} messages={messages}>
             <PostConsumer>
 
                 {theme == 'light' ?
