@@ -16,7 +16,7 @@ import {
     SATISFACTION_VARIETY_RELEASE_PROCESS,
     SATISFACTION_SEED_REGULATIONS,
     ADEQUACY_GOVERNMENT_EFFORT_COUNTERFEIT_SEED,
-    SATISFACTION_EXPORT, LENGTH_SEED_EXPORT, SATISFACTION_IMPORT, LENGTH_SEED_IMPORT,
+    SATISFACTION_EXPORT, LENGTH_SEED_EXPORT, SATISFACTION_IMPORT, LENGTH_SEED_IMPORT, WP_CATEGORIES,
 } from "../reducers/StoreConstants";
 import {MapComponent} from './components/MapComponent';
 import {getCountries, getMapIndicator, setFilter} from "../reducers/data";
@@ -45,6 +45,7 @@ import Source from "../chart/common/source";
 import {cleanupParam} from "../chart/Countryinfo";
 import {toBlob} from "html-to-image";
 import { saveAs } from 'file-saver';
+import Notes from "../chart/common/source/Notes";
 
 let colors = [
     { color: '#fb6e6e' },
@@ -56,6 +57,7 @@ let colors = [
 export const PERCENTAGE = '%';
 
 const Map = (props) => {
+    const [hasNotes, setHasNotes] = useState(false)
     const {filters} = props
     let indicators = [];
     let processedData = null;
@@ -80,8 +82,12 @@ const Map = (props) => {
         "data-title": title = "",
         "data-sub-title": subTitle = "",
         "data-methodology": methodology,
+        categoriesWP
     } = props;
-
+    let categoryType;
+    if (categoriesWP) {
+        categoryType = categoriesWP.find(c => c.slug === type.toLowerCase())
+    }
     useEffect(() => {
         setDefaultFilter(DEFAULT_COUNTRY_ID, 23);
         if (filters && filters.get(SHARE_CHART) && type === filters.get(SHARE_CHART)) {
@@ -446,11 +452,12 @@ const Map = (props) => {
                                           numberSuffix={selectedIndicator && selectedIndicator.numberSuffix === PERCENTAGE ? selectedIndicator.numberSuffix : ''}/>
                         </Grid.Column>
                     </Grid.Row>
-                    <Grid.Row className={`source-section`}>
+                    <Grid.Row className={`source-section ${hasNotes ? ' no-bottom-border' : ''}`}>
                         <Grid.Column>
                             <Source title={`Source: ${sourceText}${editing ? ` *${type}*` : ''}`} />
                         </Grid.Column>
                     </Grid.Row>
+                    <Notes chardIdCategory={categoryType ? categoryType.id : undefined} setHasNotes={setHasNotes} />
                 </Grid>
             </Container>
         </div>
@@ -501,6 +508,7 @@ const mapStateToProps = (state, ownProps) => {
         filters: state.getIn([DATA, 'filters']),
         locale: state.getIn(['intl', 'locale']),
         mapData: state.getIn([DATA, MAP_INDICATOR_DATA, DATA]),
+        categoriesWP: state.getIn([DATA, WP_CATEGORIES])
     }
 }
 

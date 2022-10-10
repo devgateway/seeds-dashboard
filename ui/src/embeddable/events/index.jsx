@@ -2,7 +2,7 @@ import React from "react";
 import './events.scss';
 import { Grid, Icon } from "semantic-ui-react";
 import { atcb_action } from 'add-to-calendar-button'
-import 'add-to-calendar-button/assets/css/atcb.min.css';
+import 'add-to-calendar-button/assets/css/atcb.css';
 import { injectIntl } from "react-intl";
 
 const Events = (props) => {

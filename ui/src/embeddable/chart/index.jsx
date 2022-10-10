@@ -121,10 +121,10 @@ const Chart = (props) => {
         "data-top-harvested-crops-and-value-unit": topHarvestedCropsAndValueUnit = "hectares",
         "data-population-vs-farming-households_en": populationVsFarmingHouseholds_en = "Population vs Farming Households",
         "data-population-vs-farming-households_fr": populationVsFarmingHouseholds_fr = "Population vs Farming Households",
-        "data-total-population-label_en": totalPopulationLabel_en="Total Population",
-        "data-total-population-label_fr": totalPopulationLabel_fr="Total Population",
-        "data-farming-households-label_en": farmingHouseholdsLabel_en="Farming Households",
-        "data-farming-households-label_fr": farmingHouseholdsLabel_fr="Farming Households",
+        "data-total-population-label_en": totalPopulationLabel_en = "Total Population",
+        "data-total-population-label_fr": totalPopulationLabel_fr = "Total Population",
+        "data-farming-households-label_en": farmingHouseholdsLabel_en = "Farming Households",
+        "data-farming-households-label_fr": farmingHouseholdsLabel_fr = "Farming Households",
         "data-source-text_en": sourceText_en,
         "data-source-text_fr": sourceText_fr,
     } = props;
@@ -214,9 +214,10 @@ const Chart = (props) => {
         editing: editing,
         methodology: methodology,
         download: download,
+        type,
         exportPng: exportPng,
+        categoriesWP
     }
-
     const generateSourcesText = () => {
         const currentLanguage = locale || 'en';
         const separator = '||';
@@ -228,16 +229,7 @@ const Chart = (props) => {
         }
 
         if (categoriesWP && filters && countries) {
-            const selectedCountry = filters.getIn([SELECTED_COUNTRY]);
-            const defaultCountry = Number(filters.getIn([DEFAULT_COUNTRY_ID]));
-            const country = countries.find(i => {
-                if (selectedCountry) {
-                    return selectedCountry === i.countryId;
-                } else if (defaultCountry) {
-                    return defaultCountry === i.countryId;
-                }
-                return null;
-            });
+            const country = getSelectedCountry(filters, countries);
             const category = categoriesWP.find(i => i.name === SOURCE_CATEGORIES);
             if (!category) {
                 return ret;
@@ -285,7 +277,7 @@ const Chart = (props) => {
         case AGRICULTURAL_EXTENSION_SERVICES:
         case CROSS_COUNTRY_NUMBER_SEED_INSPECTORS:
         case AVERAGE_AGE_VARIETIES_SOLD:
-        case CROSS_COUNTRY_NUMBER_OF_VARIETIES_RELEASED:    
+        case CROSS_COUNTRY_NUMBER_OF_VARIETIES_RELEASED:
         case CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS:
         case CROSS_COUNTRY_QUANTITY_CERTIFIED_SEED_SOLD:
         case CROSS_COUNTRY_NUMBER_OF_ACTIVE_SEED_COMPANIES:
@@ -325,7 +317,8 @@ const Chart = (props) => {
             break;
         case AVAILABILITY_OF_BASIC_SEED:
         case SATISFACTION_ENFORCEMENT_SEED_LAW:
-            child = <GaugesChart mostRecentYears={mostRecentYears} sources={dynamicSources} {...chartProps} type={type}
+            child = <GaugesChart mostRecentYears={mostRecentYears} sources={dynamicSources} {...chartProps}
+                                 type={type}
                                  title={title} subTitle={subTitle} tooltip={() => (null)} />;
             break;
     }
@@ -432,5 +425,17 @@ const mapActionCreators = {
     setDefaultFilter: setFilter,
     onLoadCategories: getWpCategories
 };
-
+export const getSelectedCountry = (filters, countries) => {
+    const selectedCountry = filters.getIn([SELECTED_COUNTRY]);
+    const defaultCountry = Number(filters.getIn([DEFAULT_COUNTRY_ID]));
+    const country = countries.find(i => {
+        if (selectedCountry) {
+            return selectedCountry === i.countryId;
+        } else if (defaultCountry) {
+            return defaultCountry === i.countryId;
+        }
+        return null;
+    });
+    return country;
+}
 export default connect(mapStateToProps, mapActionCreators)(Chart)

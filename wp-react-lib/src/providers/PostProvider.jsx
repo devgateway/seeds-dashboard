@@ -1,8 +1,8 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { getPosts } from '../reducers/actions'
-import { PostContext } from './Context'
-import { Container, Loader, Segment } from "semantic-ui-react";
+import {connect} from 'react-redux'
+import {getPosts} from '../reducers/actions'
+import {PostContext} from './Context'
+import {Container, Loader, Segment} from "semantic-ui-react";
 import LocalizedProvider from "./LocalizedProvider"
 
 class PostProvider extends React.Component {
@@ -25,11 +25,11 @@ class PostProvider extends React.Component {
             postType,
             id,
             slug404,
-            categoriesOr
+            categoriesOr, categoryDefault
         } = this.props
         this.props.onLoadPost({
             slug, type, taxonomy, categories, before, perPage, page, fields, store, locale, previewNonce,
-            previewId, search, postType, id, slug404, categoriesOr
+            previewId, search, postType, id, slug404, categoriesOr, categoryDefault
         })
     }
 
@@ -53,11 +53,12 @@ class PostProvider extends React.Component {
             isScheduledFilter,
             scheduledFilterStore,
             slug404,
-            categoriesOr
+            categoriesOr,
+            categoryDefault
         } = this.props
         if (categories != prevProps.categories || locale != prevProps.locale || slug != prevProps.slug ||
             taxonomy != prevProps.taxonomy || page != prevProps.page || perPage != prevProps.perPage || search != prevProps.search ||
-            categoriesOr != prevProps.categoriesOr
+            categoriesOr != prevProps.categoriesOr || categoryDefault != prevProps.categoryDefault
 
         ) {
             this.props.onLoadPost({
@@ -73,13 +74,13 @@ class PostProvider extends React.Component {
                 locale,
                 previewNonce,
                 previewId,
-                search, postType, id, slug404, categoriesOr
+                search, postType, id, slug404, categoriesOr, categoryDefault
             })
         }
     }
 
     render() {
-        const { posts, meta, loading, error, locale, isScheduledFilter, scheduledFilterStore } = this.props;
+        const {posts, meta, loading, error, locale, isScheduledFilter, scheduledFilterStore, messages} = this.props;
         if (posts && (posts.length > 0 || posts.id)) {
             let postsArray = posts;
             if (!Array.isArray(postsArray)) {
@@ -112,9 +113,8 @@ class PostProvider extends React.Component {
                 postsArray = postsArray.sort((a, b) => !a.date || !b.date ? 0
                     : new Date(b.date) - new Date(a.date));
             }
-
             return <PostContext.Provider
-                value={{ posts: postsArray, locale, meta }}>{this.props.children}</PostContext.Provider>
+                value={{posts: postsArray, locale, meta, messages}}>{this.props.children}</PostContext.Provider>
         } else if (error) {
             return <Segment color={"red"}>
                 <h1>500</h1>
@@ -123,7 +123,7 @@ class PostProvider extends React.Component {
         } else if (loading) {
             return (<Container>
                 <span>Loading...</span>
-                <Loader inverted content='Loading...' />
+                <Loader inverted content='Loading...'/>
             </Container>)
         } else {
             return <Container>
@@ -136,7 +136,7 @@ class PostProvider extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    const { store = "posts" } = ownProps
+    const {store = "posts"} = ownProps
     return {
         meta: state.getIn(['wordpress', store, 'meta']),
         posts: state.getIn(['wordpress', store, 'items']),

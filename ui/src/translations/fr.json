@@ -161,8 +161,8 @@
   "no-data-reported-export": "No reported exports",
   "select-country": "Sélectionnez un autre pays",
   "tooltip-varieties-released": "Nombre de variétés homologuées",
-  "with":"avec",
-  "with-out":"sans",
+  "with": "avec",
+  "with-out": "sans",
   "special-features": "caractéristiques spécifiques",
   "tooltip-average": "Moyen",
   "all-countries": "Tous les pays",
@@ -258,5 +258,7 @@
   "A1. Adequacy of active breeders": "A1. Adequacy of active breeders",
   "A4. Availability of foundation (basic) seed": "A4. Availability of foundation (basic) seed",
   "days": "journées",
-  "numberOfDays": "Nombre de jours"
+  "numberOfDays": "Nombre de jours",
+  "notes": "Remarques",
+  "portuguese": "Portugais"
 }
