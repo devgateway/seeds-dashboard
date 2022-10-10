@@ -78,12 +78,17 @@ const CountryReports = (props) => {
             const langsCat = categoriesWP.find(i => i.name === 'languages');
             const enLang = categoriesWP.find(i => i.name === 'en' && i.parent === langsCat.id);
             const frLang = categoriesWP.find(i => i.name === 'fr' && i.parent === langsCat.id);
+            const ptLang = categoriesWP.find(i => i.name === 'pt' && i.parent === langsCat.id);
+
             const links = [];
             docs.filter(i => i.categories.find(j => j === enLang.id)).forEach(i => {
                 links.push({ lang: 'English', link: i.source_url });
             });
             docs.filter(i => i.categories.find(j => j === frLang.id)).forEach(i => {
                 links.push({ lang: 'French', link: i.source_url });
+            });
+            docs.filter(i => i.categories.find(j => j === ptLang.id)).forEach(i => {
+                links.push({ lang: 'Portuguese', link: i.source_url });
             });
             if (links.length === 1) {
                 return (<div className="links-container">
@@ -96,7 +101,7 @@ const CountryReports = (props) => {
                         return <a key={i.link} href={i.link} target="_blank">{intl.formatMessage({
                             id: i.lang.toLowerCase(),
                             defaultMessage: i.lang
-                        })}{index === 0 ? '  /  ' : ''}</a>
+                        })}{index < links.length -1? '  /  ' : ''}</a>
                     })}
                 </div>);
             }
@@ -130,7 +135,7 @@ const CountryReports = (props) => {
             return (<img src={NO_IMAGE} />);
         }
     }
-    
+
     const cleanupCountryName = (name) => {
         let newName = name.replace(categorySuffix_, '');
         newName = newName.replace('-', ' ');
