@@ -56,6 +56,7 @@ export const CROSS_COUNTRY_OVERALL_RATING_NATIONAL_SEED_TRADE_ASSOCIATION = 'ove
 export const CROSS_COUNTRY_AGRODEALER_NETWORK = 'agrodealerNetwork_crossCountry';
 export const CROSS_COUNTRY_AVAILABILITY_SEED_SMALL_PACKAGES = 'availabilitySeedSmallPackages_crossCountry';
 export const CROSS_COUNTRY_NUMBER_SEED_INSPECTORS = 'seedInspectorsByCountry';
+export const CROSS_COUNTRY_AGRICULTURAL_EXTENSION_SERVICES = 'agriculturalExtensionServices_crossCountry'
 export const ADEQUACY_ACTIVE_BREEDERS = 'adequacyActiveBreeders_map';
 export const AVAILABILITY_BASIC_SEED = 'availabilityBasicSeed_map';
 export const ADEQUACY_SEED_INSPECTION_SERVICES = 'getRatingSeedInspectors_map';
