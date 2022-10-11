@@ -162,7 +162,7 @@ const ChartComponent = ({
         maxSelectableYear = 3;
         showMaxYearsMessage = true
     } else if (type === RATING_GOVERNMENT_SEED_SUBSIDY_PROGRAM) {
-        maxSelectableCountries = 3;
+        // maxSelectableCountries = 3;
         showMaxCountriesMessage = true;
     } else if (type === AVAILABILITY_SEED_SMALL_PACKAGES || type === VARIETIES_RELEASED_WITH_SPECIAL_FEATURES) {
         maxSelectableYear = 1;
@@ -2288,7 +2288,7 @@ const ChartComponent = ({
                     <Grid.Row className={`filters-section`} style={{ borderBottom: "1px solid rgb(229, 229, 229)" }}>
                         <Grid.Column computer={5} mobile={16}>
                             <CrossCountryCountryFilter data={countries} onChange={handleCrossCountryCountryFilterChange}
-                                                       intl={intl} max={maxSelectableCountries} />
+                                                       intl={intl} maxSelectable={maxSelectableCountries} />
                         </Grid.Column>
                     </Grid.Row>);
             } else {
