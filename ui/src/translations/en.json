@@ -203,7 +203,7 @@
   "methods": "Methods",
   "of": "of",
   "share-button": "Share",
-  "extremely-poor-legend": "Extremely poor (0-19.99)",
+  "extremely-poor-legend": "Extremely poor",
   "poor-legend": "Poor",
   "fair-legend": "Fair",
   "moderate-legend": "Moderate",
@@ -282,12 +282,13 @@
   "good-map-legend": "Good",
   "excellent-map-legend": "Excellent",
   "opinion-indicator": "Opinion Indicator",
+  "indicator": "Indicator",
   "opinionRating": "Opinion Rating",
   "A1. Adequacy of active breeders": "A1. Adequacy of active breeders",
   "A4. Availability of foundation (basic) seed": "A4. Availability of foundation (basic) seed",
   "days": "days",
+  "numberOfDays": "Number of days",
   "notes": "Notes",
-  "portuguese": "Portuguese",
   "label-in": "in",
   "hectares": "hectares",
   "enabling-the-business-of-agriculture-topics-core": "Enabling the Business of Agriculture Topic Score",
@@ -303,5 +304,8 @@
   "number-of-days": "Number of days",
   "view-file": "View file",
   "btn-previous": "Previous",
-  "btn-next": "Next"
+  "btn-next": "Next",
+  "portuguese": "Portuguese",
+  "extension-office-household-legend": "Extension officer / households",
+  "extension-office-household-tooltip": "Households per extension officer"
 }
