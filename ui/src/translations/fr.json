@@ -260,5 +260,7 @@
   "days": "journées",
   "numberOfDays": "Nombre de jours",
   "notes": "Remarques",
-  "portuguese": "Portugais"
+  "portuguese": "Portugais",
+  "extension-office-household-legend": "Extension officer / households",
+  "extension-office-household-tooltip": "Households per extension officer"
 }

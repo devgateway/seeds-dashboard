@@ -244,6 +244,10 @@ class BlockEdit extends BaseBlockEdit {
                                         {
                                             label: 'Cross-Country - Availability of seed in small packages (2kg)',
                                             value: 'availabilitySeedSmallPackages_crossCountry'
+                                        },
+                                        {
+                                            label: 'Cross-Country - Concentration of agricultural extension services for smallholder farmers',
+                                            value: 'agriculturalExtensionServices_crossCountry'
                                         }
                                     ]}
                                 />

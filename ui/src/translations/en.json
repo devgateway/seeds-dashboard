@@ -289,5 +289,7 @@
   "days": "days",
   "numberOfDays": "Number of days",
   "notes": "Notes",
-  "portuguese": "Portuguese"
+  "portuguese": "Portuguese",
+  "extension-office-household-legend": "Extension officer / households",
+  "extension-office-household-tooltip": "Households per extension officer"
 }

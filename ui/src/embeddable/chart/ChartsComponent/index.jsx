@@ -44,6 +44,7 @@ import {
     CROSS_COUNTRY_VARIETY_RELEASE_PROCESS,
     CROSS_COUNTRY_OVERALL_RATING_NATIONAL_SEED_TRADE_ASSOCIATION,
     CROSS_COUNTRY_AGRODEALER_NETWORK, CROSS_COUNTRY_AVAILABILITY_SEED_SMALL_PACKAGES,
+    CROSS_COUNTRY_AGRICULTURAL_EXTENSION_SERVICES
 } from "../../reducers/StoreConstants";
 import YearLegend from "../common/year";
 import MarketConcentrationHHI, { getColorHHI, hhiLegends } from "../MarketConcentrationHHI";
@@ -172,7 +173,8 @@ const ChartComponent = ({
         || type === CROSS_COUNTRY_OVERALL_RATING_NATIONAL_SEED_TRADE_ASSOCIATION
         || type === CROSS_COUNTRY_AGRODEALER_NETWORK
         || type === CROSS_COUNTRY_NUMBER_SEED_INSPECTORS
-        || type === CROSS_COUNTRY_AVAILABILITY_SEED_SMALL_PACKAGES) {
+        || type === CROSS_COUNTRY_AVAILABILITY_SEED_SMALL_PACKAGES
+        || type === CROSS_COUNTRY_AGRICULTURAL_EXTENSION_SERVICES) {
         isCrossCountryChart = true;
     }
 
@@ -180,7 +182,8 @@ const ChartComponent = ({
         !data.dimensions ||
         (!data.dimensions.crop && !data.dimensions.year
             && type !== CROSS_COUNTRY_VARIETY_RELEASE_PROCESS && type !== CROSS_COUNTRY_OVERALL_RATING_NATIONAL_SEED_TRADE_ASSOCIATION
-            && type !== CROSS_COUNTRY_AGRODEALER_NETWORK && type !== CROSS_COUNTRY_NUMBER_SEED_INSPECTORS) ||
+            && type !== CROSS_COUNTRY_AGRODEALER_NETWORK && type !== CROSS_COUNTRY_NUMBER_SEED_INSPECTORS 
+            && type !== CROSS_COUNTRY_AGRICULTURAL_EXTENSION_SERVICES) ||
         data.id === null) {
         noData = true;
     } else {
@@ -235,7 +238,8 @@ const ChartComponent = ({
                 || type === CROSS_COUNTRY_VARIETY_RELEASE_PROCESS
                 || type === CROSS_COUNTRY_OVERALL_RATING_NATIONAL_SEED_TRADE_ASSOCIATION
                 || type === CROSS_COUNTRY_AGRODEALER_NETWORK
-                || type === CROSS_COUNTRY_AVAILABILITY_SEED_SMALL_PACKAGES) {
+                || type === CROSS_COUNTRY_AVAILABILITY_SEED_SMALL_PACKAGES
+                || type === CROSS_COUNTRY_AGRICULTURAL_EXTENSION_SERVICES) {
                 setSelectedCrops([MAIZE]);
             }
             return null;
@@ -1041,6 +1045,7 @@ const ChartComponent = ({
         case CROSS_COUNTRY_OVERALL_RATING_NATIONAL_SEED_TRADE_ASSOCIATION:
         case CROSS_COUNTRY_AGRODEALER_NETWORK:
         case CROSS_COUNTRY_AVAILABILITY_SEED_SMALL_PACKAGES:
+        case CROSS_COUNTRY_AGRICULTURAL_EXTENSION_SERVICES:
         case CROSS_COUNTRY_NUMBER_SEED_INSPECTORS:
             // Common code section.
             commonCrossCountryProcess();
@@ -1422,6 +1427,32 @@ const ChartComponent = ({
                     useFilterByCountries = true;
                     customSorting = (a, b) => (b.country.localeCompare(a.country));
                     totalLabel.format = { style: 'decimal', minimumFractionDigits: 0, maximumFractionDigits: 0 };
+                    break;
+                case CROSS_COUNTRY_AGRICULTURAL_EXTENSION_SERVICES:
+                    bottomLegend = intl.formatMessage({
+                        id: 'extension-office-household-legend',
+                        defaultMessage: 'Extension officer / households'
+                    });
+                    getTooltipText = (d) => {
+                        return <>
+                            <div style={{ textAlign: 'center' }}>
+                        <span>{intl.formatMessage({
+                            id: 'extension-office-household-tooltip',
+                            defaultMessage: 'Households per extension officer'
+                        })}: </span>
+                                <span className="bold"> {d.value !== FAKE_NUMBER ? d.value : 'MD'}</span>
+                            </div>
+                        </>
+                    }
+                    getTooltipHeader = (d) => {
+                        return <>
+                            <div className="without-crop-name">{d.indexValue} - {d.data.year}</div>
+                        </>;
+                    }
+                    commonCrossCountryProcessWithoutCrops();
+                    useFilterByCropsWithCountries = false;
+                    useFilterByCountries = true;
+                    customSorting = (a, b) => (b.country.localeCompare(a.country));
                     break;
                 case CROSS_COUNTRY_AVAILABILITY_SEED_SMALL_PACKAGES:
                     bottomLegend = intl.formatMessage({
