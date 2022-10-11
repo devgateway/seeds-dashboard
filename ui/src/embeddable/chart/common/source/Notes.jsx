@@ -19,26 +19,31 @@ const Notes = ({ title, titleClass, chardIdCategory, countries, filters, categor
     if (chardIdCategory) {
         notesCategories.push(chardIdCategory);
     }
-    if (filters && countries && categoriesWP) {
-        const selectedCountry = getSelectedCountry(filters, countries);
-        const category = categoriesWP.find(i => i.name === COUNTRY_CATEGORIES);
-        countryCategory = categoriesWP.find(i => i.parent === category.id
-            && i.name.toLowerCase() === selectedCountry.country.toLowerCase());
-        if (countryCategory) {
-            notesCategories.push(countryCategory.id);
+    if (categoriesWP) {
+        if (filters && countries) {
+            const selectedCountry = getSelectedCountry(filters, countries);
+            const category = categoriesWP.find(i => i.name === COUNTRY_CATEGORIES);
+            countryCategory = categoriesWP.find(i => i.parent === category.id
+                && i.name.toLowerCase() === selectedCountry.country.toLowerCase());
+            if (countryCategory) {
+                notesCategories.push(countryCategory.id);
+            }
         }
         const notesCategory =
-            categoriesWP.filter(c => c.slug === NOTES_CATEGORIES)
+            categoriesWP.find(c => c.slug === NOTES_CATEGORIES)
+
         if (notesCategory) {
             categories = notesCategory.id;
         }
     }
-
     return (<>
             {chardIdCategory ? <PostProvider type={type} taxonomy={taxonomy}
-                                             categories={categories}
+                                             categories={categories.toString()}
                                              store={"notes" + chardIdCategory}
-                                             page={1}
+                                             page={1} loadingMessage={intl.formatMessage({
+                id: 'loading-notes',
+                defaultMessage: 'Loading notes'
+            })}
             >
                 <PostConsumer>
                     <Note title={title} titleClass={titleClass} notesCategories={notesCategories}

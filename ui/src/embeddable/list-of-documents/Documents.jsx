@@ -17,7 +17,7 @@ const Documents = ({ type, showInline, list, loading, error, noDataText, intl })
         return <ul> {
             data.map(i => {
                 return <li key={i.id}>
-                    <Popup content={intl.formatMessage({ od: "view-file", defaultMessage: "View file" })}
+                    <Popup content={intl.formatMessage({ id: "view-file", defaultMessage: "View file" })}
                            className="doc-popup" data-variation="large"
                            trigger={<a href={i.guid.rendered} key={i.id}
                                        dangerouslySetInnerHTML={escapeTitle(i.title.rendered)} />}

@@ -303,5 +303,6 @@
   "notes": "Remarques",
   "portuguese": "Portugais",
   "extension-office-household-legend": "Extension officer / households",
-  "extension-office-household-tooltip": "Households per extension officer"
+  "extension-office-household-tooltip": "Households per extension officer",
+  "loading-notes": "Chargement des notes"
 }
