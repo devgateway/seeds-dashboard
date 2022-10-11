@@ -14,6 +14,7 @@ import {
     AVERAGE_AGE_VARIETIES_SOLD,
     MARKET_CONCENTRATION_HHI,
     PERFORMANCE_SEED_TRADERS,
+    RATING_GOVERNMENT_SEED_SUBSIDY_PROGRAM,
     NUMBER_OF_ACTIVE_BREEDERS,
     NUMBER_OF_ACTIVE_SEED_COMPANIES_PRODUCERS,
     VARIETIES_RELEASED_WITH_SPECIAL_FEATURES,
@@ -127,6 +128,7 @@ const ChartComponent = ({
     let max = 0;
     let lineTooltipSuffix;
     let maxSelectableYear = 4;
+    let maxSelectableCountries = 3;
     let processedData = [];
     let useCropLegendsRow = true;
     let useFilterByCrops = true;
@@ -136,6 +138,7 @@ const ChartComponent = ({
     let animate = true
     let extraTooltipClass = null;
     let showMaxYearsMessage = false;
+    let showMaxCountriesMessage = false;
     let switchToLineChart = false;
     let sharedCrops;
     let sharedYears;
@@ -158,6 +161,9 @@ const ChartComponent = ({
     if (type === PERFORMANCE_SEED_TRADERS) {
         maxSelectableYear = 3;
         showMaxYearsMessage = true
+    } else if (type === RATING_GOVERNMENT_SEED_SUBSIDY_PROGRAM) {
+        maxSelectableCountries = 3;
+        showMaxCountriesMessage = true;
     } else if (type === AVAILABILITY_SEED_SMALL_PACKAGES || type === VARIETIES_RELEASED_WITH_SPECIAL_FEATURES) {
         maxSelectableYear = 1;
     }
@@ -174,7 +180,8 @@ const ChartComponent = ({
         || type === CROSS_COUNTRY_AGRODEALER_NETWORK
         || type === CROSS_COUNTRY_NUMBER_SEED_INSPECTORS
         || type === CROSS_COUNTRY_AVAILABILITY_SEED_SMALL_PACKAGES
-        || type === CROSS_COUNTRY_AGRICULTURAL_EXTENSION_SERVICES) {
+        || type === CROSS_COUNTRY_AGRICULTURAL_EXTENSION_SERVICES
+        || type === RATING_GOVERNMENT_SEED_SUBSIDY_PROGRAM) {
         isCrossCountryChart = true;
     }
 
@@ -183,7 +190,7 @@ const ChartComponent = ({
         (!data.dimensions.crop && !data.dimensions.year
             && type !== CROSS_COUNTRY_VARIETY_RELEASE_PROCESS && type !== CROSS_COUNTRY_OVERALL_RATING_NATIONAL_SEED_TRADE_ASSOCIATION
             && type !== CROSS_COUNTRY_AGRODEALER_NETWORK && type !== CROSS_COUNTRY_NUMBER_SEED_INSPECTORS 
-            && type !== CROSS_COUNTRY_AGRICULTURAL_EXTENSION_SERVICES) ||
+            && type !== CROSS_COUNTRY_AGRICULTURAL_EXTENSION_SERVICES && type !== RATING_GOVERNMENT_SEED_SUBSIDY_PROGRAM) ||
         data.id === null) {
         noData = true;
     } else {
@@ -487,6 +494,36 @@ const ChartComponent = ({
         processedData.push(entry);
     }
 
+    const commonProcessCrossCountry = (c, entry, countryColors) => {
+        const newBarColors = countryColors ? [...countryColors] : null;
+        Object.keys(data.values[c]).forEach((i, j) => {
+            if (countries && countries.find(k => k.iso === i && k.selected === true)) {
+                const key = '' + i;
+                entry[key] = Number(data.values[c][i]) >= 0 ? data.values[c][i] : FAKE_NUMBER;
+
+                // Change % to 100 scale.
+                if (type === MARKET_SHARE_TOP_FOUR_SEED_COMPANIES || type === MARKET_SHARE_STATE_OWNED_SEED_COMPANIES) {
+                    if (entry[key] !== FAKE_NUMBER) {
+                        entry[key] = Math.round(entry[key] * 100);
+                    }
+                }
+
+                if (!keys.find(i => i === key)) {
+                    keys.push(key);
+                }
+                if (countryColors && newBarColors) {
+                    if (!colors.get(key)) {
+                        colors.set(key, newBarColors.shift());
+                    }
+                }
+                if (Number(entry[i]) > max) {
+                    max = Number(entry[i]);
+                }
+            }
+        });
+        processedData.push(entry);
+    }
+
     const processInspectorsByCountry = () => {
         processedData = [];
         let auxData = [];
@@ -553,6 +590,18 @@ const ChartComponent = ({
                 defaultMessage: d
             });
             commonProcess(d, entry, performanceColors);
+        });
+    }
+
+    const processForRadarCrossCountry = (dimensionValues) => {
+        dimensionValues.forEach(d => {
+            const entry = {};
+            entry[indexBy] = intl.formatMessage({
+                id: d,
+                defaultMessage: d
+            });
+            commonProcessCrossCountry(d, entry, performanceColors);
+            noData = false;
         });
     }
 
@@ -1607,6 +1656,17 @@ const ChartComponent = ({
             yearsColors = performanceColors;
             processForRadar(data.dimensions.performance.values)
             break;
+        case RATING_GOVERNMENT_SEED_SUBSIDY_PROGRAM:
+            indexBy = "id";
+            legend = "country";
+            useFilterByCrops = false;
+            useFilterByYear = false;
+            useFilterByCountries = true;
+            maxSelectableCountries = 3;
+            withCropsWithSpecialFeatures = false;
+            yearsColors = performanceColors;
+            processForRadarCrossCountry(data.dimensions.rating.values)
+            break;
         case EFFICIENCY_SEED_IMPORT_PROCESS:
         case EFFICIENCY_SEED_EXPORT_PROCESS:
             useCropLegendsRow = false;
@@ -2096,6 +2156,19 @@ const ChartComponent = ({
                         <ResponsiveRadarChartImpl
                             noData={noData}
                             selectedYear={selectedYear}
+                            processedData={processedData}
+                            keys={keys}
+                            colors={colors}
+                            indexBy={indexBy}
+                            intl={intl}
+                        /></Grid.Column>
+                </Grid.Row>
+            case RATING_GOVERNMENT_SEED_SUBSIDY_PROGRAM:
+                return <Grid.Row className={`chart-section`}>
+                    <Grid.Column width={16} className={`radar`}>
+                        <ResponsiveRadarChartImpl
+                            noData={noData}
+                            selectedCountry={countries}
                             processedData={processedData}
                             keys={keys}
                             colors={colors}

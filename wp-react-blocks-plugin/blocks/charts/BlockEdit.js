@@ -248,6 +248,10 @@ class BlockEdit extends BaseBlockEdit {
                                         {
                                             label: 'Cross-Country - Concentration of agricultural extension services for smallholder farmers',
                                             value: 'agriculturalExtensionServices_crossCountry'
+                                        },
+                                        {
+                                            label: 'Cross-Country - Seed industry opinion of the implementation of government seed subsidy program',
+                                            value: 'ratingGovernmentSeedSubsidyProgram_crossCountry'
                                         }
                                     ]}
                                 />
