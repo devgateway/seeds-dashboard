@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { PostIntro } from "@devgateway/wp-react-lib";
 import { Button } from "semantic-ui-react";
 import { POST_CAROUSEL_CONTAINER } from "./index";
+import { injectIntl } from "react-intl";
 
 
 //TODO this could be configured via wp admin
@@ -9,7 +10,7 @@ const MAX_PAGE_COUNT = 6;
 
 const VerticalPostPager = ({
                                filteredAndOrderedPosts, showLinksInModal,
-                               messages, locale, isAddType, itemsPerPage
+                               messages, locale, isAddType, itemsPerPage, intl
                            }) => {
 
     let i = 0;
@@ -52,13 +53,13 @@ const VerticalPostPager = ({
                                        itemsPerPage={intItemsPerPage} currentPage={firstElementInArray} />}
                 {intItemsPerPage > 0 && pagesCount > MAX_PAGE_COUNT &&
                     <PreviousNextPager posts={filteredAndOrderedPosts} setFirstElementInArray={setFirstElementInArray}
-                                       itemsPerPage={intItemsPerPage} currentPage={firstElementInArray} />}
+                                       itemsPerPage={intItemsPerPage} currentPage={firstElementInArray} intl={intl} />}
 
             </div>
         </div>
     </div>
 }
-const PreviousNextPager = ({ posts, itemsPerPage, setFirstElementInArray, currentPage }) => {
+const PreviousNextPager = ({ posts, itemsPerPage, setFirstElementInArray, currentPage, intl }) => {
     return <div className="paged-dots-container">
         <Button disabled={currentPage - itemsPerPage < 0} onClick={() => {
             setFirstElementInArray((prevState) => {
@@ -66,14 +67,14 @@ const PreviousNextPager = ({ posts, itemsPerPage, setFirstElementInArray, curren
             });
             scroll();
         }
-        }>Previous</Button>
+        }>{intl.formatMessage({ id: 'btn-previous', defaultMessage: 'Previous' })}</Button>
         <Button disabled={currentPage + itemsPerPage >= posts.length} onClick={() => {
             setFirstElementInArray((prevState) => {
                 return prevState + itemsPerPage;
             });
             scroll();
         }
-        }>Next</Button>
+        }>{intl.formatMessage({ id: 'btn-next', defaultMessage: 'Next' })}</Button>
     </div>;
 }
 const scroll = () => {
@@ -98,4 +99,4 @@ const PagedDotsVertical = ({ posts, itemsPerPage, setFirstElementInArray, curren
         {dotArray}
     </div>;
 }
-export default VerticalPostPager;
+export default injectIntl(VerticalPostPager);

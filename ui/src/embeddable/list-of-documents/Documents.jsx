@@ -1,8 +1,9 @@
-import React, {useState} from "react";
-import {APPLICATION_PDF} from "./Constants";
-import {Popup} from 'semantic-ui-react';
+import React, { useState } from "react";
+import { APPLICATION_PDF } from "./Constants";
+import { Popup } from 'semantic-ui-react';
+import { injectIntl } from "react-intl";
 
-const Documents = ({type, showInline, list, loading, error, noDataText}) => {
+const Documents = ({ type, showInline, list, loading, error, noDataText, intl }) => {
 
     // TODO: add more logic for different types of files other than .pdf
     if (loading) {
@@ -16,9 +17,11 @@ const Documents = ({type, showInline, list, loading, error, noDataText}) => {
         return <ul> {
             data.map(i => {
                 return <li key={i.id}>
-                    <Popup content={"View file"} className="doc-popup" data-variation="large"
+                    <Popup content={intl.formatMessage({ od: "view-file", defaultMessage: "View file" })}
+                           className="doc-popup" data-variation="large"
                            trigger={<a href={i.guid.rendered} key={i.id}
-                                       dangerouslySetInnerHTML={escapeTitle(i.title.rendered)}/>} position='top left'/>
+                                       dangerouslySetInnerHTML={escapeTitle(i.title.rendered)} />}
+                           position='top left' />
                 </li>;
             })
         }</ul>;
@@ -27,8 +30,8 @@ const Documents = ({type, showInline, list, loading, error, noDataText}) => {
     }
 
     function escapeTitle(title) {
-        return {__html: title}
+        return { __html: title }
     }
 }
 
-export default Documents;
+export default injectIntl(Documents);
