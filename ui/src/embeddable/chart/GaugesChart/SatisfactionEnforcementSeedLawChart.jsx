@@ -1,12 +1,15 @@
-import React, {useState} from "react";
-import {Grid} from "semantic-ui-react";
+import React, { useState } from "react";
+import { Grid } from "semantic-ui-react";
 import './styles.scss';
 import Gauge from "./components/Gauge";
-import {range} from "./components/common";
-import {injectIntl} from "react-intl";
+import { range } from "./components/common";
+import { injectIntl } from "react-intl";
 
-const SatisfactionEnforcementSeedLawChart = ({data, yearsToShow, intl, tooltip}) => {
-    const AVERAGE_RATING = "Overall satisfaction rating";
+const SatisfactionEnforcementSeedLawChart = ({ data, yearsToShow, intl, tooltip }) => {
+    const AVERAGE_RATING = intl.formatMessage({
+        id: "chart-label-overall-satisfaction",
+        defaultMessage: "Overall satisfaction rating"
+    });
     const averageColumn = Object.keys(data.values);
     let avg = 0;
 
@@ -27,7 +30,7 @@ const SatisfactionEnforcementSeedLawChart = ({data, yearsToShow, intl, tooltip})
             }
             const r = range.find(r => cellValue >= r.min && cellValue <= r.max);
             let innerColor = "#818181";
-            const particularGauge = [...dataGauge].map(i => ({...i}));
+            const particularGauge = [...dataGauge].map(i => ({ ...i }));
             if (r) {
                 particularGauge[r.position - 1].id = particularGauge[r.position - 1].id + "_S";
                 innerColor = r.color;
@@ -45,7 +48,7 @@ const SatisfactionEnforcementSeedLawChart = ({data, yearsToShow, intl, tooltip})
                        innerValue={cellValue}
                        innerColor={innerColor}
                        tooltip={tooltip}
-                       suffix={'%'}/>
+                       suffix={'%'} />
             </Grid.Column>
         })
     }
@@ -77,11 +80,11 @@ const SatisfactionEnforcementSeedLawChart = ({data, yearsToShow, intl, tooltip})
     }
 
     const dataGauge = [
-        {id: "EP", value: 20},
-        {id: "P", value: 20},
-        {id: "F", value: 20},
-        {id: "G", value: 20},
-        {id: "E", value: 20}
+        { id: "EP", value: 20 },
+        { id: "P", value: 20 },
+        { id: "F", value: 20 },
+        { id: "G", value: 20 },
+        { id: "E", value: 20 }
     ];
 
     return <Grid className={'satisfaction-enforcement'}>

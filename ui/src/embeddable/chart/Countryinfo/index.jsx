@@ -58,25 +58,40 @@ const CountryInfo = ({ data, intl, labels, locale }) => {
         return aOrderedCrops;
     }
 
-    let enablingBusinessAgricultureRank = "Enabling the Business of Agriculture Rank";
+    let enablingBusinessAgricultureRank = intl.formatMessage({
+        id: 'enabling-the-business-of-agriculture-rank',
+        defaultMessage: "Enabling the Business of Agriculture Rank"
+    });
     if (data.easeAgricultureRankYear) {
         enablingBusinessAgricultureRank += " (" + data.easeAgricultureRankYear + "): "
     } else {
         enablingBusinessAgricultureRank += ": ";
     }
-    enablingBusinessAgricultureRank += (getValue(data.easeAgricultureRank) !== 'N/A' 
-        ? "<span class='data'>"+ getValue(data.easeAgricultureRank) + "</span>" + " out of 101 countries" 
+    enablingBusinessAgricultureRank += (getValue(data.easeAgricultureRank) !== 'N/A'
+        ? `<span class='data'>${getValue(data.easeAgricultureRank)}</span> ${intl.formatMessage({
+            id: "out-of",
+            defaultMessage: "out of"
+        })} 101 ${intl.formatMessage({
+            id: "label-countries",
+            defaultMessage: "countries"
+        })}`
         : "<span class='data'>N/A</span>");
-    let enablingBusinessAgricultureScore = "Enabling the Business of Agriculture Topic Score";
+    let enablingBusinessAgricultureScore = intl.formatMessage({
+        id: "enabling-the-business-of-agriculture-topics-core",
+        defaultMessage: "Enabling the Business of Agriculture Topic Score"
+    });
     if (data.easeAgricultureScoreYear) {
         enablingBusinessAgricultureScore += " (" + data.easeAgricultureScoreYear + "): ";
     } else {
         enablingBusinessAgricultureScore += ": ";
     }
     enablingBusinessAgricultureScore += (getValue(data.easeAgricultureScore) !== 'N/A'
-        ? "<span class='data'>" + getValue(data.easeAgricultureScore) + "</span>" + " out of 100" 
+        ? `<span class='data'>${getValue(data.easeAgricultureScore)}</span> ${intl.formatMessage({
+            id: "out-of",
+            defaultMessage: "out of"
+        })} 100`
         : "<span class='data'>N/A</span>");
-    
+
     let sourceText = "";
     let topHarvestedCropsAndValue = '';
     let populationVsFarmingHouseholds = '';
@@ -174,7 +189,7 @@ const CountryInfo = ({ data, intl, labels, locale }) => {
             arableLand = cleanupParam(labels.arableLand_en) || '';
         }
     }
-    
+
     return (
         <Grid className={`country-info`}>
             <Grid.Row className={`section totals`}>
@@ -190,7 +205,8 @@ const CountryInfo = ({ data, intl, labels, locale }) => {
             </Grid.Row>
             <Grid.Row className={`section sub`}>
                 <Grid.Column width={16}>
-                    <div className="section-title">{topHarvestedCropsAndValue + (data.year ? ' (' + data.year + ')' : '')}</div>
+                    <div
+                        className="section-title">{topHarvestedCropsAndValue + (data.year ? ' (' + data.year + ')' : '')}</div>
                 </Grid.Column>
             </Grid.Row>
             <Grid.Row className={`section sub`}>
@@ -200,8 +216,17 @@ const CountryInfo = ({ data, intl, labels, locale }) => {
                             getOrderedCrops().map((crop) => {
                                 return <Grid.Column key={`${crop.label}`} width={8} className={'crop-container'}>
                                     <div className={`crop ${(crop.label).toLowerCase().replaceAll(" ", "-")}`}>
-                                        <div className="label has-condensed-text">{crop.label} /
-                                            in {labels.topHarvestedCropsAndValueUnit}</div>
+                                        <div className="label has-condensed-text">{`${intl.formatMessage({
+                                            id: crop.label.toLowerCase(),
+                                            defaultMessage: crop.label
+                                        })} /
+                                            ${intl.formatMessage({
+                                            id: "label-in",
+                                            defaultMessage: "label-in"
+                                        })} ${intl.formatMessage({
+                                            id: labels.topHarvestedCropsAndValueUnit.toLowerCase(),
+                                            defaultMessage: labels.topHarvestedCropsAndValueUnit
+                                        })}`}</div>
                                         <div className="data">{crop.value.toLocaleString() || NA}</div>
                                     </div>
                                 </Grid.Column>
@@ -221,7 +246,8 @@ const CountryInfo = ({ data, intl, labels, locale }) => {
             <Grid.Row className={`section sub`}>
                 <Grid.Column width={8}>
                     <div className="household-data population">
-                        <div className="label has-condensed-text">{totalPopulationLabel + (data.year ? ' (' + data.year + ')' : '')}</div>
+                        <div
+                            className="label has-condensed-text">{totalPopulationLabel + (data.year ? ' (' + data.year + ')' : '')}</div>
                         <div className="data large">
                             <div
                                 className="data-value">{getValue(data.population)}</div>
@@ -230,7 +256,8 @@ const CountryInfo = ({ data, intl, labels, locale }) => {
                 </Grid.Column>
                 <Grid.Column width={8}>
                     <div className="household-data households">
-                        <div className="label has-condensed-text">{farmingHouseholdsLabel + (data.year ? ' (' + data.year + ')' : '')}</div>
+                        <div
+                            className="label has-condensed-text">{farmingHouseholdsLabel + (data.year ? ' (' + data.year + ')' : '')}</div>
                         <div className="data large">
                             <div
                                 className="data-value ">{getValue(data.farmingHouseholds)}</div>
@@ -243,13 +270,13 @@ const CountryInfo = ({ data, intl, labels, locale }) => {
                     {data.business && <div className="label">Ease of Doing Business Rank (2020) :
                         <span className="data"> {data.business ? data.business.value : NA}</span> of 100
                     </div>}
-                    <div className="label" dangerouslySetInnerHTML={{__html: enablingBusinessAgricultureScore}}/>
-                    <div className="label" dangerouslySetInnerHTML={{__html: enablingBusinessAgricultureRank}}/>
+                    <div className="label" dangerouslySetInnerHTML={{ __html: enablingBusinessAgricultureScore }} />
+                    <div className="label" dangerouslySetInnerHTML={{ __html: enablingBusinessAgricultureRank }} />
                 </Grid.Column>
             </Grid.Row>
             {labels.sourceText_en ? <Grid.Row className={`section border`}>
                 <Grid.Column width={16} className={`country_info_source`}>
-                    <div className="label" dangerouslySetInnerHTML={{__html: decodeURI(sourceText)}}/>
+                    <div className="label" dangerouslySetInnerHTML={{ __html: decodeURI(sourceText) }} />
                 </Grid.Column>
             </Grid.Row> : null}
         </Grid>

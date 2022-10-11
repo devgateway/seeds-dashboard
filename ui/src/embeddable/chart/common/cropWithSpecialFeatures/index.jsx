@@ -1,16 +1,24 @@
 import React from "react";
 import './styles.scss';
+import { injectIntl } from "react-intl";
 
-const CropsWithSpecialFeatures = ({}) => {
+const CropsWithSpecialFeatures = ({ intl }) => {
     return (
         <div>
-            <label>With special features</label>
+
+            <label>{intl.formatMessage({
+                id: "with-special-features",
+                defaultMessage: "With special features"
+            })}</label>
             <div className="crop black-circle crop-icon">
-                <div className="lighter-crop2"/>
+                <div className="lighter-crop2" />
             </div>
-            <label style={{left: -25, position: 'relative'}}>Without special features</label>
+            <label style={{ left: -25, position: 'relative' }}>{intl.formatMessage({
+                id: "without-special-features",
+                defaultMessage: "Without special features"
+            })}</label>
         </div>
     )
 }
 
-export default CropsWithSpecialFeatures
+export default injectIntl(CropsWithSpecialFeatures)

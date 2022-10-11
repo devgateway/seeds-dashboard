@@ -865,7 +865,10 @@ const ChartComponent = ({
                 id: 'tooltip-quantity-certified-seed-sold',
                 defaultMessage: 'Quantity of certified seed sold'
             })}</span>
-                        <span className="bold"> {d.data[d.id]}</span><span> metric tons</span>
+                        <span className="bold"> {d.data[d.id]}</span><span> {intl.formatMessage({
+                        id: 'metric-tons',
+                        defaultMessage: 'Metric tons'
+                    }).toLowerCase()}</span>
                     </>
                 }
                 getTooltipHeader = (d) => {
@@ -1497,7 +1500,10 @@ const ChartComponent = ({
                         })} ${d.indexValue}`}</div>
                     </div>
                     <div className="sub-header">
-                        <span className="bold"> {d.data[d.id]}  </span><span>active breeders</span>
+                        <span className="bold"> {d.data[d.id]}  </span><span>{intl.formatMessage({
+                        id: "active-breeders",
+                        defaultMessage: "active breeders"
+                    })}</span>
                     </div>
                 </>
             }
@@ -1618,7 +1624,7 @@ const ChartComponent = ({
                         id: 'chart-label-length-of-import',
                         defaultMessage: 'Length of import process (days)'
                     });
-                    tooltipSubText = 'Days for Import';
+                    tooltipSubText = intl.formatMessage({ id: 'days-for-import', defaultMessage: 'Days for Import' });
                     subLabel = 'Length of import process (days)';
                     legends = [{ id: 1, 'color': barPieColor[1], 'label': 'Number of days for import' },
                         { id: 2, 'color': barPieColor[0], 'label': 'Industry rating' }
@@ -1630,10 +1636,21 @@ const ChartComponent = ({
                         id: 'chart-label-length-of-export',
                         defaultMessage: "Length of export process (days)"
                     });
-                    tooltipSubText = 'Number of days';
+                    tooltipSubText = intl.formatMessage({ id: 'number-of-days', defaultMessage: 'Number of days' });
                     subLabel = 'Length of export process (days)';
-                    legends = [{ id: 1, 'color': barPieColor[1], 'label': 'Number of days for export' },
-                        { id: 2, 'color': barPieColor[0], 'label': 'Industry rating' }
+                    legends = [{
+                        id: 1,
+                        'color': barPieColor[1],
+                        'label': intl.formatMessage({
+                            id: 'number-of-days-for-export',
+                            defaultMessage: 'Number of days for export'
+                        })
+                    },
+                        {
+                            id: 2,
+                            'color': barPieColor[0],
+                            'label': intl.formatMessage({ id: 'industry-rating', defaultMessage: 'Industry rating' })
+                        }
                     ];
                     noDataLabelId = "no-data-reported-export";
                     break;
@@ -1643,7 +1660,7 @@ const ChartComponent = ({
             indexBy = 'year';
             bottomLegend = intl.formatMessage({ id: 'year-legend', defaultMessage: 'Year' });
             groupMode = 'grouped';
-            rightLegend = 'Rating out of 100 (%)';
+            rightLegend = intl.formatMessage({ id: 'rating-legend', defaultMessage: 'Rating out of 100 (%)' });
             keys.push(['value']);
             Object.keys(data.values.days).forEach(y => {
                 const item = { year: y };
