@@ -128,7 +128,7 @@ const ChartComponent = ({
     let max = 0;
     let lineTooltipSuffix;
     let maxSelectableYear = 4;
-    let maxSelectableCountries = 3;
+    let maxSelectableCountries = -1;
     let processedData = [];
     let useCropLegendsRow = true;
     let useFilterByCrops = true;
@@ -498,16 +498,8 @@ const ChartComponent = ({
         const newBarColors = countryColors ? [...countryColors] : null;
         Object.keys(data.values[c]).forEach((i, j) => {
             if (countries && countries.find(k => k.iso === i && k.selected === true)) {
-                const key = '' + i;
+                const key = COUNTRY_OPTIONS.find(j => j.flag.toLowerCase() === i.toLowerCase()).text;
                 entry[key] = Number(data.values[c][i]) >= 0 ? data.values[c][i] : FAKE_NUMBER;
-
-                // Change % to 100 scale.
-                if (type === MARKET_SHARE_TOP_FOUR_SEED_COMPANIES || type === MARKET_SHARE_STATE_OWNED_SEED_COMPANIES) {
-                    if (entry[key] !== FAKE_NUMBER) {
-                        entry[key] = Math.round(entry[key] * 100);
-                    }
-                }
-
                 if (!keys.find(i => i === key)) {
                     keys.push(key);
                 }
@@ -1665,6 +1657,22 @@ const ChartComponent = ({
             maxSelectableCountries = 3;
             withCropsWithSpecialFeatures = false;
             yearsColors = performanceColors;
+            customCrossCountryLegend = () => {
+                const cropsLegendTranslated = intl.formatMessage({
+                    id: 'crops-legend',
+                    defaultMessage: 'Crops'
+                });
+                return (<Grid.Row className={`crops-with-icons`}>
+                    <Grid.Column width={16}>
+                        <div style={{
+                            width: 'max-content',
+                            float: "left",
+                            marginTop: '10px'
+                        }}><GenericLegend colors={colors} keys={keys} title={legendTitle} />
+                        </div>
+                    </Grid.Column>
+                </Grid.Row>);
+            };
             processForRadarCrossCountry(data.dimensions.rating.values)
             break;
         case EFFICIENCY_SEED_IMPORT_PROCESS:
@@ -2280,7 +2288,7 @@ const ChartComponent = ({
                     <Grid.Row className={`filters-section`} style={{ borderBottom: "1px solid rgb(229, 229, 229)" }}>
                         <Grid.Column computer={5} mobile={16}>
                             <CrossCountryCountryFilter data={countries} onChange={handleCrossCountryCountryFilterChange}
-                                                       intl={intl} />
+                                                       intl={intl} max={maxSelectableCountries} />
                         </Grid.Column>
                     </Grid.Row>);
             } else {

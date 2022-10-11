@@ -79,7 +79,7 @@ const ResponsiveRadarChartImpl = ({
                         <div className="content">
                             <table width="100%">
                                 <tbody>
-                                {d.data.sort((a, b) => Number(a.id) > Number(b.id) ? -1 : 1)
+                                {d.data.sort((a, b) => a.id.localeCompare(b.id))
                                     .map(i => {
                                         return (
                                             <tr key={i.id}>
