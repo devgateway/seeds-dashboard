@@ -34,7 +34,7 @@ const CountryFilter = ({
         <Grid.Column width={7}>
             <CountrySelector countries={countries} onApply={onApply} filters={filters} addYear={addYear}
                              countryColumns={countryColumns} isShowSelector={isShowSelector}
-                             setIsFilterOpen={setIsFilterOpen} intl={intl}/>
+                             setIsFilterOpen={setIsFilterOpen} intl={intl} />
         </Grid.Column>
         <Grid.Column width={9}>
             <Container fluid={true} className={"country-carousel"}>
@@ -47,7 +47,7 @@ const CountryFilter = ({
                 >
                     <CountryCarousel
                         selectedCountry={filters && filters.get(SELECTED_COUNTRY)
-                        && filters.get(SELECTED_COUNTRY).length > 0 ? filters.get(SELECTED_COUNTRY)[0] : null}
+                        && filters.get(SELECTED_COUNTRY) ? filters.get(SELECTED_COUNTRY) : null}
                         countries={countries} setVisibleCountries={onApply}
                     />
                 </CarouselProvider></Container>
