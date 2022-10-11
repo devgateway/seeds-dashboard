@@ -307,5 +307,6 @@
   "btn-next": "Next",
   "portuguese": "Portuguese",
   "extension-office-household-legend": "Extension officer / households",
-  "extension-office-household-tooltip": "Households per extension officer"
+  "extension-office-household-tooltip": "Households per extension officer",
+  "loading-notes": "Loading notes"
 }

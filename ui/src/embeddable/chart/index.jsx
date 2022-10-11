@@ -367,7 +367,7 @@ const Chart = (props) => {
         [CROSS_COUNTRY_NUMBER_SEED_INSPECTORS]: cross_country_height,
         [CROSS_COUNTRY_AGRICULTURAL_EXTENSION_SERVICES]: cross_country_height,
     };
-    const fixedHeightStyle = { height: (fixedHeight[type] ? fixedHeight[type] : 550) + 'px' };
+    const fixedHeightStyle = { 'min-height': (fixedHeight[type] ? fixedHeight[type] : 550) + 'px' };
 
     // This is necessary for charts that become very long in small resolutions like HHI.
     const styleHeight = window.innerWidth <= 1024 ? {} : { height: contentHeight + 'px' };
