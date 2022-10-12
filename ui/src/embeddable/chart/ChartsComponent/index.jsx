@@ -493,12 +493,18 @@ const ChartComponent = ({
         processedData.push(entry);
     }
 
-    const commonProcessCrossCountry = (c, entry, countryColors) => {
+    const commonProcessCrossCountry = (c, entry, countryColors, useOnlyLastYear) => {
         const newBarColors = countryColors ? [...countryColors] : null;
         Object.keys(data.values[c]).forEach((i, j) => {
             if (countries && countries.find(k => k.iso === i && k.selected === true)) {
                 const key = COUNTRY_OPTIONS.find(j => j.flag.toLowerCase() === i.toLowerCase()).text;
-                entry[key] = Number(data.values[c][i]) >= 0 ? data.values[c][i] : FAKE_NUMBER;
+                if (useOnlyLastYear) {
+                    const years = Object.keys(data.values[c][i]).sort();
+                    const lastYear = years[years.length - 1];
+                    entry[key] = Number(data.values[c][i][lastYear]) >= 0 ? data.values[c][i][lastYear] : FAKE_NUMBER;
+                } else {
+                    entry[key] = Number(data.values[c][i]) >= 0 ? data.values[c][i] : FAKE_NUMBER;
+                }
                 if (!keys.find(i => i === key)) {
                     keys.push(key);
                 }
@@ -584,14 +590,14 @@ const ChartComponent = ({
         });
     }
 
-    const processForRadarCrossCountry = (dimensionValues) => {
+    const processForRadarCrossCountry = (dimensionValues, useOnlyLastYear) => {
         dimensionValues.forEach(d => {
             const entry = {};
             entry[indexBy] = intl.formatMessage({
                 id: d,
                 defaultMessage: d
             });
-            commonProcessCrossCountry(d, entry, performanceColors);
+            commonProcessCrossCountry(d, entry, performanceColors, useOnlyLastYear);
             noData = false;
         });
     }
@@ -1678,7 +1684,7 @@ const ChartComponent = ({
                 </Grid.Row>);
             };
             margins = {top: 50, right: 80, bottom: 30, left: 80};
-            processForRadarCrossCountry(data.dimensions.rating.values)
+            processForRadarCrossCountry(data.dimensions.rating.values, true)
             break;
         case EFFICIENCY_SEED_IMPORT_PROCESS:
         case EFFICIENCY_SEED_EXPORT_PROCESS:
