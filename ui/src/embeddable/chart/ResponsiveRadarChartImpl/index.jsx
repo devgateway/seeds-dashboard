@@ -30,7 +30,8 @@ const ResponsiveRadarChartImpl = ({
                                       colors,
                                       indexBy,
                                       containerHeight = 550,
-                                      maxValue = "100"
+                                      maxValue = "100",
+                                      margin
                                   }) => {
 
 
@@ -50,7 +51,7 @@ const ResponsiveRadarChartImpl = ({
         <div style={{height: containerHeight}}>
             {!noData ? <ResponsiveRadar
                 theme={theme}
-                margin={{top: 50, right: 80, bottom: 20, left: 80}}
+                margin={margin || {top: 50, right: 80, bottom: 20, left: 80}}
                 gridLabelOffset={22}
                 data={processedData}
                 indexBy={indexBy}
@@ -79,7 +80,7 @@ const ResponsiveRadarChartImpl = ({
                         <div className="content">
                             <table width="100%">
                                 <tbody>
-                                {d.data.sort((a, b) => Number(a.id) > Number(b.id) ? -1 : 1)
+                                {d.data.sort((a, b) => a.id.localeCompare(b.id))
                                     .map(i => {
                                         return (
                                             <tr key={i.id}>

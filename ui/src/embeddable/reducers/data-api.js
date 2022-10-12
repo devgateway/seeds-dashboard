@@ -5,6 +5,7 @@ import {
     VARIETIES_RELEASED_WITH_SPECIAL_FEATURES,
     NUMBER_VARIETIES_SOLD,
     PERFORMANCE_SEED_TRADERS,
+    RATING_GOVERNMENT_SEED_SUBSIDY_PROGRAM,
     AVAILABILITY_OF_BASIC_SEED,
     DEFAULT_COUNTRY_ID,
     AVERAGE_AGE_VARIETIES_SOLD,
@@ -69,6 +70,7 @@ let AVERAGE_AGE_VARIETIES_SOLD_API = `${SURVEY_API}/chart/averageAgeVarietiesSol
 let AVAILABILITY_OF_BASIC_SEED_API = `${SURVEY_API}/chart/availabilityBasicSeed/crop/year/`;
 let NUMBER_VARIETIES_SOLD_API = `${SURVEY_API}/chart/numberVarietiesSold/crop/year/`;
 let PERFORMANCE_SEED_TRADERS_API = `${SURVEY_API}/chart/performanceSeedTraders/performance/year/`;
+const RATING_GOVERNMENT_SEED_SUBSIDY_PROGRAM_API = `${SURVEY_API}/chart/cc/ratingGovernmentSeedSubsidyProgram`;
 const MARKET_SHARE_TOP_FOUR_SEED_COMPANIES_API = `${SURVEY_API}/chart/marketShareTop4/crop/year`;
 const MARKET_SHARE_STATE_OWNED_SEED_COMPANIES_API = `${SURVEY_API}/chart/marketShareStateOwned/crop/year`;
 const NUMBER_OF_ACTIVE_BREEDERS_API = `${SURVEY_API}/chart/numberActiveBreeders/year/crop/`;
@@ -165,6 +167,7 @@ const APIS = {
     [LENGTH_SEED_EXPORT]: LENGTH_SEED_EXPORT_API,
     [SATISFACTION_IMPORT]: SATISFACTION_IMPORT_API,
     [SATISFACTION_EXPORT]: SATISFACTION_EXPORT_API,
+    [RATING_GOVERNMENT_SEED_SUBSIDY_PROGRAM]: RATING_GOVERNMENT_SEED_SUBSIDY_PROGRAM_API,
 }
 
 function queryParams(params) {
@@ -237,6 +240,7 @@ export const getData = ({ source, app, params }) => {
         || app === CROSS_COUNTRY_AGRODEALER_NETWORK
         || app === CROSS_COUNTRY_AVAILABILITY_SEED_SMALL_PACKAGES
         || app === CROSS_COUNTRY_AGRICULTURAL_EXTENSION_SERVICES
+        || app === RATING_GOVERNMENT_SEED_SUBSIDY_PROGRAM
         || (sources && sources.length > 0 && sources[0] === WP_CHART)
     ) {
         let api;

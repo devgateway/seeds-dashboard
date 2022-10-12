@@ -14,6 +14,7 @@ import {
     AVERAGE_AGE_VARIETIES_SOLD,
     MARKET_CONCENTRATION_HHI,
     PERFORMANCE_SEED_TRADERS,
+    RATING_GOVERNMENT_SEED_SUBSIDY_PROGRAM,
     NUMBER_OF_ACTIVE_BREEDERS,
     NUMBER_OF_ACTIVE_SEED_COMPANIES_PRODUCERS,
     VARIETIES_RELEASED_WITH_SPECIAL_FEATURES,
@@ -127,6 +128,7 @@ const ChartComponent = ({
     let max = 0;
     let lineTooltipSuffix;
     let maxSelectableYear = 4;
+    let maxSelectableCountries = 0;
     let processedData = [];
     let useCropLegendsRow = true;
     let useFilterByCrops = true;
@@ -136,6 +138,7 @@ const ChartComponent = ({
     let animate = true
     let extraTooltipClass = null;
     let showMaxYearsMessage = false;
+    let showMaxCountriesMessage = false;
     let switchToLineChart = false;
     let sharedCrops;
     let sharedYears;
@@ -158,6 +161,8 @@ const ChartComponent = ({
     if (type === PERFORMANCE_SEED_TRADERS) {
         maxSelectableYear = 3;
         showMaxYearsMessage = true
+    } else if (type === RATING_GOVERNMENT_SEED_SUBSIDY_PROGRAM) {
+        showMaxCountriesMessage = true;
     } else if (type === AVAILABILITY_SEED_SMALL_PACKAGES || type === VARIETIES_RELEASED_WITH_SPECIAL_FEATURES) {
         maxSelectableYear = 1;
     }
@@ -174,7 +179,8 @@ const ChartComponent = ({
         || type === CROSS_COUNTRY_AGRODEALER_NETWORK
         || type === CROSS_COUNTRY_NUMBER_SEED_INSPECTORS
         || type === CROSS_COUNTRY_AVAILABILITY_SEED_SMALL_PACKAGES
-        || type === CROSS_COUNTRY_AGRICULTURAL_EXTENSION_SERVICES) {
+        || type === CROSS_COUNTRY_AGRICULTURAL_EXTENSION_SERVICES
+        || type === RATING_GOVERNMENT_SEED_SUBSIDY_PROGRAM) {
         isCrossCountryChart = true;
     }
 
@@ -183,7 +189,7 @@ const ChartComponent = ({
         (!data.dimensions.crop && !data.dimensions.year
             && type !== CROSS_COUNTRY_VARIETY_RELEASE_PROCESS && type !== CROSS_COUNTRY_OVERALL_RATING_NATIONAL_SEED_TRADE_ASSOCIATION
             && type !== CROSS_COUNTRY_AGRODEALER_NETWORK && type !== CROSS_COUNTRY_NUMBER_SEED_INSPECTORS 
-            && type !== CROSS_COUNTRY_AGRICULTURAL_EXTENSION_SERVICES) ||
+            && type !== CROSS_COUNTRY_AGRICULTURAL_EXTENSION_SERVICES && type !== RATING_GOVERNMENT_SEED_SUBSIDY_PROGRAM) ||
         data.id === null) {
         noData = true;
     } else {
@@ -487,6 +493,28 @@ const ChartComponent = ({
         processedData.push(entry);
     }
 
+    const commonProcessCrossCountry = (c, entry, countryColors) => {
+        const newBarColors = countryColors ? [...countryColors] : null;
+        Object.keys(data.values[c]).forEach((i, j) => {
+            if (countries && countries.find(k => k.iso === i && k.selected === true)) {
+                const key = COUNTRY_OPTIONS.find(j => j.flag.toLowerCase() === i.toLowerCase()).text;
+                entry[key] = Number(data.values[c][i]) >= 0 ? data.values[c][i] : FAKE_NUMBER;
+                if (!keys.find(i => i === key)) {
+                    keys.push(key);
+                }
+                if (countryColors && newBarColors) {
+                    if (!colors.get(key)) {
+                        colors.set(key, newBarColors.shift());
+                    }
+                }
+                if (Number(entry[i]) > max) {
+                    max = Number(entry[i]);
+                }
+            }
+        });
+        processedData.push(entry);
+    }
+
     const processInspectorsByCountry = () => {
         processedData = [];
         let auxData = [];
@@ -553,6 +581,18 @@ const ChartComponent = ({
                 defaultMessage: d
             });
             commonProcess(d, entry, performanceColors);
+        });
+    }
+
+    const processForRadarCrossCountry = (dimensionValues) => {
+        dimensionValues.forEach(d => {
+            const entry = {};
+            entry[indexBy] = intl.formatMessage({
+                id: d,
+                defaultMessage: d
+            });
+            commonProcessCrossCountry(d, entry, performanceColors);
+            noData = false;
         });
     }
 
@@ -1613,6 +1653,30 @@ const ChartComponent = ({
             yearsColors = performanceColors;
             processForRadar(data.dimensions.performance.values)
             break;
+        case RATING_GOVERNMENT_SEED_SUBSIDY_PROGRAM:
+            indexBy = "id";
+            legend = "country";
+            useFilterByCrops = false;
+            useFilterByYear = false;
+            useFilterByCountries = true;
+            maxSelectableCountries = 3;
+            withCropsWithSpecialFeatures = false;
+            yearsColors = performanceColors;
+            customCrossCountryLegend = () => {
+                return (<Grid.Row className={`crops-with-icons`} style={{borderTop: 'none'}}>
+                    <Grid.Column width={16}>
+                        <div style={{
+                            width: 'max-content',
+                            float: "left",
+                            marginTop: '10px'
+                        }}><GenericLegend colors={colors} keys={keys} title={legendTitle} />
+                        </div>
+                    </Grid.Column>
+                </Grid.Row>);
+            };
+            margins = {top: 50, right: 80, bottom: 30, left: 80};
+            processForRadarCrossCountry(data.dimensions.rating.values)
+            break;
         case EFFICIENCY_SEED_IMPORT_PROCESS:
         case EFFICIENCY_SEED_EXPORT_PROCESS:
             useCropLegendsRow = false;
@@ -2120,6 +2184,20 @@ const ChartComponent = ({
                             intl={intl}
                         /></Grid.Column>
                 </Grid.Row>
+            case RATING_GOVERNMENT_SEED_SUBSIDY_PROGRAM:
+                return <Grid.Row className={`chart-section`}>
+                    <Grid.Column width={16} className={`radar`}>
+                        <ResponsiveRadarChartImpl
+                            noData={noData}
+                            selectedCountry={countries}
+                            processedData={processedData}
+                            keys={keys}
+                            colors={colors}
+                            indexBy={indexBy}
+                            intl={intl}
+                            margin={margins}
+                        /></Grid.Column>
+                </Grid.Row>
             default:
                 return (<Grid.Row className={`chart-section`}>
                     <Grid.Column width={16}>
@@ -2224,7 +2302,7 @@ const ChartComponent = ({
                     <Grid.Row className={`filters-section`} style={{ borderBottom: "1px solid rgb(229, 229, 229)" }}>
                         <Grid.Column computer={5} mobile={16}>
                             <CrossCountryCountryFilter data={countries} onChange={handleCrossCountryCountryFilterChange}
-                                                       intl={intl} />
+                                                       intl={intl} maxSelectable={maxSelectableCountries} />
                         </Grid.Column>
                     </Grid.Row>);
             } else {
