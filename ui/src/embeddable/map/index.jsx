@@ -127,10 +127,10 @@ const Map = (props) => {
 
     const processCommonDataWithCrops = ()  => {
         processedData = [];
-        if (mapData.values) {
-            Object.keys(mapData.values).forEach(k => {
+        if (mapData && mapData.get(selectedIndicator.id) && mapData.get(selectedIndicator.id).values) {
+            Object.keys(mapData.get(selectedIndicator.id).values).forEach(k => {
                 if (selectedCrops) {
-                    const item = Object.assign({}, mapData.values[k]);
+                    const item = Object.assign({}, mapData.get(selectedIndicator.id).values[k]);
                     item.id = k.toUpperCase()
                     item.value = item[selectedCrops];
                     item.country = countries.find(c => c.isoCode === item.id).country;
@@ -148,14 +148,14 @@ const Map = (props) => {
     
     const processCommonDataWithoutCrops = (recalculateDomain) => {
         processedData = [];
-        if (mapData.values && mapData.values) {
+        if (mapData && mapData.get(selectedIndicator.id) && mapData.get(selectedIndicator.id).values) {
             let min = 0;
             let max = 0;
-            Object.keys(mapData.values).forEach(k => {
+            Object.keys(mapData.get(selectedIndicator.id).values).forEach(k => {
                 const item = {};
                 item.id = k.toUpperCase()
-                item.value = mapData.values[k].value;
-                item.year = mapData.values[k].year;
+                item.value = mapData.get(selectedIndicator.id).values[k].value;
+                item.year = mapData.get(selectedIndicator.id).values[k].year;
                 item.country = countries.find(c => c.isoCode === item.id).country;
                 item.crop = null;
                 if (item.value === 0  
@@ -174,9 +174,9 @@ const Map = (props) => {
         }
     }
 
-    if (mapData && mapData !== currentData) {
-        setCurrentData(mapData);
-        crops = mapData.dimensions.crop ? mapData.dimensions.crop.values : [];
+    if (selectedIndicator && mapData && mapData.get(selectedIndicator.id) && mapData.get(selectedIndicator.id) !== currentData) {
+        setCurrentData(mapData.get(selectedIndicator.id));
+        crops = mapData.get(selectedIndicator.id).dimensions.crop ? mapData.get(selectedIndicator.id).dimensions.crop.values : [];
         setInitialCrops(crops);
         initialSelectedCrops = null;
         setSelectedCrops(crops[0]);
@@ -337,7 +337,8 @@ const Map = (props) => {
         setDontUseCrops(!selected.usesCrops);
     }
         
-    if (countries && mapData && !mapData.LOADING && selectedIndicator) {
+    if (countries && selectedIndicator && mapData && mapData.get(selectedIndicator.id) 
+        && !mapData.get(selectedIndicator.id).LOADING && selectedIndicator) {
         switch (selectedIndicator.value) {
             case A1_ADEQUACY_ACTIVE_BREEDERS:
             case A4_AVAILABILITY_FOUNDATION_SEED:

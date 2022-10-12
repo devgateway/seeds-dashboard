@@ -215,18 +215,21 @@ export const getIndicators = () => (dispatch, getState) => {
     })
 }
 
-export const getMapIndicator = (type) => (dispatch, getState) => {
+export const getMapIndicator = (indicator) => (dispatch, getState) => {
     dispatch({
-        type: LOAD_MAP_INDICATOR
+        type: LOAD_MAP_INDICATOR,
+        indicator
     })
-    api.getMapIndicatorData(type).then(data => {
+    api.getMapIndicatorData(indicator).then(data => {
         dispatch({
             type: LOAD_MAP_INDICATOR_DONE,
-            data: data
+            data: data,
+            indicator,
         })
     }).catch(error => {
         dispatch({
             type: LOAD_MAP_INDICATOR_ERROR,
+            indicator,
             error
         })
     })
@@ -390,16 +393,21 @@ const reducer = (state = initialState, action) => {
             return state
         }
         case LOAD_MAP_INDICATOR: {
-            return state.setIn([MAP_INDICATOR_DATA, 'LOADING'], true).deleteIn([MAP_INDICATOR_DATA, 'data']);
+            const { data, indicator } = action
+            return state.setIn([MAP_INDICATOR_DATA, DATA, indicator, 'LOADING'], true)
+                .deleteIn([MAP_INDICATOR_DATA, 'data', indicator]);
         }
 
         case LOAD_MAP_INDICATOR_DONE: {
-            const { data } = action
-            return state.setIn([MAP_INDICATOR_DATA, 'LOADING'], false).setIn([MAP_INDICATOR_DATA, 'data'], data);
+            const { data, indicator } = action
+            return state.setIn([MAP_INDICATOR_DATA, DATA, indicator, 'LOADING'], false)
+                .setIn([MAP_INDICATOR_DATA, DATA, indicator], data);
         }
 
         case LOAD_MAP_INDICATOR_ERROR: {
-            return state.setIn([MAP_INDICATOR_DATA, 'LOADING'], false).deleteIn([MAP_INDICATOR_DATA, 'data']);
+            const { data, indicator } = action
+            return state.setIn([MAP_INDICATOR_DATA, DATA, indicator, 'LOADING'], false)
+                .deleteIn([MAP_INDICATOR_DATA, 'data', indicator]);
         }
 
         case SET_FILTER: {
