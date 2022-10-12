@@ -58,7 +58,7 @@ export const MapComponent = ({height, data, intl, colors, dontUseCrops, domain, 
                         <div className="map-tooltip-data">
                             <span className="label1">{intl.formatMessage({ id: legend })}: </span>
                             <span className="labelBolder" style={{/*color: getColorByValue(e.feature.data.value, scale)*/}}>
-                                {e.feature.data.value}{numberSuffix} {getTooltipLegendByValue(e.feature.data.value, intl, scale)}
+                                {e.feature.data.value}{numberSuffix} {numberSuffix ? getTooltipLegendByValue(e.feature.data.value, intl, scale) : null}
                             </span>
                         </div>
                     </div>)
