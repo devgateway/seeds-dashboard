@@ -1110,12 +1110,12 @@ const ChartComponent = ({
             }
             // containerHeight = 525; 
             const windowHeight = window.innerHeight;
-            containerHeight = (windowHeight - 250);
+            containerHeight = (windowHeight - 200);
             animate = true;
             totalLabel.show = true;
             totalLabel.format = false;
             groupMode = 'grouped';
-            margins = { top: 20, right: 60, bottom: 55, left: 60 }
+            margins = { top: 20, right: 60, bottom: 55, left: 90 }
 
             // This is the most common header.
             getTooltipHeader = (d) => {

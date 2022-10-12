@@ -417,9 +417,27 @@ const Map = (props) => {
             selectedIndicator.value === B77_SATISFACTION_EXPORT)) {
         indicatorFilterTitle = intl.formatMessage({id: 'indicator'});
     }
-    
+
+    // These 3 constants are the heights for the best visualization regardless of screen resolution.
+    const BASE_CONTAINER_HEIGHT = 750;
+    const BASE_MAP_HEIGHT = 500;
+    const BASE_PROJECTION_SCALE = 350;
+    const mapToContainerRatio = BASE_MAP_HEIGHT / BASE_CONTAINER_HEIGHT;
+    // Recalculate heights for the current screen resolution.
+    let containerHeight = BASE_CONTAINER_HEIGHT;
+    let mapHeight = BASE_MAP_HEIGHT;
+    let projectionScale = BASE_PROJECTION_SCALE;
+    const heightOffset = 0; // To have some margin.
+    const windowHeight = window.innerHeight;
+    if (windowHeight < BASE_CONTAINER_HEIGHT) {
+       const decreaseRatio = windowHeight / BASE_CONTAINER_HEIGHT;
+       containerHeight = windowHeight - heightOffset;
+       mapHeight = (mapHeight * mapToContainerRatio) - heightOffset;
+       projectionScale = projectionScale * mapToContainerRatio;
+    }
+
     return (<div ref={wrapper}>
-            <Container className={"map container"} fluid={true} style={{height: '850px', width: '100%'}}>
+            <Container className={"map container"} fluid={true} style={{height: containerHeight + 'px', width: '100%'}}>
                 <Grid className={`map-grid`}>
                     <Grid.Row className="header-section">
                         <Grid.Column width={12}>
@@ -447,9 +465,10 @@ const Map = (props) => {
                     </Grid.Row>
                     <Grid.Row className="map-row">
                         <Grid.Column width={16}>
-                            <MapComponent domain={domain} data={processedData} height={height} intl={intl} 
+                            <MapComponent domain={domain} data={processedData} height={mapHeight} intl={intl} 
                                           colors={mapColors} dontUseCrops={dontUseCrops} scale={scaleQ}
                                           legend={selectedIndicator ? selectedIndicator.mapLegend : null}
+                                          projectionScale={projectionScale}
                                           numberSuffix={selectedIndicator && selectedIndicator.numberSuffix === PERCENTAGE ? selectedIndicator.numberSuffix : ''}/>
                         </Grid.Column>
                     </Grid.Row>
