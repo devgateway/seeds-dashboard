@@ -128,7 +128,7 @@ const ChartComponent = ({
     let max = 0;
     let lineTooltipSuffix;
     let maxSelectableYear = 4;
-    let maxSelectableCountries = -1;
+    let maxSelectableCountries = 0;
     let processedData = [];
     let useCropLegendsRow = true;
     let useFilterByCrops = true;
@@ -162,7 +162,6 @@ const ChartComponent = ({
         maxSelectableYear = 3;
         showMaxYearsMessage = true
     } else if (type === RATING_GOVERNMENT_SEED_SUBSIDY_PROGRAM) {
-        // maxSelectableCountries = 3;
         showMaxCountriesMessage = true;
     } else if (type === AVAILABILITY_SEED_SMALL_PACKAGES || type === VARIETIES_RELEASED_WITH_SPECIAL_FEATURES) {
         maxSelectableYear = 1;
@@ -1658,11 +1657,7 @@ const ChartComponent = ({
             withCropsWithSpecialFeatures = false;
             yearsColors = performanceColors;
             customCrossCountryLegend = () => {
-                const cropsLegendTranslated = intl.formatMessage({
-                    id: 'crops-legend',
-                    defaultMessage: 'Crops'
-                });
-                return (<Grid.Row className={`crops-with-icons`}>
+                return (<Grid.Row className={`crops-with-icons`} style={{borderTop: 'none'}}>
                     <Grid.Column width={16}>
                         <div style={{
                             width: 'max-content',
@@ -1673,6 +1668,7 @@ const ChartComponent = ({
                     </Grid.Column>
                 </Grid.Row>);
             };
+            margins = {top: 50, right: 80, bottom: 30, left: 80};
             processForRadarCrossCountry(data.dimensions.rating.values)
             break;
         case EFFICIENCY_SEED_IMPORT_PROCESS:
@@ -2182,6 +2178,7 @@ const ChartComponent = ({
                             colors={colors}
                             indexBy={indexBy}
                             intl={intl}
+                            margin={margins}
                         /></Grid.Column>
                 </Grid.Row>
             default:

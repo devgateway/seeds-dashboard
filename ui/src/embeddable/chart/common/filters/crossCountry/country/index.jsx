@@ -111,16 +111,17 @@ const CrossCountryCountryFilter = ({ data, onChange, intl, maxSelectable = 0 }) 
         title = (<div><span className="filter-selector-title">{intl.formatMessage({
             id: "label-country",
             defaultMessage: "Country"
-        })} </span><span className="filter-selector-numbers">{intl.formatMessage({id: "select-max-3-countries"})}</span></div>);
-    } else {
-        title = (<div><span className="filter-selector-title">{intl.formatMessage({
-            id: "label-country",
-            defaultMessage: "Country"
         })} </span><span
             className="filter-selector-numbers">{sum} {intl.formatMessage({
             id: "of",
             defaultMessage: "of"
         })} {currentData ? currentData.length : 0}</span></div>);
+        
+    } else {
+        title = (<div><span className="filter-selector-title">{intl.formatMessage({
+            id: "label-country",
+            defaultMessage: "Country"
+        })} </span><span className="filter-selector-numbers">{intl.formatMessage({id: "select-max-3-countries"})}</span></div>);
     }
     return (
         <div ref={ref}>
