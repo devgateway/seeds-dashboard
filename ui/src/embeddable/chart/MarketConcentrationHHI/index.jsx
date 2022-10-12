@@ -159,7 +159,7 @@ export const hhiLegends = [
         id: 9,
         'color': hhiColors[3].color,
         'label': 'Poor (3,000-3,999)',
-        'label-ke': 'poor-legend',
+        'label-key': 'poor-legend',
         'label-range': '(3,000-3,999)',
     },
     {
