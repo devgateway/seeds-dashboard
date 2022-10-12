@@ -74,10 +74,10 @@ const CropFilter = ({data, onChange, initialSelectedCrops = [1, 1, 1, 1], intl, 
             className="filter-selector-numbers">{sum} {intl.formatMessage({id: 'of', defaultMessage: 'of'})} {currentData ? currentData.length : 0}</span></div>);
     } else {
         const index = numberOfSelectedCrops.findIndex(i => i === 1);
-        title = (<div>
+        title = (data && data[index] ? <div>
             <span className="filter-selector-title">{intl.formatMessage({id: "crop-s", defaultMessage: "Crop(s)"})}</span>
             { data && index >= 0 && <span className="filter-selector-numbers">{intl.formatMessage({id: data[index]})}</span> }
-        </div>);
+        </div> : null);
     }
     return (
         <div ref={ref}>
