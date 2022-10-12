@@ -1108,11 +1108,14 @@ const ChartComponent = ({
             getColors = (item) => {
                 return baseColors[selectedCrops];
             }
-            containerHeight = 525; // cross_country_height - 225
+            // containerHeight = 525; 
+            const windowHeight = window.innerHeight;
+            containerHeight = (windowHeight - 250);
             animate = true;
             totalLabel.show = true;
             totalLabel.format = false;
             groupMode = 'grouped';
+            margins = { top: 20, right: 60, bottom: 55, left: 60 }
 
             // This is the most common header.
             getTooltipHeader = (d) => {
