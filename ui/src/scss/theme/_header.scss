@@ -318,13 +318,14 @@
           }
         }
 
-        &._seed-info-portal {
+        &._seed-info-portals {
           a {
             background-image: url("/static/images/country_info.svg") !important;
           }
         }
 
-        &._country-overview {
+        &._country-overview,
+        &._dashboard-home {
           a {
             background-image: url("/static/images/dashboard.svg");
           }
