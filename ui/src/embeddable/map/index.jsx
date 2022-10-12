@@ -128,7 +128,7 @@ const Map = (props) => {
     const processCommonDataWithCrops = ()  => {
         processedData = [];
         if (mapData && mapData.get(selectedIndicator.id) && mapData.get(selectedIndicator.id).values) {
-            Object.keys(mapData.values).forEach(k => {
+            Object.keys(mapData.get(selectedIndicator.id).values).forEach(k => {
                 if (selectedCrops) {
                     const item = Object.assign({}, mapData.get(selectedIndicator.id).values[k]);
                     item.id = k.toUpperCase()
