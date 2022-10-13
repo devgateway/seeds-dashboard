@@ -24,6 +24,18 @@ import Tooltip from "./components/Tooltip";
 import { SELECTED_COUNTRY } from "../../seeds-commons/commonConstants";
 import VisibilitySensor from "react-visibility-sensor-v2";
 
+//we have to generate the key for crop2 crop 2 because in the dvat tool it has different keys for the same crop 1 string
+const getKey = (f) => {
+
+    const regexText = /^Crop[ ]{0,1}\d+$/g;
+    if (f.name && f.name.match(regexText)) {
+        debugger
+        return f.name.trim().toLowerCase();
+    } else {
+        return f.key;
+    }
+}
+
 const DataSummaryBody = ({
                              summary_indicators,
                              onLoadIndicatorsInformation,
@@ -31,7 +43,8 @@ const DataSummaryBody = ({
                              filters,
                              overrideSticky,
                              editing,
-                             configuration
+                             configuration,
+                             intl
                          }) => {
     const [activeThemeIndex, setActiveThemeIndex] = useState(1);
     const [currentScrollableDiv, setCurrentScrollableDiv] = useState(undefined);
@@ -104,10 +117,16 @@ const DataSummaryBody = ({
     const getTitleDisplayType = (indicator, isOverview) => {
         let value = '';
         if (indicator.displayType === DISPLAY_TYPE_RATING || indicator.displayType === DISPLAY_TYPE_HHI) {
-            value = configuration.labels.rating;
+            value = intl.formatMessage({
+                id: configuration.labels.rating,
+                defaultMessage: configuration.labels.rating
+            });
         } else {
             if (indicator.displayType === DISPLAY_TYPE_NUMBER || indicator.displayType === DISPLAY_TYPE_PERCENTAGE || isOverview) {
-                value = configuration.labels.number;
+                value = intl.formatMessage({
+                    id: configuration.labels.number,
+                    defaultMessage: configuration.labels.number
+                });
             }
         }
         return value;
@@ -143,7 +162,7 @@ const DataSummaryBody = ({
                         <Grid.Column width={10}
                                      className="crop-title " data-indicator-key={f.key}>
                             <Tooltip item={f} tiny editing={editing} />
-                            {f.name}
+                            {intl.formatMessage({ id: getKey(f), defaultMessage: f.name })}
                         </Grid.Column>
                         <Grid.Column width={6}
                                      className={"indicator-selected-country"}><IndicatorLabel
@@ -240,7 +259,10 @@ const DataSummaryBody = ({
                                 }
                             }}>
                                 <div ref={idx === 0 ? ref : undefined}
-                                     id={idx === 0 ? `scroll_${indicator.id}` : ''}>{indicator.key} {indicator.name}</div>
+                                     id={idx === 0 ? `scroll_${indicator.id}` : ''}>{indicator.key} {intl.formatMessage({
+                                    id: indicator.key,
+                                    defaultMessage: indicator.name
+                                })}</div>
                             </VisibilitySensor>
                             <Tooltip item={indicator} editing={editing} />
                         </div>
@@ -318,9 +340,10 @@ const DataSummaryBody = ({
                             onUnstick={() => {
                                 isOneSticky = false
                             }}>
-                        <div className="summary-theme summary-common" id={ids[innerIndex]}>
+                        <div className="summary-theme summary-common" id={ids[innerIndex]}
+                             data-indicator-key={`theme_${theme.key}`}>
                             <Icon name='chevron circle down' />
-                            {theme.name}
+                            {intl.formatMessage({ id: `theme_${theme.key}`, defaultMessage: theme.name })}
                         </div>
                     </Sticky>
                 </Accordion.Title>
@@ -332,7 +355,9 @@ const DataSummaryBody = ({
         })
     }
     const innerRef = createRef();
+
     return <div ref={innerRef}>
+
         <Container className="summary-container">
             <Accordion>{summary_indicators &&
                 <SummaryIndicatorsHeader summaryIndicators={summary_indicators} />}</Accordion>
