@@ -21,7 +21,7 @@ const Events = (props) => {
     } else {
         if (acf) {
             hostedBy = acf.hosted_by;
-            eventStartDate = acf.event_stat_date;
+            eventStartDate = acf.event_start_date;
             eventEndDate = acf.event_end_date;
             name = acf.event_name;
             link = acf.external_link;
@@ -94,7 +94,7 @@ const Events = (props) => {
         if (pEventEndDate) {
             return pEventEndDate > new Date();
         } else {
-            return pEventStartDate <= new Date();
+            return pEventStartDate >= new Date();
         }
     }
     
