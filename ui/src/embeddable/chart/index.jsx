@@ -331,7 +331,8 @@ const Chart = (props) => {
     }
 
     // For every chart we set the height that shows the content with the best look.
-    const cross_country_height = 750;
+    const windowHeight = window.innerHeight;
+    const cross_country_height = 750 - (windowHeight <= 700 ? 250 : 0);
     let fixedHeight = {
         [NUMBER_OF_ACTIVE_BREEDERS]: 742,
         [NUMBER_OF_VARIETIES_RELEASED]: 741,

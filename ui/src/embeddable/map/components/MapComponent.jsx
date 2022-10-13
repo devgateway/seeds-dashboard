@@ -17,7 +17,7 @@ const getColorByValue = (value, scale) => {
     return scale(value).color;
 }
 
-export const MapComponent = ({height, data, intl, colors, dontUseCrops, domain, scale, numberSuffix, legend = 'opinionRating'}) => {
+export const MapComponent = ({height, data, intl, colors, dontUseCrops, domain, scale, numberSuffix, legend = 'opinionRating', projectionScale}) => {
     return (<div className="map-wrapper" style={{height: height + 'px'}}>
         {data && <ResponsiveChoropleth
             data={data}
@@ -28,7 +28,7 @@ export const MapComponent = ({height, data, intl, colors, dontUseCrops, domain, 
             domain={domain}
             unknownColor="#D1D2D4"
             //valueFormat=".2s"
-            projectionScale={350}
+            projectionScale={projectionScale}
             projectionTranslation={[0.43, 0.51]}
             projectionRotation={[0, 0, 0]}
             enableGraticule={false}
@@ -58,7 +58,7 @@ export const MapComponent = ({height, data, intl, colors, dontUseCrops, domain, 
                         <div className="map-tooltip-data">
                             <span className="label1">{intl.formatMessage({ id: legend })}: </span>
                             <span className="labelBolder" style={{/*color: getColorByValue(e.feature.data.value, scale)*/}}>
-                                {e.feature.data.value}{numberSuffix} {getTooltipLegendByValue(e.feature.data.value, intl, scale)}
+                                {e.feature.data.value}{numberSuffix} {numberSuffix ? getTooltipLegendByValue(e.feature.data.value, intl, scale) : null}
                             </span>
                         </div>
                     </div>)
