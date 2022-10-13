@@ -2419,7 +2419,7 @@ const ChartComponent = ({
                     defaultMessage: 'Crops'
                 });
                 return (<Grid.Row className={`crops-with-icons`}>
-                    <Grid.Column width={10}>
+                    <Grid.Column width={8}>
                         {legend === 'crops' &&
                             <CropsLegend data={selectedCrops} title={cropsLegendTranslated} titleClass="crops-title"
                                          addLighterDiv={addLighterDiv}
@@ -2429,7 +2429,7 @@ const ChartComponent = ({
                         {legend && legend === genericLegend &&
                             <GenericLegend colors={colors} keys={keys} title={legendTitle} />}
                     </Grid.Column>
-                    <Grid.Column width={6}>
+                    <Grid.Column width={8}>
                         {withCropsWithSpecialFeatures && <CropsWithSpecialFeatures />}
                     </Grid.Column>
                 </Grid.Row>);
