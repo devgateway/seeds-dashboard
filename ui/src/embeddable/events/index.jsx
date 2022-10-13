@@ -91,7 +91,7 @@ const Events = (props) => {
     }
     
     const isShowAddToCalendar = (pEventStartDate, pEventEndDate) => {
-        if (pEventEndDate) {
+        if (pEventEndDate && !isNaN(pEventEndDate.getTime()) ) {
             return pEventEndDate > new Date();
         } else {
             return pEventStartDate >= new Date();
