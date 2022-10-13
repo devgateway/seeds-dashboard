@@ -1,5 +1,10 @@
 @import "src/scss/vars";
 
+.map-grid {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
 .map-row {
   border: #e5e5e5 1px solid;
   border-top: none;
