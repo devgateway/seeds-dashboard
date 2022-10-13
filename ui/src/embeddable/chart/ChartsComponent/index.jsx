@@ -94,6 +94,7 @@ const ChartComponent = ({
     //TODO can be configured in wordpress at a later stage
     let defaultFormat = { style: 'decimal', minimumFractionDigits: 0, maximumFractionDigits: 1 };
     let indexBy = 'crop';
+    let radarTooltip;
     let useFilterByYear = true;
     let layout = 'vertical';
     let groupMode = 'stacked';
@@ -497,10 +498,11 @@ const ChartComponent = ({
         const newBarColors = countryColors ? [...countryColors] : null;
         Object.keys(data.values[c]).forEach((i, j) => {
             if (countries && countries.find(k => k.iso === i && k.selected === true)) {
-                const key = COUNTRY_OPTIONS.find(j => j.flag.toLowerCase() === i.toLowerCase()).text;
+                let key = COUNTRY_OPTIONS.find(j => j.flag.toLowerCase() === i.toLowerCase()).text;
                 if (useOnlyLastYear) {
                     const years = Object.keys(data.values[c][i]).sort();
                     const lastYear = years[years.length - 1];
+                    key += ' - ' + lastYear;
                     entry[key] = Number(data.values[c][i][lastYear]) >= 0 ? data.values[c][i][lastYear] : FAKE_NUMBER;
                 } else {
                     entry[key] = Number(data.values[c][i]) >= 0 ? data.values[c][i] : FAKE_NUMBER;
@@ -1661,6 +1663,37 @@ const ChartComponent = ({
             withCropsWithSpecialFeatures = false;
             yearsColors = performanceColors;
             processForRadar(data.dimensions.performance.values)
+            radarTooltip = (d) => {
+                return (<div className="tooltip-container-radar">
+                    <div className="header-container">
+                        <div className="header">
+                            <div className={'name'}>{d.index}</div>
+                        </div>
+                    </div>
+                    <div className="content">
+                        <table width="100%">
+                            <tbody>
+                            {d.data.sort((a, b) => a.id.localeCompare(b.id))
+                                .map(i => {
+                                    return (
+                                        <tr key={i.id}>
+                                            <td>
+                                                <div className={'circle'} style={{background: i.color}}/>
+                                            </td>
+                                            <td><span>{i.id}</span></td>
+                                            <td>
+                                                    <span>
+                                                        <strong>{i.value !== FAKE_NUMBER ? i.value + '%' : 'MD'}</strong>
+                                                    </span>
+                                            </td>
+                                        </tr>
+                                    );
+                                })}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>)
+            }
             break;
         case RATING_GOVERNMENT_SEED_SUBSIDY_PROGRAM:
             indexBy = "id";
@@ -1671,6 +1704,7 @@ const ChartComponent = ({
             maxSelectableCountries = 3;
             withCropsWithSpecialFeatures = false;
             yearsColors = performanceColors;
+            legendTitle = intl.formatMessage({id: 'label-country'});
             customCrossCountryLegend = () => {
                 return (<Grid.Row className={`crops-with-icons`} style={{borderTop: 'none'}}>
                     <Grid.Column width={16}>
@@ -1678,12 +1712,42 @@ const ChartComponent = ({
                             width: 'max-content',
                             float: "left",
                             marginTop: '10px'
-                        }}><GenericLegend colors={colors} keys={keys} title={legendTitle} />
+                        }}>
+                            <GenericLegend colors={colors} keys={keys} title={legendTitle} />
                         </div>
                     </Grid.Column>
                 </Grid.Row>);
             };
             margins = {top: 50, right: 80, bottom: 30, left: 80};
+            radarTooltip = (d) => {
+                return (<div className="tooltip-container-radar">
+                    <div className="header-container">
+                        <div className="header">
+                            <div className={'name'}>{d.index}</div>
+                        </div>
+                    </div>
+                    <div className="content">
+                        <table width="100%">
+                            <tbody>
+                            {d.data.sort((a, b) => a.id.localeCompare(b.id))
+                                .map(i => {
+                                    return (<tr key={i.id}>
+                                        <td>
+                                            <div className={'circle'} style={{background: i.color}}/>
+                                        </td>
+                                        <td style={{textAlign: "center"}}><span>{i.id} {i.year}</span></td>
+                                        <td>
+                                            <span>
+                                                <strong>{i.value !== FAKE_NUMBER ? i.value + '%' : 'MD'}</strong>
+                                            </span>
+                                        </td>
+                                    </tr>);
+                                })}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>)
+            }
             processForRadarCrossCountry(data.dimensions.rating.values, true)
             break;
         case EFFICIENCY_SEED_IMPORT_PROCESS:
@@ -2191,6 +2255,7 @@ const ChartComponent = ({
                             colors={colors}
                             indexBy={indexBy}
                             intl={intl}
+                            tooltip={radarTooltip}
                         /></Grid.Column>
                 </Grid.Row>
             case RATING_GOVERNMENT_SEED_SUBSIDY_PROGRAM:
@@ -2205,6 +2270,7 @@ const ChartComponent = ({
                             indexBy={indexBy}
                             intl={intl}
                             margin={margins}
+                            tooltip={radarTooltip}
                         /></Grid.Column>
                 </Grid.Row>
             default:
