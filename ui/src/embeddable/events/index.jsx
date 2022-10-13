@@ -94,7 +94,7 @@ const Events = (props) => {
         if (pEventEndDate) {
             return pEventEndDate > new Date();
         } else {
-            return pEventStartDate >= new Date();
+            return pEventStartDate <= new Date();
         }
     }
     
