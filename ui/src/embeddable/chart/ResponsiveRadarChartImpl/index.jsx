@@ -31,7 +31,8 @@ const ResponsiveRadarChartImpl = ({
                                       indexBy,
                                       containerHeight = 550,
                                       maxValue = "100",
-                                      margin
+                                      margin,
+                                      tooltip
                                   }) => {
 
 
@@ -70,37 +71,7 @@ const ResponsiveRadarChartImpl = ({
                 dotLabelYOffset={3}
                 dotLabel={d => getLabel(d.value)}
                 valueFormat={d => getLabel(d)}
-                sliceTooltip={(d) => {
-                    return (<div className="tooltip-container-radar">
-                        <div className="header-container">
-                            <div className="header">
-                                <div className={'name'}>{d.index}</div>
-                            </div>
-                        </div>
-                        <div className="content">
-                            <table width="100%">
-                                <tbody>
-                                {d.data.sort((a, b) => a.id.localeCompare(b.id))
-                                    .map(i => {
-                                        return (
-                                            <tr key={i.id}>
-                                                <td>
-                                                    <div className={'circle'} style={{background: i.color}}/>
-                                                </td>
-                                                <td><span>{i.id}</span></td>
-                                                <td>
-                                                    <span>
-                                                        <strong>{i.value !== FAKE_NUMBER ? i.value + '%' : 'MD'}</strong>
-                                                    </span>
-                                                </td>
-                                            </tr>
-                                        );
-                                    })}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>)
-                }}
+                sliceTooltip={tooltip}
             /> : <NoData/>}
         </div>
     )
