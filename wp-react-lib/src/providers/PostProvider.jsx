@@ -108,17 +108,17 @@ class PostProvider extends React.Component {
                             if ((end < now && isPast) || (end > now && !isPast)) {
                                 return true;
                             }
-                        } else if (acf.event_stat_date && acf.event_start_date !== "") {
-                            let start = new Date(acf.event_stat_date).getTime();
+                        } else if (acf.event_start_date && acf.event_start_date !== "") {
+                            let start = new Date(acf.event_start_date).getTime();
                             if ((start < now && isPast) || (start > now && !isPast)) {
                                 return true;
                             }
                         }
                     }
                     return false;
-                }).sort((a, b) => !a.acf.event_stat_date || !b.acf.event_stat_date ? 0
-                    : isPast ? new Date(b.acf.event_stat_date) - new Date(a.acf.event_stat_date)
-                        : new Date(a.acf.event_stat_date) - new Date(b.acf.event_stat_date));
+                }).sort((a, b) => !a.acf.event_start_date || !b.acf.event_start_date ? 0
+                    : isPast ? new Date(b.acf.event_start_date) - new Date(a.acf.event_start_date)
+                        : new Date(a.acf.event_start_date) - new Date(b.acf.event_start_date));
             } else {
                 postsArray = postsArray.sort((a, b) => !a.date || !b.date ? 0
                     : new Date(b.date) - new Date(a.date));
