@@ -29,7 +29,6 @@ const getKey = (f) => {
 
     const regexText = /^Crop[ ]{0,1}\d+$/g;
     if (f.name && f.name.match(regexText)) {
-        debugger
         return f.name.trim().toLowerCase();
     } else {
         return f.key;
