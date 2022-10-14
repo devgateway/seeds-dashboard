@@ -1199,7 +1199,7 @@ const ChartComponent = ({
                                                  addLighterDiv={addLighterDiv}
                                                  intl={intl} />}
                                     {legend && legend.toLowerCase() === 'year' &&
-                                        <YearLegend colors={yearsColors} years={selectedYear} />}
+                                        <YearLegend colors={yearsColors} years={selectedYear} intl={intl} />}
                                     {legend && legend === genericLegend &&
                                         <GenericLegend colors={colors} keys={keys} title={legendTitle} />}
                                 </div>
@@ -2425,7 +2425,7 @@ const ChartComponent = ({
                                          addLighterDiv={addLighterDiv}
                                          intl={intl} />}
                         {legend && legend.toLowerCase() === 'year' &&
-                            <YearLegend colors={yearsColors} years={selectedYear} />}
+                            <YearLegend colors={yearsColors} years={selectedYear} intl={intl} />}
                         {legend && legend === genericLegend &&
                             <GenericLegend colors={colors} keys={keys} title={legendTitle} />}
                     </Grid.Column>
