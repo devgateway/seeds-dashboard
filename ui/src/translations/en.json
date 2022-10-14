@@ -172,6 +172,7 @@
   "active-breeders-tooltip": "Number of active breeders",
   "select-all": "Select all",
   "select-none": "Select none",
+  "year-s": "Year(s)",
   "varieties-released-legend": "Varieties released per 1,000,000 hectares",
   "varieties-released-tooltip": "Number of varieties released per land under production",
   "quantity-certified-seed-sold-legend": "Metric tons/ per 1,000 hectares",
