@@ -299,11 +299,13 @@ const DataSummaryBody = ({
             const secondIndex = ids[ids.findIndex(i => i === prefix + activeThemeIndex) + 1];
             const firstTop = document.getElementById(prefix + activeThemeIndex).getBoundingClientRect().top +
                 document.getElementById(prefix + activeThemeIndex).getBoundingClientRect().height;
-            const secondTop = document.getElementById(secondIndex).getBoundingClientRect().top
-            if (secondTop <= firstTop) {
-                const scrollTop = document.documentElement.scrollTop;
-                const scrollLeft = document.documentElement.scrollLeft;
-                window.scrollTo(scrollLeft, scrollTop - 10);
+            if (secondIndex) {
+                const secondTop = document.getElementById(secondIndex).getBoundingClientRect().top
+                if (secondTop <= firstTop) {
+                    const scrollTop = document.documentElement.scrollTop;
+                    const scrollLeft = document.documentElement.scrollLeft;
+                    window.scrollTo(scrollLeft, scrollTop - 10);
+                }
             }
         }
     }
