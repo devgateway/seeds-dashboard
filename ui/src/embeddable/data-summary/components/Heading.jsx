@@ -27,7 +27,7 @@ const Heading = ({ legends, title, showMDNALegends, intl }) => {
                     })}
                     {showMDNALegends ? <Grid.Row className="legends" style={{ backgroundColor: '#f9f9f9' }}>
                         <Grid.Column width={4}>
-                            <div>MD: {intl.formatMessage({
+                            <div>{intl.formatMessage({
                                 id: "indicator-data-missing",
                                 defaultMessage: "Indicator data missing"
                             })}</div>
