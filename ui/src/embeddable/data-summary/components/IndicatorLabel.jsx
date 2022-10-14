@@ -6,6 +6,7 @@ import { LEGEND } from "../Constants";
 import { SUMMARY_INDICATORS_INFORMATION } from "../../reducers/StoreConstants";
 
 import { connect } from "react-redux";
+import { normalizeField } from "../../utils/common";
 
 const IndicatorLabel = ({ field, className, range, displayType, intl, selectedCountry, loading, configuration }) => {
     if (field) {
@@ -21,9 +22,18 @@ const IndicatorLabel = ({ field, className, range, displayType, intl, selectedCo
         }
         const getGridColumns = () => {
             if (!field.label && isNaN(field.value) && displayType !== LEGEND) {
-                return <div className={isNaN(field.value) ? ' letter right' : ''}>{field.value}</div>;
+                return <div
+                    className={isNaN(field.value) ? ' letter right' : ''}>{field.value && field.value.length > 0 ? intl.formatMessage({
+                    id: normalizeField(field.value),
+                    defaultMessage: normalizeField(field.value)
+                }) : ''}</div>;
             } else {
-                return <><Grid.Column width={selectedCountry ? 9 : 10} className="label">{field.label}</Grid.Column>
+                //this label is the inner label of the data summary, so we are normalizing and translating
+                return <><Grid.Column width={selectedCountry ? 9 : 10}
+                                      className="label">{field.label && field.label.length > 0 ? intl.formatMessage({
+                    id: normalizeField(field.label),
+                    defaultMessage: normalizeField(field.label)
+                }) : ''} </Grid.Column>
                     <Grid.Column width={selectedCountry ? 7 : 6} className="value" style={style}>
                         {r && <Popup
                             trigger={<div

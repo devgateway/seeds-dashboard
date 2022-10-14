@@ -1766,7 +1766,7 @@ const ChartComponent = ({
                     legends = [{ id: 1, 'color': barPieColor[1], 'label': 'Number of days for import' },
                         { id: 2, 'color': barPieColor[0], 'label': 'Industry rating' }
                     ];
-                    noDataLabelId = "no-data-reported-import";
+                    noDataLabelId = "no-reported-imports";
                     break;
                 case EFFICIENCY_SEED_EXPORT_PROCESS:
                     leftLegend = intl.formatMessage({
@@ -1789,7 +1789,7 @@ const ChartComponent = ({
                             'label': intl.formatMessage({ id: 'industry-rating', defaultMessage: 'Industry rating' })
                         }
                     ];
-                    noDataLabelId = "no-data-reported-export";
+                    noDataLabelId = "no-reported-exports";
                     break;
                 default:
                     leftLegend = 'insert legend here';
