@@ -251,7 +251,8 @@
           }
         }
 
-        &._our-methods {
+        &._our-methods,
+        &._methods {
           a {
             background-image: url("/static/images/methods.svg") !important;
           }
