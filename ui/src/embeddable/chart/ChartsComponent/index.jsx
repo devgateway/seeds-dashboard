@@ -416,6 +416,7 @@ const ChartComponent = ({
                         iso: i,
                         country: COUNTRY_OPTIONS.find(j => j.flag.toLowerCase() === i.toLowerCase()).text
                     };
+                    item.country = intl.formatMessage({id: normalizeField(item.country)});
                     let sum = 0;
                     Object.keys(data.values[i]).forEach(j => {
                         if (j !== 'year') {
@@ -446,6 +447,7 @@ const ChartComponent = ({
                         iso: i,
                         country: COUNTRY_OPTIONS.find(j => j.flag.toLowerCase() === i.toLowerCase()).text
                     };
+                    item.country = intl.formatMessage({id: normalizeField(item.country)});
                     item.year = data.values[i].year;
                     if (!isNaN(data.values[i].value)) {
                         item.textValue = "" + data.values[i].value;

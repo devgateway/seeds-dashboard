@@ -46,6 +46,7 @@ import {cleanupParam} from "../chart/Countryinfo";
 import {toBlob} from "html-to-image";
 import { saveAs } from 'file-saver';
 import Notes from "../chart/common/source/Notes";
+import {normalizeField} from "../utils/common";
 
 let colors = [
     { color: '#fb6e6e' },
@@ -133,8 +134,8 @@ const Map = (props) => {
                     const item = Object.assign({}, mapData.get(selectedIndicator.id).values[k]);
                     item.id = k.toUpperCase()
                     item.value = item[selectedCrops];
-                    item.country = countries.find(c => c.isoCode === item.id).country;
-                    item.crop = selectedCrops;
+                    item.country = intl.formatMessage({id: normalizeField(countries.find(c => c.isoCode === item.id).country)});
+                    item.crop = intl.formatMessage({id: selectedCrops});
                     if (item.value === 0 
                         || (item.value && item.value !== 'MD' && item.value !== 'NA' && !isNaN(item.value))) {
                         processedData.push(item);
@@ -156,7 +157,7 @@ const Map = (props) => {
                 item.id = k.toUpperCase()
                 item.value = mapData.get(selectedIndicator.id).values[k].value;
                 item.year = mapData.get(selectedIndicator.id).values[k].year;
-                item.country = countries.find(c => c.isoCode === item.id).country;
+                item.country = intl.formatMessage({id: normalizeField(countries.find(c => c.isoCode === item.id).country)});
                 item.crop = null;
                 if (item.value === 0  
                     || (item.value && item.value !== 'MD' && item.value !== 'NA' && !isNaN(item.value))) {
