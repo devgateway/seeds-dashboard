@@ -89,7 +89,8 @@ class PostProvider extends React.Component {
             isScheduledFilter,
             scheduledFilterStore,
             messages,
-            loadingMessage = "Loading"
+            loadingMessage = "Loading",
+            hideNotFound
         } = this.props;
         if (posts && (posts.length > 0 || posts.id)) {
             let postsArray = posts;
@@ -136,11 +137,15 @@ class PostProvider extends React.Component {
                 <Loader inverted content='Loading...' />
             </Container>)
         } else {
-            return <Container>
-                <Segment color={"red"}>
-                    <p>No entries found</p>
-                </Segment>
-            </Container>
+            if (!hideNotFound) {
+                return <Container>
+                    <Segment color={"red"}>
+                        <p>No entries found</p>
+                    </Segment>
+                </Container>
+            } else {
+                return null;
+            }
         }
     }
 }

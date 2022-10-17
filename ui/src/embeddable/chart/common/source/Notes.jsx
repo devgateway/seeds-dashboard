@@ -10,7 +10,17 @@ import { getSelectedCountry } from "../../index";
 const COUNTRY_CATEGORIES = 'countries';
 const NOTES_CATEGORIES = 'notes-category';
 
-const Notes = ({ title, titleClass, chardIdCategory, countries, filters, categoriesWP, setHasNotes, intl }) => {
+const Notes = ({
+                   title,
+                   titleClass,
+                   chardIdCategory,
+                   countries,
+                   filters,
+                   categoriesWP,
+                   setHasNotes,
+                   intl,
+                   isCrossCountryChart
+               }) => {
     const type = 'posts';
     const taxonomy = 'categories';
     let categories;
@@ -20,7 +30,7 @@ const Notes = ({ title, titleClass, chardIdCategory, countries, filters, categor
         notesCategories.push(chardIdCategory);
     }
     if (categoriesWP) {
-        if (filters && countries) {
+        if (filters && countries && !isCrossCountryChart) {
             const selectedCountry = getSelectedCountry(filters, countries);
             const category = categoriesWP.find(i => i.name === COUNTRY_CATEGORIES);
             countryCategory = categoriesWP.find(i => i.parent === category.id
@@ -43,8 +53,7 @@ const Notes = ({ title, titleClass, chardIdCategory, countries, filters, categor
                                              page={1} loadingMessage={intl.formatMessage({
                 id: 'loading-notes',
                 defaultMessage: 'Loading notes'
-            })}
-            >
+            })}>
                 <PostConsumer>
                     <Note title={title} titleClass={titleClass} notesCategories={notesCategories}
                           setHasNotes={setHasNotes} intl={intl} />
