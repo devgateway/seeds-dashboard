@@ -189,7 +189,7 @@ const ChartComponent = ({
         !data.dimensions ||
         (!data.dimensions.crop && !data.dimensions.year
             && type !== CROSS_COUNTRY_VARIETY_RELEASE_PROCESS && type !== CROSS_COUNTRY_OVERALL_RATING_NATIONAL_SEED_TRADE_ASSOCIATION
-            && type !== CROSS_COUNTRY_AGRODEALER_NETWORK && type !== CROSS_COUNTRY_NUMBER_SEED_INSPECTORS 
+            && type !== CROSS_COUNTRY_AGRODEALER_NETWORK && type !== CROSS_COUNTRY_NUMBER_SEED_INSPECTORS
             && type !== CROSS_COUNTRY_AGRICULTURAL_EXTENSION_SERVICES && type !== RATING_GOVERNMENT_SEED_SUBSIDY_PROGRAM) ||
         data.id === null) {
         noData = true;
@@ -1678,7 +1678,7 @@ const ChartComponent = ({
                                     return (
                                         <tr key={i.id}>
                                             <td>
-                                                <div className={'circle'} style={{background: i.color}}/>
+                                                <div className={'circle'} style={{ background: i.color }} />
                                             </td>
                                             <td><span>{i.id}</span></td>
                                             <td>
@@ -1704,9 +1704,9 @@ const ChartComponent = ({
             maxSelectableCountries = 3;
             withCropsWithSpecialFeatures = false;
             yearsColors = performanceColors;
-            legendTitle = intl.formatMessage({id: 'label-country'});
+            legendTitle = intl.formatMessage({ id: 'label-country' });
             customCrossCountryLegend = () => {
-                return (<Grid.Row className={`crops-with-icons`} style={{borderTop: 'none'}}>
+                return (<Grid.Row className={`crops-with-icons`} style={{ borderTop: 'none' }}>
                     <Grid.Column width={16}>
                         <div style={{
                             width: 'max-content',
@@ -1718,7 +1718,7 @@ const ChartComponent = ({
                     </Grid.Column>
                 </Grid.Row>);
             };
-            margins = {top: 50, right: 80, bottom: 30, left: 80};
+            margins = { top: 50, right: 80, bottom: 30, left: 80 };
             radarTooltip = (d) => {
                 return (<div className="tooltip-container-radar">
                     <div className="header-container">
@@ -1733,9 +1733,9 @@ const ChartComponent = ({
                                 .map(i => {
                                     return (<tr key={i.id}>
                                         <td>
-                                            <div className={'circle'} style={{background: i.color}}/>
+                                            <div className={'circle'} style={{ background: i.color }} />
                                         </td>
-                                        <td style={{textAlign: "center"}}><span>{i.id} {i.year}</span></td>
+                                        <td style={{ textAlign: "center" }}><span>{i.id} {i.year}</span></td>
                                         <td>
                                             <span>
                                                 <strong>{i.value !== FAKE_NUMBER ? i.value + '%' : 'MD'}</strong>
@@ -2458,7 +2458,8 @@ const ChartComponent = ({
                     <Source title={`Source: ${sources}${editing ? ` *${type}*` : ''}`} />
                 </Grid.Column>
             </Grid.Row>
-            <Notes chardIdCategory={categoryType ? categoryType.id : undefined} setHasNotes={setHasNotes} />
+            <Notes chardIdCategory={categoryType ? categoryType.id : undefined} setHasNotes={setHasNotes}
+                   isCrossCountryChart={isCrossCountryChart} />
         </Grid>
     </div>);
 }
