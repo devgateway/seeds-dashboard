@@ -7,7 +7,7 @@ const Documents = ({ type, showInline, list, loading, error, noDataText, intl })
 
     // TODO: add more logic for different types of files other than .pdf
     if (loading) {
-        return <div>Loading...</div>
+        return <div>{intl.formatMessage({id: 'loading'})}</div>
     }
     if (error) {
         return (<div>ERROR: {error}</div>);
