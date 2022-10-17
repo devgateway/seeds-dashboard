@@ -319,7 +319,8 @@
           }
         }
 
-        &._seed-info-portals {
+        &._seed-info-portals,
+        &._seeds-info-portals {
           a {
             background-image: url("/static/images/country_info.svg") !important;
           }
@@ -353,7 +354,8 @@
           }
         }
 
-        &._upcoming-events {
+        &._upcoming-events,
+        &._no-upcoming-events{
           a {
             background-image: url("/static/images/upcoming-events.svg") !important;;
           }
