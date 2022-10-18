@@ -1494,8 +1494,7 @@ const ChartComponent = ({
                     break;
                 case CROSS_COUNTRY_AGRICULTURAL_EXTENSION_SERVICES:
                     bottomLegend = intl.formatMessage({
-                        id: 'extension-office-household-legend',
-                        defaultMessage: 'Extension officer / households'
+                        id: 'extension-office-household-legend'
                     });
                     getTooltipText = (d) => {
                         return <>
