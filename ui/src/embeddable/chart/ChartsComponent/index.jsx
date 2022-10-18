@@ -387,6 +387,7 @@ const ChartComponent = ({
     const commonCrossCountryProcess = () => {
         if (crops && countries) {
             max = 0;
+            let allFake = true;
             countries.filter(c => c.selected).forEach(c => {
                 if (data.values[c.iso]) {
                     const item = {};
@@ -395,13 +396,19 @@ const ChartComponent = ({
                     item.country = c.name;
                     item.year = data.values[c.iso].year;
                     processedData.push(item);
-                    if (max < item[c.iso]) {
+                    if (item[c.iso] !== FAKE_NUMBER && max < item[c.iso]) {
                         max = item[c.iso];
+                        allFake = false;
                     }
                     item.textValue = "" + item[c.iso];
                     item.value = item[c.iso];
                 }
             });
+            /* SEEDSDT-1139: In horizontal charts it looks better to set some max so the vertical axis 
+                doesn't land in the middle of the chart. */ 
+            if (allFake) {
+                max = 10;
+            }
         }
     }
 
