@@ -190,7 +190,8 @@ const ChartComponent = ({
         (!data.dimensions.crop && !data.dimensions.year
             && type !== CROSS_COUNTRY_VARIETY_RELEASE_PROCESS && type !== CROSS_COUNTRY_OVERALL_RATING_NATIONAL_SEED_TRADE_ASSOCIATION
             && type !== CROSS_COUNTRY_AGRODEALER_NETWORK && type !== CROSS_COUNTRY_NUMBER_SEED_INSPECTORS
-            && type !== CROSS_COUNTRY_AGRICULTURAL_EXTENSION_SERVICES && type !== RATING_GOVERNMENT_SEED_SUBSIDY_PROGRAM) ||
+            && type !== CROSS_COUNTRY_AGRICULTURAL_EXTENSION_SERVICES && type !== RATING_GOVERNMENT_SEED_SUBSIDY_PROGRAM
+            && type !== CROSS_COUNTRY_NUMBER_OF_ACTIVE_SEED_COMPANIES) ||
         data.id === null) {
         noData = true;
     } else {
@@ -1305,7 +1306,7 @@ const ChartComponent = ({
                             <div className="without-crop-name">{d.indexValue} - {d.data.year}</div>
                         </>;
                     }
-                    commonCrossCountryProcessSummarizeCrops();
+                    commonCrossCountryProcessWithoutCrops();
                     useFilterByCropsWithCountries = false;
                     useFilterByCountries = true;
                     customSorting = (a, b) => (b.country.localeCompare(a.country));
