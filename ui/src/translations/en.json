@@ -415,5 +415,14 @@
   "crop2": "Crop 2",
   "crop3": "Crop 3",
   "crop4": "Crop 4",
-  "hosted-by": "Hosted by"
+  "hosted-by": "Hosted by",
+  "ZF675": "% of seed sold as subsidy - Crop 1",
+  "ZF676": "% of seed sold as subsidy - Crop 2",
+  "ZF677": "% of seed sold as subsidy - Crop 4",
+  "ZF678": "% of seed sold as subsidy - Crop 5",
+  "ZF253": "Maize (seed price in USD per kg)",
+  "ZF254": "Maize (seed price in USD per kg)",
+  "ZF255": "Crop 2 (seed price in USD per kg)",
+  "ZF256": "Crop 3 (seed price in USD per kg)",
+  "ZF257": "Crop 4 (seed price in USD per kg)"
 }

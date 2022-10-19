@@ -414,5 +414,14 @@
   "crop2": "Cultures 2",
   "crop3": "Cultures 3",
   "crop4": "Cultures 4",
-  "hosted-by": "Organisé par"
+  "hosted-by": "Organisé par",
+  "ZF675": "% de semences vendues avec une subvention - Culture 1",
+  "ZF676": "% de semences vendues avec une subvention - Culture 2",
+  "ZF677": "% de semences vendues avec une subvention - Culture 3",
+  "ZF678": "% de semences vendues avec une subvention - Culture 4",
+  "ZF253": "Maïs (prix des semences en USD / kg)",
+  "ZF254": "Maïs (prix des semences en USD / kg)",
+  "ZF255": "Culture 2 (prix des semences en USD / kg)",
+  "ZF256": "Culture 3 (prix des semences en USD / kg)",
+  "ZF257": "Culture 4 (prix des semences en USD / kg)"
 }
