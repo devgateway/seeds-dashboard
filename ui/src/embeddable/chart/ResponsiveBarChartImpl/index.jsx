@@ -173,6 +173,9 @@ const ResponsiveBarChartImpl = ({
             let text = (value !== FAKE_NUMBER && Number(value) !== FAKE_NUMBER)
                 ? value
                 : data_.values[data.crop] ? data_.values[data.crop][id] || 'MD' : 'MD'
+            if (totalLabel && totalLabel.format) {
+                text = intl.formatNumber(value, totalLabel.format);
+            }
             if (dataSuffix && Number(value) >= 0 && value !== FAKE_NUMBER) {
                 text += dataSuffix
             }
