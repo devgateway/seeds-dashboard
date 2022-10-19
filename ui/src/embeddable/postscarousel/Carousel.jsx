@@ -8,6 +8,7 @@ import VerticalPostPager from "./VerticalPostPager";
 import { connect } from "react-redux";
 import { DATA } from "../reducers/StoreConstants";
 import { SELECTED_INDICATOR } from "../../seeds-commons/commonConstants";
+import { injectIntl } from "react-intl";
 
 const Carousel = ({
                       posts,
@@ -20,7 +21,7 @@ const Carousel = ({
                       showLinksInModal,
                       categories,
                       isSortedByCountryAndYearCategories,
-                      filters
+                      filters, intl
                   }) => {
     let filteredAndOrderedPosts = posts;
 
@@ -78,7 +79,8 @@ const Carousel = ({
                     {filteredAndOrderedPosts.map(p => {
                         return <Slide index={i++} key={p.id}>
                             <PostIntro post={p} fluid showLink showLinksInModal={showLinksInModal}
-                                       messages={messages} locale={locale} isAddTypeToLink={isAddType} />
+                                       messages={messages} locale={locale} isAddTypeToLink={isAddType}
+                                       readMore={intl.formatMessage({ id: "read-more" })} />
                         </Slide>;
                     })}
                 </Slider>
@@ -104,4 +106,4 @@ const PagedDots = ({ posts, itemsPerPage }) => {
 const mapStateToProps = (state, ownProps) => {
     return { filters: state.getIn([DATA, 'filters']) }
 }
-export default connect(mapStateToProps, {})(Carousel);
+export default connect(mapStateToProps, {})(injectIntl(Carousel));

@@ -43,7 +43,8 @@ const VerticalPostPager = ({
                                        className="slide___3-Nqo carousel__slide carousel__slide--visible"
                             >
                                 <PostIntro post={p} fluid showLink showLinksInModal={showLinksInModal}
-                                           messages={messages} locale={locale} isAddTypeToLink={isAddType} />
+                                           messages={messages} locale={locale} isAddTypeToLink={isAddType}
+                                           readMore={intl.formatMessage({ id: "read-more" })}/>
                             </li>;
                         })}
                     </ul>
