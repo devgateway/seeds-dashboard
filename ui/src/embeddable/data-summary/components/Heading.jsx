@@ -27,15 +27,15 @@ const Heading = ({ legends, title, showMDNALegends, intl }) => {
                     })}
                     {showMDNALegends ? <Grid.Row className="legends" style={{ backgroundColor: '#f9f9f9' }}>
                         <Grid.Column width={4}>
-                            <div>{intl.formatMessage({
+                            <div>{intl.formatMessage({id: 'md'})}: {intl.formatMessage({
                                 id: "indicator-data-missing",
                                 defaultMessage: "Indicator data missing"
                             })}</div>
                         </Grid.Column>
                         <Grid.Column width={3}>
-                            <div>NA: {intl.formatMessage({
+                            <div>{intl.formatMessage({id: 'na'})}: {intl.formatMessage({
                                 id: "indicator-not-applicable",
-                                defaultMessage: "Indicator data missing"
+                                defaultMessage: "Indicator not applicable"
                             })}</div>
                         </Grid.Column>
                     </Grid.Row> : null}
