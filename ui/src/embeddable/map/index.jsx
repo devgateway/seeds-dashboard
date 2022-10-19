@@ -244,6 +244,9 @@ const Map = (props) => {
                     id: LENGTH_SEED_IMPORT,
                     useCrops: false,
                     recalculateDomain: true,
+                    reverseLegendOrder: false,
+                    reverseColorsOrder: true,
+                    fixZeroToHundredDomain: true,
                     numberSuffix: ' ' + intl.formatMessage({id: 'days', defaultMessage: 'days'}),
                     mapLegend: 'numberOfDays'
                 }, {
@@ -253,6 +256,9 @@ const Map = (props) => {
                     id: LENGTH_SEED_EXPORT,
                     useCrops: false,
                     recalculateDomain: true,
+                    reverseLegendOrder: false,
+                    reverseColorsOrder: true,
+                    fixZeroToHundredDomain: true,
                     numberSuffix: ' ' + intl.formatMessage({id: 'days', defaultMessage: 'days'}),
                     mapLegend: 'numberOfDays'
                 }, {
@@ -377,7 +383,7 @@ const Map = (props) => {
     // FFR: https://github.com/d3/d3-scale/blob/main/README.md#scaleQuantize
     let scaleQ = d3.scaleQuantize().domain(domain).range(legends);
     let intervals = scaleQ.thresholds();
-    const auxLegends = JSON.parse(JSON.stringify(legends));
+    let auxLegends = JSON.parse(JSON.stringify(legends));
     if (selectedIndicator) {
         const minus = selectedIndicator.numberSuffix === PERCENTAGE ? 0.01 : 1;
         const suffix = selectedIndicator.numberSuffix;
@@ -386,9 +392,21 @@ const Map = (props) => {
         
         // When the suffix is different from "%" then reverse the legends order. 
         if (suffix !== PERCENTAGE) {
-            intervals = intervals.reverse();
+            if (selectedIndicator.reverseLegendOrder) {
+                intervals = intervals.reverse();
+                auxLegends = auxLegends.reverse();
+            }
+            if (selectedIndicator.reverseColorsOrder) {
+                const reversedColorsLegend = JSON.parse(JSON.stringify(auxLegends));
+                reversedColorsLegend.forEach((i, index) => {
+                    i.color = auxLegends[4 - index].color;
+                });
+                auxLegends = reversedColorsLegend;
+            }
+            if (selectedIndicator.fixZeroToHundredDomain) {
+                domain = [0, 100];
+            }
             mapColors = mapColors.reverse();
-            const auxLegends = JSON.parse(JSON.stringify(legends)).reverse();
             scaleQ = d3.scaleQuantize().domain(domain).range(auxLegends);
         }
         
