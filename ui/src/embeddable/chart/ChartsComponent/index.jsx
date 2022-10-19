@@ -1220,10 +1220,16 @@ const ChartComponent = ({
                                     marginTop: '12px'
                                 }}>
                                     |&nbsp;&nbsp;&nbsp;
-                                    <bold>MD:</bold>
-                                    <span style={{ fontWeight: "normal" }}> Indicator data missing </span>
-                                    <bold>NA:</bold>
-                                    <span style={{ fontWeight: "normal" }}> Indicator not applicable</span>
+                                    <bold>{intl.formatMessage({id: 'md'})}:</bold>
+                                    <span style={{ fontWeight: "normal" }}> {intl.formatMessage({
+                                        id: "indicator-data-missing",
+                                        defaultMessage: "Indicator data missing"
+                                    })} </span>
+                                    <bold>{intl.formatMessage({id: 'na'})}:</bold>
+                                    <span style={{ fontWeight: "normal" }}> {intl.formatMessage({
+                                        id: "indicator-not-applicable",
+                                        defaultMessage: "Indicator not applicable"
+                                    })}</span>
                                 </div>
                             </Grid.Column>
                         </Grid.Row>);
