@@ -224,13 +224,15 @@ const Map = (props) => {
                         value: A1_ADEQUACY_ACTIVE_BREEDERS,
                         id: ADEQUACY_ACTIVE_BREEDERS,
                         usesCrops: true,
-                        numberSuffix: PERCENTAGE
+                        numberSuffix: PERCENTAGE,
+                        adjustConstant: -0.01
                     },
                     {
                         value: A4_AVAILABILITY_FOUNDATION_SEED,
                         id: AVAILABILITY_BASIC_SEED,
                         usesCrops: true,
-                        numberSuffix: PERCENTAGE
+                        numberSuffix: PERCENTAGE,
+                        adjustConstant: -0.01
                     }
                 ];
                 if (!selectedIndicator) {
@@ -244,19 +246,37 @@ const Map = (props) => {
                     id: LENGTH_SEED_IMPORT,
                     useCrops: false,
                     recalculateDomain: true,
+                    reverseLegendOrder: false,
+                    reverseColorsOrder: true,
+                    fixedZeroToHundredDomain: true,
+                    fixedIntervals: [0, 20, 40, 60, 80, undefined],
+                    adjustConstant: 1,
                     numberSuffix: ' ' + intl.formatMessage({id: 'days', defaultMessage: 'days'}),
                     mapLegend: 'numberOfDays'
                 }, {
-                    value: B73_SATISFACTION_IMPORT, id: SATISFACTION_IMPORT, useCrops: false, numberSuffix: PERCENTAGE
+                    value: B73_SATISFACTION_IMPORT,
+                    id: SATISFACTION_IMPORT,
+                    useCrops: false,
+                    numberSuffix: PERCENTAGE,
+                    adjustConstant: -0.01
                 }, {
                     value: B75_LENGTH_SEED_EXPORT,
                     id: LENGTH_SEED_EXPORT,
                     useCrops: false,
                     recalculateDomain: true,
+                    reverseLegendOrder: false,
+                    reverseColorsOrder: true,
+                    fixedZeroToHundredDomain: true,
+                    fixedIntervals: [0, 20, 40, 60, 80, undefined],
+                    adjustConstant: 1,
                     numberSuffix: ' ' + intl.formatMessage({id: 'days', defaultMessage: 'days'}),
                     mapLegend: 'numberOfDays'
                 }, {
-                    value: B77_SATISFACTION_EXPORT, id: SATISFACTION_EXPORT, useCrops: false, numberSuffix: PERCENTAGE
+                    value: B77_SATISFACTION_EXPORT,
+                    id: SATISFACTION_EXPORT,
+                    useCrops: false,
+                    numberSuffix: PERCENTAGE,
+                    adjustConstant: -0.01
                 }];
                 if (!selectedIndicator) {
                     setSelectedIndicator(indicators[0]);
@@ -268,19 +288,22 @@ const Map = (props) => {
                     value: C1_SATISFACTION_VARIETY_RELEASE_PROCESS,
                     id: SATISFACTION_VARIETY_RELEASE_PROCESS,
                     useCrops: false,
-                    numberSuffix: PERCENTAGE
+                    numberSuffix: PERCENTAGE,
+                    adjustConstant: -0.01
                 },
                     {
                         value: C2_SATISFACTION_SEED_REGULATIONS,
                         id: SATISFACTION_SEED_REGULATIONS,
                         useCrops: false,
-                        numberSuffix: PERCENTAGE
+                        numberSuffix: PERCENTAGE,
+                        adjustConstant: -0.01
                     },
                     {
                         value: C4_ADEQUACY_GOVERNMENT_EFFORT_COUNTERFEIT_SEED,
                         id: ADEQUACY_GOVERNMENT_EFFORT_COUNTERFEIT_SEED,
                         useCrops: false,
-                        numberSuffix: PERCENTAGE
+                        numberSuffix: PERCENTAGE,
+                        adjustConstant: -0.01
                     }];
                 if (!selectedIndicator) {
                     setSelectedIndicator(indicators[0]);
@@ -294,6 +317,7 @@ const Map = (props) => {
                         id: ADEQUACY_SEED_INSPECTION_SERVICES,
                         usesCrops: false,
                         numberSuffix: PERCENTAGE,
+                        adjustConstant: -0.01,
                         hideFilterSection: true
                     }
                 ];
@@ -307,13 +331,15 @@ const Map = (props) => {
                     value: E13_ADEQUACY_EXTENSION_SERVICES,
                     id: ADEQUACY_EXTENSION_SERVICES,
                     useCrops: false,
-                    numberSuffix: PERCENTAGE
+                    numberSuffix: PERCENTAGE,
+                    adjustConstant: -0.01
                 },
                     {
                         value: E24_ADEQUACY_AGRODEALER_NETWORK,
                         id: ADEQUACY_AGRODEALER_NETWORK,
                         useCrops: false,
-                        numberSuffix: PERCENTAGE
+                        numberSuffix: PERCENTAGE,
+                        adjustConstant: -0.01
                     }];
                 if (!selectedIndicator) {
                     setSelectedIndicator(indicators[0]);
@@ -373,31 +399,62 @@ const Map = (props) => {
     // To reuse the colors.
     let mapColors = colors.map(c => c.color);
     
-    // Update the intervals to the new domain.
-    // FFR: https://github.com/d3/d3-scale/blob/main/README.md#scaleQuantize
-    let scaleQ = d3.scaleQuantize().domain(domain).range(legends);
-    let intervals = scaleQ.thresholds();
-    const auxLegends = JSON.parse(JSON.stringify(legends));
+    let scaleQ;
+    let auxLegends = JSON.parse(JSON.stringify(legends));
     if (selectedIndicator) {
-        const minus = selectedIndicator.numberSuffix === PERCENTAGE ? 0.01 : 1;
+        if (selectedIndicator.fixedZeroToHundredDomain) {
+            domain = [0, 100];
+        }
+        
+        // Update the intervals to the new domain.
+        // FFR: https://github.com/d3/d3-scale/blob/main/README.md#scaleQuantize
+        scaleQ = d3.scaleQuantize().domain(domain).range(legends);
+        let intervals = scaleQ.thresholds();
+        
         const suffix = selectedIndicator.numberSuffix;
         intervals.unshift(domain[0]);
         intervals.push(domain[1]);
         
         // When the suffix is different from "%" then reverse the legends order. 
         if (suffix !== PERCENTAGE) {
-            intervals = intervals.reverse();
+            if (selectedIndicator.reverseLegendOrder) {
+                intervals = intervals.reverse();
+                auxLegends = auxLegends.reverse();
+            }
+            if (selectedIndicator.reverseColorsOrder) {
+                const reversedColorsLegend = JSON.parse(JSON.stringify(auxLegends));
+                reversedColorsLegend.forEach((i, index) => {
+                    i.color = auxLegends[4 - index].color;
+                });
+                auxLegends = reversedColorsLegend;
+            }
             mapColors = mapColors.reverse();
-            const auxLegends = JSON.parse(JSON.stringify(legends)).reverse();
             scaleQ = d3.scaleQuantize().domain(domain).range(auxLegends);
         }
         
         intervals.forEach((t, index) => {
             if (index > 0) {
                 if (suffix === PERCENTAGE) {
-                    auxLegends[index - 1]['label-range'] = '(' + intervals[index - 1] + suffix + ' - ' + (intervals[index] - (index < 5 ? minus : 0)) + suffix + ')';
+                    auxLegends[index - 1]['label-range'] = '(' + intervals[index - 1] + suffix + ' - ' + (intervals[index] + (index < 5 ? selectedIndicator.adjustConstant : 0)) + suffix + ')';
                 } else {
-                    auxLegends[index - 1]['label-range'] = intervals[index - 1] + suffix + ' - ' + (intervals[index] - (index < 5 ? minus : 0)) + suffix;
+                    if (selectedIndicator.fixedIntervals) {
+                        auxLegends[index - 1]['label-range'] = intervals[index - 1] + suffix + ' - ';
+                        switch (index) {
+                            case 1:
+                                auxLegends[index - 1]['label-range'] += intervals[index] + suffix;
+                                break;
+                            case 2:
+                            case 3:
+                            case 4:
+                                auxLegends[index - 1]['label-range'] = (intervals[index - 1] + selectedIndicator.adjustConstant) + suffix + ' - ' + intervals[index] + suffix;
+                                break;
+                            case 5:
+                                auxLegends[index - 1]['label-range'] = (intervals[index - 1] + selectedIndicator.adjustConstant)  + suffix + ' ' + intl.formatMessage({id: 'or-above'});
+                                break;
+                        }
+                    } else {
+                        auxLegends[index - 1]['label-range'] = intervals[index - 1] + suffix + ' - ' + (intervals[index] + (index < 5 ? selectedIndicator.adjustConstant : 0)) + suffix;
+                    }
                 }
             }
         });
