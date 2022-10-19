@@ -26,10 +26,9 @@ import VisibilitySensor from "react-visibility-sensor-v2";
 
 //we have to generate the key for crop2 crop 2 because in the dvat tool it has different keys for the same crop 1 string
 const getKey = (f) => {
-
     const regexText = /^Crop[ ]{0,1}\d+$/g;
     if (f.name && f.name.match(regexText)) {
-        return f.name.trim().toLowerCase();
+        return f.name.trim().toLowerCase().replace(' ','');
     } else {
         return f.key;
     }
