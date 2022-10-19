@@ -62,7 +62,7 @@ const MarketConcentrationHHI = ({ data, sources, selectedYear, bottomLegend, int
     const enableGridY = true;
     const getTooltipText = (d) => {
         return <div style={{ textAlign: 'center' }}>
-            <span>{hhiValue}</span><span
+            <span>{hhiValue} </span><span
             className="bold">
             {totalLabel.format ? intl.formatNumber(d.data[d.id], totalLabel.format) : d.data[d.id]}</span><br />
             <span>{intl.formatMessage({ id: 'year-legend', defaultMessage: 'Year' })}</span><span

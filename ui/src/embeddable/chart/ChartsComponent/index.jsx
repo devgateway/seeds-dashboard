@@ -925,7 +925,7 @@ const ChartComponent = ({
                 id: 'tooltip-quantity-certified-seed-sold',
                 defaultMessage: 'Quantity of certified seed sold'
             })}</span>
-                        <span className="bold"> {d.data[d.id]}</span><span> {intl.formatMessage({
+                        <span className="bold"> {intl.formatNumber(d.data[d.id])}</span><span> {intl.formatMessage({
                         id: 'metric-tons',
                         defaultMessage: 'Metric tons'
                     }).toLowerCase()}</span>
@@ -1067,7 +1067,6 @@ const ChartComponent = ({
                     id: "with",
                     defaultMessage: "with"
                 });
-                ;
                 const withOut_ = "";
                 const specialFeatures = "";
                 return <>
@@ -2044,7 +2043,7 @@ const ChartComponent = ({
                             id: 'number-agrodealers-tooltip',
                             defaultMessage: 'Number of agro-dealers'
                         })} </span>
-                        <span className="bold"> {d.data.agrodealers !== FAKE_NUMBER ? d.data.agrodealers : "MD"}</span>
+                        <span className="bold"> {d.data.agrodealers !== FAKE_NUMBER ? intl.formatNumber(d.data.agrodealers, defaultFormat) : "MD"}</span>
                     </div>
                 </>
             }
