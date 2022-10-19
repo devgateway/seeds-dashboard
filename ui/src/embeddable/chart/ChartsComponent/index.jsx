@@ -547,6 +547,7 @@ const ChartComponent = ({
                     year: data.values[i].year,
                     total: data.values[i].total,
                 }
+                entry.country = intl.formatMessage({id: normalizeField(entry.country)});
                 auxData.push(entry);
                 noData = false;
 
