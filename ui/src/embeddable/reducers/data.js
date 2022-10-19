@@ -95,7 +95,7 @@ export const getCountries = (dataSource) => (dispatch, getState) => {
 
         dispatch({
             type: LOAD_COUNTRIES_DONE,
-            data: translatedData.sort((a, b) => a.country.localeCompare(b.country))
+            data: translatedData.sort((a, b) => a.translatedLabel.localeCompare(b.translatedLabel))
         })
     }).catch(error => {
         dispatch({
