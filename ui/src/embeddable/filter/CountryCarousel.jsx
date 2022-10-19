@@ -27,11 +27,10 @@ const CountryCarousel = ({ countries, selectedCountry, setVisibleCountries }) =>
     useEffect(() => applyVisibleCountries(), [countries, currentSlide, selectedCountry]);
     const getCountriesCarousel = () =>
         countries && countries.filter(c =>
-            !selectedCountry || c.countryId !== selectedCountry).map((c, index) => {
+            !selectedCountry || c.countryId !== selectedCountry).sort((a, b) => a.translatedLabel.localeCompare(b.translatedLabel)).map((c, index) => {
             return <Slide key={c.countryId}
                           index={index}>{`${c.translatedLabel ? c.translatedLabel : c.country} ${c.year}`} </Slide>
         })
-
     return (
         <>
             <div className="navigator">
