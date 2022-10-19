@@ -32,13 +32,14 @@ const ResponsiveRadarChartImpl = ({
                                       containerHeight = 550,
                                       maxValue = "100",
                                       margin,
-                                      tooltip
+                                      tooltip,
+                                      intl
                                   }) => {
 
 
     const getLabel = (item) => {
         if (item === FAKE_NUMBER) {
-            return "MD";
+            return intl.formatMessage({id: 'md'});
         } else {
             return item + "%";
         }
