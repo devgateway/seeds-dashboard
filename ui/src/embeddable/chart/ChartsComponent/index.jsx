@@ -1131,7 +1131,6 @@ const ChartComponent = ({
             containerHeight = (windowHeight - 200);
             animate = true;
             totalLabel.show = true;
-            totalLabel.format = false;
             groupMode = 'grouped';
             margins = { top: 20, right: 60, bottom: 55, left: 90 }
 
@@ -1248,6 +1247,7 @@ const ChartComponent = ({
                             </div>
                         </>
                     }
+                    totalLabel.format = false;
                     break;
                 case CROSS_COUNTRY_NUMBER_OF_VARIETIES_RELEASED:
                     bottomLegend = intl.formatMessage({
@@ -1266,6 +1266,7 @@ const ChartComponent = ({
                             </div>
                         </>
                     }
+                    totalLabel.format = false;
                     break;
                 case CROSS_COUNTRY_QUANTITY_CERTIFIED_SEED_SOLD:
                     bottomLegend = intl.formatMessage({
@@ -1284,6 +1285,7 @@ const ChartComponent = ({
                             </div>
                         </>
                     }
+                    totalLabel.format = false;
                     break;
                 case CROSS_COUNTRY_NUMBER_OF_ACTIVE_SEED_COMPANIES:
                     bottomLegend = intl.formatMessage({
@@ -1370,7 +1372,7 @@ const ChartComponent = ({
                             id: 'hhi-tooltip',
                             defaultMessage: 'HHI value'
                         })}: </span>
-                                <span className="bold"> {d.value !== FAKE_NUMBER ? d.value : 'MD'}</span>
+                                <span className="bold"> {d.value !== FAKE_NUMBER ? intl.formatNumber(d.value) : 'MD'}</span>
                             </div>
                         </>
                     }
@@ -1477,7 +1479,7 @@ const ChartComponent = ({
                             id: 'agrodealer-network-tooltip',
                             defaultMessage: 'Households per agrodealers'
                         })}: </span>
-                                <span className="bold"> {d.value !== FAKE_NUMBER ? d.value : 'MD'}</span>
+                                <span className="bold"> {d.value !== FAKE_NUMBER ? intl.formatNumber(d.value) : 'MD'}</span>
                             </div>
                         </>
                     }
@@ -1503,7 +1505,7 @@ const ChartComponent = ({
                             id: 'extension-office-household-tooltip',
                             defaultMessage: 'Households per extension officer'
                         })}: </span>
-                                <span className="bold"> {d.value !== FAKE_NUMBER ? d.value : 'MD'}</span>
+                                <span className="bold"> {d.value !== FAKE_NUMBER ? intl.formatNumber(d.value) : 'MD'}</span>
                             </div>
                         </>
                     }
