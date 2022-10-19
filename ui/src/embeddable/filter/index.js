@@ -26,14 +26,14 @@ const Filter = ({
                     "data-show-selector": showSelector = "true",
                     "data-add-indicator-filter": addIndicatorFilter = "false",
                     "data-add-all-countries": addAllCountries = "false",
-                    setIsFilterOpen, intl, categoriesWP, onLoadCategories
+                    setIsFilterOpen, intl, categoriesWP, onLoadCategories, locale
                 }) => {
     const isAddAllCountries = addAllCountries === 'true';
     const isAddIndicatorFilter = addIndicatorFilter === 'true';
     useEffect(() => {
         onLoadCountries(dataSource);
         if (isAddIndicatorFilter) {
-            onLoadCategories();
+            onLoadCategories('', locale);
         }
     }, []);
 
@@ -108,6 +108,7 @@ const mapStateToProps = (state, ownProps) => {
         countries: state.getIn(['data', COUNTRIES_FILTER]),
         country_settings: state.getIn(['data', COUNTRY_SETTINGS, 'data']),
         categoriesWP: state.getIn([DATA, WP_CATEGORIES]),
+        locale: state.getIn(['intl', 'locale']),
     }
 }
 
