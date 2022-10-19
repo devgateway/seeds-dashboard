@@ -399,12 +399,18 @@ const Map = (props) => {
     // To reuse the colors.
     let mapColors = colors.map(c => c.color);
     
-    // Update the intervals to the new domain.
-    // FFR: https://github.com/d3/d3-scale/blob/main/README.md#scaleQuantize
-    let scaleQ = d3.scaleQuantize().domain(domain).range(legends);
-    let intervals = scaleQ.thresholds();
+    let scaleQ;
     let auxLegends = JSON.parse(JSON.stringify(legends));
     if (selectedIndicator) {
+        if (selectedIndicator.fixedZeroToHundredDomain) {
+            domain = [0, 100];
+        }
+        
+        // Update the intervals to the new domain.
+        // FFR: https://github.com/d3/d3-scale/blob/main/README.md#scaleQuantize
+        scaleQ = d3.scaleQuantize().domain(domain).range(legends);
+        let intervals = scaleQ.thresholds();
+        
         const suffix = selectedIndicator.numberSuffix;
         intervals.unshift(domain[0]);
         intervals.push(domain[1]);
@@ -421,9 +427,6 @@ const Map = (props) => {
                     i.color = auxLegends[4 - index].color;
                 });
                 auxLegends = reversedColorsLegend;
-            }
-            if (selectedIndicator.fixedZeroToHundredDomain) {
-                domain = [0, 100];
             }
             mapColors = mapColors.reverse();
             scaleQ = d3.scaleQuantize().domain(domain).range(auxLegends);
