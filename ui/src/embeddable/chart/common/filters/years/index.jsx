@@ -81,7 +81,7 @@ const YearsFilter = ({ intl, data, onChange, maxSelectable, defaultSelected, sho
         } else {
             return (<>
                 {showMaxYearsMessage && data.length > maxSelectable ?
-                    <div className="max-years-msg">Select Three Years Maximum</div> : null}
+                    <div className="max-years-msg">{intl.formatMessage({id: "select-3-years-max"})}</div> : null}
                 {data.map((c, i) => {
                     return (<div key={c}>
                         <Form.Checkbox value={c}
@@ -97,7 +97,7 @@ const YearsFilter = ({ intl, data, onChange, maxSelectable, defaultSelected, sho
         id: "year-legend",
         defaultMessage: "Year"
     })} </span><span
-        className="filter-selector-numbers">{selectedYear ? selectedYear.length : 0} of {data.length}</span></div>);
+        className="filter-selector-numbers">{selectedYear ? selectedYear.length : 0} {intl.formatMessage({id: 'of'})} {data.length}</span></div>);
     return (
         <div ref={ref}>
             <Accordion as={Menu} vertical>
