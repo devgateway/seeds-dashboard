@@ -109,6 +109,9 @@ const Header = ({ intl, intl: { locale }, match, firstChildLink, filters }) => {
 
     const gotoLanguage = (lang) => {
         let slugUrl = slug ? `${slug}` : ``;
+        if (isCustom) {
+            slugUrl = `${MENU_DASHBOARD}/${slugUrl}`;
+        }
         slugUrl += generateShareParams(filters, null, null, null);
         window.location = `/${lang}/${slugUrl}`;
     }
