@@ -24,7 +24,7 @@ const CountryFilter = ({
         let length = 0;
         if (countries) {
             length = countries.length;
-            if (filters && filters.get(SELECTED_COUNTRY) && filters.get(SELECTED_COUNTRY).length > 0) {
+            if (filters && filters.get(SELECTED_COUNTRY) ) {
                 length = length - 1;
             }
         }
