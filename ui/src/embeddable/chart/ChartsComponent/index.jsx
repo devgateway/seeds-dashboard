@@ -510,6 +510,7 @@ const ChartComponent = ({
             if (countries && countries.find(k => k.iso === i && k.selected === true)) {
                 let key = COUNTRY_OPTIONS.find(j => j.flag.toLowerCase() === i.toLowerCase()).text;
                 if (useOnlyLastYear) {
+                    key = intl.formatMessage({id: normalizeField(key)});
                     const years = Object.keys(data.values[c][i]).sort();
                     const lastYear = years[years.length - 1];
                     key += ' - ' + lastYear;
@@ -1753,7 +1754,7 @@ const ChartComponent = ({
                                         <td>
                                             <div className={'circle'} style={{ background: i.color }} />
                                         </td>
-                                        <td style={{ textAlign: "center" }}><span>{i.id} {i.year}</span></td>
+                                        <td style={{ textAlign: "center" }}><span>{i.id}</span></td>
                                         <td>
                                             <span>
                                                 <strong>{i.value !== FAKE_NUMBER ? i.value + '%' : 'MD'}</strong>
