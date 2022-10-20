@@ -1071,7 +1071,7 @@ const ChartComponent = ({
                 const specialFeatures = "";
                 return <>
           <span
-              className="bold"> {d.data[d.id]} out of {(d.data['withSpecialFeature_' + d.indexValue.toLowerCase()] || 0)
+              className="bold"> {d.data[d.id]} {intl.formatMessage({id: 'out-of'})} {(d.data['withSpecialFeature_' + d.indexValue.toLowerCase()] || 0)
               + (d.data['withoutSpecialFeature_' + d.indexValue.toLowerCase()] || 0)} </span>
                     <span>{varietiesReleased} {d.id.startsWith('withSpecial')
                         ? (<>{with_} <span className="bold">{specialFeatures}</span></>)
@@ -1781,8 +1781,13 @@ const ChartComponent = ({
                     });
                     tooltipSubText = intl.formatMessage({ id: 'days-for-import', defaultMessage: 'Days for Import' });
                     subLabel = 'Length of import process (days)';
-                    legends = [{ id: 1, 'color': barPieColor[1], 'label': 'Number of days for import' },
-                        { id: 2, 'color': barPieColor[0], 'label': 'Industry rating' }
+                    legends = [{ id: 1, 'color': barPieColor[1], 
+                        'label': intl.formatMessage({
+                            id: 'number-of-days-for-import',
+                            defaultMessage: 'Number of days for import'
+                        }) },
+                        { id: 2, 'color': barPieColor[0], 
+                            'label': intl.formatMessage({ id: 'industry-rating', defaultMessage: 'Industry rating' }) }
                     ];
                     noDataLabelId = "no-reported-imports";
                     break;
