@@ -32,7 +32,7 @@ const CountryReports = (props) => {
         "data-width": width,
         "data-height": height,
         "data-category-sufix": categorySuffix,
-        "data-is-brief": brief = 'false', intl
+        "data-is-brief": brief = 'false', intl, locale
     } = props;
     const categorySuffix_ = categorySuffix || '';
     const titleKey = brief === 'false' ? 'report' : 'brief';
@@ -40,7 +40,7 @@ const CountryReports = (props) => {
     const title = intl.formatMessage({ id: titleKey, defaultMessage: titleKey });
     useEffect(() => {
         if (!categoriesWP && editing) {
-            onLoadCategories('COUNTRY-REPORTS')
+            onLoadCategories('COUNTRY-REPORTS');
         }
     }, [onLoadCategories, categoriesWP]);
 
@@ -193,6 +193,7 @@ const mapStateToProps = (state, ownProps) => {
         error: state.getIn([DATA, WP_DOCUMENTS, 'error']),
         categoriesWP: state.getIn([DATA, WP_CATEGORIES + 'COUNTRY-REPORTS']),
         crops: state.getIn([DATA, ownProps[DATA_CATEGORY], WP_CROPS, 'data']),
+        locale: state.getIn(['intl', 'locale']),
     }
 }
 

@@ -181,7 +181,11 @@ export const getCountriesData = (dataSource, params) => {
 }
 
 export const getCategoriesWP = (params) => {
-    return utils.getAll(WP_CATEGORIES);
+    let lang = 'en';
+    if (params && params.lang) {
+        lang = params.lang;
+    }
+    return utils.getAll(WP_CATEGORIES + '?lang=' + lang);
 }
 
 export const getIndicatorsData = (params) => {

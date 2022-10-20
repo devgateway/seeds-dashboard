@@ -37,7 +37,8 @@ const PostCarousel = ({
                           'data-filter-default-category': strDefaultCategory,
                           filters, filtersData, categoriesWP, onLoadWPCategories,
                           onLoadCrops, onLoadDocuments,
-                          intl
+                          intl,
+                          locale
                       }) => {
     let orCategoriesArray;
     let defaultCategory;
@@ -117,6 +118,7 @@ const mapStateToProps = (state) => {
         filters: state.getIn(['data', 'filters']),
         categoriesWP: state.getIn(['data', WP_CATEGORIES]),
         filtersData: state.getIn(['data']),
+        locale: state.getIn(['intl', 'locale']),
     }
 }
 
