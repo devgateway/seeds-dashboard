@@ -40,7 +40,7 @@ const CountryReports = (props) => {
     const title = intl.formatMessage({ id: titleKey, defaultMessage: titleKey });
     useEffect(() => {
         if (!categoriesWP && editing) {
-            onLoadCategories('COUNTRY-REPORTS', locale);
+            onLoadCategories('COUNTRY-REPORTS');
         }
     }, [onLoadCategories, categoriesWP]);
 

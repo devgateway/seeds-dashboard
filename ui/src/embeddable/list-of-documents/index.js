@@ -26,7 +26,7 @@ const ListOfDocuments = ({
                              locale
                          }) => {
     useEffect(() => {
-        onLoadCategories('', locale);
+        onLoadCategories();
     }, [onLoadCategories]);
 
     useEffect(() => {

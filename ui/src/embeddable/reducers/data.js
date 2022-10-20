@@ -160,11 +160,11 @@ export const getImages = () => (dispatch, getState) => {
     })
 }
 
-export const getWpCategories = (storePrefix = '', locale) => (dispatch, getState) => {
+export const getWpCategories = (storePrefix = '') => (dispatch, getState) => {
     dispatch({
         type: LOAD_WP_CATEGORIES
     });
-    api.getCategoriesWP({lang: locale || 'en'}).then(data => {
+    api.getCategoriesWP({lang:  getState().getIn(['intl', 'locale'])  || 'en'}).then(data => {
         dispatch({
             type: LOAD_WP_CATEGORIES_DONE,
             storePrefix: storePrefix,

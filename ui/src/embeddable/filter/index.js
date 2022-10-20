@@ -33,7 +33,7 @@ const Filter = ({
     useEffect(() => {
         onLoadCountries(dataSource);
         if (isAddIndicatorFilter) {
-            onLoadCategories('', locale);
+            onLoadCategories();
         }
     }, []);
 

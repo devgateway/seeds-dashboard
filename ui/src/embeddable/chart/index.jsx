@@ -142,7 +142,7 @@ const Chart = (props) => {
     }, []);
 
     useEffect(() => {
-        onLoadCategories('', locale);
+        onLoadCategories();
     }, [onLoadCategories]);
 
     function filter(node) {
