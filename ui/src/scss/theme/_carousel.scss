@@ -321,11 +321,15 @@
   }
   .link{
     @include button(3px, $yellow, $white);
-    bottom: $base-unit * 3;
-    display: inline-block;
-    left: 54%;
+    bottom: 0;
+    display: block;
+    margin-left: 44%;
+    margin-top: -40px;
+    // left: 44%;
     padding: $base-unit $base-unit * 2;
-    position: absolute;
+    text-align: center;
+    width: 140px;
+    // position: absolute;
     &:hover{
       @include button-hover;
     }

@@ -3,13 +3,13 @@ import { PostConsumer, PostIntro, PostProvider } from "@devgateway/wp-react-lib"
 import 'pure-react-carousel/dist/react-carousel.es.css';
 import React, { useEffect, useState } from "react";
 import { Container, Icon, Loader } from "semantic-ui-react";
-import { ButtonBack, ButtonNext, CarouselProvider, Dot, DotGroup, Slide, Slider } from "pure-react-carousel";
 import { connect } from "react-redux";
 import { getCrops, getDocuments, getIndicatorsInformation, getWpCategories } from "../reducers/data";
 import { WP_CATEGORIES } from "../reducers/StoreConstants";
 import { getSlugFromFilters } from "../utils/common";
 import { DOCUMENTS_PER_PAGE } from "../../seeds-commons/commonConstants";
 import Carousel from "./Carousel";
+import { injectIntl } from "react-intl";
 
 export const POST_CAROUSEL_CONTAINER = 'postCarouselContainer';
 
@@ -34,15 +34,24 @@ const PostCarousel = ({
                           "data-show-two-columns": twoColumns = 'false',
                           "data-preload-document-and-crops": preloadDocumentsAndCrops = 'false',
                           'data-new-implementation': newImplementation = 'false',
+                          'data-filter-default-category': strDefaultCategory,
                           filters, filtersData, categoriesWP, onLoadWPCategories,
-                          onLoadCrops, onLoadDocuments
+                          onLoadCrops, onLoadDocuments,
+                          intl,
+                          locale
                       }) => {
+    let orCategoriesArray;
+    let defaultCategory;
+
     const isConnectFilter = connectFilter === 'true';
     const isNewImplementation = newImplementation === 'true';
     const isTwoColumns = twoColumns === 'true';
     const isSortedByCountryAndYearCategories = sortedByCountryAndYearCategories === 'true';
     const isPreloadDocumentsAndCrops = preloadDocumentsAndCrops === 'true';
-    let orCategoriesArray = undefined;
+
+    if (strDefaultCategory && !isNaN(strDefaultCategory)) {
+        defaultCategory = parseInt(strDefaultCategory);
+    }
     useEffect(() => {
         if (isPreloadDocumentsAndCrops) {
             onLoadCrops({});
@@ -79,8 +88,8 @@ const PostCarousel = ({
     }
     if (isConnectFilter && !categoriesWP) {
         return <Container>
-            <h1>Loading ...</h1>
-            <Loader inverted content='Loading' />
+            <span>{intl.formatMessage({ id: 'loading', defaultMessage: 'Loading' })}</span>
+            <Loader inverted content={intl.formatMessage({ id: 'loading', defaultMessage: 'Loading' })} />
         </Container>;
     } else {
         return <Container className={`wp-react-lib post carousel ${editing ? 'editing' : ''}`} fluid={true}
@@ -90,7 +99,9 @@ const PostCarousel = ({
                           categoriesOr={orCategoriesArray && isNewImplementation ? orCategoriesArray : undefined}
                           store={"carousel_" + parent + "_" + unique} page={1}
                           perPage={items > 0 ? items : undefined} isScheduledFilter={scheduledFilter === 'true'}
-                          scheduledFilterStore={scheduledFilterStore}>
+                          scheduledFilterStore={scheduledFilterStore}
+                          categoryDefault={defaultCategory}
+            >
                 <PostConsumer>
                     <Carousel itemsPerPage={itemsPerPage} messages={messages} orientation={orientation}
                               navigatorStyle={navigatorStyle} type={type} showLinksInModal={showLinksInModal}
@@ -100,13 +111,14 @@ const PostCarousel = ({
                 </PostConsumer>
             </PostProvider>
         </Container>
-    }   
+    }
 }
 const mapStateToProps = (state) => {
     return {
         filters: state.getIn(['data', 'filters']),
         categoriesWP: state.getIn(['data', WP_CATEGORIES]),
         filtersData: state.getIn(['data']),
+        locale: state.getIn(['intl', 'locale']),
     }
 }
 
@@ -117,4 +129,4 @@ const mapActionCreators = {
     onLoadDocuments: getDocuments,
 };
 
-export default connect(mapStateToProps, mapActionCreators)(PostCarousel);
+export default connect(mapStateToProps, mapActionCreators)(injectIntl(PostCarousel));

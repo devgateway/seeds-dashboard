@@ -1,4 +1,4 @@
-import { FIELD_ORIENTATION_VERTICAL } from "./index";
+import {FIELD_ORIENTATION_VERTICAL} from "./index";
 
 const SaveComponent = (props) => {
     const {
@@ -20,7 +20,8 @@ const SaveComponent = (props) => {
             showLinksInModal,
             sortedByCountryAndYearCategories,
             preloadDocumentsAndCrops,
-            isNewImplementation
+            isNewImplementation,
+            defaultCategory
         },
     } = props;
 
@@ -28,6 +29,7 @@ const SaveComponent = (props) => {
     const divStyles = {}
     return (<div className={divClass} style={divStyles}>
             <div data-items={count} data-type={type}
+                 data-filter-default-category={defaultCategory}
                  data-items-per-page={itemsPerPage}
                  data-taxonomy={taxonomy}
                  data-values-filter-store={valuesFilterStore}

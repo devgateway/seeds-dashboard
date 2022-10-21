@@ -251,6 +251,7 @@
           }
         }
 
+        &._our-methods,
         &._methods {
           a {
             background-image: url("/static/images/methods.svg") !important;
@@ -318,13 +319,15 @@
           }
         }
 
-        &._country-info {
+        &._seed-info-portals,
+        &._seeds-info-portals {
           a {
             background-image: url("/static/images/country_info.svg") !important;
           }
         }
 
-        &._country-overview {
+        &._country-overview,
+        &._dashboard-home {
           a {
             background-image: url("/static/images/dashboard.svg");
           }
@@ -351,7 +354,8 @@
           }
         }
 
-        &._upcoming-events {
+        &._upcoming-events,
+        &._no-upcoming-events{
           a {
             background-image: url("/static/images/upcoming-events.svg") !important;;
           }

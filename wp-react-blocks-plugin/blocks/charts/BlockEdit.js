@@ -194,7 +194,7 @@ class BlockEdit extends BaseBlockEdit {
                                             value: 'agriculturalExtensionServices'
                                         },
                                         {
-                                            label: 'Number of seed inspectors in most recent data collection year',
+                                            label: 'Cross-Country - Number of seed inspectors in most recent data collection year',
                                             value: 'seedInspectorsByCountry',
                                         },
                                         {
@@ -244,6 +244,14 @@ class BlockEdit extends BaseBlockEdit {
                                         {
                                             label: 'Cross-Country - Availability of seed in small packages (2kg)',
                                             value: 'availabilitySeedSmallPackages_crossCountry'
+                                        },
+                                        {
+                                            label: 'Cross-Country - Concentration of agricultural extension services for smallholder farmers',
+                                            value: 'agriculturalExtensionServices_crossCountry'
+                                        },
+                                        {
+                                            label: 'Cross-Country - Seed industry opinion of the implementation of government seed subsidy program',
+                                            value: 'ratingGovernmentSeedSubsidyProgram_crossCountry'
                                         }
                                     ]}
                                 />

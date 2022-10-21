@@ -25,11 +25,11 @@ class PostProvider extends React.Component {
             postType,
             id,
             slug404,
-            categoriesOr
+            categoriesOr, categoryDefault
         } = this.props
         this.props.onLoadPost({
             slug, type, taxonomy, categories, before, perPage, page, fields, store, locale, previewNonce,
-            previewId, search, postType, id, slug404, categoriesOr
+            previewId, search, postType, id, slug404, categoriesOr, categoryDefault
         })
     }
 
@@ -53,11 +53,12 @@ class PostProvider extends React.Component {
             isScheduledFilter,
             scheduledFilterStore,
             slug404,
-            categoriesOr
+            categoriesOr,
+            categoryDefault
         } = this.props
         if (categories != prevProps.categories || locale != prevProps.locale || slug != prevProps.slug ||
             taxonomy != prevProps.taxonomy || page != prevProps.page || perPage != prevProps.perPage || search != prevProps.search ||
-            categoriesOr != prevProps.categoriesOr
+            categoriesOr != prevProps.categoriesOr || categoryDefault != prevProps.categoryDefault
 
         ) {
             this.props.onLoadPost({
@@ -73,13 +74,24 @@ class PostProvider extends React.Component {
                 locale,
                 previewNonce,
                 previewId,
-                search, postType, id, slug404, categoriesOr
+                search, postType, id, slug404, categoriesOr, categoryDefault
             })
         }
     }
 
     render() {
-        const { posts, meta, loading, error, locale, isScheduledFilter, scheduledFilterStore } = this.props;
+        const {
+            posts,
+            meta,
+            loading,
+            error,
+            locale,
+            isScheduledFilter,
+            scheduledFilterStore,
+            messages,
+            loadingMessage = "Loading",
+            hideNotFound
+        } = this.props;
         if (posts && (posts.length > 0 || posts.id)) {
             let postsArray = posts;
             if (!Array.isArray(postsArray)) {
@@ -97,21 +109,23 @@ class PostProvider extends React.Component {
                             if ((end < now && isPast) || (end > now && !isPast)) {
                                 return true;
                             }
-                        } else if (acf.event_stat_date && acf.event_start_date !== "") {
-                            let start = new Date(acf.event_stat_date).getTime();
+                        } else if (acf.event_start_date && acf.event_start_date !== "") {
+                            let start = new Date(acf.event_start_date).getTime();
                             if ((start < now && isPast) || (start > now && !isPast)) {
                                 return true;
                             }
                         }
                     }
                     return false;
-                }).sort((a, b) => !a.acf.event_stat_date || !b.acf.event_stat_date ? 0
-                    : isPast ? new Date(b.acf.event_stat_date) - new Date(a.acf.event_stat_date)
-                        : new Date(a.acf.event_stat_date) - new Date(b.acf.event_stat_date));
+                }).sort((a, b) => !a.acf.event_start_date || !b.acf.event_start_date ? 0
+                    : isPast ? new Date(b.acf.event_start_date) - new Date(a.acf.event_start_date)
+                        : new Date(a.acf.event_start_date) - new Date(b.acf.event_start_date));
+            } else {
+                postsArray = postsArray.sort((a, b) => !a.date || !b.date ? 0
+                    : new Date(b.date) - new Date(a.date));
             }
-
             return <PostContext.Provider
-                value={{ posts: postsArray, locale, meta }}>{this.props.children}</PostContext.Provider>
+                value={{ posts: postsArray, locale, meta, messages }}>{this.props.children}</PostContext.Provider>
         } else if (error) {
             return <Segment color={"red"}>
                 <h1>500</h1>
@@ -119,14 +133,19 @@ class PostProvider extends React.Component {
             </Segment>
         } else if (loading) {
             return (<Container>
-                <Loader>Loading</Loader>
+                <span>{loadingMessage}...</span>
+                <Loader inverted content='Loading...' />
             </Container>)
         } else {
-            return <Container>
-                <Segment color={"red"}>
-                    <p>No entries found</p>
-                </Segment>
-            </Container>
+            if (!hideNotFound) {
+                return <Container>
+                    <Segment color={"red"}>
+                        <p>No entries found</p>
+                    </Segment>
+                </Container>
+            } else {
+                return null;
+            }
         }
     }
 }

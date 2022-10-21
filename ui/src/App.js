@@ -54,7 +54,7 @@ const InjectMessages = (props) => {
 
 class IntlRoutes extends Component {
     componentDidMount() {
-        const locale = this.props.match.params.lan
+        const locale = this.props.match.params.lan ? this.props.match.params.lan.toLowerCase() : this.props.match.params.lan;
         store.dispatch(updateIntl({ locale, messages: messages[this.props.match.params.lan] }))
         store.dispatch(detectClientCountry());
         store.dispatch(fetchCustomTooltips());
@@ -62,7 +62,7 @@ class IntlRoutes extends Component {
     }
 
     componentDidUpdate() {
-        const locale = this.props.match.params.lan
+        const locale = this.props.match.params.lan ? this.props.match.params.lan.toLowerCase() : this.props.match.params.lan;
         store.dispatch(updateIntl({ locale, messages: messages[locale] }))
         store.dispatch(detectClientCountry());
         this.processSharedInfo();
@@ -216,21 +216,21 @@ class IntlRoutes extends Component {
                                 }
                                 <Route path={["/:lan/:parent/:slug/", "/:lan/:grandParent/:parent/:slug/"]} exact
                                        render={props => {
-                                    return (
-                                        <PageProvider
-                                            slug={props.match.params.slug}
-                                            store={props.match.params.slug}
-                                            messages={messages}
-                                            slug404={PAGE_404_SLUG}>
-                                            <ResponsiveContainer>
-                                                <PageConsumer>
-                                                    <Page />
-                                                </PageConsumer>
-                                            </ResponsiveContainer>
-                                        </PageProvider>
+                                           return (
+                                               <PageProvider
+                                                   slug={props.match.params.slug}
+                                                   store={props.match.params.slug}
+                                                   messages={messages}
+                                                   slug404={PAGE_404_SLUG}>
+                                                   <ResponsiveContainer>
+                                                       <PageConsumer>
+                                                           <Page />
+                                                       </PageConsumer>
+                                                   </ResponsiveContainer>
+                                               </PageProvider>
 
-                                    );
-                                }}>
+                                           );
+                                       }}>
 
                                 </Route>
                                 <Route path="/:lan/type/:postType/:id/" exact render={props => {
@@ -241,6 +241,7 @@ class IntlRoutes extends Component {
                                                 postType={props.match.params.postType}
                                                 store={props.match.params.postType + props.match.params.id}
                                                 slug404={POST_404_SLUG}
+                                                messages={messages}
                                             >
                                                 <PostConsumer>
                                                     <Post />
@@ -256,6 +257,7 @@ class IntlRoutes extends Component {
                                             slug={props.match.params.slug}
                                             store={props.match.params.slug}
                                             slug404={POST_404_SLUG}
+                                            messages={messages}
                                         >
                                             <PostConsumer>
                                                 <Post />
@@ -270,7 +272,7 @@ class IntlRoutes extends Component {
                                         slug={props.match.params.slug}
                                         store={props.match.params.slug}
                                         slug404={POST_404_SLUG}
-                                    >
+                                        messages={messages}>
                                         <PostConsumer>
                                             <Post />
                                         </PostConsumer>
@@ -278,7 +280,6 @@ class IntlRoutes extends Component {
                                 )}>
                                 </Route>
                                 <Route exact render={props => {
-                                    debugger
                                     return (
                                         <PageProvider
                                             slug={PAGE_404_SLUG}

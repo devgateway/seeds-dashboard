@@ -1,0 +1,12 @@
+export const A1_ADEQUACY_ACTIVE_BREEDERS = "A1. Adequacy of active breeders";
+export const A4_AVAILABILITY_FOUNDATION_SEED = "A4. Availability of foundation (basic) seed";
+export const D2_ADEQUACY_SEED_INSPECTION_SERVICES = "D2. Adequacy of seed inspection services";
+export const E13_ADEQUACY_EXTENSION_SERVICES = "E1 Adequacy of extension services";
+export const E24_ADEQUACY_AGRODEALER_NETWORK = "E2 Adequacy of agrodealer network";
+export const C1_SATISFACTION_VARIETY_RELEASE_PROCESS = "C1. Satisfaction with variety release process";
+export const C2_SATISFACTION_SEED_REGULATIONS = "C2. Satisfaction with the enforcement of seed law/ regulations";
+export const C4_ADEQUACY_GOVERNMENT_EFFORT_COUNTERFEIT_SEED = "C4. Adequacy of government efforts to eradicate counterfeit seed";
+export const B72_LENGTH_SEED_IMPORT = "B7.2 Length of seed import (days)";
+export const B75_LENGTH_SEED_EXPORT = "B7.5 Length of seed export (days)";
+export const B73_SATISFACTION_IMPORT = "B7.3 Satisfaction with import process";
+export const B77_SATISFACTION_EXPORT = "B7.7 Satisfaction with export process";

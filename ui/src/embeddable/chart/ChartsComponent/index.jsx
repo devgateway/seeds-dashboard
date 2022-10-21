@@ -1,5 +1,5 @@
 import ResponsiveBarChartImpl from "../ResponsiveBarChartImpl";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Grid } from "semantic-ui-react";
 import Header from "../common/header";
 import CropFilter from "../common/filters/crops";
@@ -14,6 +14,7 @@ import {
     AVERAGE_AGE_VARIETIES_SOLD,
     MARKET_CONCENTRATION_HHI,
     PERFORMANCE_SEED_TRADERS,
+    RATING_GOVERNMENT_SEED_SUBSIDY_PROGRAM,
     NUMBER_OF_ACTIVE_BREEDERS,
     NUMBER_OF_ACTIVE_SEED_COMPANIES_PRODUCERS,
     VARIETIES_RELEASED_WITH_SPECIAL_FEATURES,
@@ -29,7 +30,7 @@ import {
     AVAILABILITY_SEED_SMALL_PACKAGES,
     AGRODEALER_NETWORK,
     AGRICULTURAL_EXTENSION_SERVICES,
-    NUMBER_SEED_INSPECTORS_BY_COUNTRY,
+    CROSS_COUNTRY_NUMBER_SEED_INSPECTORS,
     NUMBER_OF_VARIETIES_RELEASED,
     SHARE_CROPS,
     SHARE_CHART, SHARE_YEARS,
@@ -44,6 +45,7 @@ import {
     CROSS_COUNTRY_VARIETY_RELEASE_PROCESS,
     CROSS_COUNTRY_OVERALL_RATING_NATIONAL_SEED_TRADE_ASSOCIATION,
     CROSS_COUNTRY_AGRODEALER_NETWORK, CROSS_COUNTRY_AVAILABILITY_SEED_SMALL_PACKAGES,
+    CROSS_COUNTRY_AGRICULTURAL_EXTENSION_SERVICES
 } from "../../reducers/StoreConstants";
 import YearLegend from "../common/year";
 import MarketConcentrationHHI, { getColorHHI, hhiLegends } from "../MarketConcentrationHHI";
@@ -58,6 +60,8 @@ import { connect } from "react-redux";
 import CrossCountryCropFilter from "../common/filters/crossCountry/crops";
 import CrossCountryCountryFilter from "../common/filters/crossCountry/country";
 import HHILegend from "../MarketConcentrationHHI/HHILegend";
+import { normalizeField } from "../../utils/common";
+import Notes from "../common/source/Notes";
 
 const ChartComponent = ({
                             sources,
@@ -70,7 +74,8 @@ const ChartComponent = ({
                             methodology,
                             download,
                             exportPng,
-                            filters
+                            filters,
+                            categoriesWP
                         }) => {
     const [initialCrops, setInitialCrops] = useState(null);
     const [selectedCrops, setSelectedCrops] = useState(null);
@@ -78,11 +83,18 @@ const ChartComponent = ({
     const [currentData, setCurrentData] = useState(null);
     const [countries, setCountries] = useState([]);
     const [forceUpdate, setForceUpdate] = useState(false);
+    const [hasNotes, setHasNotes] = useState(false)
     const ref = useRef(null);
     const genericLegend = "generic";
+    let categoryType;
+    if (categoriesWP) {
+        categoryType = categoriesWP.find(c => c.slug === type.toLowerCase())
+    }
+
     //TODO can be configured in wordpress at a later stage
     let defaultFormat = { style: 'decimal', minimumFractionDigits: 0, maximumFractionDigits: 1 };
     let indexBy = 'crop';
+    let radarTooltip;
     let useFilterByYear = true;
     let layout = 'vertical';
     let groupMode = 'stacked';
@@ -117,6 +129,7 @@ const ChartComponent = ({
     let max = 0;
     let lineTooltipSuffix;
     let maxSelectableYear = 4;
+    let maxSelectableCountries = 0;
     let processedData = [];
     let useCropLegendsRow = true;
     let useFilterByCrops = true;
@@ -126,6 +139,7 @@ const ChartComponent = ({
     let animate = true
     let extraTooltipClass = null;
     let showMaxYearsMessage = false;
+    let showMaxCountriesMessage = false;
     let switchToLineChart = false;
     let sharedCrops;
     let sharedYears;
@@ -135,6 +149,7 @@ const ChartComponent = ({
     let useFilterByCountries = false;
     let customSorting = null;
     const MAIZE = 'maize';
+    let customCrossCountryLegend = null;
 
     if (filters && filters.get(SHARE_CHART) === type) {
         if (filters.get(SHARE_CROPS)) {
@@ -147,6 +162,8 @@ const ChartComponent = ({
     if (type === PERFORMANCE_SEED_TRADERS) {
         maxSelectableYear = 3;
         showMaxYearsMessage = true
+    } else if (type === RATING_GOVERNMENT_SEED_SUBSIDY_PROGRAM) {
+        showMaxCountriesMessage = true;
     } else if (type === AVAILABILITY_SEED_SMALL_PACKAGES || type === VARIETIES_RELEASED_WITH_SPECIAL_FEATURES) {
         maxSelectableYear = 1;
     }
@@ -161,7 +178,10 @@ const ChartComponent = ({
         || type === CROSS_COUNTRY_VARIETY_RELEASE_PROCESS
         || type === CROSS_COUNTRY_OVERALL_RATING_NATIONAL_SEED_TRADE_ASSOCIATION
         || type === CROSS_COUNTRY_AGRODEALER_NETWORK
-        || type === CROSS_COUNTRY_AVAILABILITY_SEED_SMALL_PACKAGES) {
+        || type === CROSS_COUNTRY_NUMBER_SEED_INSPECTORS
+        || type === CROSS_COUNTRY_AVAILABILITY_SEED_SMALL_PACKAGES
+        || type === CROSS_COUNTRY_AGRICULTURAL_EXTENSION_SERVICES
+        || type === RATING_GOVERNMENT_SEED_SUBSIDY_PROGRAM) {
         isCrossCountryChart = true;
     }
 
@@ -169,7 +189,9 @@ const ChartComponent = ({
         !data.dimensions ||
         (!data.dimensions.crop && !data.dimensions.year
             && type !== CROSS_COUNTRY_VARIETY_RELEASE_PROCESS && type !== CROSS_COUNTRY_OVERALL_RATING_NATIONAL_SEED_TRADE_ASSOCIATION
-            && type !== CROSS_COUNTRY_AGRODEALER_NETWORK) ||
+            && type !== CROSS_COUNTRY_AGRODEALER_NETWORK && type !== CROSS_COUNTRY_NUMBER_SEED_INSPECTORS
+            && type !== CROSS_COUNTRY_AGRICULTURAL_EXTENSION_SERVICES && type !== RATING_GOVERNMENT_SEED_SUBSIDY_PROGRAM
+            && type !== CROSS_COUNTRY_NUMBER_OF_ACTIVE_SEED_COMPANIES) ||
         data.id === null) {
         noData = true;
     } else {
@@ -180,8 +202,13 @@ const ChartComponent = ({
         if (isCrossCountryChart && countries.length === 0) {
             let countriesISO = data.dimensions.country ? data.dimensions.country.values : [];
             countriesISO.forEach(c => {
+                const countryName = COUNTRY_OPTIONS.find(j => j.flag.toLowerCase() === c.toLowerCase()).text
+                const translatedName = intl.formatMessage({
+                    id: normalizeField(countryName),
+                    defaultMessage: countryName
+                });
                 countries.push({
-                    iso: c, name: COUNTRY_OPTIONS.find(j => j.flag.toLowerCase() === c.toLowerCase()).text,
+                    iso: c, name: translatedName,
                     active: true, selected: true
                 });
             });
@@ -219,7 +246,8 @@ const ChartComponent = ({
                 || type === CROSS_COUNTRY_VARIETY_RELEASE_PROCESS
                 || type === CROSS_COUNTRY_OVERALL_RATING_NATIONAL_SEED_TRADE_ASSOCIATION
                 || type === CROSS_COUNTRY_AGRODEALER_NETWORK
-                || type === CROSS_COUNTRY_AVAILABILITY_SEED_SMALL_PACKAGES) {
+                || type === CROSS_COUNTRY_AVAILABILITY_SEED_SMALL_PACKAGES
+                || type === CROSS_COUNTRY_AGRICULTURAL_EXTENSION_SERVICES) {
                 setSelectedCrops([MAIZE]);
             }
             return null;
@@ -360,6 +388,7 @@ const ChartComponent = ({
     const commonCrossCountryProcess = () => {
         if (crops && countries) {
             max = 0;
+            let allFake = true;
             countries.filter(c => c.selected).forEach(c => {
                 if (data.values[c.iso]) {
                     const item = {};
@@ -368,13 +397,19 @@ const ChartComponent = ({
                     item.country = c.name;
                     item.year = data.values[c.iso].year;
                     processedData.push(item);
-                    if (max < item[c.iso]) {
+                    if (item[c.iso] !== FAKE_NUMBER && max < item[c.iso]) {
                         max = item[c.iso];
+                        allFake = false;
                     }
                     item.textValue = "" + item[c.iso];
                     item.value = item[c.iso];
                 }
             });
+            /* SEEDSDT-1139: In horizontal charts it looks better to set some max so the vertical axis 
+                doesn't land in the middle of the chart. */ 
+            if (allFake) {
+                max = 10;
+            }
         }
     }
 
@@ -389,6 +424,7 @@ const ChartComponent = ({
                         iso: i,
                         country: COUNTRY_OPTIONS.find(j => j.flag.toLowerCase() === i.toLowerCase()).text
                     };
+                    item.country = intl.formatMessage({id: normalizeField(item.country)});
                     let sum = 0;
                     Object.keys(data.values[i]).forEach(j => {
                         if (j !== 'year') {
@@ -419,6 +455,7 @@ const ChartComponent = ({
                         iso: i,
                         country: COUNTRY_OPTIONS.find(j => j.flag.toLowerCase() === i.toLowerCase()).text
                     };
+                    item.country = intl.formatMessage({id: normalizeField(item.country)});
                     item.year = data.values[i].year;
                     if (!isNaN(data.values[i].value)) {
                         item.textValue = "" + data.values[i].value;
@@ -467,24 +504,57 @@ const ChartComponent = ({
         processedData.push(entry);
     }
 
-    const processInspectorsByCountry = () => {
-        let auxData = [];
-        Object.keys(data.values).forEach(i => {
-            const entry = {
-                country: COUNTRY_OPTIONS.find(j => j.flag.toLowerCase() === i.toLowerCase()).text,
-                publicSeedInspectors: data.values[i].public,
-                privateSeedInspectors: data.values[i].private,
-                year: data.values[i].year,
-                total: data.values[i].total,
+    const commonProcessCrossCountry = (c, entry, countryColors, useOnlyLastYear) => {
+        const newBarColors = countryColors ? [...countryColors] : null;
+        Object.keys(data.values[c]).forEach((i, j) => {
+            if (countries && countries.find(k => k.iso === i && k.selected === true)) {
+                let key = COUNTRY_OPTIONS.find(j => j.flag.toLowerCase() === i.toLowerCase()).text;
+                if (useOnlyLastYear) {
+                    key = intl.formatMessage({id: normalizeField(key)});
+                    const years = Object.keys(data.values[c][i]).sort();
+                    const lastYear = years[years.length - 1];
+                    key += ' - ' + lastYear;
+                    entry[key] = Number(data.values[c][i][lastYear]) >= 0 ? data.values[c][i][lastYear] : FAKE_NUMBER;
+                } else {
+                    entry[key] = Number(data.values[c][i]) >= 0 ? data.values[c][i] : FAKE_NUMBER;
+                }
+                if (!keys.find(i => i === key)) {
+                    keys.push(key);
+                }
+                if (countryColors && newBarColors) {
+                    if (!colors.get(key)) {
+                        colors.set(key, newBarColors.shift());
+                    }
+                }
+                if (Number(entry[i]) > max) {
+                    max = Number(entry[i]);
+                }
             }
-            auxData.push(entry);
-            noData = false;
+        });
+        processedData.push(entry);
+    }
 
-            if (entry.privateSeedInspectors > max) {
-                max = entry.privateSeedInspectors;
-            }
-            if (entry.publicSeedInspectors > max) {
-                max = entry.publicSeedInspectors;
+    const processInspectorsByCountry = () => {
+        processedData = [];
+        let auxData = [];
+        max = 0;
+        const selectedCountries = countries.filter(c => c.selected);
+        Object.keys(data.values).forEach(i => {
+            if (selectedCountries.find(c => c.iso === i)) {
+                const entry = {
+                    country: COUNTRY_OPTIONS.find(j => j.flag.toLowerCase() === i.toLowerCase()).text,
+                    publicSeedInspectors: data.values[i].public,
+                    privateSeedInspectors: data.values[i].private,
+                    year: data.values[i].year,
+                    total: data.values[i].total,
+                }
+                entry.country = intl.formatMessage({id: normalizeField(entry.country)});
+                auxData.push(entry);
+                noData = false;
+
+                if (entry.privateSeedInspectors + entry.publicSeedInspectors > max) {
+                    max = entry.privateSeedInspectors + entry.publicSeedInspectors;
+                }
             }
         });
         max = max * 0.95;
@@ -492,8 +562,8 @@ const ChartComponent = ({
         auxData.forEach(i => {
             processedData.push(i);
         });
-        colors.set('privateSeedInspectors', barPieColor[2]);
-        colors.set('publicSeedInspectors', barPieColor[1]);
+        colors.set('privateSeedInspectors', crossCountryBarColor[1]);
+        colors.set('publicSeedInspectors', crossCountryBarColor[0]);
     }
 
     const processByYear = () => {
@@ -531,6 +601,18 @@ const ChartComponent = ({
                 defaultMessage: d
             });
             commonProcess(d, entry, performanceColors);
+        });
+    }
+
+    const processForRadarCrossCountry = (dimensionValues, useOnlyLastYear) => {
+        dimensionValues.forEach(d => {
+            const entry = {};
+            entry[indexBy] = intl.formatMessage({
+                id: d,
+                defaultMessage: d
+            });
+            commonProcessCrossCountry(d, entry, performanceColors, useOnlyLastYear);
+            noData = false;
         });
     }
 
@@ -843,7 +925,10 @@ const ChartComponent = ({
                 id: 'tooltip-quantity-certified-seed-sold',
                 defaultMessage: 'Quantity of certified seed sold'
             })}</span>
-                        <span className="bold"> {d.data[d.id]}</span><span> metric tons</span>
+                        <span className="bold"> {intl.formatNumber(d.data[d.id])}</span><span> {intl.formatMessage({
+                        id: 'metric-tons',
+                        defaultMessage: 'Metric tons'
+                    }).toLowerCase()}</span>
                     </>
                 }
                 getTooltipHeader = (d) => {
@@ -887,7 +972,10 @@ const ChartComponent = ({
                     return <>
             <span
                 className="bold"> {d.data[d.id]} </span>
-                        <span>seed companies / producers </span>
+                        <span>{intl.formatMessage({
+                            id: "seeds-companies-producers",
+                            defaultMessage: "seed companies / producers"
+                        })}</span>
                     </>
                 }
                 getTooltipHeader = (d) => {
@@ -919,7 +1007,7 @@ const ChartComponent = ({
                     </div>)
                 }
             }
-            legend = intl.formatMessage({ id: 'years-legend', defaultMessage: 'Year' });
+            legend = intl.formatMessage({ id: 'year-legend', defaultMessage: 'Year' });
             groupMode = 'grouped';
             withCropsWithSpecialFeatures = false;
             processByYear();
@@ -954,7 +1042,7 @@ const ChartComponent = ({
                         newProcessedData.push(item);
                     });
                     processedData = newProcessedData;
-                    bottomLegend = intl.formatMessage({ id: 'years-legend', defaultMessage: 'Year' });
+                    bottomLegend = intl.formatMessage({ id: 'year-legend', defaultMessage: 'Year' });
                     legend = 'crops';
                     addLighterDiv = false;
                     useFilterByYear = false;
@@ -971,13 +1059,23 @@ const ChartComponent = ({
         }
         case VARIETIES_RELEASED_WITH_SPECIAL_FEATURES:
             getTooltipText = (d) => {
+                const varietiesReleased = intl.formatMessage({
+                    id: "tooltip-varieties-released",
+                    defaultMessage: "varieties released"
+                });
+                const with_ = intl.formatMessage({
+                    id: "with",
+                    defaultMessage: "with"
+                });
+                const withOut_ = "";
+                const specialFeatures = "";
                 return <>
           <span
-              className="bold"> {d.data[d.id]} out of {(d.data['withSpecialFeature_' + d.indexValue.toLowerCase()] || 0)
+              className="bold"> {d.data[d.id]} {intl.formatMessage({id: 'out-of'})} {(d.data['withSpecialFeature_' + d.indexValue.toLowerCase()] || 0)
               + (d.data['withoutSpecialFeature_' + d.indexValue.toLowerCase()] || 0)} </span>
-                    <span>varieties released {d.id.startsWith('withSpecial')
-                        ? (<>with <span className="bold">special features</span></>)
-                        : <>without <span className="bold">special features</span></>}</span>
+                    <span>{varietiesReleased} {d.id.startsWith('withSpecial')
+                        ? (<>{with_} <span className="bold">{specialFeatures}</span></>)
+                        : <>{withOut_} <span className="bold">{specialFeatures}</span></>}</span>
                 </>
             }
             getTooltipHeader = (d) => {
@@ -993,55 +1091,9 @@ const ChartComponent = ({
                 id: 'number-of-varieties-released',
                 defaultMessage: 'Number of Varieties Released'
             });
-            bottomLegend = intl.formatMessage({ id: 'crops-legend', defaultMessage: 'Crop' });
+            bottomLegend = intl.formatMessage({ id: 'crop-legend', defaultMessage: 'Crop' });
             processVarietiesReleasedWithSpecialFeatures();
             showTotalMD = false;
-            break;
-        case NUMBER_SEED_INSPECTORS_BY_COUNTRY:
-            getTooltipHeader = (d) => {
-                return <div className="country-header">{`${d.data.country} ${d.data.year}`}</div>
-            }
-            getTooltipText = (d) => {
-                return (<>
-                    <span>{intl.formatMessage({
-                        id: 'tooltip-public-inspectors-legend',
-                        defaultMessage: 'Public seed inspectors'
-                    })} </span>
-                    <span className="bold"> {d.data.publicSeedInspectors || 0}</span>
-                    <br />
-                    <span>{intl.formatMessage({
-                        id: 'tooltip-private-inspectors-legend',
-                        defaultMessage: 'Private seed inspectors'
-                    })} </span>
-                    <span className="bold"> {d.data.privateSeedInspectors || 0}</span>
-                    <br />
-                    <span>{intl.formatMessage({
-                        id: 'tooltip-total-inspectors-legend',
-                        defaultMessage: 'Total seed inspectors'
-                    })} </span>
-                    <span className="bold"> {d.data.total || 0}</span>
-                </>);
-            }
-            indexBy = 'country';
-            leftLegend = intl.formatMessage({ id: 'countries', defaultMessage: 'Countries' });
-            layout = 'horizontal';
-            bottomLegend = intl.formatMessage({
-                id: 'number-seed-inspectors-legend',
-                defaultMessage: 'Number of seed inspectors'
-            });
-            enableGridX = true;
-            enableGridY = false;
-            groupMode = 'stacked';
-            keys.push('publicSeedInspectors', 'privateSeedInspectors');
-            useFilterByCrops = false;
-            useFilterByYear = false;
-            addLighterDiv = false;
-            withCropsWithSpecialFeatures = false;
-            useCropLegendsRow = true;
-            legend = genericLegend;
-            legendTitle = '';
-            containerHeight = 650;
-            processInspectorsByCountry();
             break;
         case CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS:
         case CROSS_COUNTRY_NUMBER_OF_VARIETIES_RELEASED:
@@ -1055,6 +1107,8 @@ const ChartComponent = ({
         case CROSS_COUNTRY_OVERALL_RATING_NATIONAL_SEED_TRADE_ASSOCIATION:
         case CROSS_COUNTRY_AGRODEALER_NETWORK:
         case CROSS_COUNTRY_AVAILABILITY_SEED_SMALL_PACKAGES:
+        case CROSS_COUNTRY_AGRICULTURAL_EXTENSION_SERVICES:
+        case CROSS_COUNTRY_NUMBER_SEED_INSPECTORS:
             // Common code section.
             commonCrossCountryProcess();
             useFilterByCropsWithCountries = true;
@@ -1073,11 +1127,13 @@ const ChartComponent = ({
             getColors = (item) => {
                 return baseColors[selectedCrops];
             }
-            containerHeight = 650;
+            // containerHeight = 525; 
+            const windowHeight = window.innerHeight;
+            containerHeight = (windowHeight - 200);
             animate = true;
             totalLabel.show = true;
-            totalLabel.format = false;
             groupMode = 'grouped';
+            margins = { top: 20, right: 60, bottom: 55, left: 90 }
 
             // This is the most common header.
             getTooltipHeader = (d) => {
@@ -1091,6 +1147,96 @@ const ChartComponent = ({
 
             // Section for each cross-country chart.
             switch (type) {
+                case CROSS_COUNTRY_NUMBER_SEED_INSPECTORS:
+                    getTooltipHeader = (d) => {
+                        return <div className="country-header">{`${d.data.country} ${d.data.year}`}</div>
+                    }
+                    getTooltipText = (d) => {
+                        return (<>
+                    <span>{intl.formatMessage({
+                        id: 'tooltip-public-inspectors-legend',
+                        defaultMessage: 'Public seed inspectors'
+                    })} </span>
+                            <span className="bold"
+                                  style={{ color: crossCountryBarColor[0] }}> {d.data.publicSeedInspectors || 0}</span>
+                            <br />
+                            <span>{intl.formatMessage({
+                                id: 'tooltip-private-inspectors-legend',
+                                defaultMessage: 'Private seed inspectors'
+                            })} </span>
+                            <span className="bold"
+                                  style={{ color: crossCountryBarColor[1] }}> {d.data.privateSeedInspectors || 0}</span>
+                            <br />
+                            <span>{intl.formatMessage({
+                                id: 'tooltip-total-inspectors-legend',
+                                defaultMessage: 'Total seed inspectors'
+                            })} </span>
+                            <span className="bold"> {d.data.total || 0}</span>
+                        </>);
+                    }
+                    bottomLegend = intl.formatMessage({
+                        id: 'number-seed-inspectors-legend',
+                        defaultMessage: 'Number of seed inspectors'
+                    });
+                    useFilterByCropsWithCountries = false;
+                    useFilterByYear = false;
+                    useFilterByCrops = false;
+                    keys.splice(0);
+                    keys.push('publicSeedInspectors', 'privateSeedInspectors');
+                    leftLegend = intl.formatMessage({ id: 'countries', defaultMessage: 'Countries' });
+                    groupMode = 'stacked';
+                    getColors = undefined;
+                    addLighterDiv = false;
+                    withCropsWithSpecialFeatures = false;
+                    useCropLegendsRow = true;
+                    legend = genericLegend;
+                    legendTitle = '';
+                    useFilterByCountries = true;
+                    customCrossCountryLegend = () => {
+                        const cropsLegendTranslated = intl.formatMessage({
+                            id: 'crops-legend',
+                            defaultMessage: 'Crops'
+                        });
+                        return (<Grid.Row className={`crops-with-icons`}>
+                            <Grid.Column width={16}>
+                                <div style={{
+                                    width: 'max-content',
+                                    float: "left",
+                                    marginTop: '10px'
+                                }}>{legend === 'crops' &&
+                                    <CropsLegend data={selectedCrops} title={cropsLegendTranslated}
+                                                 titleClass="crops-title"
+                                                 addLighterDiv={addLighterDiv}
+                                                 intl={intl} />}
+                                    {legend && legend.toLowerCase() === 'year' &&
+                                        <YearLegend colors={yearsColors} years={selectedYear} intl={intl} />}
+                                    {legend && legend === genericLegend &&
+                                        <GenericLegend colors={colors} keys={keys} title={legendTitle} />}
+                                </div>
+                                <div style={{
+                                    width: 'max-content',
+                                    float: "left",
+                                    fontSize: '16px',
+                                    color: '#333c48',
+                                    marginTop: '12px'
+                                }}>
+                                    |&nbsp;&nbsp;&nbsp;
+                                    <bold>{intl.formatMessage({id: 'md'})}:</bold>
+                                    <span style={{ fontWeight: "normal" }}> {intl.formatMessage({
+                                        id: "indicator-data-missing",
+                                        defaultMessage: "Indicator data missing"
+                                    })} </span>
+                                    <bold>{intl.formatMessage({id: 'na'})}:</bold>
+                                    <span style={{ fontWeight: "normal" }}> {intl.formatMessage({
+                                        id: "indicator-not-applicable",
+                                        defaultMessage: "Indicator not applicable"
+                                    })}</span>
+                                </div>
+                            </Grid.Column>
+                        </Grid.Row>);
+                    };
+                    processInspectorsByCountry();
+                    break;
                 case CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS:
                     bottomLegend = intl.formatMessage({
                         id: 'active-breeders-legend',
@@ -1108,6 +1254,7 @@ const ChartComponent = ({
                             </div>
                         </>
                     }
+                    totalLabel.format = false;
                     break;
                 case CROSS_COUNTRY_NUMBER_OF_VARIETIES_RELEASED:
                     bottomLegend = intl.formatMessage({
@@ -1126,6 +1273,7 @@ const ChartComponent = ({
                             </div>
                         </>
                     }
+                    totalLabel.format = false;
                     break;
                 case CROSS_COUNTRY_QUANTITY_CERTIFIED_SEED_SOLD:
                     bottomLegend = intl.formatMessage({
@@ -1144,6 +1292,7 @@ const ChartComponent = ({
                             </div>
                         </>
                     }
+                    totalLabel.format = false;
                     break;
                 case CROSS_COUNTRY_NUMBER_OF_ACTIVE_SEED_COMPANIES:
                     bottomLegend = intl.formatMessage({
@@ -1166,7 +1315,7 @@ const ChartComponent = ({
                             <div className="without-crop-name">{d.indexValue} - {d.data.year}</div>
                         </>;
                     }
-                    commonCrossCountryProcessSummarizeCrops();
+                    commonCrossCountryProcessWithoutCrops();
                     useFilterByCropsWithCountries = false;
                     useFilterByCountries = true;
                     customSorting = (a, b) => (b.country.localeCompare(a.country));
@@ -1230,7 +1379,7 @@ const ChartComponent = ({
                             id: 'hhi-tooltip',
                             defaultMessage: 'HHI value'
                         })}: </span>
-                                <span className="bold"> {d.value !== FAKE_NUMBER ? d.value : 'MD'}</span>
+                                <span className="bold"> {d.value !== FAKE_NUMBER ? intl.formatNumber(d.value) : 'MD'}</span>
                             </div>
                         </>
                     }
@@ -1239,6 +1388,7 @@ const ChartComponent = ({
                     }
                     useHHILegends = true;
                     totalLabel.format = { style: 'decimal', minimumFractionDigits: 0, maximumFractionDigits: 0 };
+                    containerHeight -= 50;
                     break;
                 case CROSS_COUNTRY_MARKET_SHARE_STATE_OWNED_SEED_COMPANIES:
                     // Fix %.
@@ -1336,7 +1486,7 @@ const ChartComponent = ({
                             id: 'agrodealer-network-tooltip',
                             defaultMessage: 'Households per agrodealers'
                         })}: </span>
-                                <span className="bold"> {d.value !== FAKE_NUMBER ? d.value : 'MD'}</span>
+                                <span className="bold"> {d.value !== FAKE_NUMBER ? intl.formatNumber(d.value) : 'MD'}</span>
                             </div>
                         </>
                     }
@@ -1350,6 +1500,31 @@ const ChartComponent = ({
                     useFilterByCountries = true;
                     customSorting = (a, b) => (b.country.localeCompare(a.country));
                     totalLabel.format = { style: 'decimal', minimumFractionDigits: 0, maximumFractionDigits: 0 };
+                    break;
+                case CROSS_COUNTRY_AGRICULTURAL_EXTENSION_SERVICES:
+                    bottomLegend = intl.formatMessage({
+                        id: 'extension-office-household-legend'
+                    });
+                    getTooltipText = (d) => {
+                        return <>
+                            <div style={{ textAlign: 'center' }}>
+                        <span>{intl.formatMessage({
+                            id: 'extension-office-household-tooltip',
+                            defaultMessage: 'Households per extension officer'
+                        })}: </span>
+                                <span className="bold"> {d.value !== FAKE_NUMBER ? intl.formatNumber(d.value) : 'MD'}</span>
+                            </div>
+                        </>
+                    }
+                    getTooltipHeader = (d) => {
+                        return <>
+                            <div className="without-crop-name">{d.indexValue} - {d.data.year}</div>
+                        </>;
+                    }
+                    commonCrossCountryProcessWithoutCrops();
+                    useFilterByCropsWithCountries = false;
+                    useFilterByCountries = true;
+                    customSorting = (a, b) => (b.country.localeCompare(a.country));
                     break;
                 case CROSS_COUNTRY_AVAILABILITY_SEED_SMALL_PACKAGES:
                     bottomLegend = intl.formatMessage({
@@ -1394,7 +1569,10 @@ const ChartComponent = ({
                         })} ${d.indexValue}`}</div>
                     </div>
                     <div className="sub-header">
-                        <span className="bold"> {d.data[d.id]}  </span><span>active breeders</span>
+                        <span className="bold"> {d.data[d.id]}  </span><span>{intl.formatMessage({
+                        id: "active-breeders",
+                        defaultMessage: "active breeders"
+                    })}</span>
                     </div>
                 </>
             }
@@ -1423,7 +1601,10 @@ const ChartComponent = ({
                     innerColor = r.color;
                 }
                 return <>
-                    <div><span>Industry opinion on adequacy of breeders</span></div>
+                    <div><span>{intl.formatMessage({
+                        id: "tooltip-industry-opinion-on-adequacy-of-breeders",
+                        defaultMessage: "Industry opinion on adequacy of breeders"
+                    })}</span></div>
                     <Gauge data={particularGauge} height={45} width={105} innerValue={gaugeValue}
                            innerColor={innerColor} suffix={suffix} />
                 </>
@@ -1431,7 +1612,7 @@ const ChartComponent = ({
             extraTooltipClass = "NUMBER_OF_ACTIVE_BREEDERS";
             useFilterByYear = false;
             indexBy = 'year';
-            leftLegend = intl.formatMessage({ id: 'years-legend', defaultMessage: 'Year' });
+            leftLegend = intl.formatMessage({ id: 'year-legend', defaultMessage: 'Year' });
             layout = 'horizontal';
             addLighterDiv = false;
             withCropsWithSpecialFeatures = false;
@@ -1469,7 +1650,7 @@ const ChartComponent = ({
                 </>
             }
             indexBy = 'crop';
-            leftLegend = intl.formatMessage({ id: 'crops-legend', defaultMessage: 'Crop' });
+            leftLegend = intl.formatMessage({ id: 'crop-legend', defaultMessage: 'Crop' });
             layout = 'horizontal';
             addLighterDiv = false;
             withCropsWithSpecialFeatures = false;
@@ -1500,6 +1681,92 @@ const ChartComponent = ({
             withCropsWithSpecialFeatures = false;
             yearsColors = performanceColors;
             processForRadar(data.dimensions.performance.values)
+            radarTooltip = (d) => {
+                return (<div className="tooltip-container-radar">
+                    <div className="header-container">
+                        <div className="header">
+                            <div className={'name'}>{d.index}</div>
+                        </div>
+                    </div>
+                    <div className="content">
+                        <table width="100%">
+                            <tbody>
+                            {d.data.sort((a, b) => a.id.localeCompare(b.id))
+                                .map(i => {
+                                    return (
+                                        <tr key={i.id}>
+                                            <td>
+                                                <div className={'circle'} style={{ background: i.color }} />
+                                            </td>
+                                            <td><span>{i.id}</span></td>
+                                            <td>
+                                                    <span>
+                                                        <strong>{i.value !== FAKE_NUMBER ? i.value + '%' : 'MD'}</strong>
+                                                    </span>
+                                            </td>
+                                        </tr>
+                                    );
+                                })}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>)
+            }
+            break;
+        case RATING_GOVERNMENT_SEED_SUBSIDY_PROGRAM:
+            indexBy = "id";
+            legend = "country";
+            useFilterByCrops = false;
+            useFilterByYear = false;
+            useFilterByCountries = true;
+            maxSelectableCountries = 3;
+            withCropsWithSpecialFeatures = false;
+            yearsColors = performanceColors;
+            legendTitle = intl.formatMessage({ id: 'label-country' });
+            customCrossCountryLegend = () => {
+                return (<Grid.Row className={`crops-with-icons`} style={{ borderTop: 'none' }}>
+                    <Grid.Column width={16}>
+                        <div style={{
+                            width: 'max-content',
+                            float: "left",
+                            marginTop: '10px'
+                        }}>
+                            <GenericLegend colors={colors} keys={keys} title={legendTitle} />
+                        </div>
+                    </Grid.Column>
+                </Grid.Row>);
+            };
+            margins = { top: 50, right: 80, bottom: 30, left: 80 };
+            radarTooltip = (d) => {
+                return (<div className="tooltip-container-radar">
+                    <div className="header-container">
+                        <div className="header">
+                            <div className={'name'}>{d.index}</div>
+                        </div>
+                    </div>
+                    <div className="content">
+                        <table width="100%">
+                            <tbody>
+                            {d.data.sort((a, b) => a.id.localeCompare(b.id))
+                                .map(i => {
+                                    return (<tr key={i.id}>
+                                        <td>
+                                            <div className={'circle'} style={{ background: i.color }} />
+                                        </td>
+                                        <td style={{ textAlign: "center" }}><span>{i.id}</span></td>
+                                        <td>
+                                            <span>
+                                                <strong>{i.value !== FAKE_NUMBER ? i.value + '%' : 'MD'}</strong>
+                                            </span>
+                                        </td>
+                                    </tr>);
+                                })}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>)
+            }
+            processForRadarCrossCountry(data.dimensions.rating.values, true)
             break;
         case EFFICIENCY_SEED_IMPORT_PROCESS:
         case EFFICIENCY_SEED_EXPORT_PROCESS:
@@ -1508,30 +1775,52 @@ const ChartComponent = ({
             let tooltipSubText = '';
             switch (type) {
                 case EFFICIENCY_SEED_IMPORT_PROCESS:
-                    leftLegend = 'Length of import process (days)';
-                    tooltipSubText = 'Days for Import';
+                    leftLegend = intl.formatMessage({
+                        id: 'chart-label-length-of-import',
+                        defaultMessage: 'Length of import process (days)'
+                    });
+                    tooltipSubText = intl.formatMessage({ id: 'days-for-import', defaultMessage: 'Days for Import' });
                     subLabel = 'Length of import process (days)';
-                    legends = [{ id: 1, 'color': barPieColor[1], 'label': 'Number of days for import' },
-                        { id: 2, 'color': barPieColor[0], 'label': 'Industry rating' }
+                    legends = [{ id: 1, 'color': barPieColor[1], 
+                        'label': intl.formatMessage({
+                            id: 'number-of-days-for-import',
+                            defaultMessage: 'Number of days for import'
+                        }) },
+                        { id: 2, 'color': barPieColor[0], 
+                            'label': intl.formatMessage({ id: 'industry-rating', defaultMessage: 'Industry rating' }) }
                     ];
-                    noDataLabelId = "no-data-reported-import";
+                    noDataLabelId = "no-reported-imports";
                     break;
                 case EFFICIENCY_SEED_EXPORT_PROCESS:
-                    leftLegend = 'Length of export process (days)';
-                    tooltipSubText = 'Number of days';
+                    leftLegend = intl.formatMessage({
+                        id: 'chart-label-length-of-export',
+                        defaultMessage: "Length of export process (days)"
+                    });
+                    tooltipSubText = intl.formatMessage({ id: 'number-of-days', defaultMessage: 'Number of days' });
                     subLabel = 'Length of export process (days)';
-                    legends = [{ id: 1, 'color': barPieColor[1], 'label': 'Number of days for export' },
-                        { id: 2, 'color': barPieColor[0], 'label': 'Industry rating' }
+                    legends = [{
+                        id: 1,
+                        'color': barPieColor[1],
+                        'label': intl.formatMessage({
+                            id: 'number-of-days-for-export',
+                            defaultMessage: 'Number of days for export'
+                        })
+                    },
+                        {
+                            id: 2,
+                            'color': barPieColor[0],
+                            'label': intl.formatMessage({ id: 'industry-rating', defaultMessage: 'Industry rating' })
+                        }
                     ];
-                    noDataLabelId = "no-data-reported-export";
+                    noDataLabelId = "no-reported-exports";
                     break;
                 default:
                     leftLegend = 'insert legend here';
             }
             indexBy = 'year';
-            bottomLegend = 'Year';
+            bottomLegend = intl.formatMessage({ id: 'year-legend', defaultMessage: 'Year' });
             groupMode = 'grouped';
-            rightLegend = 'Rating out of 100 (%)';
+            rightLegend = intl.formatMessage({ id: 'rating-legend', defaultMessage: 'Rating out of 100 (%)' });
             keys.push(['value']);
             Object.keys(data.values.days).forEach(y => {
                 const item = { year: y };
@@ -1569,7 +1858,7 @@ const ChartComponent = ({
                 defaultMessage: 'Number of seed inspectors'
             });
             indexBy = 'year';
-            bottomLegend = intl.formatMessage({ id: 'years-legend', defaultMessage: 'Year' });
+            bottomLegend = intl.formatMessage({ id: 'year-legend', defaultMessage: 'Year' });
             groupMode = 'stacked';
             rightLegend = intl.formatMessage({ id: 'rating-legend', defaultMessage: 'Rating out of 100 (%)' });
             keys.push('public', 'private');
@@ -1655,7 +1944,7 @@ const ChartComponent = ({
                 defaultMessage: 'Length of variety release process (months)'
             });
             indexBy = 'year';
-            bottomLegend = intl.formatMessage({ id: 'years-legend', defaultMessage: 'Year' });
+            bottomLegend = intl.formatMessage({ id: 'year-legend', defaultMessage: 'Year' });
             groupMode = 'stacked';
             rightLegend = intl.formatMessage({ id: 'rating-legend', defaultMessage: 'Rating out of 100 (%)' });
             keys.push('time');
@@ -1722,7 +2011,7 @@ const ChartComponent = ({
                 defaultMessage: 'Number of households"'
             });
             indexBy = 'year';
-            bottomLegend = intl.formatMessage({ id: 'years-legend', defaultMessage: 'Year' });
+            bottomLegend = intl.formatMessage({ id: 'year-legend', defaultMessage: 'Year' });
             groupMode = 'stacked';
             rightLegend = intl.formatMessage({ id: 'rating-legend', defaultMessage: 'Rating out of 100 (%)' });
             keys.push('households');
@@ -1759,7 +2048,7 @@ const ChartComponent = ({
                             id: 'number-agrodealers-tooltip',
                             defaultMessage: 'Number of agro-dealers'
                         })} </span>
-                        <span className="bold"> {d.data.agrodealers !== FAKE_NUMBER ? d.data.agrodealers : "MD"}</span>
+                        <span className="bold"> {d.data.agrodealers !== FAKE_NUMBER ? intl.formatNumber(d.data.agrodealers, defaultFormat) : "MD"}</span>
                     </div>
                 </>
             }
@@ -1798,7 +2087,7 @@ const ChartComponent = ({
                 defaultMessage: 'Number of households"'
             });
             indexBy = 'year';
-            bottomLegend = intl.formatMessage({ id: 'years-legend', defaultMessage: 'Year' });
+            bottomLegend = intl.formatMessage({ id: 'year-legend', defaultMessage: 'Year' });
             groupMode = 'stacked';
             rightLegend = intl.formatMessage({ id: 'rating-legend', defaultMessage: 'Rating out of 100 (%)' });
             keys.push('households');
@@ -1863,7 +2152,7 @@ const ChartComponent = ({
             withCropsWithSpecialFeatures = false;
             useFilterByYear = false;
             addLighterDiv = false;
-            bottomLegend = intl.formatMessage({ id: 'years-legend', defaultMessage: 'Year' });
+            bottomLegend = intl.formatMessage({ id: 'year-legend', defaultMessage: 'Year' });
             leftLegend = intl.formatMessage({
                 id: 'number-of-varieties-released',
                 defaultMessage: 'Number of varieties released'
@@ -1989,6 +2278,22 @@ const ChartComponent = ({
                             colors={colors}
                             indexBy={indexBy}
                             intl={intl}
+                            tooltip={radarTooltip}
+                        /></Grid.Column>
+                </Grid.Row>
+            case RATING_GOVERNMENT_SEED_SUBSIDY_PROGRAM:
+                return <Grid.Row className={`chart-section`}>
+                    <Grid.Column width={16} className={`radar`}>
+                        <ResponsiveRadarChartImpl
+                            noData={noData}
+                            selectedCountry={countries}
+                            processedData={processedData}
+                            keys={keys}
+                            colors={colors}
+                            indexBy={indexBy}
+                            intl={intl}
+                            margin={margins}
+                            tooltip={radarTooltip}
                         /></Grid.Column>
                 </Grid.Row>
             default:
@@ -2095,7 +2400,7 @@ const ChartComponent = ({
                     <Grid.Row className={`filters-section`} style={{ borderBottom: "1px solid rgb(229, 229, 229)" }}>
                         <Grid.Column computer={5} mobile={16}>
                             <CrossCountryCountryFilter data={countries} onChange={handleCrossCountryCountryFilterChange}
-                                                       intl={intl} />
+                                                       intl={intl} maxSelectable={maxSelectableCountries} />
                         </Grid.Column>
                     </Grid.Row>);
             } else {
@@ -2126,21 +2431,28 @@ const ChartComponent = ({
                     <HHILegend legends={hhiLegends} title={'HHI Value'} />
                 </Grid.Row>);
             }
+            if (customCrossCountryLegend) {
+                return customCrossCountryLegend();
+            }
             return null;
         } else {
             if (!noData && useCropLegendsRow) {
+                const cropsLegendTranslated = intl.formatMessage({
+                    id: 'crops-legend',
+                    defaultMessage: 'Crops'
+                });
                 return (<Grid.Row className={`crops-with-icons`}>
-                    <Grid.Column width={10}>
+                    <Grid.Column width={8}>
                         {legend === 'crops' &&
-                            <CropsLegend data={selectedCrops} title="Crops" titleClass="crops-title"
+                            <CropsLegend data={selectedCrops} title={cropsLegendTranslated} titleClass="crops-title"
                                          addLighterDiv={addLighterDiv}
                                          intl={intl} />}
                         {legend && legend.toLowerCase() === 'year' &&
-                            <YearLegend colors={yearsColors} years={selectedYear} />}
+                            <YearLegend colors={yearsColors} years={selectedYear} intl={intl} />}
                         {legend && legend === genericLegend &&
                             <GenericLegend colors={colors} keys={keys} title={legendTitle} />}
                     </Grid.Column>
-                    <Grid.Column width={6}>
+                    <Grid.Column width={8}>
                         {withCropsWithSpecialFeatures && <CropsWithSpecialFeatures />}
                     </Grid.Column>
                 </Grid.Row>);
@@ -2164,11 +2476,13 @@ const ChartComponent = ({
             {generateFilters()}
             {generateLegends()}
             {insertChart()}
-            <Grid.Row className={`source-section`}>
+            <Grid.Row className={`source-section ${hasNotes ? ' no-bottom-border' : ''}`}>
                 <Grid.Column>
                     <Source title={`Source: ${sources}${editing ? ` *${type}*` : ''}`} />
                 </Grid.Column>
             </Grid.Row>
+            <Notes chardIdCategory={categoryType ? categoryType.id : undefined} setHasNotes={setHasNotes}
+                   isCrossCountryChart={isCrossCountryChart} />
         </Grid>
     </div>);
 }
@@ -2181,6 +2495,9 @@ const performanceColors = [
 ];
 const barPieColor = [
     '#c2db24', '#41a9d9', '#43758D'
+];
+const crossCountryBarColor = [
+    '#82C341', '#F49739'
 ];
 const packageBarColor = [
     '#9D9D9D', '#F2CA05', '#EE912B', '#85AA2B', '#5F92C1'

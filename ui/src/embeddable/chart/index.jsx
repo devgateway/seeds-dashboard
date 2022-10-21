@@ -16,6 +16,7 @@ import {
     VARIETIES_RELEASED_WITH_SPECIAL_FEATURES,
     NUMBER_VARIETIES_SOLD,
     PERFORMANCE_SEED_TRADERS,
+    RATING_GOVERNMENT_SEED_SUBSIDY_PROGRAM,
     AVAILABILITY_OF_BASIC_SEED,
     DEFAULT_COUNTRY_ID,
     AVERAGE_AGE_VARIETIES_SOLD,
@@ -38,18 +39,22 @@ import {
     WP_CATEGORIES,
     COUNTRIES_FILTER,
     SOURCE_CATEGORIES,
-    NUMBER_SEED_INSPECTORS_BY_COUNTRY,
+    CROSS_COUNTRY_NUMBER_SEED_INSPECTORS,
     SHARE_CHART,
     SHARE_CROPS,
-    CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS, CROSS_COUNTRY_NUMBER_OF_VARIETIES_RELEASED,
-    CROSS_COUNTRY_QUANTITY_CERTIFIED_SEED_SOLD, CROSS_COUNTRY_NUMBER_OF_ACTIVE_SEED_COMPANIES,
+    CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS,
+    CROSS_COUNTRY_NUMBER_OF_VARIETIES_RELEASED,
+    CROSS_COUNTRY_QUANTITY_CERTIFIED_SEED_SOLD,
+    CROSS_COUNTRY_NUMBER_OF_ACTIVE_SEED_COMPANIES,
     CROSS_COUNTRY_NUMBER_VARIETIES_SOLD,
     CROSS_COUNTRY_MARKET_SHARE_TOP_FOUR_SEED_COMPANIES,
     CROSS_COUNTRY_MARKET_CONCENTRATION_HHI,
     CROSS_COUNTRY_MARKET_SHARE_STATE_OWNED_SEED_COMPANIES,
     CROSS_COUNTRY_VARIETY_RELEASE_PROCESS,
     CROSS_COUNTRY_OVERALL_RATING_NATIONAL_SEED_TRADE_ASSOCIATION,
-    CROSS_COUNTRY_AGRODEALER_NETWORK, CROSS_COUNTRY_AVAILABILITY_SEED_SMALL_PACKAGES,
+    CROSS_COUNTRY_AGRODEALER_NETWORK,
+    CROSS_COUNTRY_AVAILABILITY_SEED_SMALL_PACKAGES,
+    CROSS_COUNTRY_AGRICULTURAL_EXTENSION_SERVICES,
 } from "../reducers/StoreConstants";
 import GaugesChart from "./GaugesChart";
 import { getWpCategories, setFilter } from "../reducers/data";
@@ -85,7 +90,7 @@ const Chart = (props) => {
         'data-color-scheme': scheme = 'nivo',
         'data-group-mode': groupMode = 'stacked',
         'data-layout': layout = 'vertical',
-        'data-legends-left': left = 'Left Legend',
+        'data-legends-left': left = 'Left  Legend',
         'data-legends-bottom': bottom = 'Bottom Legend',
         'data-dualmode': dualMode,
         'data-legend-position': legendPosition = "right",
@@ -121,10 +126,10 @@ const Chart = (props) => {
         "data-top-harvested-crops-and-value-unit": topHarvestedCropsAndValueUnit = "hectares",
         "data-population-vs-farming-households_en": populationVsFarmingHouseholds_en = "Population vs Farming Households",
         "data-population-vs-farming-households_fr": populationVsFarmingHouseholds_fr = "Population vs Farming Households",
-        "data-total-population-label_en": totalPopulationLabel_en="Total Population",
-        "data-total-population-label_fr": totalPopulationLabel_fr="Total Population",
-        "data-farming-households-label_en": farmingHouseholdsLabel_en="Farming Households",
-        "data-farming-households-label_fr": farmingHouseholdsLabel_fr="Farming Households",
+        "data-total-population-label_en": totalPopulationLabel_en = "Total Population",
+        "data-total-population-label_fr": totalPopulationLabel_fr = "Total Population",
+        "data-farming-households-label_en": farmingHouseholdsLabel_en = "Farming Households",
+        "data-farming-households-label_fr": farmingHouseholdsLabel_fr = "Farming Households",
         "data-source-text_en": sourceText_en,
         "data-source-text_fr": sourceText_fr,
     } = props;
@@ -137,7 +142,7 @@ const Chart = (props) => {
     }, []);
 
     useEffect(() => {
-        onLoadCategories()
+        onLoadCategories();
     }, [onLoadCategories]);
 
     function filter(node) {
@@ -214,9 +219,10 @@ const Chart = (props) => {
         editing: editing,
         methodology: methodology,
         download: download,
+        type,
         exportPng: exportPng,
+        categoriesWP
     }
-
     const generateSourcesText = () => {
         const currentLanguage = locale || 'en';
         const separator = '||';
@@ -228,16 +234,7 @@ const Chart = (props) => {
         }
 
         if (categoriesWP && filters && countries) {
-            const selectedCountry = filters.getIn([SELECTED_COUNTRY]);
-            const defaultCountry = Number(filters.getIn([DEFAULT_COUNTRY_ID]));
-            const country = countries.find(i => {
-                if (selectedCountry) {
-                    return selectedCountry === i.countryId;
-                } else if (defaultCountry) {
-                    return defaultCountry === i.countryId;
-                }
-                return null;
-            });
+            const country = getSelectedCountry(filters, countries);
             const category = categoriesWP.find(i => i.name === SOURCE_CATEGORIES);
             if (!category) {
                 return ret;
@@ -276,6 +273,7 @@ const Chart = (props) => {
         case EFFICIENCY_SEED_IMPORT_PROCESS:
         case EFFICIENCY_SEED_EXPORT_PROCESS:
         case PERFORMANCE_SEED_TRADERS:
+        case RATING_GOVERNMENT_SEED_SUBSIDY_PROGRAM:
         case NUMBER_SEED_INSPECTORS:
         case QUANTITY_CERTIFIED_SEED_SOLD:
         case VARIETY_RELEASE_PROCESS:
@@ -283,9 +281,9 @@ const Chart = (props) => {
         case AVAILABILITY_SEED_SMALL_PACKAGES:
         case AGRODEALER_NETWORK:
         case AGRICULTURAL_EXTENSION_SERVICES:
-        case NUMBER_SEED_INSPECTORS_BY_COUNTRY:
+        case CROSS_COUNTRY_NUMBER_SEED_INSPECTORS:
         case AVERAGE_AGE_VARIETIES_SOLD:
-        case CROSS_COUNTRY_NUMBER_OF_VARIETIES_RELEASED:    
+        case CROSS_COUNTRY_NUMBER_OF_VARIETIES_RELEASED:
         case CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS:
         case CROSS_COUNTRY_QUANTITY_CERTIFIED_SEED_SOLD:
         case CROSS_COUNTRY_NUMBER_OF_ACTIVE_SEED_COMPANIES:
@@ -294,6 +292,7 @@ const Chart = (props) => {
         case CROSS_COUNTRY_MARKET_CONCENTRATION_HHI:
         case CROSS_COUNTRY_MARKET_SHARE_STATE_OWNED_SEED_COMPANIES:
         case CROSS_COUNTRY_VARIETY_RELEASE_PROCESS:
+        case CROSS_COUNTRY_AGRICULTURAL_EXTENSION_SERVICES:
         case CROSS_COUNTRY_OVERALL_RATING_NATIONAL_SEED_TRADE_ASSOCIATION:
         case CROSS_COUNTRY_AGRODEALER_NETWORK:
         case CROSS_COUNTRY_AVAILABILITY_SEED_SMALL_PACKAGES: {
@@ -325,12 +324,15 @@ const Chart = (props) => {
             break;
         case AVAILABILITY_OF_BASIC_SEED:
         case SATISFACTION_ENFORCEMENT_SEED_LAW:
-            child = <GaugesChart mostRecentYears={mostRecentYears} sources={dynamicSources} {...chartProps} type={type}
+            child = <GaugesChart mostRecentYears={mostRecentYears} sources={dynamicSources} {...chartProps}
+                                 type={type}
                                  title={title} subTitle={subTitle} tooltip={() => (null)} />;
             break;
     }
 
     // For every chart we set the height that shows the content with the best look.
+    const windowHeight = window.innerHeight;
+    const cross_country_height = 750 - (windowHeight <= 700 ? 250 : 0);
     let fixedHeight = {
         [NUMBER_OF_ACTIVE_BREEDERS]: 742,
         [NUMBER_OF_VARIETIES_RELEASED]: 741,
@@ -348,25 +350,28 @@ const Chart = (props) => {
         [VARIETY_RELEASE_PROCESS]: 640,
         [SATISFACTION_ENFORCEMENT_SEED_LAW]: 380,
         [PERFORMANCE_SEED_TRADERS]: 845,
+        [RATING_GOVERNMENT_SEED_SUBSIDY_PROGRAM]: cross_country_height + 90,
         [NUMBER_SEED_INSPECTORS]: 685,
         [AGRICULTURAL_EXTENSION_SERVICES]: 760,
         [AGRODEALER_NETWORK]: 730,
         [AVAILABILITY_SEED_SMALL_PACKAGES]: 725,
         [PRICE_SEED_PLANTING]: 695,
-        [CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS]: 875,
-        [CROSS_COUNTRY_NUMBER_OF_VARIETIES_RELEASED]: 875,
-        [CROSS_COUNTRY_QUANTITY_CERTIFIED_SEED_SOLD]: 875,
-        [CROSS_COUNTRY_NUMBER_OF_ACTIVE_SEED_COMPANIES]: 875,
-        [CROSS_COUNTRY_NUMBER_VARIETIES_SOLD]: 875,
-        [CROSS_COUNTRY_MARKET_SHARE_TOP_FOUR_SEED_COMPANIES]: 875,
-        [CROSS_COUNTRY_MARKET_CONCENTRATION_HHI]: 875,
-        [CROSS_COUNTRY_MARKET_SHARE_STATE_OWNED_SEED_COMPANIES]: 875,
-        [CROSS_COUNTRY_VARIETY_RELEASE_PROCESS]: 875,
-        [CROSS_COUNTRY_OVERALL_RATING_NATIONAL_SEED_TRADE_ASSOCIATION]: 875,
-        [CROSS_COUNTRY_AGRODEALER_NETWORK]: 875,
-        [CROSS_COUNTRY_AVAILABILITY_SEED_SMALL_PACKAGES]: 875,
+        [CROSS_COUNTRY_NUMBER_OF_ACTIVE_BREEDERS]: cross_country_height,
+        [CROSS_COUNTRY_NUMBER_OF_VARIETIES_RELEASED]: cross_country_height,
+        [CROSS_COUNTRY_QUANTITY_CERTIFIED_SEED_SOLD]: cross_country_height,
+        [CROSS_COUNTRY_NUMBER_OF_ACTIVE_SEED_COMPANIES]: cross_country_height,
+        [CROSS_COUNTRY_NUMBER_VARIETIES_SOLD]: cross_country_height,
+        [CROSS_COUNTRY_MARKET_SHARE_TOP_FOUR_SEED_COMPANIES]: cross_country_height,
+        [CROSS_COUNTRY_MARKET_CONCENTRATION_HHI]: cross_country_height - 50,
+        [CROSS_COUNTRY_MARKET_SHARE_STATE_OWNED_SEED_COMPANIES]: cross_country_height,
+        [CROSS_COUNTRY_VARIETY_RELEASE_PROCESS]: cross_country_height,
+        [CROSS_COUNTRY_OVERALL_RATING_NATIONAL_SEED_TRADE_ASSOCIATION]: cross_country_height,
+        [CROSS_COUNTRY_AGRODEALER_NETWORK]: cross_country_height,
+        [CROSS_COUNTRY_AVAILABILITY_SEED_SMALL_PACKAGES]: cross_country_height,
+        [CROSS_COUNTRY_NUMBER_SEED_INSPECTORS]: cross_country_height,
+        [CROSS_COUNTRY_AGRICULTURAL_EXTENSION_SERVICES]: cross_country_height,
     };
-    const fixedHeightStyle = { height: (fixedHeight[type] ? fixedHeight[type] : 550) + 'px' };
+    const fixedHeightStyle = { 'min-height': (fixedHeight[type] ? fixedHeight[type] : 550) + 'px' };
 
     // This is necessary for charts that become very long in small resolutions like HHI.
     const styleHeight = window.innerWidth <= 1024 ? {} : { height: contentHeight + 'px' };
@@ -430,5 +435,17 @@ const mapActionCreators = {
     setDefaultFilter: setFilter,
     onLoadCategories: getWpCategories
 };
-
+export const getSelectedCountry = (filters, countries) => {
+    const selectedCountry = filters.getIn([SELECTED_COUNTRY]);
+    const defaultCountry = Number(filters.getIn([DEFAULT_COUNTRY_ID]));
+    const country = countries.find(i => {
+        if (selectedCountry) {
+            return selectedCountry === i.countryId;
+        } else if (defaultCountry) {
+            return defaultCountry === i.countryId;
+        }
+        return null;
+    });
+    return country;
+}
 export default connect(mapStateToProps, mapActionCreators)(Chart)

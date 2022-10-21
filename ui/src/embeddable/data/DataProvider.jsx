@@ -1,43 +1,43 @@
 import React from 'react'
-import {connect} from 'react-redux'
-import {injectIntl} from 'react-intl';
+import { connect } from 'react-redux'
+import { injectIntl } from 'react-intl';
 import DataContext from './DataContext'
-import {Container, Loader, Segment} from "semantic-ui-react";
-import {getData, setData} from "../reducers/data";
-import {COUNTRY_INFO} from "../reducers/StoreConstants";
+import { Container, Loader, Segment } from "semantic-ui-react";
+import { getData, setData } from "../reducers/data";
+import { COUNTRY_INFO } from "../reducers/StoreConstants";
 
 class DataProvider extends React.Component {
 
     componentDidMount() {
-        const {app, source, store, params, csv, filters} = this.props
+        const { app, source, store, params, csv, filters } = this.props
         if (app === "csv") {
-            this.props.onSetData({app, csv, store, params})
+            this.props.onSetData({ app, csv, store, params })
         } else {
             //TODO create a better way to check if api requires filters
             if ((app === COUNTRY_INFO && filters) || app !== COUNTRY_INFO) {
-                this.props.onLoadData({app, source, store, params})
+                this.props.onLoadData({ app, source, store, params })
             }
         }
 
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        const {filters, app, source, store, params, csv} = this.props
+        const { filters, app, source, store, params, csv } = this.props
 
         if (filters !== prevProps.filters || app !== prevProps.app || prevProps.source !== source || csv !== prevProps.csv) {
             if (app === "csv") {
-                this.props.onSetData({app, csv, store, params})
+                this.props.onSetData({ app, csv, store, params })
             } else {
                 //TODO create a better way to check if api requires filters
                 if ((app === COUNTRY_INFO && filters) || app !== COUNTRY_INFO) {
-                    this.props.onLoadData({app, source, store, params})
+                    this.props.onLoadData({ app, source, store, params })
                 }
             }
         }
     }
 
     render() {
-        const {data, loading, error} = this.props
+        const { data, loading, error, intl } = this.props
 
         if (data) {
             return <DataContext.Provider value={data}>{this.props.children}</DataContext.Provider>
@@ -48,8 +48,8 @@ class DataProvider extends React.Component {
             </Segment>
         } else if (loading) {
             return (<Container>
-                <h1>Data Loading</h1>
-                <Loader inverted content='Loading'/>
+                <h1>{intl.formatMessage({ id: "data-loading", defaultMessage: "Data Loading" })}</h1>
+                <Loader inverted content='Loading' />
             </Container>)
         } else {
             return null;
@@ -58,7 +58,7 @@ class DataProvider extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    const {store} = ownProps
+    const { store } = ownProps
 
     return {
         data: state.getIn(['data', ...store, 'data']),

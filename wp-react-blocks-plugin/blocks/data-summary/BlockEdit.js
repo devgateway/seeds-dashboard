@@ -48,14 +48,13 @@ class BlockEdit extends BaseBlockEdit {
                                     value={title}
                                     onChange={(title) => setAttributes({ title })}
                                 /></PanelRow>
-                            {/*After further analysis it makes no sense to change this leaving it in case its needed
                             <PanelRow>
                                 <TextControl
                                     label={__('Rating Label:')}
                                     value={ratingLabel}
                                     onChange={(ratingLabel) => setAttributes({ ratingLabel })}
                                 />
-                            </PanelRow>*/}
+                            </PanelRow>
                             <SelectControl
                                 label={__('Rating alignment:')}
                                 value={[ratingAlignment]}
@@ -70,14 +69,13 @@ class BlockEdit extends BaseBlockEdit {
                                           maximumFractionDigits={ratingMaximumFractionDigits}
                                           maximumFractionDigitsProperty={'ratingMaximumFractionDigits'}
                             />
-                            {/*After further analysis it makes no sense to change this leaving it in case its needed
                             <PanelRow>
                                 <TextControl
                                     label={__('Number label:')}
                                     value={numberLabel}
                                     onChange={(numberLabel) => setAttributes({ numberLabel })}
                                 />
-                            </PanelRow>*/}
+                            </PanelRow>
                             <PanelRow>
                                 <SelectControl
                                     label={__('Number alignment:')}

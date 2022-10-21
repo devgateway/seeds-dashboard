@@ -2,7 +2,7 @@ import React from "react";
 import './events.scss';
 import { Grid, Icon } from "semantic-ui-react";
 import { atcb_action } from 'add-to-calendar-button'
-import 'add-to-calendar-button/assets/css/atcb.min.css';
+import 'add-to-calendar-button/assets/css/atcb.css';
 import { injectIntl } from "react-intl";
 
 const Events = (props) => {
@@ -21,7 +21,7 @@ const Events = (props) => {
     } else {
         if (acf) {
             hostedBy = acf.hosted_by;
-            eventStartDate = acf.event_stat_date;
+            eventStartDate = acf.event_start_date;
             eventEndDate = acf.event_end_date;
             name = acf.event_name;
             link = acf.external_link;
@@ -48,6 +48,8 @@ const Events = (props) => {
 
     // Could not find a better way to detect if this is modal or not.
     const showFullContent = window.location.href.endsWith('/modal') || editing;
+    const locale = intl.locale;
+    const locales = `${locale}-${locale.toUpperCase()}`;
 
     const openRegisterForm = (e) => {
         window.open(externalFormURL, 'Event Registration Form', "_blank");
@@ -56,7 +58,7 @@ const Events = (props) => {
     if (!eventStartDate) {
         dateString = 'Please provide a valid start date';
     } else {
-        timeString = pEventStartDate.toLocaleDateString("en-US", timeOptions);
+        timeString = pEventStartDate.toLocaleDateString(locales, timeOptions);
         timeString = timeString.substring(timeString.indexOf(',') + 1);
         if (eventEndDate) {
             const diff = pEventEndDate.getTime() - pEventStartDate.getTime();
@@ -64,35 +66,53 @@ const Events = (props) => {
                 dateString = 'ERROR: End date cant be sooner than start date.';
             } else if (diff / (MILLISECONDS_DAY / 24) <= 24) {
                 // One day event.
-                dateString = pEventStartDate.toLocaleDateString("en-US", options)
+                dateString = pEventStartDate.toLocaleDateString(locales, options)
             } else {
                 // Same month range.
                 if (pEventStartDate.getMonth() === pEventEndDate.getMonth()) {
-                    dateString = pEventStartDate.toLocaleDateString('en-US', {
-                        year: undefined, month: 'long', day: undefined
-                    }) + ' ' + pEventStartDate.getDate() + '-' + pEventEndDate.getDate() + ', ' + pEventStartDate.getFullYear();
+                    if (locale === 'fr') {
+                        dateString = `${pEventStartDate.getDate()}-${pEventEndDate.getDate()} ${pEventStartDate.toLocaleDateString(locales, {
+                            year: undefined, month: 'long', day: undefined
+                        })}, ${pEventStartDate.getFullYear()}`;
+                    } else {
+                        dateString = pEventStartDate.toLocaleDateString(locales, {
+                            year: undefined, month: 'long', day: undefined
+                        }) + ' ' + pEventStartDate.getDate() + '-' + pEventEndDate.getDate() + ', ' + pEventStartDate.getFullYear();
+                    }
+
                 } else {
                     // Different month range.
-                    dateString = pEventStartDate.toLocaleDateString('en-US', {
+                    dateString = pEventStartDate.toLocaleDateString(locales, {
                         year: 'numeric', month: 'long', day: 'numeric'
-                    }) + ' - ' + pEventEndDate.toLocaleDateString('en-US', {
+                    }) + ' - ' + pEventEndDate.toLocaleDateString(locales, {
                         year: 'numeric', month: 'long', day: 'numeric'
                     });
                 }
-                let endTimeString = pEventEndDate.toLocaleDateString("en-US", timeOptions);
+                let endTimeString = pEventEndDate.toLocaleDateString(locales, timeOptions);
                 endTimeString = endTimeString.substring(endTimeString.indexOf(',') + 1);
                 timeString += ' - ' + endTimeString;
             }
         } else {
             // One day event.
-            dateString = pEventStartDate.toLocaleDateString("en-US", options)
+            dateString = pEventStartDate.toLocaleDateString(locales, options)
 
         }
     }
+
+    const isShowAddToCalendar = (pEventStartDate, pEventEndDate) => {
+        if (pEventEndDate && !isNaN(pEventEndDate.getTime())) {
+            return pEventEndDate > new Date();
+        } else {
+            return pEventStartDate >= new Date();
+        }
+    }
+
     return (<Grid className="events">
         {hostedBy && hostedBy !== 'undefined' ? <Grid.Column width={16} className="event-hostedby">
-            <span className="label hostedby">Hosted By </span><span className="host-value">{hostedBy}</span>
-        </Grid.Column> : null}
+            <span className="label hostedby">{intl.formatMessage({
+                id: 'hosted-by', defaultMessage: 'Hosted by'
+            })} </span><span className="host-value">{hostedBy}</span>
+        < /Grid.Column> : null}
         <Grid.Column width={16} className="event-date">
             <Icon className="calendar" /> <span
             className="label">{dateString}</span>
@@ -120,10 +140,17 @@ const Events = (props) => {
                     location: eventLocation || 'Location N/A'
                 })
             }}>
-                <input className="atcb_customTrigger" type="submit" value="Add to calendar" />
+                {isShowAddToCalendar(pEventStartDate, pEventEndDate) ?
+                    <input className="atcb_customTrigger" type="submit"
+                           value={intl.formatMessage({
+                               id: 'addToCalendar',
+                               defaultMessage: 'Add to calendar'
+                           })} /> : null}
                 {showFullContent && externalFormURL ? (
-                    <a className="register_form_button" type="button" onClick={openRegisterForm}>Open register
-                        form</a>) : null}
+                    <a className="register_form_button" type="button" onClick={openRegisterForm}>{intl.formatMessage({
+                        id: 'openRegisterForm',
+                        defaultMessage: 'Open register form'
+                    })}</a>) : null}
             </form>
         </Grid.Column> : null}
     </Grid>);

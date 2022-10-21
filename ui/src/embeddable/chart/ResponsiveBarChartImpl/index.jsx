@@ -173,6 +173,9 @@ const ResponsiveBarChartImpl = ({
             let text = (value !== FAKE_NUMBER && Number(value) !== FAKE_NUMBER)
                 ? value
                 : data_.values[data.crop] ? data_.values[data.crop][id] || 'MD' : 'MD'
+            if (totalLabel && totalLabel.format && value !== FAKE_NUMBER) {
+                text = intl.formatNumber(value, totalLabel.format);
+            }
             if (dataSuffix && Number(value) >= 0 && value !== FAKE_NUMBER) {
                 text += dataSuffix
             }
@@ -289,7 +292,7 @@ const ResponsiveBarChartImpl = ({
                 data={auxData}
                 keys={keys}
                 indexBy={indexBy}
-                margin={margins ? margins : { top: 50, right: 60, bottom: 70, left: leftMargin }}
+                margin={margins ? margins : { top: 35, right: 60, bottom: 70, left: leftMargin }}
                 padding={padding || 0.3}
                 valueScale={{ type: 'linear', max: pMax }}
                 indexScale={{ type: 'band', round: true }}

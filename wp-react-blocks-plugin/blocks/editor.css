@@ -1,7 +1,8 @@
-.wp-react-component
-
 iframe {
     border: 1px #EEE dotted;
     padding: 10px;
 }
 
+.block-editor-block-list__layout .block-editor-block-list__block{
+	max-width: 1300px;
+}

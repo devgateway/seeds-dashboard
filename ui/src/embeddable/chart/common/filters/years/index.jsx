@@ -1,8 +1,9 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, { useEffect, useRef, useState } from "react";
 import './styles.scss';
-import {Accordion, Form, Menu} from "semantic-ui-react";
+import { Accordion, Form, Menu } from "semantic-ui-react";
+import { injectIntl } from "react-intl";
 
-const YearsFilter = ({data, onChange, maxSelectable, defaultSelected, showMaxYearsMessage = false}) => {
+const YearsFilter = ({ intl, data, onChange, maxSelectable, defaultSelected, showMaxYearsMessage = false }) => {
 
     const [isOpen, setIsOpen] = useState(false);
     const [selectedYear, setSelectedYear] = useState(null);
@@ -74,26 +75,29 @@ const YearsFilter = ({data, onChange, maxSelectable, defaultSelected, showMaxYea
             return (data.map((c) => {
                 return (<div key={c}>
                     <Form.Radio value={c} checked={selectedYear && selectedYear[0] === c}
-                                onChange={handleChange} label={c}/>
+                                onChange={handleChange} label={c} />
                 </div>);
             }));
         } else {
             return (<>
                 {showMaxYearsMessage && data.length > maxSelectable ?
-                    <div className="max-years-msg">Select Three Years Maximum</div> : null}
+                    <div className="max-years-msg">{intl.formatMessage({id: "select-3-years-max"})}</div> : null}
                 {data.map((c, i) => {
                     return (<div key={c}>
                         <Form.Checkbox value={c}
                                        checked={(selectedYear && selectedYear.find(j => j === c)) ? true : false}
                                        onChange={handleChange}
-                                       label={c}/>
+                                       label={c} />
                     </div>);
                 })}</>);
         }
     }
 
-    const title = (<div><span className="filter-selector-title">Year </span><span
-        className="filter-selector-numbers">{selectedYear ? selectedYear.length : 0} of {data.length}</span></div>);
+    const title = (<div><span className="filter-selector-title">{intl.formatMessage({
+        id: "year-legend",
+        defaultMessage: "Year"
+    })} </span><span
+        className="filter-selector-numbers">{selectedYear ? selectedYear.length : 0} {intl.formatMessage({id: 'of'})} {data.length}</span></div>);
     return (
         <div ref={ref}>
             <Accordion as={Menu} vertical>
@@ -105,11 +109,11 @@ const YearsFilter = ({data, onChange, maxSelectable, defaultSelected, showMaxYea
                         index={1}
                         onClick={handleClick}
                     />
-                    <Accordion.Content className="ignore" active={isOpen} content={generateContent()}/>
+                    <Accordion.Content className="ignore" active={isOpen} content={generateContent()} />
                 </Menu.Item>
             </Accordion>
         </div>
     )
 }
 
-export default YearsFilter
+export default injectIntl(YearsFilter)

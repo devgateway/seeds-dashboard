@@ -40,7 +40,7 @@ export const lightenDarkenColor = (col, amt) => {
 
 }
 export const normalizeField = (f) => {
-    return f.replace(/\s+/g, '-').toLowerCase();
+    return f.replace(/\s+/g, '-').replace(/[\])}[{(]/g, '').toLowerCase();
 }
 export const getSlugFromFilters = (filters, filtersData, valuesFilterStore, selectedFilterStore) => {
     const slug = [];
@@ -77,7 +77,8 @@ export const generateShareParams = (filters, chartType, selectedCrops, selectedY
             selectedTab = filters.get(CURRENT_TAB);
         }
     }
-    let finalUrl = `#country=${selectedCountry}`;
+
+    let finalUrl = '';
     if (selectedTab) {
         finalUrl = finalUrl + `/tab=${selectedTab}`
     }
@@ -90,6 +91,13 @@ export const generateShareParams = (filters, chartType, selectedCrops, selectedY
     }
     if (selectedYear && selectedYear.length > 0) {
         finalUrl = finalUrl + `/years=${Array.isArray(selectedYear) ? selectedYear.join(",") : selectedYear}`;
+    }
+    if (selectedCountry) {
+        finalUrl = `#country=${selectedCountry}` + finalUrl;
+    } else {
+        if (finalUrl.length > 0) {
+            finalUrl = "#" + finalUrl.substring(1)
+        }
     }
     return finalUrl;
 }
