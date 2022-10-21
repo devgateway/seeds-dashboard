@@ -120,7 +120,7 @@ const CountryReports = (props) => {
                 return <CropsLegend data={data} intl={intl} />;
             }
         }
-        return <span>{intl.formatMessage({id: "no-crops-data"})}No crops data</span>;
+        return <span>{intl.formatMessage({id: "no-crops-data"})}</span>;
     }
 
     const generateImage = () => {
