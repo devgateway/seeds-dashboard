@@ -15,7 +15,6 @@ import { InnerBlocks } from '@wordpress/editor'; // or wp.editor
 import { __ } from '@wordpress/i18n';
 import { Checkbox } from 'semantic-ui-react'
 import { BaseBlockEdit } from "../commons";
-import ApiConfigurations from './ApiConfiguration.json';
 
 class BlockEdit extends BaseBlockEdit {
     render() {
@@ -89,10 +88,6 @@ class BlockEdit extends BaseBlockEdit {
 
         queryString += `&data-source-text_en=${sourceText_en}`;
         queryString += `&data-source-text_fr=${sourceText_fr}`;
-
-        if (ApiConfigurations[type]) {
-            queryString += ` & data - chart - data - source =${ApiConfigurations[type].join("|")}`;
-        }
         queryString += ` & editing = true`
         const divStyles = { height: height + 'px', width: '100%' }
         return (
