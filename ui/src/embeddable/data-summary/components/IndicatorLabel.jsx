@@ -92,7 +92,14 @@ const formatValue = (value, displayType, intl, formatConfiguration) => {
             }
         }
     }
-    return formattedValue;
+    if (displayType === LEGEND) {
+        return intl.formatMessage({
+            id: normalizeField(value),
+            defaultMessage: normalizeField(value)
+        })
+    } else {
+        return formattedValue;
+    }
 }
 const Legend = ({ val, color }) => {
     const regexText = /[a-zA-Z\s]+/g;
