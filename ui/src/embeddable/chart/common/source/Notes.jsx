@@ -49,7 +49,7 @@ const Notes = ({
     return (<>
             {chardIdCategory ? <PostProvider type={type} taxonomy={taxonomy}
                                              categories={categories.toString()}
-                                             store={"notes" + chardIdCategory}
+                                             store={"notes" + chardIdCategory} hideNotFound={true}
                                              page={1} loadingMessage={intl.formatMessage({
                 id: 'loading-notes',
                 defaultMessage: 'Loading notes'

@@ -63,6 +63,8 @@ import HHILegend from "../MarketConcentrationHHI/HHILegend";
 import { normalizeField } from "../../utils/common";
 import Notes from "../common/source/Notes";
 
+export const MD = 'MD';
+
 const ChartComponent = ({
                             sources,
                             data,
