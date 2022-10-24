@@ -1,6 +1,5 @@
 import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
 import { InnerBlocks } from '@wordpress/editor';
-import ApiConfigurations from "./ApiConfiguration.json";
 
 const SaveComponent = (props) => {
     const {
@@ -58,7 +57,6 @@ const SaveComponent = (props) => {
              data-default-country-id={defaultCountryId}
              data-layout={layout}
              data-group-mode={groupMode}
-             data-chart-data-source={ApiConfigurations[type] ? ApiConfigurations[type].join("|") : undefined}
              data-use-source-by-category={useSourceByCategory}
              data-methodology={methodology}
              data-total-land-area-label_en={totalLandArea_en}
