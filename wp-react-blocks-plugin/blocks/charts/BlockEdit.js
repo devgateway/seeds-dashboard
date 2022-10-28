@@ -15,7 +15,6 @@ import { InnerBlocks } from '@wordpress/editor'; // or wp.editor
 import { __ } from '@wordpress/i18n';
 import { Checkbox } from 'semantic-ui-react'
 import { BaseBlockEdit } from "../commons";
-import ApiConfigurations from './ApiConfiguration.json';
 
 class BlockEdit extends BaseBlockEdit {
     render() {
@@ -73,12 +72,10 @@ class BlockEdit extends BaseBlockEdit {
         queryString += `&data-total-population-label_fr=${totalPopulationLabel_fr}`;
         queryString += `&data-farming-households-label_en=${farmingHouseholdsLabel_en}`
         queryString += `&data-farming-households-label_fr=${farmingHouseholdsLabel_fr}`
-
         queryString += `&data-total-land-area-label_en=${totalLandArea_en}`;
         queryString += `&data-total-land-area-label_fr=${totalLandArea_fr}`;
         queryString += `&data-total-land-area-unit_en=${totalLandAreaUnit_en}`;
         queryString += `&data-total-land-area-unit_fr=${totalLandAreaUnit_fr}`;
-
         queryString += `&data-total-arable-land-label_en=${arableLand_en}`;
         queryString += `&data-total-arable-land-label_fr=${arableLand_fr}`;
         queryString += `&data-top-harvested-crops-and-value_en=${topHarvestedCropsAndValue_en}`;
@@ -86,13 +83,8 @@ class BlockEdit extends BaseBlockEdit {
         queryString += `&data-top-harvested-crops-and-value-unit=${topHarvestedCropsAndValueUnit}`;
         queryString += `&data-population-vs-farming-households_en=${populationVsFarmingHouseholds_en}`;
         queryString += `&data-population-vs-farming-households_fr=${populationVsFarmingHouseholds_fr}`;
-
         queryString += `&data-source-text_en=${sourceText_en}`;
         queryString += `&data-source-text_fr=${sourceText_fr}`;
-
-        if (ApiConfigurations[type]) {
-            queryString += ` & data - chart - data - source =${ApiConfigurations[type].join("|")}`;
-        }
         queryString += ` & editing = true`
         const divStyles = { height: height + 'px', width: '100%' }
         return (
