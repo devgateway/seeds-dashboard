@@ -120,7 +120,7 @@ const CountryReports = (props) => {
                 return <CropsLegend data={data} intl={intl} />;
             }
         }
-        return <span>No crops data</span>;
+        return <span>{intl.formatMessage({id: "no-crops-data"})}</span>;
     }
 
     const generateImage = () => {
@@ -146,7 +146,7 @@ const CountryReports = (props) => {
     let childComponent = null;
 
     if (loading || !categoriesWP) {
-        childComponent = (<div>{intl.formatMessage({ id: "loading", defaultMessage: "lLoading" })}...</div>);
+        childComponent = (<div>{intl.formatMessage({ id: "loading" })}...</div>);
     } else if (year && country) {
         const year_ = categoriesWP.find(i => i.id === Number(year));
         const country_ = categoriesWP.find(i => i.id === Number(country));
