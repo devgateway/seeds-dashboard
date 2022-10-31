@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import './styles.scss';
 import { Accordion, Form, Menu } from "semantic-ui-react";
 import { normalizeField } from "../../../../../utils/common";
+import { getSortedAndTranslatedArray } from "../../FilterCommons";
 
 const CrossCountryCropFilter = ({ data, onChange, initialSelectedCrop = 0, intl }) => {
 
@@ -44,10 +45,10 @@ const CrossCountryCropFilter = ({ data, onChange, initialSelectedCrop = 0, intl 
     }
 
     const generateContent = () => {
-        return (data.map((c, i) => {
-            return (<div key={c}>
-                <Form.Checkbox value={c} checked={selectedCrop === i} onChange={handleChange}
-                               label={intl.formatMessage({ id: c, defaultMessage: c })} />
+        return (getSortedAndTranslatedArray(data, intl).map((c, i) => {
+            return (<div key={c.value}>
+                <Form.Checkbox value={c.value} checked={selectedCrop === i} onChange={handleChange}
+                               label={c.translatedLabel} />
             </div>);
         }));
     }

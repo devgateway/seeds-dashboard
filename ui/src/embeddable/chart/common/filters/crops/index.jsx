@@ -1,8 +1,9 @@
-import React, {useState, useEffect, useRef} from "react";
+import React, { useState, useEffect, useRef } from "react";
 import './styles.scss';
-import {Accordion, Form, Menu} from "semantic-ui-react";
+import { Accordion, Form, Menu } from "semantic-ui-react";
+import { getSortedAndTranslatedArray } from "../FilterCommons";
 
-const CropFilter = ({data, onChange, initialSelectedCrops = [1, 1, 1, 1], intl, maxSelectable}) => {
+const CropFilter = ({ data, onChange, initialSelectedCrops = [1, 1, 1, 1], intl, maxSelectable }) => {
 
     const [isOpen, setIsOpen] = useState(false);
     const [numberOfSelectedCrops, setNumberOfSelectedCrops] = useState([1, 1, 1, 1]);
@@ -56,13 +57,14 @@ const CropFilter = ({data, onChange, initialSelectedCrops = [1, 1, 1, 1], intl, 
     }
 
     const generateContent = () => {
-        return (data.map((c, i) => {
-            return (<div key={c}>
+
+        return (getSortedAndTranslatedArray(data, intl).map((c, i) => {
+            return (<div key={c.value}>
                 {maxSelectable !== 1 ?
-                    <Form.Checkbox value={c} checked={numberOfSelectedCrops[i] === 1} onChange={handleChange}
-                                   label={intl.formatMessage({id: c, defaultMessage: c})}/> :
-                    <Form.Radio value={c} checked={numberOfSelectedCrops[i] === 1} onChange={handleChange}
-                                   label={intl.formatMessage({id: c, defaultMessage: c})}/>}
+                    <Form.Checkbox value={c.value} checked={numberOfSelectedCrops[i] === 1} onChange={handleChange}
+                                   label={c.translatedLabel} /> :
+                    <Form.Radio value={c.value} checked={numberOfSelectedCrops[i] === 1} onChange={handleChange}
+                                label={c.translatedLabel} />}
             </div>);
         }));
     }
@@ -70,13 +72,23 @@ const CropFilter = ({data, onChange, initialSelectedCrops = [1, 1, 1, 1], intl, 
     let title;
     if (maxSelectable !== 1) {
         const sum = numberOfSelectedCrops.reduce((acc, a) => acc + a, 0);
-        title = (<div><span className="filter-selector-title">{intl.formatMessage({id: "crop-s", defaultMessage: "Crop(s)"})}</span><span
-            className="filter-selector-numbers">{sum} {intl.formatMessage({id: 'of', defaultMessage: 'of'})} {currentData ? currentData.length : 0}</span></div>);
+        title = (<div><span className="filter-selector-title">{intl.formatMessage({
+            id: "crop-s",
+            defaultMessage: "Crop(s)"
+        })}</span><span
+            className="filter-selector-numbers">{sum} {intl.formatMessage({
+            id: 'of',
+            defaultMessage: 'of'
+        })} {currentData ? currentData.length : 0}</span></div>);
     } else {
         const index = numberOfSelectedCrops.findIndex(i => i === 1);
         title = (data && data[index] ? <div>
-            <span className="filter-selector-title">{intl.formatMessage({id: "crop-s", defaultMessage: "Crop(s)"})}</span>
-            { data && index >= 0 && <span className="filter-selector-numbers">{intl.formatMessage({id: data[index]})}</span> }
+            <span className="filter-selector-title">{intl.formatMessage({
+                id: "crop-s",
+                defaultMessage: "Crop(s)"
+            })}</span>
+            {data && index >= 0 &&
+                <span className="filter-selector-numbers">{intl.formatMessage({ id: data[index] })}</span>}
         </div> : null);
     }
     return (
@@ -90,7 +102,7 @@ const CropFilter = ({data, onChange, initialSelectedCrops = [1, 1, 1, 1], intl, 
                         index={0}
                         onClick={handleClick}
                     />
-                    <Accordion.Content className="ignore" active={isOpen} content={generateContent()}/>
+                    <Accordion.Content className="ignore" active={isOpen} content={generateContent()} />
                 </Menu.Item>
             </Accordion>
         </div>
