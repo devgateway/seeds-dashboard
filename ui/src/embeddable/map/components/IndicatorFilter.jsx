@@ -45,14 +45,14 @@ const IndicatorFilter = ({data, onChange, initialSelectedIndicator, intl, title}
         return (data.map((c, i) => {
             return (<div key={c.id}>
                 <Form.Radio value={c.value} onChange={handleChange} checked={c.id === initialSelectedIndicator.id}
-                               label={intl.formatMessage({id: c.value, defaultMessage: c.value})}/>
+                            label={intl.formatMessage({id: c.value, defaultMessage: c.value})}/>
             </div>);
         }));
     }
 
     const titleComponent = (<div>
         <span className="filter-selector-title">{title}</span>
-        <span className="filter-selected-option">{initialSelectedIndicator.value}</span>
+        <span className="filter-selected-option">{intl.formatMessage({id: initialSelectedIndicator.value})}</span>
     </div>);
     return (
         <div ref={ref}>
