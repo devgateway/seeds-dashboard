@@ -8,7 +8,6 @@ const CropFilter = ({data, onChange, initialSelectedCrops = [1, 1, 1, 1], intl, 
     const [isOpen, setIsOpen] = useState(false);
     const [numberOfSelectedCrops, setNumberOfSelectedCrops] = useState([1, 1, 1, 1]);
     const [currentData, setCurrentData] = useState(null);
-
     const ref = useRef(null);
 
     if (data !== currentData) {
@@ -59,11 +58,14 @@ const CropFilter = ({data, onChange, initialSelectedCrops = [1, 1, 1, 1], intl, 
     const generateContent = () => {
 
         return (getSortedAndTranslatedArray(data, intl, firstAtFront).map((c, i) => {
+            const originalCropIndex = data.findIndex(usd => usd === c.value);
             return (<div key={c.value}>
                 {maxSelectable !== 1 ?
-                    <Form.Checkbox value={c.value} checked={numberOfSelectedCrops[i] === 1} onChange={handleChange}
+                    <Form.Checkbox value={c.value} checked={numberOfSelectedCrops[originalCropIndex] === 1}
+                                   onChange={handleChange}
                                    label={c.translatedLabel}/> :
-                    <Form.Radio value={c.value} checked={numberOfSelectedCrops[i] === 1} onChange={handleChange}
+                    <Form.Radio value={c.value} checked={numberOfSelectedCrops[originalCropIndex] === 1}
+                                onChange={handleChange}
                                 label={c.translatedLabel}/>}
             </div>);
         }));
