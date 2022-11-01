@@ -168,7 +168,7 @@ const CountryReports = (props) => {
                                 </div>
                                 <div className="report-container">
                                     <span
-                                        className="title">{cleanupCountryName(country_.name) + ' ' + year_.name + ' ' + title}</span>
+                                        className="title">{locale==='en'?(`${cleanupCountryName(country_.name)} ${year_.name} ${title}`):(`${title} ${cleanupCountryName(country_.name)} ${year_.name}`) }</span>
                                     <span className="description">{description}</span>
                                     <span className="links">{generateLinks()}</span>
                                 </div>
