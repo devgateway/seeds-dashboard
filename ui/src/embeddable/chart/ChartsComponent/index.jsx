@@ -1010,7 +1010,7 @@ const ChartComponent = ({
                     </div>)
                 }
             }
-            legend = intl.formatMessage({ id: 'year-legend', defaultMessage: 'Year' });
+            legend = 'Year';
             groupMode = 'grouped';
             withCropsWithSpecialFeatures = false;
             processByYear();
