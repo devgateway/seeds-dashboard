@@ -46,8 +46,10 @@ const CrossCountryCropFilter = ({ data, onChange, initialSelectedCrop = 0, intl 
 
     const generateContent = () => {
         return (getSortedAndTranslatedArray(data, intl).map((c, i) => {
+            const originalCropIndex = data.findIndex(usd => usd === c.value);
+
             return (<div key={c.value}>
-                <Form.Checkbox value={c.value} checked={selectedCrop === i} onChange={handleChange}
+                <Form.Checkbox value={c.value} checked={selectedCrop === originalCropIndex} onChange={handleChange}
                                label={c.translatedLabel} />
             </div>);
         }));
