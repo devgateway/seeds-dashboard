@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, {useState, useEffect, useRef} from "react";
 import './styles.scss';
-import { Accordion, Form, Menu } from "semantic-ui-react";
-import { getSortedAndTranslatedArray } from "../FilterCommons";
+import {Accordion, Form, Menu} from "semantic-ui-react";
+import {getSortedAndTranslatedArray} from "../FilterCommons";
 
-const CropFilter = ({ data, onChange, initialSelectedCrops = [1, 1, 1, 1], intl, maxSelectable }) => {
+const CropFilter = ({data, onChange, initialSelectedCrops = [1, 1, 1, 1], intl, maxSelectable, firstAtFront}) => {
 
     const [isOpen, setIsOpen] = useState(false);
     const [numberOfSelectedCrops, setNumberOfSelectedCrops] = useState([1, 1, 1, 1]);
@@ -58,13 +58,13 @@ const CropFilter = ({ data, onChange, initialSelectedCrops = [1, 1, 1, 1], intl,
 
     const generateContent = () => {
 
-        return (getSortedAndTranslatedArray(data, intl).map((c, i) => {
+        return (getSortedAndTranslatedArray(data, intl, firstAtFront).map((c, i) => {
             return (<div key={c.value}>
                 {maxSelectable !== 1 ?
                     <Form.Checkbox value={c.value} checked={numberOfSelectedCrops[i] === 1} onChange={handleChange}
-                                   label={c.translatedLabel} /> :
+                                   label={c.translatedLabel}/> :
                     <Form.Radio value={c.value} checked={numberOfSelectedCrops[i] === 1} onChange={handleChange}
-                                label={c.translatedLabel} />}
+                                label={c.translatedLabel}/>}
             </div>);
         }));
     }
@@ -88,7 +88,7 @@ const CropFilter = ({ data, onChange, initialSelectedCrops = [1, 1, 1, 1], intl,
                 defaultMessage: "Crop(s)"
             })}</span>
             {data && index >= 0 &&
-                <span className="filter-selector-numbers">{intl.formatMessage({ id: data[index] })}</span>}
+                <span className="filter-selector-numbers">{intl.formatMessage({id: data[index]})}</span>}
         </div> : null);
     }
     return (
@@ -102,7 +102,7 @@ const CropFilter = ({ data, onChange, initialSelectedCrops = [1, 1, 1, 1], intl,
                         index={0}
                         onClick={handleClick}
                     />
-                    <Accordion.Content className="ignore" active={isOpen} content={generateContent()} />
+                    <Accordion.Content className="ignore" active={isOpen} content={generateContent()}/>
                 </Menu.Item>
             </Accordion>
         </div>
