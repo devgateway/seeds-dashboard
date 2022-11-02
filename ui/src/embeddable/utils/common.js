@@ -40,7 +40,7 @@ export const lightenDarkenColor = (col, amt) => {
 
 }
 export const normalizeField = (f) => {
-    return f.replace(/\s+/g, '-').replace(/[\])}[{(]/g, '').toLowerCase();
+    return f.replace(/\s+/g, '-').replace(/[\])}[{(,]/g, '').toLowerCase();
 }
 export const getSlugFromFilters = (filters, filtersData, valuesFilterStore, selectedFilterStore) => {
     const slug = [];

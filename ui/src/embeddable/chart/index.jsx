@@ -85,7 +85,6 @@ const Chart = (props) => {
         "data-download": download,
         "data-height": height = 500,
         "data-chart-type": type,
-        "data-chart-data-source": chartDataSource,
         'data-color-by': colorBy = 'index',
         'data-color-scheme': scheme = 'nivo',
         'data-group-mode': groupMode = 'stacked',
@@ -95,8 +94,6 @@ const Chart = (props) => {
         'data-dualmode': dualMode,
         'data-legend-position': legendPosition = "right",
         'data-show-legends': showLegends = "true",
-        'data-chart-source-label': dataSourceLabel = "Source",
-        'data-chart-data-source': dataSource = "Data Source",
         'data-toggle-info-label': toggleInfoLabel = "Info Graphic",
         'data-toggle-chart-label': toggleChartLabel = "Chart",
         'data-params': params = '{}',
@@ -380,7 +377,6 @@ const Chart = (props) => {
             <Container className={"chart container"} fluid={true}>
                 <DataProvider params={JSON.parse(decodeURIComponent(params))}
                               app={type}
-                              source={chartDataSource}
                               csv={csv}
                               store={[type, unique]}>
 
@@ -411,10 +407,6 @@ const Chart = (props) => {
                                 </Button>
                             </p>
                         }
-                    </Grid.Column>
-
-                    <Grid.Column textAlign={"right"}>
-                        <p>{dataSourceLabel} : {dataSource}</p>
                     </Grid.Column>
                 </Grid>}
             </Container>

@@ -44,16 +44,16 @@ import Export from "../chart/common/export";
 import Source from "../chart/common/source";
 import {cleanupParam} from "../chart/Countryinfo";
 import {toBlob} from "html-to-image";
-import { saveAs } from 'file-saver';
+import {saveAs} from 'file-saver';
 import Notes from "../chart/common/source/Notes";
 import {normalizeField} from "../utils/common";
 
 let colors = [
-    { color: '#fb6e6e' },
-    { color: '#fba66e' },
-    { color: '#f9d751' },
-    { color: '#ccea7b' },
-    { color: '#a5ca40' },
+    {color: '#fb6e6e'},
+    {color: '#fba66e'},
+    {color: '#f9d751'},
+    {color: '#ccea7b'},
+    {color: '#a5ca40'},
 ];
 export const PERCENTAGE = '%';
 
@@ -89,6 +89,7 @@ const Map = (props) => {
     if (categoriesWP) {
         categoryType = categoriesWP.find(c => c.slug === type.toLowerCase())
     }
+    let firstAtFront = false;
     useEffect(() => {
         setDefaultFilter(DEFAULT_COUNTRY_ID, 23);
         if (filters && filters.get(SHARE_CHART) && type === filters.get(SHARE_CHART)) {
@@ -126,7 +127,7 @@ const Map = (props) => {
         }
     }
 
-    const processCommonDataWithCrops = ()  => {
+    const processCommonDataWithCrops = () => {
         processedData = [];
         if (mapData && mapData.get(selectedIndicator.id) && mapData.get(selectedIndicator.id).values) {
             Object.keys(mapData.get(selectedIndicator.id).values).forEach(k => {
@@ -136,7 +137,7 @@ const Map = (props) => {
                     item.value = item[selectedCrops];
                     item.country = intl.formatMessage({id: normalizeField(countries.find(c => c.isoCode === item.id).country)});
                     item.crop = intl.formatMessage({id: selectedCrops});
-                    if (item.value === 0 
+                    if (item.value === 0
                         || (item.value && item.value !== 'MD' && item.value !== 'NA' && !isNaN(item.value))) {
                         processedData.push(item);
                     } else {
@@ -146,7 +147,7 @@ const Map = (props) => {
             });
         }
     }
-    
+
     const processCommonDataWithoutCrops = (recalculateDomain) => {
         processedData = [];
         if (mapData && mapData.get(selectedIndicator.id) && mapData.get(selectedIndicator.id).values) {
@@ -159,7 +160,7 @@ const Map = (props) => {
                 item.year = mapData.get(selectedIndicator.id).values[k].year;
                 item.country = intl.formatMessage({id: normalizeField(countries.find(c => c.isoCode === item.id).country)});
                 item.crop = null;
-                if (item.value === 0  
+                if (item.value === 0
                     || (item.value && item.value !== 'MD' && item.value !== 'NA' && !isNaN(item.value))) {
                     if (recalculateDomain) {
                         if (item.value > max) {
@@ -219,6 +220,7 @@ const Map = (props) => {
     if (indicators.length === 0) {
         switch (type) {
             case "indicators_A":
+                firstAtFront = true;
                 indicators = [
                     {
                         value: A1_ADEQUACY_ACTIVE_BREEDERS,
@@ -358,17 +360,19 @@ const Map = (props) => {
         }
         setSelectedCrops(currentlySelected);
     }
-    
+
     const handleIndicatorChange = (selected) => {
         setSelectedIndicator(selected);
         setDontUseCrops(!selected.usesCrops);
     }
-        
-    if (countries && selectedIndicator && mapData && mapData.get(selectedIndicator.id) 
+
+    if (countries && selectedIndicator && mapData && mapData.get(selectedIndicator.id)
         && !mapData.get(selectedIndicator.id).LOADING && selectedIndicator) {
         switch (selectedIndicator.value) {
             case A1_ADEQUACY_ACTIVE_BREEDERS:
             case A4_AVAILABILITY_FOUNDATION_SEED:
+                //firstAtFront = true;
+
                 processCommonDataWithCrops();
                 break
             case D2_ADEQUACY_SEED_INSPECTION_SERVICES:
@@ -387,7 +391,7 @@ const Map = (props) => {
     }
 
     const wrapper = useRef(null);
-    
+
     // Needed for <CropFilter/>
     if (initialCrops && !dontUseCrops) {
         initialSelectedCrops = [];
@@ -398,23 +402,23 @@ const Map = (props) => {
 
     // To reuse the colors.
     let mapColors = colors.map(c => c.color);
-    
+
     let scaleQ;
     let auxLegends = JSON.parse(JSON.stringify(legends));
     if (selectedIndicator) {
         if (selectedIndicator.fixedZeroToHundredDomain) {
             domain = [0, 100];
         }
-        
+
         // Update the intervals to the new domain.
         // FFR: https://github.com/d3/d3-scale/blob/main/README.md#scaleQuantize
         scaleQ = d3.scaleQuantize().domain(domain).range(legends);
         let intervals = scaleQ.thresholds();
-        
+
         const suffix = selectedIndicator.numberSuffix;
         intervals.unshift(domain[0]);
         intervals.push(domain[1]);
-        
+
         // When the suffix is different from "%" then reverse the legends order. 
         if (suffix !== PERCENTAGE) {
             if (selectedIndicator.reverseLegendOrder) {
@@ -431,7 +435,7 @@ const Map = (props) => {
             mapColors = mapColors.reverse();
             scaleQ = d3.scaleQuantize().domain(domain).range(auxLegends);
         }
-        
+
         intervals.forEach((t, index) => {
             if (index > 0) {
                 if (suffix === PERCENTAGE) {
@@ -449,7 +453,7 @@ const Map = (props) => {
                                 auxLegends[index - 1]['label-range'] = (intervals[index - 1] + selectedIndicator.adjustConstant) + suffix + ' - ' + intervals[index] + suffix;
                                 break;
                             case 5:
-                                auxLegends[index - 1]['label-range'] = (intervals[index - 1] + selectedIndicator.adjustConstant)  + suffix + ' ' + intl.formatMessage({id: 'or-above'});
+                                auxLegends[index - 1]['label-range'] = (intervals[index - 1] + selectedIndicator.adjustConstant) + suffix + ' ' + intl.formatMessage({id: 'or-above'});
                                 break;
                         }
                     } else {
@@ -468,10 +472,10 @@ const Map = (props) => {
     }
 
     indicatorFilterTitle = intl.formatMessage({id: 'opinion-indicator'});
-    if (selectedIndicator && 
-        (selectedIndicator.value === B72_LENGTH_SEED_IMPORT || 
-            selectedIndicator.value === B73_SATISFACTION_IMPORT || 
-            selectedIndicator.value === B75_LENGTH_SEED_EXPORT || 
+    if (selectedIndicator &&
+        (selectedIndicator.value === B72_LENGTH_SEED_IMPORT ||
+            selectedIndicator.value === B73_SATISFACTION_IMPORT ||
+            selectedIndicator.value === B75_LENGTH_SEED_EXPORT ||
             selectedIndicator.value === B77_SATISFACTION_EXPORT)) {
         indicatorFilterTitle = intl.formatMessage({id: 'indicator'});
     }
@@ -488,10 +492,10 @@ const Map = (props) => {
     const heightOffset = 0; // To have some margin.
     const windowHeight = window.innerHeight;
     if (windowHeight < BASE_CONTAINER_HEIGHT) {
-       const decreaseRatio = windowHeight / BASE_CONTAINER_HEIGHT;
-       containerHeight = windowHeight - heightOffset;
-       mapHeight = (mapHeight * mapToContainerRatio) - heightOffset;
-       projectionScale = projectionScale * mapToContainerRatio;
+        const decreaseRatio = windowHeight / BASE_CONTAINER_HEIGHT;
+        containerHeight = windowHeight - heightOffset;
+        mapHeight = (mapHeight * mapToContainerRatio) - heightOffset;
+        projectionScale = projectionScale * mapToContainerRatio;
     }
 
     return (<div ref={wrapper}>
@@ -499,31 +503,36 @@ const Map = (props) => {
                 <Grid className={`map-grid`}>
                     <Grid.Row className="header-section">
                         <Grid.Column width={12}>
-                            <Header title={`${title}`} subtitle={subTitle} />
+                            <Header title={`${title}`} subtitle={subTitle}/>
                         </Grid.Column>
                         <Grid.Column width={4}>
-                            <Export methodology={methodology} exportPng={exportPng} download={download} containerRef={wrapper}
-                                    type={'bar'} chartType={type} selectedCrops={selectedCrops ? [selectedCrops] : []} />
+                            <Export methodology={methodology} exportPng={exportPng} download={download}
+                                    containerRef={wrapper}
+                                    type={'bar'} chartType={type} selectedCrops={selectedCrops ? [selectedCrops] : []}/>
                         </Grid.Column>
                     </Grid.Row>
-                    {selectedIndicator && !selectedIndicator.hideFilterSection && <Grid.Row className={`filters-section`}>
-                        <Grid.Column width={8}>
-                            <IndicatorFilter intl={intl} data={indicators} initialSelectedIndicator={selectedIndicator}
-                                             onChange={handleIndicatorChange} title={indicatorFilterTitle}/>
-                        </Grid.Column>
-                        <Grid.Column width={4}>
-                            {!dontUseCrops && initialCrops && initialSelectedCrops &&
-                                <CropFilter data={initialCrops} onChange={handleCropFilterChange}
-                                            initialSelectedCrops={initialSelectedCrops} intl={intl} maxSelectable={1}/>}
-                        </Grid.Column>
-                    </Grid.Row>}
+                    {selectedIndicator && !selectedIndicator.hideFilterSection &&
+                        <Grid.Row className={`filters-section`}>
+                            <Grid.Column width={currentLanguage === 'fr' ? 9 : 8}>{}
+                                <IndicatorFilter intl={intl} data={indicators}
+                                                 initialSelectedIndicator={selectedIndicator}
+                                                 onChange={handleIndicatorChange} title={indicatorFilterTitle}/>
+                            </Grid.Column>
+                            <Grid.Column width={4}>
+                                {!dontUseCrops && initialCrops && initialSelectedCrops &&
+                                    <CropFilter data={initialCrops} onChange={handleCropFilterChange}
+                                                firstAtFront={firstAtFront}
+                                                initialSelectedCrops={initialSelectedCrops} intl={intl}
+                                                maxSelectable={1}/>}
+                            </Grid.Column>
+                        </Grid.Row>}
                     <Grid.Row className={`hhi-section`}>
-                        <HHILegend legends={auxLegends} 
-                                   title={intl.formatMessage({ id: 'legend', defaultMessage: 'Legend' })} />
+                        <HHILegend legends={auxLegends}
+                                   title={intl.formatMessage({id: 'legend', defaultMessage: 'Legend'})}/>
                     </Grid.Row>
                     <Grid.Row className="map-row">
                         <Grid.Column width={16}>
-                            <MapComponent domain={domain} data={processedData} height={mapHeight} intl={intl} 
+                            <MapComponent domain={domain} data={processedData} height={mapHeight} intl={intl}
                                           colors={mapColors} dontUseCrops={dontUseCrops} scale={scaleQ}
                                           legend={selectedIndicator ? selectedIndicator.mapLegend : null}
                                           projectionScale={projectionScale}
@@ -532,10 +541,10 @@ const Map = (props) => {
                     </Grid.Row>
                     <Grid.Row className={`source-section ${hasNotes ? ' no-bottom-border' : ''}`}>
                         <Grid.Column>
-                            <Source title={`Source: ${sourceText}${editing ? ` *${type}*` : ''}`} />
+                            <Source title={`Source: ${sourceText}${editing ? ` *${type}*` : ''}`}/>
                         </Grid.Column>
                     </Grid.Row>
-                    <Notes chardIdCategory={categoryType ? categoryType.id : undefined} setHasNotes={setHasNotes} />
+                    <Notes chardIdCategory={categoryType ? categoryType.id : undefined} setHasNotes={setHasNotes}/>
                 </Grid>
             </Container>
         </div>

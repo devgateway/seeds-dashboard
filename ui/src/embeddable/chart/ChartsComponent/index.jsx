@@ -63,6 +63,8 @@ import HHILegend from "../MarketConcentrationHHI/HHILegend";
 import { normalizeField } from "../../utils/common";
 import Notes from "../common/source/Notes";
 
+export const MD = 'MD';
+
 const ChartComponent = ({
                             sources,
                             data,
@@ -639,6 +641,7 @@ const ChartComponent = ({
                 const key2 = 'withoutSpecialFeature_' + c;
                 const header = {
                     crop: intl.formatMessage({ id: c, defaultMessage: c }),
+                    originalCrop: c,
                     [key1]: sumWF,
                     [key2]: sumWOF,
                 };
@@ -1007,7 +1010,7 @@ const ChartComponent = ({
                     </div>)
                 }
             }
-            legend = intl.formatMessage({ id: 'year-legend', defaultMessage: 'Year' });
+            legend = 'Year';
             groupMode = 'grouped';
             withCropsWithSpecialFeatures = false;
             processByYear();
@@ -1067,8 +1070,12 @@ const ChartComponent = ({
                     id: "with",
                     defaultMessage: "with"
                 });
-                const withOut_ = "";
-                const specialFeatures = "";
+                const withOut_ = intl.formatMessage({
+                    id: "with-out"
+                });
+                const specialFeatures = intl.formatMessage({
+                    id: "special-features"
+                });
                 return <>
           <span
               className="bold"> {d.data[d.id]} {intl.formatMessage({id: 'out-of'})} {(d.data['withSpecialFeature_' + d.indexValue.toLowerCase()] || 0)
@@ -1080,7 +1087,8 @@ const ChartComponent = ({
             }
             getTooltipHeader = (d) => {
                 return <>
-                    <div className={d.indexValue.toLowerCase() + " crop-icon"} />
+                    <div
+                        className={d.data.originalCrop + " crop-icon"} />
                     <div className="crop-name">{intl.formatMessage({
                         id: d.indexValue,
                         defaultMessage: d.indexValue

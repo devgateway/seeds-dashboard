@@ -109,7 +109,7 @@ services:
       - /var/log/tasai:/usr/share/nginx/tasai:ro
       - ./nginx/logs.conf:/etc/nginx/conf.d/logs.conf:ro
       - ./nginx/metabase_stage.conf:/etc/nginx/conf.d/metabase_stage.conf:ro
-      - ./nginx/ui.conf:/etc/nginx/conf.d/ui.conf:ro
+      - ./nginx/ui.conf:/etc/nginx/conf.d/ui.conf:rw
       - ./data/wordpress:/var/www/html:ro
       - ./wp-content:/var/www/html/wp-content:ro
       - ./wp-react-blocks-plugin:/var/www/html/wp-content/plugins/wp-react-blocks-plugin:ro

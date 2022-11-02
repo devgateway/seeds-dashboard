@@ -45,7 +45,7 @@ import {
     SATISFACTION_SEED_REGULATIONS,
     ADEQUACY_GOVERNMENT_EFFORT_COUNTERFEIT_SEED,
     LENGTH_SEED_IMPORT, SATISFACTION_IMPORT, LENGTH_SEED_EXPORT, SATISFACTION_EXPORT,
-    CROSS_COUNTRY_AGRICULTURAL_EXTENSION_SERVICES
+    CROSS_COUNTRY_AGRICULTURAL_EXTENSION_SERVICES, NUMBER_OF_ACTIVE_SEED_COMPANIES_PRODUCERS
 } from "./StoreConstants";
 import { SELECTED_COUNTRY } from "../../seeds-commons/commonConstants";
 import { get, post } from "../../seeds-commons/commons";
@@ -70,6 +70,7 @@ let AVERAGE_AGE_VARIETIES_SOLD_API = `${SURVEY_API}/chart/averageAgeVarietiesSol
 let AVAILABILITY_OF_BASIC_SEED_API = `${SURVEY_API}/chart/availabilityBasicSeed/crop/year/`;
 let NUMBER_VARIETIES_SOLD_API = `${SURVEY_API}/chart/numberVarietiesSold/crop/year/`;
 let PERFORMANCE_SEED_TRADERS_API = `${SURVEY_API}/chart/performanceSeedTraders/performance/year/`;
+const NUMBER_OF_ACTIVE_SEED_COMPANIES_PRODUCERS_API = `${SURVEY_API}/chart/numberActiveCompanies/crop/year`; 
 const RATING_GOVERNMENT_SEED_SUBSIDY_PROGRAM_API = `${SURVEY_API}/chart/cc/ratingGovernmentSeedSubsidyProgram`;
 const MARKET_SHARE_TOP_FOUR_SEED_COMPANIES_API = `${SURVEY_API}/chart/marketShareTop4/crop/year`;
 const MARKET_SHARE_STATE_OWNED_SEED_COMPANIES_API = `${SURVEY_API}/chart/marketShareStateOwned/crop/year`;
@@ -121,6 +122,7 @@ const APIS = {
     prevalence: '',
     policy: POLICY_API_ROOT,
     [COUNTRY_INFO]: COUNTRY_INFORMATION_API,
+    [NUMBER_OF_ACTIVE_SEED_COMPANIES_PRODUCERS]: NUMBER_OF_ACTIVE_SEED_COMPANIES_PRODUCERS_API,
     [MARKET_CONCENTRATION_HHI]: MARKET_CONCENTRATION_HHI_API,
     [NUMBER_OF_VARIETIES_RELEASED]: NUMBER_OF_VARIETIES_RELEASED_API,
     [VARIETIES_RELEASED_WITH_SPECIAL_FEATURES]: VARIETIES_RELEASED_WITH_SPECIAL_FEATURES_API,
@@ -211,6 +213,7 @@ export const getData = ({ source, app, params }) => {
         }
         return get(APIS[app] + countryId);
     } else if (app === NUMBER_OF_VARIETIES_RELEASED
+        || app === NUMBER_OF_ACTIVE_SEED_COMPANIES_PRODUCERS
         || app === AVAILABILITY_OF_BASIC_SEED
         || app === MARKET_SHARE_TOP_FOUR_SEED_COMPANIES
         || app === MARKET_CONCENTRATION_HHI

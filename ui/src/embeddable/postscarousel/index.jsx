@@ -100,7 +100,7 @@ const PostCarousel = ({
                           store={"carousel_" + parent + "_" + unique} page={1}
                           perPage={items > 0 ? items : undefined} isScheduledFilter={scheduledFilter === 'true'}
                           scheduledFilterStore={scheduledFilterStore}
-                          categoryDefault={defaultCategory}
+                          categoryDefault={defaultCategory} messages={messages}
             >
                 <PostConsumer>
                     <Carousel itemsPerPage={itemsPerPage} messages={messages} orientation={orientation}

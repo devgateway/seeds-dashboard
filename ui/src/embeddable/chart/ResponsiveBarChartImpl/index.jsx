@@ -4,7 +4,7 @@ import { useResizeDetector } from 'react-resize-detector';
 import './styles.scss';
 import CropIcons from "../common/cropIcons";
 import { getTextWidth } from "../../utils/common";
-import { FAKE_NUMBER } from "../ChartsComponent";
+import {FAKE_NUMBER, MD} from "../ChartsComponent";
 import NoData from "../common/noData";
 
 const theme = {
@@ -82,6 +82,7 @@ const ResponsiveBarChartImpl = ({
     if (allFake) {
         pMax = ALL_FAKE_MAX;
     }
+    const lnMD = intl.formatMessage({id: 'md'});
     
     // returns a list of total value labels for stacked bars
     const TotalLabels = ({ bars, yScale, xScale }) => {
@@ -113,15 +114,15 @@ const ResponsiveBarChartImpl = ({
                     }
                 } else {
                     if (isMD && showTotalMD) {
-                        finalText = 'MD';
+                        finalText = lnMD;
                     }
                 }
             }
             if (showTotalMD && isMD) {
-                finalText = 'MD';
+                finalText = lnMD;
             }
 
-            // let finalText = showTotalLabel ? total : (isMD ? "MD" : "");
+            // let finalText = showTotalLabel ? total : (isMD ? lnMD : "");
             let transform = `translate(${x}, ${yScale(total) - labelMargin})`;
             let xText = width / 2;
             let yText = labelMargin / 2;
@@ -169,10 +170,25 @@ const ResponsiveBarChartImpl = ({
                 value = data_.values[data.crop] ? data_.values[data.crop][id] : null;
             }
             let transform = `translate(${x}, ${yScale(Number(value)) - labelMargin})`;
-
-            let text = (value !== FAKE_NUMBER && Number(value) !== FAKE_NUMBER)
-                ? value
-                : data_.values[data.crop] ? data_.values[data.crop][id] || 'MD' : 'MD'
+            
+            let text = "";
+            if (value !== FAKE_NUMBER && Number(value) !== FAKE_NUMBER) {
+                if (!isNaN(value)) {
+                    text = value;
+                } else {
+                    text = lnMD;
+                }
+            } else {
+                if (data_.values[data.crop]) {
+                    if (data_.values[data.crop][id] === MD) {
+                        text = lnMD;
+                    } else {
+                        text = data_.values[data.crop][id] || lnMD;
+                    }
+                } else {
+                    text = lnMD;
+                }
+            }
             if (totalLabel && totalLabel.format && value !== FAKE_NUMBER) {
                 text = intl.formatNumber(value, totalLabel.format);
             }
@@ -187,7 +203,7 @@ const ResponsiveBarChartImpl = ({
             if (layout === 'horizontal') {
                 labelMargin = 0;
                 transform = `translate(${xScale(value) - labelMargin},${y})`;
-                if (text === 'MD') {
+                if (text === lnMD || text === MD) {
                     xText = 20;
                 } else {
                     text = totalLabel.format && !isNaN(text) ? intl.formatNumber(text, totalLabel.format) : text;
