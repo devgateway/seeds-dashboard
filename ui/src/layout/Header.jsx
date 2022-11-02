@@ -141,7 +141,7 @@ const Header = ({ intl, intl: { locale }, match, firstChildLink, filters }) => {
                         </Container>}
                     </div>
                     <div className="lang-container align-content" >
-                        <div className="lang">
+                        <div className="lang" style={{visibility:'hidden'}}>
                             {locale === 'en' && <a href="#" onClick={() => gotoLanguage('fr')}>français</a>}
                             {locale === 'fr' && <a onClick={() => gotoLanguage('en')}>english</a>}
                         </div>
