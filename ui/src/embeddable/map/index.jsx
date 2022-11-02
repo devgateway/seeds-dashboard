@@ -513,7 +513,7 @@ const Map = (props) => {
                     </Grid.Row>
                     {selectedIndicator && !selectedIndicator.hideFilterSection &&
                         <Grid.Row className={`filters-section`}>
-                            <Grid.Column width={8}>
+                            <Grid.Column width={currentLanguage === 'fr' ? 9 : 8}>{}
                                 <IndicatorFilter intl={intl} data={indicators}
                                                  initialSelectedIndicator={selectedIndicator}
                                                  onChange={handleIndicatorChange} title={indicatorFilterTitle}/>
