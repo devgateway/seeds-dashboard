@@ -1067,7 +1067,7 @@ pdo_mysql.default_socket=
 [mail function]
 ; For Win32 only.
 ; http://php.net/smtp
-SMTP = localhost
+SMTP = host.docker.internal
 ; http://php.net/smtp-port
 smtp_port = 25
 

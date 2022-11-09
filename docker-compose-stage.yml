@@ -20,6 +20,8 @@ services:
 
   wordpress:
     image: library/wordpress:5.9.3-fpm-alpine
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     depends_on:
       - plugins
       - mysql
