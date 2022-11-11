@@ -20,6 +20,7 @@ services:
 
   wordpress:
     image: library/wordpress:5.9.3-fpm-alpine
+    hostname: wp.tasai.org
     extra_hosts:
       - "host.docker.internal:host-gateway"
     depends_on:
