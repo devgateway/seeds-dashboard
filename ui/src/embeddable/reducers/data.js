@@ -88,7 +88,8 @@ export const getCountries = (dataSource) => (dispatch, getState) => {
         let translatedData = data;
         if (intlState && intlState.messages) {
             translatedData = data.map(c => {
-                c.translatedLabel = intlState.messages[normalizeField(c.country)];
+                const translation = intlState.messages[normalizeField(c.country)];
+                    c.translatedLabel = translation ? translation : c.country;
                 return c;
             });
         }
