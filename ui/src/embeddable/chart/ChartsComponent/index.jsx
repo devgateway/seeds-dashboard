@@ -396,6 +396,12 @@ const ChartComponent = ({
                     const item = {};
                     item.iso = c.iso;
                     item[c.iso] = !isNaN(data.values[c.iso][selectedCrops]) ? data.values[c.iso][selectedCrops] : FAKE_NUMBER;
+                    
+                    // Remove extra decimals by rounding to 2 decimals.
+                    if (item[c.iso] !== FAKE_NUMBER) {
+                        item[c.iso] = Math.round((item[c.iso] + Number.EPSILON) * 100) / 100;
+                    }
+                    
                     item.country = c.name;
                     item.year = data.values[c.iso].year;
                     processedData.push(item);
