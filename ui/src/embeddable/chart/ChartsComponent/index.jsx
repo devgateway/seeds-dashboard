@@ -1567,6 +1567,10 @@ const ChartComponent = ({
                     // Fix %.
                     processedData.forEach(i => {
                         if (i.value !== FAKE_NUMBER) {
+                            // Cleanup the number just in case its reported in the wrong range (0 to 100). 
+                            if (i.value > 1) {
+                                i.value = i.value / 100;
+                            }
                             i.value = intl.formatNumber(i.value * 100);
                             i.textValue = "" + i.value;
                         } else {
@@ -1574,7 +1578,7 @@ const ChartComponent = ({
                             i.textValue = FAKE_NUMBER;
                         }
                     });
-                    max = max * 100;
+                    max = 100;
                     dataSuffix = "%";
                     break;
             }
