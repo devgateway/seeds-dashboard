@@ -551,8 +551,8 @@ const ChartComponent = ({
             if (selectedCountries.find(c => c.iso === i)) {
                 const entry = {
                     country: COUNTRY_OPTIONS.find(j => j.flag.toLowerCase() === i.toLowerCase()).text,
-                    publicSeedInspectors: data.values[i].public,
-                    privateSeedInspectors: data.values[i].private,
+                    publicSeedInspectors: data.values[i].public || 0,
+                    privateSeedInspectors: data.values[i].private || 0,
                     year: data.values[i].year,
                     total: data.values[i].total,
                 }
