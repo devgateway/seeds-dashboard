@@ -396,6 +396,12 @@ const ChartComponent = ({
                     const item = {};
                     item.iso = c.iso;
                     item[c.iso] = !isNaN(data.values[c.iso][selectedCrops]) ? data.values[c.iso][selectedCrops] : FAKE_NUMBER;
+                    
+                    // Remove extra decimals by rounding to 2 decimals.
+                    if (item[c.iso] !== FAKE_NUMBER) {
+                        item[c.iso] = Math.round((item[c.iso] + Number.EPSILON) * 100) / 100;
+                    }
+                    
                     item.country = c.name;
                     item.year = data.values[c.iso].year;
                     processedData.push(item);
@@ -545,8 +551,8 @@ const ChartComponent = ({
             if (selectedCountries.find(c => c.iso === i)) {
                 const entry = {
                     country: COUNTRY_OPTIONS.find(j => j.flag.toLowerCase() === i.toLowerCase()).text,
-                    publicSeedInspectors: data.values[i].public,
-                    privateSeedInspectors: data.values[i].private,
+                    publicSeedInspectors: data.values[i].public || 0,
+                    privateSeedInspectors: data.values[i].private || 0,
                     year: data.values[i].year,
                     total: data.values[i].total,
                 }
@@ -1349,6 +1355,10 @@ const ChartComponent = ({
                     // Fix %.
                     processedData.forEach(i => {
                         if (i.value !== FAKE_NUMBER) {
+                            // Cleanup the number just in case its reported in the wrong range (0 to 100). 
+                            if (i.value > 1) {
+                                i.value = i.value / 100;
+                            }
                             i.value = intl.formatNumber(i.value * 100);
                             i.textValue = "" + i.value;
                         } else {
@@ -1356,7 +1366,7 @@ const ChartComponent = ({
                             i.textValue = FAKE_NUMBER;
                         }
                     });
-                    max = max * 100;
+                    max = 100;
 
                     dataSuffix = "%";
                     bottomLegend = intl.formatMessage({
@@ -1402,6 +1412,10 @@ const ChartComponent = ({
                     // Fix %.
                     processedData.forEach(i => {
                         if (i.value !== FAKE_NUMBER) {
+                            // Cleanup the number just in case its reported in the wrong range (0 to 100). 
+                            if (i.value > 1) {
+                                i.value = i.value / 100;
+                            }
                             i.value = intl.formatNumber(i.value * 100);
                             i.textValue = "" + i.value;
                         } else {
@@ -1409,7 +1423,7 @@ const ChartComponent = ({
                             i.textValue = FAKE_NUMBER;
                         }
                     });
-                    max = max * 100;
+                    max = 100;
 
                     dataSuffix = "%";
                     bottomLegend = intl.formatMessage({
@@ -1553,6 +1567,10 @@ const ChartComponent = ({
                     // Fix %.
                     processedData.forEach(i => {
                         if (i.value !== FAKE_NUMBER) {
+                            // Cleanup the number just in case its reported in the wrong range (0 to 100). 
+                            if (i.value > 1) {
+                                i.value = i.value / 100;
+                            }
                             i.value = intl.formatNumber(i.value * 100);
                             i.textValue = "" + i.value;
                         } else {
@@ -1560,7 +1578,7 @@ const ChartComponent = ({
                             i.textValue = FAKE_NUMBER;
                         }
                     });
-                    max = max * 100;
+                    max = 100;
                     dataSuffix = "%";
                     break;
             }
