@@ -215,6 +215,7 @@ const DataSummaryBody = ({
         </Grid>
     }
     const getTabletWithActualData = (themeIndex, indicator, index, isOverview, idx, ref, totalCount) => {
+        // TODO: isOverview is ALWAYS false and if it where true then the section fails to draw :(
         let selectedCountries = [];
         let range;
         if (indicator.displayType === 'Rating' || indicator.displayType === 'HHI value (color)') {
@@ -257,7 +258,7 @@ const DataSummaryBody = ({
                                 }
                             }}>
                                 <div ref={idx === 0 ? ref : undefined}
-                                     id={idx === 0 ? `scroll_${indicator.id}` : ''}>{indicator.key} {intl.formatMessage({
+                                     id={idx === 0 ? `scroll_${indicator.id}` : ''}>{indicator.key.startsWith('Z') ? '' : indicator.key} {intl.formatMessage({
                                     id: indicator.key,
                                     defaultMessage: indicator.name
                                 })}</div>
