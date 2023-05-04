@@ -84,6 +84,10 @@ const formatValue = (value, displayType, intl, formatConfiguration) => {
         const format = { style: 'decimal', minimumFractionDigits, maximumFractionDigits }
         if (displayType !== LEGEND && !isNaN(value)) {
             if (displayType === "Percentage") {
+                // Cleanup the number just in case its reported in the wrong range (0 to 100). 
+                if (value > 1) {
+                    value = value / 100;
+                }
                 formattedValue = `${intl.formatNumber(value * 100, format)} %`;
             } else if (displayType === "Rating") {
                 formattedValue = `${intl.formatNumber(value, format)} %`;
