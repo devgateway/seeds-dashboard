@@ -339,11 +339,17 @@ const reducer = (state = initialState, action) => {
         }
         case LOAD_DATA_DONE: {
             const { data, store } = action
-
+            
+            // Ugly hack to ignore empty crop values because of bad user data.
+            const cleaned = JSON.parse(JSON.stringify(data));
+            if (data && data.dimensions && data.dimensions.crop && data.dimensions.crop.values) {
+                cleaned.dimensions.crop.values = cleaned.dimensions.crop.values.filter(crop => crop !== '');
+            }
+            
             return state
                 .setIn([...store, 'loading'], false)
                 .deleteIn([...store, 'error'])
-                .setIn([...store, 'data'], data)
+                .setIn([...store, 'data'], cleaned)
         }
 
 
@@ -401,8 +407,15 @@ const reducer = (state = initialState, action) => {
 
         case LOAD_MAP_INDICATOR_DONE: {
             const { data, indicator } = action
+
+            // Ugly hack to ignore empty crop values because of bad user data.
+            const cleaned = JSON.parse(JSON.stringify(data));
+            if (data && data.dimensions && data.dimensions.crop && data.dimensions.crop.values) {
+                cleaned.dimensions.crop.values = cleaned.dimensions.crop.values.filter(crop => crop !== '');
+            }
+            
             return state.setIn([MAP_INDICATOR_DATA, DATA, indicator, 'LOADING'], false)
-                .setIn([MAP_INDICATOR_DATA, DATA, indicator], data);
+                .setIn([MAP_INDICATOR_DATA, DATA, indicator], cleaned);
         }
 
         case LOAD_MAP_INDICATOR_ERROR: {
