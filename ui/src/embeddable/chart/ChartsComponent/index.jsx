@@ -321,7 +321,7 @@ const ChartComponent = ({
                             y: data.values[y][c]
                         });
                         if (max < data.values[y][c]) {
-                            max = data.values[y][c];
+                            max = Math.round(data.values[y][c]);
                         }
                     } else {
                         header.data.push({
@@ -352,7 +352,7 @@ const ChartComponent = ({
                     }
                 });
                 if (maxByYear > max) {
-                    max = maxByYear;
+                    max = Math.round(maxByYear);
                 }
                 processedData.push(yearObject);
             });
@@ -406,7 +406,7 @@ const ChartComponent = ({
                     item.year = data.values[c.iso].year;
                     processedData.push(item);
                     if (item[c.iso] !== FAKE_NUMBER && max < item[c.iso]) {
-                        max = item[c.iso];
+                        max = Math.round(item[c.iso]);
                         allFake = false;
                     }
                     item.textValue = "" + item[c.iso];
@@ -443,7 +443,7 @@ const ChartComponent = ({
                     item.value = sum;
                     item.year = data.values[i].year;
                     if (max < sum) {
-                        max = sum;
+                        max = Math.round(sum);
                     }
                     auxData.push(item);
                 }
@@ -469,7 +469,7 @@ const ChartComponent = ({
                         item.textValue = "" + data.values[i].value;
                         item.value = data.values[i].value;
                         if (max < item.value) {
-                            max = item.value;
+                            max = Math.round(item.value);
                         }
                     } else {
                         item.textValue = FAKE_NUMBER;
@@ -505,7 +505,7 @@ const ChartComponent = ({
                     }
                 }
                 if (Number(entry[i]) > max) {
-                    max = Number(entry[i]);
+                    max = Math.round(Number(entry[i]));
                 }
             }
         });
@@ -535,7 +535,7 @@ const ChartComponent = ({
                     }
                 }
                 if (Number(entry[i]) > max) {
-                    max = Number(entry[i]);
+                    max = Math.round(Number(entry[i]));
                 }
             }
         });
@@ -561,7 +561,7 @@ const ChartComponent = ({
                 noData = false;
 
                 if (entry.privateSeedInspectors + entry.publicSeedInspectors > max) {
-                    max = entry.privateSeedInspectors + entry.publicSeedInspectors;
+                    max = Math.round(entry.privateSeedInspectors + entry.publicSeedInspectors);
                 }
             }
         });
@@ -657,7 +657,7 @@ const ChartComponent = ({
                 colors.set(key1, getColor({ id: c.toLowerCase() }));
                 colors.set(key2, getColor({ id: c.toLowerCase() }, { fade: true }))
                 if (max < (sumWF + sumWOF)) {
-                    max = (sumWF + sumWOF);
+                    max = Math.round((sumWF + sumWOF));
                 }
             });
         }
@@ -1494,7 +1494,7 @@ const ChartComponent = ({
                     useFilterByCountries = true;
                     customSorting = (a, b) => (b.country.localeCompare(a.country));
                     dataSuffix = "%";
-                    max = max < 95 ? 95 : max;
+                    max = max < 95 ? 95 : Math.round(max);
                     break;
                 case CROSS_COUNTRY_AGRODEALER_NETWORK:
                     bottomLegend = intl.formatMessage({
@@ -1854,7 +1854,7 @@ const ChartComponent = ({
                     item.value = Number(data.values.days[y].days) >= 0 ? data.values.days[y].days : FAKE_NUMBER;
                     item.rating = Number(data.values.rating[y].rating) >= 0 ? data.values.rating[y].rating : FAKE_NUMBER;
                     if (item.value > max) {
-                        max = item.value;
+                        max = Math.round(item.value);
                     }
                     processedData.push(item);
                 }
@@ -1896,7 +1896,7 @@ const ChartComponent = ({
                     item.rating = Number(data.values[y].rating) >= 0 ? data.values[y].rating : FAKE_NUMBER;
                     item.total = Number(data.values[y].total) || 0;
                     if (item.total > max) {
-                        max = item.total;
+                        max = Math.round(item.total);
                     }
                     processedData.push(item);
                 }
@@ -1980,7 +1980,7 @@ const ChartComponent = ({
                     item.time = Number(data.values[y].time) >= 0 ? data.values[y].time : FAKE_NUMBER;
                     item.satisfaction = Number(data.values[y].satisfaction) >= 0 ? data.values[y].satisfaction : FAKE_NUMBER;
                     if (item.time > max) {
-                        max = item.time;
+                        max = Math.round(item.time);
                     }
                     processedData.push(item);
                 }
@@ -2048,7 +2048,7 @@ const ChartComponent = ({
                     item.agrodealers = Number(data.values[y]["agrodealers-number"]) >= 0 ? data.values[y]["agrodealers-number"] : FAKE_NUMBER;
                     item.rating = Number(data.values[y].rating) >= 0 ? data.values[y].rating : FAKE_NUMBER;
                     if (item.households > max) {
-                        max = item.households;
+                        max = Math.round(item.households);
                     }
                     processedData.push(item);
                 }
@@ -2123,7 +2123,7 @@ const ChartComponent = ({
                     item.households = Number(data.values[y].households) >= 0 ? data.values[y].households : FAKE_NUMBER;
                     item.rating = Number(data.values[y].rating) >= 0 ? data.values[y].rating : FAKE_NUMBER;
                     if (item.households > max) {
-                        max = item.households;
+                        max = Math.round(item.households);
                     }
                     processedData.push(item);
                 }
