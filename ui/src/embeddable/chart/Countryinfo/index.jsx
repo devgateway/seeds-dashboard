@@ -33,7 +33,9 @@ const CountryInfo = ({ data, intl, labels, locale }) => {
             }
             if (field.symbol === '%') {
                 const format = { style: 'decimal', minimumFractionDigits: 0, maximumFractionDigits: 2 }
-                return `${intl.formatNumber(field.value * 100, format)} %`;
+                // To fix inconsistent data, sometimes the values are in range [0-1] or [0-100]
+                const multiplier = field.value < 10 ? 100 : 1;
+                return `${intl.formatNumber(field.value * multiplier, format)} %`;
             } else {
                 return millify(field.value, config) + getSymbol(field.symbol);
             }
