@@ -76,7 +76,7 @@
   "tooltip-E2": "Densité du réseau de vendeurs d'intrants agricoles, mesurée par le nombre de vendeurs d'intrants agricoles enregistrés, le ratio de vendeurs d'intrants agricoles/exploitations, et le nombre moyen de vendeurs d'intrants agricoles avec lesquels les entreprises semencières travaillent.",
   "tooltip-E3.1": "Répartition des semences totales vendues en quatre tailles de sachet (2 kg ou moins, 2-10 kg, 10-25 kg, et plus de 25 kg) en pourcentage des semences totales vendues.",
   "tooltip-E4.1": "Prix des semences certifiées (en USD) au moment des semis. \nPrix basé sur la taille de sachet la plus populaire, tel que rapporté par les entreprises semencières ; le cas échéant, rapporte le prix avec et sans la subvention.",
-  "symbol-M": "Millions",
+  "symbol-M": "Million",
   "average-rating": "Taux moyen global",
   "seed-sector-issues": "Activité sur les sujets importants du secteur semencier",
   "value-to-members": "Apport de valeur aux membres",

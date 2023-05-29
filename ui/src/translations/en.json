@@ -76,7 +76,7 @@
   "tooltip-E2": "Concentration of agro-dealer network as measured by number of registered agro-dealers, ratio of agrodealers/household, and average number of agro-dealers seed companies work with.",
   "tooltip-E3.1": "Breakdown of total seeds sold by 4 different package sizes (2kg or less; 2-10kg; 10-25kg, above 25kg) as percentage of  total seeds sold.",
   "tooltip-E4.1": "Retail price of certified seed (in USD) at planting time. \nPrice based on most popular package size as reported by seed company; if applicable, report subsidized and unsubsidized price.",
-  "symbol-M": "Millions",
+  "symbol-M": "Million",
   "average-rating": "Overall average rating",
   "seed-sector-issues": "Activity on important seed sector issues",
   "value-to-members": "Providing value to members",
