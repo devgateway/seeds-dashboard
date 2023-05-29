@@ -1727,7 +1727,7 @@ const ChartComponent = ({
                                             <td><span>{i.id}</span></td>
                                             <td>
                                                     <span>
-                                                        <strong>{i.value !== FAKE_NUMBER ? i.value + '%' : 'MD'}</strong>
+                                                        <strong>{i.value !== FAKE_NUMBER ? Math.round(i.value) + '%' : 'MD'}</strong>
                                                     </span>
                                             </td>
                                         </tr>
@@ -1782,7 +1782,7 @@ const ChartComponent = ({
                                         <td style={{ textAlign: "center" }}><span>{i.id}</span></td>
                                         <td>
                                             <span>
-                                                <strong>{i.value !== FAKE_NUMBER ? i.value + '%' : 'MD'}</strong>
+                                                <strong>{i.value !== FAKE_NUMBER ? Math.round(i.value) + '%' : 'MD'}</strong>
                                             </span>
                                         </td>
                                     </tr>);
