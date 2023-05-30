@@ -1893,7 +1893,7 @@ const ChartComponent = ({
                 if (selectedYear && selectedYear.find(k => k === y)) {
                     item.public = Number(data.values[y].public) >= 0 ? data.values[y].public : FAKE_NUMBER;
                     item.private = Number(data.values[y].private) >= 0 ? data.values[y].private : FAKE_NUMBER;
-                    item.rating = Number(data.values[y].rating) >= 0 ? data.values[y].rating : FAKE_NUMBER;
+                    item.rating = Number(data.values[y].rating) >= 0 ? Math.round(data.values[y].rating) : FAKE_NUMBER;
                     item.total = Number(data.values[y].total) || 0;
                     if (item.total > max) {
                         max = Math.round(item.total);
