@@ -40,6 +40,7 @@ const SatisfactionEnforcementSeedLawChart = ({ data, yearsToShow, intl, tooltip 
                     cellValue = 'N/A'
                 }
             }
+            cellValue = Math.round(cellValue);
             return <Grid.Column key={y + Math.random()}
                                 className={"with-bottom-border " + (y === AVERAGE_RATING ? 'avg-cell' : '')}>
                 <Gauge data={particularGauge}
