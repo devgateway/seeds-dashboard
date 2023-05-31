@@ -792,7 +792,7 @@ const ChartComponent = ({
                     return <>
                         <span>{intl.formatMessage({
                             id: 'tooltip-price-usd-by-kg',
-                        })}</span> <span className="bold">{d.data[d.id]}</span> <span className="normal">USD</span>
+                        })}</span> <span className="bold">{intl.formatNumber(d.data[d.id])}</span> <span className="normal">USD</span>
                     </>
                 }
                 getTooltipHeader = (d) => {
@@ -838,7 +838,7 @@ const ChartComponent = ({
                 id: 'tooltip-market-share-top-companies',
                 defaultMessage: 'Market share of top four companies'
             })}</span>
-                        <span className="bold"> {d.data[d.id]}%</span><br />
+                        <span className="bold"> {intl.formatNumber(d.data[d.id])}%</span><br />
                     </>
                 }
                 getTooltipHeader = (d) => {
@@ -869,7 +869,7 @@ const ChartComponent = ({
                   defaultMessage: 'Market share of top four companies'
               })}</span>
                             <span
-                                className="bold"> {d.point.data.y !== FAKE_NUMBER ? d.point.data.y + '%' : 'MD'}</span>
+                                className="bold"> {d.point.data.y !== FAKE_NUMBER ? intl.formatNumber(d.point.data.y) + '%' : 'MD'}</span>
                         </div>
                     </div>)
                 }
@@ -885,7 +885,7 @@ const ChartComponent = ({
                             id: 'tooltip-market-share-state-owned',
                             defaultMessage: 'Market share of state owned companies'
                         })}</span>
-                        <span className="bold"> {d.data[d.id]}%</span><br />
+                        <span className="bold"> {intl.formatNumber(d.data[d.id])}%</span><br />
                     </>);
                 }
                 getTooltipHeader = (d) => {
@@ -916,7 +916,7 @@ const ChartComponent = ({
                   defaultMessage: 'Market share of state owned companies'
               })}</span>
                             <span
-                                className="bold"> {d.point.data.y !== FAKE_NUMBER ? d.point.data.y + '%' : 'MD'}</span><br />
+                                className="bold"> {d.point.data.y !== FAKE_NUMBER ? intl.formatNumber(d.point.data.y) + '%' : 'MD'}</span><br />
                         </div>
                     </div>)
                 }
@@ -1380,7 +1380,7 @@ const ChartComponent = ({
                             id: 'market-share-top4-tooltip',
                             defaultMessage: 'Market share of top four companies'
                         })}: </span>
-                                <span className="bold"> {d.value !== FAKE_NUMBER ? d.value + '%' : 'MD'}</span>
+                                <span className="bold"> {d.value !== FAKE_NUMBER ? intl.formatNumber(d.value) + '%' : 'MD'}</span>
                             </div>
                         </>
                     }
@@ -1437,7 +1437,7 @@ const ChartComponent = ({
                             id: 'market-share-top4-tooltip',
                             defaultMessage: 'Market share of top four companies'
                         })}: </span>
-                                <span className="bold"> {d.value !== FAKE_NUMBER ? d.value + '%' : 'MD'}</span>
+                                <span className="bold"> {d.value !== FAKE_NUMBER ? intl.formatNumber(d.value) + '%' : 'MD'}</span>
                             </div>
                         </>
                     }
@@ -1480,7 +1480,7 @@ const ChartComponent = ({
                             id: 'overall-rating-seed-association-tooltip',
                             defaultMessage: 'Opinion rating'
                         })}: </span>
-                                <span className="bold"> {d.value !== FAKE_NUMBER ? d.value + '%' : 'MD'}</span>
+                                <span className="bold"> {d.value !== FAKE_NUMBER ? intl.formatNumber(d.value) + '%' : 'MD'}</span>
                             </div>
                         </>
                     }
@@ -1560,7 +1560,7 @@ const ChartComponent = ({
                             id: 'availability-seed-small-packages-tooltip',
                             defaultMessage: 'Seeds sold in 2kg package'
                         })}: </span>
-                                <span className="bold"> {d.value !== FAKE_NUMBER ? d.value + '%' : 'MD'}</span>
+                                <span className="bold"> {d.value !== FAKE_NUMBER ? intl.formatNumber(d.value) + '%' : 'MD'}</span>
                             </div>
                         </>
                     }
@@ -1978,7 +1978,7 @@ const ChartComponent = ({
                 const item = { year: y };
                 if (selectedYear && selectedYear.find(k => k === y)) {
                     item.time = Number(data.values[y].time) >= 0 ? data.values[y].time : FAKE_NUMBER;
-                    item.satisfaction = Number(data.values[y].satisfaction) >= 0 ? data.values[y].satisfaction : FAKE_NUMBER;
+                    item.satisfaction = Number(data.values[y].satisfaction) >= 0 ? Math.round(data.values[y].satisfaction) : FAKE_NUMBER;
                     if (item.time > max) {
                         max = Math.round(item.time);
                     }
