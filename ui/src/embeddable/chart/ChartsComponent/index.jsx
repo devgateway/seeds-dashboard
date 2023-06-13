@@ -492,7 +492,17 @@ const ChartComponent = ({
                 // Change % to 100 scale.
                 if (type === MARKET_SHARE_TOP_FOUR_SEED_COMPANIES || type === MARKET_SHARE_STATE_OWNED_SEED_COMPANIES) {
                     if (entry[key] !== FAKE_NUMBER) {
+                        // Cleanup the number just in case its reported in the wrong range (0 to 100). 
+                        if (entry[key] > 1) {
+                            entry[key] = entry[key] / 100;
+                        }
                         entry[key] = Math.round(entry[key] * 100);
+                    }
+                }
+
+                if (type === PERFORMANCE_SEED_TRADERS) {
+                    if (entry[key] !== FAKE_NUMBER) {
+                        entry[key] = Math.round(entry[key]);
                     }
                 }
 
@@ -534,6 +544,13 @@ const ChartComponent = ({
                         colors.set(key, newBarColors.shift());
                     }
                 }
+
+                if (type === RATING_GOVERNMENT_SEED_SUBSIDY_PROGRAM) {
+                    if (entry[key] !== FAKE_NUMBER) {
+                        entry[key] = Math.round(entry[key]);
+                    }
+                }
+
                 if (Number(entry[i]) > max) {
                     max = Math.round(Number(entry[i]));
                 }
