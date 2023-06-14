@@ -139,6 +139,7 @@ const Map = (props) => {
                     item.crop = intl.formatMessage({id: selectedCrops});
                     if (item.value === 0
                         || (item.value && item.value !== 'MD' && item.value !== 'NA' && !isNaN(item.value))) {
+                        item.value = intl.formatNumber(item.value, {maximumFractionDigits: 1});
                         processedData.push(item);
                     } else {
                         console.warn('ignored not number: ' + item.value);
@@ -168,6 +169,7 @@ const Map = (props) => {
                         }
                         domain[1] = max;
                     }
+                    item.value = intl.formatNumber(item.value, {maximumFractionDigits: 1});
                     processedData.push(item);
                 } else {
                     console.warn('ignored not number: ' + item.value);
