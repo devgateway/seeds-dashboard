@@ -1471,7 +1471,7 @@ const ChartComponent = ({
                             id: 'variety-release-process-tooltip',
                             defaultMessage: 'Number of months'
                         })}: </span>
-                                <span className="bold"> {d.value !== FAKE_NUMBER ? d.value : 'MD'}</span>
+                                <span className="bold"> {d.value !== FAKE_NUMBER ? intl.formatNumber(d.value, {maximumFractionDigits: 1}) : 'MD'}</span>
                             </div>
                         </>
                     }
@@ -1497,7 +1497,7 @@ const ChartComponent = ({
                             id: 'overall-rating-seed-association-tooltip',
                             defaultMessage: 'Opinion rating'
                         })}: </span>
-                                <span className="bold"> {d.value !== FAKE_NUMBER ? intl.formatNumber(d.value) + '%' : 'MD'}</span>
+                                <span className="bold"> {d.value !== FAKE_NUMBER ? intl.formatNumber(d.value, {maximumFractionDigits: 2}) + '%' : 'MD'}</span>
                             </div>
                         </>
                     }
