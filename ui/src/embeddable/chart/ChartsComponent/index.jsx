@@ -341,13 +341,15 @@ const ChartComponent = ({
                 const yearObject = { year: y };
                 let maxByYear = 0;
                 crops.forEach(c => {
-                    if (data.values[y][c] && !isNaN(data.values[y][c])) {
-                        maxByYear += data.values[y][c];
-                        const objKey = y + "_" + c;
-                        yearObject[objKey] = data.values[y][c];
-                        keys.push(objKey);
-                        if (!colors.get(objKey)) {
-                            colors.set(objKey, getColor({ id: c.toLowerCase() }))
+                    if (c !== 'total') {
+                        if (data.values[y][c] && !isNaN(data.values[y][c])) {
+                            maxByYear += data.values[y][c];
+                            const objKey = y + "_" + c;
+                            yearObject[objKey] = data.values[y][c];
+                            keys.push(objKey);
+                            if (!colors.get(objKey)) {
+                                colors.set(objKey, getColor({id: c.toLowerCase()}))
+                            }
                         }
                     }
                 });
