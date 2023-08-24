@@ -316,12 +316,13 @@ const ChartComponent = ({
                 };
                 yearsInValues.forEach(y => {
                     if (data.values[y]) {
+                        const aux = (data.values[y][c] / 3); 
                         header.data.push({
                             x: y,
-                            y: data.values[y][c]
+                            y: aux
                         });
-                        if (max < data.values[y][c]) {
-                            max = Math.round(data.values[y][c]);
+                        if (max < aux) {
+                            max = Math.round(aux);
                         }
                     } else {
                         header.data.push({
