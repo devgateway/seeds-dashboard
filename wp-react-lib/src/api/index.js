@@ -125,8 +125,8 @@ export const getPosts = (slug, type, taxonomy, categories, before, perPage, page
         }
       url += "&lang=" + locale
     }
-
-    return getAll(url,true)
+debugger
+    return getAll(url, true, previewId !== undefined)
 }
 
 export const getPages = (before, perPage, page, fields, parent, slug, store, locale, previewNonce, previewId, search) => {

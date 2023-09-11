@@ -163,7 +163,7 @@ class IntlRoutes extends Component {
                                             <PostProvider store={"preview"} perPage={1} view={preview}
                                                           previewNonce={previewNonce} previewId={props.match.params.id}>
                                                 <PostConsumer>
-                                                    <Post preview={true} showIntro={true} />
+                                                    <Post preview={true} />
                                                 </PostConsumer>
 
                                             </PostProvider>
