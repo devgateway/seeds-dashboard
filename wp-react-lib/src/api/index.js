@@ -125,7 +125,6 @@ export const getPosts = (slug, type, taxonomy, categories, before, perPage, page
         }
       url += "&lang=" + locale
     }
-debugger
     return getAll(url, true, previewId !== undefined)
 }
 
