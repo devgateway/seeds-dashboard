@@ -146,7 +146,7 @@ const CountryReports = (props) => {
     let childComponent = null;
 
     if (loading || !categoriesWP) {
-        childComponent = (<div>{intl.formatMessage({id: "loading"})}...</div>);
+        childComponent = (<div>{intl.formatMessage({id: "Loading"})}...</div>);
     } else if (year && country) {
         const year_ = categoriesWP.find(i => i.id === Number(year));
         const country_ = categoriesWP.find(i => i.id === Number(country));

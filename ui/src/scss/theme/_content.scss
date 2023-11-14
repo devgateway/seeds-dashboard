@@ -812,6 +812,7 @@ p:empty {
 
 // Publications filter
 .publications-filter{
+        overflow: visible;
 		height: $base-unit * 8;
 		margin-left: calc(-50vw + 50%);
 		margin-top: -($base-unit * 2);

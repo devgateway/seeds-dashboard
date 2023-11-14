@@ -81,12 +81,13 @@ export const replaceHTMLinks = (html, locale) => {
     }
     return newHtml;
 }
-export const getAll = (url, addHeaderInfo) => {
-    const pageSize = 100;
+export const getAll = (url, addHeaderInfo, isPreview) => {
+    debugger
+    const pageSize = isPreview ? 1 : 100;
     let page = 1;
     const returnObject = { data: [] };
     return new Promise((resolve, reject) => {
-        return getNextPage(url, page, returnObject, pageSize, addHeaderInfo).then(() => {
+        return getNextPage(url, page, returnObject, pageSize, addHeaderInfo, isPreview).then(() => {
             if (addHeaderInfo) {
                 resolve(returnObject);
             } else {
@@ -98,12 +99,12 @@ export const getAll = (url, addHeaderInfo) => {
     });
 }
 
-const getNextPage = (url, page, returnObject, pageSize) => {
+const getNextPage = (url, page, returnObject, pageSize, isPreview) => {
     let union = '?';
     if (url.includes('?')) {
         union = '&';
     }
-    return fetch(url + union + 'per_page=' + pageSize + '&page=' + page).then((response) => {
+    return fetch(url + union + 'per_page=' + pageSize + '&page=' + page, { credentials: 'include' }).then((response) => {
         if (response.status !== 200) {
             throw response.toString();
         }
@@ -115,8 +116,8 @@ const getNextPage = (url, page, returnObject, pageSize) => {
 
         return response.json().then(function (data_) {
             returnObject.data.push(...data_);
-            if (meta['x-wp-totalpages'] && parseInt(meta['x-wp-totalpages']) > page) {
-                return getNextPage(url, page + 1, returnObject, pageSize);
+            if (meta['x-wp-totalpages'] && parseInt(meta['x-wp-totalpages']) > page && !isPreview) {
+                return getNextPage(url, page + 1, returnObject, pageSize, isPreview);
             }
             //we take the metadata of last fetched page if we end up using this metadata
             //then we need to fix the return object
