@@ -21,8 +21,8 @@ export const legends = [
             {
                 id: 3,
                 'color': 'red',
-                'label': 'Poor (20-33.99)',
-                'label-range': '(20-33.99)',
+                'label': 'Poor (20-39.99)',
+                'label-range': '(20-39.99)',
                 'label-key': 'poor-legend',
                 order: 2,
                 className: 'legend-item'

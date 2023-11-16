@@ -1,4 +1,4 @@
-import React from 'react'
+    import React from 'react'
 import { Container, Loader, Segment } from "semantic-ui-react";
 import { connect } from 'react-redux'
 import { PageContext } from './Context'
@@ -29,7 +29,8 @@ class PageProvider extends React.Component {
         //TODO previous update condition
         /*(prevProps.parent !== parent || prevProps.slug !== slug || locale !== prevProps.locale ||
             previewId !== prevProps.previewId | search !== prevProps.search ) && */
-        if ((locale !== prevProps.locale || pages === undefined || pages.length === 0 || pages[0].slug !== slug) && !loading) {
+        //if ((locale !== prevProps.locale || pages === undefined || pages.length === 0 || pages[0].slug !== slug) && !loading) {
+        if (prevProps.parent !== parent || prevProps.slug !== slug || locale !== prevProps.locale || previewId !== prevProps.previewId | search != prevProps.search) {
             this.props.onLoad({
                 before,
                 perPage,
