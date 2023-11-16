@@ -316,7 +316,7 @@ const ChartComponent = ({
                 };
                 yearsInValues.forEach(y => {
                     if (data.values[y]) {
-                        const aux = (data.values[y][c] / 3); 
+                        const aux = (data.values[y][c] / 1); 
                         header.data.push({
                             x: y,
                             y: aux
