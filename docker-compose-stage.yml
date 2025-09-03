@@ -19,7 +19,7 @@ services:
     restart: "no"
 
   wordpress:
-    image: library/wordpress:5.9.3-fpm-alpine
+    image: library/wordpress:php8.4-fpm-alpine
     hostname: wp.tasai.dgstg.org
     extra_hosts:
       - "host.docker.internal:host-gateway"
@@ -31,6 +31,11 @@ services:
       WORDPRESS_DB_USER: wordpress
       WORDPRESS_DB_PASSWORD: wordpress
       WORDPRESS_DB_NAME: wordpress
+      # specific PHP 8.4 settings
+      PHP_MEMORY_LIMIT: 256M
+      PHP_MAX_EXECUTION_TIME: 300
+      PHP_UPLOAD_MAX_FILESIZE: 64M
+      PHP_POST_MAX_SIZE: 64M
     volumes:
       - ./data/wordpress:/var/www/html
       - ./wp-theme:/var/www/html/wp-content/themes/wp-react-theme
