@@ -19,14 +19,10 @@ services:
     restart: "no"
 
   wordpress:
-<<<<<<< HEAD
-    image: library/wordpress:5.9.3-fpm-alpine
-=======
     image: library/wordpress:php8.4-fpm-alpine
     hostname: wp.tasai.dgstg.org
     extra_hosts:
       - "host.docker.internal:host-gateway"
->>>>>>> cb955fa9 (Merge pull request #799 from devgateway/feat/bump-wordpress-image-to-8.4)
     depends_on:
       - plugins
       - mysql
